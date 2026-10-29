@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql",
+  "source_sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+  "migration": "004_seller_listing_records.sql",
+  "migration_sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+  "policy": "R005 forward seller submissions and immutable listing definitions; 001/002/003 immutable; no automatic approval"
+}

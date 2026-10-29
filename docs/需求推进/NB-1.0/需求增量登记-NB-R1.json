@@ -1305,8 +1305,8 @@
         "DEV-47"
       ],
       "status": "PARTIALLY_IMPLEMENTED",
-      "implementation_round": "R004",
-      "implementation_ref": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
+      "implementation_round": "R005",
+      "implementation_ref": "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
     },
     {
       "id": "GAP-NB03",
@@ -1344,8 +1344,8 @@
         "DEV-46"
       ],
       "status": "PARTIALLY_IMPLEMENTED",
-      "implementation_round": "R003",
-      "implementation_ref": "docs/技术开发/附录-NB价版与交易服务实施约束.md"
+      "implementation_round": "R005",
+      "implementation_ref": "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
     },
     {
       "id": "GAP-NB06",

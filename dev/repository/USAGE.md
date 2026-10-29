@@ -25,9 +25,9 @@ be avoided with `--port 0`, which prints the chosen loopback port.
 ```powershell
 python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
-python -X utf8 dev/tools/原生数据库验证.py --round R004
-python -X utf8 dev/tools/核验原生源码.py --round R004
-python -X utf8 dev/tools/整理原生验证证据.py --round R004
+python -X utf8 dev/tools/原生数据库验证.py --round R005
+python -X utf8 dev/tools/核验原生源码.py --round R005
+python -X utf8 dev/tools/整理原生验证证据.py --round R005
 ```
 
 The database command creates its own random-credential, loopback-only PostgreSQL17
@@ -161,3 +161,50 @@ acceptance is implied by a successful document build or CLI cross-compilation.
 
 [R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。工具默认R003，保留R001历史证据。
 
+
+
+## R005 seller and future-listing control / 卖家与未来挂牌
+
+The source now registers 23/93 control operations, with 64 domain tables and 43 limited native tests. Real seller/channel/device review and frontend clients remain pending. All writes below require an account session, current authority and a stable Idempotency-Key; WEB additionally sends the exact Origin and session CSRF token. API keys cannot perform these account mutations.
+
+当前23/93操作、64表、43项局部测试。真实卖家/渠道/设备审核和前端仍待实现。以下写操作要求当前账户会话及稳定Idempotency-Key；Web另带精确Origin和会话CSRF。API密钥不能代理这些账户操作。
+
+| Step / 步骤 | Request / 请求 | Result / 结果 |
+| --- | --- | --- |
+| Apply / 申请 | POST /v1/p11/seller/applications with SellerApplicationWrite | SUBMITTED, no SELLER grant / 待审，不授卖家角色 |
+| Inspect / 本人查看 | GET /v1/p11/seller/profile | Own pending profile, ETag / 本人待审资料 |
+| Consent / 同意或撤回 | POST /v1/p11/me/consents; explicit accepted boolean | Append-only receipt / 追加回执；不自动授权内容披露 |
+| Create / 建草稿 | POST /v1/p11/seller/listings with ListingWrite | DRAFT; derived owned models/environment / 服务端绑定本人型号/环境 |
+| Inspect / 读取 | GET /v1/p11/seller/listings/{listing_id} | Current definition and strong ETag / 当前定义和强ETag |
+| Future edit / 修改未来版 | PATCH same path + If-Match: "current_version" | New revision, state DRAFT / 新修订、回草稿 |
+| Submit / 提交 | POST .../{listing_id}/submit with ReasonWrite | SUBMITTED after evidence checks; no publication / 重核证据后待审，不自动开售 |
+| Pause / 暂停 | POST .../{listing_id}/pause with ReasonWrite | PAUSED, existing sold contracts retained / 保留已售合同 |
+| Exit / 退出 | POST /v1/p11/seller/exit with ReasonWrite | EXITING, new admission off; cleanup still pending / 停新准入，仍需善后 |
+
+Application references are unverified claims. Review must independently establish legal scope, current payee qualification and device rights before SELLER/APPROVED supply becomes usable. This round does not provide a runtime self-approval or fixture-seeding endpoint. A new draft/submission requires independently approved seller regions, owned concrete device models and current capability/environment evidence. No nickname, capacity claim or application reference substitutes for those records.
+
+申请引用仅为待核材料。本轮没有自批或测试种子入口。新增草稿/提交要求独立批准的地区、本人具体型号与能力环境；昵称、容量声明和材料ID都不能替代资格。已批准档案的完整收款/证据投影仍待实现，当前本人Profile的payee_eligibility_state为UNVERIFIED。
+
+Configure a complete business fee policy to enable new listing writes. These are public policy values, not credentials; the following are examples and are not automatic defaults or evidence of channel permission:
+
+新挂牌需完整显式配置费用政策。以下只是示例，不是默认佣金或渠道许可：
+
+```powershell
+$env:P11_FEE_POLICY_VERSION = 'seller_fee_v1'
+$env:P11_COMMISSION_BPS = '500'
+$env:P11_CHANNEL_COST_OWNER = 'SELLER'
+```
+
+BPS must be 0–10000, owner SELLER/PLATFORM, and submitted Price values must match this configuration exactly. Missing policy closes new listing writes; incomplete/invalid configuration rejects startup. Clients must obtain the current business policy through the forthcoming configuration/UI flow; this round has no public policy-configuration endpoint. Seller-selected hourly/input/output rates remain separate from platform commission. Existing orders retain their original fee policy.
+
+BPS为0—10000，费用承担方SELLER/PLATFORM；Price须精确匹配。未配置则关闭新增挂牌写入，部分或非法配置拒绝启动。前端读取政策的配置流程尚待实现，当前没有公共费率配置接口；不能自行把示例当真实政策。旧订单仍保原费率。
+
+Apply explicit migrations 001–004 before starting the API. Never rewrite 001–003. Migration 004 leaves existing approved_regions empty and model_name nullable, and does not invent historical listing definitions. Approved-region/model backfill and historical definition migration need independent review. The current owner list includes authored definitions only; directly reading an older listing without its definition returns an explicit migration-required failure. New-schema migration tests are not historical-upgrade tests.
+
+启动前显式迁移至004，不改001—003。旧地区默认空、型号可空，旧定义不补造；回填及历史升级仍须独立审核。本人列表当前只含有新定义的挂牌，直接GET无定义旧挂牌返回需迁移错误。新库迁移通过不等于存量升级已验证。
+
+ETags represent mutable resource versions, not listing revisions. PATCH requires one quoted numeric strong ETag; weak/list/wildcard/duplicate forms and null fields are rejected. PATCH replay returns the original receipt and ETag; GET again for current state. State changes use ReasonWrite.expected_version. All accepted edits preserve prior immutable versions and order snapshots. Display units remain 小时 or M token; availability gaps and insufficient remaining GPU time cannot be sold.
+
+ETag代表资源version，与revision不同。PATCH不接收弱/列表/星号/重复ETag或null字段；回放是原回执，当前状态须再GET。状态操作带expected_version。历史修订和订单快照不改；小时/M token展示、空档及剩余时长门槛继续适用。
+
+See [full seller/listing constraints](../../docs/技术开发/附录-卖家申请与挂牌版本实施约束.md) and [R005 evidence](../tests/evidence/R005-验证报告.md). The tests use explicitly synthetic approvals; actual seller review, payment, provider registration and Taro/React interaction are not claimed.

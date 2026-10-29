@@ -54,3 +54,7 @@ WEB会话只放HttpOnly、SameSite=Strict的主机Cookie，默认Secure；明确
 Web先生成verifier并创建WEB挑战，保留内存中的challenge_id/verifier并允许本机绑定Cookie；在同一SPA流程接收官方授权回调，核state后立即从地址移除临时码，再POST兑换。当前未实现前端弹窗/回调，因此不把整页跳转后丢失内存verifier视为可用流程；后续优先用受源限制的同源回调窗口向原页面传一次性结果，不用localStorage落会话秘密。兑换后只读Cookie由浏览器管理，前端只保CSRF值，每次写请求带X-CSRF-Token并保留Cookie，GET会话可恢复CSRF值。跨应用嵌入、第三方Cookie和跨设备登录不在本轮自动兼容范围。
 
 交易接入顺序为本人会话→GET /services→POST /quotes→明确展示合同并确认→POST /orders→GET原订单。每个写意图保留稳定Idempotency-Key；不得由客户端传user_id/role或复用API key代购。新建订单仅WAITING_PAYMENT，下一阶段接支付，不显示“已付款”“已接单”或“已开机”。
+
+## R005后续实施
+
+R004的13操作/62表是当轮快照。当前新增本人卖家/同意/挂牌10操作与004前向，23操作、64表；详见[卖家与挂牌](附录-卖家申请与挂牌版本实施约束.md)。BUYER可读本人待审档案和请求退出，仍无挂牌SELLER授权；原双端凭据、CSRF、撤销与合成渠道边界继续适用。

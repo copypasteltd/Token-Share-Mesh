@@ -167,7 +167,7 @@ def load_plan() -> dict:
     source_paths.update(m['source_document'] for m in modules)
     source_paths.update(t['source'] for t in database['tables'])
     source_paths.update(m['source'] for m in database['forward_migrations'])
-    source_paths.update({'dev/src/api/internal/http/routes.json','docs/技术开发/附录-身份登录与HTTP交易实施约束.md'})
+    source_paths.update({'dev/src/api/internal/http/routes.json','docs/技术开发/附录-身份登录与HTTP交易实施约束.md','docs/技术开发/附录-卖家申请与挂牌版本实施约束.md'})
     source_paths.update(p for t in tasks for p in t['source_documents'])
     source_paths.update('docs/技术开发/contracts/' + n + '-v1.0.json' for n in
                         ('technical-module-catalog', 'development-backlog', 'requirement-technical-map', 'api-implementation-map', 'database-catalog'))
@@ -254,7 +254,7 @@ def render_outputs() -> dict[str, str]:
         ['P11-F01—80 / P11-T01—80', '80 功能 / 80 同号主验收', '保留原优先级和 CURRENT/PARTIAL/DEFERRED，不能用技术项替代主验收'],
         ['CON-001—047', '47 条需求约束', '人工源维护；CON-047承接NB-R1；含失败动作、证据及来源，适用模块显式登记'],
         ['INT-001—093', '93 控制操作的索引', '首次按 operationId 排序登记；以后按人工编号登记读取，operationId 才是 API 标识'],
-        ['DATA-001—062', '62 张表的索引', '首次按表名排序登记；以后按人工编号登记读取；表名/DDL 是权威标识；唯一 owner'],
+        ['DATA-001—064', '64 张表的索引', '首次按表名排序登记；以后按人工编号登记读取；表名/DDL 是权威标识；唯一 owner'],
         ['MS-01—08 / MS-DEFER', '阶段/条件分支/延后', '组织工作用，不替代任务依赖，不表示连续工期或承诺日期'],
         ['CHK-01—08', '统一交付检查', '按任务适用，N/A 须说明依据，未执行不能记为通过'],
         ['VFY-nnn', '开发文档结构核验', '核验器按检查项顺序编号，只证明文档结构，不替代 T/LP/PE/E2E 产品验收'],
@@ -311,7 +311,7 @@ def render_outputs() -> dict[str, str]:
     # DOC-03: one readable master, all custom steps.
     path = MASTER
     text = header('开发细则总表', 'DOC-03', date)
-    text += ('开发根目录：`E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev`。共 20 模块、56 任务、222 子项、47 约束；93 个控制操作、62 张表、80 功能/80 主验收全部关联。'
+    text += ('开发根目录：`E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev`。共 20 模块、56 任务、222 子项、47 约束；93 个控制操作、64 张表、80 功能/80 主验收全部关联。'
              '本表覆盖所有现有顶层任务，不实现软件、不分配虚构负责人或工期。\n\n')
     text += table(['文档', '入口'], [[i + ' ' + name, link(path, target, name)] for i, name, target in DOCUMENTS if target != path]) + '\n'
     text += '## 03.1 模块索引\n\n'+table(['模块', '职责与细则', '任务', '子项数'], [
@@ -346,7 +346,7 @@ def render_outputs() -> dict[str, str]:
         text += '## 5. 完成规则\n\n适用 CHK-01—08，分别提交实现、失败恢复、权限/幂等和真实证据。模块代码完成不意味着对应组合可售；无证据的引擎、许可、隐私档位、支付资格保持关闭。'+link(path,DOCUMENTS[6][2],'验收交付规则')+'。\n'
         outputs[path]=text
 
-    # DOC-04: all 93 operations, 62 tables and 80 F/T pairs.
+    # DOC-04: all 93 operations, 64 tables and 80 F/T pairs.
     path=DOCUMENTS[4][2]
     text=header('接口数据与需求追踪','DOC-04',date)
     text+='## 04.1 控制接口权威与边界\n\n'
@@ -452,7 +452,7 @@ def render_outputs() -> dict[str, str]:
     path='dev/README.md'
     text=header('算力共享平台开发目录','DEV-ROOT',date)
     text+='开发路径：克隆根目录下的 `dev/`。后续开发均在本目录组织；所有命令以当前克隆的项目根目录为工作目录。\n\n'
-    text+=table(['编号','文档','内容'],[[i,link(path,target,name),{'DOC-00':'范围/选型/编号','DOC-01':'20 模块职责及边界','DOC-02':'47 约束、失败处理及证据','DOC-03':'56 任务、222 子项、依赖与交付','DOC-04':'93 控制操作、62 表、80 F/T','DOC-05':'依赖图、阶段和条件分支','DOC-06':'验收条件与真实证据等级','DOC-07':'开发路径、规范源和重建顺序'}[i]] for i,name,target in DOCUMENTS])+'\n'
+    text+=table(['编号','文档','内容'],[[i,link(path,target,name),{'DOC-00':'范围/选型/编号','DOC-01':'20 模块职责及边界','DOC-02':'47 约束、失败处理及证据','DOC-03':'56 任务、222 子项、依赖与交付','DOC-04':'93 控制操作、64 表、80 F/T','DOC-05':'依赖图、阶段和条件分支','DOC-06':'验收条件与真实证据等级','DOC-07':'开发路径、规范源和重建顺序'}[i]] for i,name,target in DOCUMENTS])+'\n'
     text+=link(path,'dev/源码使用说明.md','源码使用说明')+'；'+link(path,PLAN_PATH,'机器开发清单')+'；'+link(path,'dev/评审/开发细则核验-v1.0.md','结构核验报告')+'；'+link(path,'dev/AGENTS.md','开发工作约定')+'。\n\n'
     text+='## 路径\n\n'+table(['编号','路径','用途'],[[v['id'],'`'+v['path']+'`',v['purpose']] for v in p['paths']])+'\n'
     text+='## 使用\n\n先读 DOC-00/01/02，再从 DOC-03 选任务进入对应模块细则，按 DOC-05 依赖实现，最后按 DOC-06 交付。修改人工源/权威契约后先重建相应附件，再重建细则并核验；不得直接编辑生成文档。\n\n'

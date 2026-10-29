@@ -155,7 +155,7 @@ JOIN p11.seller_profiles sp ON sp.id=l.seller_id JOIN p11.users u ON u.id=sp.id
 JOIN p11.role_grants sr ON sr.user_id=u.id AND sr.role_code='SELLER' AND sr.scope_ref='self'
 WHERE l.id=$1 AND v.revision=$2 AND l.state='PUBLISHED' AND sp.state='APPROVED' AND u.state='ACTIVE'
 AND sr.revoked_at IS NULL AND (sr.expires_at IS NULL OR sr.expires_at>clock_timestamp()) AND v.price_version='NB_PRICE_1'
-AND sp.payee_binding_ref IS NOT NULL AND sp.legal_scope_ref IS NOT NULL
+AND sp.payee_binding_ref IS NOT NULL AND sp.legal_scope_ref IS NOT NULL AND v.region=ANY(sp.approved_regions)
 AND v.valid_from<=clock_timestamp() AND v.valid_until>clock_timestamp() FOR SHARE OF l,v,sp,u,sr`, id, revision).Scan(&s.ListingID, &s.SellerID, &s.Revision, &raw, &region, &s.ValidUntil)
 	if err == pgx.ErrNoRows {
 		return s, fault.New(fault.NotFound, "Offer unavailable")
@@ -195,7 +195,72 @@ AND v.valid_from<=clock_timestamp() AND v.valid_until>clock_timestamp() FOR SHAR
 			}
 		}
 	}
+	// New authored definitions have exact availability windows. The broad
+	// version validity range alone must never sell the gap between two windows.
+	var windows []byte
+	err = tx.QueryRow(ctx, "SELECT definition->'windows' FROM p11.listing_definitions WHERE listing_id=$1 AND revision=$2", id, revision).Scan(&windows)
+	if err != nil && err != pgx.ErrNoRows {
+		return s, err
+	}
+	if err == nil {
+		var spans []struct {
+			Start time.Time `json:"starts_at"`
+			End   time.Time `json:"ends_at"`
+		}
+		if json.Unmarshal(windows, &spans) != nil {
+			return s, fault.New(fault.Unavailable, "Offer windows require review")
+		}
+		var now time.Time
+		if err = tx.QueryRow(ctx, "SELECT clock_timestamp()").Scan(&now); err != nil {
+			return s, err
+		}
+		active := false
+		for _, w := range spans {
+			if !now.Before(w.Start) && now.Before(w.End) {
+				seconds := int64(w.End.Sub(now) / time.Second)
+				if seconds < 1 || s.Spec.DurationMS > seconds*1000 {
+					continue
+				}
+				active = true
+				if seconds < s.DeadlineSec {
+					s.DeadlineSec = seconds
+				}
+				if w.End.Before(s.ValidUntil) {
+					s.ValidUntil = w.End
+				}
+				break
+			}
+		}
+		if !active {
+			s.Availability = "UNAVAILABLE"
+		}
+	}
 	return s, nil
+}
+
+// ValidateCandidateTx checks existing immutable bindings and current approvals.
+// It does not change publication state or approve a device/evidence record.
+func (c Catalog) ValidateCandidateTx(ctx context.Context, tx pgx.Tx, id string, revision int64, seller string, t Terms) error {
+	var raw []byte
+	if err := tx.QueryRow(ctx, "SELECT contract_template FROM p11.listing_versions WHERE listing_id=$1 AND revision=$2 AND seller_id=$3 FOR SHARE", id, revision, seller).Scan(&raw); err != nil {
+		return err
+	}
+	old, err := DecodeTerms(raw)
+	if err != nil {
+		return err
+	}
+	a, _ := json.Marshal(old)
+	b, _ := json.Marshal(t)
+	if string(a) != string(b) {
+		return fault.New(fault.Conflict, "Immutable listing environment changed; create a new revision")
+	}
+	service := Service{ListingID: id, Revision: revision, SellerID: seller, Terms: t}
+	for _, binding := range t.Bindings {
+		if _, _, err := c.qualify(ctx, tx, service, binding); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (c Catalog) qualify(ctx context.Context, tx pgx.Tx, s Service, b Binding) (string, []Evidence, error) {

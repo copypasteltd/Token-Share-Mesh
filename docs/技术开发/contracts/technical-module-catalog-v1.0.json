@@ -41,9 +41,11 @@
       "source_document": "docs/技术开发/03-领域模块与应用服务设计.md",
       "authoritative_tables": [
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
-        "listing_devices"
+        "listing_devices",
+        "listing_definitions"
       ],
       "application_services": [
         "SellerOnboarding",

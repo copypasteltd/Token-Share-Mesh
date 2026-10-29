@@ -16,6 +16,7 @@ import (
 	"net/url"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
+	"p11.local/compute/internal/seller"
 	"p11.local/compute/internal/trade"
 	"p11.local/compute/shared/fault"
 	"p11.local/compute/shared/ids"
@@ -37,6 +38,7 @@ type Config struct {
 	Keys                             identity.KeyService
 	Market                           market.Catalog
 	Trade                            trade.Service
+	Seller                           seller.Service
 }
 type Server struct {
 	c                          Config
@@ -72,6 +74,9 @@ func New(c Config) (*Server, error) {
 	if c.InsecureLoopback {
 		s.sessionCookie = "p11_session_dev"
 		s.loginCookie = "p11_login_dev"
+	}
+	if s.c.Seller.DB == nil {
+		s.c.Seller.DB = c.Trade.DB
 	}
 	if c.RequestsPerMinute <= 0 {
 		s.c.RequestsPerMinute = 120
@@ -121,7 +126,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if len(origin) == 1 {
 		w.Header().Set("Access-Control-Allow-Origin", s.c.BrowserOrigin)
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Expose-Headers", "X-Request-ID, Idempotency-Replayed, Retry-After")
+		w.Header().Set("Access-Control-Expose-Headers", "X-Request-ID, Idempotency-Replayed, Retry-After, ETag")
 		w.Header().Set("Vary", "Origin")
 	}
 	route, method, anonymous := s.route(r)
@@ -141,14 +146,14 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		for _, header := range strings.Split(r.Header.Get("Access-Control-Request-Headers"), ",") {
 			switch strings.ToLower(strings.TrimSpace(header)) {
-			case "", "content-type", "authorization", "x-csrf-token", "idempotency-key":
+			case "", "content-type", "authorization", "x-csrf-token", "idempotency-key", "if-match":
 			default:
 				fail(403, "FORBIDDEN", "Request header not allowed")
 				return
 			}
 		}
 		w.Header().Set("Access-Control-Allow-Methods", method)
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-CSRF-Token, Idempotency-Key")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-CSRF-Token, Idempotency-Key, If-Match")
 		w.WriteHeader(http.StatusNoContent)
 		return
 	}

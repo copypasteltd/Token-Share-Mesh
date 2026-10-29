@@ -1,9 +1,9 @@
 {
   "version": "1.0",
   "goal_status": "ACTIVE",
-  "current_activity": "SOURCE_IMPLEMENTATION_R004",
-  "activity_source": "完整源码目标继续；本轮身份及原生HTTP子集，真实授权/资金/设备门槛独立，不恢复部署/观测。",
-  "round": "R004",
+  "current_activity": "SOURCE_IMPLEMENTATION_R005",
+  "activity_source": "持续完整源码目标；本轮本人卖家申请与挂牌版本控制，真实渠道/设备/审核/前端仍待实现。",
+  "round": "R005",
   "tasks": [
     {
       "id": "DEV-01",
@@ -15,7 +15,9 @@
         "IMP-R004-003",
         "IMP-R004-004",
         "IMP-R004-005",
-        "IMP-R004-007"
+        "IMP-R004-007",
+        "IMP-R005-006",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-01.01",
@@ -25,9 +27,10 @@
       ],
       "evidence_refs": [
         "dev/tests/evidence/R001-验证报告.md",
-        "dev/tests/evidence/R004-验证报告.md"
+        "dev/tests/evidence/R004-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
-      "remaining_detail": "补齐React/Taro/Vite及Android/NDK/CMake锁定与原生构建，Linux运行和完整许可；继续其余80操作及完整Schema校验。现有Go admin/API和13操作通用HTTP管线。"
+      "remaining_detail": "继续React/Taro/Vite、Android/NDK/CMake锁定和原生构建，Linux实际运行与完整许可；当前23/93操作，剩余70操作及完整Schema待实现。"
     },
     {
       "id": "DEV-02",
@@ -40,7 +43,9 @@
         "IMP-R003-007",
         "IMP-R004-002",
         "IMP-R004-006",
-        "IMP-R004-007"
+        "IMP-R004-007",
+        "IMP-R005-007",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-02.01",
@@ -51,9 +56,10 @@
       "evidence_refs": [
         "dev/tests/evidence/R001-验证报告.md",
         "dev/tests/evidence/R003-验证报告.md",
-        "dev/tests/evidence/R004-验证报告.md"
+        "dev/tests/evidence/R004-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
-      "remaining_detail": "003身份表已迁移；继续已有数据升级/恢复、最小数据库权限、账表并发和旧租赁分钟列的有理小时迁移。"
+      "remaining_detail": "当前004后64表；继续既有数据升级/恢复、最小数据库权限、旧定义/地区/型号回填与租赁分钟列有理小时迁移；新库迁移不代替历史升级。"
     },
     {
       "id": "DEV-03",
@@ -71,7 +77,10 @@
         "IMP-R004-004",
         "IMP-R004-005",
         "IMP-R004-006",
-        "IMP-R004-007"
+        "IMP-R004-007",
+        "IMP-R005-001",
+        "IMP-R005-006",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-03.01",
@@ -82,33 +91,50 @@
       "evidence_refs": [
         "dev/tests/evidence/R001-验证报告.md",
         "dev/tests/evidence/R003-验证报告.md",
-        "dev/tests/evidence/R004-验证报告.md"
+        "dev/tests/evidence/R004-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
-      "remaining_detail": "真实支付宝应用/双端授权联调、会话/身份密钥轮换迁移、账号恢复/合并、全角色矩阵及设备凭据/配对；当前13操作只覆盖有限身份。"
+      "remaining_detail": "真实支付宝双端联调、身份/会话密钥轮换、恢复合并、全部后台角色与设备凭据/配对；申请读/管理不等于SELLER授权。"
     },
     {
       "id": "DEV-04",
-      "implementation_status": "NOT_STARTED",
-      "completed_components": [],
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R005-002",
+        "IMP-R005-006",
+        "IMP-R005-008"
+      ],
       "remaining_step_ids": [
         "DEV-04.01",
         "DEV-04.02",
         "DEV-04.03",
         "DEV-04.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [
+        "dev/tests/evidence/R005-验证报告.md"
+      ],
+      "remaining_detail": "已有本人版本化接受/撤回及不可变回执；继续实际文档版本发布、按用途授权消费、最小内容披露、删除请求及完整访问审计。"
     },
     {
       "id": "DEV-05",
-      "implementation_status": "NOT_STARTED",
-      "completed_components": [],
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R005-001",
+        "IMP-R005-005",
+        "IMP-R005-006",
+        "IMP-R005-007",
+        "IMP-R005-008"
+      ],
       "remaining_step_ids": [
         "DEV-05.01",
         "DEV-05.02",
         "DEV-05.03",
         "DEV-05.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [
+        "dev/tests/evidence/R005-验证报告.md"
+      ],
+      "remaining_detail": "已有申请留档/本人投影/EXITING停新售；继续独立资格审核、本人昵称/证据投影、真实个人卖家渠道绑定、在途退款清理结算及最终CLOSED。"
     },
     {
       "id": "DEV-06",
@@ -127,7 +153,9 @@
       "implementation_status": "IN_PROGRESS",
       "completed_components": [
         "IMP-R003-002",
-        "IMP-R003-007"
+        "IMP-R003-007",
+        "IMP-R005-004",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-07.01",
@@ -136,7 +164,8 @@
         "DEV-07.04"
       ],
       "evidence_refs": [
-        "dev/tests/evidence/R003-验证报告.md"
+        "dev/tests/evidence/R003-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
       "remaining_detail": "补环境/模型/组件清单来源、审核写服务、许可与六桌面/LMA真实组合证据及失效在途处置。"
     },
@@ -148,7 +177,13 @@
         "IMP-R003-006",
         "IMP-R003-007",
         "IMP-R004-004",
-        "IMP-R004-007"
+        "IMP-R004-007",
+        "IMP-R005-003",
+        "IMP-R005-004",
+        "IMP-R005-005",
+        "IMP-R005-006",
+        "IMP-R005-007",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-08.01",
@@ -158,9 +193,10 @@
       ],
       "evidence_refs": [
         "dev/tests/evidence/R003-验证报告.md",
-        "dev/tests/evidence/R004-验证报告.md"
+        "dev/tests/evidence/R004-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
-      "remaining_detail": "补卖家挂牌写服务、审核状态/新版本发布、单项详情和前端；已有市场列表HTTP与资格/小时双价只读投影。"
+      "remaining_detail": "已有草稿/未来修订/提交/暂停和本人分页HTTP；继续受控审核发布、明确多能力选择、旧定义迁移、完整媒体字段及Taro/Web页面，提交不自动开售。"
     },
     {
       "id": "DEV-09",
@@ -170,7 +206,9 @@
         "IMP-R003-005",
         "IMP-R003-007",
         "IMP-R004-004",
-        "IMP-R004-007"
+        "IMP-R004-007",
+        "IMP-R005-004",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-09.01",
@@ -180,9 +218,10 @@
       ],
       "evidence_refs": [
         "dev/tests/evidence/R003-验证报告.md",
-        "dev/tests/evidence/R004-验证报告.md"
+        "dev/tests/evidence/R004-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
-      "remaining_detail": "完善历史报价专用读端、完整模型/配方字段与预检、全部组合资格及真实支付前置；当前新价报价及HTTP读取已接入。"
+      "remaining_detail": "已有报价与当前窗口时长限制；继续历史报价专用读端、完整规格及所有组合/真实支付前置，尚无实际资金和资源预留。"
     },
     {
       "id": "DEV-10",
@@ -193,7 +232,8 @@
         "IMP-R003-006",
         "IMP-R003-007",
         "IMP-R004-004",
-        "IMP-R004-007"
+        "IMP-R004-007",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-10.01",
@@ -203,7 +243,8 @@
       ],
       "evidence_refs": [
         "dev/tests/evidence/R003-验证报告.md",
-        "dev/tests/evidence/R004-验证报告.md"
+        "dev/tests/evidence/R004-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
       "remaining_detail": "后续取消/退款/完成、替换链及实际资金/调度联动；当前本人HTTP建单只到WAITING_PAYMENT。"
     },
@@ -712,7 +753,8 @@
         "IMP-R001-008",
         "IMP-R003-004",
         "IMP-R003-007",
-        "IMP-R004-007"
+        "IMP-R004-007",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-51.01",
@@ -723,7 +765,8 @@
       "evidence_refs": [
         "dev/tests/evidence/R001-验证报告.md",
         "dev/tests/evidence/R003-验证报告.md",
-        "dev/tests/evidence/R004-验证报告.md"
+        "dev/tests/evidence/R004-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
       "remaining_detail": "继续outbox投递/消费者编排、查询/清理后台任务与跨模块事件集成及恢复；现有inbox/持久任务基础和建单outbox不等于完整事件链。"
     },
@@ -732,7 +775,9 @@
       "implementation_status": "IN_PROGRESS",
       "completed_components": [
         "IMP-R003-002",
-        "IMP-R003-007"
+        "IMP-R003-007",
+        "IMP-R005-004",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-52.01",
@@ -741,9 +786,10 @@
         "DEV-52.04"
       ],
       "evidence_refs": [
-        "dev/tests/evidence/R003-验证报告.md"
+        "dev/tests/evidence/R003-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
-      "remaining_detail": "补审核/发布/撤销写端、审批权限/在途影响、真实许可/物理/渠道/密码证据；目前只有购买读路径的范围资格重核。"
+      "remaining_detail": "已有提交时组合证据重核；继续受控审核/发布/撤销写服务、审批权限、在途影响及真实许可/物理/渠道/密码证据；提交仍到SUBMITTED。"
     },
     {
       "id": "DEV-53",
@@ -751,7 +797,9 @@
       "completed_components": [
         "IMP-R004-001",
         "IMP-R004-003",
-        "IMP-R004-007"
+        "IMP-R004-007",
+        "IMP-R005-006",
+        "IMP-R005-008"
       ],
       "remaining_step_ids": [
         "DEV-53.01",
@@ -760,9 +808,10 @@
         "DEV-53.04"
       ],
       "evidence_refs": [
-        "dev/tests/evidence/R004-验证报告.md"
+        "dev/tests/evidence/R004-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.md"
       ],
-      "remaining_detail": "继续全角色/跨资源、文件/配对/隐私/资金攻击矩阵、依赖及独立安全评审；本轮会话/CSRF/租户和歧义请求局部通过。"
+      "remaining_detail": "已有身份/CSRF/当前角色/跨卖家设备证据/ETag负向子集；继续全角色/文件/配对/隐私/资金攻击矩阵、依赖及独立安全评审。"
     },
     {
       "id": "DEV-54",
@@ -3521,6 +3570,1032 @@
             "dev/tests/evidence/R004-验证报告.md"
           ],
           "remaining_detail": "继续全角色/跨资源、文件/配对/隐私/资金攻击矩阵、依赖及独立安全评审；本轮会话/CSRF/租户和歧义请求局部通过。"
+        },
+        {
+          "id": "DEV-54",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-54.01",
+            "DEV-54.02",
+            "DEV-54.03",
+            "DEV-54.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-55",
+          "implementation_status": "DEFERRED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-55.01",
+            "DEV-55.02"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-56",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-56.01",
+            "DEV-56.02",
+            "DEV-56.03",
+            "DEV-56.04"
+          ],
+          "evidence_refs": []
+        }
+      ]
+    },
+    {
+      "id": "R005",
+      "title": "卖家申请、同意与未来挂牌版本及23操作控制子集",
+      "verification_status": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+      "evidence_refs": [
+        "dev/tests/evidence/R005-验证报告.md",
+        "dev/tests/evidence/R005-验证报告.json",
+        "dev/tests/evidence/R005-native-source-checks.json",
+        "dev/tests/evidence/R005-native-summary.json",
+        "dev/tests/evidence/R005-repository-check.json",
+        "docs/评审/白皮书契约核验-v3.0.json",
+        "docs/评审/技术开发文档核验-v1.0.json",
+        "dev/评审/开发细则核验-v1.0.json"
+      ],
+      "implemented": [
+        {
+          "id": "IMP-R005-001",
+          "task_ids": [
+            "DEV-03",
+            "DEV-05"
+          ],
+          "title": "本人卖家申请留档、并发幂等与不授角色的待审状态",
+          "artifacts": [
+            "dev/src/internal/seller/service.go",
+            "dev/src/internal/identity/sessions.go"
+          ],
+          "verification": "NATIVE_CONTROL_SUBSET_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R005-002",
+          "task_ids": [
+            "DEV-04"
+          ],
+          "title": "明确接受/撤回的版本化同意及不可变记录",
+          "artifacts": [
+            "dev/src/internal/seller/service.go",
+            "docs/技术开发/database/migrations/004_seller_listing_records.sql"
+          ],
+          "verification": "NATIVE_CONTROL_SUBSET_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R005-003",
+          "task_ids": [
+            "DEV-08"
+          ],
+          "title": "本人挂牌创建、未来不可变修订、强ETag与12并发CAS",
+          "artifacts": [
+            "dev/src/internal/seller/listings.go"
+          ],
+          "verification": "NATIVE_CONTROL_SUBSET_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R005-004",
+          "task_ids": [
+            "DEV-07",
+            "DEV-08",
+            "DEV-09",
+            "DEV-52"
+          ],
+          "title": "归属/地区/费率/环境/证据重核及排期空档和剩余时长拒售",
+          "artifacts": [
+            "dev/src/internal/seller/listings.go",
+            "dev/src/internal/market/catalog.go"
+          ],
+          "verification": "NATIVE_CONTROL_SUBSET_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R005-005",
+          "task_ids": [
+            "DEV-05",
+            "DEV-08"
+          ],
+          "title": "独立SELLER停新售、EXITING及保留旧订单与资源围栏",
+          "artifacts": [
+            "dev/src/internal/seller/service.go"
+          ],
+          "verification": "NATIVE_CONTROL_SUBSET_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R005-006",
+          "task_ids": [
+            "DEV-01",
+            "DEV-03",
+            "DEV-04",
+            "DEV-05",
+            "DEV-08",
+            "DEV-53"
+          ],
+          "title": "新增10操作HTTP，当前23操作；Cookie/CSRF、PATCH与签名本人分页",
+          "artifacts": [
+            "dev/src/api/internal/http/seller.go",
+            "dev/src/api/internal/http/routes.json",
+            "dev/src/api/internal/http/routes.go",
+            "dev/src/api/cmd/p11-api/main.go"
+          ],
+          "verification": "NATIVE_CONTROL_SUBSET_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R005-007",
+          "task_ids": [
+            "DEV-02",
+            "DEV-05",
+            "DEV-08"
+          ],
+          "title": "004前向申请/定义表及新增字段；DATA-063/064、64表目录",
+          "artifacts": [
+            "docs/技术开发/database/migrations/004_seller_listing_records.sql",
+            "dev/src/internal/persistence/migrations/source-v4.json",
+            "dev/planning/编号登记-v1.0.json",
+            "scripts/构建技术开发文档.py"
+          ],
+          "verification": "NATIVE_CONTROL_SUBSET_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R005-008",
+          "task_ids": [
+            "DEV-01",
+            "DEV-02",
+            "DEV-03",
+            "DEV-04",
+            "DEV-05",
+            "DEV-07",
+            "DEV-08",
+            "DEV-09",
+            "DEV-10",
+            "DEV-51",
+            "DEV-52",
+            "DEV-53"
+          ],
+          "title": "43项真实局部验证、历次修正证据及Windows/Linux命令构建",
+          "artifacts": [
+            "dev/src/tests/integration/seller_test.go",
+            "dev/src/api/tests/seller_http_test.go",
+            "dev/tests/evidence/R005-验证报告.json"
+          ],
+          "verification": "NATIVE_CONTROL_SUBSET_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R005-009",
+          "task_ids": [],
+          "title": "技术细则、双语使用文档及完整56任务/222待办同步",
+          "artifacts": [
+            "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
+            "dev/progress/implementation-status.json",
+            "README.md",
+            "README.zh-CN.md",
+            "CHANGELOG.md",
+            "CHANGELOG.zh-CN.md",
+            "dev/media/media-manifest.json"
+          ],
+          "verification": "DOCUMENT_AND_15_REPOSITORY_CHECKS_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R005-repository-check.json",
+            "dev/评审/开发细则核验-v1.0.json"
+          ]
+        }
+      ],
+      "task_snapshot": [
+        {
+          "id": "DEV-01",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-001",
+            "IMP-R001-002",
+            "IMP-R001-010",
+            "IMP-R004-003",
+            "IMP-R004-004",
+            "IMP-R004-005",
+            "IMP-R004-007",
+            "IMP-R005-006",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-01.01",
+            "DEV-01.02",
+            "DEV-01.03",
+            "DEV-01.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "继续React/Taro/Vite、Android/NDK/CMake锁定和原生构建，Linux实际运行与完整许可；当前23/93操作，剩余70操作及完整Schema待实现。"
+        },
+        {
+          "id": "DEV-02",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-003",
+            "IMP-R001-008",
+            "IMP-R001-010",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-002",
+            "IMP-R004-006",
+            "IMP-R004-007",
+            "IMP-R005-007",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-02.01",
+            "DEV-02.02",
+            "DEV-02.03",
+            "DEV-02.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "当前004后64表；继续既有数据升级/恢复、最小数据库权限、旧定义/地区/型号回填与租赁分钟列有理小时迁移；新库迁移不代替历史升级。"
+        },
+        {
+          "id": "DEV-03",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-004",
+            "IMP-R001-005",
+            "IMP-R001-006",
+            "IMP-R001-008",
+            "IMP-R003-005",
+            "IMP-R003-007",
+            "IMP-R004-001",
+            "IMP-R004-002",
+            "IMP-R004-003",
+            "IMP-R004-004",
+            "IMP-R004-005",
+            "IMP-R004-006",
+            "IMP-R004-007",
+            "IMP-R005-001",
+            "IMP-R005-006",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-03.01",
+            "DEV-03.02",
+            "DEV-03.03",
+            "DEV-03.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "真实支付宝双端联调、身份/会话密钥轮换、恢复合并、全部后台角色与设备凭据/配对；申请读/管理不等于SELLER授权。"
+        },
+        {
+          "id": "DEV-04",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R005-002",
+            "IMP-R005-006",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-04.01",
+            "DEV-04.02",
+            "DEV-04.03",
+            "DEV-04.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "已有本人版本化接受/撤回及不可变回执；继续实际文档版本发布、按用途授权消费、最小内容披露、删除请求及完整访问审计。"
+        },
+        {
+          "id": "DEV-05",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R005-001",
+            "IMP-R005-005",
+            "IMP-R005-006",
+            "IMP-R005-007",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-05.01",
+            "DEV-05.02",
+            "DEV-05.03",
+            "DEV-05.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "已有申请留档/本人投影/EXITING停新售；继续独立资格审核、本人昵称/证据投影、真实个人卖家渠道绑定、在途退款清理结算及最终CLOSED。"
+        },
+        {
+          "id": "DEV-06",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-06.01",
+            "DEV-06.02",
+            "DEV-06.03",
+            "DEV-06.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-07",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-007",
+            "IMP-R005-004",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-07.01",
+            "DEV-07.02",
+            "DEV-07.03",
+            "DEV-07.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "补环境/模型/组件清单来源、审核写服务、许可与六桌面/LMA真实组合证据及失效在途处置。"
+        },
+        {
+          "id": "DEV-08",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-003",
+            "IMP-R005-004",
+            "IMP-R005-005",
+            "IMP-R005-006",
+            "IMP-R005-007",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-08.01",
+            "DEV-08.02",
+            "DEV-08.03",
+            "DEV-08.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "已有草稿/未来修订/提交/暂停和本人分页HTTP；继续受控审核发布、明确多能力选择、旧定义迁移、完整媒体字段及Taro/Web页面，提交不自动开售。"
+        },
+        {
+          "id": "DEV-09",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-003",
+            "IMP-R003-005",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-004",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-09.01",
+            "DEV-09.02",
+            "DEV-09.03",
+            "DEV-09.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "已有报价与当前窗口时长限制；继续历史报价专用读端、完整规格及所有组合/真实支付前置，尚无实际资金和资源预留。"
+        },
+        {
+          "id": "DEV-10",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-004",
+            "IMP-R003-005",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-10.01",
+            "DEV-10.02",
+            "DEV-10.03",
+            "DEV-10.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "后续取消/退款/完成、替换链及实际资金/调度联动；当前本人HTTP建单只到WAITING_PAYMENT。"
+        },
+        {
+          "id": "DEV-11",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-11.01",
+            "DEV-11.02",
+            "DEV-11.03",
+            "DEV-11.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-12",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-002",
+            "IMP-R001-008",
+            "IMP-R003-001",
+            "IMP-R003-003",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-12.01",
+            "DEV-12.02",
+            "DEV-12.03",
+            "DEV-12.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补并发reserve/consume/release及资金UNKNOWN、预算/期限硬停止和费用解释；NB价率及最坏费用已实现。"
+        },
+        {
+          "id": "DEV-13",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-13.01",
+            "DEV-13.02",
+            "DEV-13.03",
+            "DEV-13.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-14",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-14.01",
+            "DEV-14.02",
+            "DEV-14.03",
+            "DEV-14.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-15",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-15.01",
+            "DEV-15.02",
+            "DEV-15.03",
+            "DEV-15.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-16",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-16.01",
+            "DEV-16.02",
+            "DEV-16.03",
+            "DEV-16.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-17",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-17.01",
+            "DEV-17.02",
+            "DEV-17.03",
+            "DEV-17.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-18",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-18.01",
+            "DEV-18.02",
+            "DEV-18.03",
+            "DEV-18.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-19",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-19.01",
+            "DEV-19.02",
+            "DEV-19.03",
+            "DEV-19.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-20",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-20.01",
+            "DEV-20.02",
+            "DEV-20.03",
+            "DEV-20.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-21",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-21.01",
+            "DEV-21.02",
+            "DEV-21.03",
+            "DEV-21.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-22",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-22.01",
+            "DEV-22.02",
+            "DEV-22.03",
+            "DEV-22.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-23",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-23.01",
+            "DEV-23.02",
+            "DEV-23.03",
+            "DEV-23.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-24",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-24.01",
+            "DEV-24.02",
+            "DEV-24.03",
+            "DEV-24.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-25",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-25.01",
+            "DEV-25.02",
+            "DEV-25.03",
+            "DEV-25.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-26",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-26.01",
+            "DEV-26.02",
+            "DEV-26.03",
+            "DEV-26.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-27",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-27.01",
+            "DEV-27.02",
+            "DEV-27.03",
+            "DEV-27.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-28",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-28.01",
+            "DEV-28.02",
+            "DEV-28.03",
+            "DEV-28.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-29",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-29.01",
+            "DEV-29.02",
+            "DEV-29.03",
+            "DEV-29.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-30",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-30.01",
+            "DEV-30.02",
+            "DEV-30.03",
+            "DEV-30.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-31",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-31.01",
+            "DEV-31.02",
+            "DEV-31.03",
+            "DEV-31.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-32",
+          "implementation_status": "CONDITIONAL",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-32.01",
+            "DEV-32.02",
+            "DEV-32.03",
+            "DEV-32.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-33",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-33.01",
+            "DEV-33.02",
+            "DEV-33.03",
+            "DEV-33.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-34",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-34.01",
+            "DEV-34.02",
+            "DEV-34.03",
+            "DEV-34.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-35",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-35.01",
+            "DEV-35.02",
+            "DEV-35.03",
+            "DEV-35.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-36",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-36.01",
+            "DEV-36.02",
+            "DEV-36.03",
+            "DEV-36.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-37",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-37.01",
+            "DEV-37.02",
+            "DEV-37.03",
+            "DEV-37.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-38",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-001",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-38.01",
+            "DEV-38.02",
+            "DEV-38.03",
+            "DEV-38.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补真实模型/tokenizer/模板usage来源及缓存/推理去重，证据核验、账单版本与水位、缺证退款；目前仅精确价格计算。"
+        },
+        {
+          "id": "DEV-39",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-39.01",
+            "DEV-39.02",
+            "DEV-39.03",
+            "DEV-39.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-40",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-40.01",
+            "DEV-40.02",
+            "DEV-40.03",
+            "DEV-40.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-41",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-41.01",
+            "DEV-41.02",
+            "DEV-41.03",
+            "DEV-41.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-42",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-42.01",
+            "DEV-42.02",
+            "DEV-42.03",
+            "DEV-42.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-43",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-43.01",
+            "DEV-43.02",
+            "DEV-43.03",
+            "DEV-43.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-44",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-44.01",
+            "DEV-44.02",
+            "DEV-44.03",
+            "DEV-44.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-45",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-45.01",
+            "DEV-45.02",
+            "DEV-45.03",
+            "DEV-45.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-46",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-46.01",
+            "DEV-46.02",
+            "DEV-46.03",
+            "DEV-46.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-47",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-47.01",
+            "DEV-47.02",
+            "DEV-47.03",
+            "DEV-47.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-48",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-48.01",
+            "DEV-48.02",
+            "DEV-48.03",
+            "DEV-48.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-49",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-49.01",
+            "DEV-49.02",
+            "DEV-49.03",
+            "DEV-49.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-50",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-50.01",
+            "DEV-50.02",
+            "DEV-50.03",
+            "DEV-50.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-51",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-006",
+            "IMP-R001-007",
+            "IMP-R001-008",
+            "IMP-R003-004",
+            "IMP-R003-007",
+            "IMP-R004-007",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-51.01",
+            "DEV-51.02",
+            "DEV-51.03",
+            "DEV-51.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "继续outbox投递/消费者编排、查询/清理后台任务与跨模块事件集成及恢复；现有inbox/持久任务基础和建单outbox不等于完整事件链。"
+        },
+        {
+          "id": "DEV-52",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-007",
+            "IMP-R005-004",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-52.01",
+            "DEV-52.02",
+            "DEV-52.03",
+            "DEV-52.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "已有提交时组合证据重核；继续受控审核/发布/撤销写服务、审批权限、在途影响及真实许可/物理/渠道/密码证据；提交仍到SUBMITTED。"
+        },
+        {
+          "id": "DEV-53",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R004-001",
+            "IMP-R004-003",
+            "IMP-R004-007",
+            "IMP-R005-006",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-53.01",
+            "DEV-53.02",
+            "DEV-53.03",
+            "DEV-53.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "已有身份/CSRF/当前角色/跨卖家设备证据/ETag负向子集；继续全角色/文件/配对/隐私/资金攻击矩阵、依赖及独立安全评审。"
         },
         {
           "id": "DEV-54",

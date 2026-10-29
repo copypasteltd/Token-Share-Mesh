@@ -38,10 +38,16 @@ func newBuyer(t *testing.T, ctx context.Context, db *persistence.DB) identity.Pr
 }
 
 func SeedOffer(t *testing.T, ctx context.Context, db *persistence.DB, mode, region string) Offer {
+	return SeedOfferForSeller(t, ctx, db, mode, region, newBuyer(t, ctx, db))
+}
+
+// SeedOfferForSeller attaches synthetic approvals to an actual test login.
+// It is fixture-only and is never imported by a runtime command.
+func SeedOfferForSeller(t *testing.T, ctx context.Context, db *persistence.DB, mode, region string, p identity.Principal) Offer {
 	t.Helper()
-	f := Offer{Seller: newBuyer(t, ctx, db), ID: ids.New("lst"), Device: ids.New("dev"), Resource: ids.New("res"), Capability: ids.New("cap"), Gate: ids.New("gate"), Release: ids.New("rel")}
+	f := Offer{Seller: p, ID: ids.New("lst"), Device: ids.New("dev"), Resource: ids.New("res"), Capability: ids.New("cap"), Gate: ids.New("gate"), Release: ids.New("rel")}
 	execDB(t, ctx, db, `INSERT INTO p11.role_grants(id,user_id,role_code,scope_ref,granted_by) VALUES($1,$2,'SELLER','self',$2)`, ids.New("grant"), f.Seller.UserID)
-	execDB(t, ctx, db, `INSERT INTO p11.seller_profiles(id,state,legal_scope_ref,payee_binding_ref) VALUES($1,'APPROVED',$2,$3)`, f.Seller.UserID, ids.New("legal"), ids.New("payee"))
+	execDB(t, ctx, db, `INSERT INTO p11.seller_profiles(id,state,legal_scope_ref,payee_binding_ref,approved_regions,display_name) VALUES($1,'APPROVED',$2,$3,ARRAY[$4],'个人卖家')`, f.Seller.UserID, ids.New("legal"), ids.New("payee"), region)
 	f.Seller.Roles = append(f.Seller.Roles, "SELLER")
 	bps := 500
 	f.Terms = market.Terms{SKU: ids.New("sku"), SellerDisplayName: "星河同学", Policy: market.Policy{Mode: mode, Privacy: "STANDARD", Region: region, Protocol: "openai_nb1", Acceptance: "accept_nb1", Disclosure: "disclosure_nb1"}, DeadlineSec: 3600,
@@ -68,7 +74,7 @@ func SeedOffer(t *testing.T, ctx context.Context, db *persistence.DB, mode, regi
 			kinds = append(kinds, "CRYPTO")
 		}
 	}
-	execDB(t, ctx, db, `INSERT INTO p11.devices(id,seller_id,platform,resource_kind,state,auth_key_digest,client_release,resource_policy,last_seen_at) VALUES($1,$2,$3,$4,'ONLINE',$5,'SYNTHETIC_TEST','{"accepting_new_jobs":true}',clock_timestamp())`, f.Device, f.Seller.UserID, platform, kind, outbox.Digest([]byte(f.Device)))
+	execDB(t, ctx, db, `INSERT INTO p11.devices(id,seller_id,platform,resource_kind,state,auth_key_digest,client_release,resource_policy,last_seen_at,model_name) VALUES($1,$2,$3,$4,'ONLINE',$5,'SYNTHETIC_TEST','{"accepting_new_jobs":true}',clock_timestamp(),$6)`, f.Device, f.Seller.UserID, platform, kind, outbox.Digest([]byte(f.Device)), f.Terms.Devices[0].ModelName)
 	execDB(t, ctx, db, `INSERT INTO p11.resources(id,device_id,seller_id,local_resource_key,kind) VALUES($1,$2,$3,'resource0',$4)`, f.Resource, f.Device, f.Seller.UserID, kind)
 	b := f.Terms.Bindings[0]
 	scope, err := json.Marshal(map[string]string{"seller_id": f.Seller.UserID, "device_id": f.Device, "capability_id": f.Capability, "kernel_environment_ref": b.EnvironmentRef, "kernel_environment_digest": b.EnvironmentDigest, "mode": mode, "privacy": f.Terms.Policy.Privacy, "region": region, "protocol_profile_id": f.Terms.Policy.Protocol, "price_contract_version": pricing.Version, "sku_id": f.Terms.SKU})

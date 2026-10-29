@@ -16,8 +16,11 @@ import (
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/persistence"
+	"p11.local/compute/internal/seller"
 	"p11.local/compute/internal/trade"
 	"p11.local/compute/shared/clock"
+	"p11.local/compute/shared/ids"
+	"strconv"
 	"syscall"
 	"time"
 )
@@ -73,6 +76,15 @@ func run() error {
 	if len(os.Args) != 1 {
 		return fmt.Errorf("configure p11-api through explicit environment variables")
 	}
+	var fees *seller.FeePolicy
+	feeVersion, bpsText, costOwner := os.Getenv("P11_FEE_POLICY_VERSION"), os.Getenv("P11_COMMISSION_BPS"), os.Getenv("P11_CHANNEL_COST_OWNER")
+	if feeVersion != "" || bpsText != "" || costOwner != "" {
+		bps, err := strconv.Atoi(bpsText)
+		if err != nil || bps < 0 || bps > 10000 || !ids.Valid(feeVersion) || (costOwner != "SELLER" && costOwner != "PLATFORM") {
+			return fmt.Errorf("explicit complete seller fee policy required")
+		}
+		fees = &seller.FeePolicy{BPS: bps, Version: feeVersion, ChannelCostOwner: costOwner}
+	}
 	dsn := os.Getenv("P11_DATABASE_URL")
 	if dsn == "" {
 		return fmt.Errorf("P11_DATABASE_URL required")
@@ -126,7 +138,7 @@ func run() error {
 	checkCtx, checkCancel := context.WithTimeout(context.Background(), 5*time.Second)
 	err = db.Pool.QueryRow(checkCtx, "SELECT max(version) FROM p11_meta.schema_migrations").Scan(&version)
 	checkCancel()
-	if err != nil || version != 3 {
+	if err != nil || version != 4 {
 		return fmt.Errorf("apply and verify migrations with p11-admin before starting control APIs")
 	}
 	address := os.Getenv("P11_API_ADDR")
@@ -147,7 +159,7 @@ func run() error {
 		BrowserOrigin: os.Getenv("P11_BROWSER_ORIGIN"), InsecureLoopback: os.Getenv("P11_INSECURE_LOOPBACK") == "1", CursorKey: cursorKey,
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
 		Keys:     identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "api_v1", Peppers: map[string][]byte{"api_v1": keyPepper}, MaxTTL: 30 * 24 * time.Hour},
-		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}})
+		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: fees}})
 	if err != nil {
 		return err
 	}

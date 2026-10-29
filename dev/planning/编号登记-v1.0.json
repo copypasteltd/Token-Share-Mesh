@@ -158,6 +158,8 @@
     "usage_evidence": "DATA-059",
     "users": "DATA-060",
     "auth_sessions": "DATA-061",
-    "auth_attempts": "DATA-062"
+    "auth_attempts": "DATA-062",
+    "seller_applications": "DATA-063",
+    "listing_definitions": "DATA-064"
   }
 }

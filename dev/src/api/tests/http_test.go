@@ -25,6 +25,7 @@ import (
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/persistence"
 	"p11.local/compute/internal/pricing"
+	"p11.local/compute/internal/seller"
 	"p11.local/compute/internal/testsupport"
 	"p11.local/compute/internal/trade"
 	"p11.local/compute/shared/clock"
@@ -139,7 +140,7 @@ func newHarness(t *testing.T, limit, authLimit int) *harness {
 		CursorKey: []byte(strings.Repeat("c", 32)), RequestsPerMinute: limit, AuthPerMinute: authLimit,
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "http_test_v1", Peppers: map[string][]byte{"http_test_v1": []byte(strings.Repeat("s", 32))}, IdentityPepper: []byte(strings.Repeat("i", 32)), TTL: time.Hour},
 		Keys:     identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "http_test_v1", Peppers: map[string][]byte{"http_test_v1": []byte(strings.Repeat("k", 32))}, MaxTTL: 24 * time.Hour},
-		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}}
+		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: &seller.FeePolicy{BPS: 500, Version: "fee_nb1", ChannelCostOwner: "SELLER"}}}
 	handler, err := controlhttp.New(config)
 	if err != nil {
 		h.server.Close()

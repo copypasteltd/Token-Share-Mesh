@@ -25,3 +25,7 @@ evidence_ids/asset_ids等数组须服务层逐项验证引用和权限；需要�
 ## R004 前向身份表
 
 [003_auth_sessions.sql](migrations/003_auth_sessions.sql)追加auth_sessions/auth_attempts，当前领域表62；基础60表和已发布001/002保持原字节。摘要见dev/src/internal/persistence/migrations/source-v3.json。结构目录合并基础与前向建表并保留来源；实际迁移与本机HTTP测试见[R004证据](../../../dev/tests/evidence/R004-验证报告.md)，静态目录构建仍不执行SQL。
+
+## R005前向申请与挂牌记录
+
+[004_seller_listing_records.sql](migrations/004_seller_listing_records.sql)新增seller_applications/listing_definitions及6个前向字段，当前64表/613列；申请、定义、同意追加不可变。001—003保原字节；source-v4.json记录精确副本。新表和ALTER新增列合并到结构目录，静态构建不执行SQL；[实际局部证据](../../../dev/tests/evidence/R005-验证报告.md)与[限制](../附录-卖家申请与挂牌版本实施约束.md)分开。旧批准地区默认空、型号/挂牌定义不推测补造，历史迁移仍须独立验证。

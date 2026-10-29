@@ -88,6 +88,17 @@ def database_catalog() -> dict:
                 if isinstance(cmd.def_,ast.Constraint):
                     c=constraint_record(cmd.def_,s.relation.relname)
                     next(t for t in tables if t['name']==s.relation.relname)['constraints'].append(c)
+                elif isinstance(cmd.def_,ast.ColumnDef):
+                    entry=cmd.def_
+                    table=next(t for t in tables if t['name']==s.relation.relname)
+                    if entry.colname in {c['name'] for c in table['columns']}:raise ValueError('重复前向新增列')
+                    cs=[constraint_record(c,table['name'],entry.colname) for c in entry.constraints or ()]
+                    table['columns'].append({'name':entry.colname,'sql':RawStream()(entry),
+                        'type':RawStream()(entry.typeName),'constraints':cs,'source':relative(source)})
+                    table.setdefault('alter_sources',[])
+                    if relative(source) not in table['alter_sources']:table['alter_sources'].append(relative(source))
+                else:
+                    raise ValueError('未支持的ALTER TABLE不能从物理目录静默丢弃')
         elif isinstance(s, ast.IndexStmt):
             indexes.append({'name':s.idxname,'table':s.relation.relname,'unique':s.unique,
                 'sql':RawStream()(s)})
@@ -109,7 +120,8 @@ def write_database(catalog: dict) -> None:
     for table in catalog['tables']:
         lines += [f"## {table['name']}",'',f"权威模块：{owners.get(table['name'],'待分配')}；来源：{table['source']}。",'', '| 字段 | SQL定义 |', '| --- | --- |']
         for c in table['columns']:
-            lines.append(f"| {c['name']} | `{c['sql'].replace('|','&#124;')}` |")
+            addition=('；前向来源：'+c['source']) if c.get('source') else ''
+            lines.append(f"| {c['name']} | `{c['sql'].replace('|','&#124;')}`{addition} |")
         lines += ['', '表级约束：','']
         constraints=table['constraints']
         lines += [f"- `{c['sql'].replace('|','&#124;')}`" for c in constraints] or ['无额外表级约束；列级约束见上表。']
@@ -152,7 +164,7 @@ def write_api_map(api: dict, module_catalog: list[dict], backlog: list[dict]) ->
                 'requirement_ids':task['requirement_ids'],'acceptance_ids':task['acceptance_ids'],
                 'source_documents':task['source_documents'],
                 'canonical_operation_sha256':digest(op),'implementation_status':STATUS,'test_status':'NOT_EXECUTED',
-                'runtime_registration':({'source':relative(runtime_source),'handler_file':'dev/src/api/internal/http/server.go',
+                'runtime_registration':({'source':relative(runtime_source),'handler_file':('dev/src/api/internal/http/seller.go' if actual['handler'] in {'sellerProfile','sellerApplication','sellerExit','recordConsent','ownListings','ownListing','listingState'} else 'dev/src/api/internal/http/server.go'),
                     'handler':actual['handler'],'status':'SOURCE_PRESENT_PARTIAL_CONFORMANCE',
                     'evidence_authority':'dev/progress/implementation-status.json'} if actual else None)})
     if set(task_for_op)!={r['operation_id'] for r in records}:

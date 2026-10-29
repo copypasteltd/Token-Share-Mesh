@@ -5,6 +5,16 @@
 Entries use the same round IDs as the implementation tracker. No entry denotes a
 general-availability platform release unless the full acceptance evidence says so.
 
+## R005 — 2026-10-30 — Seller submissions and immutable listing revisions
+
+- Add account-owned seller applications and consent/withdrawal receipts; submitted claims never grant SELLER or current channel/device qualification.
+- Add listing draft/read/update/submit/pause services with strong ETags, concurrent CAS, owner-bound signed pagination and immutable prior revisions/order contracts.
+- Derive concrete device/environment bindings from owned rows; enforce approved regions, an explicit platform fee policy, current evidence and availability windows.
+- Stop new supply atomically on seller exit while retaining money, orders and resource fences; independent SELLER can stop sharing without BUYER permission.
+- Register 23/93 native control operations. Append forward 004 and DATA-063/064 for 64 current tables/613 columns, preserving 001–003 bytes.
+- Pass 43 actual limited native cases plus Windows/Linux builds, retain the initial failure/corrections, and stop every temporary native database. Real review/channel/device/UI/full-product acceptance remains pending.
+- Refresh bilingual usage/README, technical reader media, all 56 tasks and 222 remaining substeps; source goal stays ACTIVE.
+
 ## R004 — 2026-10-30 — Verified identity and native control HTTP
 
 - Add RSA2 Alipay request signing and original-response verification, with explicit app/subject namespace and no unsigned identity fallback.

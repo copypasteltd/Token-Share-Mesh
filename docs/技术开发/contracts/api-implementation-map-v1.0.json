@@ -58,6 +58,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "45066546b8b8b3a8412f2d6998df27d744775c0c8b1d49430c398fb7cc63e5e1",
@@ -131,12 +132,19 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "d76c53412456d6a298c8a4978d152d2736581ba8866739101d66b03d9af87f41",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "recordConsent",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "createDeletionRequest",
@@ -198,7 +206,8 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "dd8f5c2d2353a5f9e0bfb0ae7e4537e789c2ad70c8b036edcd4705f17532e9d9",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
@@ -261,12 +270,19 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "020b0904ee2393dd852cc41f6936de7f08fa95e8d0469247bc512ff87f144a9a",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "sellerApplication",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "getSellerProfile",
@@ -320,12 +336,19 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "efaf214aff5a6fa9ec3a801a8c9a73abefbed42bdc90aa054061b28844077005",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "sellerProfile",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "requestSellerExit",
@@ -383,12 +406,19 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "53a0fd67929b1c2edbd204e563e0bbfba48278d6b3f72f818926a9705d804e85",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "sellerExit",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "listOwnListings",
@@ -445,12 +475,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "71fc393c462e41199d6cf7f87f79c19d46f3f7edbc868aa089c33ae27899870a",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "ownListings",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "createListing",
@@ -511,12 +548,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "683bb229c6f31bd082880f52d1d6ad435bc53e96aa778e1b00f27f8ee09bc7f6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "ownListings",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "getOwnListing",
@@ -573,12 +617,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "f58109a9ad66e070edf1b7ab16f477f2acf9b3f925311b6bd01b5c59a780cf44",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "ownListing",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "updateFutureListing",
@@ -639,12 +690,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "2572816521b10a9d8a39b92deedd2c0ba990477bbdb812d5dbf1d08e1b7e539f",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "ownListing",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "submitListing",
@@ -705,12 +763,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "096ea3d5064eb87d7e69c44fce52a85c1069cd7bd4bf65607fd789dee09df972",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "listingState",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "pauseListing",
@@ -771,12 +836,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "c0fd4ea836dba0c69820f12de3c1ed52d433eae810fb79a07ceec83b0a1f10d2",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/seller.go",
+        "handler": "listingState",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "listOwnDevices",
@@ -1091,7 +1163,8 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
-        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "89d7b456379f54f5a99aab8a22ff3c5aa02da67b8bd250b8e6cac4f7c0eaea2e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
@@ -1413,6 +1486,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "4739d8429adcb41b98910156d44db2875b689783b2bb81455bd6f4abfdce5b34",
@@ -1486,7 +1560,8 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
-        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "c1b14883a028feb64b790bb467d30acfc0a1ce1a1df8af5b831f418606a4a116",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
@@ -1555,6 +1630,7 @@
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "443bcf4960a9ffb11f4e8367b8308d35a05eb58dea5027fc2b468df5a9da836a",
@@ -1625,6 +1701,7 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "6fd389dc83641e73d1432acb9bd5dc44fb9f324dad955bf42a29f26fd72008f7",
@@ -1697,6 +1774,7 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "97e2664b5ac19d68f2f96bab3d248634588dd3b3f1064b098bd1b5e4441b50fd",
@@ -1766,6 +1844,7 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "91e290d03b45b4f159f261ee3fe40118857b55ad2e3220e922f094b47b092557",
@@ -1834,6 +1913,7 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "ebf09c85c60b0a13b7e21eed5a11b6eb8b23297e2acac9bd3976ab7d0713401b",
@@ -1903,6 +1983,7 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "943b8684a0ce9cb12a2c203b2e02be65392a06ce29c49d8fb27538f694d5dd81",
@@ -4233,6 +4314,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "37b5e3e0cd3743cf4f707881657bb6c5389f27c8c44c6de0f6e98cee9f5c2de9",
@@ -4303,6 +4385,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "711e02d255f58d55c42fc9e544093baf14ab5443e47eda015b17242b699bda26",
@@ -4371,6 +4454,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "4d8171a7efd7249674e976253d8537ad5727b1310c5ef611906550d0ed934be6",
@@ -5273,7 +5357,8 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
-        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "423553a0239c22155d3122f0b224e7d187c8efe7621ebde2ea1d45f7db3ada83",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
@@ -5354,7 +5439,8 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "970a80f45e6813892c261291a0ec1a1ffdd8851b4af349ff38dab1a39971ecee",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
@@ -5501,7 +5587,8 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "dbcac89a4d259f06ca0b64097e2dea16e7d8be2f4d3c4fe3fde90788c3b794db",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
@@ -5826,7 +5913,8 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
       "canonical_operation_sha256": "8f4093763430434b2c1fdec8a367c3b57be81846f9655e54df55f9c655bcfe31",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
@@ -5881,6 +5969,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "1fe976b2d2d36c4109c40f1e9d12bd6a9b0945b7ad09053f2970bc2312d3c438",
@@ -5942,6 +6031,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "1655bf57f7a83cae0b15f5587085754762a5e7b996b08321fae3a04428cf15bf",
@@ -6008,6 +6098,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "314232554e306bb9735a716f928f4782f8d24ec1d1347e793c41efdb75926815",
@@ -6076,6 +6167,7 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
         "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "canonical_operation_sha256": "e0908825b8de39a75de1323b5ff700bebba5900e8052cecb707195b4ba476299",

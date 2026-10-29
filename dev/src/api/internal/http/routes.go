@@ -26,14 +26,14 @@ func (s *Server) loadRoutes() bool {
 		Scope      string            `json:"scope"`
 		Operations []registeredRoute `json:"operations"`
 	}
-	if json.Unmarshal(routeDocument, &manifest) != nil || manifest.Version != "P11_CONTROL_HTTP_R004" || manifest.BasePath != prefix || len(manifest.Operations) == 0 {
+	if json.Unmarshal(routeDocument, &manifest) != nil || manifest.Version != "P11_CONTROL_HTTP_R005" || manifest.BasePath != prefix || len(manifest.Operations) == 0 {
 		return false
 	}
 	pairs, operations := map[string]bool{}, map[string]bool{}
 	for _, r := range manifest.Operations {
 		key := r.Method + " " + r.Path
 		if !ids.Valid(r.OperationID) || pairs[key] || operations[r.OperationID] || s.handlerNamed(r.Handler) == nil || !strings.HasPrefix(r.Path, "/") ||
-			(r.Method != "GET" && r.Method != "POST" && r.Method != "DELETE") {
+			(r.Method != "GET" && r.Method != "POST" && r.Method != "DELETE" && r.Method != "PATCH") {
 			return false
 		}
 		pairs[key], operations[r.OperationID] = true, true
@@ -43,6 +43,20 @@ func (s *Server) loadRoutes() bool {
 }
 func (s *Server) handlerNamed(name string) handler {
 	switch name {
+	case "sellerProfile":
+		return s.sellerProfile
+	case "sellerApplication":
+		return s.sellerApplication
+	case "sellerExit":
+		return s.sellerExit
+	case "recordConsent":
+		return s.recordConsent
+	case "ownListings":
+		return s.ownListings
+	case "ownListing":
+		return s.ownListing
+	case "listingState":
+		return s.listingState
 	case "challenge":
 		return s.challenge
 	case "login":
@@ -69,11 +83,20 @@ func (s *Server) handlerNamed(name string) handler {
 	return nil
 }
 func pathMatches(pattern, path string) bool {
-	if !strings.Contains(pattern, "{") {
-		return pattern == path
+	a, b := strings.Split(pattern, "/"), strings.Split(path, "/")
+	if len(a) != len(b) {
+		return false
 	}
-	before, _, _ := strings.Cut(pattern, "{")
-	return strings.HasPrefix(path, before) && ids.Valid(strings.TrimPrefix(path, before))
+	for i, segment := range a {
+		if strings.HasPrefix(segment, "{") && strings.HasSuffix(segment, "}") {
+			if !ids.Valid(b[i]) {
+				return false
+			}
+		} else if segment != b[i] {
+			return false
+		}
+	}
+	return true
 }
 func (s *Server) route(r *http.Request) (handler, string, bool) {
 	var selected *registeredRoute

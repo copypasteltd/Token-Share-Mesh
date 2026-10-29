@@ -78,9 +78,11 @@
       ],
       "tables": [
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
-        "listing_devices"
+        "listing_devices",
+        "listing_definitions"
       ],
       "technical_documents": [
         "docs/技术开发/03-领域模块与应用服务设计.md",
@@ -238,9 +240,11 @@
         "deliveries",
         "acceptances",
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
-        "listing_devices"
+        "listing_devices",
+        "listing_definitions"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -328,9 +332,11 @@
       ],
       "tables": [
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
         "listing_devices",
+        "listing_definitions",
         "quotes",
         "orders",
         "route_contracts",
@@ -390,9 +396,11 @@
         "route_contracts",
         "budget_reservations",
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
-        "listing_devices"
+        "listing_devices",
+        "listing_definitions"
       ],
       "technical_documents": [
         "docs/技术开发/05-控制面接口实现规约.md",
@@ -955,9 +963,11 @@
         "settlement_batches",
         "batch_items",
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
-        "listing_devices"
+        "listing_devices",
+        "listing_definitions"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -1450,9 +1460,11 @@
         "appeals",
         "evidence_grants",
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
-        "listing_devices"
+        "listing_devices",
+        "listing_definitions"
       ],
       "technical_documents": [
         "docs/技术开发/14-前端路由状态与接口集成.md",
@@ -2906,9 +2918,11 @@
         "feature_gates",
         "releases",
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
         "listing_devices",
+        "listing_definitions",
         "evidence",
         "capabilities",
         "catalog_entries",
@@ -2978,9 +2992,11 @@
         "feature_gates",
         "releases",
         "seller_profiles",
+        "seller_applications",
         "listings",
         "listing_versions",
         "listing_devices",
+        "listing_definitions",
         "quotes",
         "orders",
         "route_contracts",

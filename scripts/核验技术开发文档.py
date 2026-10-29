@@ -73,7 +73,7 @@ def main() -> int:
     check({r['operation_id'] for r in mapping['operations']}==set(api),'控制操作集合漂移')
     runtime=load(ROOT/'dev/src/api/internal/http/routes.json')
     registrations={r['operation_id']:r for r in runtime['operations']}
-    check(len(registrations)==len(runtime['operations'])==13,'实际HTTP子集应为13个唯一操作')
+    check(len(registrations)==len(runtime['operations'])==23,'实际HTTP子集应为23个唯一操作')
     check(set(registrations)<=set(api),'实际HTTP子集超出权威API')
     mod_by_id={m['id']:m for m in mod}
     task_by_id={t['id']:t for t in tasks}
@@ -141,7 +141,7 @@ def main() -> int:
     catalog=database_catalog()
     check(catalog==load(CONTRACTS/'database-catalog-v1.0.json'),'DDL与生成目录漂移')
     table_by_name={t['name']:t for t in catalog['tables']}
-    check(len(table_by_name)==len(catalog['tables'])==62 and catalog['base_table_count']==60,'应为基础60＋前向2张唯一表')
+    check(len(table_by_name)==len(catalog['tables'])==64 and catalog['base_table_count']==60,'应为基础60＋前向4张唯一表')
     columns={n:{c['name'] for c in t['columns']} for n,t in table_by_name.items()}
     uniques={}
     for n,t in table_by_name.items():
@@ -163,7 +163,7 @@ def main() -> int:
     check(all_owned==set(table_by_name),'模块权威表集合与DDL不一致')
     for r in trace: check(set(r['tables'])<=set(table_by_name),f"{r['requirement_id']}无效表引用")
     sql=(TECH/'database/schema-draft.sql').read_text(encoding='utf-8')
-    check(len(catalog['forward_migrations'])==2,'前向002/003迁移登记缺失')
+    check(len(catalog['forward_migrations'])==3,'前向002/003/004迁移登记缺失')
     for migration in catalog['forward_migrations']:
         path=ROOT/migration['source']
         embedded=ROOT/'dev/src/internal/persistence/migrations'/path.name
@@ -434,7 +434,7 @@ def main() -> int:
       'ddl_statements_parsed':catalog['ddl_statements'],'query_statements_parsed':len(query_ast),
       'sql_parser':'pglast '+pglast.__version__,'sql_runtime_migrations_in_this_check':'NOT_EXECUTED',
       'plpgsql_runtime_validation_in_this_check':'NOT_EXECUTED',
-      'separate_native_evidence':[p for p in ['dev/tests/evidence/R001-验证报告.md','dev/tests/evidence/R003-验证报告.md','dev/tests/evidence/R004-验证报告.md'] if (ROOT/p).is_file()],
+      'separate_native_evidence':[p for p in ['dev/tests/evidence/R001-验证报告.md','dev/tests/evidence/R003-验证报告.md','dev/tests/evidence/R004-验证报告.md','dev/tests/evidence/R005-验证报告.md'] if (ROOT/p).is_file()],
       'schema_positive_fixtures':sum(x[3] for x in cases),
       'schema_negative_fixtures':sum(not x[3] for x in cases),'fixture_results':fixture_results,
       'compatibility_combinations':len(compat),'reader_sections':len(parser.search_json or []),

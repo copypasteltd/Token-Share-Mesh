@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 113,
+  "catalog_statements": 122,
   "base_table_count": 60,
   "tables": [
     {
@@ -726,9 +726,37 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "purpose",
+          "sql": "purpose text CHECK (purpose IN ('TRADE', 'PRIVACY', 'LAN', 'SELECTIVE_DISCLOSURE'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (purpose IN ('TRADE', 'PRIVACY', 'LAN', 'SELECTIVE_DISCLOSURE'))",
+              "columns": [
+                "purpose"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql"
+        },
+        {
+          "name": "confirmed_at",
+          "sql": "confirmed_at timestamptz",
+          "type": "timestamptz",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql"
         }
       ],
-      "constraints": []
+      "constraints": [],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/004_seller_listing_records.sql"
+      ]
     },
     {
       "name": "seller_profiles",
@@ -848,9 +876,68 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "display_name",
+          "sql": "display_name text NOT NULL DEFAULT '个人卖家'",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "display_name"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT '个人卖家'",
+              "columns": [
+                "display_name"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql"
+        },
+        {
+          "name": "approved_regions",
+          "sql": "approved_regions text[] NOT NULL DEFAULT '{}'",
+          "type": "text[]",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "approved_regions"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT '{}'",
+              "columns": [
+                "approved_regions"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql"
         }
       ],
-      "constraints": []
+      "constraints": [],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/004_seller_listing_records.sql"
+      ]
     },
     {
       "name": "devices",
@@ -1106,6 +1193,13 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "model_name",
+          "sql": "model_name text",
+          "type": "text",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql"
         }
       ],
       "constraints": [
@@ -1120,6 +1214,9 @@
           "deferrable": false,
           "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/004_seller_listing_records.sql"
       ]
     },
     {
@@ -2271,6 +2368,34 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "updated_at",
+          "sql": "updated_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "updated_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "updated_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql"
         }
       ],
       "constraints": [
@@ -2285,6 +2410,9 @@
           "deferrable": false,
           "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/004_seller_listing_records.sql"
       ]
     },
     {
@@ -14249,6 +14377,298 @@
           "initially_deferred": false
         }
       ]
+    },
+    {
+      "name": "seller_applications",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "seller_id",
+          "sql": "seller_id p11.entity_id NOT NULL REFERENCES p11.seller_profiles (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.seller_profiles (id)",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "seller_profiles",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "profile_version",
+          "sql": "profile_version p11.counter NOT NULL CHECK (profile_version > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "profile_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (profile_version > 0)",
+              "columns": [
+                "profile_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "submitted_claims",
+          "sql": "submitted_claims jsonb NOT NULL CHECK (jsonb_typeof(submitted_claims) = 'object')",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "submitted_claims"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(submitted_claims) = 'object')",
+              "columns": [
+                "submitted_claims"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (seller_id, profile_version)",
+          "columns": [
+            "seller_id",
+            "profile_version"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "listing_definitions",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql",
+      "columns": [
+        {
+          "name": "listing_id",
+          "sql": "listing_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "listing_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "revision",
+          "sql": "revision p11.counter NOT NULL",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "revision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "seller_id",
+          "sql": "seller_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "definition",
+          "sql": "definition jsonb NOT NULL CHECK (jsonb_typeof(definition) = 'object')",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "definition"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(definition) = 'object')",
+              "columns": [
+                "definition"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_PRIMARY",
+          "name": null,
+          "sql": "PRIMARY KEY (listing_id, revision)",
+          "columns": [
+            "listing_id",
+            "revision"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (listing_id, revision, seller_id) REFERENCES p11.listing_versions (listing_id, revision, seller_id)",
+          "columns": [
+            "listing_id",
+            "revision",
+            "seller_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "listing_versions",
+          "target_columns": [
+            "listing_id",
+            "revision",
+            "seller_id"
+          ]
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -15906,6 +16326,40 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "seller_applications",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.seller_profiles (id)",
+      "columns": [
+        "seller_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "seller_profiles",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "listing_definitions",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (listing_id, revision, seller_id) REFERENCES p11.listing_versions (listing_id, revision, seller_id)",
+      "columns": [
+        "listing_id",
+        "revision",
+        "seller_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "listing_versions",
+      "target_columns": [
+        "listing_id",
+        "revision",
+        "seller_id"
+      ]
     }
   ],
   "indexes": [
@@ -15991,6 +16445,23 @@
         "IndexStmt",
         "CreateStmt",
         "IndexStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql",
+      "source_sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+      "statement_count": 9,
+      "statement_types": [
+        "AlterTableStmt",
+        "AlterTableStmt",
+        "AlterTableStmt",
+        "AlterTableStmt",
+        "CreateTrigStmt",
+        "CreateStmt",
+        "CreateTrigStmt",
+        "CreateStmt",
+        "CreateTrigStmt"
       ],
       "runtime_validation_in_this_build": "NOT_EXECUTED"
     }
