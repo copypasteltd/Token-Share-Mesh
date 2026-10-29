@@ -10,7 +10,7 @@
   "contract_gaps": 6,
   "referenced_original_requirements": 66,
   "referenced_development_tasks": 48,
-  "local_links_checked": 22,
+  "local_links_checked": 23,
   "broken_links": [],
   "examples_fen": {
     "gpu_half_hour_fen": 180,
@@ -25,11 +25,11 @@
     "retained120_net_fen": 114,
     "rate350_legacy_compatible": false
   },
-  "registry_sha256": "a17381aad33240deb742f8a959feb602b6eda782f932c046d2ddf9a4aefc9156",
+  "registry_sha256": "b2012c7a6e31b694d4135c6c724925010b8a18373b5e1a98f7a9f5969d03d410",
   "documents": [
     {
       "path": "docs/需求推进/NB-1.0/README.md",
-      "sha256": "98c3efed71b93ed1c6ad25b5f5b416533d86460787e9f7f2ca9b9e3cac6eaf87"
+      "sha256": "c3aa1f0948b3e00390a5bc6544c01227ea82df57aa77fe50f9864b686cd9d552"
     },
     {
       "path": "docs/需求推进/NB-1.0/01-范围与需求决策.md",

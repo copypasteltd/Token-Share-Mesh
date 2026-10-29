@@ -24,14 +24,20 @@
         "getSelfProfile",
         "listApiKeys",
         "createApiKey",
-        "revokeApiKey"
+        "revokeApiKey",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "tables": [
         "users",
         "role_grants",
         "api_keys",
         "consents",
-        "pairing_intents"
+        "pairing_intents",
+        "auth_sessions",
+        "auth_attempts"
       ],
       "technical_documents": [
         "docs/技术开发/16-身份授权与安全工程.md",
@@ -1123,6 +1129,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "devices",
         "resources",
         "resource_locks",
@@ -1593,7 +1601,11 @@
         "revokeRecipient",
         "listApiKeys",
         "createApiKey",
-        "revokeApiKey"
+        "revokeApiKey",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "tables": [
         "users",
@@ -1601,6 +1613,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "quotes",
         "orders",
         "route_contracts",
@@ -2059,6 +2073,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "cipher_channels",
         "recipient_keys",
         "encryption_intents",
@@ -2573,7 +2589,11 @@
         "createDispute",
         "getDispute",
         "createAppeal",
-        "recordDisputeDecision"
+        "recordDisputeDecision",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "tables": [
         "users",
@@ -2581,6 +2601,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "reviews",
         "disputes",
         "appeals",
@@ -2676,6 +2698,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "devices",
         "resources",
         "resource_locks",
@@ -3424,6 +3448,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "devices",
         "resources",
         "resource_locks",
@@ -3851,7 +3877,11 @@
         "revokeRecipient",
         "listApiKeys",
         "createApiKey",
-        "revokeApiKey"
+        "revokeApiKey",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "tables": [
         "recipient_keys",
@@ -3861,7 +3891,9 @@
         "role_grants",
         "api_keys",
         "consents",
-        "pairing_intents"
+        "pairing_intents",
+        "auth_sessions",
+        "auth_attempts"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",

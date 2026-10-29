@@ -69,13 +69,13 @@ def main() -> int:
     check(all(r['test_status']=='NOT_EXECUTED' and not r['evidence_refs'] for r in reqs), '80 主验收未执行状态保持')
     check(Counter(r['current_phase_scope'] for r in reqs)=={'CURRENT':73,'PARTIAL':6,'DEFERRED':1}, '原需求阶段范围不丢失')
     operations=p['operations']
-    check(len(operations)==89 and {o['id'] for o in operations}=={f'INT-{i:03d}' for i in range(1,90)} and len({o['operation_id'] for o in operations})==89, '89 控制接口连续唯一')
+    check(len(operations)==93 and {o['id'] for o in operations}=={f'INT-{i:03d}' for i in range(1,94)} and len({o['operation_id'] for o in operations})==93, '93 控制接口连续唯一')
     check(all(o['task_id'] in task_map and task_map[o['task_id']]['module_id']==o['module_id'] and o['planned_handler'].startswith('dev/src/api/internal/http/') for o in operations), '控制接口任务/模块/新 handler 路径正确')
     check(all(set(t['operation_ids'])=={o['operation_id'] for o in operations if o['task_id']==t['id']} for t in tasks), '任务与控制接口双向对应')
     tables=p['tables']
     owners=[(name,m['id']) for m in modules for name in m['authoritative_tables']]
-    check(len(tables)==60 and {t['id'] for t in tables}=={f'DATA-{i:03d}' for i in range(1,61)} and len({t['name'] for t in tables})==60, '60 数据表连续唯一')
-    check(Counter(name for name,_ in owners)==Counter(t['name'] for t in tables) and all((t['name'],t['module_id']) in owners for t in tables), '60 表各有唯一权威模块，无遗漏/重叠')
+    check(len(tables)==62 and {t['id'] for t in tables}=={f'DATA-{i:03d}' for i in range(1,63)} and len({t['name'] for t in tables})==62, '62 数据表连续唯一')
+    check(Counter(name for name,_ in owners)==Counter(t['name'] for t in tables) and all((t['name'],t['module_id']) in owners for t in tables), '62 表各有唯一权威模块，无遗漏/重叠')
     numbering=json.loads((DEV/'planning/编号登记-v1.0.json').read_text(encoding='utf-8'))
     check(all(numbering['operations'][o['operation_id']]==o['id'] for o in operations) and all(numbering['tables'][t['name']]==t['id'] for t in tables), 'INT/DATA 使用固定人工登记，不隐式重排')
     for name,key in [('technical-module-catalog','modules'),('development-backlog','tasks'),('requirement-technical-map','requirements'),('api-implementation-map','operations')]:
@@ -139,7 +139,7 @@ def main() -> int:
     JSON_REPORT.write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     lines=['# 开发细则结构核验','','P11｜'+p['date']+'｜仅文档结构/覆盖/追踪/源同步；不运行软件、设备或资金。','',
            '结果：'+('通过' if not errors else '未通过')+'。','',
-           f"覆盖：20 模块、56 任务、222 子项、47 约束、89 控制操作、60 表、80 功能及同号主验收。核验 {len(checks)} 项、{link_count} 个本地链接。",'',
+           f"覆盖：20 模块、56 任务、222 子项、47 约束、93 控制操作、62 表、80 功能及同号主验收。核验 {len(checks)} 项、{link_count} 个本地链接。",'',
            '[开发总表](../开发细则总表.md)；[机器报告](开发细则核验-v1.0.json)；[机器开发清单](../contracts/development-plan-v1.0.json)。','',
            '冻结设计基线为55任务DESIGN、DEV-55 DEFERRED；真实源码/原生测试进展另见 ../progress/README.md。本次仅核验文档，不将代码文件数或设计检查提升为产品/密码/性能/真实渠道/设备通过。未调用本地虚拟化，部署/HTTPS/可观测性继续延后。','',
            '执行：项目根目录原生运行 `python -X utf8 dev/tools/核验开发细则.py`。','',

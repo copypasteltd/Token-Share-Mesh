@@ -155,7 +155,12 @@ def main() -> int:
     for path, ops in api["paths"].items():
         for method, op in ops.items():
             operations.append(op["operationId"])
-            if not op.get("security") or not op.get("x-required-scopes"):
+            anonymous_auth = op['operationId'] in {'createAuthChallenge','createUserSession'}
+            single_use_auth = op['operationId'] in {'createAuthChallenge','createUserSession','revokeUserSession'}
+            if anonymous_auth:
+                if op.get('security') != [] or op.get('x-required-scopes') != [] or op.get('x-authentication-flow') != 'CHALLENGE_VERIFIER_AND_VERIFIED_PROVIDER':
+                    errors.append(path + '匿名授权必须显式一次性绑定与渠道验签')
+            elif not op.get("security") or not op.get("x-required-scopes"):
                 errors.append(path + "缺认证/scope")
             for security in op["security"]:
                 if any(name not in api["components"]["securitySchemes"] or scopes != [] for name, scopes in security.items()):
@@ -168,7 +173,10 @@ def main() -> int:
             if names != actual:
                 errors.append(path + "path参数不完整")
             if method in ("post", "patch", "delete"):
-                if not any(p["name"] == "Idempotency-Key" and p.get("required") for p in params):
+                if single_use_auth:
+                    if op.get('x-idempotency-result-policy') != 'SINGLE_USE_AUTH_FLOW' or any(p['name']=='Idempotency-Key' for p in params):
+                        errors.append(path + '身份一次性操作的重试合同错误')
+                elif not any(p["name"] == "Idempotency-Key" and p.get("required") for p in params):
                     errors.append(path + "缺幂等头")
             if method in ("post", "patch") and not op.get("requestBody", {}).get("required"):
                 errors.append(path + "缺必需请求模型")
@@ -183,6 +191,8 @@ def main() -> int:
     validators = {
         "quote_request": api_validator("QuoteWrite"), "buyer_receipt": api_validator("ReceiptWrite"),
         "nb_hour_price":api_validator("Price"),"nb_token_price":api_validator("Price"),"legacy_price":api_validator("Price"),
+        "auth_challenge_request":api_validator("AuthChallengeWrite"),
+        "miniapp_session_request":api_validator("SessionWrite"),"web_session":api_validator("SessionView"),
         "route_contract": Draft202012Validator(documents["route-contract-v3.0.schema.json"], format_checker=FormatChecker()),
         "cipher_frame": Draft202012Validator(documents["cipher-frame-v3.0.schema.json"], format_checker=FormatChecker()),
         "event_envelope": Draft202012Validator(documents["event-envelope-v3.0.schema.json"], format_checker=FormatChecker())}
@@ -236,6 +246,14 @@ def main() -> int:
     expect_invalid('费率溢出JSON安全整数',api_validator('Price'),bad)
     bad=copy.deepcopy(examples['legacy_price']);bad['price_contract_version']='NB_PRICE_1'
     expect_invalid('历史价格不能冒充新价版',api_validator('Price'),bad)
+    bad=copy.deepcopy(examples['miniapp_session_request']);bad['user_id']='usr_attacker'
+    expect_invalid('登录不得自报主体',api_validator('SessionWrite'),bad)
+    bad=copy.deepcopy(examples['miniapp_session_request']);del bad['code_verifier']
+    expect_invalid('授权兑换缺挑战证明',api_validator('SessionWrite'),bad)
+    bad=copy.deepcopy(examples['web_session']);bad['access_token']='x'*64
+    expect_invalid('Web响应不得包含Bearer原值',api_validator('SessionView'),bad)
+    bad=copy.deepcopy(examples['web_session']);del bad['csrf_token']
+    expect_invalid('Web会话缺CSRF',api_validator('SessionView'),bad)
 
     configs = documents["config-catalog-v3.0.json"]
     if [row["id"] for row in configs["defaults"]] != [f"CFG{i:02d}" for i in range(1, 32)]:

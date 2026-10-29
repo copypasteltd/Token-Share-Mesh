@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/003_auth_sessions.sql",
+  "source_sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+  "migration": "003_auth_sessions.sql",
+  "migration_sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+  "policy": "R004 forward authentication records; 001/002 immutable; no OAuth codes or tokens stored"
+}

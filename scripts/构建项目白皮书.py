@@ -123,7 +123,12 @@ def make_examples() -> dict:
         "commission_bps":500,"channel_cost_owner":"SELLER","fee_policy_version":"legacy_fee_demo"}
     return {"version": "3.0-draft", "notice": "虚构设计数据；金额不是定价，地区不是准入。密文/签名只是schema夹具，不是有效密码报文，不是资金/执行事件。",
         "quote_request": quote, "route_contract": route, "cipher_frame": frame, "event_envelope": event, "buyer_receipt": receipt,
-        "nb_hour_price":hour_price,"nb_token_price":token_price,"legacy_price":legacy_price}
+        "nb_hour_price":hour_price,"nb_token_price":token_price,"legacy_price":legacy_price,
+        "auth_challenge_request":{"client_type":"MINIAPP","code_challenge":"A"*43},
+        "miniapp_session_request":{"challenge_id":"ach_schema_only","auth_code":"SYNTHETIC_NOT_A_CHANNEL_CODE","code_verifier":"v"*43},
+        "web_session":{"session_id":"ses_schema_only","client_type":"WEB","expires_at":"2026-10-30T12:00:00Z",
+            "csrf_token":"a"*64,"profile":{"user_id":"usr_schema_only","roles":["BUYER"],
+                "permission_scope_ids":["perm_identity_read"],"identity_state":"UNVERIFIED","version":2}}}
 
 
 def write_contracts() -> dict:

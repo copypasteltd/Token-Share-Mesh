@@ -1,6 +1,6 @@
 {
   "design_version": "NB-1.0",
-  "checked_at": "2026-10-29T21:19:52.314854+00:00",
+  "checked_at": "2026-10-29T22:11:02.529264+00:00",
   "status": "DESIGN_ARTIFACT_CHECKS_PASSED",
   "checks": {
     "exactly_five_images": true,
@@ -15,7 +15,7 @@
     "provider_60_minus_3_equals_57": true,
     "phone_ownership_separate": true,
     "links": {
-      "checked": 97,
+      "checked": 99,
       "broken": []
     },
     "planned_token_contrast": {

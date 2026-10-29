@@ -68,6 +68,8 @@ def main():
         text+='当前推进[NB-R1设计配套需求](../../docs/需求推进/NB-1.0/README.md)：48项子需求、96个验收场景、六项契约缺口均已定义；没有新增源码实现或真实运行验收。\n\n'
     elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R003':
         text+='R003已落实NB价版、市场资格、报价与建单应用服务；22项原生测试通过，临时数据库已停止。尚无公开HTTP/登录、真实支付/设备或交易页面。六项NB缺口整体仍开放，80项主验收及96个完整子场景未执行。\n\n'
+    elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R004':
+        text+='R004已实现支付宝RSA2授权适配、一次性挑战/会话和13操作原生HTTP子集；34项实际局部测试通过，临时数据库已停止。渠道响应为明确合成签名测试，真实支付宝授权/收款、GPU/Android、前端页面及完整转发仍待完成；93操作、62表沿固定编号继续开发。全部56项/222未收口子项保留，六项NB缺口开放，80项主验收及96完整场景仍未执行。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'

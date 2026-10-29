@@ -7,10 +7,13 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
+  "catalog_statements": 113,
+  "base_table_count": 60,
   "tables": [
     {
       "name": "users",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -162,6 +165,7 @@
     {
       "name": "role_grants",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -321,6 +325,7 @@
     {
       "name": "api_keys",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -578,6 +583,7 @@
     {
       "name": "consents",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -727,6 +733,7 @@
     {
       "name": "seller_profiles",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -848,6 +855,7 @@
     {
       "name": "devices",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -1117,6 +1125,7 @@
     {
       "name": "pairing_intents",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -1279,6 +1288,7 @@
     {
       "name": "resources",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -1475,6 +1485,7 @@
     {
       "name": "evidence",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -1727,6 +1738,7 @@
     {
       "name": "capabilities",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -2112,6 +2124,7 @@
     {
       "name": "listings",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -2277,6 +2290,7 @@
     {
       "name": "listing_versions",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "listing_id",
@@ -2505,6 +2519,7 @@
     {
       "name": "listing_devices",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "listing_id",
@@ -2647,6 +2662,7 @@
     {
       "name": "quotes",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -2920,6 +2936,7 @@
     {
       "name": "orders",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -3353,6 +3370,7 @@
     {
       "name": "route_contracts",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -3552,6 +3570,7 @@
     {
       "name": "budget_reservations",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -3734,6 +3753,7 @@
     {
       "name": "payments",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -4090,6 +4110,7 @@
     {
       "name": "refunds",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -4306,6 +4327,7 @@
     {
       "name": "channel_requests",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -4532,6 +4554,7 @@
     {
       "name": "jobs",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -4837,6 +4860,7 @@
     {
       "name": "recipient_keys",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -5064,6 +5088,7 @@
     {
       "name": "encryption_intents",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -5235,6 +5260,7 @@
     {
       "name": "attempts",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -5649,6 +5675,7 @@
     {
       "name": "execution_leases",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -6084,6 +6111,7 @@
     {
       "name": "assets",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -6432,6 +6460,7 @@
     {
       "name": "envelopes",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -6712,6 +6741,7 @@
     {
       "name": "cipher_channels",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -6923,6 +6953,7 @@
     {
       "name": "deliveries",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -7166,6 +7197,7 @@
     {
       "name": "acceptances",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -7395,6 +7427,7 @@
     {
       "name": "resource_locks",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "resource_id",
@@ -7615,6 +7648,7 @@
     {
       "name": "transfer_grants",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -7805,6 +7839,7 @@
     {
       "name": "deletion_tasks",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -7987,6 +8022,7 @@
     {
       "name": "rental_sessions",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -8376,6 +8412,7 @@
     {
       "name": "rental_renewals",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -8778,6 +8815,7 @@
     {
       "name": "rental_access_grants",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -9009,6 +9047,7 @@
     {
       "name": "availability_intervals",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -9284,6 +9323,7 @@
     {
       "name": "meter_statements",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -9473,6 +9513,7 @@
     {
       "name": "usage_evidence",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -9718,6 +9759,7 @@
     {
       "name": "trade_qualifications",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -9927,6 +9969,7 @@
     {
       "name": "ledger_accounts",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -10059,6 +10102,7 @@
     {
       "name": "journal_transactions",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -10283,6 +10327,7 @@
     {
       "name": "journal_entries",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -10462,6 +10507,7 @@
     {
       "name": "settlements",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -10610,6 +10656,7 @@
     {
       "name": "settlement_items",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -10864,6 +10911,7 @@
     {
       "name": "settlement_batches",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -11107,6 +11155,7 @@
     {
       "name": "batch_items",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "batch_id",
@@ -11198,6 +11247,7 @@
     {
       "name": "reviews",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -11404,6 +11454,7 @@
     {
       "name": "disputes",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -11594,6 +11645,7 @@
     {
       "name": "appeals",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -11741,6 +11793,7 @@
     {
       "name": "evidence_grants",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -11942,6 +11995,7 @@
     {
       "name": "idempotency_records",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "principal_id",
@@ -12173,6 +12227,7 @@
     {
       "name": "outbox_events",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -12474,6 +12529,7 @@
     {
       "name": "inbox_events",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "consumer",
@@ -12610,6 +12666,7 @@
     {
       "name": "durable_jobs",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -12842,6 +12899,7 @@
     {
       "name": "audit_events",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -12992,6 +13050,7 @@
     {
       "name": "feature_gates",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -13181,6 +13240,7 @@
     {
       "name": "releases",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -13410,6 +13470,7 @@
     {
       "name": "notifications",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -13561,6 +13622,7 @@
     {
       "name": "catalog_entries",
       "schema": "p11",
+      "source": "docs/技术开发/database/schema-draft.sql",
       "columns": [
         {
           "name": "id",
@@ -13715,6 +13777,474 @@
             "id",
             "revision"
           ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "auth_sessions",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/003_auth_sessions.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "user_id",
+          "sql": "user_id p11.entity_id NOT NULL REFERENCES p11.users (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "user_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.users (id)",
+              "columns": [
+                "user_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "users",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "user_version",
+          "sql": "user_version p11.counter NOT NULL CHECK (user_version BETWEEN 1 AND 2147483647)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "user_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (user_version BETWEEN 1 AND 2147483647)",
+              "columns": [
+                "user_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "client_type",
+          "sql": "client_type text NOT NULL CHECK (client_type IN ('WEB', 'MINIAPP'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "client_type"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (client_type IN ('WEB', 'MINIAPP'))",
+              "columns": [
+                "client_type"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "token_digest",
+          "sql": "token_digest p11.sha256_hex NOT NULL UNIQUE",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "token_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "token_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "pepper_version",
+          "sql": "pepper_version p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "pepper_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "revoked_at",
+          "sql": "revoked_at timestamptz",
+          "type": "timestamptz",
+          "constraints": []
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (expires_at > created_at)",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (id, user_id)",
+          "columns": [
+            "id",
+            "user_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "auth_attempts",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/003_auth_sessions.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "provider",
+          "sql": "provider text NOT NULL CHECK (char_length(provider) BETWEEN 1 AND 128)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "provider"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (char_length(provider) BETWEEN 1 AND 128)",
+              "columns": [
+                "provider"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "client_type",
+          "sql": "client_type text NOT NULL CHECK (client_type IN ('WEB', 'MINIAPP'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "client_type"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (client_type IN ('WEB', 'MINIAPP'))",
+              "columns": [
+                "client_type"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "verifier_digest",
+          "sql": "verifier_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "verifier_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "browser_binding_digest",
+          "sql": "browser_binding_digest p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": []
+        },
+        {
+          "name": "code_digest",
+          "sql": "code_digest p11.sha256_hex UNIQUE",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "code_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "state",
+          "sql": "state text NOT NULL CHECK (state IN ('PENDING', 'EXCHANGING', 'SUCCEEDED', 'FAILED', 'UNKNOWN'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (state IN ('PENDING', 'EXCHANGING', 'SUCCEEDED', 'FAILED', 'UNKNOWN'))",
+              "columns": [
+                "state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "session_id",
+          "sql": "session_id p11.entity_id REFERENCES p11.auth_sessions (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.auth_sessions (id)",
+              "columns": [
+                "session_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "auth_sessions",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (expires_at > created_at)",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((client_type = 'WEB') = (browser_binding_digest IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((state = 'PENDING') = (code_digest IS NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((state = 'SUCCEEDED') = (session_id IS NOT NULL))",
+          "columns": [],
           "deferrable": false,
           "initially_deferred": false
         }
@@ -15346,6 +15876,36 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "auth_sessions",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.users (id)",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "users",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "auth_attempts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.auth_sessions (id)",
+      "columns": [
+        "session_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "auth_sessions",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -15396,6 +15956,18 @@
       "table": "durable_jobs",
       "unique": false,
       "sql": "CREATE INDEX durable_ready ON p11.durable_jobs (state, run_at, id)"
+    },
+    {
+      "name": "auth_sessions_user",
+      "table": "auth_sessions",
+      "unique": false,
+      "sql": "CREATE INDEX auth_sessions_user ON p11.auth_sessions (user_id, expires_at)"
+    },
+    {
+      "name": "auth_attempts_expiry",
+      "table": "auth_attempts",
+      "unique": false,
+      "sql": "CREATE INDEX auth_attempts_expiry ON p11.auth_attempts (expires_at)"
     }
   ],
   "forward_migrations": [
@@ -15407,6 +15979,18 @@
         "CreateTrigStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/003_auth_sessions.sql",
+      "source_sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+      "statement_count": 4,
+      "statement_types": [
+        "CreateStmt",
+        "IndexStmt",
+        "CreateStmt",
+        "IndexStmt"
       ],
       "runtime_validation_in_this_build": "NOT_EXECUTED"
     }

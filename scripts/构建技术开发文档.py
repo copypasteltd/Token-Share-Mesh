@@ -51,6 +51,14 @@ def column_names(values) -> list[str]:
 def database_catalog() -> dict:
     sql_path=TECH/'database/schema-draft.sql'
     statements=parse_sql(sql_path.read_text(encoding='utf-8'))
+    forwards=[]
+    sources=[(sql_path,statements)]
+    for path in sorted((TECH/'database/migrations').glob('*.sql')):
+        parsed=parse_sql(path.read_text(encoding='utf-8'))
+        sources.append((path,parsed))
+        forwards.append({'source':relative(path),'source_sha256':digest(path.read_bytes()),
+            'statement_count':len(parsed),'statement_types':[type(x.stmt).__name__ for x in parsed],
+            'runtime_validation_in_this_build':'NOT_EXECUTED'})
     tables=[]
     foreign_keys=[]
     indexes=[]
@@ -63,10 +71,10 @@ def database_catalog() -> dict:
                 'target_table':c.pktable.relname,'target_columns':column_names(c.pk_attrs)})
             foreign_keys.append({'table':table,**out})
         return out
-    for raw in statements:
+    for source,raw in ((source,raw) for source,items in sources for raw in items):
         s=raw.stmt
         if isinstance(s, ast.CreateStmt):
-            table={'name':s.relation.relname,'schema':s.relation.schemaname,'columns':[], 'constraints':[]}
+            table={'name':s.relation.relname,'schema':s.relation.schemaname,'source':relative(source),'columns':[], 'constraints':[]}
             for entry in s.tableElts or ():
                 if isinstance(entry, ast.ColumnDef):
                     cs=[constraint_record(c,table['name'],entry.colname) for c in entry.constraints or ()]
@@ -83,15 +91,11 @@ def database_catalog() -> dict:
         elif isinstance(s, ast.IndexStmt):
             indexes.append({'name':s.idxname,'table':s.relation.relname,'unique':s.unique,
                 'sql':RawStream()(s)})
-    forwards=[]
-    for path in sorted((TECH/'database/migrations').glob('*.sql')):
-        parsed=parse_sql(path.read_text(encoding='utf-8'))
-        forwards.append({'source':relative(path),'source_sha256':digest(path.read_bytes()),
-            'statement_count':len(parsed),'statement_types':[type(x.stmt).__name__ for x in parsed],
-            'runtime_validation_in_this_build':'NOT_EXECUTED'})
     return {'version':VERSION,'date':DATE,'status':STATUS,'dialect':'PostgreSQL 17 design',
         'parser_only':True,'source':relative(sql_path),'source_sha256':digest(sql_path.read_bytes()),
-        'ddl_statements':len(statements),'tables':tables,'foreign_keys':foreign_keys,'indexes':indexes,'forward_migrations':forwards,
+        'ddl_statements':len(statements),'catalog_statements':sum(len(items) for _,items in sources),
+        'base_table_count':sum(t['source']==relative(sql_path) for t in tables),
+        'tables':tables,'foreign_keys':foreign_keys,'indexes':indexes,'forward_migrations':forwards,
         'runtime_validation':'NOT_EXECUTED; PL/pgSQL bodies and permissions not executed'}
 
 
@@ -100,10 +104,10 @@ def write_database(catalog: dict) -> None:
         '[DDL源文件](schema-draft.sql)；[事务查询](transaction-patterns.sql)；[说明](README.md)。','',
         f"{len(catalog['tables'])}张表，{sum(len(t['columns']) for t in catalog['tables'])}个字段；外键、索引和函数仍须原生PG17实际验证。",'']
     for forward in catalog['forward_migrations']:
-        lines += [f"前向迁移：[{Path(forward['source']).name}](migrations/{Path(forward['source']).name})，{forward['statement_count']}条语法树语句；构建不执行函数体。基础表字段目录不重复列这些触发器；原生证据另见实施进度。",'']
+        lines += [f"前向迁移：[{Path(forward['source']).name}](migrations/{Path(forward['source']).name})，{forward['statement_count']}条语法树语句；构建不执行函数体。当前目录合并基础与前向新增表，各表记录来源；原生证据另见实施进度。",'']
     owners={table:f'MOD-{row[0]:02d}' for row in MODULE_ROWS for table in row[5].split()}
     for table in catalog['tables']:
-        lines += [f"## {table['name']}",'',f"权威模块：{owners.get(table['name'],'待分配')}。",'', '| 字段 | SQL定义 |', '| --- | --- |']
+        lines += [f"## {table['name']}",'',f"权威模块：{owners.get(table['name'],'待分配')}；来源：{table['source']}。",'', '| 字段 | SQL定义 |', '| --- | --- |']
         for c in table['columns']:
             lines.append(f"| {c['name']} | `{c['sql'].replace('|','&#124;')}` |")
         lines += ['', '表级约束：','']
@@ -119,6 +123,10 @@ def write_database(catalog: dict) -> None:
 
 
 def write_api_map(api: dict, module_catalog: list[dict], backlog: list[dict]) -> list[dict]:
+    runtime_source=ROOT/'dev/src/api/internal/http/routes.json'
+    runtime=json.loads(runtime_source.read_text(encoding='utf-8'))
+    registered={r['operation_id']:r for r in runtime['operations']}
+    if len(registered)!=len(runtime['operations']):raise ValueError('实际HTTP注册存在重复operation')
     task_for_op={op:f'DEV-{n:02d}' for n,ops in OPERATION_GROUPS.items() for op in ops.split()}
     task_by_id={t['id']:t for t in backlog}
     module_by_id={m['id']:m for m in module_catalog}
@@ -128,6 +136,8 @@ def write_api_map(api: dict, module_catalog: list[dict], backlog: list[dict]) ->
             if method not in ('get','post','put','patch','delete'): continue
             task=task_by_id[task_for_op[op['operationId']]]
             mod=module_by_id[task['module_id']]
+            actual=registered.get(op['operationId'])
+            if actual and (actual['path']!=path or actual['method']!=method.upper()):raise ValueError('实际HTTP路由与权威契约漂移')
             rb=op.get('requestBody',{}).get('content',{}).get('application/json',{}).get('schema')
             keys=[p for p in op.get('parameters',[]) if p.get('name')=='Idempotency-Key']
             records.append({'operation_id':op['operationId'],'method':method.upper(),'path':path,
@@ -141,19 +151,24 @@ def write_api_map(api: dict, module_catalog: list[dict], backlog: list[dict]) ->
                 'external_io_rule':'先提交持久意向，事务外调用；UNKNOWN查原业务引用' if method!='get' else '只读投影，不触发收费或推理',
                 'requirement_ids':task['requirement_ids'],'acceptance_ids':task['acceptance_ids'],
                 'source_documents':task['source_documents'],
-                'canonical_operation_sha256':digest(op),'implementation_status':STATUS,'test_status':'NOT_EXECUTED'})
+                'canonical_operation_sha256':digest(op),'implementation_status':STATUS,'test_status':'NOT_EXECUTED',
+                'runtime_registration':({'source':relative(runtime_source),'handler_file':'dev/src/api/internal/http/server.go',
+                    'handler':actual['handler'],'status':'SOURCE_PRESENT_PARTIAL_CONFORMANCE',
+                    'evidence_authority':'dev/progress/implementation-status.json'} if actual else None)})
     if set(task_for_op)!={r['operation_id'] for r in records}:
         raise ValueError('API assignment has missing/extra operations')
+    if not set(registered)<={r['operation_id'] for r in records}:raise ValueError('实际HTTP注册不在权威契约内')
     dump(CONTRACTS/'api-implementation-map-v1.0.json',{'version':VERSION,'date':DATE,
         'source':relative(WHITE/'openapi-control-v3.0.json'),'canonical_api_sha256':digest(api),
         'status':STATUS,'operations':records})
-    lines=['# 控制接口实施映射','','P11｜技术v1.0｜需求v3.0｜2026-10-29｜从权威OpenAPI与人工任务分配生成，接口均未实现。','',
+    lines=['# 控制接口实施映射','','P11｜技术v1.0｜需求v3.0｜2026-10-30｜权威设计映射；源码与产品验收分别登记。','',
+        f"原生HTTP注册子集{len(registered)}个操作，来源为dev/src/api/internal/http/routes.json；SOURCE_PRESENT_PARTIAL_CONFORMANCE仅表示有限实现，实际测试见dev/progress，其余操作仍待开发。",'',
         'AI数据入口遵循厂商兼容档位；本表仅为自有控制面。鉴权包含scope和对象归属，资金/设备副作用在提交意向后执行。','',
         '[机器实施映射](contracts/api-implementation-map-v1.0.json)；[权威OpenAPI](../白皮书/contracts/openapi-control-v3.0.json)；[任务清单](附录-开发任务清单.md)。','',
         '| operationId | 控制路径 | 模块/任务 | scope | 事务 | 幂等键 |', '| --- | --- | --- | --- | --- | --- |']
     for r in records:
         lines.append(f"| {r['operation_id']} | {r['method']} {r['path']} | {r['module_id']} / {r['task_id']} | {', '.join(r['required_scopes'])} | {r['transaction']} | {'必需' if r['idempotency_header_required'] else '不适用/见契约'} |")
-    lines += ['', '## 实施规则','','每条操作的request_schema、响应码、scope和权威操作hash在JSON记录；不能由本表新增私有模型端点。handler路径为计划文件，尚不存在。状态/归属/资金/证据/当前尝试的具体校验由对应模块详规与任务完成条件共同约束。','']
+    lines += ['', '## 实施规则','','每条操作的request_schema、响应码、scope和权威操作hash在JSON记录；不能由本表新增私有模型端点。planned_handler仍为计划分层；runtime_registration独立指向已有实际handler，两者不能混同。设计test_status不由源码文件自动改为通过。状态/归属/资金/证据/当前尝试的具体校验由对应模块详规与任务完成条件共同约束。','']
     (TECH/'附录-控制接口实施映射.md').write_text('\n'.join(lines),encoding='utf-8')
     return records
 
@@ -318,7 +333,7 @@ def write_contract_readme() -> None:
     rows = [
         ('technical-module-catalog-v1.0.json', '20模块职责/角色/计划路径/表/依赖'),
         ('development-backlog-v1.0.json', '56任务的实现/完成证据/前置/F/T；55 DESIGN、DEV-55 DEFERRED'),
-        ('api-implementation-map-v1.0.json', '89控制操作到模块/事务/scope/请求/响应/权威hash'),
+        ('api-implementation-map-v1.0.json', '93控制操作到模块/事务/scope/请求/响应/权威hash'),
         ('requirement-technical-map-v1.0.json', '80项需求到模块/任务/操作/表/详规/同号验收'),
         ('database-catalog-v1.0.json', 'DDL AST的表/列/约束/FK/索引；不证明实际数据库行为'),
         ('engine-adapter-v1.0.schema.json', '本地可信域受控命令外壳，非厂商AI数据协议'),

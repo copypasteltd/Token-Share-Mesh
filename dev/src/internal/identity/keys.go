@@ -62,27 +62,7 @@ func (s KeyService) validate() error {
 	return nil
 }
 func (s KeyService) userTx(ctx context.Context, tx pgx.Tx, p Principal) error {
-	if err := p.RequireUser("key:manage"); err != nil {
-		return err
-	}
-	var version int64
-	var state string
-	err := tx.QueryRow(ctx, `SELECT version,state FROM p11.users WHERE id=$1 FOR SHARE`, p.UserID).Scan(&version, &state)
-	if err == pgx.ErrNoRows || err == nil && (state != "ACTIVE" || version != p.Version) {
-		return fault.New(fault.Unauthenticated, "Session no longer valid")
-	}
-	if err != nil {
-		return err
-	}
-	var allowed bool
-	err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM p11.role_grants WHERE user_id=$1 AND role_code='BUYER' AND revoked_at IS NULL AND (expires_at IS NULL OR expires_at>clock_timestamp()))`, p.UserID).Scan(&allowed)
-	if err != nil {
-		return err
-	}
-	if !allowed {
-		return fault.New(fault.Forbidden, "Buyer role required")
-	}
-	return nil
+	return RequireRoleTx(ctx, tx, p, "key:manage", "BUYER", true)
 }
 func normalize(input KeyInput) (KeyInput, error) {
 	input.Label = strings.TrimSpace(input.Label)
@@ -128,7 +108,7 @@ func (s KeyService) Create(ctx context.Context, p Principal, input KeyInput, ide
 		return created, err
 	}
 	request, _ := json.Marshal(input)
-	result, err := (outbox.Idempotency{DB: s.DB}).Do(ctx, outbox.Command{Principal: p.UserID, PrincipalVersion: p.Version, Operation: "createApiKey", Resource: p.UserID, Key: idempotencyKey, Request: request}, func(tx pgx.Tx) (outbox.StoredResult, error) {
+	result, err := (outbox.Idempotency{DB: s.DB}).DoAuthorized(ctx, outbox.Command{Principal: p.UserID, PrincipalVersion: p.Version, Operation: "createApiKey", Resource: p.UserID, Key: idempotencyKey, Request: request}, func(tx pgx.Tx) error { return s.userTx(ctx, tx, p) }, func(tx pgx.Tx) (outbox.StoredResult, error) {
 		if err := s.userTx(ctx, tx, p); err != nil {
 			return outbox.StoredResult{}, err
 		}
@@ -273,7 +253,7 @@ func (s KeyService) Revoke(ctx context.Context, p Principal, id, idempotencyKey 
 	if err := p.RequireUser("key:manage"); err != nil {
 		return err
 	}
-	_, err := (outbox.Idempotency{DB: s.DB}).Do(ctx, outbox.Command{Principal: p.UserID, PrincipalVersion: p.Version, Operation: "revokeApiKey", Resource: id, Key: idempotencyKey, Request: []byte(id)}, func(tx pgx.Tx) (outbox.StoredResult, error) {
+	_, err := (outbox.Idempotency{DB: s.DB}).DoAuthorized(ctx, outbox.Command{Principal: p.UserID, PrincipalVersion: p.Version, Operation: "revokeApiKey", Resource: id, Key: idempotencyKey, Request: []byte(id)}, func(tx pgx.Tx) error { return s.userTx(ctx, tx, p) }, func(tx pgx.Tx) (outbox.StoredResult, error) {
 		if err := s.userTx(ctx, tx, p); err != nil {
 			return outbox.StoredResult{}, err
 		}

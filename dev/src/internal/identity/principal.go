@@ -16,13 +16,14 @@ const (
 // Principal must be constructed by a verified credential adapter, never by
 // parsing roles/scopes from a request body or an unverified device report.
 type Principal struct {
-	UserID   string
-	Kind     Kind
-	KeyID    string
-	Scopes   []string
-	RouteIDs []string
-	Roles    []string
-	Version  int64
+	UserID    string
+	Kind      Kind
+	KeyID     string
+	SessionID string
+	Scopes    []string
+	RouteIDs  []string
+	Roles     []string
+	Version   int64
 }
 
 func (p Principal) Require(scope, owner string) error {

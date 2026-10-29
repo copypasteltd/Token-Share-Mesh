@@ -8,7 +8,7 @@ P11｜技术v1.0｜需求v3.0｜2026-10-29｜全部为设计/未实现，由scri
 | --- | --- |
 | [technical-module-catalog-v1.0.json](technical-module-catalog-v1.0.json) | 20模块职责/角色/计划路径/表/依赖 |
 | [development-backlog-v1.0.json](development-backlog-v1.0.json) | 56任务的实现/完成证据/前置/F/T；55 DESIGN、DEV-55 DEFERRED |
-| [api-implementation-map-v1.0.json](api-implementation-map-v1.0.json) | 89控制操作到模块/事务/scope/请求/响应/权威hash |
+| [api-implementation-map-v1.0.json](api-implementation-map-v1.0.json) | 93控制操作到模块/事务/scope/请求/响应/权威hash |
 | [requirement-technical-map-v1.0.json](requirement-technical-map-v1.0.json) | 80项需求到模块/任务/操作/表/详规/同号验收 |
 | [database-catalog-v1.0.json](database-catalog-v1.0.json) | DDL AST的表/列/约束/FK/索引；不证明实际数据库行为 |
 | [engine-adapter-v1.0.schema.json](engine-adapter-v1.0.schema.json) | 本地可信域受控命令外壳，非厂商AI数据协议 |

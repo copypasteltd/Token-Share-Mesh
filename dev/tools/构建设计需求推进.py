@@ -49,7 +49,10 @@ def validate(data):
         assert set(g['tasks']) <= known_tasks
         assert g['status'] in {'REQUIREMENTS_DEFINED_NOT_IMPLEMENTED','PARTIALLY_IMPLEMENTED'}
         if g['status']=='PARTIALLY_IMPLEMENTED':
-            assert g.get('implementation_round')=='R003'
+            assert g.get('implementation_round') in {'R003','R004'}
+            progress=json.loads((ROOT/'dev/progress/implementation-status.json').read_text(encoding='utf-8'))
+            rounds={r['id']:r for r in progress['rounds']}
+            assert rounds[g['implementation_round']]['verification_status']=='PASSED_FOR_CONTROL_SERVICES_ONLY'
             path=(ROOT/g['implementation_ref']).resolve()
             assert path.is_relative_to(ROOT) and path.is_file()
     return plan

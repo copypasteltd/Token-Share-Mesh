@@ -90,7 +90,11 @@
     "submitSettlementBatch": "INT-086",
     "updateFeatureGate": "INT-087",
     "updateFutureListing": "INT-088",
-    "updateResourcePolicy": "INT-089"
+    "updateResourcePolicy": "INT-089",
+    "createAuthChallenge": "INT-090",
+    "createUserSession": "INT-091",
+    "getCurrentSession": "INT-092",
+    "revokeUserSession": "INT-093"
   },
   "tables": {
     "acceptances": "DATA-001",
@@ -152,6 +156,8 @@
     "trade_qualifications": "DATA-057",
     "transfer_grants": "DATA-058",
     "usage_evidence": "DATA-059",
-    "users": "DATA-060"
+    "users": "DATA-060",
+    "auth_sessions": "DATA-061",
+    "auth_attempts": "DATA-062"
   }
 }

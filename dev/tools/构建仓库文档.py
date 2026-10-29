@@ -5,6 +5,7 @@ import argparse
 from collections import Counter
 import json
 from pathlib import Path
+from 整理原生验证证据 import R003_CASES, R004_CASES
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -17,8 +18,9 @@ def outputs():
     latest = progress['rounds'][-1]
     if len(progress['tasks']) != 56 or len({t['id'] for t in progress['tasks']}) != 56:
         raise ValueError('完整56任务登记缺失')
-    if native['status'] != 'PASSED_FOR_CONTROL_SERVICES_ONLY' or native['passed_cases'] != 22 or native['round']!=progress['round']:
-        raise ValueError('R003真实证据与README声明不一致')
+    expected={'R003':R003_CASES,'R004':R004_CASES}[progress['round']]
+    if native['status'] != 'PASSED_FOR_CONTROL_SERVICES_ONLY' or native['passed_cases'] != len(expected) or native['round']!=progress['round']:
+        raise ValueError('当前实际用例登记与README声明不一致')
     common = [
         f"{len(plan['modules'])} modules / {len(plan['tasks'])} tasks / {sum(len(t['steps']) for t in plan['tasks'])} steps / {len(plan['constraints'])} constraints",
         f"{counts['IN_PROGRESS']} in progress · {counts['NOT_STARTED']} not started · {counts['CONDITIONAL']} conditional · {counts['DEFERRED']} deferred",

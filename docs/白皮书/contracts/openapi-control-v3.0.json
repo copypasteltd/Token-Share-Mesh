@@ -71,6 +71,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -134,6 +137,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -211,7 +217,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/me/deletion-requests": {
@@ -225,6 +232,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -302,7 +312,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/seller/applications": {
@@ -316,6 +327,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -393,7 +407,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/seller/profile": {
@@ -407,6 +422,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -470,6 +488,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -547,7 +568,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/seller/listings": {
@@ -561,6 +583,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -641,6 +666,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -718,7 +746,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/seller/listings/{listing_id}": {
@@ -732,6 +761,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -804,6 +836,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -901,7 +936,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/seller/listings/{listing_id}/submit": {
@@ -915,6 +951,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1002,7 +1041,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/seller/listings/{listing_id}/pause": {
@@ -1016,6 +1056,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1103,7 +1146,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/seller/devices": {
@@ -1117,6 +1161,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1199,6 +1246,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1276,7 +1326,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/device-enrollments": {
@@ -1381,6 +1432,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1455,6 +1509,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1542,7 +1599,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/devices/{device_id}/heartbeats": {
@@ -1556,6 +1614,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1643,7 +1704,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/devices/{device_id}/drain": {
@@ -1657,6 +1719,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1744,7 +1809,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/devices/{device_id}/revoke": {
@@ -1758,6 +1824,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1845,7 +1914,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/devices/{device_id}/resource-policy": {
@@ -1859,6 +1929,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1956,7 +2029,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/services": {
@@ -1970,6 +2044,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -1990,8 +2067,29 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "maximum": 100,
+              "maximum": 50,
               "default": 20
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PLAINTEXT",
+                "E2E",
+                "GPU_RENTAL"
+              ]
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
             }
           }
         ],
@@ -2052,6 +2150,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2134,6 +2235,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2216,6 +2320,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2296,7 +2403,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/quotes/{quote_id}": {
@@ -2310,6 +2418,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2387,6 +2498,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2467,6 +2581,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2547,7 +2664,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/orders/{order_id}": {
@@ -2561,6 +2679,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2635,6 +2756,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2709,6 +2833,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2796,7 +2923,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/payments/{payment_id}": {
@@ -2810,6 +2938,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2884,6 +3015,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -2967,7 +3101,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/assets/{asset_id}": {
@@ -2981,6 +3116,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3058,6 +3196,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3151,7 +3292,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/assets/{asset_id}/transfer-grants": {
@@ -3165,6 +3307,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3255,7 +3400,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/jobs": {
@@ -3269,6 +3415,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3346,7 +3495,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/jobs/{job_id}": {
@@ -3360,6 +3510,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3434,6 +3587,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3521,7 +3677,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/jobs/{job_id}/results": {
@@ -3535,6 +3692,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3630,6 +3790,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3707,7 +3870,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/recipients": {
@@ -3721,6 +3885,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3798,7 +3965,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/recipients/{recipient_id}": {
@@ -3812,6 +3980,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3886,6 +4057,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -3973,7 +4147,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/recipients/{recipient_id}/revoke": {
@@ -3987,6 +4162,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4074,7 +4252,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/recipients/{recipient_id}/attestation-challenges": {
@@ -4088,6 +4267,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4175,7 +4357,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/recipients/{recipient_id}/evidence": {
@@ -4189,6 +4372,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4273,6 +4459,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4360,7 +4549,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/jobs/{job_id}/receipts": {
@@ -4374,6 +4564,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4461,7 +4654,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/cipher/channels": {
@@ -4475,6 +4669,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4552,7 +4749,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions": {
@@ -4566,6 +4764,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4643,7 +4844,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}": {
@@ -4657,6 +4859,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4731,6 +4936,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4818,7 +5026,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}/device-ready": {
@@ -4832,6 +5041,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -4919,7 +5131,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}/renewals": {
@@ -4933,6 +5146,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5020,7 +5236,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}/stop": {
@@ -5034,6 +5251,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5121,7 +5341,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}/availability": {
@@ -5135,6 +5356,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5222,7 +5446,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}/exports": {
@@ -5236,6 +5461,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5323,7 +5551,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}/cleanup": {
@@ -5337,6 +5566,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5424,7 +5656,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}/access-grants": {
@@ -5438,6 +5671,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5525,7 +5761,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/rental-sessions/{session_id}/statement": {
@@ -5539,6 +5776,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5613,6 +5853,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5693,6 +5936,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5770,7 +6016,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/route-contracts/{route_id}": {
@@ -5784,6 +6031,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5858,6 +6108,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -5938,6 +6191,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6016,6 +6272,7 @@
             }
           }
         },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
         "x-idempotency-result-policy": "SECRET_ONCE_WITH_REFERENCE"
       }
     },
@@ -6030,6 +6287,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6107,7 +6367,8 @@
           "503": {
             "$ref": "#/components/responses/503"
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/orders/{order_id}/refunds": {
@@ -6121,6 +6382,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6208,7 +6472,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/refunds/{refund_id}": {
@@ -6222,6 +6487,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6296,6 +6564,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6378,6 +6649,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6452,6 +6726,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6539,7 +6816,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/disputes": {
@@ -6553,6 +6831,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6630,7 +6911,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/disputes/{dispute_id}": {
@@ -6644,6 +6926,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6718,6 +7003,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6805,7 +7093,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/runner/leases/claim": {
@@ -6819,6 +7108,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6896,7 +7188,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/runner/attempts/{attempt_id}/progress": {
@@ -6910,6 +7203,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -6997,7 +7293,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/runner/attempts/{attempt_id}/deliveries": {
@@ -7011,6 +7308,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7098,7 +7398,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/runner/attempts/{attempt_id}/usage": {
@@ -7112,6 +7413,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7199,7 +7503,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/runner/attempts/{attempt_id}/cleanup": {
@@ -7213,6 +7518,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7300,7 +7608,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/admin/evidence": {
@@ -7314,6 +7623,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7391,7 +7703,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/admin/releases": {
@@ -7405,6 +7718,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7482,7 +7798,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/admin/disputes/{dispute_id}/decisions": {
@@ -7496,6 +7813,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7583,7 +7903,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/admin/feature-gates": {
@@ -7597,6 +7918,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7674,7 +7998,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/admin/settlement-batches": {
@@ -7688,6 +8013,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7765,7 +8093,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/admin/settlement-batches/{batch_id}": {
@@ -7779,6 +8108,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7853,6 +8185,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7940,7 +8275,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/admin/settlement-batches/{batch_id}/submit": {
@@ -7954,6 +8290,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -8041,7 +8380,8 @@
               }
             }
           }
-        }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
     "/admin/audit-events": {
@@ -8055,6 +8395,9 @@
         "security": [
           {
             "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -8125,6 +8468,296 @@
           }
         }
       }
+    },
+    "/auth/challenges": {
+      "post": {
+        "operationId": "createAuthChallenge",
+        "tags": [
+          "Identity"
+        ],
+        "summary": "创建限时一次性登录绑定",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [],
+        "x-required-scopes": [],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthChallenge"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthChallengeWrite"
+              }
+            }
+          }
+        },
+        "x-idempotency-result-policy": "SINGLE_USE_AUTH_FLOW",
+        "x-authentication-flow": "CHALLENGE_VERIFIER_AND_VERIFIED_PROVIDER",
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      }
+    },
+    "/auth/sessions": {
+      "post": {
+        "operationId": "createUserSession",
+        "tags": [
+          "Identity"
+        ],
+        "summary": "核验授权码并签发有限会话",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [],
+        "x-required-scopes": [],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionWrite"
+              }
+            }
+          }
+        },
+        "x-idempotency-result-policy": "SINGLE_USE_AUTH_FLOW",
+        "x-authentication-flow": "CHALLENGE_VERIFIER_AND_VERIFIED_PROVIDER",
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      }
+    },
+    "/auth/session": {
+      "get": {
+        "operationId": "getCurrentSession",
+        "tags": [
+          "Identity"
+        ],
+        "summary": "读取本人会话及浏览器CSRF值",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "identity:read"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "revokeUserSession",
+        "tags": [
+          "Identity"
+        ],
+        "summary": "撤销当前会话并提升用户版本",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "session:manage"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ack"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "x-idempotency-result-policy": "SINGLE_USE_AUTH_FLOW",
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      }
     }
   },
   "components": {
@@ -8132,7 +8765,13 @@
       "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "description": "平台自有有限scope凭据，设备/买方/后台分权；不是内容密钥或支付宝签名。"
+        "description": "平台有限scope凭据；区分MINIAPP会话、SDK API key与设备，不是内容密钥或支付宝签名。"
+      },
+      "BrowserCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-p11_session",
+        "description": "HttpOnly/Secure/SameSite=Strict；浏览器写同时核Origin和CSRF。显式loopback开发使用p11_session_dev。"
       },
       "PairingToken": {
         "type": "http",
@@ -12571,7 +13210,7 @@
                 "AUDITOR"
               ]
             },
-            "minItems": 1,
+            "minItems": 0,
             "maxItems": 6
           },
           "permission_scope_ids": {
@@ -13581,6 +14220,155 @@
           }
         ],
         "description": "旧钥签新钥或明确重新身份核验；买方仍需独立认可轮换，不静默改在途收件端。"
+      },
+      "AuthChallengeWrite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "client_type": {
+            "type": "string",
+            "enum": [
+              "WEB",
+              "MINIAPP"
+            ]
+          },
+          "code_challenge": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          }
+        },
+        "required": [
+          "client_type",
+          "code_challenge"
+        ]
+      },
+      "AuthChallenge": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "challenge_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "client_type": {
+            "type": "string",
+            "enum": [
+              "WEB",
+              "MINIAPP"
+            ]
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "authorization_url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "challenge_id",
+          "client_type",
+          "expires_at"
+        ]
+      },
+      "SessionWrite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "challenge_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "auth_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "writeOnly": true
+          },
+          "code_verifier": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._~-]{43,128}$",
+            "writeOnly": true
+          },
+          "web_state": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "challenge_id",
+          "auth_code",
+          "code_verifier"
+        ]
+      },
+      "SessionView": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "client_type": {
+            "type": "string",
+            "enum": [
+              "WEB",
+              "MINIAPP"
+            ]
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/SelfProfile"
+          },
+          "csrf_token": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "readOnly": true
+          },
+          "access_token": {
+            "type": "string",
+            "minLength": 32,
+            "maxLength": 256,
+            "readOnly": true
+          }
+        },
+        "required": [
+          "session_id",
+          "client_type",
+          "expires_at",
+          "profile"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "client_type": {
+                  "const": "WEB"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "csrf_token"
+              ],
+              "not": {
+                "required": [
+                  "access_token"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "WEB只通过HttpOnly Cookie收会话；MINIAPP仅首次签发返回access_token。GET不重显原值，OAuth令牌从不返回。"
       },
       "ListingPage": {
         "type": "object",

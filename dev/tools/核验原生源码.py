@@ -17,7 +17,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R003', choices=['R003'])
+    parser.add_argument('--round', default='R004', choices=['R003','R004'])
     round_id = parser.parse_args().round
     binary, env = environment()
     # Dependencies were fetched by the explicit toolchain/bootstrap step.
@@ -31,7 +31,7 @@ def main() -> int:
     report = {
         'round': round_id,
         'recorded_at': datetime.now(timezone.utc).isoformat(),
-        'scope': 'Go source/dependencies and admin CLI builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance',
+        'scope': 'Go source/dependencies and native admin/API builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance',
         'virtualization_used': False,
         'checks': [],
         'artifacts': [],
@@ -70,13 +70,14 @@ def main() -> int:
         if unformatted.returncode or unformatted.stdout.strip():
             raise RuntimeError('Go formatting check failed')
 
-        for target, filename in [('windows', 'p11-admin.exe'), ('linux', 'p11-admin-linux-amd64')]:
-            localenv = env.copy()
-            localenv['GOOS'] = target
-            output = ROOT / 'runtime/bin' / filename
-            output.parent.mkdir(parents=True, exist_ok=True)
-            run(['build', '-trimpath', '-o', str(output), './api/cmd/p11-admin'], localenv)
-            report['artifacts'].append({'target': target + '-amd64', 'path': output.relative_to(ROOT).as_posix(), 'sha256': sha256(output), 'runtime_test': 'NOT_EXECUTED'})
+        for command in ['p11-admin','p11-api']:
+            for target, suffix in [('windows','.exe'),('linux','-linux-amd64')]:
+                localenv = env.copy()
+                localenv['GOOS'] = target
+                output = ROOT / 'runtime/bin' / (command+suffix)
+                output.parent.mkdir(parents=True, exist_ok=True)
+                run(['build', '-trimpath', '-o', str(output), './api/cmd/'+command], localenv)
+                report['artifacts'].append({'target': target + '-amd64', 'path': output.relative_to(ROOT).as_posix(), 'sha256': sha256(output), 'runtime_test': 'NOT_EXECUTED'})
 
         # Inspect packages actually compiled by this module and its tests.
         # Listing the entire transitive module graph would additionally fetch
@@ -118,7 +119,7 @@ def main() -> int:
         report['source_sha256'] = {
             p.relative_to(ROOT).as_posix(): sha256(p)
             for p in sorted(source.rglob('*'))
-            if p.is_file() and (p.suffix in {'.go', '.sql'} or p.name in {'go.mod', 'go.sum'})
+            if p.is_file() and (p.suffix in {'.go', '.sql', '.json'} or p.name in {'go.mod', 'go.sum'})
         }
         report['status'] = 'PASSED_WITH_LIMITED_SCOPE'
         return 0

@@ -1,6 +1,6 @@
 {
   "design_version": "NB-1.0",
-  "generated_at": "2026-10-29T21:19:52.327838+00:00",
+  "generated_at": "2026-10-29T22:11:02.529671+00:00",
   "main_image_count": 5,
   "mini_program_pages": 4,
   "web_pages": 1,
@@ -77,8 +77,8 @@
   "documents": [
     {
       "path": "dev/design/新粗野主义-v1.0/README.md",
-      "sha256": "d6cd2d55f6308eacf29dd3941dc5faddacd29042ed2319ffb5d9f7fad83845a6",
-      "bytes": 6708
+      "sha256": "3459ca2ccf9d0b0fa858682c608cfc4ffc16fcee3cd0969a587edcb99f795943",
+      "bytes": 6762
     },
     {
       "path": "dev/design/新粗野主义-v1.0/01-视觉系统与设计令牌.md",
@@ -142,12 +142,12 @@
     },
     {
       "path": "dev/design/新粗野主义-v1.0/设计规范合订本.md",
-      "sha256": "293f2f26a80d31ac3d405a1c59902467413bc1e34a3e673c64f86884789d4e5a",
-      "bytes": 63616
+      "sha256": "4bb9ab34a82589bfd72f96bdf8f59f4f89af0566dedf0df4ed3849d152242e80",
+      "bytes": 63670
     },
     {
       "path": "dev/design/新粗野主义-v1.0/artifact-checks.json",
-      "sha256": "cb9f05610e0568104987f4def97e455e4e987cdd3f83d31418fa68117bbad3b1",
+      "sha256": "04102aa540afd036b52a5e6c5dff67c009ec2d0ffcaa4d2621f6a6f5c67f0bfc",
       "bytes": 1017
     }
   ],

@@ -362,6 +362,25 @@ def make_schemas() -> dict:
         oneOf=[{"required": ["old_key_signature"], "not": {"required": ["reidentity_evidence_ref"]}},
                {"required": ["reidentity_evidence_ref"], "not": {"required": ["old_key_signature"]}}],
         description="旧钥签新钥或明确重新身份核验；买方仍需独立认可轮换，不静默改在途收件端。")
+    # R004: authentication is a distinct, single-use control flow, not an API key.
+    s["SelfProfile"]["properties"]["roles"]["minItems"] = 0
+    s["AuthChallengeWrite"] = obj({"client_type": enum("WEB", "MINIAPP"),
+        "code_challenge": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"}})
+    s["AuthChallenge"] = obj({"challenge_id": ID, "client_type": enum("WEB", "MINIAPP"),
+        "expires_at": TIME, "authorization_url": {"type": "string", "format": "uri", "maxLength": 2048}},
+        ["challenge_id", "client_type", "expires_at"])
+    s["SessionWrite"] = obj({"challenge_id": ID,
+        "auth_code": {"type": "string", "minLength": 1, "maxLength": 512, "writeOnly": True},
+        "code_verifier": {"type": "string", "pattern": "^[A-Za-z0-9._~-]{43,128}$", "writeOnly": True},
+        "web_state": ID}, ["challenge_id", "auth_code", "code_verifier"])
+    s["SessionView"] = obj({"session_id": ID, "client_type": enum("WEB", "MINIAPP"),
+        "expires_at": TIME, "profile": ref("SelfProfile"),
+        "csrf_token": {"type": "string", "pattern": "^[a-f0-9]{64}$", "readOnly": True},
+        "access_token": {"type": "string", "minLength": 32, "maxLength": 256, "readOnly": True}},
+        ["session_id", "client_type", "expires_at", "profile"],
+        allOf=[{"if": {"properties": {"client_type": {"const": "WEB"}}},
+                "then": {"required": ["csrf_token"], "not": {"required": ["access_token"]}}}],
+        description="WEB只通过HttpOnly Cookie收会话；MINIAPP仅首次签发返回access_token。GET不重显原值，OAuth令牌从不返回。")
     return s
 
 
@@ -381,7 +400,8 @@ def make_openapi() -> dict:
         import re
         parameters = [{"name": name, "in": "path", "required": True, "schema": ID}
                       for name in re.findall(r"\{([^}]+)\}", path)]
-        if method in ("post", "patch", "delete"):
+        auth_single_use = operation in ("createAuthChallenge", "createUserSession", "revokeUserSession")
+        if method in ("post", "patch", "delete") and not auth_single_use:
             parameters.append({"name": "Idempotency-Key", "in": "header", "required": True,
                 "schema": {"type": "string", "minLength": 8, "maxLength": 128},
                 "description": "同主体/操作/资源范围同键同输入复用；不同输入409。未知结果先查询。"})
@@ -404,10 +424,18 @@ def make_openapi() -> dict:
             codes.update((409, 422))
         op = {"operationId": operation, "tags": [tag], "summary": summary,
             "description": description or "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
-            "security": [{security: []}], "x-required-scopes": list(scopes),
+            "security": ([] if operation in ("createAuthChallenge", "createUserSession") else
+                         [{security: []}] + ([{"BrowserCookie": []}] if security == "BearerAuth" else [])),
+            "x-required-scopes": list(scopes),
             "parameters": parameters, "responses": {status: ok, **{str(c): {"$ref": "#/components/responses/" + str(c)} for c in sorted(codes)}}}
         if request:
             op["requestBody"] = {"required": True, "content": {"application/json": {"schema": ref(request)}}}
+        if auth_single_use:
+            op["x-idempotency-result-policy"] = "SINGLE_USE_AUTH_FLOW"
+        if operation in ("createAuthChallenge", "createUserSession"):
+            op["x-authentication-flow"] = "CHALLENGE_VERIFIER_AND_VERIFIED_PROVIDER"
+        if security == "BearerAuth" and method != "get":
+            op["x-browser-csrf"] = "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
         paths.setdefault(path, {})[method] = op
 
     # 自有scope以x-required-scopes说明，HTTP Bearer security数组不滥用OAuth scope语义。
@@ -503,13 +531,25 @@ def make_openapi() -> dict:
     add("post", "/admin/settlement-batches/{batch_id}/approve", "approveSettlementBatch", "Finance", "独立人员复核结算批次", "SettlementBatch", "BatchActionWrite", ("finance:review",))
     add("post", "/admin/settlement-batches/{batch_id}/submit", "submitSettlementBatch", "Finance", "提交已复核原批次且未知先查", "SettlementBatch", "BatchActionWrite", ("finance:submit",))
     add("get", "/admin/audit-events", "listAuditEvents", "Admin", "限权查询无正文审计元数据", "AuditEvent", scopes=("admin:audit",), list_of=True)
+    add("post", "/auth/challenges", "createAuthChallenge", "Identity", "创建限时一次性登录绑定", "AuthChallenge", "AuthChallengeWrite")
+    add("post", "/auth/sessions", "createUserSession", "Identity", "核验授权码并签发有限会话", "SessionView", "SessionWrite")
+    add("get", "/auth/session", "getCurrentSession", "Identity", "读取本人会话及浏览器CSRF值", "SessionView", scopes=("identity:read",))
+    add("delete", "/auth/session", "revokeUserSession", "Identity", "撤销当前会话并提升用户版本", "Ack", scopes=("session:manage",))
+    paths["/services"]["get"]["parameters"] += [
+        {"name": "mode", "in": "query", "schema": MODE},
+        {"name": "region", "in": "query", "schema": {"type": "string", "minLength": 1, "maxLength": 128}}]
+    for parameter in paths["/services"]["get"]["parameters"]:
+        if parameter["name"] == "limit":
+            parameter["schema"]["maximum"] = 50
     return {"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
         "info": {"title": "P11 C2C算力共享平台自有控制面设计", "version": "3.0.0-draft",
             "description": "文档设计，所有产品验收未执行。这里只定义本项目控制资源，不复制厂商完整模型API、渠道支付回调或引擎协议。服务地址为保留无效域名，不存在部署。数字/结构验证不代替授权、状态、资金、密码或SDK实测。"},
         "servers": [{"url": "https://p11.invalid/v1/p11", "description": "仅设计占位，不可调用"}],
         "tags": [{"name": name} for name in sorted({op["tags"][0] for ops in paths.values() for op in ops.values()})],
         "paths": paths, "components": {"securitySchemes": {
-            "BearerAuth": {"type": "http", "scheme": "bearer", "description": "平台自有有限scope凭据，设备/买方/后台分权；不是内容密钥或支付宝签名。"},
+            "BearerAuth": {"type": "http", "scheme": "bearer", "description": "平台有限scope凭据；区分MINIAPP会话、SDK API key与设备，不是内容密钥或支付宝签名。"},
+            "BrowserCookie": {"type": "apiKey", "in": "cookie", "name": "__Host-p11_session",
+                "description": "HttpOnly/Secure/SameSite=Strict；浏览器写同时核Origin和CSRF。显式loopback开发使用p11_session_dev。"},
             "PairingToken": {"type": "http", "scheme": "bearer", "description": "一次性、短时、绑定本人pairing_id的登记凭据，消费后失效。"}},
             "schemas": schemas, "responses": responses},
         "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE}

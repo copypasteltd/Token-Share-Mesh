@@ -8,7 +8,7 @@ STATUS = "DESIGN_UNIMPLEMENTED"
 # name, owner role, application package, source chapter, authoritative tables,
 # application services, principal dependencies. Paths are planned, not files.
 MODULE_ROWS = [
- (1,"身份授权","身份/安全工程","identity",16,"users role_grants api_keys consents pairing_intents","PrincipalResolver RolePolicy KeyService ConsentService",[]),
+ (1,"身份授权","身份/安全工程","identity",16,"users role_grants api_keys consents pairing_intents auth_sessions auth_attempts","PrincipalResolver RolePolicy KeyService ConsentService Sessions Alipay",[]),
  (2,"市场卖家","市场后端","market",3,"seller_profiles listings listing_versions listing_devices","SellerOnboarding ListingRevision Discovery",[1,3]),
  (3,"目录证据","资格/许可工程","catalog",11,"evidence capabilities catalog_entries","CapabilityQualification LicenseReview ProfileCatalog",[1]),
  (4,"合同订单路由预算","交易后端","orders",5,"quotes orders route_contracts budget_reservations","QuoteService OrderService RouteContractService BudgetReservation",[1,2,3]),
@@ -94,7 +94,7 @@ TASK_ROWS = [
 # Every control operation has exactly one implementing task. No HTTP AI protocol
 # endpoints are invented here: those use vendor profiles, not this control map.
 OPERATION_GROUPS = {
- 3:"getSelfProfile listApiKeys createApiKey revokeApiKey",
+ 3:"getSelfProfile listApiKeys createApiKey revokeApiKey createAuthChallenge createUserSession getCurrentSession revokeUserSession",
  4:"recordConsent createDeletionRequest",
  5:"createSellerApplication getSellerProfile requestSellerExit",
  6:"listOwnDevices createPairingIntent enrollDevice getDevice recordDeviceHeartbeat drainDevice revokeDevice updateResourcePolicy",
@@ -196,11 +196,16 @@ def tasks(module_catalog: list[dict], chapters: dict[int, str]) -> list[dict]:
         if n == 23:
             result[-1]['branch_gates'] = {'LLAMA_CPP_NATIVE': ['POC-02', 'E04', 'E11'],
                 'LM_STUDIO': ['POC-02', 'E03', 'E04', 'E11']}
+        if n in (1,2,3,8,9,10,51,53,56):
+            result[-1]['source_documents'].append('docs/技术开发/附录-身份登录与HTTP交易实施约束.md')
     return result
 
 
 def operation_tx(op: str, method: str) -> str:
     if method=='get': return "READ_PROJECTION"
+    if op=="createAuthChallenge": return "AUTH_CHALLENGE_SINGLE_USE"
+    if op=="createUserSession": return "TX_CLAIM → EXTERNAL_SIGNED_OAUTH → TX_SESSION"
+    if op=="revokeUserSession": return "TX_REVOKE_AND_USER_VERSION"
     if op in ('createQuote','createOrder','createRouteContract'): return 'TX-02'
     if op=='createPaymentIntent': return 'TX-03'
     if op in ('createJob','claimLease','recordAttemptProgress'): return 'TX-04'

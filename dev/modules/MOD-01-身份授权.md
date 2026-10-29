@@ -17,8 +17,8 @@ P11｜开发细则 v1.0｜MOD-01｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 岗位/人员 | 身份/安全工程；实际负责人/工期未分配 |
 | 计划路径 | dev/src/internal/identity |
 | 协作模块 | 无 |
-| 应用服务 | PrincipalResolver、RolePolicy、KeyService、ConsentService |
-| 权威表 | users、role_grants、api_keys、consents、pairing_intents |
+| 应用服务 | PrincipalResolver、RolePolicy、KeyService、ConsentService、Sessions、Alipay |
+| 权威表 | users、role_grants、api_keys、consents、pairing_intents、auth_sessions、auth_attempts |
 | 适用约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-014](../docs/02-表格化需求约束.md#CON-014)、[CON-024](../docs/02-表格化需求约束.md#CON-024)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-046](../docs/02-表格化需求约束.md#CON-046) |
 | 核心规范 | [16-身份授权与安全工程.md](../../docs/技术开发/16-身份授权与安全工程.md) |
 
@@ -32,6 +32,10 @@ P11｜开发细则 v1.0｜MOD-01｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | INT-052 | listApiKeys | GET /api-keys | [DEV-03](../开发细则总表.md#DEV-03) | key:manage | READ_PROJECTION / 见权威契约 |
 | INT-068 | recordConsent | POST /me/consents | [DEV-04](../开发细则总表.md#DEV-04) | identity:consent | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
 | INT-081 | revokeApiKey | DELETE /api-keys/{key_id} | [DEV-03](../开发细则总表.md#DEV-03) | key:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-090 | createAuthChallenge | POST /auth/challenges | [DEV-03](../开发细则总表.md#DEV-03) |  | AUTH_CHALLENGE_SINGLE_USE / 见权威契约 |
+| INT-091 | createUserSession | POST /auth/sessions | [DEV-03](../开发细则总表.md#DEV-03) |  | TX_CLAIM → EXTERNAL_SIGNED_OAUTH → TX_SESSION / 见权威契约 |
+| INT-092 | getCurrentSession | GET /auth/session | [DEV-03](../开发细则总表.md#DEV-03) | identity:read | READ_PROJECTION / 见权威契约 |
+| INT-093 | revokeUserSession | DELETE /auth/session | [DEV-03](../开发细则总表.md#DEV-03) | session:manage | TX_REVOKE_AND_USER_VERSION / 见权威契约 |
 
 [完整控制面、数据表与需求追踪](../docs/04-接口数据与需求追踪.md)；请求/响应 Schema 和响应码沿用既有 OpenAPI。
 
@@ -51,7 +55,7 @@ P11｜开发细则 v1.0｜MOD-01｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 实施目标 | 实现Principal、会话/CSRF、scope+owner+状态策略、key摘要/撤销和配对令牌。 |
 | 原完成证据 | 跨租户ID替换/角色撤销/原key只显示一次；浏览器Host/Origin与会话攻击拒绝证据。 |
 | 门槛 | POC-09 |
-| 控制操作 | getSelfProfile、listApiKeys、createApiKey、revokeApiKey |
+| 控制操作 | getSelfProfile、listApiKeys、createApiKey、revokeApiKey、createAuthChallenge、createUserSession、getCurrentSession、revokeUserSession |
 | 需求约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-014](../docs/02-表格化需求约束.md#CON-014)、[CON-024](../docs/02-表格化需求约束.md#CON-024)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-046](../docs/02-表格化需求约束.md#CON-046) |
 | 统一交付 | 适用 CHK-01—08；不适用项注明理由；证据规则见 DOC-06 |
 
@@ -64,7 +68,7 @@ P11｜开发细则 v1.0｜MOD-01｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 
 NB-R1需求增量：NB-R019、NB-R029；[正反向验收及契约缺口](../../docs/需求推进/NB-1.0/06-需求追踪与验收矩阵.md)。源码实施见进度登记，子场景仍未执行。
 
-规范来源：[16-身份授权与安全工程.md](../../docs/技术开发/16-身份授权与安全工程.md)；[21-开发任务分解与需求追踪.md](../../docs/技术开发/21-开发任务分解与需求追踪.md)；[18-测试工程与故障验证.md](../../docs/技术开发/18-测试工程与故障验证.md)；[附录-本轮范围与端侧选型修订.md](../../docs/技术开发/附录-本轮范围与端侧选型修订.md)。
+规范来源：[16-身份授权与安全工程.md](../../docs/技术开发/16-身份授权与安全工程.md)；[21-开发任务分解与需求追踪.md](../../docs/技术开发/21-开发任务分解与需求追踪.md)；[18-测试工程与故障验证.md](../../docs/技术开发/18-测试工程与故障验证.md)；[附录-本轮范围与端侧选型修订.md](../../docs/技术开发/附录-本轮范围与端侧选型修订.md)；[附录-身份登录与HTTP交易实施约束.md](../../docs/技术开发/附录-身份登录与HTTP交易实施约束.md)。
 
 <a id="DEV-04"></a>
 

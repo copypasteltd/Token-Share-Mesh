@@ -5,6 +5,16 @@
 Entries use the same round IDs as the implementation tracker. No entry denotes a
 general-availability platform release unless the full acceptance evidence says so.
 
+## R004 — 2026-10-30 — Verified identity and native control HTTP
+
+- Add RSA2 Alipay request signing and original-response verification, with explicit app/subject namespace and no unsigned identity fallback.
+- Add one-use challenges, versioned sessions, BUYER-only registration, revocation and unknown-exchange closure; never persist original channel codes/tokens.
+- Add 13 native HTTP operations for identity, keys, market, quotes and orders, driven by a manifest checked against 93 canonical operations.
+- Enforce WEB Cookie/Origin/CSRF and MINIAPP Bearer separation, tenant checks, signed pagination, bounded JSON/limits and key-secret replay references.
+- Append forward 003 (62 current tables) and INT-090—093/DATA-061—062 without rewriting old migrations or IDs.
+- Pass 34 actual native cases, format/vet/dependency checks and Windows/Linux admin/API builds. Preserve the initial failure and correction; stop the temporary database. Real channel/UI/payment/provider acceptance remains pending.
+- Synchronize bilingual guides, actual reader media and all 56 tasks/222 remaining substeps; keep the source goal active.
+
 ## R003 — 2026-10-30 — NB pricing and trade application services
 
 - Continue the complete-source objective against the five Neubrutalism pages, retaining 48 refinements and every one of the 56 pending tasks.

@@ -6,8 +6,8 @@
   "tasks": 56,
   "steps": 222,
   "constraints": 47,
-  "control_operations": 89,
-  "tables": 60,
+  "control_operations": 93,
+  "tables": 62,
   "requirements": 80,
   "acceptance_cases": 80,
   "current_tasks": 55,
@@ -15,10 +15,10 @@
   "checks": 49,
   "markdown_files": 30,
   "generated_files": 30,
-  "local_links": 6709,
-  "product_source_files": 28,
+  "local_links": 6745,
+  "product_source_files": 42,
   "product_tests": "NOT_EXECUTED",
-  "source_hashes_checked": 46,
+  "source_hashes_checked": 50,
   "errors": [],
   "details": [
     {
@@ -191,7 +191,7 @@
     },
     {
       "id": "VFY-029",
-      "title": "89 控制接口连续唯一",
+      "title": "93 控制接口连续唯一",
       "status": "PASSED",
       "details": ""
     },
@@ -209,13 +209,13 @@
     },
     {
       "id": "VFY-032",
-      "title": "60 数据表连续唯一",
+      "title": "62 数据表连续唯一",
       "status": "PASSED",
       "details": ""
     },
     {
       "id": "VFY-033",
-      "title": "60 表各有唯一权威模块，无遗漏/重叠",
+      "title": "62 表各有唯一权威模块，无遗漏/重叠",
       "status": "PASSED",
       "details": ""
     },

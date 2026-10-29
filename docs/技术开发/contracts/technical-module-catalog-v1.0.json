@@ -14,13 +14,17 @@
         "role_grants",
         "api_keys",
         "consents",
-        "pairing_intents"
+        "pairing_intents",
+        "auth_sessions",
+        "auth_attempts"
       ],
       "application_services": [
         "PrincipalResolver",
         "RolePolicy",
         "KeyService",
-        "ConsentService"
+        "ConsentService",
+        "Sessions",
+        "Alipay"
       ],
       "dependencies": [],
       "status": "DESIGN_UNIMPLEMENTED",

@@ -21,3 +21,7 @@ evidence_ids/asset_ids等数组须服务层逐项验证引用和权限；需要�
 文档核验只用项目内pglast解析DDL和查询的PostgreSQL语法树，不连接数据库、不执行PL/pgSQL体。R001另有原生测试证据，范围仅覆盖初始迁移、账本/合同选定约束、密钥服务和幂等/队列场景，不证明所有触发器路径、应用数据库权限、索引性能和整体业务并发正确。初始迁移位于dev/src/internal/persistence/migrations，发布后只增forward migration；后续变更继续在项目专用**原生PostgreSQL17**验证，禁止本地虚拟化。
 
 此文件不创建数据库角色或给普通应用DDL/超级用户权限。正式迁移需分离owner/migrator、api、scheduler、gateway、finance、audit权限；租户过滤与RLS采用经过连接池上下文测试的策略。账务不可变触发器不能防数据库owner恶意操作，仍须权限分离/备份/外部对账。
+
+## R004 前向身份表
+
+[003_auth_sessions.sql](migrations/003_auth_sessions.sql)追加auth_sessions/auth_attempts，当前领域表62；基础60表和已发布001/002保持原字节。摘要见dev/src/internal/persistence/migrations/source-v3.json。结构目录合并基础与前向建表并保留来源；实际迁移与本机HTTP测试见[R004证据](../../../dev/tests/evidence/R004-验证报告.md)，静态目录构建仍不执行SQL。

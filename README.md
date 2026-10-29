@@ -12,22 +12,30 @@ Token Share Mesh connects buyers with people voluntarily offering idle Windows/L
 
 ## Current implementation
 
-This repository contains runnable **Go/PostgreSQL foundations and trade application services**, alongside the full platform specifications. Source implementation continues against the selected Neubrutalism design, with numbered changes and all 56 pending tasks tracked each round and synchronized to Git. Marketplace UI, model endpoints, desktop/Android providers, end-to-end encryption and real payments remain unfinished. Screenshots below show specification readers, not marketplace product screens.
+This repository contains runnable **Go/PostgreSQL foundations, verified identity and limited HTTP trade services**, alongside the full platform specifications. Source implementation continues against the selected Neubrutalism design, with numbered changes and all 56 pending tasks tracked each round and synchronized to Git. Marketplace UI, model endpoints, desktop/Android providers, end-to-end encryption and real payments remain unfinished. Screenshots below show specification readers, not marketplace product screens.
 
-The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five final design pages](dev/design/新粗野主义-v1.0/README.md) with ten supporting views, 48 requirement refinements, 96 unexecuted scenarios and six open contract gaps. New offers use GPU hours or separate input/output prices per M token (1,000,000 tokens). Media runs within controlled GPU rentals without extra per-item charges. R003 implements the NB_PRICE_1 contract, exact calculation and quote/order application services. Arbitrary hourly rental sessions, renewals, final billing, trusted usage and concurrent budget reservations remain unfinished; historical orders retain their original prices.
+The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five final design pages](dev/design/新粗野主义-v1.0/README.md) with ten supporting views, 48 requirement refinements, 96 unexecuted scenarios and six open contract gaps. New offers use GPU hours or separate input/output prices per M token (1,000,000 tokens). Media runs within controlled GPU rentals without extra per-item charges. R003 implements NB_PRICE_1, exact calculation and quote/order services; R004 adds identity and an HTTP subset. Arbitrary hourly rental sessions, renewals, final billing, trusted usage and concurrent budget reservations remain unfinished; historical orders retain their original prices.
 
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 11 in progress · 43 not started · 1 conditional · 1 deferred |
-| Latest source round | R003 · PASSED_FOR_CONTROL_SERVICES_ONLY |
-| Native test evidence | 22 passed · control services scope only |
+| Implementation tasks | 12 in progress · 42 not started · 1 conditional · 1 deferred |
+| Latest source round | R004 · PASSED_FOR_CONTROL_SERVICES_ONLY |
+| Native test evidence | 34 passed · control services scope only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
-Implemented components include the initial 60-table migration and forward 002 guards, hourly and dual token rates, API keys, transactional idempotency/inbox/jobs, concrete seller/device projections, scoped qualification checks, frozen quotes, order creation and owner-only order reads. R003 passed 22 native tests, including 16 concurrent same-key submissions, 12 distinct-key submissions against one quote and role revocation. Only application services and the database CLI exist; there is no public login or HTTP trading/inference server. See [native evidence](dev/tests/evidence/R003-验证报告.md), [implementation boundaries](docs/技术开发/附录-NB价版与交易服务实施约束.md) and [all 56 tasks](dev/progress/README.md).
+Implemented components include the initial 60-table migration, forward 002 guards and 003 identity tables (62 current tables), hourly/dual-token rates, scoped keys, transactional idempotency/inbox/jobs, concrete C2C projections, qualification checks, frozen quotes and buyer orders. R004 adds RSA2 application signing and original-byte Alipay response verification, single-use challenges/sessions and 13 native HTTP operations. All 34 actual cases passed, including browser Cookie/CSRF, mixed-credential rejection, tenant isolation and revocation before replay. Provider responses are independently signed synthetic fixtures; real Alipay authorization and payments remain unvalidated. See [native evidence](dev/tests/evidence/R004-验证报告.md), [identity/HTTP boundaries](docs/技术开发/附录-身份登录与HTTP交易实施约束.md) and [all 56 tasks](dev/progress/README.md).
 
 The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_rate for TOKEN_1M. Each rate has an integer numerator in fen and a positive denominator, together with fee ownership, commission and rounding versions. At 360 fen/hour, 30 minutes costs at most 180 fen; 1M input at 80 fen/M plus 0.25M output at 160 fen/M totals 120 fen. Quotes freeze seller, environment, policy, rates and budget. Creating an order rechecks admission and atomically writes WAITING_PAYMENT, quote consumption, consent audit and outbox. It does not pay, lock a GPU or execute work. A 350 fen/hour rate cannot be rounded into the legacy integer-fen/minute column.
+
+## Current identity and HTTP flow
+
+The native control command is `p11-api`. Explicitly configure the selected development database, application identity and secret-file paths, then apply migrations; [environment variables and call order](dev/repository/USAGE.md) are documented. It listens on loopback and enables no test login, model or payment shortcut. The [embedded route manifest](dev/src/api/internal/http/routes.json) drives 13 actual operations and is checked against the 93-operation canonical contract; the other operations remain pending.
+
+The miniapp holds a random verifier in memory: create a MINIAPP challenge → call my.getAuthCode → exchange by POST → retain the once-returned session token in memory only. Later calls use Bearer; restart/logout requires fresh authorization. Web challenges bind Cookie and state; successful exchange sets an HttpOnly/Strict session Cookie, and writes additionally require Origin plus CSRF. The frontend callback window is pending. Login is not KYC or seller approval; registration grants BUYER only. Repeated/unknown exchanges require fresh authorization. Replaying API-key creation returns the original reference without redisplaying the secret.
+
+Current HTTP trade stops at qualified market → frozen quote → buyer-confirmed order → reading WAITING_PAYMENT. Business transactions recheck session expiry/revocation and current roles before idempotent replay. API keys cannot purchase. Inference endpoints, payment-success processing and product frontends remain unfinished.
 
 ## Screenshots and recording
 
@@ -130,12 +138,12 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # Disposable loopback PostgreSQL -> real tests -> instance stopped
-python -X utf8 dev/tools/原生数据库验证.py --round R003
-python -X utf8 dev/tools/核验原生源码.py --round R003
-python -X utf8 dev/tools/整理原生验证证据.py --round R003
+python -X utf8 dev/tools/原生数据库验证.py --round R004
+python -X utf8 dev/tools/核验原生源码.py --round R004
+python -X utf8 dev/tools/整理原生验证证据.py --round R004
 ```
 
-The last three commands generate R003 evidence for the current source, preserving historical R001 records. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin CLI is cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+The last three commands generate R004 evidence for the current source, preserving historical R001/R003 records. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
 
 ## Intended buyer and seller usage
 
@@ -152,6 +160,8 @@ README.md / README.zh-CN.md       English and Chinese entry points
 CHANGELOG*.md                    Synchronized release notes
 dev/src/go.mod                   One Go module
 dev/src/api/cmd/p11-admin/        Native migration/check CLI
+dev/src/api/cmd/p11-api/          Native loopback identity/control API
+dev/src/api/internal/http/       13-route registration and credential adapters
 dev/src/internal/                Database, keys, idempotency, durable jobs
 dev/src/shared/                  IDs, safe errors, clock, money
 dev/src/tests/integration/       Real PostgreSQL tests

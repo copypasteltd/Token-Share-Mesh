@@ -12,22 +12,30 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 
 ## 当前实现状态
 
-仓库包含可运行的 **Go/PostgreSQL 后端基础及交易应用服务源码**和平台需求、技术细则。当前按选定的新粗野主义设计继续完整源码实施，每轮记录实现编号与全部56项待办并同步仓库。市场界面、模型服务、桌面/Android供给、端对端加密与真实支付仍待完成。下方截图来自文档阅读器，不是市场产品界面。
+仓库包含可运行的 **Go/PostgreSQL 后端、身份及有限HTTP交易源码**和平台需求、技术细则。当前按选定的新粗野主义设计继续完整源码实施，每轮记录实现编号与全部56项待办并同步仓库。市场界面、模型服务、桌面/Android供给、端对端加密与真实支付仍待完成。下方截图来自文档阅读器，不是市场产品界面。
 
-[NB-R1需求推进](docs/需求推进/NB-1.0/README.md)将[五页最终设计](dev/design/新粗野主义-v1.0/README.md)接入十辅助界面、48项需求细化、96个未执行验收场景和六项开放缺口。新售GPU按小时，LLM输入/输出分别按M token（1,000,000 token）；媒体在受控GPU租赁内执行且不另按作品收费。R003已实现NB_PRICE_1价格合同、精确计算和报价建单应用服务；任意小时价租赁/续租/账单、可信usage和并发预算仍待完成，旧订单价版不改。
+[NB-R1需求推进](docs/需求推进/NB-1.0/README.md)将[五页最终设计](dev/design/新粗野主义-v1.0/README.md)接入十辅助界面、48项需求细化、96个未执行验收场景和六项开放缺口。新售GPU按小时，LLM输入/输出分别按M token（1,000,000 token）；媒体在受控GPU租赁内执行且不另按作品收费。R003已实现NB_PRICE_1价格合同、精确计算和报价建单应用服务，R004接入身份及HTTP子集；任意小时价租赁/续租/账单、可信usage和并发预算仍待完成，旧订单价版不改。
 
 | 项目 | 证据/状态 |
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
-| 实施任务 | 11项进行中 · 43项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R003 · PASSED_FOR_CONTROL_SERVICES_ONLY |
-| 原生测试证据 | 22项通过，仅控制应用服务范围 |
+| 实施任务 | 12项进行中 · 42项待开发 · 1项条件能力 · 1项延后 |
+| 最新源码轮次 | R004 · PASSED_FOR_CONTROL_SERVICES_ONLY |
+| 原生测试证据 | 34项通过，仅控制应用服务范围 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
-已实现60表初始迁移及前向002守卫、小时/输入输出双价、API密钥、事务幂等/inbox/持久任务，以及具体卖家型号的市场投影、资格预检、报价快照、本人建单与订单读取。R003共22项原生测试通过，包含16同键/12异键并发与权限撤销。当前只有应用服务和数据库CLI，尚无公开登录或HTTP推理/交易服务。见[原生测试证据](dev/tests/evidence/R003-验证报告.md)、[实施边界](docs/技术开发/附录-NB价版与交易服务实施约束.md)和[完整56项进度](dev/progress/README.md)。
+已实现60表初始迁移、前向002守卫和003身份表（当前62表），以及小时/输入输出双价、API密钥、事务幂等/inbox/持久任务、具体C2C卖家/型号的市场投影、资格预检、报价快照及本人建单。R004新增支付宝RSA2请求签名/原始响应验签、一次性挑战/会话与13个原生HTTP操作。34项实际测试通过，含Web Cookie/CSRF、双端凭据混用拒绝、跨用户及撤销重核；渠道响应来自签名合成夹具，真实支付宝授权和资金未联调。见[原生测试证据](dev/tests/evidence/R004-验证报告.md)、[身份与HTTP边界](docs/技术开发/附录-身份登录与HTTP交易实施约束.md)和[完整56项进度](dev/progress/README.md)。
 
 新价合同把AVAILABLE_HOUR的hour_rate，或TOKEN_1M的input_rate/output_rate明确分开；每项均含整数分子/正整数分母、费用承担、佣金和取整版。360分/小时的30分钟最坏180分；80分/M输入加160分/M输出，1M输入与0.25M输出共120分。报价冻结卖家、环境、政策、价格及预算，建单复核后只进入WAITING_PAYMENT；订单、报价消费、同意审计和outbox同事务。它不代表已支付、已锁GPU或已执行。350分/小时不能舍入写进旧整数分/分钟列。
+
+## 当前身份与HTTP使用逻辑
+
+本机控制命令为`p11-api`，先显式配置所选开发数据库、应用身份和密钥文件并执行迁移；[完整环境变量及调用顺序](dev/repository/USAGE.md)提供步骤。命令只监听loopback，不自动启用任何测试登录、模型或支付。实际13路由由[源码登记](dev/src/api/internal/http/routes.json)驱动，与93操作权威契约逐项核对；其余操作仍待开发。
+
+小程序在内存生成verifier，创建MINIAPP挑战→my.getAuthCode→POST兑换→仅内存保留一次返回的会话令牌；后续Bearer访问，注销或重启后重新授权。Web使用绑定Cookie和state的WEB挑战，兑换后会话只放HttpOnly/Strict Cookie，写操作另带Origin与CSRF；前端回调窗口尚待实现。登录不等于KYC/卖家资格，新账号只获BUYER。重复授权或兑换结果不明时新发起授权，不能重发原码；密钥创建回放只返回原引用，不重新显示秘密。
+
+当前HTTP交易止于市场查询→报价冻结→本人确认建单→读取WAITING_PAYMENT订单。会话撤销/到期或角色撤销在业务幂等回放前再次核查，API key不能代购。当前没有推理HTTP入口、付款成功回调或已经完成的前端产品。
 
 ## 页面截图、录屏与 GIF
 
@@ -130,12 +138,12 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # 临时 loopback PostgreSQL → 真实测试 → 确认关闭
-python -X utf8 dev/tools/原生数据库验证.py --round R003
-python -X utf8 dev/tools/核验原生源码.py --round R003
-python -X utf8 dev/tools/整理原生验证证据.py --round R003
+python -X utf8 dev/tools/原生数据库验证.py --round R004
+python -X utf8 dev/tools/核验原生源码.py --round R004
+python -X utf8 dev/tools/整理原生验证证据.py --round R004
 ```
 
-后三条生成当前源码的R003范围证据，保留R001历史记录。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux CLI仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
+后三条生成当前源码的R004范围证据，保留R001/R003历史记录。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
 
 ## 买卖双方未来使用逻辑
 
@@ -152,6 +160,8 @@ README.md / README.zh-CN.md       英文与中文完整入口
 CHANGELOG*.md                    同步更新说明
 dev/src/go.mod                   单 Go 模块
 dev/src/api/cmd/p11-admin/        原生迁移/检查命令
+dev/src/api/cmd/p11-api/          原生本机身份/控制接口
+dev/src/api/internal/http/       13操作注册与鉴权适配
 dev/src/internal/                数据库、密钥、计价、市场、报价订单、幂等与任务
 dev/src/shared/                  ID、安全错误、时钟、金额
 dev/src/tests/integration/       真实 PostgreSQL 测试

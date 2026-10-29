@@ -1,0 +1,20 @@
+{
+  "version": "P11_CONTROL_HTTP_R004",
+  "base_path": "/v1/p11",
+  "scope": "Registered native HTTP subset; registration does not certify full schema or product acceptance.",
+  "operations": [
+    {"operation_id":"createAuthChallenge","method":"POST","path":"/auth/challenges","handler":"challenge","anonymous":true},
+    {"operation_id":"createUserSession","method":"POST","path":"/auth/sessions","handler":"login","anonymous":true},
+    {"operation_id":"getCurrentSession","method":"GET","path":"/auth/session","handler":"currentSession","anonymous":false},
+    {"operation_id":"revokeUserSession","method":"DELETE","path":"/auth/session","handler":"currentSession","anonymous":false},
+    {"operation_id":"getSelfProfile","method":"GET","path":"/me","handler":"me","anonymous":false},
+    {"operation_id":"listApiKeys","method":"GET","path":"/api-keys","handler":"keys","anonymous":false},
+    {"operation_id":"createApiKey","method":"POST","path":"/api-keys","handler":"keys","anonymous":false},
+    {"operation_id":"revokeApiKey","method":"DELETE","path":"/api-keys/{key_id}","handler":"revokeKey","anonymous":false},
+    {"operation_id":"listServices","method":"GET","path":"/services","handler":"services","anonymous":false},
+    {"operation_id":"createQuote","method":"POST","path":"/quotes","handler":"quote","anonymous":false},
+    {"operation_id":"getQuote","method":"GET","path":"/quotes/{quote_id}","handler":"getQuote","anonymous":false},
+    {"operation_id":"createOrder","method":"POST","path":"/orders","handler":"order","anonymous":false},
+    {"operation_id":"getOrder","method":"GET","path":"/orders/{order_id}","handler":"getOrder","anonymous":false}
+  ]
+}

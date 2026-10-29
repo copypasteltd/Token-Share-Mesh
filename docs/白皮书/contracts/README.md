@@ -106,6 +106,10 @@ P11｜v3.0｜2026-10-29｜设计草案；没有已部署服务。仅检查结构
 | POST | `/admin/settlement-batches/{batch_id}/approve` | 独立人员复核结算批次 | `approveSettlementBatch` |
 | POST | `/admin/settlement-batches/{batch_id}/submit` | 提交已复核原批次且未知先查 | `submitSettlementBatch` |
 | GET | `/admin/audit-events` | 限权查询无正文审计元数据 | `listAuditEvents` |
+| POST | `/auth/challenges` | 创建限时一次性登录绑定 | `createAuthChallenge` |
+| POST | `/auth/sessions` | 核验授权码并签发有限会话 | `createUserSession` |
+| GET | `/auth/session` | 读取本人会话及浏览器CSRF值 | `getCurrentSession` |
+| DELETE | `/auth/session` | 撤销当前会话并提升用户版本 | `revokeUserSession` |
 
 ## 实施前必须验证的语义
 

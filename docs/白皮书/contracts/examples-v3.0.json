@@ -149,5 +149,31 @@
     "commission_bps": 500,
     "channel_cost_owner": "SELLER",
     "fee_policy_version": "legacy_fee_demo"
+  },
+  "auth_challenge_request": {
+    "client_type": "MINIAPP",
+    "code_challenge": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "miniapp_session_request": {
+    "challenge_id": "ach_schema_only",
+    "auth_code": "SYNTHETIC_NOT_A_CHANNEL_CODE",
+    "code_verifier": "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+  },
+  "web_session": {
+    "session_id": "ses_schema_only",
+    "client_type": "WEB",
+    "expires_at": "2026-10-30T12:00:00Z",
+    "csrf_token": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile": {
+      "user_id": "usr_schema_only",
+      "roles": [
+        "BUYER"
+      ],
+      "permission_scope_ids": [
+        "perm_identity_read"
+      ],
+      "identity_state": "UNVERIFIED",
+      "version": 2
+    }
   }
 }

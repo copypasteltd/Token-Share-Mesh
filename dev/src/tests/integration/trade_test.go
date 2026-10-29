@@ -6,8 +6,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
-	"p11.local/compute/internal/outbox"
-	"p11.local/compute/internal/pricing"
+	"p11.local/compute/internal/testsupport"
 	"p11.local/compute/internal/trade"
 	"p11.local/compute/shared/fault"
 	"p11.local/compute/shared/ids"
@@ -33,69 +32,16 @@ func buyer(t *testing.T) identity.Principal {
 // These fixtures deliberately insert synthetic approvals into a disposable DB.
 // They prove admission logic, not actual payment/SDK/device qualification.
 func offer(t *testing.T, mode, region string) offerFixture {
-	t.Helper()
-	f := offerFixture{seller: buyer(t), id: ids.New("lst"), device: ids.New("dev"), resource: ids.New("res"), capability: ids.New("cap"), gate: ids.New("gate"), release: ids.New("rel")}
-	exec(t, `INSERT INTO p11.role_grants(id,user_id,role_code,scope_ref,granted_by) VALUES($1,$2,'SELLER','self',$2)`, ids.New("grant"), f.seller.UserID)
-	exec(t, `INSERT INTO p11.seller_profiles(id,state,legal_scope_ref,payee_binding_ref) VALUES($1,'APPROVED',$2,$3)`, f.seller.UserID, ids.New("legal"), ids.New("payee"))
-	f.seller.Roles = append(f.seller.Roles, "SELLER")
-	bps := 500
-	f.terms = market.Terms{SKU: ids.New("sku"), SellerDisplayName: "星河同学", Policy: market.Policy{Mode: mode, Privacy: "STANDARD", Region: region, Protocol: "openai_nb1", Acceptance: "accept_nb1", Disclosure: "disclosure_nb1"}, DeadlineSec: 3600,
-		Price:    pricing.Price{Version: pricing.Version, Currency: "CNY", Rounding: pricing.Rounding, CommissionBPS: &bps, ChannelCostOwner: "SELLER", FeePolicyVersion: "fee_nb1"},
-		Bindings: []market.Binding{{DeviceID: f.device, CapabilityID: f.capability, EnvironmentRef: ids.New("env"), EnvironmentDigest: strings.Repeat("b", 64)}},
-		Devices:  []market.DeviceDisplay{{DeviceID: f.device, ModelName: "RTX 4090 24GB"}}}
-	platform, kind, engine := "WINDOWS", "GPU_DEVICE", "COMFYUI_NATIVE"
-	kinds := []string{"LICENSE", "PAYMENT", "SDK", "PHYSICAL_TEST"}
-	if mode == "GPU_RENTAL" {
-		f.terms.Price.Unit = pricing.Hour
-		f.terms.Price.HourRate = &pricing.Rate{NumeratorFen: 360, DenominatorUnits: 1}
-		f.terms.Spec.DurationMS = 1800000
-	} else {
-		platform, kind, engine = "ANDROID", "ANDROID_DEVICE", "LMA_NATIVE"
-		f.terms.SellerDisplayName = "阿澄"
-		f.terms.Devices[0].ModelName = "摩托罗拉 X30"
-		f.terms.Price.Unit = pricing.MillionTokens
-		f.terms.Price.InputRate = &pricing.Rate{NumeratorFen: 80, DenominatorUnits: 1}
-		f.terms.Price.OutputRate = &pricing.Rate{NumeratorFen: 160, DenominatorUnits: 1}
-		f.terms.Spec = market.Spec{ModelID: "model_nb1", InputTokenLimit: 1000000, OutputTokenLimit: 250000}
-		kinds = append(kinds, "USAGE")
-		if mode == "E2E" {
-			f.terms.Policy.Privacy = "PLATFORM_BLIND"
-			kinds = append(kinds, "CRYPTO")
-		}
-	}
-	exec(t, `INSERT INTO p11.devices(id,seller_id,platform,resource_kind,state,auth_key_digest,client_release,resource_policy,last_seen_at) VALUES($1,$2,$3,$4,'ONLINE',$5,'SYNTHETIC_TEST','{"accepting_new_jobs":true}',clock_timestamp())`, f.device, f.seller.UserID, platform, kind, outbox.Digest([]byte(f.device)))
-	exec(t, `INSERT INTO p11.resources(id,device_id,seller_id,local_resource_key,kind) VALUES($1,$2,$3,'resource0',$4)`, f.resource, f.device, f.seller.UserID, kind)
-	b := f.terms.Bindings[0]
-	scope, err := json.Marshal(map[string]string{"seller_id": f.seller.UserID, "device_id": f.device, "capability_id": f.capability, "kernel_environment_ref": b.EnvironmentRef, "kernel_environment_digest": b.EnvironmentDigest, "mode": mode, "privacy": f.terms.Policy.Privacy, "region": region, "protocol_profile_id": f.terms.Policy.Protocol, "price_contract_version": pricing.Version, "sku_id": f.terms.SKU})
-	if err != nil {
-		t.Fatal(err)
-	}
-	for _, kind := range kinds {
-		id := ids.New("evd")
-		f.evidence = append(f.evidence, id)
-		exec(t, `INSERT INTO p11.evidence(id,evidence_type,seller_id,device_id,content_ref,digest,scope_snapshot,decision,reviewed_by,valid_from,valid_until) VALUES($1,$2,$3,$4,'SYNTHETIC_NOT_PUBLIC',repeat('c',64),$5,'APPROVED',$3,clock_timestamp()-interval '1 minute',clock_timestamp()+interval '2 hours')`, id, kind, f.seller.UserID, f.device, scope)
-	}
-	exec(t, `INSERT INTO p11.capabilities(id,device_id,seller_id,resource_id,engine_kind,engine_release,kernel_environment_ref,kernel_environment_digest,model_digest,recipe_digest,protocol_profile,mode,privacy,evidence_ids,state) VALUES($1,$2,$3,$4,$5,'SYNTHETIC_TEST',$6,$7,repeat('d',64),repeat('e',64),$8,$9,$10,$11,'QUALIFIED')`, f.capability, f.device, f.seller.UserID, f.resource, engine, b.EnvironmentRef, b.EnvironmentDigest, f.terms.Policy.Protocol, mode, f.terms.Policy.Privacy, f.evidence)
-	exec(t, `INSERT INTO p11.feature_gates(id,scope_key,enabled,evidence_ids,approved_by) VALUES($1,$2,true,$3,$4)`, f.gate, f.gate, f.evidence, f.seller.UserID)
-	exec(t, `INSERT INTO p11.releases(id,capability_id,gate_id,artifact_digest,scope_snapshot,evidence_ids,state,approved_by,expires_at) VALUES($1,$2,$3,repeat('f',64),$4,$5,'ACTIVE',$6,clock_timestamp()+interval '2 hours')`, f.release, f.capability, f.gate, scope, f.evidence, f.seller.UserID)
-	exec(t, `INSERT INTO p11.listings(id,seller_id,state) VALUES($1,$2,'PUBLISHED')`, f.id, f.seller.UserID)
-	f.version(t, 1)
-	return f
+	x := testsupport.SeedOffer(t, ctx, db, mode, region)
+	return offerFixture{seller: x.Seller, id: x.ID, device: x.Device, resource: x.Resource, capability: x.Capability, gate: x.Gate, release: x.Release, evidence: x.Evidence, terms: x.Terms}
 }
-
 func (f offerFixture) version(t *testing.T, revision int64) {
-	t.Helper()
-	raw, err := json.Marshal(f.terms)
-	if err != nil {
-		t.Fatal(err)
-	}
-	exec(t, `INSERT INTO p11.listing_versions(listing_id,revision,seller_id,region,contract_template,price_version,valid_from,valid_until) VALUES($1,$2,$3,$4,$5,$6,clock_timestamp()-interval '1 minute',clock_timestamp()+interval '2 hours')`, f.id, revision, f.seller.UserID, f.terms.Policy.Region, raw, pricing.Version)
-	exec(t, `INSERT INTO p11.listing_devices(listing_id,revision,seller_id,device_id,capability_id) VALUES($1,$2,$3,$4,$5)`, f.id, revision, f.seller.UserID, f.device, f.capability)
+	(testsupport.Offer{ID: f.id, Seller: f.seller, Device: f.device, Capability: f.capability, Terms: f.terms}).Version(t, ctx, db, revision)
+}
+func (f offerFixture) input() trade.QuoteInput {
+	return (testsupport.Offer{ID: f.id, Terms: f.terms}).Input()
 }
 
-func (f offerFixture) input() trade.QuoteInput {
-	return trade.QuoteInput{ListingID: f.id, ListingRevision: 1, SKU: f.terms.SKU, Policy: f.terms.Policy, Spec: f.terms.Spec, BudgetFen: 500, Region: f.terms.Policy.Region, Quantity: 1}
-}
 func confirm(q trade.Quote) trade.OrderInput {
 	return trade.OrderInput{QuoteID: q.ID, ContractHash: q.Contract.Hash, DisclosureVersion: q.Contract.Policy.Disclosure, DisclosureAcceptedAt: q.CreatedAt, CallerKey: ids.New("caller")}
 }

@@ -25,9 +25,9 @@ be avoided with `--port 0`, which prints the chosen loopback port.
 ```powershell
 python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
-python -X utf8 dev/tools/原生数据库验证.py --round R003
-python -X utf8 dev/tools/核验原生源码.py --round R003
-python -X utf8 dev/tools/整理原生验证证据.py --round R003
+python -X utf8 dev/tools/原生数据库验证.py --round R004
+python -X utf8 dev/tools/核验原生源码.py --round R004
+python -X utf8 dev/tools/整理原生验证证据.py --round R004
 ```
 
 The database command creates its own random-credential, loopback-only PostgreSQL17
@@ -61,6 +61,53 @@ full restart/upgrade recovery remain in DEV-02.
 
 `migrate` 有同事务互斥和不可变摘要；`check-schema` 只检查领域表数量及迁移元数据，不等于完整差异、权限或恢复审计。没有 down/清库命令；正式权限分离和完整升级、恢复仍在 DEV-02。
 
+## Native identity/control API / 原生身份控制接口
+
+Configure these values explicitly in your local environment. All *_FILE values point to files you own inside the ignored runtime area; no real secret belongs in source or example commands. HMAC files contain at least 32 bytes and must stay stable across restarts. The identity digest key requires a migration before replacement. RSA material uses one PEM key per file, at least 2048 bits. This adapter supports RSA public-key mode, not certificate mode.
+
+在本机环境显式配置下表。*_FILE指向runtime内本人持有的文件，不将真实秘密放入示例命令/源码。HMAC文件至少32字节，重启不能随意重生；更换身份摘要密钥须先做迁移。RSA每文件一把PEM密钥、至少2048位；当前为公钥模式，未实现证书模式。
+
+| Variable / 变量 | Meaning / 含义 |
+| --- | --- |
+| P11_DATABASE_URL | Explicitly selected migrated development DB / 已选且已迁移的开发库 |
+| P11_ALIPAY_APP_ID | Authorized application ID / 本应用ID |
+| P11_ALIPAY_SUBJECT_FIELD | Explicit OPEN_ID or USER_ID; no fallback / 明确选字段，不回退 |
+| P11_ALIPAY_PRIVATE_KEY_FILE | Application RSA private key path / 应用RSA私钥路径 |
+| P11_ALIPAY_PUBLIC_KEY_FILE | Trusted Alipay RSA public key path / 可信支付宝RSA公钥路径 |
+| P11_ALIPAY_OAUTH_RETURN_URL | Registered WEB callback; omit only if WEB login stays closed / Web已登记回调，未配则Web登录关闭 |
+| P11_AUTH_PEPPER_FILE | Stable session/CSRF HMAC secret / 稳定会话摘要密钥 |
+| P11_IDENTITY_PEPPER_FILE | Stable identity/code/browser-binding HMAC secret / 稳定身份、授权码和浏览器绑定摘要密钥 |
+| P11_API_KEY_PEPPER_FILE | Stable API-key HMAC secret / 稳定API密钥摘要密钥 |
+| P11_CURSOR_KEY_FILE | Stable signed-page cursor secret / 稳定分页签名密钥 |
+| P11_BROWSER_ORIGIN | One exact allowed browser origin, no path / 唯一明确允许的浏览器源，无路径 |
+| P11_API_ADDR | Optional numeric loopback, default 127.0.0.1:8787 / 可选数字本机地址 |
+| P11_INSECURE_LOOPBACK | Set 1 explicitly for HTTP loopback development cookies / 本机HTTP开发显式为1 |
+
+```powershell
+python -X utf8 dev/tools/原生开发.py run ./api/cmd/p11-api
+```
+
+The command requires migration version 3 and listens only on loopback. It does not migrate, create test identities or execute models/payments. No server deployment, TLS setup or observability work is introduced. For local HTTP development use an exact loopback browser origin and explicit insecure-loopback flag; development cookies have separate names. Default Cookie policy remains Secure/HttpOnly/Strict.
+
+命令要求迁移版本3，只监听loopback，不自动迁移、造测试身份或执行模型/支付。不增加部署/TLS/可观测性工作。本机HTTP使用精确loopback浏览器源和显式开发标志，Cookie名称独立；默认策略仍为Secure/HttpOnly/Strict。
+
+| Step / 步骤 | Miniapp / 小程序 | Web / 浏览器 |
+| --- | --- | --- |
+| Bind / 绑定 | In-memory verifier, POST /auth/challenges with MINIAPP and base64url SHA-256 / 内存verifier与挑战 | Same with WEB; HttpOnly login binding and state-bound authorization URL / WEB挑战及只读绑定Cookie |
+| Authorize / 授权 | my.getAuthCode returns a fresh auth code / 取得新授权码 | Authorized callback checks state; scrub temporary code from address / 回调核state并清临时地址 |
+| Exchange / 兑换 | POST /auth/sessions with challenge_id/auth_code/code_verifier / POST兑换 | Same plus web_state, exact Origin and binding Cookie / 另带state、Origin和Cookie |
+| Use / 使用 | In-memory once-returned access_token, Bearer / 仅内存持有会话令牌 | HttpOnly Cookie; csrf_token only in memory; Origin and X-CSRF-Token on writes / 只读Cookie及内存CSRF |
+| Read / 查询 | GET /auth/session never redisplays token / 不重发令牌 | GET /auth/session restores current CSRF / 可读取本会话CSRF |
+| Exit / 退出 | DELETE /auth/session and clear memory / 注销清内存 | DELETE with CSRF then expired Cookie / 带CSRF注销并清Cookie |
+
+These are backend contracts; Taro/Web frontends and the callback window remain to be built. A full-page redirect would lose an in-memory verifier, so WEB integration must keep the initiating SPA alive and receive an origin-checked same-origin callback result rather than persist session secrets in localStorage. These bindings are our own flow, not a claim that Alipay accepts PKCE parameters.
+
+以上为后端合同；Taro/Web前端及授权回调窗口尚待构建。整页跳转会丢失内存verifier，Web须保留原SPA并接收核源的同源回调窗口结果，不把会话秘密写入localStorage。这是本项目绑定流程，不宣称支付宝提供PKCE参数。
+
+All paths above have /v1/p11 prefix. Current routes cover 13 of 93 control operations: auth challenge/session create/read/revoke; profile; key list/create/revoke; services; quote create/read; order create/read. A valid account session is required for purchase; API keys never authorize it. Unknown authorization outcomes require fresh authorization. Signed synthetic OAuth and native HTTP tests passed; real application/channel integration has not.
+
+上述路径前缀均为/v1/p11。当前13/93操作涵盖挑战/会话、本人、密钥、市场、报价和订单；买单必须本人会话，API key不能代购。授权UNKNOWN重新发起授权，不重复兑原码。签名合成渠道响应及本机HTTP已验证，真实应用/渠道联调尚未执行。详见[实际源码路由](../src/api/internal/http/routes.json)和[实施约束](../../docs/技术开发/附录-身份登录与HTTP交易实施约束.md)。
+
 ## Intended buyer journey / 规划买方流程
 
 | Step / 步骤 | Buyer decision and system behavior / 买方决策及系统动作 |
@@ -74,10 +121,10 @@ full restart/upgrade recovery remain in DEV-02.
 | Accept / 接受 | Authenticate result, confirm acceptance or submit bounded rejection evidence / 认证结果并接受或提交有界拒绝证据 |
 | Resolve / 售后 | Follow order/refund/dispute state without disclosing unnecessary encrypted content / 按订单退款争议状态处理，不额外披露加密正文 |
 
-This journey is not an instruction to call a currently running marketplace API;
-there is no completed HTTP trading/model service through R003.
+R004 exposes a limited native control API, including market/quote/order operations.
+The full buyer journey, model invocation and payments are still pending.
 
-此表为产品使用规格，R003仍无已完成的HTTP交易/模型服务可直接调用。当前可测试的交易入口是`internal/market.Catalog.List`与`internal/trade.Service`的CreateQuote/GetQuote/CreateOrder/GetOrder；只有已验证凭据适配器能构造Principal，不能从普通请求自报角色。
+R004已接入市场/报价/建单的有限原生HTTP子集；此表完整使用流程、模型调用与资金链仍待完成。只有已验证凭据适配器可构造Principal，普通请求不能自报角色。
 
 R003 creates bounded quotes and WAITING_PAYMENT orders only. It does not reserve GPU capacity or channel funds. Hourly rental sessions/renewals, budget transactions and trusted usage remain pending. See [the exact subset and historical price boundaries](../../docs/技术开发/附录-NB价版与交易服务实施约束.md).
 

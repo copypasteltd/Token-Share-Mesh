@@ -1,0 +1,193 @@
+{"Time":"2026-10-30T05:55:53.1527606+08:00","Action":"start","Package":"p11.local/compute/api/cmd/p11-admin"}
+{"Time":"2026-10-30T05:55:53.1532686+08:00","Action":"output","Package":"p11.local/compute/api/cmd/p11-admin","Output":"?   \tp11.local/compute/api/cmd/p11-admin\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:53.1532686+08:00","Action":"skip","Package":"p11.local/compute/api/cmd/p11-admin","Elapsed":0.001}
+{"Time":"2026-10-30T05:55:55.0016881+08:00","Action":"start","Package":"p11.local/compute/api/cmd/p11-api"}
+{"Time":"2026-10-30T05:55:55.0016881+08:00","Action":"output","Package":"p11.local/compute/api/cmd/p11-api","Output":"?   \tp11.local/compute/api/cmd/p11-api\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:55.0016881+08:00","Action":"skip","Package":"p11.local/compute/api/cmd/p11-api","Elapsed":0}
+{"Time":"2026-10-30T05:55:55.0016881+08:00","Action":"start","Package":"p11.local/compute/api/internal/http"}
+{"Time":"2026-10-30T05:55:55.0016881+08:00","Action":"output","Package":"p11.local/compute/api/internal/http","Output":"?   \tp11.local/compute/api/internal/http\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:55.0016881+08:00","Action":"skip","Package":"p11.local/compute/api/internal/http","Elapsed":0}
+{"Time":"2026-10-30T05:55:59.9368952+08:00","Action":"start","Package":"p11.local/compute/api/tests"}
+{"Time":"2026-10-30T05:55:59.9405622+08:00","Action":"start","Package":"p11.local/compute/internal/identity"}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"start","Package":"p11.local/compute/internal/market"}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"output","Package":"p11.local/compute/internal/market","Output":"?   \tp11.local/compute/internal/market\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"skip","Package":"p11.local/compute/internal/market","Elapsed":0}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"start","Package":"p11.local/compute/internal/outbox"}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"output","Package":"p11.local/compute/internal/outbox","Output":"?   \tp11.local/compute/internal/outbox\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"skip","Package":"p11.local/compute/internal/outbox","Elapsed":0}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"start","Package":"p11.local/compute/internal/persistence"}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"output","Package":"p11.local/compute/internal/persistence","Output":"?   \tp11.local/compute/internal/persistence\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"skip","Package":"p11.local/compute/internal/persistence","Elapsed":0}
+{"Time":"2026-10-30T05:55:59.9456777+08:00","Action":"start","Package":"p11.local/compute/internal/pricing"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"start","Package":"p11.local/compute/internal/testsupport"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"output","Package":"p11.local/compute/internal/testsupport","Output":"?   \tp11.local/compute/internal/testsupport\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"skip","Package":"p11.local/compute/internal/testsupport","Elapsed":0}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"start","Package":"p11.local/compute/internal/trade"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"output","Package":"p11.local/compute/internal/trade","Output":"?   \tp11.local/compute/internal/trade\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"skip","Package":"p11.local/compute/internal/trade","Elapsed":0}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"start","Package":"p11.local/compute/shared/clock"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"output","Package":"p11.local/compute/shared/clock","Output":"?   \tp11.local/compute/shared/clock\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"skip","Package":"p11.local/compute/shared/clock","Elapsed":0}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"start","Package":"p11.local/compute/shared/fault"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"output","Package":"p11.local/compute/shared/fault","Output":"?   \tp11.local/compute/shared/fault\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"skip","Package":"p11.local/compute/shared/fault","Elapsed":0}
+{"Time":"2026-10-30T05:55:59.9471928+08:00","Action":"start","Package":"p11.local/compute/shared/ids"}
+{"Time":"2026-10-30T05:55:59.9481912+08:00","Action":"output","Package":"p11.local/compute/shared/ids","Output":"?   \tp11.local/compute/shared/ids\t[no test files]\n"}
+{"Time":"2026-10-30T05:55:59.9481912+08:00","Action":"skip","Package":"p11.local/compute/shared/ids","Elapsed":0.001}
+{"Time":"2026-10-30T05:55:59.9481912+08:00","Action":"start","Package":"p11.local/compute/shared/money"}
+{"Time":"2026-10-30T05:55:59.9531924+08:00","Action":"start","Package":"p11.local/compute/shared/strictjson"}
+{"Time":"2026-10-30T05:55:59.9539867+08:00","Action":"start","Package":"p11.local/compute/tests/integration"}
+{"Time":"2026-10-30T05:56:02.6729307+08:00","Action":"run","Package":"p11.local/compute/shared/money","Test":"TestCumulativeBillingDoesNotRoundEveryChunk"}
+{"Time":"2026-10-30T05:56:02.6729307+08:00","Action":"output","Package":"p11.local/compute/shared/money","Test":"TestCumulativeBillingDoesNotRoundEveryChunk","Output":"=== RUN   TestCumulativeBillingDoesNotRoundEveryChunk\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.6729307+08:00","Action":"output","Package":"p11.local/compute/shared/money","Test":"TestCumulativeBillingDoesNotRoundEveryChunk","Output":"--- PASS: TestCumulativeBillingDoesNotRoundEveryChunk (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.6729307+08:00","Action":"pass","Package":"p11.local/compute/shared/money","Test":"TestCumulativeBillingDoesNotRoundEveryChunk","Elapsed":0}
+{"Time":"2026-10-30T05:56:02.6729307+08:00","Action":"run","Package":"p11.local/compute/shared/money","Test":"TestAmountsRejectOverflowNegativeAndReversal"}
+{"Time":"2026-10-30T05:56:02.6729307+08:00","Action":"output","Package":"p11.local/compute/shared/money","Test":"TestAmountsRejectOverflowNegativeAndReversal","Output":"=== RUN   TestAmountsRejectOverflowNegativeAndReversal\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.6729307+08:00","Action":"output","Package":"p11.local/compute/shared/money","Test":"TestAmountsRejectOverflowNegativeAndReversal","Output":"--- PASS: TestAmountsRejectOverflowNegativeAndReversal (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.6729307+08:00","Action":"pass","Package":"p11.local/compute/shared/money","Test":"TestAmountsRejectOverflowNegativeAndReversal","Elapsed":0}
+{"Time":"2026-10-30T05:56:02.6739313+08:00","Action":"output","Package":"p11.local/compute/shared/money","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.7165717+08:00","Action":"output","Package":"p11.local/compute/shared/money","Output":"ok  \tp11.local/compute/shared/money\t2.768s\n"}
+{"Time":"2026-10-30T05:56:02.7165717+08:00","Action":"pass","Package":"p11.local/compute/shared/money","Elapsed":2.768}
+{"Time":"2026-10-30T05:56:02.7196369+08:00","Action":"run","Package":"p11.local/compute/shared/strictjson","Test":"TestControlJSONRequiresExactDeclaredKeys"}
+{"Time":"2026-10-30T05:56:02.7196369+08:00","Action":"output","Package":"p11.local/compute/shared/strictjson","Test":"TestControlJSONRequiresExactDeclaredKeys","Output":"=== RUN   TestControlJSONRequiresExactDeclaredKeys\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.7216558+08:00","Action":"output","Package":"p11.local/compute/shared/strictjson","Test":"TestControlJSONRequiresExactDeclaredKeys","Output":"--- PASS: TestControlJSONRequiresExactDeclaredKeys (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.7216558+08:00","Action":"pass","Package":"p11.local/compute/shared/strictjson","Test":"TestControlJSONRequiresExactDeclaredKeys","Elapsed":0}
+{"Time":"2026-10-30T05:56:02.7216558+08:00","Action":"run","Package":"p11.local/compute/shared/strictjson","Test":"TestControlJSONRejectsAmbiguityAndBounds"}
+{"Time":"2026-10-30T05:56:02.7216558+08:00","Action":"output","Package":"p11.local/compute/shared/strictjson","Test":"TestControlJSONRejectsAmbiguityAndBounds","Output":"=== RUN   TestControlJSONRejectsAmbiguityAndBounds\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.7216558+08:00","Action":"output","Package":"p11.local/compute/shared/strictjson","Test":"TestControlJSONRejectsAmbiguityAndBounds","Output":"--- PASS: TestControlJSONRejectsAmbiguityAndBounds (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.7216558+08:00","Action":"pass","Package":"p11.local/compute/shared/strictjson","Test":"TestControlJSONRejectsAmbiguityAndBounds","Elapsed":0}
+{"Time":"2026-10-30T05:56:02.7226589+08:00","Action":"output","Package":"p11.local/compute/shared/strictjson","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:02.7631029+08:00","Action":"output","Package":"p11.local/compute/shared/strictjson","Output":"ok  \tp11.local/compute/shared/strictjson\t2.810s\n"}
+{"Time":"2026-10-30T05:56:02.7631029+08:00","Action":"pass","Package":"p11.local/compute/shared/strictjson","Elapsed":2.81}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"run","Package":"p11.local/compute/internal/pricing","Test":"TestHourlyAndTokenContractsUseExactAggregateRounding"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Test":"TestHourlyAndTokenContractsUseExactAggregateRounding","Output":"=== RUN   TestHourlyAndTokenContractsUseExactAggregateRounding\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Test":"TestHourlyAndTokenContractsUseExactAggregateRounding","Output":"--- PASS: TestHourlyAndTokenContractsUseExactAggregateRounding (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"pass","Package":"p11.local/compute/internal/pricing","Test":"TestHourlyAndTokenContractsUseExactAggregateRounding","Elapsed":0}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"run","Package":"p11.local/compute/internal/pricing","Test":"TestUnknownUsageInvalidRatesAndOverflowAreRejected"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Test":"TestUnknownUsageInvalidRatesAndOverflowAreRejected","Output":"=== RUN   TestUnknownUsageInvalidRatesAndOverflowAreRejected\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Test":"TestUnknownUsageInvalidRatesAndOverflowAreRejected","Output":"--- PASS: TestUnknownUsageInvalidRatesAndOverflowAreRejected (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"pass","Package":"p11.local/compute/internal/pricing","Test":"TestUnknownUsageInvalidRatesAndOverflowAreRejected","Elapsed":0}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"run","Package":"p11.local/compute/internal/pricing","Test":"TestFeeRefundTargetsAndLegacyConversion"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Test":"TestFeeRefundTargetsAndLegacyConversion","Output":"=== RUN   TestFeeRefundTargetsAndLegacyConversion\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Test":"TestFeeRefundTargetsAndLegacyConversion","Output":"--- PASS: TestFeeRefundTargetsAndLegacyConversion (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"pass","Package":"p11.local/compute/internal/pricing","Test":"TestFeeRefundTargetsAndLegacyConversion","Elapsed":0}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"run","Package":"p11.local/compute/internal/pricing","Test":"TestPriceDecoderRejectsUnknownComponentsAndTrailingData"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Test":"TestPriceDecoderRejectsUnknownComponentsAndTrailingData","Output":"=== RUN   TestPriceDecoderRejectsUnknownComponentsAndTrailingData\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Test":"TestPriceDecoderRejectsUnknownComponentsAndTrailingData","Output":"--- PASS: TestPriceDecoderRejectsUnknownComponentsAndTrailingData (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"pass","Package":"p11.local/compute/internal/pricing","Test":"TestPriceDecoderRejectsUnknownComponentsAndTrailingData","Elapsed":0}
+{"Time":"2026-10-30T05:56:03.9691863+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:04.0116503+08:00","Action":"output","Package":"p11.local/compute/internal/pricing","Output":"ok  \tp11.local/compute/internal/pricing\t4.066s\n"}
+{"Time":"2026-10-30T05:56:04.0116503+08:00","Action":"pass","Package":"p11.local/compute/internal/pricing","Elapsed":4.066}
+{"Time":"2026-10-30T05:56:04.3642116+08:00","Action":"run","Package":"p11.local/compute/internal/identity","Test":"TestAlipayVerifiesOriginalBytesAndSignsApplicationRequest"}
+{"Time":"2026-10-30T05:56:04.3642116+08:00","Action":"output","Package":"p11.local/compute/internal/identity","Test":"TestAlipayVerifiesOriginalBytesAndSignsApplicationRequest","Output":"=== RUN   TestAlipayVerifiesOriginalBytesAndSignsApplicationRequest\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:04.6631463+08:00","Action":"output","Package":"p11.local/compute/internal/identity","Test":"TestAlipayVerifiesOriginalBytesAndSignsApplicationRequest","Output":"--- PASS: TestAlipayVerifiesOriginalBytesAndSignsApplicationRequest (0.30s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:04.6631463+08:00","Action":"pass","Package":"p11.local/compute/internal/identity","Test":"TestAlipayVerifiesOriginalBytesAndSignsApplicationRequest","Elapsed":0.3}
+{"Time":"2026-10-30T05:56:04.6631463+08:00","Action":"run","Package":"p11.local/compute/internal/identity","Test":"TestAlipayRejectsUnsignedTamperedOrAmbiguousIdentityResponses"}
+{"Time":"2026-10-30T05:56:04.6631463+08:00","Action":"output","Package":"p11.local/compute/internal/identity","Test":"TestAlipayRejectsUnsignedTamperedOrAmbiguousIdentityResponses","Output":"=== RUN   TestAlipayRejectsUnsignedTamperedOrAmbiguousIdentityResponses\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:05.0796331+08:00","Action":"output","Package":"p11.local/compute/internal/identity","Test":"TestAlipayRejectsUnsignedTamperedOrAmbiguousIdentityResponses","Output":"--- PASS: TestAlipayRejectsUnsignedTamperedOrAmbiguousIdentityResponses (0.42s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:05.0796331+08:00","Action":"pass","Package":"p11.local/compute/internal/identity","Test":"TestAlipayRejectsUnsignedTamperedOrAmbiguousIdentityResponses","Elapsed":0.42}
+{"Time":"2026-10-30T05:56:05.0796331+08:00","Action":"run","Package":"p11.local/compute/internal/identity","Test":"TestAlipayRejectsIncompleteConfigurationAndNeverFollowsRedirects"}
+{"Time":"2026-10-30T05:56:05.0796331+08:00","Action":"output","Package":"p11.local/compute/internal/identity","Test":"TestAlipayRejectsIncompleteConfigurationAndNeverFollowsRedirects","Output":"=== RUN   TestAlipayRejectsIncompleteConfigurationAndNeverFollowsRedirects\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:05.2935091+08:00","Action":"output","Package":"p11.local/compute/internal/identity","Test":"TestAlipayRejectsIncompleteConfigurationAndNeverFollowsRedirects","Output":"--- PASS: TestAlipayRejectsIncompleteConfigurationAndNeverFollowsRedirects (0.21s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:05.2935091+08:00","Action":"pass","Package":"p11.local/compute/internal/identity","Test":"TestAlipayRejectsIncompleteConfigurationAndNeverFollowsRedirects","Elapsed":0.21}
+{"Time":"2026-10-30T05:56:05.2935091+08:00","Action":"output","Package":"p11.local/compute/internal/identity","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:05.3349165+08:00","Action":"output","Package":"p11.local/compute/internal/identity","Output":"ok  \tp11.local/compute/internal/identity\t5.394s\n"}
+{"Time":"2026-10-30T05:56:05.3349165+08:00","Action":"pass","Package":"p11.local/compute/internal/identity","Elapsed":5.394}
+{"Time":"2026-10-30T05:56:07.3918184+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestJournalCommitBalancesAndPreventsLaterMutation"}
+{"Time":"2026-10-30T05:56:07.3918184+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestJournalCommitBalancesAndPreventsLaterMutation","Output":"=== RUN   TestJournalCommitBalancesAndPreventsLaterMutation\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:07.4746742+08:00","Action":"run","Package":"p11.local/compute/api/tests","Test":"TestHTTPMiniappLoginQuoteOrderAndTenantIsolation"}
+{"Time":"2026-10-30T05:56:07.4746742+08:00","Action":"output","Package":"p11.local/compute/api/tests","Test":"TestHTTPMiniappLoginQuoteOrderAndTenantIsolation","Output":"=== RUN   TestHTTPMiniappLoginQuoteOrderAndTenantIsolation\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:07.7965787+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestJournalCommitBalancesAndPreventsLaterMutation","Output":"--- PASS: TestJournalCommitBalancesAndPreventsLaterMutation (0.41s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:07.7975782+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestJournalCommitBalancesAndPreventsLaterMutation","Elapsed":0.41}
+{"Time":"2026-10-30T05:56:07.7975782+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestCompositeForeignKeyRejectsWrongSellerResource"}
+{"Time":"2026-10-30T05:56:07.7975782+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestCompositeForeignKeyRejectsWrongSellerResource","Output":"=== RUN   TestCompositeForeignKeyRejectsWrongSellerResource\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:08.03912+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestCompositeForeignKeyRejectsWrongSellerResource","Output":"--- PASS: TestCompositeForeignKeyRejectsWrongSellerResource (0.23s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:08.0396535+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestCompositeForeignKeyRejectsWrongSellerResource","Elapsed":0.23}
+{"Time":"2026-10-30T05:56:08.0396535+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestConsumedQuoteAndOrderTermsCannotBeChanged"}
+{"Time":"2026-10-30T05:56:08.0396535+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestConsumedQuoteAndOrderTermsCannotBeChanged","Output":"=== RUN   TestConsumedQuoteAndOrderTermsCannotBeChanged\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:08.2232443+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestConsumedQuoteAndOrderTermsCannotBeChanged","Output":"--- PASS: TestConsumedQuoteAndOrderTermsCannotBeChanged (0.19s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:08.2232443+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestConsumedQuoteAndOrderTermsCannotBeChanged","Elapsed":0.19}
+{"Time":"2026-10-30T05:56:08.2232443+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestMigrationsExecuteAllDomainDDLAndRejectDrift"}
+{"Time":"2026-10-30T05:56:08.2232443+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestMigrationsExecuteAllDomainDDLAndRejectDrift","Output":"=== RUN   TestMigrationsExecuteAllDomainDDLAndRejectDrift\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:08.3633081+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestMigrationsExecuteAllDomainDDLAndRejectDrift","Output":"--- PASS: TestMigrationsExecuteAllDomainDDLAndRejectDrift (0.14s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:08.3633081+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestMigrationsExecuteAllDomainDDLAndRejectDrift","Elapsed":0.14}
+{"Time":"2026-10-30T05:56:08.3633081+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestKeysSecretOnceScopesOwnershipAndRevocation"}
+{"Time":"2026-10-30T05:56:08.3633081+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestKeysSecretOnceScopesOwnershipAndRevocation","Output":"=== RUN   TestKeysSecretOnceScopesOwnershipAndRevocation\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:08.9225707+08:00","Action":"output","Package":"p11.local/compute/api/tests","Test":"TestHTTPMiniappLoginQuoteOrderAndTenantIsolation","Output":"--- PASS: TestHTTPMiniappLoginQuoteOrderAndTenantIsolation (1.45s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:08.9225707+08:00","Action":"pass","Package":"p11.local/compute/api/tests","Test":"TestHTTPMiniappLoginQuoteOrderAndTenantIsolation","Elapsed":1.45}
+{"Time":"2026-10-30T05:56:08.9225707+08:00","Action":"run","Package":"p11.local/compute/api/tests","Test":"TestHTTPBrowserCookiesCSRFAndSessionRevocation"}
+{"Time":"2026-10-30T05:56:08.9225707+08:00","Action":"output","Package":"p11.local/compute/api/tests","Test":"TestHTTPBrowserCookiesCSRFAndSessionRevocation","Output":"=== RUN   TestHTTPBrowserCookiesCSRFAndSessionRevocation\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:09.2588993+08:00","Action":"output","Package":"p11.local/compute/api/tests","Test":"TestHTTPBrowserCookiesCSRFAndSessionRevocation","Output":"--- PASS: TestHTTPBrowserCookiesCSRFAndSessionRevocation (0.34s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:09.2588993+08:00","Action":"pass","Package":"p11.local/compute/api/tests","Test":"TestHTTPBrowserCookiesCSRFAndSessionRevocation","Elapsed":0.34}
+{"Time":"2026-10-30T05:56:09.2588993+08:00","Action":"run","Package":"p11.local/compute/api/tests","Test":"TestHTTPRejectsAmbiguousOversizeAndUnsupportedRequests"}
+{"Time":"2026-10-30T05:56:09.2588993+08:00","Action":"output","Package":"p11.local/compute/api/tests","Test":"TestHTTPRejectsAmbiguousOversizeAndUnsupportedRequests","Output":"=== RUN   TestHTTPRejectsAmbiguousOversizeAndUnsupportedRequests\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:09.4868567+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestKeysSecretOnceScopesOwnershipAndRevocation","Output":"--- PASS: TestKeysSecretOnceScopesOwnershipAndRevocation (1.13s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:09.4868567+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestKeysSecretOnceScopesOwnershipAndRevocation","Elapsed":1.13}
+{"Time":"2026-10-30T05:56:09.4868567+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestConcurrentIdempotencyCommitsOneBusinessMutation"}
+{"Time":"2026-10-30T05:56:09.4868567+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestConcurrentIdempotencyCommitsOneBusinessMutation","Output":"=== RUN   TestConcurrentIdempotencyCommitsOneBusinessMutation\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:09.8692685+08:00","Action":"output","Package":"p11.local/compute/api/tests","Test":"TestHTTPRejectsAmbiguousOversizeAndUnsupportedRequests","Output":"--- PASS: TestHTTPRejectsAmbiguousOversizeAndUnsupportedRequests (0.61s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:09.8692685+08:00","Action":"pass","Package":"p11.local/compute/api/tests","Test":"TestHTTPRejectsAmbiguousOversizeAndUnsupportedRequests","Elapsed":0.61}
+{"Time":"2026-10-30T05:56:09.8692685+08:00","Action":"run","Package":"p11.local/compute/api/tests","Test":"TestHTTPKeySecretOnceSignedPaginationAndRateLimits"}
+{"Time":"2026-10-30T05:56:09.8692685+08:00","Action":"output","Package":"p11.local/compute/api/tests","Test":"TestHTTPKeySecretOnceSignedPaginationAndRateLimits","Output":"=== RUN   TestHTTPKeySecretOnceSignedPaginationAndRateLimits\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:09.9883426+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestConcurrentIdempotencyCommitsOneBusinessMutation","Output":"--- PASS: TestConcurrentIdempotencyCommitsOneBusinessMutation (0.50s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:09.9883426+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestConcurrentIdempotencyCommitsOneBusinessMutation","Elapsed":0.5}
+{"Time":"2026-10-30T05:56:09.9883426+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestInboxReceiptRollsBackWithSideEffectAndDeduplicates"}
+{"Time":"2026-10-30T05:56:09.9883426+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestInboxReceiptRollsBackWithSideEffectAndDeduplicates","Output":"=== RUN   TestInboxReceiptRollsBackWithSideEffectAndDeduplicates\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.2471804+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestInboxReceiptRollsBackWithSideEffectAndDeduplicates","Output":"--- PASS: TestInboxReceiptRollsBackWithSideEffectAndDeduplicates (0.26s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.2479465+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestInboxReceiptRollsBackWithSideEffectAndDeduplicates","Elapsed":0.26}
+{"Time":"2026-10-30T05:56:10.2479465+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestDurableJobsFenceStaleClaimsAndBoundRetries"}
+{"Time":"2026-10-30T05:56:10.2479465+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestDurableJobsFenceStaleClaimsAndBoundRetries","Output":"=== RUN   TestDurableJobsFenceStaleClaimsAndBoundRetries\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.3699017+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestDurableJobsFenceStaleClaimsAndBoundRetries","Output":"--- PASS: TestDurableJobsFenceStaleClaimsAndBoundRetries (0.12s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.3702895+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestDurableJobsFenceStaleClaimsAndBoundRetries","Elapsed":0.12}
+{"Time":"2026-10-30T05:56:10.3821726+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestAuthorizationChallengeIsSingleUseAndStoresNoOriginalCredentials"}
+{"Time":"2026-10-30T05:56:10.3821726+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestAuthorizationChallengeIsSingleUseAndStoresNoOriginalCredentials","Output":"=== RUN   TestAuthorizationChallengeIsSingleUseAndStoresNoOriginalCredentials\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.5390658+08:00","Action":"output","Package":"p11.local/compute/api/tests","Test":"TestHTTPKeySecretOnceSignedPaginationAndRateLimits","Output":"--- PASS: TestHTTPKeySecretOnceSignedPaginationAndRateLimits (0.67s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.5390658+08:00","Action":"pass","Package":"p11.local/compute/api/tests","Test":"TestHTTPKeySecretOnceSignedPaginationAndRateLimits","Elapsed":0.67}
+{"Time":"2026-10-30T05:56:10.5390658+08:00","Action":"output","Package":"p11.local/compute/api/tests","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.5719526+08:00","Action":"output","Package":"p11.local/compute/api/tests","Output":"ok  \tp11.local/compute/api/tests\t10.635s\n"}
+{"Time":"2026-10-30T05:56:10.5719526+08:00","Action":"pass","Package":"p11.local/compute/api/tests","Elapsed":10.635}
+{"Time":"2026-10-30T05:56:10.6769963+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestAuthorizationChallengeIsSingleUseAndStoresNoOriginalCredentials","Output":"--- PASS: TestAuthorizationChallengeIsSingleUseAndStoresNoOriginalCredentials (0.30s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.6779997+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestAuthorizationChallengeIsSingleUseAndStoresNoOriginalCredentials","Elapsed":0.3}
+{"Time":"2026-10-30T05:56:10.6779997+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestBrowserAuthorizationBindingAndUnknownExchangeFailClosed"}
+{"Time":"2026-10-30T05:56:10.6779997+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestBrowserAuthorizationBindingAndUnknownExchangeFailClosed","Output":"=== RUN   TestBrowserAuthorizationBindingAndUnknownExchangeFailClosed\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.7528683+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestBrowserAuthorizationBindingAndUnknownExchangeFailClosed","Output":"--- PASS: TestBrowserAuthorizationBindingAndUnknownExchangeFailClosed (0.07s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:10.7538763+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestBrowserAuthorizationBindingAndUnknownExchangeFailClosed","Elapsed":0.07}
+{"Time":"2026-10-30T05:56:10.7538763+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestSessionVersionsExpiryAndRevocationApplyBeforeTradeReplay"}
+{"Time":"2026-10-30T05:56:10.7538763+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestSessionVersionsExpiryAndRevocationApplyBeforeTradeReplay","Output":"=== RUN   TestSessionVersionsExpiryAndRevocationApplyBeforeTradeReplay\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:11.5039529+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestSessionVersionsExpiryAndRevocationApplyBeforeTradeReplay","Output":"--- PASS: TestSessionVersionsExpiryAndRevocationApplyBeforeTradeReplay (0.75s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:11.5039529+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestSessionVersionsExpiryAndRevocationApplyBeforeTradeReplay","Elapsed":0.75}
+{"Time":"2026-10-30T05:56:11.5039529+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestRoleRevocationBlocksKeyReplayAndLoginDoesNotRestoreRevokedRoles"}
+{"Time":"2026-10-30T05:56:11.5039529+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestRoleRevocationBlocksKeyReplayAndLoginDoesNotRestoreRevokedRoles","Output":"=== RUN   TestRoleRevocationBlocksKeyReplayAndLoginDoesNotRestoreRevokedRoles\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:11.7491609+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestRoleRevocationBlocksKeyReplayAndLoginDoesNotRestoreRevokedRoles","Output":"--- PASS: TestRoleRevocationBlocksKeyReplayAndLoginDoesNotRestoreRevokedRoles (0.24s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:11.7491609+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestRoleRevocationBlocksKeyReplayAndLoginDoesNotRestoreRevokedRoles","Elapsed":0.24}
+{"Time":"2026-10-30T05:56:11.7491609+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestMarketRequiresScopedApprovalsAndConcreteC2CModels"}
+{"Time":"2026-10-30T05:56:11.7491609+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestMarketRequiresScopedApprovalsAndConcreteC2CModels","Output":"=== RUN   TestMarketRequiresScopedApprovalsAndConcreteC2CModels\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:12.2143361+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestMarketRequiresScopedApprovalsAndConcreteC2CModels","Output":"--- PASS: TestMarketRequiresScopedApprovalsAndConcreteC2CModels (0.45s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:12.2143361+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestMarketRequiresScopedApprovalsAndConcreteC2CModels","Elapsed":0.45}
+{"Time":"2026-10-30T05:56:12.2143361+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestHourlyAndDualRateQuotesFreezeSellerBudgetAndPolicy"}
+{"Time":"2026-10-30T05:56:12.2143361+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestHourlyAndDualRateQuotesFreezeSellerBudgetAndPolicy","Output":"=== RUN   TestHourlyAndDualRateQuotesFreezeSellerBudgetAndPolicy\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:12.8071073+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestHourlyAndDualRateQuotesFreezeSellerBudgetAndPolicy","Output":"--- PASS: TestHourlyAndDualRateQuotesFreezeSellerBudgetAndPolicy (0.61s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:12.8076343+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestHourlyAndDualRateQuotesFreezeSellerBudgetAndPolicy","Elapsed":0.61}
+{"Time":"2026-10-30T05:56:12.8076343+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestOrderConfirmationConcurrentReplayAndOwnerIsolation"}
+{"Time":"2026-10-30T05:56:12.813457+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestOrderConfirmationConcurrentReplayAndOwnerIsolation","Output":"=== RUN   TestOrderConfirmationConcurrentReplayAndOwnerIsolation\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:13.2983741+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestOrderConfirmationConcurrentReplayAndOwnerIsolation","Output":"--- PASS: TestOrderConfirmationConcurrentReplayAndOwnerIsolation (0.50s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:13.2989247+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestOrderConfirmationConcurrentReplayAndOwnerIsolation","Elapsed":0.5}
+{"Time":"2026-10-30T05:56:13.2989247+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestQuoteSingleConsumptionAcrossDifferentOrderKeysAndRollback"}
+{"Time":"2026-10-30T05:56:13.2989247+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestQuoteSingleConsumptionAcrossDifferentOrderKeysAndRollback","Output":"=== RUN   TestQuoteSingleConsumptionAcrossDifferentOrderKeysAndRollback\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:13.6391058+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestQuoteSingleConsumptionAcrossDifferentOrderKeysAndRollback","Output":"--- PASS: TestQuoteSingleConsumptionAcrossDifferentOrderKeysAndRollback (0.34s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:13.6391058+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestQuoteSingleConsumptionAcrossDifferentOrderKeysAndRollback","Elapsed":0.34}
+{"Time":"2026-10-30T05:56:13.6391058+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestNewListingRevisionPreservesHistoricalQuoteAndRejectsStalePurchase"}
+{"Time":"2026-10-30T05:56:13.6391058+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestNewListingRevisionPreservesHistoricalQuoteAndRejectsStalePurchase","Output":"=== RUN   TestNewListingRevisionPreservesHistoricalQuoteAndRejectsStalePurchase\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:13.9358413+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestNewListingRevisionPreservesHistoricalQuoteAndRejectsStalePurchase","Output":"--- PASS: TestNewListingRevisionPreservesHistoricalQuoteAndRejectsStalePurchase (0.30s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:13.9363485+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestNewListingRevisionPreservesHistoricalQuoteAndRejectsStalePurchase","Elapsed":0.3}
+{"Time":"2026-10-30T05:56:13.9363485+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestOrderRechecksDeviceEvidenceAndBuyerConsentBeforeMutation"}
+{"Time":"2026-10-30T05:56:13.9363485+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestOrderRechecksDeviceEvidenceAndBuyerConsentBeforeMutation","Output":"=== RUN   TestOrderRechecksDeviceEvidenceAndBuyerConsentBeforeMutation\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:14.1122363+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestOrderRechecksDeviceEvidenceAndBuyerConsentBeforeMutation","Output":"--- PASS: TestOrderRechecksDeviceEvidenceAndBuyerConsentBeforeMutation (0.17s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:14.1122363+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestOrderRechecksDeviceEvidenceAndBuyerConsentBeforeMutation","Elapsed":0.17}
+{"Time":"2026-10-30T05:56:14.1122363+08:00","Action":"run","Package":"p11.local/compute/tests/integration","Test":"TestHistoricalOrderProjectionRetainsLegacyPriceFields"}
+{"Time":"2026-10-30T05:56:14.1122363+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestHistoricalOrderProjectionRetainsLegacyPriceFields","Output":"=== RUN   TestHistoricalOrderProjectionRetainsLegacyPriceFields\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:14.2564926+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Test":"TestHistoricalOrderProjectionRetainsLegacyPriceFields","Output":"--- PASS: TestHistoricalOrderProjectionRetainsLegacyPriceFields (0.15s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:14.3877455+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Test":"TestHistoricalOrderProjectionRetainsLegacyPriceFields","Elapsed":0.15}
+{"Time":"2026-10-30T05:56:14.3877455+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T05:56:14.3877455+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Output":"ok  \tp11.local/compute/tests/integration\t14.434s\n"}
+{"Time":"2026-10-30T05:56:14.3877455+08:00","Action":"pass","Package":"p11.local/compute/tests/integration","Elapsed":14.434}

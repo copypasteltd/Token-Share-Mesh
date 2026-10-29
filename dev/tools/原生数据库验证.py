@@ -46,7 +46,7 @@ def native_path_alias(lease=None):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R003', choices=['R003'])
+    parser.add_argument('--round', default='R004', choices=['R003','R004'])
     options=parser.parse_args()
     lease = {'safe_to_release': True}
     with native_path_alias(lease) as alias:

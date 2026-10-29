@@ -173,13 +173,17 @@
         "role_grants",
         "api_keys",
         "consents",
-        "pairing_intents"
+        "pairing_intents",
+        "auth_sessions",
+        "auth_attempts"
       ],
       "application_services": [
         "PrincipalResolver",
         "RolePolicy",
         "KeyService",
-        "ConsentService"
+        "ConsentService",
+        "Sessions",
+        "Alipay"
       ],
       "dependencies": [],
       "status": "DESIGN_UNIMPLEMENTED",
@@ -2085,9 +2089,9 @@
         "MOD-18",
         "MOD-20"
       ],
-      "rule": "60表各有唯一权威模块；API/数据库变更先改规范源再生成映射，不复制第二OpenAPI",
+      "rule": "62表各有唯一权威模块；API/数据库变更先改规范源再生成映射，不复制第二OpenAPI",
       "failure_action": "缺归属/破坏引用/重复operation或编号拒合入",
-      "required_evidence": "89操作/60表/80需求全覆盖与hash核验",
+      "required_evidence": "93操作/62表/80需求全覆盖与hash核验",
       "source_document": "docs/技术开发/03-领域模块与应用服务设计.md"
     },
     {
@@ -2215,7 +2219,8 @@
         "docs/技术开发/20-性能容量与可观测性.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -2320,7 +2325,8 @@
         "docs/技术开发/20-性能容量与可观测性.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -2421,7 +2427,8 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -2486,7 +2493,11 @@
         "getSelfProfile",
         "listApiKeys",
         "createApiKey",
-        "revokeApiKey"
+        "revokeApiKey",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "conditional_branch": false,
       "milestone_id": "MS-01"
@@ -2951,7 +2962,8 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -3059,7 +3071,8 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -3170,7 +3183,8 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -7820,7 +7834,8 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
-        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -8066,7 +8081,8 @@
         "docs/技术开发/20-性能容量与可观测性.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -8406,7 +8422,8 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
       "development_status": "DESIGN",
       "current_phase_scope": "CURRENT",
@@ -8418,7 +8435,7 @@
         {
           "id": "DEV-56.01",
           "title": "追踪核对",
-          "detail": "80 F/T、20模块、56任务、89操作/60表覆盖，部分/延后不丢号",
+          "detail": "80 F/T、20模块、56任务、93操作/62表覆盖，部分/延后不丢号",
           "required_evidence": "编号/依赖/范围核验结果",
           "development_status": "DESIGN",
           "test_status": "NOT_EXECUTED",
@@ -8493,6 +8510,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8534,9 +8554,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "6a80e9ee59b9debaf3948481c4ae95c13ee930d9b53159f7b61be56b33b84f54",
+      "canonical_operation_sha256": "1a81b0b684885122ace31f7da1602a95b7af4514964ec313f604f06ab0c4ed4c",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-001"
     },
     {
@@ -8553,6 +8574,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8599,9 +8623,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "32ad27238d73fd26e051af1b25111a15795e1fe54a8901941c6c386413cfb20e",
+      "canonical_operation_sha256": "ee65d3bd04d6a174a830040576b21b987367eb45439d3853da38932b910923e0",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-002"
     },
     {
@@ -8618,6 +8643,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8664,9 +8692,10 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
       ],
-      "canonical_operation_sha256": "442ff6fa03076cec37863b9bc79a9d875c7f5e844b3ecd262f704aedef065669",
+      "canonical_operation_sha256": "9005b0532e5deb4655724f8ef74bdfbdce128a48d2aad763104fe5d5cbccb766",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-003"
     },
     {
@@ -8683,6 +8712,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8735,9 +8767,10 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
       ],
-      "canonical_operation_sha256": "c15021186be8f5f6844f95d700ff84d43f8ed532b0a2bf2aeabd280efac39b67",
+      "canonical_operation_sha256": "d9b90b443c4992283e093ee0c757629e7e18daaaae1703907939f38f6613df60",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-004"
     },
     {
@@ -8754,6 +8787,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8796,9 +8832,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "fa8f2aa9d65ff45fccdfec460f581e9776b30f8819157911df2594806f2d11bf",
+      "canonical_operation_sha256": "29c9367e72ac0c527921e7c60d17ec65a82608a56cc129d6f144bda484649f97",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-005"
     },
     {
@@ -8815,6 +8852,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8854,11 +8894,19 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "3c56a50e4b3fd084060df24d0540c145d85369885c4ca129928c597f8a3cae77",
+      "canonical_operation_sha256": "711e02d255f58d55c42fc9e544093baf14ab5443e47eda015b17242b699bda26",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "keys",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-006"
     },
     {
@@ -8875,6 +8923,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8919,9 +8970,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "ebb649711c67a8b2e7ffb2e6c1006c0f72b8ed7de51f475a9444bfdddac6911b",
+      "canonical_operation_sha256": "356751bd6a050b58dbf03b2851e322e13232fef1f0e576599415bf8f38956961",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-007"
     },
     {
@@ -8938,6 +8990,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8989,9 +9044,10 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
       ],
-      "canonical_operation_sha256": "e41f274945b0de85cfc8a64cbbebd23aa2fb3f2ca63ff3f64363ee0a6dc08681",
+      "canonical_operation_sha256": "65e631b9300fe4b5b5b39ab18c764bc4495ba5efa500224912b0aa3bd4f76b6d",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-008"
     },
     {
@@ -9008,6 +9064,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9050,9 +9109,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "ba4701776091b598b80b33b8d70d75448f2b40b661816908b8fb0f6f6caaf1a6",
+      "canonical_operation_sha256": "1af0ca729f27f4097783f1a3bf73843e2fc2e9821c467bd965acaa9ed3477800",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-009"
     },
     {
@@ -9069,6 +9129,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9128,9 +9191,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "6b1532d47d1648d19aa9fb696cb9766e506fbec2e171132678c482640cb8748a",
+      "canonical_operation_sha256": "970a80f45e6813892c261291a0ec1a1ffdd8851b4af349ff38dab1a39971ecee",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-010"
     },
     {
@@ -9147,6 +9211,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9193,9 +9260,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "5043e9d03a616d317fc0078a45129346f6c5473b4096779429f07d9a210ca8db",
+      "canonical_operation_sha256": "35121ab8e6659030cdbff94d69515f8b682739799a91869cba2156f2b73ca5c9",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-011"
     },
     {
@@ -9212,6 +9280,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9257,9 +9328,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "0c2b306cae440744deeb79020948b0d63bd910fc53c6d816152dbc82ccdaab68",
+      "canonical_operation_sha256": "dd8f5c2d2353a5f9e0bfb0ae7e4537e789c2ad70c8b036edcd4705f17532e9d9",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-012"
     },
     {
@@ -9276,6 +9348,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9320,9 +9395,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "35a7b9c6890cf10dcc1ff206a86663039c463febe4b31c13025053964dbefc93",
+      "canonical_operation_sha256": "d6ce0aa7ac05f305d9a2e076141c76846a5673d4511be531fb397d851d5d554c",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-013"
     },
     {
@@ -9339,6 +9415,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9383,9 +9462,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "e8b52206767d792b9a95743b7da4ae00825abffc77ccc2a58cc86e666aad6917",
+      "canonical_operation_sha256": "7a7b5579035c6ff533ffa1faf94e487d9c0b1e93c77178146f655df4602f6cf5",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-014"
     },
     {
@@ -9402,6 +9482,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9447,9 +9530,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "9452dbb53fdcb5c1d7bfe32a42f750c2b2882e5e674c8f61794b63cd4726c248",
+      "canonical_operation_sha256": "e3118158ea4932ea9391836a7a87e9b015684c90bf143c0607c116b098506711",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-015"
     },
     {
@@ -9466,6 +9550,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9507,11 +9594,13 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "9ea3f18f8ee5d546a4f2e6ac78d29a4bda3afc150fa2ba89641ee94497290e01",
+      "canonical_operation_sha256": "683bb229c6f31bd082880f52d1d6ad435bc53e96aa778e1b00f27f8ee09bc7f6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-016"
     },
     {
@@ -9528,6 +9617,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9571,11 +9663,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "ab1e0d27da1cb8df46176e86f2bdd6509463da0d7ee75a5d25a11d6125634c07",
+      "canonical_operation_sha256": "ebf09c85c60b0a13b7e21eed5a11b6eb8b23297e2acac9bd3976ab7d0713401b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "order",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-017"
     },
     {
@@ -9592,6 +9692,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9635,9 +9738,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "f3502cc123f0bd7f87ce161ff6898296266accd132f9fbc5e625ec986d058dee",
+      "canonical_operation_sha256": "4e16a7fbdced5c0afe3f27782dd02ba0e131389acd2996f583ad2d9722032020",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-018"
     },
     {
@@ -9654,6 +9758,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9695,9 +9802,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "cb61af99ec53b8e7d4726d990e429262c0c64448fd7cd53c6f9ac7bf36e27790",
+      "canonical_operation_sha256": "2813d10b975d86131f925b2cc03f76a2783cda7ce06a5afef9b2ae307ff0439e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-019"
     },
     {
@@ -9714,6 +9822,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9759,11 +9870,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "aac731b277a645bb425c3e5ffb9b8720180fcfc1cda61936a68f709b757461f5",
+      "canonical_operation_sha256": "6fd389dc83641e73d1432acb9bd5dc44fb9f324dad955bf42a29f26fd72008f7",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "quote",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-020"
     },
     {
@@ -9780,6 +9899,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9824,9 +9946,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "0a03882ca1b57481a921f9671046ea1e6c4161afec448c22f981882cbbabdf1b",
+      "canonical_operation_sha256": "d941c705200a75c4ca9f0219b4b8751b03529ec0e911931be547cd8969f65c3b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-021"
     },
     {
@@ -9843,6 +9966,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9882,9 +10008,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "53265e0001aa78eac8c32474f11bb43686b1714b5309a22ca591ba555a3cd377",
+      "canonical_operation_sha256": "e211e110510f25c7ca414b10d1729b4c12fcace735eaaa3c65f6d340324a0ed3",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-022"
     },
     {
@@ -9901,6 +10028,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -9943,9 +10073,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "96afd1347763bd663785791ec4f6b8dba640ce8902a122bad7efbd3d3cb33565",
+      "canonical_operation_sha256": "0a282585f979e70d5582feefea3f5fab7b98e7bbd60f8614354a98dd7a491893",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-023"
     },
     {
@@ -9962,6 +10093,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -10005,9 +10139,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "e78ceeea8936b3377632cd6b10444f92deabb3b2462df03154ec33ac02d39332",
+      "canonical_operation_sha256": "7feed0d09331f4e873a755fdc8f59bd8a486286fb04c192be62ca55205cd627d",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-024"
     },
     {
@@ -10024,6 +10159,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -10061,9 +10199,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "583ec83578b2b9ee0ea07dc1a4be76420b543ae5e26482e96a9fc0e409574da2",
+      "canonical_operation_sha256": "966df344f12386f2cb53ce27f0d4a5e1ba7be630bd329efc4531cbec8eefdeda",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-025"
     },
     {
@@ -10080,6 +10219,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -10122,9 +10264,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "98b9b07a527c9e05b0baf5f0192f5f24ba6debdd25d935bb4300d298ab7cdde4",
+      "canonical_operation_sha256": "a3aff119c4f3870a884d346347894a12da991d47a52682c32358a0cff773e708",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-026"
     },
     {
@@ -10141,6 +10284,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -10180,9 +10326,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "d69516ff73d7a13b4d42d760e639726ffbf4a738fa6f819287368fd6c1ef6022",
+      "canonical_operation_sha256": "9ec67cb41c93216769a9d094bc773dd1c0837470446bcf6025c5086d9f779831",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-027"
     },
     {
@@ -10199,6 +10346,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -10242,9 +10392,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "f0a8f0b05222fa8b9859e7f0c6c2300f33813b31b1dae50dfbc666a55619a58c",
+      "canonical_operation_sha256": "0ad4ca59a4df97d07321330cd3ba435c48c8933874bb57cfef58cc8f02ba5a52",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-028"
     },
     {
@@ -10261,6 +10412,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -10302,9 +10456,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "1b749fa8ceaa0992fe9c4258e935171afba74102fea2b3591c39e4839e8292f7",
+      "canonical_operation_sha256": "020b0904ee2393dd852cc41f6936de7f08fa95e8d0469247bc512ff87f144a9a",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-029"
     },
     {
@@ -10321,6 +10476,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -10362,9 +10520,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "4fb82341bd96432241279b9860991945149eeda347228e55a7a3af0ee6283339",
+      "canonical_operation_sha256": "1cb362228b6827c11015c23a7a71b0efb8c530d39c7802d3f7569636fc6bb422",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-030"
     },
     {
@@ -10381,6 +10540,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -10424,9 +10586,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "4c37c3890882576ec8bac760f46b4d591d1d2d4ded84598c6c1cd7d06008901b",
+      "canonical_operation_sha256": "f92a75d363cb7df75d116a7d5f292f0d211e0938c8fdb3fd7f292223d5b4fe50",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-031"
     },
     {
@@ -10489,6 +10652,7 @@
       "canonical_operation_sha256": "9816843d84955beed3e0939985f312badb566cafacfed37db2cc30bd53877ecd",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-032"
     },
     {
@@ -10505,6 +10669,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -10552,9 +10719,10 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
       ],
-      "canonical_operation_sha256": "c8bc1988d38ef1a1dea5f1045f95595759f4452578fce84c4b5ba7e891305d50",
+      "canonical_operation_sha256": "7f6a8208e80a928fea272ce0292ab6c1bd9f376c053a5c3affa2ccd30aa3c6b6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-033"
     },
     {
@@ -10571,6 +10739,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -10609,9 +10780,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "207549622f3542d5929695d31e9672481407077b7aeb3e2e52f52703511ad419",
+      "canonical_operation_sha256": "6582fd29bf074977cc1b8da9e1454d877ad58f936d17f57b0745f3d31044efd7",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-034"
     },
     {
@@ -10628,6 +10800,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -10667,9 +10842,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "cc432b7675d1794e6449f3c8639f3fa1bb4bfa7429ef904582837c5a932f71b4",
+      "canonical_operation_sha256": "8a82f6ed4116e295f98052f02f822ebdf80fbe2cb80ab44c7c14bace8344e72d",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-035"
     },
     {
@@ -10686,6 +10862,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -10726,9 +10905,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "982a23b50d82928c6fcf726145dd3599becb9beb2e4c3d32bbb5bb9646790c9e",
+      "canonical_operation_sha256": "18d83b7c5bbf617fd4d53c4109dcf2ef965367a096f79ee0d620c5218ad9862b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-036"
     },
     {
@@ -10745,6 +10925,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -10786,9 +10969,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "7b04ef0f7ef669e25a2ed899d743a048689d94e5cd4fb69aa848ffb277846ea2",
+      "canonical_operation_sha256": "5f64924296ce9e9d66a30c7372db8a9c4499fa8f08e785bdb57246fc78f51ea2",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-037"
     },
     {
@@ -10805,6 +10989,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -10843,11 +11030,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "4a91cbc9f868cfaf860b27d37f6c31dc78e828663122193c747b30c0432947c5",
+      "canonical_operation_sha256": "943b8684a0ce9cb12a2c203b2e02be65392a06ce29c49d8fb27538f694d5dd81",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOrder",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-038"
     },
     {
@@ -10864,6 +11059,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -10903,9 +11101,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "9084e1967c6c55fd8a0386767ca6c855c5f185eef92309c3dc9148f16b3153f3",
+      "canonical_operation_sha256": "b7e717907355776a30b38cceee443322012ccf2baa9bab85d06fc5f1ccc38f2b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-039"
     },
     {
@@ -10922,6 +11121,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -10959,11 +11161,13 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "5a0e9f0693dd2a7ca8d4178e7e6042358967ce444c861c1be1a575829d74b048",
+      "canonical_operation_sha256": "f58109a9ad66e070edf1b7ab16f477f2acf9b3f925311b6bd01b5c59a780cf44",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-040"
     },
     {
@@ -10980,6 +11184,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11017,9 +11224,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "65a9b065331ddd1df0a8e35107cc2ebe7485a79dac384ed94e9455b84ba40a70",
+      "canonical_operation_sha256": "6b4b49ca986556212a214f16ea3afa1c070355a2a49a7c1c97f8626f161174c5",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-041"
     },
     {
@@ -11036,6 +11244,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11077,11 +11288,19 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "a12de4d1eac397ba1e7cc89948a3c3673c344534cc41fa6db6f8065b66878935",
+      "canonical_operation_sha256": "97e2664b5ac19d68f2f96bab3d248634588dd3b3f1064b098bd1b5e4441b50fd",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getQuote",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-042"
     },
     {
@@ -11098,6 +11317,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11138,9 +11360,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "6f1f6589d37aa47e1197d5c081906135db630f7673bcac6a79157863c97d2943",
+      "canonical_operation_sha256": "e06344af29c27ceaa2aa0fdd9d952d08f39915744e683ce262827946b8502b7e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-043"
     },
     {
@@ -11157,6 +11380,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11192,9 +11418,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "23a5fd4f875eadb7a9bde8dcc3d9795d71ffe59d40c2c9956095a749f9db80aa",
+      "canonical_operation_sha256": "d053a6aa73e9837ecc3a25ed730ddcfdefb2f72ebaa327bab3a74a56cb0161e9",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-044"
     },
     {
@@ -11211,6 +11438,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11248,9 +11478,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "6f626aa9a43b40377b4c9bf68bb0c3e04dcfe3e6e09fbda6519266f224725bd1",
+      "canonical_operation_sha256": "845efb7de3c49626ea72bbbad9e581dbe9ff6a8bc6d5c46ee70a4df9332c8908",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-045"
     },
     {
@@ -11267,6 +11498,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11305,9 +11539,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "709e63a7ae04a3f8cc36c79cb5e8413ae799bd6cfe3af855ecde1574f464e016",
+      "canonical_operation_sha256": "23844963fc1601c3ea9835781f12a760454e412dc59cedebccc2b0502f4cdaee",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-046"
     },
     {
@@ -11324,6 +11559,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11363,9 +11601,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "889c9d57d9975c49a85071a47d499d66694c22c8f37236b8100f7df52b1505ab",
+      "canonical_operation_sha256": "8933f90c4fb5876870439f60643b9fb90bf524c5359c4a87365cf301a75d21c6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-047"
     },
     {
@@ -11382,6 +11621,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11417,11 +11659,19 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "849b704436aaa874966e14a5643bfd8e8391baa1735c114415d66cd890e2d378",
+      "canonical_operation_sha256": "45066546b8b8b3a8412f2d6998df27d744775c0c8b1d49430c398fb7cc63e5e1",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "me",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-048"
     },
     {
@@ -11438,6 +11688,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11475,9 +11728,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "11d696e5bad542a1ab4c19b5fca8ee892996ea6349ea1af99d53aa9cad4f9ba2",
+      "canonical_operation_sha256": "efaf214aff5a6fa9ec3a801a8c9a73abefbed42bdc90aa054061b28844077005",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-049"
     },
     {
@@ -11494,6 +11748,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11531,9 +11788,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "4afa739f2ab77baa23a155daac66ca8ba16fe4e0c08a68de7f864b037daeaf31",
+      "canonical_operation_sha256": "24e81be184160102257bb6392becd177cc20009ed29d548b243becf4c6bc26dd",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-050"
     },
     {
@@ -11550,6 +11808,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11587,9 +11848,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "57b7bd589cc17b160bafc7981e4e20aefce1301e6008853df5faf059d9cb4a67",
+      "canonical_operation_sha256": "0f72a83c1187c5d2f87bb5b37d1428ccb9716bbf4b5ec5704a4fc5d4745ac640",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-051"
     },
     {
@@ -11606,6 +11868,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11641,11 +11906,19 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "33d050a4e78339d776608e28750f1fbd69ee81a9e5f4677042827ac1a0666b89",
+      "canonical_operation_sha256": "37b5e3e0cd3743cf4f707881657bb6c5389f27c8c44c6de0f6e98cee9f5c2de9",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "keys",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-052"
     },
     {
@@ -11662,6 +11935,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11717,9 +11993,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "cc79fe4f9e9b0a380b626cdbc0124ba2090ff1c6b19fc836d9c4b2feb3fe1217",
+      "canonical_operation_sha256": "8f4093763430434b2c1fdec8a367c3b57be81846f9655e54df55f9c655bcfe31",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-053"
     },
     {
@@ -11736,6 +12013,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11781,9 +12061,10 @@
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "6ab624dc24cf1c9f79270ed1345893903f5df8536a89ec8f0bdd97c985cf319b",
+      "canonical_operation_sha256": "c1b14883a028feb64b790bb467d30acfc0a1ce1a1df8af5b831f418606a4a116",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-054"
     },
     {
@@ -11800,6 +12081,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11844,11 +12128,13 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
-        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "2dc3c3e59d1f655429c7a7547eed9d6e9db22923605be29b91f025816acddf3e",
+      "canonical_operation_sha256": "443bcf4960a9ffb11f4e8367b8308d35a05eb58dea5027fc2b468df5a9da836a",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-055"
     },
     {
@@ -11865,6 +12151,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11903,11 +12192,13 @@
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "b20276672d579d3f8a56c9aed0f8db6f465961dd21257e1a2b945abf9596df8b",
+      "canonical_operation_sha256": "91e290d03b45b4f159f261ee3fe40118857b55ad2e3220e922f094b47b092557",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-056"
     },
     {
@@ -11924,6 +12215,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -11963,9 +12257,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "7f1654a494a59b70ac054f04e80fea59247519321e4e06913e608edb068450e2",
+      "canonical_operation_sha256": "ad98dda4731bd8f77b9213835004926517675e624644419e2450db1eff3363c4",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-057"
     },
     {
@@ -11982,6 +12277,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -12019,11 +12317,13 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "edfd6fefe719bea17abbd950f89f8492d59a7ce764fd8051b45d14d6b4474110",
+      "canonical_operation_sha256": "71fc393c462e41199d6cf7f87f79c19d46f3f7edbc868aa089c33ae27899870a",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-058"
     },
     {
@@ -12040,6 +12340,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -12077,9 +12380,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "56c287e6b620de87204ecec902bc48aa7b2ecfa91e8678c55c30cce0d64a604b",
+      "canonical_operation_sha256": "50ecb95a647226e9ed34ffa94d22e9a54bcb5eb80ee9f2cc69b2d3be4ceaa889",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-059"
     },
     {
@@ -12096,6 +12400,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -12143,9 +12450,10 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
       ],
-      "canonical_operation_sha256": "5a84b5a8e9b64511aaccf222571ce798c3f87e510f01569d2eab3ef7eb887fec",
+      "canonical_operation_sha256": "e4e1d200b3844a259e8d521637356d4488199f32a3e93e3c05f413cdbaf00e1f",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-060"
     },
     {
@@ -12162,6 +12470,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -12201,9 +12512,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "a0bf05911e4216c1cbf2030a2716f80a67dc56dc5095917aa7a0224f6c2ffd5a",
+      "canonical_operation_sha256": "2650afef02c045551ee2c160bee8c71bdd482fc1191925296cf2686fa8953539",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-061"
     },
     {
@@ -12220,6 +12532,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -12257,11 +12572,19 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "b82736f4d01b386459c75b6cd136b6820381340a896a381e0646cbdade60d98b",
+      "canonical_operation_sha256": "4739d8429adcb41b98910156d44db2875b689783b2bb81455bd6f4abfdce5b34",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "services",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-062"
     },
     {
@@ -12278,6 +12601,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12319,11 +12645,13 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "d51a2e19af95d6683a00fb546cb159f0698a2df3deb34e1f6665b35b91f32a42",
+      "canonical_operation_sha256": "c0fd4ea836dba0c69820f12de3c1ed52d433eae810fb79a07ceec83b0a1f10d2",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-063"
     },
     {
@@ -12340,6 +12668,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12386,9 +12717,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "27527d7e925be690761b9c8c5f0f859822b3c6467bc88d5b5a0d5779eeb45777",
+      "canonical_operation_sha256": "bf1597a4c3fbe243fd2c766788cc785e122f7564eeb0c8820648e7acde62cc0e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-064"
     },
     {
@@ -12405,6 +12737,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12451,9 +12786,10 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
       ],
-      "canonical_operation_sha256": "b96ce355bd64ef6375a1a588b0ad57cfb62a352fbc86ce0719f4b6e7145528e7",
+      "canonical_operation_sha256": "62786f8a137c56d08cb3077ff834615825e7663c37cccffdecaf784de160e858",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-065"
     },
     {
@@ -12470,6 +12806,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12513,9 +12852,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "f080b0cf1673ea0122b361c3b318a589cf448939cf2f858419e52f5998bf8e45",
+      "canonical_operation_sha256": "e5584abd920ae90d27be0cb81d0e93f43d910ae5983597291d4f5a087d6b3c2e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-066"
     },
     {
@@ -12532,6 +12872,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12575,9 +12918,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "21e2f511cffb4cf08754413782cc6ed0f032a99a78eac6ff1bd3c292f844e26c",
+      "canonical_operation_sha256": "73386ad1c314d71a29aa69cbae19277c91d8b456f4f7cf3de339de506ae62b57",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-067"
     },
     {
@@ -12594,6 +12938,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12639,9 +12986,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "c37d54bcb360cb6f1bf675982fb66807a80ec8235b09aa88d3216f7705ae9230",
+      "canonical_operation_sha256": "d76c53412456d6a298c8a4978d152d2736581ba8866739101d66b03d9af87f41",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-068"
     },
     {
@@ -12658,6 +13006,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12701,9 +13052,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "61d6e465af199de978294c2a293677248219ecd6df0a5d5c8e476d6c28046f5b",
+      "canonical_operation_sha256": "2ba200c0a0b000712068e80754380be7b305437600b48814cbbc407ad15a0cc5",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-069"
     },
     {
@@ -12720,6 +13072,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12764,9 +13119,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "3363d7ef83da803f6c2dbefc572792384824e95ba304dae42516d3a39b011ec0",
+      "canonical_operation_sha256": "2ce37b76cf6b92e9ce1923809020ce58d7c1a6565f15ee16362a7609749fa05e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-070"
     },
     {
@@ -12783,6 +13139,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12824,9 +13183,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "04c5b8608f19d9da6e481836b517f7e6af21780aad4557435621666ade8e2f0e",
+      "canonical_operation_sha256": "aa01d393aba19f5359a8f9bca10ed735c916df49a3436fa144326144cef3df83",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-071"
     },
     {
@@ -12843,6 +13203,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12886,9 +13249,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "ad9ff2457b9d98fa4c23d8239ae9b9c6e785cf588daa66a1b851683b8783d2f2",
+      "canonical_operation_sha256": "ca03ae772fafb6aa863f3a0af00975c1583d68de2e9394b5e5854497b54ca2db",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-072"
     },
     {
@@ -12905,6 +13269,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -12947,9 +13314,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "04e6c940ae5788b3a7f9bb2f9c515ea60afdc625d63c982a4d4aa7a13a6b164b",
+      "canonical_operation_sha256": "946d9a7c4ee1a767b73baa7bdb34f2ad3491437fdad7ba09c580c0f732c1fed5",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-073"
     },
     {
@@ -12966,6 +13334,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13018,9 +13389,10 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
       ],
-      "canonical_operation_sha256": "4b11e1d5ecc5be84f25c34ad62a0aee2bad23b5765d1f3a3c53a69fa5be7e56c",
+      "canonical_operation_sha256": "0f8c2ce526ab162f7fa2b3c248139c7eb0151b545ae704378dd64c39c00ce98d",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-074"
     },
     {
@@ -13037,6 +13409,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13080,9 +13455,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "f5ea74455c14fc9d2348716b90c7c3ba531e0f6992626fcf5f4ad80306bec339",
+      "canonical_operation_sha256": "c32d16d75f55b9aa5b3818feaa218eb32f3b9cbff6a2480381f7f10f88a2b86e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-075"
     },
     {
@@ -13099,6 +13475,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13148,9 +13527,10 @@
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "0a8812b9a41a2ba1c995c95a58576a61b83171842e627713a836ad8a3bf1fa7b",
+      "canonical_operation_sha256": "89d7b456379f54f5a99aab8a22ff3c5aa02da67b8bd250b8e6cac4f7c0eaea2e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-076"
     },
     {
@@ -13167,6 +13547,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13213,9 +13596,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "a4533cfb1117381d5b296ee7cddc9ffc0463b6cca2115aa4b0bbbe3c4b93e333",
+      "canonical_operation_sha256": "adcd54d254b17fa29092f8ac910ce8ef3ede218cb2f9a96e102affdbefddd716",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-077"
     },
     {
@@ -13232,6 +13616,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13276,9 +13663,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "78462d62f84a8d487dce15b9ef6d250e322fc4e30f6b1193991cf6f81dfdd923",
+      "canonical_operation_sha256": "3e6d62a012e346791f7d4314e5c04953653b3f22aa634ee125ee4d2e4f274af7",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-078"
     },
     {
@@ -13295,6 +13683,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13344,9 +13735,10 @@
         "docs/技术开发/附录-供给端内核封装与替换规范.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "c3dd51157f2c6116a06d1938740d8fc7036c4f711903181bbfca57b39f43239d",
+      "canonical_operation_sha256": "423553a0239c22155d3122f0b224e7d187c8efe7621ebde2ea1d45f7db3ada83",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-079"
     },
     {
@@ -13363,6 +13755,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13404,9 +13799,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "8c1e5f211cf041c0a7fba5da71b4226239db9cdfccfd3ec52a9b6701c9b9fa61",
+      "canonical_operation_sha256": "53a0fd67929b1c2edbd204e563e0bbfba48278d6b3f72f818926a9705d804e85",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-080"
     },
     {
@@ -13423,6 +13819,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": null,
@@ -13460,11 +13859,19 @@
         "docs/技术开发/16-身份授权与安全工程.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "349d54152d5096dd5aec2d5e5561e19d7a576fd7a901694bb81f1c6d2264ebdb",
+      "canonical_operation_sha256": "4d8171a7efd7249674e976253d8537ad5727b1310c5ef611906550d0ed934be6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "revokeKey",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-081"
     },
     {
@@ -13481,6 +13888,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13524,9 +13934,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "bedec869fa042c12ee2fe9108c3970d96a44cb296b53c96d3af173818de6d28e",
+      "canonical_operation_sha256": "f5db7407be9081272e269aa0248ca4746ca7bf108b3f4137c2e1a41c016be523",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-082"
     },
     {
@@ -13543,6 +13954,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13587,9 +14001,10 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-低开销隐私执行完整方案.md"
       ],
-      "canonical_operation_sha256": "2d2056e3588b4dd9c362a8ded826f77a44ca10e0c128e66edbb1adc207271ba1",
+      "canonical_operation_sha256": "6d639c7a7cefc3218525efbd121872bb26ce54c45d4b98f0f9b647ef04377785",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-083"
     },
     {
@@ -13606,6 +14021,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13643,9 +14061,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "f96861b480ce2831b59fa246f99f0747ec7a0c26e1215d7ce9b8c797c58fb4bc",
+      "canonical_operation_sha256": "dcfd4f2be07956d2e040a73114ae84b4b00f425bf3831422fbb365b0dab02ee6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-084"
     },
     {
@@ -13662,6 +14081,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13703,11 +14125,13 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "4ecb22053a2cbad5119f69b272f4958786c21d77305a5c511b43169140ed95c4",
+      "canonical_operation_sha256": "096ea3d5064eb87d7e69c44fce52a85c1069cd7bd4bf65607fd789dee09df972",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-085"
     },
     {
@@ -13724,6 +14148,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13765,9 +14192,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "882d208c5a3bcae52863d6c3c8f5d33a6bb0526cf0e4542735ffe541de0a5d20",
+      "canonical_operation_sha256": "8e5c19c4f35f38008913ec077db72e2f81e332671633749f7ce3d0943c86a2b9",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-086"
     },
     {
@@ -13784,6 +14212,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13843,9 +14274,10 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "f5ee78982012a3bd091d379e8dcf856905a3c2336b53dc6f77b11573931a2498",
+      "canonical_operation_sha256": "dbcac89a4d259f06ca0b64097e2dea16e7d8be2f4d3c4fe3fde90788c3b794db",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-087"
     },
     {
@@ -13862,6 +14294,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13903,11 +14338,13 @@
         "docs/技术开发/03-领域模块与应用服务设计.md",
         "docs/技术开发/21-开发任务分解与需求追踪.md",
         "docs/技术开发/18-测试工程与故障验证.md",
-        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
       ],
-      "canonical_operation_sha256": "f9ef4e34d298f1237db7521e854027b93fa7a3d5252332bd33f5b96508b2d866",
+      "canonical_operation_sha256": "2572816521b10a9d8a39b92deedd2c0ba990477bbdb812d5dbf1d08e1b7e539f",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-088"
     },
     {
@@ -13924,6 +14361,9 @@
       "security": [
         {
           "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -13967,10 +14407,271 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "419de9716a39625aa1a6d08eb132cb151cb0dd30f95e5872881752a15311882f",
+      "canonical_operation_sha256": "1871dfab10941674f802544318a7779bf6b1135ff6cc679b0ae8b9396fe5b57c",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
+      "runtime_registration": null,
       "id": "INT-089"
+    },
+    {
+      "operation_id": "createAuthChallenge",
+      "method": "POST",
+      "path": "/auth/challenges",
+      "summary": "创建限时一次性登录绑定",
+      "module_id": "MOD-01",
+      "task_id": "DEV-03",
+      "planned_handler": "dev/src/api/internal/http/mod_01/createAuthChallenge.go",
+      "required_scopes": [],
+      "security": [],
+      "request_schema": {
+        "$ref": "#/components/schemas/AuthChallengeWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "AUTH_CHALLENGE_SINGLE_USE",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F01",
+        "P11-F32",
+        "P11-F50",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T01",
+        "P11-T32",
+        "P11-T50",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
+      ],
+      "canonical_operation_sha256": "1fe976b2d2d36c4109c40f1e9d12bd6a9b0945b7ad09053f2970bc2312d3c438",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "challenge",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-090"
+    },
+    {
+      "operation_id": "createUserSession",
+      "method": "POST",
+      "path": "/auth/sessions",
+      "summary": "核验授权码并签发有限会话",
+      "module_id": "MOD-01",
+      "task_id": "DEV-03",
+      "planned_handler": "dev/src/api/internal/http/mod_01/createUserSession.go",
+      "required_scopes": [],
+      "security": [],
+      "request_schema": {
+        "$ref": "#/components/schemas/SessionWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "TX_CLAIM → EXTERNAL_SIGNED_OAUTH → TX_SESSION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F01",
+        "P11-F32",
+        "P11-F50",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T01",
+        "P11-T32",
+        "P11-T50",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
+      ],
+      "canonical_operation_sha256": "1655bf57f7a83cae0b15f5587085754762a5e7b996b08321fae3a04428cf15bf",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "login",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-091"
+    },
+    {
+      "operation_id": "getCurrentSession",
+      "method": "GET",
+      "path": "/auth/session",
+      "summary": "读取本人会话及浏览器CSRF值",
+      "module_id": "MOD-01",
+      "task_id": "DEV-03",
+      "planned_handler": "dev/src/api/internal/http/mod_01/getCurrentSession.go",
+      "required_scopes": [
+        "identity:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F01",
+        "P11-F32",
+        "P11-F50",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T01",
+        "P11-T32",
+        "P11-T50",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
+      ],
+      "canonical_operation_sha256": "314232554e306bb9735a716f928f4782f8d24ec1d1347e793c41efdb75926815",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "currentSession",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-092"
+    },
+    {
+      "operation_id": "revokeUserSession",
+      "method": "DELETE",
+      "path": "/auth/session",
+      "summary": "撤销当前会话并提升用户版本",
+      "module_id": "MOD-01",
+      "task_id": "DEV-03",
+      "planned_handler": "dev/src/api/internal/http/mod_01/revokeUserSession.go",
+      "required_scopes": [
+        "session:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "TX_REVOKE_AND_USER_VERSION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F01",
+        "P11-F32",
+        "P11-F50",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T01",
+        "P11-T32",
+        "P11-T50",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-身份登录与HTTP交易实施约束.md"
+      ],
+      "canonical_operation_sha256": "e0908825b8de39a75de1323b5ff700bebba5900e8052cecb707195b4ba476299",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "currentSession",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-093"
     }
   ],
   "tables": [
@@ -14032,6 +14733,26 @@
       "column_count": 7,
       "foreign_key_count": 1,
       "source_document": "docs/技术开发/database/schema-draft.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-062",
+      "name": "auth_attempts",
+      "schema": "p11",
+      "module_id": "MOD-01",
+      "column_count": 10,
+      "foreign_key_count": 1,
+      "source_document": "docs/技术开发/database/migrations/003_auth_sessions.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-061",
+      "name": "auth_sessions",
+      "schema": "p11",
+      "module_id": "MOD-01",
+      "column_count": 9,
+      "foreign_key_count": 1,
+      "source_document": "docs/技术开发/database/migrations/003_auth_sessions.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
     {
@@ -14596,14 +15317,20 @@
         "getSelfProfile",
         "listApiKeys",
         "createApiKey",
-        "revokeApiKey"
+        "revokeApiKey",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "tables": [
         "users",
         "role_grants",
         "api_keys",
         "consents",
-        "pairing_intents"
+        "pairing_intents",
+        "auth_sessions",
+        "auth_attempts"
       ],
       "technical_documents": [
         "docs/技术开发/16-身份授权与安全工程.md",
@@ -15695,6 +16422,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "devices",
         "resources",
         "resource_locks",
@@ -16165,7 +16894,11 @@
         "revokeRecipient",
         "listApiKeys",
         "createApiKey",
-        "revokeApiKey"
+        "revokeApiKey",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "tables": [
         "users",
@@ -16173,6 +16906,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "quotes",
         "orders",
         "route_contracts",
@@ -16631,6 +17366,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "cipher_channels",
         "recipient_keys",
         "encryption_intents",
@@ -17145,7 +17882,11 @@
         "createDispute",
         "getDispute",
         "createAppeal",
-        "recordDisputeDecision"
+        "recordDisputeDecision",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "tables": [
         "users",
@@ -17153,6 +17894,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "reviews",
         "disputes",
         "appeals",
@@ -17248,6 +17991,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "devices",
         "resources",
         "resource_locks",
@@ -17996,6 +18741,8 @@
         "api_keys",
         "consents",
         "pairing_intents",
+        "auth_sessions",
+        "auth_attempts",
         "devices",
         "resources",
         "resource_locks",
@@ -18423,7 +19170,11 @@
         "revokeRecipient",
         "listApiKeys",
         "createApiKey",
-        "revokeApiKey"
+        "revokeApiKey",
+        "createAuthChallenge",
+        "createUserSession",
+        "getCurrentSession",
+        "revokeUserSession"
       ],
       "tables": [
         "recipient_keys",
@@ -18433,7 +19184,9 @@
         "role_grants",
         "api_keys",
         "consents",
-        "pairing_intents"
+        "pairing_intents",
+        "auth_sessions",
+        "auth_attempts"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -18983,23 +19736,27 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "e8d86bda9d259a4049fd3aeae81c624cda9d4b0cd5de3110eb8e06edeb1d31b0"
+      "sha256": "d402eaec8513cd039b66ac454a3055dc40b48fe5a0c8a211ef5adceb1d33bdee"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "7a25b8413f9cc85ad3f10116af6dee9952477bbb6d52b9bdcb605695d3d1b177"
+      "sha256": "735fe3a900ee4aa0b60ab744343ce37e7186747afcad6e2ae715c06962eb5ca5"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
-      "sha256": "61ebb769678af451149680b9608cf07743f44e7f362b8540dd32fa1d9cf6f3ad"
+      "sha256": "bba91e7904769b8d8c5eeb9f265be6f7648ca8673257b86ff8fad732aef12596"
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "a8a35ae8a2a48cd339f4c1b466e901f9664214e0f4ad8edd18f468910b233c88"
+      "sha256": "087db898faaa2e3406ee4c1cad4f93af0cad478fae3aa5d53e78589a67a0498f"
+    },
+    {
+      "path": "dev/src/api/internal/http/routes.json",
+      "sha256": "2a58a63b2ebfa7a289c9a720d20dc25f0650c5bfd3ebf0988668261b260b56c2"
     },
     {
       "path": "dev/tools/构建开发细则.py",
-      "sha256": "e6f0791fa85975d77c6f308f690b603789917e627cc164e51580f9db71619860"
+      "sha256": "a54d2773f2501240f5318c50167810f21c8af79e31e38294f0eda705be09ac42"
     },
     {
       "path": "docs/交易/C2C交易与市场规则.md",
@@ -19019,7 +19776,7 @@
     },
     {
       "path": "docs/技术开发/05-控制面接口实现规约.md",
-      "sha256": "94a643dc5f5aa09e3c3fa9f6b45c078d59fff2af7c750f7f347a4a53d73d9103"
+      "sha256": "a9e10abd440a660800d2cb1d80b6582d83a421211fadc9d8afc5ba11ce5824b6"
     },
     {
       "path": "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -19063,7 +19820,7 @@
     },
     {
       "path": "docs/技术开发/16-身份授权与安全工程.md",
-      "sha256": "a7a9a393964fb34f6e0a05c69f799d60a91679053080756cfb8a803c4e1e8035"
+      "sha256": "cc678e51d7a3e7e2b83f921ef95ab80c2aa718e3233e0eae768991da1f43f779"
     },
     {
       "path": "docs/技术开发/17-事件事务发件箱与后台任务.md",
@@ -19087,23 +19844,31 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "62a94619cc06d172bf8a8ea7731b59d3639a3183daf3f84c45811b4de47a1ec5"
+      "sha256": "7dba728c1ebbd04d556917380432a13a7860072fb93c59dd50b13b3a1ed0b0a7"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "c7613a568636a3addec2d76ef245fc13dcab90f48ffd7bab8d5e5fcf74b2e714"
+      "sha256": "df6b2c4070606641faea56a8617b1035ece26b0ffda56e6702e082a3e18d0318"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
-      "sha256": "2d96a32f114e64373529cfb4f06bc2bbc1f10662d12fa348c83f720c31ffa629"
+      "sha256": "a5fde86d92c05c398c00bd3fe9d1e11c3ded4c8b8c250a22cd4ee19c2789cabe"
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "67877725a1e764148296eb0182666e51ea13a7009a72c4248ce6134c638be97c"
+      "sha256": "aa2408875982f06ec2f2876d142d8c22c403ceef7af77b5356d52b2c97776a27"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "38d635e6b9b77e1476d9604687bb1bb8f186f6032bdd1c309ff25633ab389074"
+      "sha256": "1b066ca241df88f2361e5a67fd41acefa34d60436c1256674f72a8374cd3f060"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
+      "sha256": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/003_auth_sessions.sql",
+      "sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9"
     },
     {
       "path": "docs/技术开发/database/schema-draft.sql",
@@ -19134,12 +19899,16 @@
       "sha256": "fe9be715e6d4606a457734744c4adb7b35258e830796581204a7c7a5613ed22d"
     },
     {
+      "path": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md",
+      "sha256": "26a9d18fc1f028abd38334af09754f7ab2c363185d3a65bb81cd2ab7dcaf36a6"
+    },
+    {
       "path": "docs/白皮书/06-端对端加密与密钥生命周期.md",
       "sha256": "ca294c877df6b8907d79c4c2c5c16274f3aa4f3967badf76533381dfaa362952"
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "4350a5cb501ca53e6866afe30dc116518b2a5f4f0e9bdd4bc38730fe58991f58"
+      "sha256": "4cc6c953c078c5addd2d44ae55bcf8afbe3bc463c116b43097d92d89b1774a09"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -19147,11 +19916,11 @@
     },
     {
       "path": "docs/需求推进/NB-1.0/README.md",
-      "sha256": "98c3efed71b93ed1c6ad25b5f5b416533d86460787e9f7f2ca9b9e3cac6eaf87"
+      "sha256": "c3aa1f0948b3e00390a5bc6544c01227ea82df57aa77fe50f9864b686cd9d552"
     },
     {
       "path": "docs/需求推进/NB-1.0/需求增量登记-NB-R1.json",
-      "sha256": "a17381aad33240deb742f8a959feb602b6eda782f932c046d2ddf9a4aefc9156"
+      "sha256": "b2012c7a6e31b694d4135c6c724925010b8a18373b5e1a98f7a9f5969d03d410"
     },
     {
       "path": "scripts/供给端内核数据.py",
@@ -19159,7 +19928,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "0d0efbae8c25dbd775fe84bac707440f54511953340d00eb61f88c46af5bc332"
+      "sha256": "632e92f8dab77b15a39c5cb5862fe2e3f67a25d8ca60d4d2a4a30a8ef065307e"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -19171,8 +19940,8 @@
     "tasks": 56,
     "steps": 222,
     "constraints": 47,
-    "control_operations": 89,
-    "tables": 60,
+    "control_operations": 93,
+    "tables": 62,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

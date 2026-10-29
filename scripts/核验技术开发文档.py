@@ -69,8 +69,12 @@ def main() -> int:
     check(len(tasks)==len(tids)==56,'DEV任务应唯一56项')
     check(len(trace)==80 and {r['requirement_id'] for r in trace}==fids,'需求追踪未完整覆盖80项')
     check(mapping['canonical_api_sha256']==digest(baseline),'权威API整体hash漂移，需重新构建')
-    check(len(mapping['operations'])==len(api)==89,'控制操作数量不匹配89')
+    check(len(mapping['operations'])==len(api)==93,'控制操作数量不匹配93')
     check({r['operation_id'] for r in mapping['operations']}==set(api),'控制操作集合漂移')
+    runtime=load(ROOT/'dev/src/api/internal/http/routes.json')
+    registrations={r['operation_id']:r for r in runtime['operations']}
+    check(len(registrations)==len(runtime['operations'])==13,'实际HTTP子集应为13个唯一操作')
+    check(set(registrations)<=set(api),'实际HTTP子集超出权威API')
     mod_by_id={m['id']:m for m in mod}
     task_by_id={t['id']:t for t in tasks}
     covered=set()
@@ -100,6 +104,13 @@ def main() -> int:
     for task_id in sorted(tids): visit(task_id)
     for r in mapping['operations']:
         method,path,op=api[r['operation_id']]
+        actual=registrations.get(r['operation_id'])
+        if actual:
+            check((actual['method'],actual['path'])==(method,path),'实际HTTP方法/路径漂移')
+            check(r['runtime_registration'] is not None and r['runtime_registration']['handler']==actual['handler']
+                and (ROOT/r['runtime_registration']['handler_file']).is_file(),'实际HTTP handler登记失配')
+            check(actual['anonymous']==(r['operation_id'] in {'createAuthChallenge','createUserSession'}),'实际HTTP匿名范围失配')
+        else:check(r['runtime_registration'] is None,'未注册接口不可宣称源码已存在')
         check((r['method'],r['path'])==(method,path),f"{r['operation_id']}路由漂移")
         check(r['canonical_operation_sha256']==digest(op),f"{r['operation_id']}契约hash漂移")
         check(r['required_scopes']==op['x-required-scopes'] and r['security']==op['security'],f"{r['operation_id']}鉴权漂移")
@@ -130,7 +141,7 @@ def main() -> int:
     catalog=database_catalog()
     check(catalog==load(CONTRACTS/'database-catalog-v1.0.json'),'DDL与生成目录漂移')
     table_by_name={t['name']:t for t in catalog['tables']}
-    check(len(table_by_name)==len(catalog['tables'])==60,'应为60张唯一表')
+    check(len(table_by_name)==len(catalog['tables'])==62 and catalog['base_table_count']==60,'应为基础60＋前向2张唯一表')
     columns={n:{c['name'] for c in t['columns']} for n,t in table_by_name.items()}
     uniques={}
     for n,t in table_by_name.items():
@@ -152,12 +163,12 @@ def main() -> int:
     check(all_owned==set(table_by_name),'模块权威表集合与DDL不一致')
     for r in trace: check(set(r['tables'])<=set(table_by_name),f"{r['requirement_id']}无效表引用")
     sql=(TECH/'database/schema-draft.sql').read_text(encoding='utf-8')
-    check(len(catalog['forward_migrations'])==1,'前向002迁移登记缺失')
+    check(len(catalog['forward_migrations'])==2,'前向002/003迁移登记缺失')
     for migration in catalog['forward_migrations']:
         path=ROOT/migration['source']
         embedded=ROOT/'dev/src/internal/persistence/migrations'/path.name
         check(path.read_bytes()==embedded.read_bytes(),'权威前向迁移与嵌入副本不一致')
-        manifest=load(embedded.with_name('source-v2.json'))
+        manifest=load(embedded.with_name(f'source-v{int(path.name[:3])}.json'))
         check(manifest['source_sha256']==digest(path.read_bytes())==manifest['migration_sha256'],'前向迁移来源摘要不一致')
         check(migration['statement_count']==len(pglast.parse_sql(path.read_text(encoding='utf-8'))),'前向迁移语法树统计失配')
     patterns=(TECH/'database/transaction-patterns.sql').read_text(encoding='utf-8')
@@ -423,7 +434,7 @@ def main() -> int:
       'ddl_statements_parsed':catalog['ddl_statements'],'query_statements_parsed':len(query_ast),
       'sql_parser':'pglast '+pglast.__version__,'sql_runtime_migrations_in_this_check':'NOT_EXECUTED',
       'plpgsql_runtime_validation_in_this_check':'NOT_EXECUTED',
-      'separate_native_evidence':[p for p in ['dev/tests/evidence/R001-验证报告.md','dev/tests/evidence/R003-验证报告.md'] if (ROOT/p).is_file()],
+      'separate_native_evidence':[p for p in ['dev/tests/evidence/R001-验证报告.md','dev/tests/evidence/R003-验证报告.md','dev/tests/evidence/R004-验证报告.md'] if (ROOT/p).is_file()],
       'schema_positive_fixtures':sum(x[3] for x in cases),
       'schema_negative_fixtures':sum(not x[3] for x in cases),'fixture_results':fixture_results,
       'compatibility_combinations':len(compat),'reader_sections':len(parser.search_json or []),
@@ -435,8 +446,8 @@ def main() -> int:
     report_json.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     lines=['# 技术开发文档专项核验','','P11｜技术v1.0｜需求v3.0｜2026-10-29。','',
       f"结果：{'通过' if not errors else '未通过'}。范围仅为设计一致性、SQL语法树与离线阅读器。",'',
-      f"实际：24章源详规、{len(mod)}模块、{len(tasks)}开发任务、80项F/T追踪、89控制操作；{len(catalog['tables'])}表/{result['sql_columns']}列/{len(catalog['foreign_keys'])}外键/{len(catalog['indexes'])}显式索引。",'',
-      f"SQL：pglast {pglast.__version__}解析{catalog['ddl_statements']}条基础DDL/控制语句、{len(catalog['forward_migrations'])}个前向迁移和{len(query_ast)}条查询片段；静态检查列、主键/唯一键、外键目标。**本脚本不运行PostgreSQL、迁移、触发器或PL/pgSQL体。**源码实施另有[R003原生测试证据](../../dev/tests/evidence/R003-验证报告.md)，不由本报告判定运行结果。",'',
+      f"实际：24章源详规、{len(mod)}模块、{len(tasks)}开发任务、80项F/T追踪、93控制操作；{len(catalog['tables'])}表/{result['sql_columns']}列/{len(catalog['foreign_keys'])}外键/{len(catalog['indexes'])}显式索引。",'',
+      f"SQL：pglast {pglast.__version__}解析{catalog['ddl_statements']}条基础DDL/控制语句、{len(catalog['forward_migrations'])}个前向迁移和{len(query_ast)}条查询片段；静态检查列、主键/唯一键、外键目标。**本脚本不运行PostgreSQL、迁移、触发器或PL/pgSQL体。**源码实施另有[当前源码验证进度](../../dev/progress/README.md)，不由本报告判定运行结果。",'',
       f"内部命令/结果Schema：{result['schema_positive_fixtures']}正向/{result['schema_negative_fixtures']}负向夹具；只证明设计外壳的接受/拒绝，不证明真实引擎或密码。",'',
       f"E2E设计：{len(e2e_cases)}项细化场景均未执行；核对二进制长度/限额、END语义、旧JSON边界、源文档/任务引用和计算/交付分权。没有运行密码或性能实验。",'',
       f"阅读器：{result['reader_sections']}段检索索引、{reader_links}个本地附件链接、0外部资源；JavaScript：{js_status}。未启动浏览器，无新浏览器标签。",'',
