@@ -1,0 +1,19 @@
+{
+  "id": "03",
+  "name": "明快平面-新扁平",
+  "kind": "Neo-flat / Flat Design",
+  "style_id": "flat-design",
+  "colors": {
+    "canvas": "#FFFFFF",
+    "surface": "#EFF4FF",
+    "ink": "#173148",
+    "primary": "#235DE8",
+    "accent": "#F17862",
+    "muted": "#54667A"
+  },
+  "type": "Bold geometric Chinese sans-serif headlines, crisp simple body text, flat pictograms; strong hierarchy without ornamental fonts.",
+  "material": "PURE CONTEMPORARY FLAT DESIGN: solid blue, coral and white color blocks, clean 2D simplified vector GPU/phone icons, no photographs. Flat fills, 0-6 logical px corners, crisp alignment, mostly borderless modules separated by whitespace. Absolutely NO shadows, NO gradients, NO translucent panels, NO 3D surfaces, NO black chunky outlines. Friendly geometric pictograms rather than rendered hardware. Design with type and color-area proportion.",
+  "home": "CATEGORY-FIRST utility layout: compact brand and search at top; a two-by-two grid of FOUR solid flat category tiles 对话/图像/视频/全部, using simple large vector icons with 全部 selected. A clear text-and-underline three-mode switch comes NEXT. Resource offers appear BELOW as TWO COMPACT HORIZONTAL rows with thin separators: small 2D device icon at left, model and seller in center, price and action at right. GPU row reads RTX 4090 · 24GB, 星河同学, ComfyUI · 图像生成, ¥0.60/张, 平台不可见, 查看服务. Phone row prominently reads 摩托罗拉 X30, Qwen 3B, 阿澄, ¥0.02/千Token. No huge 3D GPU hero, no floating/shadow cards. Bottom navigation is a flat full-width white bar with blue active icon.",
+  "detail": "A solid blue header block contains title RTX 4090 · 24GB in white and a simple small white GPU pictogram. Seller sits below on white. Two-column flat capability cells with solid pale-blue backgrounds. Use underline-only privacy mode tabs. Price rows are unboxed flat aligned text with a solid coral total accent. A full-width solid blue bottom action band holds the clear gateway action and total. No shadow cards.",
+  "web": "Desktop has a SOLID BLUE left navigation block with white labels. Across top of the main area, four compact 2D category tiles are arranged horizontally. The marketplace is a wide resource COMPARISON LIST with two horizontal rows, not big illustrated cards. Keep model/seller/capability/price in clean aligned columns; GPU selected by a pale blue row background. The contract quote is a full-width HORIZONTAL summary STRIP at the bottom of the content, with fee details, budget and gateway status on left and a blue gateway button on right. No right stacked quote card."
+}

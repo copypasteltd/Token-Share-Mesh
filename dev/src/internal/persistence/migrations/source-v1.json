@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/schema-draft.sql",
+  "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
+  "migration": "001_domain.sql",
+  "migration_sha256": "85da1d9b2d4948cca6f60c3a15bb3bdb03e4d2eb1ff1af6b14005588077faec5",
+  "policy": "001 frozen at R001; subsequent changes require new forward migrations"
+}

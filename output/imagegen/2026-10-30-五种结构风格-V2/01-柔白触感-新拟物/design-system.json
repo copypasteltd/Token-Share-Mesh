@@ -1,0 +1,19 @@
+{
+  "id": "01",
+  "name": "柔白触感-新拟物",
+  "kind": "Neumorphism",
+  "style_id": "neumorphism",
+  "colors": {
+    "canvas": "#E9EDF2",
+    "surface": "#E9EDF2",
+    "ink": "#25354A",
+    "primary": "#4268B2",
+    "light": "#FFFFFF",
+    "shadow": "#BEC7D5"
+  },
+  "type": "Rounded humanist Chinese sans-serif, medium weight, gently rounded numerals; never thin low-contrast grey.",
+  "material": "AUTHENTIC NEUMORPHISM: all main surfaces are the SAME cool silver-white material as the canvas, sculpted rather than white cards pasted on grey. Convex extruded pads have paired white upper-left and cool grey lower-right soft shadows; the search and mode track are visibly debossed concave wells. Consistent upper-left light source. Tactile 18-28 logical px corners, embossed simple line icons. Deep blue-grey text and restrained slate-blue selected controls. No glass/transparency, no hard borders, no hard offset shadows. Emphasize tactile topography, not ordinary rounded SaaS cards.",
+  "home": "CENTERED DEVICE PEDESTAL composition: small top brand row, shallow debossed full-width search, a concave three-mode slider, then one large centered convex device platform. Put a clean GPU object on a broad circular softly recessed pedestal centered ABOVE its listing title, seller and price. The main card is vertical and centered, with one clear raised 查看服务 button. Under the platform show a separate slim horizontal phone resource row with a small Motorola phone image, 摩托罗拉 X30, Qwen 3B, 阿澄 and price. Four category controls can be small raised round-square controls above the pedestal. Bottom navigation is an inset rail with small raised active discovery button. No left-picture/right-copy stack of identical cards. Fit both complete resources above the nav.",
+  "detail": "Keep the centered tactile device pedestal from home, but make the GPU visual smaller so the entire detail fits. Below the title/seller are three small raised spec capsules. Place the privacy modes in the same recessed rail. The fee breakdown and budget sit together in a visibly concave calculator-like well. Bottom has one raised slate-blue gateway button and total, with safe-area spacing. No normal white boxed cards.",
+  "web": "Desktop uses a very NARROW left icon-and-label dock (not a 200px full sidebar), a large central sculpted device-showcase platform, and an independent tall recessed quote well on the right. Top center holds the inset mode selector/search. GPU and seller appear in a central product pedestal with phone availability as a short row beneath. The quote well has fee rows, budget and gateway action. The entire desktop is one continuous silver-white sculpted surface."
+}

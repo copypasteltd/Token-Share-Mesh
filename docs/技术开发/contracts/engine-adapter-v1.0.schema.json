@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://p11.invalid/design/engine-adapter-v1.0.schema.json",
+  "title": "P11 local engine command draft; no product implementation",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0-draft"
+    },
+    "command_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "operation": {
+      "enum": [
+        "DESCRIBE",
+        "PROBE",
+        "PREPARE",
+        "EXECUTE",
+        "QUERY",
+        "CANCEL",
+        "COLLECT",
+        "CLEANUP",
+        "HEALTH"
+      ]
+    },
+    "execution_domain": {
+      "const": "AUTHORIZED_LOCAL_ENDPOINT"
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authority_kind": {
+          "enum": [
+            "JOB_LEASE",
+            "RENTAL_SESSION"
+          ]
+        },
+        "order_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "seller_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "device_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "resource_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "job_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "lease_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "session_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "invocation_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "access_grant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "terms_revision": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "fencing_token": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "resource_lock_generation": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "contract_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "deadline": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "authority_kind",
+        "order_id",
+        "seller_id",
+        "device_id",
+        "resource_id",
+        "resource_lock_generation",
+        "contract_hash",
+        "deadline"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "authority_kind": {
+              "const": "JOB_LEASE"
+            }
+          },
+          "required": [
+            "job_id",
+            "attempt_id",
+            "lease_id",
+            "fencing_token"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "session_id"
+                ]
+              },
+              {
+                "required": [
+                  "invocation_id"
+                ]
+              },
+              {
+                "required": [
+                  "access_grant_id"
+                ]
+              },
+              {
+                "required": [
+                  "terms_revision"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "authority_kind": {
+              "const": "RENTAL_SESSION"
+            }
+          },
+          "required": [
+            "session_id",
+            "invocation_id",
+            "access_grant_id",
+            "terms_revision"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "job_id"
+                ]
+              },
+              {
+                "required": [
+                  "attempt_id"
+                ]
+              },
+              {
+                "required": [
+                  "lease_id"
+                ]
+              },
+              {
+                "required": [
+                  "fencing_token"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "authority_payload_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "engine_kind": {
+      "enum": [
+        "COMFYUI",
+        "LM_STUDIO",
+        "LLAMA_CPP_NATIVE",
+        "LMA_LOCAL",
+        "AUTHORIZED_UPSTREAM"
+      ]
+    },
+    "protocol_profile_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "recipe_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "kernel_environment_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "input_asset_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+      },
+      "maxItems": 50,
+      "uniqueItems": true
+    },
+    "local_protocol_body_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "backend_reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128
+    }
+  },
+  "required": [
+    "schema_version",
+    "command_id",
+    "operation",
+    "execution_domain",
+    "engine_kind",
+    "idempotency_key"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "enum": [
+              "PREPARE",
+              "EXECUTE",
+              "QUERY",
+              "CANCEL",
+              "COLLECT",
+              "CLEANUP"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "context",
+          "authority_payload_ref",
+          "kernel_environment_digest"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "EXECUTE"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "protocol_profile_id",
+          "recipe_digest",
+          "input_asset_refs",
+          "local_protocol_body_ref"
+        ]
+      }
+    }
+  ],
+  "$comment": "Local boundary only; platform never receives protocol bodies/keys. JOB_LEASE validates current signed lease; RENTAL_SESSION validates signed current session/access grant, same resource owner and terms revision, no per-invocation sale. PREPARE needs actual execution authority, distinct from no-execution E2E attempt PREPARED. Validate signatures/generation/ownership/profile in application; schema cannot prove them."
+}

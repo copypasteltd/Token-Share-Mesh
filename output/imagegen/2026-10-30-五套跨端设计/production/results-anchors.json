@@ -1,0 +1,102 @@
+{
+  "phase": "anchors",
+  "updated_at": "2026-10-29T19:13:53.870847+00:00",
+  "model": "gpt-image-2.5",
+  "results": [
+    {
+      "id": "01-home",
+      "style": "01",
+      "style_name": "晴空秩序",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "01-晴空秩序\\01-小程序-首页.png",
+      "prompt": "01-晴空秩序\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1403326,
+        "sha256": "0d5dff4bd024a51aabc067aa01f44ea9dce1800c828a21d023839a87a524e963"
+      }
+    },
+    {
+      "id": "03-home",
+      "style": "03",
+      "style_name": "钛银精密",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "03-钛银精密\\01-小程序-首页.png",
+      "prompt": "03-钛银精密\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1375300,
+        "sha256": "aabd26958ee5335598753a4cc1310d9e99e7c1ccba01d81d52aaab8a02dd6f24"
+      }
+    },
+    {
+      "id": "02-home",
+      "style": "02",
+      "style_name": "薄荷织网",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "02-薄荷织网\\01-小程序-首页.png",
+      "prompt": "02-薄荷织网\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1414141,
+        "sha256": "06447d41435e22a69c157f62fb8ccd72202268c3086b8c8bd80d70a6eca75255"
+      }
+    },
+    {
+      "id": "05-home",
+      "style": "05",
+      "style_name": "珊瑚拼图",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "05-珊瑚拼图\\01-小程序-首页.png",
+      "prompt": "05-珊瑚拼图\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1411771,
+        "sha256": "fdda944aabbcb17862606ce09a86ed6155109d26511c91e03947c56d98fc06ca"
+      }
+    },
+    {
+      "id": "04-home",
+      "style": "04",
+      "style_name": "紫夜星轨",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "04-紫夜星轨\\01-小程序-首页.png",
+      "prompt": "04-紫夜星轨\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1603222,
+        "sha256": "ad68f20d6f4efcde39b84087ee1677f13160a889d4f4a55ab79d757cff958dd7"
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://p11.invalid/design/cipher-frame-v3.0.schema.json",
+  "title": "P11 opaque cipher frame v3.0 draft",
+  "description": "外层有界密文帧，仅说明结构。HEADERS/DATA/USAGE/ERROR/END/CANCEL类型与终态承诺均放密文内部。认证关联数据必须覆盖上下文；hash仅密文摘要，不允许公开prompt明文hash。suite/nonce/握手/签名须另冻结及安全评审。",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "frame_version": {
+      "const": "3.0-draft"
+    },
+    "channel_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "order_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "seller_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "recipient_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "recipient_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "buyer_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "job_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "fencing_token": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "delivery_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "object_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "contract_hash",
+        "order_id",
+        "seller_id",
+        "recipient_id",
+        "recipient_key_id",
+        "buyer_key_id",
+        "job_id",
+        "attempt_id",
+        "fencing_token",
+        "delivery_revision",
+        "stream_id",
+        "object_id"
+      ]
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "BUYER_TO_SELLER",
+        "SELLER_TO_BUYER"
+      ]
+    },
+    "suite_profile_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "epoch": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "sequence": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ciphertext_b64u": {
+      "type": "string",
+      "minLength": 22,
+      "maxLength": 120000,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "ciphertext_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "frame_version",
+    "channel_id",
+    "context",
+    "direction",
+    "suite_profile_id",
+    "epoch",
+    "sequence",
+    "expires_at",
+    "ciphertext_b64u",
+    "ciphertext_sha256"
+  ],
+  "x-limits": {
+    "encoded_frame_max_bytes": 131072,
+    "plaintext_data_chunk_max_bytes": 65536,
+    "reorder_max_frames": 32,
+    "reorder_max_bytes": 2097152,
+    "send_buffer_max_bytes": 4194304
+  },
+  "x-semantic-checks": [
+    "总编码字节、上下文/有效执行权、AEAD/身份验证独立检查",
+    "seq/epoch不复用nonce；重连仅重传原密文或换安全epoch/key",
+    "终块类型、总数/摘要/完整状态在认证密文内，不以socket关闭或外层flag判成功",
+    "未知字段/重复JSON键拒绝；大计数器按规范十进制字符串"
+  ]
+}

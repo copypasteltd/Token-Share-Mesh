@@ -1,0 +1,319 @@
+{
+  "date": "2026-10-30",
+  "kind": "DEVELOPMENT_DOCUMENT_STRUCTURE_ONLY",
+  "passed": true,
+  "modules": 20,
+  "tasks": 56,
+  "steps": 222,
+  "constraints": 47,
+  "control_operations": 89,
+  "tables": 60,
+  "requirements": 80,
+  "acceptance_cases": 80,
+  "current_tasks": 55,
+  "deferred_tasks": 1,
+  "checks": 49,
+  "markdown_files": 30,
+  "generated_files": 30,
+  "local_links": 6709,
+  "product_source_files": 28,
+  "product_tests": "NOT_EXECUTED",
+  "source_hashes_checked": 46,
+  "errors": [],
+  "details": [
+    {
+      "id": "VFY-001",
+      "title": "开发根目录固定为 dev/",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-002",
+      "title": "设计与真实验证状态无升级",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-003",
+      "title": "20 模块连续唯一",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-004",
+      "title": "56 顶层任务连续唯一",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-005",
+      "title": "55 DESIGN + DEV-55 DEFERRED",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-006",
+      "title": "222 子项唯一",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-007",
+      "title": "子项连续并正确绑定父任务",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-008",
+      "title": "子项有实现/失败边界和待交付证据，无假结果",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-009",
+      "title": "不伪造人员、工期或证据",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-010",
+      "title": "任务模块归属完整",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-011",
+      "title": "模块与任务双向对应",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-012",
+      "title": "全部模块含职责、输入、输出、禁止越界",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-013",
+      "title": "模块计划路径全部落 dev/",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-014",
+      "title": "模块计划目录已建立",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-015",
+      "title": "47 约束连续唯一（NB-R1追加CON-047，既有编号不改）",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-016",
+      "title": "约束的模块、规则、失败动作、证据、来源完整",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-017",
+      "title": "约束与模块双向映射",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-018",
+      "title": "任务继承全部模块约束",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-019",
+      "title": "任务依赖无缺失/循环，拓扑层完整",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-020",
+      "title": "当前任务不依赖延后 DEV-55",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-021",
+      "title": "硬件增强不成为基础档统一前置",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-022",
+      "title": "56 任务在阶段中恰好出现一次",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-023",
+      "title": "条件分支与延后阶段正确",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-024",
+      "title": "80 功能与同号主验收连续唯一",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-025",
+      "title": "80 功能全部关联模块与任务",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-026",
+      "title": "任务覆盖全部 80 功能，无悬空编号",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-027",
+      "title": "80 主验收未执行状态保持",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-028",
+      "title": "原需求阶段范围不丢失",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-029",
+      "title": "89 控制接口连续唯一",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-030",
+      "title": "控制接口任务/模块/新 handler 路径正确",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-031",
+      "title": "任务与控制接口双向对应",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-032",
+      "title": "60 数据表连续唯一",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-033",
+      "title": "60 表各有唯一权威模块，无遗漏/重叠",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-034",
+      "title": "INT/DATA 使用固定人工登记，不隐式重排",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-035",
+      "title": "原权威 technical-module-catalog 全字段语义保持",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-036",
+      "title": "原权威 development-backlog 全字段语义保持",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-037",
+      "title": "原权威 requirement-technical-map 全字段语义保持",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-038",
+      "title": "原权威 api-implementation-map 全字段语义保持",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-039",
+      "title": "8 份主文档编号完整",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-040",
+      "title": "8 条统一交付检查完整",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-041",
+      "title": "22 条路径登记有效",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-042",
+      "title": "全部生成物登记且位于 dev/",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-043",
+      "title": "从源重建与当前文件逐字一致",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-044",
+      "title": "全部规范源和机器契约摘要一致",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-045",
+      "title": "全部细则编码、表格、围栏和锚点有效",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-046",
+      "title": "全部细则本地链接和显式锚点有效",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-047",
+      "title": "文档工具/人工源 Python 语法可解析；未运行产品",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-048",
+      "title": "存在源码时必须单独登记完整56项实施进度",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "VFY-049",
+      "title": "旧根级测试/工作流占位无新增文件",
+      "status": "PASSED",
+      "details": ""
+    }
+  ]
+}

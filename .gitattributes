@@ -1,0 +1,10 @@
+# Preserve exact bytes: contracts, source manifests and applied migrations use
+# SHA-256 over file bytes. Checkout must not silently rewrite line endings.
+* -text
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.mp4 binary
+*.webm binary
+

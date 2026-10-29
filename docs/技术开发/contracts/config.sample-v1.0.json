@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0-draft",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "environment": "DEVELOPMENT",
+  "project_root": ".",
+  "paths": {
+    "db": "runtime/db",
+    "objects": "runtime/objects",
+    "logs": "runtime/logs",
+    "client_work": "runtime/client-work",
+    "temporary": "runtime/tmp",
+    "models": "runtime/models"
+  },
+  "listeners": {
+    "control": "127.0.0.1:18080",
+    "plaintext": "127.0.0.1:18081",
+    "cipher": "127.0.0.1:18082",
+    "buyer_gateway": "127.0.0.1:18110",
+    "local_management": "127.0.0.1:18111"
+  },
+  "database": {
+    "host": "127.0.0.1",
+    "port": 5432,
+    "name": "p11_dev",
+    "role_secret_ref": null
+  },
+  "secrets": {
+    "channel_credentials_ref": null,
+    "server_signing_key_ref": null,
+    "session_key_ref": null,
+    "api_key_pepper_ref": null,
+    "storage_credentials_ref": null
+  },
+  "channel": {
+    "provider": null,
+    "product": null,
+    "personal_seller_scope_evidence": null,
+    "environment": "SANDBOX"
+  },
+  "fees": {
+    "commission_bps": null,
+    "channel_cost_owner": null,
+    "settlement_cycle": null
+  },
+  "feature_gates": {
+    "real_payments": false,
+    "real_settlements": false,
+    "plaintext_sale": false,
+    "basic_e2e_sale": false,
+    "enhanced_e2e_sale": false,
+    "gpu_rental_sale": false,
+    "android_sale": false,
+    "video_sale": false,
+    "audio_sale": false,
+    "threed_sale": false,
+    "subscription_supply": false,
+    "lan_access": false
+  },
+  "design_defaults": {
+    "quote_ttl_sec": 900,
+    "admission_ttl_sec": 90,
+    "lease_sec": 45,
+    "heartbeat_sec": 10,
+    "node_active_slots": 1,
+    "buyer_active_jobs": 2,
+    "sku_queue_cap": "min(20,2*qualified_online)",
+    "same_seller_retries": 1,
+    "image_total_deadline_sec": 300,
+    "e2e_rewrap_window_sec": 120,
+    "e2e_accept_window_sec": 120,
+    "rental_reserve_sec": 90,
+    "rental_prepare_sec": 120,
+    "rental_ready_wait_sec": 120,
+    "rental_disconnect_grace_sec": 60,
+    "result_retention_days": 7,
+    "download_url_ttl_sec": 300,
+    "platform_input_cleanup_hours": 24,
+    "node_success_cleanup_hours": 1,
+    "node_failure_reconnect_cleanup_hours": 24,
+    "json_request_max_bytes": 2097152,
+    "media_object_max_bytes": 67108864,
+    "decoded_image_max_pixels": 40000000,
+    "cipher_data_chunk_max_bytes": 65536,
+    "cipher_frame_max_bytes": 131072,
+    "reorder_limits": {
+      "frames": 32,
+      "bytes": 2097152
+    },
+    "stream_send_buffer_bytes": 4194304,
+    "pagination": {
+      "default": 20,
+      "max": 100
+    }
+  },
+  "deferred_defaults": {
+    "app_log_retention_days": 30,
+    "rolling_backup_days": 7,
+    "recovery_targets_hours": {
+      "rpo": 24,
+      "rto": 4
+    }
+  },
+  "deferred_defaults_note": "Historical only; excluded from current-phase runtime configuration and acceptance.",
+  "protocol_profiles": [],
+  "crypto_profile": null,
+  "sub2api_frozen_commit": null,
+  "provider_kernels": {
+    "policy": "provider-kernel-policy-v1.0.json",
+    "active_environment_ref": null,
+    "active_environment_digest": null,
+    "silent_activation": false,
+    "buyer_node_install": false,
+    "private_execution_plan": "private-execution-plan-v1.0.json",
+    "private_execution_enabled": false,
+    "e2e_protocol_plan": "e2e-protocol-plan-v1.0.json",
+    "binary_stream_enabled": false
+  },
+  "scope": {
+    "miniapp": "React + Taro / Alipay first",
+    "web": "React + Vite",
+    "deployment": "DEFERRED",
+    "observability": "DEFERRED"
+  },
+  "data_disclosure_policy": {
+    "request_body": false,
+    "response_body": false,
+    "private_keys": false,
+    "content_hashes": false,
+    "business_audit_records": true
+  },
+  "limits_note": "Defaults are design targets; false flags do not prove implemented controls. No real channel or content keys included."
+}

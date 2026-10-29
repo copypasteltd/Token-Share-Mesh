@@ -1,0 +1,19 @@
+{
+  "id": "04",
+  "name": "硬边交易所-新粗野主义",
+  "kind": "Neubrutalism",
+  "style_id": "neubrutalism",
+  "colors": {
+    "canvas": "#FFF5C5",
+    "surface": "#FFFFFF",
+    "ink": "#000000",
+    "primary": "#F5B53B",
+    "accent": "#F26749",
+    "muted": "#3A3A3A"
+  },
+  "type": "Heavy compact Chinese sans-serif display titles, bold condensed-looking prices and black sturdy labels; price typography is intentional.",
+  "material": "NEUBRUTALISM, like a well-designed transparent peer marketplace notice board: 3 logical px PURE BLACK outlines, hard solid black offset shadows about 5px with ZERO blur, sharp or 3px corners, pale warm yellow canvas, white service tickets, mustard category blocks and orange primary actions. Bold no-nonsense type. Solid flat illustrative hardware glyphs. No pastels, no rounded pills, no soft shadows, no glass, no gradients. Functional controlled brutality, no graffiti, no stickers, no fake certification stamps.",
+  "home": "TICKET-EXCHANGE layout: a boldly oversized left-aligned 算力共享 title near top, a narrow outlined search field, three square bordered mode tabs, and a narrow inline category row. Main service is one LARGE trading ticket: upper half is a split composition with a bold black GPU drawing and RTX 4090 · 24GB at LEFT, a huge ¥0.60 / 张 price block at RIGHT; lower ticket row names 星河同学, ComfyUI · 图像生成, 平台不可见 and a hard-shadow 查看服务 button. A shorter detachable-looking phone ticket below prominently names 摩托罗拉 X30 with Qwen 3B, 阿澄 and ¥0.02/千Token. Use thick structural rules, not two soft cards. Bottom nav has four square outlined cells, 发现 mustard-filled. No invented sequential badges.",
+  "detail": "Top detail content is a large two-column ticket: GPU model and small flat hardware drawing on left, very large ¥0.60/张 on right. Seller identity is a bold horizontal strip. Specs are three square outlined cells. Privacy modes are hard-bordered tabs with the same selected fill as home. Fee breakdown resembles a clear purchase receipt with strong black rules, not a fake paid receipt. Bottom action is an orange hard-offset-shadow rectangle labeled 连接网关并继续.",
+  "web": "NO LEFT SIDEBAR. Strong black-ruled horizontal top navigation and big compact work area title. The main left 70% is a wide resource EXCHANGE TABLE with outlined header cells for 设备/卖家/用途/单价 and two chunky resource rows for GPU and 摩托罗拉 X30. The selected GPU quote is a detached tall yellow purchase-ticket panel at right with black hard offset shadow. Modes and category selectors are square hard-bordered blocks above the table. Heavy horizontal structure, no decorative analytics."
+}

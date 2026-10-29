@@ -1,0 +1,178 @@
+{
+  "round": "R003",
+  "status": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+  "database_run": "20261029T205954Z-9d10720c",
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "passed_cases": 22,
+  "failed_cases": 0,
+  "skipped_cases": 0,
+  "product_acceptance_status": "NOT_EXECUTED",
+  "tests": [
+    {
+      "id": "R003-TEST-001",
+      "package": "p11.local/compute/shared/money",
+      "test": "TestCumulativeBillingDoesNotRoundEveryChunk",
+      "description": "累计有理计价；分块不反复向上舍入",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-002",
+      "package": "p11.local/compute/shared/money",
+      "test": "TestAmountsRejectOverflowNegativeAndReversal",
+      "description": "金额上限、溢出、负数和回退读数拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-003",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestJournalCommitBalancesAndPreventsLaterMutation",
+      "description": "空/不平账本拒绝；平账可提交；追加修改及普通角色绕过拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-004",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestCompositeForeignKeyRejectsWrongSellerResource",
+      "description": "资源复合外键拒绝其他卖家的设备",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-005",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestConsumedQuoteAndOrderTermsCannotBeChanged",
+      "description": "订单卖家不可暗改；已消费报价不可复原",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-006",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestMigrationsExecuteAllDomainDDLAndRejectDrift",
+      "description": "60张领域表真实迁移、重复执行与摘要漂移拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-007",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestKeysSecretOnceScopesOwnershipAndRevocation",
+      "description": "密钥只显一次、归属隔离、有限权限、HMAC存储与撤销",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-008",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestConcurrentIdempotencyCommitsOneBusinessMutation",
+      "description": "20个并发同意图只提交一次；用户版本变化拒绝旧回放",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-009",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInboxReceiptRollsBackWithSideEffectAndDeduplicates",
+      "description": "inbox与副作用同事务回滚；重复去重；异载荷拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-010",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestDurableJobsFenceStaleClaimsAndBoundRetries",
+      "description": "认领代次递增、旧ACK拒绝、有限重试和错误码/任务白名单",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-011",
+      "package": "p11.local/compute/internal/pricing",
+      "test": "TestHourlyAndTokenContractsUseExactAggregateRounding",
+      "description": "小时与输入/输出M token精确累计、合并一次进位",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-012",
+      "package": "p11.local/compute/internal/pricing",
+      "test": "TestUnknownUsageInvalidRatesAndOverflowAreRejected",
+      "description": "未知用量不当零；价率/费用缺失、负数与溢出拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-013",
+      "package": "p11.local/compute/internal/pricing",
+      "test": "TestFeeRefundTargetsAndLegacyConversion",
+      "description": "佣金退款目标重算；350分每小时拒绝有损分钟转换",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-014",
+      "package": "p11.local/compute/internal/pricing",
+      "test": "TestPriceDecoderRejectsUnknownComponentsAndTrailingData",
+      "description": "未支持收费组件、重复键、缺少费率及多余JSON拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-015",
+      "package": "p11.local/compute/shared/strictjson",
+      "test": "TestControlJSONRejectsAmbiguityAndBounds",
+      "description": "控制JSON大小、深度、UTF8、未知字段及嵌套重复键边界",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-016",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestMarketRequiresScopedApprovalsAndConcreteC2CModels",
+      "description": "具体卖家/型号、安全字段投影、分页及组合资格/撤销/资源忙",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-017",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestHourlyAndDualRateQuotesFreezeSellerBudgetAndPolicy",
+      "description": "报价冻结双价/预算/卖家；无默降、API购单和自购；证据TTL",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-018",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestOrderConfirmationConcurrentReplayAndOwnerIsolation",
+      "description": "16并发同键一个订单/outbox/同意；归属隔离和角色撤销回放",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-019",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestQuoteSingleConsumptionAcrossDifferentOrderKeysAndRollback",
+      "description": "数据库费率漂移拒绝并回滚报价消费；12异键同报价仅一单",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-020",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestNewListingRevisionPreservesHistoricalQuoteAndRejectsStalePurchase",
+      "description": "新挂牌价版不覆旧合同；旧确认拒绝；350分小时精确报价",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-021",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestOrderRechecksDeviceEvidenceAndBuyerConsentBeforeMutation",
+      "description": "停新单/撤证/错误意图拒绝，不消费原报价",
+      "result": "PASSED"
+    },
+    {
+      "id": "R003-TEST-022",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestHistoricalOrderProjectionRetainsLegacyPriceFields",
+      "description": "历史订单原始价格及扩展完整保留；不静默改写旧报价",
+      "result": "PASSED"
+    }
+  ],
+  "source_evidence": [
+    "dev/tests/evidence/R003-native-summary.json",
+    "dev/tests/evidence/R003-native-go-tests.jsonl",
+    "dev/tests/evidence/R003-native-source-checks.json"
+  ],
+  "limitations": [
+    "No real OAuth, HTTP session/CSRF or seller/device integration",
+    "No GPU, Android, real payment, crypto interoperability, independent review or whole-product acceptance",
+    "Linux CLI cross-compiled only, no Linux runtime validation",
+    "Not a crash or power-loss durability test; no Go race-detector claim"
+  ]
+}

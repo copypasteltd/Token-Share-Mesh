@@ -1,0 +1,23 @@
+Create one high-fidelity, beautifully art-directed Chinese PRODUCT UI concept for “算力共享” / “Token Share Mesh”, a genuine C2C marketplace where INDIVIDUAL sellers list idle personal computing devices. It is a design concept with demo data.
+Hard framing: one flat straight-on edge-to-edge page, no physical device frame, no phone mockup, no hand/desk, no perspective, no multi-screen collage, no palette/style labels, no captions outside UI, no watermarks. Draw actual legible UI, not a presentation board.
+EXACT shared resource data: “RTX 4090 · 24GB”; seller “星河同学”; “个人卖家”; service “ComfyUI · 图像生成”; “¥0.60 / 张”. Secondary PHONE MUST explicitly be “摩托罗拉 X30”; model “Qwen 3B”; seller “阿澄”; “¥0.02 / 千Token”. The phone's visible TITLE MUST be the concrete model 摩托罗拉 X30, not a generic operating-system label. NEVER print “Android设备”, “Android 设备”, “Android设别”, “手机推理” as its name. Do not invent version fields, CUDA versions, benchmarks, ratings, sales, guarantee badges, or income claims.
+Service modes exactly “明文 / 端对端加密 / 显卡租赁”; select “端对端加密”. Categories “全部 / 对话 / 图像 / 视频”; select 全部. Main resource privacy text: “平台不可见”. Details/Web must also state “平台不可见；执行设备仍需处理明文”. Do not claim the hardware owner cannot access plaintext.
+Consistent brand glyph: a minimal mesh of three connected nodes, drawn in this family's style; repeat the same glyph across its pages.
+Text must be correct concise Simplified Chinese, clear touch targets and coherent hierarchy. Dark enough text and well-separated control edges. Never hide a resource's model/price behind the bottom bar. The two mobile pages must look like Alipay MINI-PROGRAM pages with a small top status bar, proper Alipay capsule in top-right, and safe-area insets.
+Each family is an independent DESIGN LANGUAGE AND LAYOUT. Do not revert to the generic search + pills + two identical rounded picture-left marketplace cards. All properties below are deliberate constraints, not loose inspiration.
+
+DESIGN FAMILY: Neo-flat / Flat Design
+MATERIAL AND SHAPE GRAMMAR:
+PURE CONTEMPORARY FLAT DESIGN: solid blue, coral and white color blocks, clean 2D simplified vector GPU/phone icons, no photographs. Flat fills, 0-6 logical px corners, crisp alignment, mostly borderless modules separated by whitespace. Absolutely NO shadows, NO gradients, NO translucent panels, NO 3D surfaces, NO black chunky outlines. Friendly geometric pictograms rather than rendered hardware. Design with type and color-area proportion.
+TYPE:
+Bold geometric Chinese sans-serif headlines, crisp simple body text, flat pictograms; strong hierarchy without ornamental fonts.
+PALETTE ROLES (do not print codes): {"canvas": "#FFFFFF", "surface": "#EFF4FF", "ink": "#173148", "primary": "#235DE8", "accent": "#F17862", "muted": "#54667A"}
+
+REFERENCE RULE: the attached image is THIS family’s approved home anchor. Preserve its observed brand glyph, type, material, color roles, icon treatment, component geometry and selected states. Use the NEW target layout below, not the home content. Never paste the source screenshot into the result. The final image contains ONLY the new target page.
+
+TARGET: ONE SERVICE DETAIL, portrait 1024x1536, for the exact GPU offer in the reference. Top back arrow and 服务详情, Alipay capsule/status treatment matches home. Show RTX 4090 · 24GB, 星河同学 / 个人卖家, ComfyUI · 图像生成, small capability labels SDXL 1.0 / 24GB显存 / 按张计费. Include the three privacy modes with 端对端加密 selected and the readable boundary sentence 平台不可见；执行设备仍需处理明文. Fee preview exactly 卖家服务 ¥0.57, 平台服务费 ¥0.03, 合计 ¥0.60. Budget 预算上限 ¥5.00. State 本地网关未连接. Fixed bottom has total ¥0.60 / 张 and primary 连接网关并继续. No bottom tab navigation, no paid-success screen, no immediate payment CTA. Fit everything with legible text. The phone need not appear on this GPU detail.
+
+REQUIRED UNIQUE PAGE COMPOSITION:
+A solid blue header block contains title RTX 4090 · 24GB in white and a simple small white GPU pictogram. Seller sits below on white. Two-column flat capability cells with solid pale-blue backgrounds. Use underline-only privacy mode tabs. Price rows are unboxed flat aligned text with a solid coral total accent. A full-width solid blue bottom action band holds the clear gateway action and total. No shadow cards.
+
+Before finishing, verify the device names, units, selected privacy, one-page framing and the family-specific material. A color swap of a generic UI is not acceptable. Make this a resolved professional design.

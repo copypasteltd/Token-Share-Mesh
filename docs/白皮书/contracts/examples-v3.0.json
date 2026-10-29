@@ -1,0 +1,153 @@
+{
+  "version": "3.0-draft",
+  "notice": "虚构设计数据；金额不是定价，地区不是准入。密文/签名只是schema夹具，不是有效密码报文，不是资金/执行事件。",
+  "quote_request": {
+    "listing_id": "listing_demo_01",
+    "listing_revision": 1,
+    "sku_id": "sku_rental_demo",
+    "policy": {
+      "service_mode": "GPU_RENTAL",
+      "privacy_profile": "STANDARD",
+      "region": "TW-design-example",
+      "protocol_profile_id": "profile_chat_draft",
+      "acceptance_policy_id": "accept_rental_v1",
+      "disclosure_version": "notice_v3"
+    },
+    "public_spec": {
+      "duration_ms": 1800000
+    },
+    "budget_fen": 500,
+    "desired_region": "TW-design-example",
+    "quantity": 1
+  },
+  "route_contract": {
+    "route_id": "route_demo_01",
+    "buyer_id": "buyer_demo_01",
+    "version": 1,
+    "state": "ACTIVE",
+    "remaining_budget_fen": 500,
+    "used_calls": 0,
+    "contract_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+    "definition": {
+      "seller_id": "seller_demo_01",
+      "listing_id": "listing_demo_01",
+      "listing_revision": 1,
+      "policy": {
+        "service_mode": "E2E",
+        "privacy_profile": "PLATFORM_BLIND",
+        "region": "TW-design-example",
+        "protocol_profile_id": "profile_chat_draft",
+        "acceptance_policy_id": "accept_image_v1",
+        "disclosure_version": "notice_v3"
+      },
+      "budget_per_call_fen": 50,
+      "total_budget_fen": 500,
+      "max_call_count": 10,
+      "expires_at": "2026-10-29T12:00:00Z",
+      "purchase_authorization_ref": "auth_demo_01",
+      "recipient_id": "recipient_demo_01",
+      "recipient_key_hash": "2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  },
+  "cipher_frame": {
+    "frame_version": "3.0-draft",
+    "channel_id": "channel_demo_01",
+    "direction": "BUYER_TO_SELLER",
+    "suite_profile_id": "suite_unfrozen_draft",
+    "epoch": "0",
+    "sequence": "0",
+    "expires_at": "2026-10-29T12:00:00Z",
+    "ciphertext_b64u": "c3ludGhldGljLW5vbi1jcnlwdG9ncmFwaGljLWZpeHR1cmU",
+    "ciphertext_sha256": "c4707cb4cf78914d056b2f4452402a3960836a0044ed3223cac14b1d6d777b9a",
+    "context": {
+      "contract_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "order_id": "order_demo_01",
+      "seller_id": "seller_demo_01",
+      "recipient_id": "recipient_demo_01",
+      "recipient_key_id": "key_seller_demo",
+      "buyer_key_id": "key_buyer_demo",
+      "job_id": "job_demo_01",
+      "attempt_id": "attempt_demo_01",
+      "fencing_token": "1",
+      "delivery_revision": 1,
+      "stream_id": "stream_demo_01",
+      "object_id": "object_demo_01"
+    }
+  },
+  "event_envelope": {
+    "event_id": "event_demo_01",
+    "event_type": "BuyerAccepted",
+    "schema_version": "3.0-draft",
+    "occurred_at": "2026-10-29T10:00:00Z",
+    "recorded_at": "2026-10-29T10:00:01Z",
+    "producer_service": "service_acceptance",
+    "actor_ref": "buyer_demo_01",
+    "aggregate_type": "JOB",
+    "aggregate_id": "job_demo_01",
+    "aggregate_version": 4,
+    "correlation_id": "corr_demo_01",
+    "causation_id": "receipt_demo_01",
+    "idempotency_ref": "idem_demo_01",
+    "evidence_refs": [
+      "receipt_demo_01"
+    ],
+    "payload": {
+      "order_id": "order_demo_01",
+      "job_id": "job_demo_01",
+      "attempt_id": "attempt_demo_01",
+      "delivery_id": "delivery_demo_01",
+      "fencing_token": "1"
+    }
+  },
+  "buyer_receipt": {
+    "receipt_id": "receipt_demo_01",
+    "attempt_id": "attempt_demo_01",
+    "fencing_token": "1",
+    "delivery_id": "delivery_demo_01",
+    "delivery_revision": 1,
+    "cipher_manifest_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+    "decision": "ACCEPT",
+    "signer_key_id": "key_buyer_demo",
+    "signature_profile_id": "sig_unfrozen_draft",
+    "signed_at": "2026-10-29T10:00:00Z",
+    "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "nb_hour_price": {
+    "price_contract_version": "NB_PRICE_1",
+    "currency": "CNY",
+    "rounding_profile": "ORDER_CEIL_FEN_1",
+    "commission_bps": 500,
+    "channel_cost_owner": "SELLER",
+    "fee_policy_version": "fee_demo",
+    "unit": "AVAILABLE_HOUR",
+    "hour_rate": {
+      "numerator_fen": 360,
+      "denominator_units": 1
+    }
+  },
+  "nb_token_price": {
+    "price_contract_version": "NB_PRICE_1",
+    "currency": "CNY",
+    "rounding_profile": "ORDER_CEIL_FEN_1",
+    "commission_bps": 500,
+    "channel_cost_owner": "SELLER",
+    "fee_policy_version": "fee_demo",
+    "unit": "TOKEN_1M",
+    "input_rate": {
+      "numerator_fen": 80,
+      "denominator_units": 1
+    },
+    "output_rate": {
+      "numerator_fen": 160,
+      "denominator_units": 1
+    }
+  },
+  "legacy_price": {
+    "currency": "CNY",
+    "unit": "AVAILABLE_MINUTE",
+    "unit_price_fen": 6,
+    "commission_bps": 500,
+    "channel_cost_owner": "SELLER",
+    "fee_policy_version": "legacy_fee_demo"
+  }
+}

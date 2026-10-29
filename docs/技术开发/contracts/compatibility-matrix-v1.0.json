@@ -1,0 +1,812 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "description": "Planned profiles are not compatibility claims. Video/audio/3D/upstream/rental-enhanced need separate qualified combinations; actual versions unset.",
+  "combinations": [
+    {
+      "platform": "WINDOWS",
+      "engine": "COMFYUI",
+      "mode": "PLAINTEXT",
+      "privacy": "STANDARD",
+      "kernel_strategy": "COMPLETE_NATIVE_ENVIRONMENT_WITH_NODE_ALLOWLIST",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_IMAGES_APPROVED_SUBSET"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "COMFYUI",
+      "mode": "E2E",
+      "privacy": "PLATFORM_BLIND",
+      "kernel_strategy": "COMPLETE_NATIVE_ENVIRONMENT_WITH_NODE_ALLOWLIST",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_IMAGES_APPROVED_SUBSET"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "COMFYUI",
+      "mode": "E2E",
+      "privacy": "ATTESTED_CONFIDENTIAL",
+      "kernel_strategy": "COMPLETE_NATIVE_ENVIRONMENT_WITH_NODE_ALLOWLIST",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_IMAGES_APPROVED_SUBSET"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08",
+        "E09"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "COMFYUI",
+      "mode": "GPU_RENTAL",
+      "privacy": "STANDARD",
+      "kernel_strategy": "COMPLETE_NATIVE_ENVIRONMENT_WITH_NODE_ALLOWLIST",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_IMAGES_APPROVED_SUBSET"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "COMFYUI",
+      "mode": "PLAINTEXT",
+      "privacy": "STANDARD",
+      "kernel_strategy": "COMPLETE_NATIVE_ENVIRONMENT_WITH_NODE_ALLOWLIST",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_IMAGES_APPROVED_SUBSET"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "COMFYUI",
+      "mode": "E2E",
+      "privacy": "PLATFORM_BLIND",
+      "kernel_strategy": "COMPLETE_NATIVE_ENVIRONMENT_WITH_NODE_ALLOWLIST",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_IMAGES_APPROVED_SUBSET"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "COMFYUI",
+      "mode": "E2E",
+      "privacy": "ATTESTED_CONFIDENTIAL",
+      "kernel_strategy": "COMPLETE_NATIVE_ENVIRONMENT_WITH_NODE_ALLOWLIST",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_IMAGES_APPROVED_SUBSET"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08",
+        "E09"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "COMFYUI",
+      "mode": "GPU_RENTAL",
+      "privacy": "STANDARD",
+      "kernel_strategy": "COMPLETE_NATIVE_ENVIRONMENT_WITH_NODE_ALLOWLIST",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_IMAGES_APPROVED_SUBSET"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "LM_STUDIO",
+      "mode": "PLAINTEXT",
+      "privacy": "STANDARD",
+      "kernel_strategy": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "local_content_protection_state": "COMPATIBILITY_ONLY_LAST_HOP_AND_DIAGNOSTICS_UNRESOLVED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E03"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "LM_STUDIO",
+      "mode": "E2E",
+      "privacy": "PLATFORM_BLIND",
+      "kernel_strategy": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "local_content_protection_state": "COMPATIBILITY_ONLY_LAST_HOP_AND_DIAGNOSTICS_UNRESOLVED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E03",
+        "E08"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "LM_STUDIO",
+      "mode": "E2E",
+      "privacy": "ATTESTED_CONFIDENTIAL",
+      "kernel_strategy": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "local_content_protection_state": "COMPATIBILITY_ONLY_LAST_HOP_AND_DIAGNOSTICS_UNRESOLVED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E03",
+        "E08",
+        "E09"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "LM_STUDIO",
+      "mode": "GPU_RENTAL",
+      "privacy": "STANDARD",
+      "kernel_strategy": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "local_content_protection_state": "COMPATIBILITY_ONLY_LAST_HOP_AND_DIAGNOSTICS_UNRESOLVED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E03"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "LM_STUDIO",
+      "mode": "PLAINTEXT",
+      "privacy": "STANDARD",
+      "kernel_strategy": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "local_content_protection_state": "COMPATIBILITY_ONLY_LAST_HOP_AND_DIAGNOSTICS_UNRESOLVED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E03"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "LM_STUDIO",
+      "mode": "E2E",
+      "privacy": "PLATFORM_BLIND",
+      "kernel_strategy": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "local_content_protection_state": "COMPATIBILITY_ONLY_LAST_HOP_AND_DIAGNOSTICS_UNRESOLVED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E03",
+        "E08"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "LM_STUDIO",
+      "mode": "E2E",
+      "privacy": "ATTESTED_CONFIDENTIAL",
+      "kernel_strategy": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "local_content_protection_state": "COMPATIBILITY_ONLY_LAST_HOP_AND_DIAGNOSTICS_UNRESOLVED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E03",
+        "E08",
+        "E09"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "LM_STUDIO",
+      "mode": "GPU_RENTAL",
+      "privacy": "STANDARD",
+      "kernel_strategy": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "local_content_protection_state": "COMPATIBILITY_ONLY_LAST_HOP_AND_DIAGNOSTICS_UNRESOLVED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E03"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "LLAMA_CPP_NATIVE",
+      "mode": "PLAINTEXT",
+      "privacy": "STANDARD",
+      "kernel_strategy": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "LLAMA_CPP_NATIVE",
+      "mode": "E2E",
+      "privacy": "PLATFORM_BLIND",
+      "kernel_strategy": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "LLAMA_CPP_NATIVE",
+      "mode": "E2E",
+      "privacy": "ATTESTED_CONFIDENTIAL",
+      "kernel_strategy": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08",
+        "E09"
+      ]
+    },
+    {
+      "platform": "WINDOWS",
+      "engine": "LLAMA_CPP_NATIVE",
+      "mode": "GPU_RENTAL",
+      "privacy": "STANDARD",
+      "kernel_strategy": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "LLAMA_CPP_NATIVE",
+      "mode": "PLAINTEXT",
+      "privacy": "STANDARD",
+      "kernel_strategy": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "LLAMA_CPP_NATIVE",
+      "mode": "E2E",
+      "privacy": "PLATFORM_BLIND",
+      "kernel_strategy": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "LLAMA_CPP_NATIVE",
+      "mode": "E2E",
+      "privacy": "ATTESTED_CONFIDENTIAL",
+      "kernel_strategy": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08",
+        "E09"
+      ]
+    },
+    {
+      "platform": "LINUX",
+      "engine": "LLAMA_CPP_NATIVE",
+      "mode": "GPU_RENTAL",
+      "privacy": "STANDARD",
+      "kernel_strategy": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "platform": "ANDROID",
+      "engine": "LMA_LOCAL",
+      "mode": "PLAINTEXT",
+      "privacy": "STANDARD",
+      "kernel_strategy": "LMA_SOURCE_DERIVATIVE",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "platform": "ANDROID",
+      "engine": "LMA_LOCAL",
+      "mode": "E2E",
+      "privacy": "PLATFORM_BLIND",
+      "kernel_strategy": "LMA_SOURCE_DERIVATIVE",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "EVIDENCE_GATED",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "platform": "ANDROID",
+      "engine": "LMA_LOCAL",
+      "mode": "E2E",
+      "privacy": "ATTESTED_CONFIDENTIAL",
+      "kernel_strategy": "LMA_SOURCE_DERIVATIVE",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "NOT_IN_CURRENT_DEVICE_SCOPE",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "platform": "ANDROID",
+      "engine": "LMA_LOCAL",
+      "mode": "GPU_RENTAL",
+      "privacy": "STANDARD",
+      "kernel_strategy": "LMA_SOURCE_DERIVATIVE",
+      "local_content_protection_state": "DESIGN_UNIMPLEMENTED_NOT_QUALIFIED",
+      "kernel_environment_digest": null,
+      "candidate_modalities": [
+        "TEXT"
+      ],
+      "planned_protocol_profiles": [
+        "OPENAI_CHAT_TEXT",
+        "OPENAI_RESPONSES_TEXT",
+        "ANTHROPIC_MESSAGES_TEXT"
+      ],
+      "capability_state": "NOT_IN_CURRENT_DEVICE_SCOPE",
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false,
+      "evidence_refs": [],
+      "required_evidence": [
+        "E01",
+        "E02",
+        "E04",
+        "E07",
+        "E10",
+        "E11"
+      ]
+    }
+  ],
+  "sdk_versions": null,
+  "engine_releases": null,
+  "physical_validation": "NOT_EXECUTED"
+}

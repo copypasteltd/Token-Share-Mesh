@@ -1,0 +1,63 @@
+{
+  "design_version": "NB-1.0",
+  "fictional_demo_only": true,
+  "currency": "CNY",
+  "price_units": {"gpu": "小时", "llm": "M token", "tokens_per_M": 1000000},
+  "gpu": {
+    "resource_key": "demo-gpu-xinghe-4090",
+    "model": "RTX 4090 · 24GB",
+    "seller": "星河同学",
+    "seller_type": "个人卖家",
+    "capability": "ComfyUI · 图像生成",
+    "mode": "显卡租赁",
+    "privacy": "标准隐私",
+    "hourly_price_fen": 360,
+    "hourly_price_text": "¥3.60 / 小时",
+    "sample_duration_minutes": 30,
+    "sample_total_fen": 180,
+    "sample_platform_commission_fen": 9,
+    "sample_seller_net_fen": 171
+  },
+  "market_phone": {
+    "resource_key": "demo-phone-acheng-x30",
+    "model": "摩托罗拉 X30",
+    "seller": "阿澄",
+    "seller_type": "个人卖家",
+    "capability": "Qwen 3B · 对话",
+    "mode": "端对端加密",
+    "privacy": "平台不可见；执行设备仍需处理明文",
+    "input_price_fen_per_M": 80,
+    "output_price_fen_per_M": 160,
+    "input_price_text": "输入 ¥0.80 / M token",
+    "output_price_text": "输出 ¥1.60 / M token",
+    "gateway_state": "本地网关未连接"
+  },
+  "provider_phone_draft": {
+    "resource_key": "demo-phone-xinghe-z20",
+    "model": "努比亚 Z20",
+    "seller": "星河同学",
+    "capability": "Qwen 3B · 对话",
+    "listing_state": "未上架",
+    "draft_input_price_text": "输入 ¥0.80 / M token",
+    "draft_output_price_text": "输出 ¥1.60 / M token"
+  },
+  "rental_order": {
+    "order_display_id": "TSM20261030001",
+    "status": "执行中",
+    "elapsed_seconds": 600,
+    "duration_cap_seconds": 1800,
+    "remaining_seconds": 1200,
+    "current_fee_fen": 60,
+    "budget_cap_fen": 500,
+    "estimated_total_fen": 180,
+    "settlement_state": "未结算"
+  },
+  "provider": {
+    "name": "星河同学",
+    "rental_state": "运行中",
+    "estimated_net_fen": 57,
+    "realized_settlement_fen": 0
+  },
+  "commission": {"example_only": true, "basis_points": 500, "rounding": "floor_once_on_final_order_amount", "charged_to": "seller", "included_in_buyer_price": true},
+  "payment": {"actual_channel_qualification": "NOT_VERIFIED", "real_charge_or_payout": false}
+}

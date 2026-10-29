@@ -1,0 +1,21 @@
+{
+  "scope": "Go admin CLI build only; Linux cross-compilation is not a Linux runtime test",
+  "cgo": false,
+  "virtualization_used": false,
+  "artifacts": [
+    {
+      "target": "windows-amd64",
+      "sha256": "6ac976ec6735b683a3a678324be96c5401883f52f582ae984e3a63fc94a7c122",
+      "artifact": "runtime/bin/p11-admin.exe",
+      "build_exit_code": 0,
+      "runtime_test": "NOT_EXECUTED"
+    },
+    {
+      "target": "linux-amd64",
+      "sha256": "a1fa8f667a04e48230c045878cd5088f1a3549e0796bfcf08166f980098c0a8b",
+      "artifact": "runtime/bin/p11-admin-linux-amd64",
+      "build_exit_code": 0,
+      "runtime_test": "NOT_EXECUTED"
+    }
+  ]
+}

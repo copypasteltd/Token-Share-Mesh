@@ -1,0 +1,14 @@
+{
+  "id": "02",
+  "name": "薄荷织网",
+  "slug": "02-薄荷织网",
+  "palette": {
+    "background": "#F2F8F5",
+    "surface": "#FFFFFF",
+    "primary": "#29896C",
+    "text": "#1B4B3B",
+    "border": "#D4E9DE",
+    "secondary": "#A6DCC4"
+  },
+  "direction": "A humane community-compute product with a cool mint and deep forest visual identity. Airy spacing, 24–28 logical px softly rounded cards and pill controls, gentle layered surfaces, humanist Chinese sans serif, generous touch targets. Signature: a very subtle thin connecting thread relating provider avatars and resource cards, suggesting voluntary peer sharing. Mint is structural, not botanical illustration. White and green, not generic beige; no stock photos, no cartoon leaves, no heavy blur."
+}

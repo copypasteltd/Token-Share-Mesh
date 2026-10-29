@@ -1,0 +1,14 @@
+{
+  "id": "04",
+  "name": "紫夜星轨",
+  "slug": "04-紫夜星轨",
+  "palette": {
+    "background": "#17172B",
+    "surface": "#24243D",
+    "primary": "#BFA5FF",
+    "text": "#F3F2FF",
+    "border": "#3D3C5B",
+    "secondary": "#A6C5FF"
+  },
+  "direction": "Quiet violet night: a refined deep-indigo and plum productivity interface with pale lavender actions and cool ice-blue secondary details. Dark purple rather than black. 18–22 logical px corners, restrained layered cards, exceptionally legible off-white Chinese type, soft clear borders. Signature: a faint orbital line in the top header and short connection arcs in device cards, suggesting a distributed mesh. No acid green, no cyberpunk, no RGB gamer neon, no bright glow cloud and no noisy star field."
+}

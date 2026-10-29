@@ -1,0 +1,14 @@
+{
+  "page": "UI-P04",
+  "reason": "Restore native status bar and Alipay capsule, preserve data and selected style",
+  "model": "gpt-image-2.5",
+  "visually_reviewed": true,
+  "before_sha256": "e4af3383e40dc1415ee299d1e7ef697eea134bea7f7a780100ffc71feda33792",
+  "after_sha256": "4245f9c3a0b99ab81e6b34981e088db6a0d71d6dc673397ee26a392db1dda0db",
+  "reference_pages": [
+    "UI-P04",
+    "UI-P01"
+  ],
+  "prompt": "prompts/UI-P04-header-refinement.txt",
+  "original_retained": "production/history/UI-P04-before-system-header.png"
+}

@@ -1,0 +1,56 @@
+{
+  "scope": "Go modules actually used by this source and its tests on windows-amd64; not the entire upstream graph or a complete product SBOM",
+  "modules": [
+    {
+      "Path": "github.com/jackc/pgpassfile",
+      "Version": "v1.0.0",
+      "Sum": "h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=",
+      "GoModSum": "h1:CEx0iS5ambNFdcRtxPj5JhEz+xB6uRky5eyVu/W2HEg=",
+      "license_file": "dev/licenses/go/github.com_jackc_pgpassfile@v1.0.0.txt",
+      "license_sha256": "adb1663fda031df8f4344aa68f299fd87d80353e31339406742ded21dae65702"
+    },
+    {
+      "Path": "github.com/jackc/pgservicefile",
+      "Version": "v0.0.0-20240606120523-5a60cdf6a761",
+      "Sum": "h1:iCEnooe7UlwOQYpKFhBabPMi4aNAfoODPEFNiAnClxo=",
+      "GoModSum": "h1:5TJZWKEWniPve33vlWYSoGYefn3gLQRzjfDlhSJ9ZKM=",
+      "license_file": "dev/licenses/go/github.com_jackc_pgservicefile@v0.0.0-20240606120523-5a60cdf6a761.txt",
+      "license_sha256": "fc505773403fe869ed64cc2235cdd13988a427bb7e3a7e7004a3f4b27420f8fc"
+    },
+    {
+      "Path": "github.com/jackc/pgx/v5",
+      "Version": "v5.11.0",
+      "Sum": "h1:IzBBtyK9AHqf98cctWFifYSci2hgQR/cd56wB4p+ogg=",
+      "GoModSum": "h1:mal1tBGAFfLHvZzaYh77YS/eC6IX9OWbRV1QIIM0Jn4=",
+      "license_file": "dev/licenses/go/github.com_jackc_pgx_v5@v5.11.0.txt",
+      "license_sha256": "467f95e074fe23079a5623ed652619682692041b8551da27e3c2ddb9659a1507"
+    },
+    {
+      "Path": "github.com/jackc/puddle/v2",
+      "Version": "v2.2.2",
+      "Sum": "h1:PR8nw+E/1w0GLuRFSmiioY6UooMp6KJv0/61nB7icHo=",
+      "GoModSum": "h1:vriiEXHvEE654aYKXXjOvZM39qJ0q+azkZFrfEOc3H4=",
+      "license_file": "dev/licenses/go/github.com_jackc_puddle_v2@v2.2.2.txt",
+      "license_sha256": "2d50e98a4900b4d6457a38d39c1432fdc156fc2f7b365f2e33ec9344acbb0057"
+    },
+    {
+      "Path": "golang.org/x/sync",
+      "Version": "v0.17.0",
+      "Sum": "h1:l60nONMj9l5drqw6jlhIELNv9I0A4OFgRsG9k2oT9Ug=",
+      "GoModSum": "h1:9KTHXmSnoGruLpwFjVSX0lNNA75CykiMECbovNTZqGI=",
+      "license_file": "dev/licenses/go/golang.org_x_sync@v0.17.0.txt",
+      "license_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+    },
+    {
+      "Path": "golang.org/x/text",
+      "Version": "v0.29.0",
+      "Sum": "h1:1neNs90w9YzJ9BocxfsQNHKuAT4pkghyXc4nhZ6sJvk=",
+      "GoModSum": "h1:7MhJOA9CD2qZyOKYazxdYMF85OwPdEr9jTtBpO7ydH4=",
+      "license_file": "dev/licenses/go/golang.org_x_text@v0.29.0.txt",
+      "license_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+    },
+    {
+      "Path": "p11.local/compute"
+    }
+  ]
+}

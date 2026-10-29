@@ -1,0 +1,34 @@
+[
+  {
+    "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+    "stars": 142473,
+    "default_branch": "main",
+    "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+    "updated_at": "2026-10-29T19:16:22Z",
+    "checked_at": "2026-10-29T19:17:20.9355803Z"
+  },
+  {
+    "repo": "pbakaus/impeccable",
+    "stars": 94996,
+    "default_branch": "main",
+    "url": "https://github.com/pbakaus/impeccable",
+    "updated_at": "2026-10-29T19:17:00Z",
+    "checked_at": "2026-10-29T19:17:21.4592567Z"
+  },
+  {
+    "repo": "anthropics/skills",
+    "stars": 184754,
+    "default_branch": "main",
+    "url": "https://github.com/anthropics/skills",
+    "updated_at": "2026-10-29T19:16:52Z",
+    "checked_at": "2026-10-29T19:17:21.6816837Z"
+  },
+  {
+    "repo": "vercel-labs/agent-skills",
+    "stars": 33202,
+    "default_branch": "main",
+    "url": "https://github.com/vercel-labs/agent-skills",
+    "updated_at": "2026-10-29T18:16:43Z",
+    "checked_at": "2026-10-29T19:17:22.2316271Z"
+  }
+]

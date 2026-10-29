@@ -1,0 +1,18 @@
+# Repository documentation / 仓库文档
+
+[English README](../../README.md) · [中文 README](../../README.zh-CN.md)
+
+| Guide / 指南 | Purpose / 用途 |
+| --- | --- |
+| [System design / 系统方案](SYSTEM_DESIGN.md) | C2C boundaries, request paths, privacy and settlement / 交易边界、请求链、隐私和结算 |
+| [Usage / 使用指南](USAGE.md) | Current runnable commands and planned buyer/seller journeys / 可运行命令及买卖双方使用逻辑 |
+| [Media / 演示媒体](MEDIA.md) | Actual screenshot/recording provenance and reproduction / 真实截图、录屏来源及复现 |
+| [Synchronization / 更新同步](SYNCHRONIZATION.md) | Validate, update bilingual material, commit and push / 核验、双语更新、提交和推送 |
+| [Contributing / 贡献约定](../../CONTRIBUTING.md) | Development scope, immutable contracts and evidence / 开发边界、不可变契约及证据 |
+| [Changelog](../../CHANGELOG.md) / [更新说明](../../CHANGELOG.zh-CN.md) | Same release entries in both languages / 中英文同编号版本记录 |
+
+`README.en.md.in` and `README.zh-CN.md.in` are the maintained templates. Their
+links resolve from the repository root after generation. Run
+`python -X utf8 dev/tools/构建仓库文档.py` to refresh both public READMEs together.
+
+两份 `.md.in` 为人工维护源，链接以生成后的仓库根为基准。不要只改单语输出；通过生成器同时刷新两种语言及真实进度统计。

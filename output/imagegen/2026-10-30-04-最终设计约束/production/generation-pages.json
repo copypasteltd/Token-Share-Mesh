@@ -1,0 +1,42 @@
+{
+  "phase": "pages",
+  "model": "gpt-image-2.5",
+  "records": [
+    {
+      "id": "UI-P02",
+      "status": "GENERATED",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P02-小程序-LLM服务详情.png",
+      "started_at": "2026-10-29T19:43:56.541164+00:00",
+      "finished_at": "2026-10-29T19:44:49.753132+00:00",
+      "sha256": "f57d72c1f20c8138d53b3dda66d55de1bf0bcd75b1ff43a1203fc671dfae7610",
+      "reference_sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60"
+    },
+    {
+      "id": "UI-P04",
+      "status": "GENERATED",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P04-小程序-提供方共享.png",
+      "started_at": "2026-10-29T19:43:56.547632+00:00",
+      "finished_at": "2026-10-29T19:44:49.865945+00:00",
+      "sha256": "e4af3383e40dc1415ee299d1e7ef697eea134bea7f7a780100ffc71feda33792",
+      "reference_sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60"
+    },
+    {
+      "id": "UI-P03",
+      "status": "GENERATED",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P03-小程序-GPU订单详情.png",
+      "started_at": "2026-10-29T19:43:56.545378+00:00",
+      "finished_at": "2026-10-29T19:44:50.676213+00:00",
+      "sha256": "5ed6020d5beb0c362714e4574023b5f3fe66fc756969c5134768d2fee825be36",
+      "reference_sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60"
+    },
+    {
+      "id": "UI-P05",
+      "status": "GENERATED",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P05-Web-算力工作台.png",
+      "started_at": "2026-10-29T19:44:49.771091+00:00",
+      "finished_at": "2026-10-29T19:45:47.152347+00:00",
+      "sha256": "b20f3a586e0c8f0aa233945b221f8a00438b20c48504745146a4581fdb957bb4",
+      "reference_sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "test_status": "NOT_EXECUTED",
+  "design_product": "ALIPAY_MACHINE_PAY_A402",
+  "runtime_enabled": false,
+  "qualification_status": "UNVERIFIED_C2C_SELLER_AND_SERVICE",
+  "sandbox_is_real_payment": false,
+  "public_api_snapshot": "2026-10-28",
+  "create_method": "alipay.aipay.agent.payment.precreate",
+  "verify_method": "alipay.aipay.agent.payment.verify",
+  "sequence": [
+    "FIX_IMMUTABLE_ORDER",
+    "PRECREATE",
+    "HTTP_402_CHALLENGE",
+    "USER_PAYMENT",
+    "VERIFY_PROOF",
+    "UNIQUE_FULFILLMENT"
+  ],
+  "public_api_constraints": {
+    "currency": "CNY",
+    "currency_required": true,
+    "max_amount_fen": 5000,
+    "max_pay_before_seconds_from_now": 43200,
+    "out_trade_no_max_chars": 32,
+    "service_id_required": true
+  },
+  "project_constraints": {
+    "minimum_amount_fen": 1,
+    "local_order_service_seller_binding_required": true,
+    "cross_seller_proof_reuse": false,
+    "automatic_split_to_bypass_limit": false
+  },
+  "proof_validation": {
+    "response_signature_required": true,
+    "active_must_be_true": true,
+    "amount_match_required": true,
+    "out_trade_no_match_required": true,
+    "trade_no_unique_fulfillment": true,
+    "resource_id_required": false,
+    "resource_id_api_status": "DEPRECATED_OPTIONAL"
+  },
+  "unproven_capabilities": [
+    "PERSONAL_COMPUTE_SELLER_ADMISSION",
+    "C2C_COMMISSION_SPLIT",
+    "REFUND_CONTRACT",
+    "USAGE_POSTPAY",
+    "REFUNDABLE_BUDGET_HOLD",
+    "VERIFY_THEN_SETTLE_API",
+    "MINIAPP_NATIVE_PAYMENT_HANDOFF"
+  ],
+  "alternative_nowpay": {
+    "enabled": false,
+    "funds_flow_official": "BUYER_TO_CREATOR_DIRECT",
+    "quota_reversal_supported_in_current_guide": false,
+    "gpu_minute_rental_equivalence": false
+  },
+  "sources": [
+    "https://aipay.alipay.com/community/events/payathon-2026",
+    "https://aipay.alipay.com/docs/ai-receive/MACHINE_PAY.html",
+    "https://aipay.alipay.com/docs/ai-receive/api-list/alipay-aipay-agent-payment-precreate.html",
+    "https://aipay.alipay.com/docs/ai-receive/api-list/alipay-aipay-agent-payment-verify.html",
+    "https://aipay.alipay.com/docs/vibe-pay/nowpay/platform/platfrom-guide.html"
+  ],
+  "source_document": "docs/技术开发/13-支付退款账务与渠道结算.md"
+}

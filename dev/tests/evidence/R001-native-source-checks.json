@@ -1,0 +1,109 @@
+{
+  "round": "R001",
+  "recorded_at": "2026-10-29T18:40:16.366208+00:00",
+  "scope": "Go source/dependencies and admin CLI builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance",
+  "virtualization_used": false,
+  "checks": [
+    {
+      "command": [
+        "go",
+        "version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "mod",
+        "verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "vet",
+        "./..."
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "gofmt",
+        "-l",
+        "."
+      ],
+      "exit_code": 0,
+      "unformatted_files": []
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\bin\\p11-admin.exe",
+        "./api/cmd/p11-admin"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\bin\\p11-admin-linux-amd64",
+        "./api/cmd/p11-admin"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "list",
+        "-deps",
+        "-test",
+        "-json",
+        "./..."
+      ],
+      "exit_code": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "target": "windows-amd64",
+      "path": "runtime/bin/p11-admin.exe",
+      "sha256": "a60a2e0cb15d4b6ff6fdee3206f3ed3fb506e0bb7b996a9a8ce669b7ff275efe",
+      "runtime_test": "NOT_EXECUTED"
+    },
+    {
+      "target": "linux-amd64",
+      "path": "runtime/bin/p11-admin-linux-amd64",
+      "sha256": "21825c0ecb1ad45b79edb4ffec56bc0472100dc6ff4edb06878c89143bcc4060",
+      "runtime_test": "NOT_EXECUTED"
+    }
+  ],
+  "go": "go version go1.27.3 windows/amd64",
+  "dependency_inventory": "dev/licenses/go-dependencies.json",
+  "source_sha256": {
+    "dev/src/api/cmd/p11-admin/main.go": "6f745821ed7ec6c4220c84d0bbe321db0dd5358a61d615160def4f295f150915",
+    "dev/src/go.mod": "684187887c535635a2738b94794a8660c1dd7b52a54b0e7d9d4aef080bf1a919",
+    "dev/src/go.sum": "a5e7a8db07eba28dbde48bf9a54c4e9084a5a95ded581c0ff44c08b74e3dfe69",
+    "dev/src/internal/identity/keys.go": "94b8907e506d43b137685619ff1358afb1012b9b84826789249f90b81834c51a",
+    "dev/src/internal/identity/principal.go": "3a06256af21a8b9c1a97d622227222d8ed7fab4ea21da6554645b30b25106088",
+    "dev/src/internal/outbox/idempotency.go": "2f54b95e9f94b329178b405dd67547f37330befc947b7853fcdd794c8a3acff3",
+    "dev/src/internal/outbox/jobs.go": "83f32d2d79e98d157b029ae88fc2c6b4ab4e0e4ed33a1dac0f2e7f1eef58afa9",
+    "dev/src/internal/persistence/database.go": "01fa79e0365c627a11be086a1b28330be944a9e5512c3f189c0a2b095b865f90",
+    "dev/src/internal/persistence/migrate.go": "631998a1d53f88ad47d0037c7080ec1f7d8208860b05bdf019a55174e21bea7f",
+    "dev/src/internal/persistence/migrations/001_domain.sql": "85da1d9b2d4948cca6f60c3a15bb3bdb03e4d2eb1ff1af6b14005588077faec5",
+    "dev/src/shared/clock/clock.go": "bf7e92ce34bb9ec185e24dc70e879758196b61b681ffd7d1c4240c141e029920",
+    "dev/src/shared/fault/fault.go": "ee6149dfece59b77425358db279f697576729d1ff042ff6a054292a1e192d862",
+    "dev/src/shared/ids/ids.go": "8fdabf0f57630a8290f8af4ea1fcd3566c6f963d9fd97b1d481807e97133ee45",
+    "dev/src/shared/money/money.go": "4af59f0f4fb60eb6f1c902239696937fe2ad7dd385b4519f2e7ebe8322b3669a",
+    "dev/src/shared/money/money_test.go": "4517182f43be1d1c2264b6da5666dcdab31cd2b48be7d57236bea3b1008ffc1a",
+    "dev/src/tests/integration/constraints_test.go": "cf0f6c3dd08940f7dfc665ccd3b5a8738d1ac74ad5bab684683c7ff79b661e6e",
+    "dev/src/tests/integration/core_test.go": "e51ae41775e84f538fa99fbbb3d355406b9842cc0c150e5f8e2b80a2765a63a9"
+  },
+  "status": "PASSED_WITH_LIMITED_SCOPE"
+}

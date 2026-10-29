@@ -1,0 +1,10 @@
+# Project-local documentation tooling. Install through dev/tools/文档工具.py.
+Markdown==3.10.2
+jsonschema==4.26.0
+attrs==25.4.0
+referencing==0.37.0
+jsonschema-specifications==2025.9.1
+rpds-py==2026.6.3
+pglast==8.7
+typing_extensions==4.15.0
+

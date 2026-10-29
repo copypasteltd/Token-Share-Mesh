@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
+  "source_sha256": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc",
+  "migration": "002_nb_contract_guards.sql",
+  "migration_sha256": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc",
+  "policy": "002 forward guards; 001 and legacy rental minute storage unchanged"
+}

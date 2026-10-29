@@ -1,0 +1,23 @@
+{
+  "design_version": "NB-1.0",
+  "review_method": "All five final PNGs viewed directly with view_image; UI-P04 refinement viewed before promotion",
+  "scope": "Static concept visual/content review, not product or accessibility runtime acceptance",
+  "reviewed_ids": ["UI-P01", "UI-P02", "UI-P03", "UI-P04", "UI-P05"],
+  "blocking_visual_defects_remaining": [],
+  "pages": [
+    {"id":"UI-P01","result":"VISUALLY_REVIEWED","checked":["Chosen 04 hard-outline ticket style preserved","GPU 3.60 per hour, standard privacy, seller 星河同学","摩托罗拉 X30 owned by 阿澄, separate input0.80/output1.60 per M token","Mixed-mode shortcuts not all marked E2E","All resource tickets and bottom navigation visible"]},
+    {"id":"UI-P02","result":"VISUALLY_REVIEWED","checked":["Correct Motorola model and 阿澄 seller","Input0.80/output1.60 both per M token","E2E platform-invisible statement includes execution plaintext boundary","Budget5.00 and gateway-not-connected state","No premature final token cost or payment-success claim"]},
+    {"id":"UI-P03","result":"VISUALLY_REVIEWED","checked":["GPU standard rental at3.60/hour","10-minute confirmed billed time and current0.60","30-minute duration cap,20-minute remaining, estimate1.80 and budget5.00","Running state distinct from stopping/cleaning","End-session action does not label resource already released"]},
+    {"id":"UI-P04","result":"VISUALLY_REVIEWED_AFTER_REFINEMENT","checked":["Native status/capsule area restored, all content remains visible","Owner 星河同学, running GPU3.60/hour","Separate own 努比亚 Z20 phone draft, input0.80/output1.60 per M token","Estimated0.57 remains unsettled, no wallet/withdrawal success","Stop new orders distinct from end current session","Bottom sharing nav selected, no prompt/result previews"]},
+    {"id":"UI-P05","result":"VISUALLY_REVIEWED","checked":["Real desktop top navigation and comparison table, no mobile capsule","GPU and phone remain different sellers and privacy paths","Hour unit and both M token prices readable","30min quote1.71+0.09=1.80, budget5.00","Waiting-ready state and confirmation CTA, no fake payment"]}
+  ],
+  "known_concept_limitations": [
+    "Generated system capsule glyphs differ slightly; implementation must use native Alipay chrome, not copy the generated icons.",
+    "Device illustrations and avatars are conceptual, not evidence of actual hardware ownership, exact industrial appearance or verified identity.",
+    "Minor generated fill tones, letterforms and spacing remain raster approximations; source design tokens and text rules control implementation.",
+    "Keyboard, screen readers, responsive behavior, true funds, devices, cryptographic links and performance were not executed."
+  ],
+  "browser_used": false,
+  "virtualization_used": false,
+  "product_source_development": "PAUSED"
+}

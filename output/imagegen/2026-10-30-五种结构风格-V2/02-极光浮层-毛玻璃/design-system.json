@@ -1,0 +1,19 @@
+{
+  "id": "02",
+  "name": "极光浮层-毛玻璃",
+  "kind": "Glassmorphism",
+  "style_id": "glassmorphism",
+  "colors": {
+    "canvas": "#142B53",
+    "surface": "#314F73",
+    "ink": "#F5FBFF",
+    "primary": "#8DE5E5",
+    "aurora": "#5576CF",
+    "border": "#AECBDC"
+  },
+  "type": "Elegant modern Chinese sans-serif: lighter large headings, confident readable medium labels, airy line-height; luminous but crisp.",
+  "material": "AUTHENTIC FROSTED GLASS: a deep blue luminous background with broad soft blue/cyan aurora forms behind the UI. Panels are semi-transparent frosted glass: visibly blurred background colors transmit through them, restrained thin light edges, faint rim highlights and real layered depth. Floating islands, 24-32 logical px corners. Dense enough glass tint behind text for excellent readability. Pale cyan main buttons, white text elsewhere. Not opaque dark purple cards with glow; transparency and background blur MUST be obvious. No stars, planets, cyberpunk, photographic landscape, or excessive bloom.",
+  "home": "ASYMMETRIC FLOATING ISLANDS: compact brand/status row and short heading aligned left, then a compact floating search capsule. A floating glass three-mode control follows. Central area is an asymmetrical glass mosaic: a TALL large GPU tile on the LEFT occupying roughly 60% of the resource area, with GPU visual above its title, seller, price and 查看服务; a SHORTER narrower phone tile on the RIGHT containing 摩托罗拉 X30, Qwen 3B, 阿澄 and ¥0.02/千Token. Tiles have visibly unequal heights and useful whitespace, NOT two stacked full-width marketplace rows. Put a horizontal category strip BELOW the resource mosaic. Bottom nav floats separately on a glass capsule above the safe area. All primary information must be readable and complete.",
+  "detail": "One wide frosted hero island shows seller identity on the left and GPU visual to the right. Under it three compact frosted capability tiles. Privacy sits in a second wide glass island; the fee/budget quote is a larger glass island below. Keep the exact translucency, edge highlight and button design of the reference. A floating bottom glass action capsule holds total and the gateway button, with no overlap.",
+  "web": "NO LEFT SIDEBAR. Use a floating TOP horizontal glass navigation bar. Below it place an asymmetrical mosaic: a very large GPU resource glass island on left, a smaller phone card upper-right, and the selected GPU quote/contract panel lower-right. Headline/search/mode filters occupy a compact band above the mosaic. Show broad blurred cyan/blue background shapes through each frosted panel; the whole page remains a practical readable compute marketplace, not a sci-fi dashboard."
+}

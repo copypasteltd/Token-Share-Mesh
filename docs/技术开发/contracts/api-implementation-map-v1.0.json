@@ -1,0 +1,5413 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "source": "docs/白皮书/contracts/openapi-control-v3.0.json",
+  "canonical_api_sha256": "ddecaffe2bffe958768e4f097c3836381e34e7dea95b5746198f23888f3efd00",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "operations": [
+    {
+      "operation_id": "getSelfProfile",
+      "method": "GET",
+      "path": "/me",
+      "summary": "读取本人角色与安全权限摘要",
+      "module_id": "MOD-01",
+      "task_id": "DEV-03",
+      "planned_handler": "dev/src/api/internal/http/mod_01/getSelfProfile.go",
+      "required_scopes": [
+        "identity:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F01",
+        "P11-F32",
+        "P11-F50",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T01",
+        "P11-T32",
+        "P11-T50",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "849b704436aaa874966e14a5643bfd8e8391baa1735c114415d66cd890e2d378",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordConsent",
+      "method": "POST",
+      "path": "/me/consents",
+      "summary": "记录版本化明确同意",
+      "module_id": "MOD-01",
+      "task_id": "DEV-04",
+      "planned_handler": "dev/src/api/internal/http/mod_01/recordConsent.go",
+      "required_scopes": [
+        "identity:consent"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ConsentWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F22",
+        "P11-F32",
+        "P11-F40",
+        "P11-F50",
+        "P11-F52",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T22",
+        "P11-T32",
+        "P11-T40",
+        "P11-T50",
+        "P11-T52",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "c37d54bcb360cb6f1bf675982fb66807a80ec8235b09aa88d3216f7705ae9230",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createDeletionRequest",
+      "method": "POST",
+      "path": "/me/deletion-requests",
+      "summary": "申请内容删除及跟踪合法保留",
+      "module_id": "MOD-01",
+      "task_id": "DEV-04",
+      "planned_handler": "dev/src/api/internal/http/mod_01/createDeletionRequest.go",
+      "required_scopes": [
+        "identity:delete"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/DeletionWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F22",
+        "P11-F32",
+        "P11-F40",
+        "P11-F50",
+        "P11-F52",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T22",
+        "P11-T32",
+        "P11-T40",
+        "P11-T50",
+        "P11-T52",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "0c2b306cae440744deeb79020948b0d63bd910fc53c6d816152dbc82ccdaab68",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createSellerApplication",
+      "method": "POST",
+      "path": "/seller/applications",
+      "summary": "提交个人卖家资格",
+      "module_id": "MOD-02",
+      "task_id": "DEV-05",
+      "planned_handler": "dev/src/api/internal/http/mod_02/createSellerApplication.go",
+      "required_scopes": [
+        "seller:apply"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/SellerApplicationWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F19",
+        "P11-F55",
+        "P11-F56"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T19",
+        "P11-T55",
+        "P11-T56"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "1b749fa8ceaa0992fe9c4258e935171afba74102fea2b3591c39e4839e8292f7",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getSellerProfile",
+      "method": "GET",
+      "path": "/seller/profile",
+      "summary": "读取本人卖家档案",
+      "module_id": "MOD-02",
+      "task_id": "DEV-05",
+      "planned_handler": "dev/src/api/internal/http/mod_02/getSellerProfile.go",
+      "required_scopes": [
+        "seller:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F19",
+        "P11-F55",
+        "P11-F56"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T19",
+        "P11-T55",
+        "P11-T56"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "11d696e5bad542a1ab4c19b5fca8ee892996ea6349ea1af99d53aa9cad4f9ba2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "requestSellerExit",
+      "method": "POST",
+      "path": "/seller/exit",
+      "summary": "停新售并清理在途和合法尾款",
+      "module_id": "MOD-02",
+      "task_id": "DEV-05",
+      "planned_handler": "dev/src/api/internal/http/mod_02/requestSellerExit.go",
+      "required_scopes": [
+        "seller:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReasonWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F19",
+        "P11-F55",
+        "P11-F56"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T19",
+        "P11-T55",
+        "P11-T56"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "8c1e5f211cf041c0a7fba5da71b4226239db9cdfccfd3ec52a9b6701c9b9fa61",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listOwnListings",
+      "method": "GET",
+      "path": "/seller/listings",
+      "summary": "读取本人挂牌",
+      "module_id": "MOD-02",
+      "task_id": "DEV-08",
+      "planned_handler": "dev/src/api/internal/http/mod_02/listOwnListings.go",
+      "required_scopes": [
+        "seller:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F05",
+        "P11-F07",
+        "P11-F08",
+        "P11-F29"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T05",
+        "P11-T07",
+        "P11-T08",
+        "P11-T29"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "edfd6fefe719bea17abbd950f89f8492d59a7ce764fd8051b45d14d6b4474110",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createListing",
+      "method": "POST",
+      "path": "/seller/listings",
+      "summary": "创建本人未来挂牌",
+      "module_id": "MOD-02",
+      "task_id": "DEV-08",
+      "planned_handler": "dev/src/api/internal/http/mod_02/createListing.go",
+      "required_scopes": [
+        "listing:write"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ListingWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F05",
+        "P11-F07",
+        "P11-F08",
+        "P11-F29"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T05",
+        "P11-T07",
+        "P11-T08",
+        "P11-T29"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "9ea3f18f8ee5d546a4f2e6ac78d29a4bda3afc150fa2ba89641ee94497290e01",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getOwnListing",
+      "method": "GET",
+      "path": "/seller/listings/{listing_id}",
+      "summary": "读取本人挂牌详情",
+      "module_id": "MOD-02",
+      "task_id": "DEV-08",
+      "planned_handler": "dev/src/api/internal/http/mod_02/getOwnListing.go",
+      "required_scopes": [
+        "seller:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F05",
+        "P11-F07",
+        "P11-F08",
+        "P11-F29"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T05",
+        "P11-T07",
+        "P11-T08",
+        "P11-T29"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "5a0e9f0693dd2a7ca8d4178e7e6042358967ce444c861c1be1a575829d74b048",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "updateFutureListing",
+      "method": "PATCH",
+      "path": "/seller/listings/{listing_id}",
+      "summary": "修改未来挂牌修订",
+      "module_id": "MOD-02",
+      "task_id": "DEV-08",
+      "planned_handler": "dev/src/api/internal/http/mod_02/updateFutureListing.go",
+      "required_scopes": [
+        "listing:write"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ListingPatch"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F05",
+        "P11-F07",
+        "P11-F08",
+        "P11-F29"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T05",
+        "P11-T07",
+        "P11-T08",
+        "P11-T29"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "f9ef4e34d298f1237db7521e854027b93fa7a3d5252332bd33f5b96508b2d866",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "submitListing",
+      "method": "POST",
+      "path": "/seller/listings/{listing_id}/submit",
+      "summary": "提交挂牌审查",
+      "module_id": "MOD-02",
+      "task_id": "DEV-08",
+      "planned_handler": "dev/src/api/internal/http/mod_02/submitListing.go",
+      "required_scopes": [
+        "listing:write"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReasonWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F05",
+        "P11-F07",
+        "P11-F08",
+        "P11-F29"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T05",
+        "P11-T07",
+        "P11-T08",
+        "P11-T29"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "4ecb22053a2cbad5119f69b272f4958786c21d77305a5c511b43169140ed95c4",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "pauseListing",
+      "method": "POST",
+      "path": "/seller/listings/{listing_id}/pause",
+      "summary": "停止该挂牌新售",
+      "module_id": "MOD-02",
+      "task_id": "DEV-08",
+      "planned_handler": "dev/src/api/internal/http/mod_02/pauseListing.go",
+      "required_scopes": [
+        "listing:write"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReasonWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F05",
+        "P11-F07",
+        "P11-F08",
+        "P11-F29"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T05",
+        "P11-T07",
+        "P11-T08",
+        "P11-T29"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "d51a2e19af95d6683a00fb546cb159f0698a2df3deb34e1f6665b35b91f32a42",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listOwnDevices",
+      "method": "GET",
+      "path": "/seller/devices",
+      "summary": "读取本人设备",
+      "module_id": "MOD-06",
+      "task_id": "DEV-06",
+      "planned_handler": "dev/src/api/internal/http/mod_06/listOwnDevices.go",
+      "required_scopes": [
+        "seller:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F03",
+        "P11-F05",
+        "P11-F57",
+        "P11-F65",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T03",
+        "P11-T05",
+        "P11-T57",
+        "P11-T65",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "7f1654a494a59b70ac054f04e80fea59247519321e4e06913e608edb068450e2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createPairingIntent",
+      "method": "POST",
+      "path": "/devices/pairing-intents",
+      "summary": "建立一次性设备配对",
+      "module_id": "MOD-06",
+      "task_id": "DEV-06",
+      "planned_handler": "dev/src/api/internal/http/mod_06/createPairingIntent.go",
+      "required_scopes": [
+        "device:pair"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/DevicePairingWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F03",
+        "P11-F05",
+        "P11-F57",
+        "P11-F65",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T03",
+        "P11-T05",
+        "P11-T57",
+        "P11-T65",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "f3502cc123f0bd7f87ce161ff6898296266accd132f9fbc5e625ec986d058dee",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "enrollDevice",
+      "method": "POST",
+      "path": "/device-enrollments",
+      "summary": "消耗一次性配对凭据登记设备",
+      "module_id": "MOD-06",
+      "task_id": "DEV-06",
+      "planned_handler": "dev/src/api/internal/http/mod_06/enrollDevice.go",
+      "required_scopes": [
+        "pairing:consume"
+      ],
+      "security": [
+        {
+          "PairingToken": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EnrollmentWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F03",
+        "P11-F05",
+        "P11-F57",
+        "P11-F65",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T03",
+        "P11-T05",
+        "P11-T57",
+        "P11-T65",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "9816843d84955beed3e0939985f312badb566cafacfed37db2cc30bd53877ecd",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getDevice",
+      "method": "GET",
+      "path": "/devices/{device_id}",
+      "summary": "读取本人或本设备状态",
+      "module_id": "MOD-06",
+      "task_id": "DEV-06",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getDevice.go",
+      "required_scopes": [
+        "device:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F03",
+        "P11-F05",
+        "P11-F57",
+        "P11-F65",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T03",
+        "P11-T05",
+        "P11-T57",
+        "P11-T65",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "cc432b7675d1794e6449f3c8639f3fa1bb4bfa7429ef904582837c5a932f71b4",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "registerCapability",
+      "method": "POST",
+      "path": "/devices/{device_id}/capabilities",
+      "summary": "提交本设备待审能力",
+      "module_id": "MOD-03",
+      "task_id": "DEV-07",
+      "planned_handler": "dev/src/api/internal/http/mod_03/registerCapability.go",
+      "required_scopes": [
+        "device:capability"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/CapabilityWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F04",
+        "P11-F06",
+        "P11-F55",
+        "P11-F57",
+        "P11-F60",
+        "P11-F67",
+        "P11-F68"
+      ],
+      "acceptance_ids": [
+        "P11-T04",
+        "P11-T06",
+        "P11-T55",
+        "P11-T57",
+        "P11-T60",
+        "P11-T67",
+        "P11-T68"
+      ],
+      "source_documents": [
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "0a8812b9a41a2ba1c995c95a58576a61b83171842e627713a836ad8a3bf1fa7b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordDeviceHeartbeat",
+      "method": "POST",
+      "path": "/devices/{device_id}/heartbeats",
+      "summary": "记录当前身份心跳",
+      "module_id": "MOD-06",
+      "task_id": "DEV-06",
+      "planned_handler": "dev/src/api/internal/http/mod_06/recordDeviceHeartbeat.go",
+      "required_scopes": [
+        "device:heartbeat"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/HeartbeatWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F03",
+        "P11-F05",
+        "P11-F57",
+        "P11-F65",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T03",
+        "P11-T05",
+        "P11-T57",
+        "P11-T65",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "61d6e465af199de978294c2a293677248219ecd6df0a5d5c8e476d6c28046f5b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "drainDevice",
+      "method": "POST",
+      "path": "/devices/{device_id}/drain",
+      "summary": "停止设备新任务准入",
+      "module_id": "MOD-06",
+      "task_id": "DEV-06",
+      "planned_handler": "dev/src/api/internal/http/mod_06/drainDevice.go",
+      "required_scopes": [
+        "device:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReasonWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F03",
+        "P11-F05",
+        "P11-F57",
+        "P11-F65",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T03",
+        "P11-T05",
+        "P11-T57",
+        "P11-T65",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "4c37c3890882576ec8bac760f46b4d591d1d2d4ded84598c6c1cd7d06008901b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "revokeDevice",
+      "method": "POST",
+      "path": "/devices/{device_id}/revoke",
+      "summary": "撤销设备执行身份",
+      "module_id": "MOD-06",
+      "task_id": "DEV-06",
+      "planned_handler": "dev/src/api/internal/http/mod_06/revokeDevice.go",
+      "required_scopes": [
+        "device:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReasonWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F03",
+        "P11-F05",
+        "P11-F57",
+        "P11-F65",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T03",
+        "P11-T05",
+        "P11-T57",
+        "P11-T65",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "bedec869fa042c12ee2fe9108c3970d96a44cb296b53c96d3af173818de6d28e",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "updateResourcePolicy",
+      "method": "PATCH",
+      "path": "/devices/{device_id}/resource-policy",
+      "summary": "设置资源/时段及停止策略",
+      "module_id": "MOD-06",
+      "task_id": "DEV-06",
+      "planned_handler": "dev/src/api/internal/http/mod_06/updateResourcePolicy.go",
+      "required_scopes": [
+        "device:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ResourcePolicyWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F03",
+        "P11-F05",
+        "P11-F57",
+        "P11-F65",
+        "P11-F66"
+      ],
+      "acceptance_ids": [
+        "P11-T03",
+        "P11-T05",
+        "P11-T57",
+        "P11-T65",
+        "P11-T66"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "419de9716a39625aa1a6d08eb132cb151cb0dd30f95e5872881752a15311882f",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listServices",
+      "method": "GET",
+      "path": "/services",
+      "summary": "查询已合格实际卖家供给",
+      "module_id": "MOD-02",
+      "task_id": "DEV-08",
+      "planned_handler": "dev/src/api/internal/http/mod_02/listServices.go",
+      "required_scopes": [
+        "market:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F02",
+        "P11-F05",
+        "P11-F07",
+        "P11-F08",
+        "P11-F29"
+      ],
+      "acceptance_ids": [
+        "P11-T02",
+        "P11-T05",
+        "P11-T07",
+        "P11-T08",
+        "P11-T29"
+      ],
+      "source_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "b82736f4d01b386459c75b6cd136b6820381340a896a381e0646cbdade60d98b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listCatalogEntries",
+      "method": "GET",
+      "path": "/catalog",
+      "summary": "查询已审核模型/工作流/协议档位",
+      "module_id": "MOD-03",
+      "task_id": "DEV-07",
+      "planned_handler": "dev/src/api/internal/http/mod_03/listCatalogEntries.go",
+      "required_scopes": [
+        "market:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F04",
+        "P11-F06",
+        "P11-F55",
+        "P11-F57",
+        "P11-F60",
+        "P11-F67",
+        "P11-F68"
+      ],
+      "acceptance_ids": [
+        "P11-T04",
+        "P11-T06",
+        "P11-T55",
+        "P11-T57",
+        "P11-T60",
+        "P11-T67",
+        "P11-T68"
+      ],
+      "source_documents": [
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "6ab624dc24cf1c9f79270ed1345893903f5df8536a89ec8f0bdd97c985cf319b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listNotifications",
+      "method": "GET",
+      "path": "/notifications",
+      "summary": "读取本人安全事件通知",
+      "module_id": "MOD-18",
+      "task_id": "DEV-51",
+      "planned_handler": "dev/src/api/internal/http/mod_18/listNotifications.go",
+      "required_scopes": [
+        "identity:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F11",
+        "P11-F15",
+        "P11-F16",
+        "P11-F17",
+        "P11-F20",
+        "P11-F22",
+        "P11-F52"
+      ],
+      "acceptance_ids": [
+        "P11-T11",
+        "P11-T15",
+        "P11-T16",
+        "P11-T17",
+        "P11-T20",
+        "P11-T22",
+        "P11-T52"
+      ],
+      "source_documents": [
+        "docs/技术开发/17-事件事务发件箱与后台任务.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "2dc3c3e59d1f655429c7a7547eed9d6e9db22923605be29b91f025816acddf3e",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createQuote",
+      "method": "POST",
+      "path": "/quotes",
+      "summary": "生成实际卖家/模式不可变报价",
+      "module_id": "MOD-04",
+      "task_id": "DEV-09",
+      "planned_handler": "dev/src/api/internal/http/mod_04/createQuote.go",
+      "required_scopes": [
+        "quote:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/QuoteWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "410",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-02",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F07",
+        "P11-F08",
+        "P11-F31",
+        "P11-F32",
+        "P11-F48",
+        "P11-F56"
+      ],
+      "acceptance_ids": [
+        "P11-T07",
+        "P11-T08",
+        "P11-T31",
+        "P11-T32",
+        "P11-T48",
+        "P11-T56"
+      ],
+      "source_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "aac731b277a645bb425c3e5ffb9b8720180fcfc1cda61936a68f709b757461f5",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getQuote",
+      "method": "GET",
+      "path": "/quotes/{quote_id}",
+      "summary": "查询本人报价",
+      "module_id": "MOD-04",
+      "task_id": "DEV-09",
+      "planned_handler": "dev/src/api/internal/http/mod_04/getQuote.go",
+      "required_scopes": [
+        "quote:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "410",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F07",
+        "P11-F08",
+        "P11-F31",
+        "P11-F32",
+        "P11-F48",
+        "P11-F56"
+      ],
+      "acceptance_ids": [
+        "P11-T07",
+        "P11-T08",
+        "P11-T31",
+        "P11-T32",
+        "P11-T48",
+        "P11-T56"
+      ],
+      "source_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "a12de4d1eac397ba1e7cc89948a3c3673c344534cc41fa6db6f8065b66878935",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listOrders",
+      "method": "GET",
+      "path": "/orders",
+      "summary": "按本人买卖角色查询订单",
+      "module_id": "MOD-04",
+      "task_id": "DEV-10",
+      "planned_handler": "dev/src/api/internal/http/mod_04/listOrders.go",
+      "required_scopes": [
+        "order:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F09",
+        "P11-F16",
+        "P11-F30",
+        "P11-F31",
+        "P11-F54"
+      ],
+      "acceptance_ids": [
+        "P11-T09",
+        "P11-T16",
+        "P11-T30",
+        "P11-T31",
+        "P11-T54"
+      ],
+      "source_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "b20276672d579d3f8a56c9aed0f8db6f465961dd21257e1a2b945abf9596df8b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createOrder",
+      "method": "POST",
+      "path": "/orders",
+      "summary": "确认披露并消耗报价建业务单",
+      "module_id": "MOD-04",
+      "task_id": "DEV-10",
+      "planned_handler": "dev/src/api/internal/http/mod_04/createOrder.go",
+      "required_scopes": [
+        "order:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OrderWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "410",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-02",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F09",
+        "P11-F16",
+        "P11-F30",
+        "P11-F31",
+        "P11-F54"
+      ],
+      "acceptance_ids": [
+        "P11-T09",
+        "P11-T16",
+        "P11-T30",
+        "P11-T31",
+        "P11-T54"
+      ],
+      "source_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "ab1e0d27da1cb8df46176e86f2bdd6509463da0d7ee75a5d25a11d6125634c07",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getOrder",
+      "method": "GET",
+      "path": "/orders/{order_id}",
+      "summary": "查询本人不可变合同与独立状态",
+      "module_id": "MOD-04",
+      "task_id": "DEV-10",
+      "planned_handler": "dev/src/api/internal/http/mod_04/getOrder.go",
+      "required_scopes": [
+        "order:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F09",
+        "P11-F16",
+        "P11-F30",
+        "P11-F31",
+        "P11-F54"
+      ],
+      "acceptance_ids": [
+        "P11-T09",
+        "P11-T16",
+        "P11-T30",
+        "P11-T31",
+        "P11-T54"
+      ],
+      "source_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "4a91cbc9f868cfaf860b27d37f6c31dc78e828663122193c747b30c0432947c5",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getOrderBill",
+      "method": "GET",
+      "path": "/orders/{order_id}/bill",
+      "summary": "查询本人可重算分账账单",
+      "module_id": "MOD-14",
+      "task_id": "DEV-38",
+      "planned_handler": "dev/src/api/internal/http/mod_14/getOrderBill.go",
+      "required_scopes": [
+        "order:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F18",
+        "P11-F27",
+        "P11-F44",
+        "P11-F53",
+        "P11-F61"
+      ],
+      "acceptance_ids": [
+        "P11-T18",
+        "P11-T27",
+        "P11-T44",
+        "P11-T53",
+        "P11-T61"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "9084e1967c6c55fd8a0386767ca6c855c5f185eef92309c3dc9148f16b3153f3",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createPaymentIntent",
+      "method": "POST",
+      "path": "/orders/{order_id}/payment-intents",
+      "summary": "按获准个人渠道创建支付意向",
+      "module_id": "MOD-05",
+      "task_id": "DEV-13",
+      "planned_handler": "dev/src/api/internal/http/mod_05/createPaymentIntent.go",
+      "required_scopes": [
+        "payment:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/PaymentIntentWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-03",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F09",
+        "P11-F17",
+        "P11-F20",
+        "P11-F55"
+      ],
+      "acceptance_ids": [
+        "P11-T09",
+        "P11-T17",
+        "P11-T20",
+        "P11-T55"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "cb61af99ec53b8e7d4726d990e429262c0c64448fd7cd53c6f9ac7bf36e27790",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getPayment",
+      "method": "GET",
+      "path": "/payments/{payment_id}",
+      "summary": "查询原支付而非重复创建",
+      "module_id": "MOD-05",
+      "task_id": "DEV-13",
+      "planned_handler": "dev/src/api/internal/http/mod_05/getPayment.go",
+      "required_scopes": [
+        "payment:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F09",
+        "P11-F17",
+        "P11-F20",
+        "P11-F55"
+      ],
+      "acceptance_ids": [
+        "P11-T09",
+        "P11-T17",
+        "P11-T20",
+        "P11-T55"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "65a9b065331ddd1df0a8e35107cc2ebe7485a79dac384ed94e9455b84ba40a70",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "registerAsset",
+      "method": "POST",
+      "path": "/assets",
+      "summary": "登记有界单对象传输",
+      "module_id": "MOD-13",
+      "task_id": "DEV-37",
+      "planned_handler": "dev/src/api/internal/http/mod_13/registerAsset.go",
+      "required_scopes": [
+        "asset:write"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/AssetWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "413",
+        "415",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F13",
+        "P11-F15",
+        "P11-F22",
+        "P11-F34",
+        "P11-F49",
+        "P11-F52",
+        "P11-F76"
+      ],
+      "acceptance_ids": [
+        "P11-T13",
+        "P11-T15",
+        "P11-T22",
+        "P11-T34",
+        "P11-T49",
+        "P11-T52",
+        "P11-T76"
+      ],
+      "source_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "4b11e1d5ecc5be84f25c34ad62a0aee2bad23b5765d1f3a3c53a69fa5be7e56c",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getAsset",
+      "method": "GET",
+      "path": "/assets/{asset_id}",
+      "summary": "读取本人对象元数据和合法授权引用",
+      "module_id": "MOD-13",
+      "task_id": "DEV-37",
+      "planned_handler": "dev/src/api/internal/http/mod_13/getAsset.go",
+      "required_scopes": [
+        "asset:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "410",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F13",
+        "P11-F15",
+        "P11-F22",
+        "P11-F34",
+        "P11-F49",
+        "P11-F52",
+        "P11-F76"
+      ],
+      "acceptance_ids": [
+        "P11-T13",
+        "P11-T15",
+        "P11-T22",
+        "P11-T34",
+        "P11-T49",
+        "P11-T52",
+        "P11-T76"
+      ],
+      "source_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "c8bc1988d38ef1a1dea5f1045f95595759f4452578fce84c4b5ba7e891305d50",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "completeAsset",
+      "method": "POST",
+      "path": "/assets/{asset_id}/complete",
+      "summary": "完成并核验上传manifest",
+      "module_id": "MOD-13",
+      "task_id": "DEV-37",
+      "planned_handler": "dev/src/api/internal/http/mod_13/completeAsset.go",
+      "required_scopes": [
+        "asset:write"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/AssetCompleteWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "413",
+        "415",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F13",
+        "P11-F15",
+        "P11-F22",
+        "P11-F34",
+        "P11-F49",
+        "P11-F52",
+        "P11-F76"
+      ],
+      "acceptance_ids": [
+        "P11-T13",
+        "P11-T15",
+        "P11-T22",
+        "P11-T34",
+        "P11-T49",
+        "P11-T52",
+        "P11-T76"
+      ],
+      "source_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "c15021186be8f5f6844f95d700ff84d43f8ed532b0a2bf2aeabd280efac39b67",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createAssetTransferGrant",
+      "method": "POST",
+      "path": "/assets/{asset_id}/transfer-grants",
+      "summary": "签发本人单对象有界传输授权",
+      "module_id": "MOD-13",
+      "task_id": "DEV-37",
+      "planned_handler": "dev/src/api/internal/http/mod_13/createAssetTransferGrant.go",
+      "required_scopes": [
+        "asset:transfer"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/AssetGrantWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "410",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F13",
+        "P11-F15",
+        "P11-F22",
+        "P11-F34",
+        "P11-F49",
+        "P11-F52",
+        "P11-F76"
+      ],
+      "acceptance_ids": [
+        "P11-T13",
+        "P11-T15",
+        "P11-T22",
+        "P11-T34",
+        "P11-T49",
+        "P11-T52",
+        "P11-T76"
+      ],
+      "source_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "e41f274945b0de85cfc8a64cbbebd23aa2fb3f2ca63ff3f64363ee0a6dc08681",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createJob",
+      "method": "POST",
+      "path": "/jobs",
+      "summary": "绑定本人订单和输入申请执行",
+      "module_id": "MOD-06",
+      "task_id": "DEV-17",
+      "planned_handler": "dev/src/api/internal/http/mod_06/createJob.go",
+      "required_scopes": [
+        "job:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/JobWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-04",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F10",
+        "P11-F11",
+        "P11-F33",
+        "P11-F34",
+        "P11-F36",
+        "P11-F54"
+      ],
+      "acceptance_ids": [
+        "P11-T10",
+        "P11-T11",
+        "P11-T33",
+        "P11-T34",
+        "P11-T36",
+        "P11-T54"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "9452dbb53fdcb5c1d7bfe32a42f750c2b2882e5e674c8f61794b63cd4726c248",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getJob",
+      "method": "GET",
+      "path": "/jobs/{job_id}",
+      "summary": "查询当前任务状态",
+      "module_id": "MOD-06",
+      "task_id": "DEV-17",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getJob.go",
+      "required_scopes": [
+        "job:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F10",
+        "P11-F11",
+        "P11-F33",
+        "P11-F34",
+        "P11-F36",
+        "P11-F54"
+      ],
+      "acceptance_ids": [
+        "P11-T10",
+        "P11-T11",
+        "P11-T33",
+        "P11-T34",
+        "P11-T36",
+        "P11-T54"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "7b04ef0f7ef669e25a2ed899d743a048689d94e5cd4fb69aa848ffb277846ea2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "cancelJob",
+      "method": "POST",
+      "path": "/jobs/{job_id}/cancel",
+      "summary": "幂等取消并与接受状态竞争",
+      "module_id": "MOD-06",
+      "task_id": "DEV-20",
+      "planned_handler": "dev/src/api/internal/http/mod_06/cancelJob.go",
+      "required_scopes": [
+        "job:cancel"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReasonWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-06",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F05",
+        "P11-F17",
+        "P11-F22",
+        "P11-F47",
+        "P11-F52",
+        "P11-F59"
+      ],
+      "acceptance_ids": [
+        "P11-T05",
+        "P11-T17",
+        "P11-T22",
+        "P11-T47",
+        "P11-T52",
+        "P11-T59"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "32ad27238d73fd26e051af1b25111a15795e1fe54a8901941c6c386413cfb20e",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listResults",
+      "method": "GET",
+      "path": "/jobs/{job_id}/results",
+      "summary": "读取有领取权益的正式结果",
+      "module_id": "MOD-13",
+      "task_id": "DEV-37",
+      "planned_handler": "dev/src/api/internal/http/mod_13/listResults.go",
+      "required_scopes": [
+        "asset:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "410",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F13",
+        "P11-F15",
+        "P11-F22",
+        "P11-F34",
+        "P11-F49",
+        "P11-F52",
+        "P11-F76"
+      ],
+      "acceptance_ids": [
+        "P11-T13",
+        "P11-T15",
+        "P11-T22",
+        "P11-T34",
+        "P11-T49",
+        "P11-T52",
+        "P11-T76"
+      ],
+      "source_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "5a84b5a8e9b64511aaccf222571ce798c3f87e510f01569d2eab3ef7eb887fec",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createEncryptionIntent",
+      "method": "POST",
+      "path": "/encryption-intents",
+      "summary": "绑定买方信任的接收端",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/createEncryptionIntent.go",
+      "required_scopes": [
+        "cipher:intent"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EncryptionIntentWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "e8b52206767d792b9a95743b7da4ae00825abffc77ccc2a58cc86e666aad6917",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "registerRecipient",
+      "method": "POST",
+      "path": "/recipients",
+      "summary": "登记本人网关内容接收公钥",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/registerRecipient.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RecipientWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "78462d62f84a8d487dce15b9ef6d250e322fc4e30f6b1193991cf6f81dfdd923",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getRecipient",
+      "method": "GET",
+      "path": "/recipients/{recipient_id}",
+      "summary": "按合法意向范围读取端点公钥与信任材料",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/getRecipient.go",
+      "required_scopes": [
+        "recipient:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "6f1f6589d37aa47e1197d5c081906135db630f7673bcac6a79157863c97d2943",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createRecipientRotation",
+      "method": "POST",
+      "path": "/recipients/{recipient_id}/rotations",
+      "summary": "记录有证据公钥轮换供买方重新验证",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/createRecipientRotation.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RecipientRotationWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "0a03882ca1b57481a921f9671046ea1e6c4161afec448c22f981882cbbabdf1b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "revokeRecipient",
+      "method": "POST",
+      "path": "/recipients/{recipient_id}/revoke",
+      "summary": "撤销本人接收端并停止新放钥",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/revokeRecipient.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReasonWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "2d2056e3588b4dd9c362a8ded826f77a44ca10e0c128e66edbb1adc207271ba1",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createAttestationChallenge",
+      "method": "POST",
+      "path": "/recipients/{recipient_id}/attestation-challenges",
+      "summary": "生成有界证明挑战",
+      "module_id": "MOD-10",
+      "task_id": "DEV-32",
+      "planned_handler": "dev/src/api/internal/http/mod_10/createAttestationChallenge.go",
+      "required_scopes": [
+        "attestation:request"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/AttestationChallengeWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F37",
+        "P11-F38",
+        "P11-F40",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T37",
+        "P11-T38",
+        "P11-T40",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "ba4701776091b598b80b33b8d70d75448f2b40b661816908b8fb0f6f6caaf1a6",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getAttestationEvidence",
+      "method": "GET",
+      "path": "/recipients/{recipient_id}/evidence",
+      "summary": "读取与挑战绑定的原始证明引用",
+      "module_id": "MOD-10",
+      "task_id": "DEV-32",
+      "planned_handler": "dev/src/api/internal/http/mod_10/getAttestationEvidence.go",
+      "required_scopes": [
+        "attestation:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F37",
+        "P11-F38",
+        "P11-F40",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T37",
+        "P11-T38",
+        "P11-T40",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "207549622f3542d5929695d31e9672481407077b7aeb3e2e52f52703511ad419",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "registerEnvelope",
+      "method": "POST",
+      "path": "/jobs/{job_id}/envelopes",
+      "summary": "当前attempt绑定密钥封装引用",
+      "module_id": "MOD-10",
+      "task_id": "DEV-30",
+      "planned_handler": "dev/src/api/internal/http/mod_10/registerEnvelope.go",
+      "required_scopes": [
+        "cipher:envelope"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EnvelopeWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F33",
+        "P11-F34",
+        "P11-F35",
+        "P11-F72",
+        "P11-F73",
+        "P11-F80"
+      ],
+      "acceptance_ids": [
+        "P11-T33",
+        "P11-T34",
+        "P11-T35",
+        "P11-T72",
+        "P11-T73",
+        "P11-T80"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "a4533cfb1117381d5b296ee7cddc9ffc0463b6cca2115aa4b0bbbe3c4b93e333",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordBuyerReceipt",
+      "method": "POST",
+      "path": "/jobs/{job_id}/receipts",
+      "summary": "验证买方接受/拒绝回执",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/recordBuyerReceipt.go",
+      "required_scopes": [
+        "cipher:receipt"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReceiptWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-06",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "21e2f511cffb4cf08754413782cc6ed0f032a99a78eac6ff1bd3c292f844e26c",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createCipherChannel",
+      "method": "POST",
+      "path": "/cipher/channels",
+      "summary": "签发限scope密文通道引用",
+      "module_id": "MOD-11",
+      "task_id": "DEV-31",
+      "planned_handler": "dev/src/api/internal/http/mod_11/createCipherChannel.go",
+      "required_scopes": [
+        "cipher:connect"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/CipherChannelWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F34",
+        "P11-F35",
+        "P11-F39",
+        "P11-F40",
+        "P11-F74",
+        "P11-F76"
+      ],
+      "acceptance_ids": [
+        "P11-T34",
+        "P11-T35",
+        "P11-T39",
+        "P11-T40",
+        "P11-T74",
+        "P11-T76"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "5043e9d03a616d317fc0078a45129346f6c5473b4096779429f07d9a210ca8db",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createRentalSession",
+      "method": "POST",
+      "path": "/rental-sessions",
+      "summary": "按指定设备/合同申请租赁",
+      "module_id": "MOD-12",
+      "task_id": "DEV-33",
+      "planned_handler": "dev/src/api/internal/http/mod_12/createRentalSession.go",
+      "required_scopes": [
+        "rental:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-08",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F41",
+        "P11-F42",
+        "P11-F43",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T41",
+        "P11-T42",
+        "P11-T43",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "98b9b07a527c9e05b0baf5f0192f5f24ba6debdd25d935bb4300d298ab7cdde4",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getRentalSession",
+      "method": "GET",
+      "path": "/rental-sessions/{session_id}",
+      "summary": "查询本人受控租赁",
+      "module_id": "MOD-12",
+      "task_id": "DEV-33",
+      "planned_handler": "dev/src/api/internal/http/mod_12/getRentalSession.go",
+      "required_scopes": [
+        "rental:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F41",
+        "P11-F42",
+        "P11-F43",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T41",
+        "P11-T42",
+        "P11-T43",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "709e63a7ae04a3f8cc36c79cb5e8413ae799bd6cfe3af855ecde1574f464e016",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "confirmRentalReady",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/ready",
+      "summary": "买方确认就绪和预算后起表",
+      "module_id": "MOD-12",
+      "task_id": "DEV-33",
+      "planned_handler": "dev/src/api/internal/http/mod_12/confirmRentalReady.go",
+      "required_scopes": [
+        "rental:ready"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalReadyWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-08",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F41",
+        "P11-F42",
+        "P11-F43",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T41",
+        "P11-T42",
+        "P11-T43",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "fa8f2aa9d65ff45fccdfec460f581e9776b30f8819157911df2594806f2d11bf",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordRentalDeviceReady",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/device-ready",
+      "summary": "设备提交当前锁代次的准备证据",
+      "module_id": "MOD-12",
+      "task_id": "DEV-33",
+      "planned_handler": "dev/src/api/internal/http/mod_12/recordRentalDeviceReady.go",
+      "required_scopes": [
+        "device:rental"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalDeviceReadyWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-08",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F41",
+        "P11-F42",
+        "P11-F43",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T41",
+        "P11-T42",
+        "P11-T43",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "04e6c940ae5788b3a7f9bb2f9c515ea60afdc625d63c982a4d4aa7a13a6b164b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createRentalRenewal",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/renewals",
+      "summary": "明确确认新预算/期限续租",
+      "module_id": "MOD-12",
+      "task_id": "DEV-35",
+      "planned_handler": "dev/src/api/internal/http/mod_12/createRentalRenewal.go",
+      "required_scopes": [
+        "rental:renew"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalRenewalWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F45",
+        "P11-F46"
+      ],
+      "acceptance_ids": [
+        "P11-T45",
+        "P11-T46"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "583ec83578b2b9ee0ea07dc1a4be76420b543ae5e26482e96a9fc0e409574da2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "stopRentalSession",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/stop",
+      "summary": "停止起表并撤会话工作权",
+      "module_id": "MOD-12",
+      "task_id": "DEV-35",
+      "planned_handler": "dev/src/api/internal/http/mod_12/stopRentalSession.go",
+      "required_scopes": [
+        "rental:stop"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReasonWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-10",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F45",
+        "P11-F46"
+      ],
+      "acceptance_ids": [
+        "P11-T45",
+        "P11-T46"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "f96861b480ce2831b59fa246f99f0747ec7a0c26e1215d7ce9b8c797c58fb4bc",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordRentalAvailability",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/availability",
+      "summary": "记录待核实可用区间",
+      "module_id": "MOD-12",
+      "task_id": "DEV-34",
+      "planned_handler": "dev/src/api/internal/http/mod_12/recordRentalAvailability.go",
+      "required_scopes": [
+        "device:rental"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/UsageIntervalWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-09",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F18",
+        "P11-F44",
+        "P11-F46",
+        "P11-F61"
+      ],
+      "acceptance_ids": [
+        "P11-T18",
+        "P11-T44",
+        "P11-T46",
+        "P11-T61"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "04c5b8608f19d9da6e481836b517f7e6af21780aad4557435621666ade8e2f0e",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createRentalExport",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/exports",
+      "summary": "导出本会话合法产物",
+      "module_id": "MOD-12",
+      "task_id": "DEV-36",
+      "planned_handler": "dev/src/api/internal/http/mod_12/createRentalExport.go",
+      "required_scopes": [
+        "rental:export"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ExportWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F22",
+        "P11-F43",
+        "P11-F46",
+        "P11-F47",
+        "P11-F52"
+      ],
+      "acceptance_ids": [
+        "P11-T22",
+        "P11-T43",
+        "P11-T46",
+        "P11-T47",
+        "P11-T52"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "e78ceeea8936b3377632cd6b10444f92deabb3b2462df03154ec33ac02d39332",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordRentalCleanup",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/cleanup",
+      "summary": "设备提交停工撤权清理证据后待核验解锁",
+      "module_id": "MOD-12",
+      "task_id": "DEV-36",
+      "planned_handler": "dev/src/api/internal/http/mod_12/recordRentalCleanup.go",
+      "required_scopes": [
+        "device:rental"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalCleanupWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-10",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F22",
+        "P11-F43",
+        "P11-F46",
+        "P11-F47",
+        "P11-F52"
+      ],
+      "acceptance_ids": [
+        "P11-T22",
+        "P11-T43",
+        "P11-T46",
+        "P11-T47",
+        "P11-T52"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "ad9ff2457b9d98fa4c23d8239ae9b9c6e785cf588daa66a1b851683b8783d2f2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createRentalAccessGrant",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/access-grants",
+      "summary": "签发不超已确认期限的会话受控权限",
+      "module_id": "MOD-12",
+      "task_id": "DEV-33",
+      "planned_handler": "dev/src/api/internal/http/mod_12/createRentalAccessGrant.go",
+      "required_scopes": [
+        "rental:access"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalAccessWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-08",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F41",
+        "P11-F42",
+        "P11-F43",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T41",
+        "P11-T42",
+        "P11-T43",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "96afd1347763bd663785791ec4f6b8dba640ce8902a122bad7efbd3d3cb33565",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getRentalMeterStatement",
+      "method": "GET",
+      "path": "/rental-sessions/{session_id}/statement",
+      "summary": "查询整会话计时与金额证据",
+      "module_id": "MOD-12",
+      "task_id": "DEV-34",
+      "planned_handler": "dev/src/api/internal/http/mod_12/getRentalMeterStatement.go",
+      "required_scopes": [
+        "rental:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F18",
+        "P11-F44",
+        "P11-F46",
+        "P11-F61"
+      ],
+      "acceptance_ids": [
+        "P11-T18",
+        "P11-T44",
+        "P11-T46",
+        "P11-T61"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "6f626aa9a43b40377b4c9bf68bb0c3e04dcfe3e6e09fbda6519266f224725bd1",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listRouteContracts",
+      "method": "GET",
+      "path": "/route-contracts",
+      "summary": "读取本人已确认调用路由",
+      "module_id": "MOD-04",
+      "task_id": "DEV-11",
+      "planned_handler": "dev/src/api/internal/http/mod_04/listRouteContracts.go",
+      "required_scopes": [
+        "route:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F54",
+        "P11-F69",
+        "P11-F70",
+        "P11-F77",
+        "P11-F79"
+      ],
+      "acceptance_ids": [
+        "P11-T54",
+        "P11-T69",
+        "P11-T70",
+        "P11-T77",
+        "P11-T79"
+      ],
+      "source_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "a0bf05911e4216c1cbf2030a2716f80a67dc56dc5095917aa7a0224f6c2ffd5a",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createRouteContract",
+      "method": "POST",
+      "path": "/route-contracts",
+      "summary": "冻结实际卖家/模式与自动调用授权",
+      "module_id": "MOD-04",
+      "task_id": "DEV-11",
+      "planned_handler": "dev/src/api/internal/http/mod_04/createRouteContract.go",
+      "required_scopes": [
+        "route:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RouteContractWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-02",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F54",
+        "P11-F69",
+        "P11-F70",
+        "P11-F77",
+        "P11-F79"
+      ],
+      "acceptance_ids": [
+        "P11-T54",
+        "P11-T69",
+        "P11-T70",
+        "P11-T77",
+        "P11-T79"
+      ],
+      "source_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "f0a8f0b05222fa8b9859e7f0c6c2300f33813b31b1dae50dfbc666a55619a58c",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getRouteContract",
+      "method": "GET",
+      "path": "/route-contracts/{route_id}",
+      "summary": "查询路由授权及剩余预算",
+      "module_id": "MOD-04",
+      "task_id": "DEV-11",
+      "planned_handler": "dev/src/api/internal/http/mod_04/getRouteContract.go",
+      "required_scopes": [
+        "route:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F54",
+        "P11-F69",
+        "P11-F70",
+        "P11-F77",
+        "P11-F79"
+      ],
+      "acceptance_ids": [
+        "P11-T54",
+        "P11-T69",
+        "P11-T70",
+        "P11-T77",
+        "P11-T79"
+      ],
+      "source_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "889c9d57d9975c49a85071a47d499d66694c22c8f37236b8100f7df52b1505ab",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listApiKeys",
+      "method": "GET",
+      "path": "/api-keys",
+      "summary": "只读key指纹及scope",
+      "module_id": "MOD-01",
+      "task_id": "DEV-03",
+      "planned_handler": "dev/src/api/internal/http/mod_01/listApiKeys.go",
+      "required_scopes": [
+        "key:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F01",
+        "P11-F32",
+        "P11-F50",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T01",
+        "P11-T32",
+        "P11-T50",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "33d050a4e78339d776608e28750f1fbd69ee81a9e5f4677042827ac1a0666b89",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createApiKey",
+      "method": "POST",
+      "path": "/api-keys",
+      "summary": "创建有限授权key且只首次显示secret",
+      "module_id": "MOD-01",
+      "task_id": "DEV-03",
+      "planned_handler": "dev/src/api/internal/http/mod_01/createApiKey.go",
+      "required_scopes": [
+        "key:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ApiKeyWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F01",
+        "P11-F32",
+        "P11-F50",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T01",
+        "P11-T32",
+        "P11-T50",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "3c56a50e4b3fd084060df24d0540c145d85369885c4ca129928c597f8a3cae77",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "revokeApiKey",
+      "method": "DELETE",
+      "path": "/api-keys/{key_id}",
+      "summary": "撤销本人key",
+      "module_id": "MOD-01",
+      "task_id": "DEV-03",
+      "planned_handler": "dev/src/api/internal/http/mod_01/revokeApiKey.go",
+      "required_scopes": [
+        "key:manage"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F01",
+        "P11-F32",
+        "P11-F50",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T01",
+        "P11-T32",
+        "P11-T50",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "349d54152d5096dd5aec2d5e5561e19d7a576fd7a901694bb81f1c6d2264ebdb",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createRefund",
+      "method": "POST",
+      "path": "/orders/{order_id}/refunds",
+      "summary": "申请原单合同内退款",
+      "module_id": "MOD-05",
+      "task_id": "DEV-14",
+      "planned_handler": "dev/src/api/internal/http/mod_05/createRefund.go",
+      "required_scopes": [
+        "refund:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RefundWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-11",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F17",
+        "P11-F46",
+        "P11-F53"
+      ],
+      "acceptance_ids": [
+        "P11-T17",
+        "P11-T46",
+        "P11-T53"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "53265e0001aa78eac8c32474f11bb43686b1714b5309a22ca591ba555a3cd377",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getRefund",
+      "method": "GET",
+      "path": "/refunds/{refund_id}",
+      "summary": "查询原退款请求状态",
+      "module_id": "MOD-05",
+      "task_id": "DEV-14",
+      "planned_handler": "dev/src/api/internal/http/mod_05/getRefund.go",
+      "required_scopes": [
+        "refund:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F17",
+        "P11-F46",
+        "P11-F53"
+      ],
+      "acceptance_ids": [
+        "P11-T17",
+        "P11-T46",
+        "P11-T53"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "23a5fd4f875eadb7a9bde8dcc3d9795d71ffe59d40c2c9956095a749f9db80aa",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listOwnSettlements",
+      "method": "GET",
+      "path": "/seller/settlements",
+      "summary": "查询本人应结/未知/到账",
+      "module_id": "MOD-15",
+      "task_id": "DEV-40",
+      "planned_handler": "dev/src/api/internal/http/mod_15/listOwnSettlements.go",
+      "required_scopes": [
+        "seller:settlement_read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F19",
+        "P11-F20",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "acceptance_ids": [
+        "P11-T19",
+        "P11-T20",
+        "P11-T53",
+        "P11-T55"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "56c287e6b620de87204ecec902bc48aa7b2ecfa91e8678c55c30cce0d64a604b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getSettlement",
+      "method": "GET",
+      "path": "/settlements/{settlement_id}",
+      "summary": "查询本人结算与原渠道状态",
+      "module_id": "MOD-15",
+      "task_id": "DEV-40",
+      "planned_handler": "dev/src/api/internal/http/mod_15/getSettlement.go",
+      "required_scopes": [
+        "seller:settlement_read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F19",
+        "P11-F20",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "acceptance_ids": [
+        "P11-T19",
+        "P11-T20",
+        "P11-T53",
+        "P11-T55"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "4afa739f2ab77baa23a155daac66ca8ba16fe4e0c08a68de7f864b037daeaf31",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createReview",
+      "method": "POST",
+      "path": "/orders/{order_id}/reviews",
+      "summary": "对有资格真实订单评价",
+      "module_id": "MOD-16",
+      "task_id": "DEV-50",
+      "planned_handler": "dev/src/api/internal/http/mod_16/createReview.go",
+      "required_scopes": [
+        "review:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReviewWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F07",
+        "P11-F29",
+        "P11-F30"
+      ],
+      "acceptance_ids": [
+        "P11-T07",
+        "P11-T29",
+        "P11-T30"
+      ],
+      "source_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "d69516ff73d7a13b4d42d760e639726ffbf4a738fa6f819287368fd6c1ef6022",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createDispute",
+      "method": "POST",
+      "path": "/disputes",
+      "summary": "创建本人订单争议及选择性举证",
+      "module_id": "MOD-16",
+      "task_id": "DEV-49",
+      "planned_handler": "dev/src/api/internal/http/mod_16/createDispute.go",
+      "required_scopes": [
+        "dispute:create"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/DisputeWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F21",
+        "P11-F39",
+        "P11-F40",
+        "P11-F46",
+        "P11-F50"
+      ],
+      "acceptance_ids": [
+        "P11-T21",
+        "P11-T39",
+        "P11-T40",
+        "P11-T46",
+        "P11-T50"
+      ],
+      "source_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "35a7b9c6890cf10dcc1ff206a86663039c463febe4b31c13025053964dbefc93",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getDispute",
+      "method": "GET",
+      "path": "/disputes/{dispute_id}",
+      "summary": "限权读取本人争议进度",
+      "module_id": "MOD-16",
+      "task_id": "DEV-49",
+      "planned_handler": "dev/src/api/internal/http/mod_16/getDispute.go",
+      "required_scopes": [
+        "dispute:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F21",
+        "P11-F39",
+        "P11-F40",
+        "P11-F46",
+        "P11-F50"
+      ],
+      "acceptance_ids": [
+        "P11-T21",
+        "P11-T39",
+        "P11-T40",
+        "P11-T46",
+        "P11-T50"
+      ],
+      "source_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "982a23b50d82928c6fcf726145dd3599becb9beb2e4c3d32bbb5bb9646790c9e",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createAppeal",
+      "method": "POST",
+      "path": "/disputes/{dispute_id}/appeals",
+      "summary": "按资格申请争议复核",
+      "module_id": "MOD-16",
+      "task_id": "DEV-49",
+      "planned_handler": "dev/src/api/internal/http/mod_16/createAppeal.go",
+      "required_scopes": [
+        "dispute:appeal"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/AppealWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F21",
+        "P11-F39",
+        "P11-F40",
+        "P11-F46",
+        "P11-F50"
+      ],
+      "acceptance_ids": [
+        "P11-T21",
+        "P11-T39",
+        "P11-T40",
+        "P11-T46",
+        "P11-T50"
+      ],
+      "source_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "ebb649711c67a8b2e7ffb2e6c1006c0f72b8ed7de51f475a9444bfdddac6911b",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "claimLease",
+      "method": "POST",
+      "path": "/runner/leases/claim",
+      "summary": "本设备领取当前签名执行租约",
+      "module_id": "MOD-06",
+      "task_id": "DEV-18",
+      "planned_handler": "dev/src/api/internal/http/mod_06/claimLease.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/LeaseClaimWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-04",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F05",
+        "P11-F10",
+        "P11-F11",
+        "P11-F41",
+        "P11-F64"
+      ],
+      "acceptance_ids": [
+        "P11-T05",
+        "P11-T10",
+        "P11-T11",
+        "P11-T41",
+        "P11-T64"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "442ff6fa03076cec37863b9bc79a9d875c7f5e844b3ecd262f704aedef065669",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordAttemptProgress",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/progress",
+      "summary": "提交当前attempt的progress证据",
+      "module_id": "MOD-06",
+      "task_id": "DEV-18",
+      "planned_handler": "dev/src/api/internal/http/mod_06/recordAttemptProgress.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ProgressWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-04",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F05",
+        "P11-F10",
+        "P11-F11",
+        "P11-F41",
+        "P11-F64"
+      ],
+      "acceptance_ids": [
+        "P11-T05",
+        "P11-T10",
+        "P11-T11",
+        "P11-T41",
+        "P11-T64"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "b96ce355bd64ef6375a1a588b0ad57cfb62a352fbc86ce0719f4b6e7145528e7",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "registerAttemptDelivery",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/deliveries",
+      "summary": "提交当前attempt的deliveries证据",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/registerAttemptDelivery.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/DeliveryWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-06",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "f5ea74455c14fc9d2348716b90c7c3ba531e0f6992626fcf5f4ad80306bec339",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordAttemptUsage",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/usage",
+      "summary": "提交当前attempt的usage证据",
+      "module_id": "MOD-14",
+      "task_id": "DEV-38",
+      "planned_handler": "dev/src/api/internal/http/mod_14/recordAttemptUsage.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/TokenUsageWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F18",
+        "P11-F27",
+        "P11-F44",
+        "P11-F53",
+        "P11-F61"
+      ],
+      "acceptance_ids": [
+        "P11-T18",
+        "P11-T27",
+        "P11-T44",
+        "P11-T53",
+        "P11-T61"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "f080b0cf1673ea0122b361c3b318a589cf448939cf2f858419e52f5998bf8e45",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordAttemptCleanup",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/cleanup",
+      "summary": "提交当前attempt的cleanup证据",
+      "module_id": "MOD-06",
+      "task_id": "DEV-20",
+      "planned_handler": "dev/src/api/internal/http/mod_06/recordAttemptCleanup.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/CleanupWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-10",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F05",
+        "P11-F17",
+        "P11-F22",
+        "P11-F47",
+        "P11-F52",
+        "P11-F59"
+      ],
+      "acceptance_ids": [
+        "P11-T05",
+        "P11-T17",
+        "P11-T22",
+        "P11-T47",
+        "P11-T52",
+        "P11-T59"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "27527d7e925be690761b9c8c5f0f859822b3c6467bc88d5b5a0d5779eeb45777",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "registerReviewedEvidence",
+      "method": "POST",
+      "path": "/admin/evidence",
+      "summary": "提交限权审核证据与决定",
+      "module_id": "MOD-03",
+      "task_id": "DEV-07",
+      "planned_handler": "dev/src/api/internal/http/mod_03/registerReviewedEvidence.go",
+      "required_scopes": [
+        "admin:evidence"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EvidenceWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F04",
+        "P11-F06",
+        "P11-F55",
+        "P11-F57",
+        "P11-F60",
+        "P11-F67",
+        "P11-F68"
+      ],
+      "acceptance_ids": [
+        "P11-T04",
+        "P11-T06",
+        "P11-T55",
+        "P11-T57",
+        "P11-T60",
+        "P11-T67",
+        "P11-T68"
+      ],
+      "source_documents": [
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "c3dd51157f2c6116a06d1938740d8fc7036c4f711903181bbfca57b39f43239d",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createCapabilityRelease",
+      "method": "POST",
+      "path": "/admin/releases",
+      "summary": "证据齐全才发布具体组合",
+      "module_id": "MOD-17",
+      "task_id": "DEV-52",
+      "planned_handler": "dev/src/api/internal/http/mod_17/createCapabilityRelease.go",
+      "required_scopes": [
+        "admin:release"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/ReleaseWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F23",
+        "P11-F24",
+        "P11-F25",
+        "P11-F37",
+        "P11-F38",
+        "P11-F40",
+        "P11-F48",
+        "P11-F55",
+        "P11-F56",
+        "P11-F67",
+        "P11-F68",
+        "P11-F70",
+        "P11-F79"
+      ],
+      "acceptance_ids": [
+        "P11-T23",
+        "P11-T24",
+        "P11-T25",
+        "P11-T37",
+        "P11-T38",
+        "P11-T40",
+        "P11-T48",
+        "P11-T55",
+        "P11-T56",
+        "P11-T67",
+        "P11-T68",
+        "P11-T70",
+        "P11-T79"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "6b1532d47d1648d19aa9fb696cb9766e506fbec2e171132678c482640cb8748a",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "recordDisputeDecision",
+      "method": "POST",
+      "path": "/admin/disputes/{dispute_id}/decisions",
+      "summary": "分权裁定争议并引用退款/责任规则",
+      "module_id": "MOD-16",
+      "task_id": "DEV-49",
+      "planned_handler": "dev/src/api/internal/http/mod_16/recordDisputeDecision.go",
+      "required_scopes": [
+        "admin:dispute"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/DisputeDecisionWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F21",
+        "P11-F39",
+        "P11-F40",
+        "P11-F46",
+        "P11-F50"
+      ],
+      "acceptance_ids": [
+        "P11-T21",
+        "P11-T39",
+        "P11-T40",
+        "P11-T46",
+        "P11-T50"
+      ],
+      "source_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "3363d7ef83da803f6c2dbefc572792384824e95ba304dae42516d3a39b011ec0",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "updateFeatureGate",
+      "method": "PATCH",
+      "path": "/admin/feature-gates",
+      "summary": "按scope停新售或引用批准版本开放",
+      "module_id": "MOD-17",
+      "task_id": "DEV-52",
+      "planned_handler": "dev/src/api/internal/http/mod_17/updateFeatureGate.go",
+      "required_scopes": [
+        "admin:gate"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/FeatureGateWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F23",
+        "P11-F24",
+        "P11-F25",
+        "P11-F37",
+        "P11-F38",
+        "P11-F40",
+        "P11-F48",
+        "P11-F55",
+        "P11-F56",
+        "P11-F67",
+        "P11-F68",
+        "P11-F70",
+        "P11-F79"
+      ],
+      "acceptance_ids": [
+        "P11-T23",
+        "P11-T24",
+        "P11-T25",
+        "P11-T37",
+        "P11-T38",
+        "P11-T40",
+        "P11-T48",
+        "P11-T55",
+        "P11-T56",
+        "P11-T67",
+        "P11-T68",
+        "P11-T70",
+        "P11-T79"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "f5ee78982012a3bd091d379e8dcf856905a3c2336b53dc6f77b11573931a2498",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "createSettlementBatch",
+      "method": "POST",
+      "path": "/admin/settlement-batches",
+      "summary": "仅从合格账创建结算批次",
+      "module_id": "MOD-15",
+      "task_id": "DEV-40",
+      "planned_handler": "dev/src/api/internal/http/mod_15/createSettlementBatch.go",
+      "required_scopes": [
+        "finance:prepare"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/SettlementBatchWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-12",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F19",
+        "P11-F20",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "acceptance_ids": [
+        "P11-T19",
+        "P11-T20",
+        "P11-T53",
+        "P11-T55"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "4fb82341bd96432241279b9860991945149eeda347228e55a7a3af0ee6283339",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "getSettlementBatch",
+      "method": "GET",
+      "path": "/admin/settlement-batches/{batch_id}",
+      "summary": "查询原结算批次及未知状态",
+      "module_id": "MOD-15",
+      "task_id": "DEV-40",
+      "planned_handler": "dev/src/api/internal/http/mod_15/getSettlementBatch.go",
+      "required_scopes": [
+        "finance:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F19",
+        "P11-F20",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "acceptance_ids": [
+        "P11-T19",
+        "P11-T20",
+        "P11-T53",
+        "P11-T55"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "57b7bd589cc17b160bafc7981e4e20aefce1301e6008853df5faf059d9cb4a67",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "approveSettlementBatch",
+      "method": "POST",
+      "path": "/admin/settlement-batches/{batch_id}/approve",
+      "summary": "独立人员复核结算批次",
+      "module_id": "MOD-15",
+      "task_id": "DEV-40",
+      "planned_handler": "dev/src/api/internal/http/mod_15/approveSettlementBatch.go",
+      "required_scopes": [
+        "finance:review"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/BatchActionWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-12",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F19",
+        "P11-F20",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "acceptance_ids": [
+        "P11-T19",
+        "P11-T20",
+        "P11-T53",
+        "P11-T55"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "6a80e9ee59b9debaf3948481c4ae95c13ee930d9b53159f7b61be56b33b84f54",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "submitSettlementBatch",
+      "method": "POST",
+      "path": "/admin/settlement-batches/{batch_id}/submit",
+      "summary": "提交已复核原批次且未知先查",
+      "module_id": "MOD-15",
+      "task_id": "DEV-40",
+      "planned_handler": "dev/src/api/internal/http/mod_15/submitSettlementBatch.go",
+      "required_scopes": [
+        "finance:submit"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/BatchActionWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-12",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F19",
+        "P11-F20",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "acceptance_ids": [
+        "P11-T19",
+        "P11-T20",
+        "P11-T53",
+        "P11-T55"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "882d208c5a3bcae52863d6c3c8f5d33a6bb0526cf0e4542735ffe541de0a5d20",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    },
+    {
+      "operation_id": "listAuditEvents",
+      "method": "GET",
+      "path": "/admin/audit-events",
+      "summary": "限权查询无正文审计元数据",
+      "module_id": "MOD-17",
+      "task_id": "DEV-52",
+      "planned_handler": "dev/src/api/internal/http/mod_17/listAuditEvents.go",
+      "required_scopes": [
+        "admin:audit"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F23",
+        "P11-F24",
+        "P11-F25",
+        "P11-F37",
+        "P11-F38",
+        "P11-F40",
+        "P11-F48",
+        "P11-F55",
+        "P11-F56",
+        "P11-F67",
+        "P11-F68",
+        "P11-F70",
+        "P11-F79"
+      ],
+      "acceptance_ids": [
+        "P11-T23",
+        "P11-T24",
+        "P11-T25",
+        "P11-T37",
+        "P11-T38",
+        "P11-T40",
+        "P11-T48",
+        "P11-T55",
+        "P11-T56",
+        "P11-T67",
+        "P11-T68",
+        "P11-T70",
+        "P11-T79"
+      ],
+      "source_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "cc79fe4f9e9b0a380b626cdbc0124ba2090ff1c6b19fc836d9c4b2feb3fe1217",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED"
+    }
+  ]
+}

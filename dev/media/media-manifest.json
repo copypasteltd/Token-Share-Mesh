@@ -1,0 +1,196 @@
+{
+  "round": "R003",
+  "captured_at": "2026-10-29T21:22:00.076Z",
+  "scope": "Real repository documentation readers only; no trading, inference, payment or physical-device demonstration",
+  "browser": {
+    "engine": "Native Chromium",
+    "version": "156.0.4314.50",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "mobile_viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "closed": true,
+    "remaining_owned_tabs": 0
+  },
+  "preview_process_stopped": true,
+  "virtualization_used": false,
+  "recording": {
+    "method": "CDP Page.startScreencast: actual browser compositor frames and received timestamps",
+    "actual_frames": 159,
+    "duration_seconds": 13.524,
+    "gif_playback_speed": 1.5,
+    "audio": "none",
+    "video": {
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+          "profile": "High",
+          "codec_type": "video",
+          "codec_tag_string": "avc1",
+          "codec_tag": "0x31637661",
+          "mime_codec_string": "avc1.640028",
+          "width": 1440,
+          "height": 900,
+          "coded_width": 1440,
+          "coded_height": 900,
+          "has_b_frames": 2,
+          "sample_aspect_ratio": "1:1",
+          "display_aspect_ratio": "8:5",
+          "pix_fmt": "yuvj420p",
+          "level": 40,
+          "color_range": "pc",
+          "color_space": "bt470bg",
+          "chroma_location": "left",
+          "field_order": "progressive",
+          "is_avc": "true",
+          "nal_length_size": "4",
+          "id": "0x1",
+          "r_frame_rate": "24/1",
+          "avg_frame_rate": "24/1",
+          "time_base": "1/12288",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 182784,
+          "duration": "14.875000",
+          "bit_rate": "2971564",
+          "bits_per_raw_sample": "8",
+          "nb_frames": "357",
+          "extradata_size": 50,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "encoder": "Lavc62.28.100 libx264"
+          }
+        }
+      ],
+      "format": {
+        "filename": "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\media\\recordings\\readers-tour.mp4",
+        "nb_streams": 1,
+        "nb_programs": 0,
+        "nb_stream_groups": 0,
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "format_long_name": "QuickTime / MOV",
+        "start_time": "0.000000",
+        "duration": "14.875000",
+        "size": "5530476",
+        "bit_rate": "2974373",
+        "probe_score": 100,
+        "tags": {
+          "major_brand": "isom",
+          "minor_version": "512",
+          "compatible_brands": "isomiso2avc1mp41",
+          "encoder": "Lavf62.12.100"
+        }
+      }
+    }
+  },
+  "sources": [
+    {
+      "path": "docs/白皮书/算力共享平台完整阅读版-v3.0.html",
+      "sha256": "c4b07b527b2d868c0f7479f97bb243102ff8dc5a54857dcfc60554a120e8933e"
+    },
+    {
+      "path": "docs/技术开发/技术开发文档完整阅读版-v1.0.html",
+      "sha256": "35b5380e12ebd1e6db79cedbc5803d754aed5dabf2160efa450fb6770fca61c2"
+    }
+  ],
+  "timeline": [
+    {
+      "seconds": -0.022,
+      "action": "whitepaper overview"
+    },
+    {
+      "seconds": 1.849,
+      "action": "search for end-to-end encryption"
+    },
+    {
+      "seconds": 4.488,
+      "action": "open a search result"
+    },
+    {
+      "seconds": 8.144,
+      "action": "technical implementation reader"
+    }
+  ],
+  "assertions": [
+    "Whitepaper reader loaded at 1440x900",
+    "Whitepaper full-text search produced 26 visible results",
+    "Search result link navigated to a real chapter anchor",
+    "No-match search has an explicit zero-result state",
+    "Escape clears search and hides result panel",
+    "Desktop capture context closed",
+    "Mobile-width document: viewport=390, content=390"
+  ],
+  "page_errors": [],
+  "assets": [
+    {
+      "path": "dev/media/architecture.svg",
+      "kind": "AUTHORED_DESIGN_DIAGRAM",
+      "sha256": "1d1ff45e3e91e6db4b553011241dd37c316e870575978e60409c63da8140f636",
+      "bytes": 4336
+    },
+    {
+      "path": "dev/media/screenshots/whitepaper-desktop.png",
+      "kind": "ACTUAL_BROWSER_SCREENSHOT",
+      "sha256": "a4d8856a204faf525c966947af70dac45ff43f5737d7c6b5a5e23905a39ece8d",
+      "bytes": 175382
+    },
+    {
+      "path": "dev/media/screenshots/whitepaper-search.png",
+      "kind": "ACTUAL_BROWSER_SCREENSHOT",
+      "sha256": "2c61be748247297fbbdd724e865e7e8df7dfb9c67d4c01c947f460934bf9a7f9",
+      "bytes": 145052
+    },
+    {
+      "path": "dev/media/screenshots/technical-desktop.png",
+      "kind": "ACTUAL_BROWSER_SCREENSHOT",
+      "sha256": "edfdf8cecd8baef60e0bacab6aedf2c40881dd8d76d28aa161edad9fb09bbfd6",
+      "bytes": 193774
+    },
+    {
+      "path": "dev/media/screenshots/whitepaper-mobile.png",
+      "kind": "ACTUAL_BROWSER_SCREENSHOT",
+      "sha256": "2c4eb874fed20306cede55b61bdf5571f1fdc01a20b4cbc1a83a50ad71f52003",
+      "bytes": 47571
+    },
+    {
+      "path": "dev/media/recordings/readers-tour.mp4",
+      "kind": "ACTUAL_BROWSER_RECORDING",
+      "sha256": "92031ce8a9391605e9edcd64c87b71b9287ea2becf03c38a4e343f37d30f3ba2",
+      "bytes": 5530476
+    },
+    {
+      "path": "dev/media/recordings/readers-tour.gif",
+      "kind": "ACTUAL_BROWSER_RECORDING",
+      "sha256": "cce8700a0f4ea4929dbfbd47c030f58895b0e06d0eb2c5f9f6ddc445d995583b",
+      "bytes": 6325576
+    }
+  ]
+}

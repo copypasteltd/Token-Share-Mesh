@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://p11.invalid/design/event-envelope-v3.0.schema.json",
+  "title": "P11 transactional outbox event draft",
+  "description": "只能由有权限服务从已提交状态产生；设备不能伪造资金/验收事件。schema不代替生产者授权与聚合版本校验。不得包含内容/key/KYC/私密URL。",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "SellerApproved",
+        "CapabilityQualified",
+        "ListingPublished",
+        "ListingPaused",
+        "LicenseRevoked",
+        "QuoteConsumed",
+        "PaymentAuthorized",
+        "PaymentSettled",
+        "PaymentUnknown",
+        "RefundConfirmed",
+        "AttemptIssued",
+        "AttemptExpired",
+        "DeliveryAvailable",
+        "PlatformAccepted",
+        "BuyerAccepted",
+        "BuyerRejected",
+        "RecipientRevoked",
+        "AttestationExpired",
+        "RewrapRequired",
+        "SessionReady",
+        "SessionStarted",
+        "SessionStopped",
+        "AvailabilityConfirmed",
+        "CleanupAck",
+        "CleanupFailed",
+        "TradeQualified",
+        "CommissionAdjusted",
+        "SellerSettlementEligible",
+        "SellerSettlementUnknown",
+        "DisputeOpened",
+        "DisputeResolved"
+      ]
+    },
+    "schema_version": {
+      "const": "3.0-draft"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "producer_service": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "actor_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "aggregate_type": {
+      "type": "string",
+      "enum": [
+        "SELLER",
+        "CAPABILITY",
+        "LISTING",
+        "QUOTE",
+        "PAYMENT",
+        "REFUND",
+        "JOB",
+        "ATTEMPT",
+        "DELIVERY",
+        "RECIPIENT",
+        "SESSION",
+        "TRADE",
+        "SETTLEMENT",
+        "DISPUTE"
+      ]
+    },
+    "aggregate_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "aggregate_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "correlation_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "causation_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "idempotency_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+      "maxLength": 128
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+        "maxLength": 128
+      },
+      "minItems": 0,
+      "maxItems": 50
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "order_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "seller_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "device_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "listing_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "capability_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "quote_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "payment_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "refund_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "job_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "delivery_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "session_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "settlement_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "dispute_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "recipient_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "fencing_token": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "safe_reason_code": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+          "maxLength": 128
+        },
+        "manifest_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "amount_fen": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "verified_available_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": []
+    }
+  },
+  "required": [
+    "event_id",
+    "event_type",
+    "schema_version",
+    "occurred_at",
+    "recorded_at",
+    "producer_service",
+    "actor_ref",
+    "aggregate_type",
+    "aggregate_id",
+    "aggregate_version",
+    "correlation_id",
+    "causation_id",
+    "idempotency_ref",
+    "evidence_refs",
+    "payload"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "enum": [
+              "PaymentAuthorized",
+              "PaymentSettled",
+              "PaymentUnknown"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "order_id",
+              "payment_id"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "enum": [
+              "BuyerAccepted",
+              "BuyerRejected",
+              "PlatformAccepted"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "job_id",
+              "attempt_id",
+              "delivery_id",
+              "fencing_token"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "x-delivery": "at-least-once; consumer deduplicates event_id and compares aggregate_version; authority state wins"
+}

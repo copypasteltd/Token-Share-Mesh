@@ -1,0 +1,197 @@
+{
+  "phase": "variants",
+  "updated_at": "2026-10-29T19:30:49.836033+00:00",
+  "model": "gpt-image-2.5",
+  "results": [
+    {
+      "id": "02-detail",
+      "style": "02",
+      "style_name": "极光浮层-毛玻璃",
+      "page": "detail",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "02-极光浮层-毛玻璃\\02-小程序-服务详情.png",
+      "prompt": "02-极光浮层-毛玻璃\\prompts\\detail.txt",
+      "reference": "02-极光浮层-毛玻璃\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1762864,
+        "sha256": "8ad3d9fd4737fde91f11b8abfde8e74d0a501ff39ba6f79d406dd3d205a1551c"
+      }
+    },
+    {
+      "id": "01-detail",
+      "style": "01",
+      "style_name": "柔白触感-新拟物",
+      "page": "detail",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "01-柔白触感-新拟物\\02-小程序-服务详情.png",
+      "prompt": "01-柔白触感-新拟物\\prompts\\detail.txt",
+      "reference": "01-柔白触感-新拟物\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1630192,
+        "sha256": "2c5183fa5942502498d106aa36e280747896d12f7addb8dc9fd8194d69761c4a"
+      }
+    },
+    {
+      "id": "01-web",
+      "style": "01",
+      "style_name": "柔白触感-新拟物",
+      "page": "web",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1536x1024",
+      "output": "01-柔白触感-新拟物\\03-Web-算力工作台.png",
+      "prompt": "01-柔白触感-新拟物\\prompts\\web.txt",
+      "reference": "01-柔白触感-新拟物\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 1697055,
+        "sha256": "9d1f0009f75841c9fb6346134dddc253167f1a1cf5ac9b6f3b1e7306c2868a39"
+      }
+    },
+    {
+      "id": "03-detail",
+      "style": "03",
+      "style_name": "明快平面-新扁平",
+      "page": "detail",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "03-明快平面-新扁平\\02-小程序-服务详情.png",
+      "prompt": "03-明快平面-新扁平\\prompts\\detail.txt",
+      "reference": "03-明快平面-新扁平\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1366410,
+        "sha256": "6fbdd302f8f61d97a2db38edebf61686c41007063016c27c42362e651441629b"
+      }
+    },
+    {
+      "id": "02-web",
+      "style": "02",
+      "style_name": "极光浮层-毛玻璃",
+      "page": "web",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1536x1024",
+      "output": "02-极光浮层-毛玻璃\\03-Web-算力工作台.png",
+      "prompt": "02-极光浮层-毛玻璃\\prompts\\web.txt",
+      "reference": "02-极光浮层-毛玻璃\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 1867518,
+        "sha256": "60c7a2908d58d42494ea9469579751c80fc64a70179b1b3fa3377c7bbeec7948"
+      }
+    },
+    {
+      "id": "03-web",
+      "style": "03",
+      "style_name": "明快平面-新扁平",
+      "page": "web",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1536x1024",
+      "output": "03-明快平面-新扁平\\03-Web-算力工作台.png",
+      "prompt": "03-明快平面-新扁平\\prompts\\web.txt",
+      "reference": "03-明快平面-新扁平\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 1364831,
+        "sha256": "76c09d22c620d7cd0ecfbcd4ddd9ac72550c7d3b255bb2a9b0ada456e4e61361"
+      }
+    },
+    {
+      "id": "05-detail",
+      "style": "05",
+      "style_name": "留白目录-极简目录",
+      "page": "detail",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "05-留白目录-极简目录\\02-小程序-服务详情.png",
+      "prompt": "05-留白目录-极简目录\\prompts\\detail.txt",
+      "reference": "05-留白目录-极简目录\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1376672,
+        "sha256": "c07cac9ea54860e152c6d7fb32402107db4025ed66c2253ded8856f3148d79e8"
+      }
+    },
+    {
+      "id": "04-detail",
+      "style": "04",
+      "style_name": "硬边交易所-新粗野主义",
+      "page": "detail",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "04-硬边交易所-新粗野主义\\02-小程序-服务详情.png",
+      "prompt": "04-硬边交易所-新粗野主义\\prompts\\detail.txt",
+      "reference": "04-硬边交易所-新粗野主义\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1391507,
+        "sha256": "06787b468b96b96f519d82ddc5bc260eb7816c7a9874dc79762f11c9fb0d138c"
+      }
+    },
+    {
+      "id": "04-web",
+      "style": "04",
+      "style_name": "硬边交易所-新粗野主义",
+      "page": "web",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1536x1024",
+      "output": "04-硬边交易所-新粗野主义\\03-Web-算力工作台.png",
+      "prompt": "04-硬边交易所-新粗野主义\\prompts\\web.txt",
+      "reference": "04-硬边交易所-新粗野主义\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 1405946,
+        "sha256": "8c8c955354528d1db55715148eea97e7f250a4c9000b08f91009882ef2d622c1"
+      }
+    },
+    {
+      "id": "05-web",
+      "style": "05",
+      "style_name": "留白目录-极简目录",
+      "page": "web",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1536x1024",
+      "output": "05-留白目录-极简目录\\03-Web-算力工作台.png",
+      "prompt": "05-留白目录-极简目录\\prompts\\web.txt",
+      "reference": "05-留白目录-极简目录\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 1478117,
+        "sha256": "0ac17808d9d290816da7c3b8993653aadb19ecd9e5f3437d35306d1359a9e68b"
+      }
+    }
+  ]
+}

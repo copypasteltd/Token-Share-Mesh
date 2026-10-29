@@ -1,0 +1,13 @@
+{
+  "version": "1.0-draft",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "chapters": 24,
+  "modules": 20,
+  "development_tasks": 56,
+  "requirements": 80,
+  "control_operations": 89,
+  "sql_tables": 60,
+  "reader_sources": 38,
+  "reader_sections": 374,
+  "reader_bytes": 917978
+}

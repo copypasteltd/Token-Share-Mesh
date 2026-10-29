@@ -1,0 +1,14 @@
+{
+  "id": "01",
+  "name": "晴空秩序",
+  "slug": "01-晴空秩序",
+  "palette": {
+    "background": "#F5F8FF",
+    "surface": "#FFFFFF",
+    "primary": "#2463EB",
+    "text": "#12223B",
+    "border": "#DEE7F2",
+    "secondary": "#6C8BB6"
+  },
+  "direction": "A highly polished native Alipay mini-program design, calm sky-blue clarity and financial-grade trust without looking like a bank. Crisp 12–16 logical px rounded cards, balanced density, strong alignment, modern Chinese sans serif with medium headings. White cards on a very light ice-blue canvas; pure solid blue primary buttons. Signature: a precise three-node blue mesh mark and one understated connection line. Compact, useful, legible. No gradients as decoration, no cartoon, no glassmorphism."
+}

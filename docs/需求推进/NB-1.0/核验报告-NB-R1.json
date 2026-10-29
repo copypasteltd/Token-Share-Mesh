@@ -1,0 +1,59 @@
+{
+  "status": "STATIC_REQUIREMENT_CHECKS_PASSED",
+  "version": "NB-R1",
+  "scope": "STRUCTURE_LINKS_TRACE_AND_EXAMPLE_ARITHMETIC_ONLY",
+  "runtime_acceptance": "NOT_EXECUTED",
+  "requirement_count": 48,
+  "acceptance_scenarios": 96,
+  "primary_pages": 5,
+  "auxiliary_views": 10,
+  "contract_gaps": 6,
+  "referenced_original_requirements": 66,
+  "referenced_development_tasks": 48,
+  "local_links_checked": 22,
+  "broken_links": [],
+  "examples_fen": {
+    "gpu_half_hour_fen": 180,
+    "gpu_ten_minutes_fen": 60,
+    "gpu_10001_ms_fen": 2,
+    "llm_total_fen": 120,
+    "llm_small_request_fen": 1,
+    "gross180_fee_fen": 9,
+    "gross180_net_fen": 171,
+    "gross60_net_fen": 57,
+    "retained120_fee_fen": 6,
+    "retained120_net_fen": 114,
+    "rate350_legacy_compatible": false
+  },
+  "registry_sha256": "a17381aad33240deb742f8a959feb602b6eda782f932c046d2ddf9a4aefc9156",
+  "documents": [
+    {
+      "path": "docs/需求推进/NB-1.0/README.md",
+      "sha256": "98c3efed71b93ed1c6ad25b5f5b416533d86460787e9f7f2ca9b9e3cac6eaf87"
+    },
+    {
+      "path": "docs/需求推进/NB-1.0/01-范围与需求决策.md",
+      "sha256": "0b5e321271c2a4c00d79eb7b44d215c1e0f11d31a6a761d4f6f17ecea4ea0af2"
+    },
+    {
+      "path": "docs/需求推进/NB-1.0/02-页面与闭环流程.md",
+      "sha256": "b197d8ccb00ed4e5657fb5592ee7dc2c3e1937a1b048053c7af1c9529fa1c76c"
+    },
+    {
+      "path": "docs/需求推进/NB-1.0/03-字段动作与契约缺口.md",
+      "sha256": "44a5a7523e07e8fbb5d2db003eb65179a71f8ced156b2f90695e07681558d182"
+    },
+    {
+      "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
+      "sha256": "97dacf6e7c176c710cb9a2172ef240dfb49683badd9d34630b93ff279ec9092f"
+    },
+    {
+      "path": "docs/需求推进/NB-1.0/05-实施次序与验收门槛.md",
+      "sha256": "abd79ae02b386076a074780942dba0a85c2e68d43247a1effc4f3f07539c9eb3"
+    },
+    {
+      "path": "docs/需求推进/NB-1.0/06-需求追踪与验收矩阵.md",
+      "sha256": "fca930073e2e33182b9f80e323480c9cc0b97c49a66a318197aa7c345fb82f72"
+    }
+  ]
+}

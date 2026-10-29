@@ -1,0 +1,21 @@
+Create one high-fidelity, beautifully art-directed Chinese PRODUCT UI concept for “算力共享” / “Token Share Mesh”, a genuine C2C marketplace where INDIVIDUAL sellers list idle personal computing devices. It is a design concept with demo data.
+Hard framing: one flat straight-on edge-to-edge page, no physical device frame, no phone mockup, no hand/desk, no perspective, no multi-screen collage, no palette/style labels, no captions outside UI, no watermarks. Draw actual legible UI, not a presentation board.
+EXACT shared resource data: “RTX 4090 · 24GB”; seller “星河同学”; “个人卖家”; service “ComfyUI · 图像生成”; “¥0.60 / 张”. Secondary PHONE MUST explicitly be “摩托罗拉 X30”; model “Qwen 3B”; seller “阿澄”; “¥0.02 / 千Token”. The phone's visible TITLE MUST be the concrete model 摩托罗拉 X30, not a generic operating-system label. NEVER print “Android设备”, “Android 设备”, “Android设别”, “手机推理” as its name. Do not invent version fields, CUDA versions, benchmarks, ratings, sales, guarantee badges, or income claims.
+Service modes exactly “明文 / 端对端加密 / 显卡租赁”; select “端对端加密”. Categories “全部 / 对话 / 图像 / 视频”; select 全部. Main resource privacy text: “平台不可见”. Details/Web must also state “平台不可见；执行设备仍需处理明文”. Do not claim the hardware owner cannot access plaintext.
+Consistent brand glyph: a minimal mesh of three connected nodes, drawn in this family's style; repeat the same glyph across its pages.
+Text must be correct concise Simplified Chinese, clear touch targets and coherent hierarchy. Dark enough text and well-separated control edges. Never hide a resource's model/price behind the bottom bar. The two mobile pages must look like Alipay MINI-PROGRAM pages with a small top status bar, proper Alipay capsule in top-right, and safe-area insets.
+Each family is an independent DESIGN LANGUAGE AND LAYOUT. Do not revert to the generic search + pills + two identical rounded picture-left marketplace cards. All properties below are deliberate constraints, not loose inspiration.
+
+DESIGN FAMILY: Neo-flat / Flat Design
+MATERIAL AND SHAPE GRAMMAR:
+PURE CONTEMPORARY FLAT DESIGN: solid blue, coral and white color blocks, clean 2D simplified vector GPU/phone icons, no photographs. Flat fills, 0-6 logical px corners, crisp alignment, mostly borderless modules separated by whitespace. Absolutely NO shadows, NO gradients, NO translucent panels, NO 3D surfaces, NO black chunky outlines. Friendly geometric pictograms rather than rendered hardware. Design with type and color-area proportion.
+TYPE:
+Bold geometric Chinese sans-serif headlines, crisp simple body text, flat pictograms; strong hierarchy without ornamental fonts.
+PALETTE ROLES (do not print codes): {"canvas": "#FFFFFF", "surface": "#EFF4FF", "ink": "#173148", "primary": "#235DE8", "accent": "#F17862", "muted": "#54667A"}
+
+TARGET: ONE BUYER MARKET HOME, portrait 1024x1536. Show two complete visible resources with the exact shared data, primary 查看服务 action and clear privacy selection. Include useful search with placeholder 搜索模型、设备或卖家. Bottom has 发现 / 订单 / 共享 / 我的, 发现 selected. Category controls may use the family's prescribed position. Balance the complete page with no unnecessary marketing paragraphs or duplicate giant headings.
+
+REQUIRED UNIQUE PAGE COMPOSITION:
+CATEGORY-FIRST utility layout: compact brand and search at top; a two-by-two grid of FOUR solid flat category tiles 对话/图像/视频/全部, using simple large vector icons with 全部 selected. A clear text-and-underline three-mode switch comes NEXT. Resource offers appear BELOW as TWO COMPACT HORIZONTAL rows with thin separators: small 2D device icon at left, model and seller in center, price and action at right. GPU row reads RTX 4090 · 24GB, 星河同学, ComfyUI · 图像生成, ¥0.60/张, 平台不可见, 查看服务. Phone row prominently reads 摩托罗拉 X30, Qwen 3B, 阿澄, ¥0.02/千Token. No huge 3D GPU hero, no floating/shadow cards. Bottom navigation is a flat full-width white bar with blue active icon.
+
+Before finishing, verify the device names, units, selected privacy, one-page framing and the family-specific material. A color swap of a generic UI is not acceptable. Make this a resolved professional design.

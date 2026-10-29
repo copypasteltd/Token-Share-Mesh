@@ -1,0 +1,538 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "modules": [
+    {
+      "id": "MOD-01",
+      "name": "身份授权",
+      "owner_role": "身份/安全工程",
+      "planned_package": "dev/src/internal/identity",
+      "source_document": "docs/技术开发/16-身份授权与安全工程.md",
+      "authoritative_tables": [
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents"
+      ],
+      "application_services": [
+        "PrincipalResolver",
+        "RolePolicy",
+        "KeyService",
+        "ConsentService"
+      ],
+      "dependencies": [],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/identity"
+      ]
+    },
+    {
+      "id": "MOD-02",
+      "name": "市场卖家",
+      "owner_role": "市场后端",
+      "planned_package": "dev/src/internal/market",
+      "source_document": "docs/技术开发/03-领域模块与应用服务设计.md",
+      "authoritative_tables": [
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices"
+      ],
+      "application_services": [
+        "SellerOnboarding",
+        "ListingRevision",
+        "Discovery"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-03"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/market"
+      ]
+    },
+    {
+      "id": "MOD-03",
+      "name": "目录证据",
+      "owner_role": "资格/许可工程",
+      "planned_package": "dev/src/internal/catalog",
+      "source_document": "docs/技术开发/11-引擎与授权上游适配器设计.md",
+      "authoritative_tables": [
+        "evidence",
+        "capabilities",
+        "catalog_entries"
+      ],
+      "application_services": [
+        "CapabilityQualification",
+        "LicenseReview",
+        "ProfileCatalog"
+      ],
+      "dependencies": [
+        "MOD-01"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/catalog"
+      ]
+    },
+    {
+      "id": "MOD-04",
+      "name": "合同订单路由预算",
+      "owner_role": "交易后端",
+      "planned_package": "dev/src/internal/orders",
+      "source_document": "docs/技术开发/05-控制面接口实现规约.md",
+      "authoritative_tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations"
+      ],
+      "application_services": [
+        "QuoteService",
+        "OrderService",
+        "RouteContractService",
+        "BudgetReservation"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-02",
+        "MOD-03"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/orders"
+      ]
+    },
+    {
+      "id": "MOD-05",
+      "name": "支付退款适配",
+      "owner_role": "支付工程",
+      "planned_package": "dev/src/internal/payments",
+      "source_document": "docs/技术开发/13-支付退款账务与渠道结算.md",
+      "authoritative_tables": [
+        "payments",
+        "refunds",
+        "channel_requests"
+      ],
+      "application_services": [
+        "PaymentIntent",
+        "ChannelQuery",
+        "RefundCommand"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-04"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/payments"
+      ]
+    },
+    {
+      "id": "MOD-06",
+      "name": "调度资源租约",
+      "owner_role": "调度工程",
+      "planned_package": "dev/src/internal/dispatch",
+      "source_document": "docs/技术开发/06-调度资源锁与执行租约.md",
+      "authoritative_tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "application_services": [
+        "Admission",
+        "ResourceArbiter",
+        "AttemptLease",
+        "Fence"
+      ],
+      "dependencies": [
+        "MOD-03",
+        "MOD-04",
+        "MOD-05"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/dispatch"
+      ]
+    },
+    {
+      "id": "MOD-07",
+      "name": "桌面执行客户端",
+      "owner_role": "Windows/Linux工程",
+      "planned_package": "dev/src/client",
+      "source_document": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+      "authoritative_tables": [],
+      "application_services": [
+        "AgentLifecycle",
+        "LocalInbox",
+        "RuntimeSupervisor",
+        "KernelRegistry",
+        "NodeAllowlistInstaller",
+        "AdapterSupervisor"
+      ],
+      "dependencies": [
+        "MOD-06",
+        "MOD-09"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/client"
+      ]
+    },
+    {
+      "id": "MOD-08",
+      "name": "Android客户端",
+      "owner_role": "Android工程",
+      "planned_package": "dev/src/client/android",
+      "source_document": "docs/技术开发/10-Android与LMA工程设计.md",
+      "authoritative_tables": [],
+      "application_services": [
+        "LmaDerivedApp",
+        "PlatformBridge",
+        "ShareService",
+        "InferenceGate",
+        "MobileAdapter"
+      ],
+      "dependencies": [
+        "MOD-06",
+        "MOD-09"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/client/android"
+      ]
+    },
+    {
+      "id": "MOD-09",
+      "name": "兼容明文网关内核",
+      "owner_role": "网关工程",
+      "planned_package": "dev/src/gateway/core",
+      "source_document": "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+      "authoritative_tables": [],
+      "application_services": [
+        "ProfileValidator",
+        "DialectAdapter",
+        "BoundRelayCore"
+      ],
+      "dependencies": [
+        "MOD-04",
+        "MOD-06"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/gateway/core"
+      ]
+    },
+    {
+      "id": "MOD-10",
+      "name": "端侧加密",
+      "owner_role": "密码/客户端工程",
+      "planned_package": "dev/src/client/crypto-gateway",
+      "source_document": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+      "authoritative_tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes"
+      ],
+      "application_services": [
+        "TrustStore",
+        "EnvelopeService",
+        "StreamCrypto",
+        "LocalAcceptance"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-04"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/client/crypto-gateway"
+      ]
+    },
+    {
+      "id": "MOD-11",
+      "name": "平台密文中转",
+      "owner_role": "网关/安全工程",
+      "planned_package": "dev/src/gateway/cipher-relay",
+      "source_document": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+      "authoritative_tables": [
+        "cipher_channels"
+      ],
+      "application_services": [
+        "CipherChannel",
+        "OpaqueObjectRelay",
+        "FrameQuota"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-06",
+        "MOD-10"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/gateway/cipher-relay"
+      ]
+    },
+    {
+      "id": "MOD-12",
+      "name": "GPU租赁",
+      "owner_role": "租赁/调度工程",
+      "planned_package": "dev/src/internal/rental",
+      "source_document": "docs/技术开发/12-显卡租赁与可用时间计量.md",
+      "authoritative_tables": [
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals"
+      ],
+      "application_services": [
+        "SessionCoordinator",
+        "WorkspaceGrant",
+        "AvailabilityMeter"
+      ],
+      "dependencies": [
+        "MOD-04",
+        "MOD-05",
+        "MOD-06"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/rental"
+      ]
+    },
+    {
+      "id": "MOD-13",
+      "name": "文件媒体",
+      "owner_role": "存储后端",
+      "planned_package": "dev/src/internal/assets",
+      "source_document": "docs/技术开发/15-文件媒体与对象存储.md",
+      "authoritative_tables": [
+        "assets",
+        "transfer_grants",
+        "deletion_tasks"
+      ],
+      "application_services": [
+        "AssetRegistry",
+        "TransferGrant",
+        "LifecycleCleaner"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-04"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/assets"
+      ]
+    },
+    {
+      "id": "MOD-14",
+      "name": "用量计量",
+      "owner_role": "计量工程",
+      "planned_package": "dev/src/internal/metering",
+      "source_document": "docs/技术开发/13-支付退款账务与渠道结算.md",
+      "authoritative_tables": [
+        "usage_evidence",
+        "meter_statements"
+      ],
+      "application_services": [
+        "UsageVerifier",
+        "MeterStatement",
+        "PriceCalculator"
+      ],
+      "dependencies": [
+        "MOD-04",
+        "MOD-06",
+        "MOD-12"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/metering"
+      ]
+    },
+    {
+      "id": "MOD-15",
+      "name": "财务账与结算",
+      "owner_role": "财务工程",
+      "planned_package": "dev/src/internal/finance",
+      "source_document": "docs/技术开发/13-支付退款账务与渠道结算.md",
+      "authoritative_tables": [
+        "trade_qualifications",
+        "ledger_accounts",
+        "journal_transactions",
+        "journal_entries",
+        "settlements",
+        "settlement_items",
+        "settlement_batches",
+        "batch_items"
+      ],
+      "application_services": [
+        "LedgerService",
+        "SettlementEligibility",
+        "Reconciler"
+      ],
+      "dependencies": [
+        "MOD-04",
+        "MOD-05",
+        "MOD-14"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/finance"
+      ]
+    },
+    {
+      "id": "MOD-16",
+      "name": "售后与信誉",
+      "owner_role": "售后后端",
+      "planned_package": "dev/src/internal/support",
+      "source_document": "docs/技术开发/14-前端路由状态与接口集成.md",
+      "authoritative_tables": [
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants"
+      ],
+      "application_services": [
+        "ReviewEligibility",
+        "DisputeService",
+        "AppealService"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-04",
+        "MOD-13"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/support"
+      ]
+    },
+    {
+      "id": "MOD-17",
+      "name": "治理发布",
+      "owner_role": "运营/安全工程",
+      "planned_package": "dev/src/internal/governance",
+      "source_document": "docs/技术开发/16-身份授权与安全工程.md",
+      "authoritative_tables": [
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "application_services": [
+        "FeatureGate",
+        "ReleaseDecision",
+        "Revocation"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-03"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/governance"
+      ]
+    },
+    {
+      "id": "MOD-18",
+      "name": "事件与后台任务",
+      "owner_role": "基础后端",
+      "planned_package": "dev/src/internal/outbox",
+      "source_document": "docs/技术开发/17-事件事务发件箱与后台任务.md",
+      "authoritative_tables": [
+        "idempotency_records",
+        "outbox_events",
+        "inbox_events",
+        "durable_jobs",
+        "notifications"
+      ],
+      "application_services": [
+        "OutboxPublisher",
+        "InboxDedup",
+        "DurableJob"
+      ],
+      "dependencies": [
+        "MOD-01"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/internal/outbox"
+      ]
+    },
+    {
+      "id": "MOD-19",
+      "name": "小程序与Web",
+      "owner_role": "React/Taro前端工程",
+      "planned_package": "dev/src/miniapp/src",
+      "source_document": "docs/技术开发/14-前端路由状态与接口集成.md",
+      "authoritative_tables": [],
+      "application_services": [
+        "MiniappBuyer",
+        "MiniappSeller",
+        "WebDeveloper",
+        "WebAdmin",
+        "TypedAPIClient",
+        "PayLauncher"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-04"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/src/miniapp/src",
+        "dev/src/web/src",
+        "dev/src/frontend/packages"
+      ]
+    },
+    {
+      "id": "MOD-20",
+      "name": "测试与契约验证",
+      "owner_role": "测试工程",
+      "planned_package": "dev/tests",
+      "source_document": "docs/技术开发/20-性能容量与可观测性.md",
+      "authoritative_tables": [],
+      "application_services": [
+        "ProtocolFixtures",
+        "NativeFaultHarness",
+        "ScopeValidation"
+      ],
+      "dependencies": [
+        "MOD-01",
+        "MOD-17"
+      ],
+      "status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "planned_packages": [
+        "dev/tests"
+      ]
+    }
+  ]
+}

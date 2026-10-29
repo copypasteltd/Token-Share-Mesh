@@ -1,0 +1,497 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "test_status": "NOT_EXECUTED",
+  "sale_enabled": false,
+  "runtime_enabled": false,
+  "source_document": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+  "classification": "DESIGN_MANIFEST_NOT_A_WIRE_SCHEMA_OR_RUNTIME",
+  "endpoints": {
+    "buyer": "NATIVE_LOCAL_OR_EXPLICITLY_TRUSTED_LAN_GATEWAY",
+    "provider": "NAMED_SELLER_RESTRICTED_NATIVE_EXECUTION_SERVICE",
+    "platform_content_plaintext_access": false,
+    "platform_content_private_keys": false,
+    "platform_universal_recovery_key": false,
+    "model_processes_plaintext": true,
+    "miniapp_and_web_server_are_plaintext_endpoints": false,
+    "provider_management_ui_content_access": false
+  },
+  "scope": {
+    "protocol": "PLATFORM_BLIND",
+    "local_protection_is_separate_policy": true,
+    "advanced_memory_extraction_in_current_acceptance_scope": false,
+    "ordinary_native_or_vm_is_attested_confidential": false,
+    "local_virtualization_execution": false,
+    "deployment_and_observability_planning": false,
+    "private_fields_required_in_standard_sdk_json": false
+  },
+  "profiles": {
+    "application": [
+      "APPROVED_OPENAI_CHAT",
+      "APPROVED_OPENAI_RESPONSES",
+      "APPROVED_ANTHROPIC_MESSAGES",
+      "APPROVED_MEDIA_SUBSETS"
+    ],
+    "network": [
+      "JSON_COMPAT",
+      "BINARY_STREAM_1"
+    ],
+    "storage": [
+      "LOCAL_SEGMENTED_1"
+    ],
+    "legacy_json_schema": "docs/白皮书/contracts/cipher-frame-v3.0.schema.json",
+    "binary_covered_by_legacy_schema": false,
+    "binary_channel_negotiation_contract_frozen": false,
+    "binary_wire_schema_frozen": false,
+    "silent_profile_fallback": false
+  },
+  "crypto": {
+    "candidate_id": "SODIUM_SEAL_SECRETSTREAM_ED25519_DRAFT",
+    "approved_suite_profile_id": null,
+    "library_version": null,
+    "bindings": [
+      "GO_CGO",
+      "CPP_C_API",
+      "ANDROID_JNI"
+    ],
+    "key_wrap": "LIBSODIUM_CRYPTO_BOX_SEAL",
+    "ordered_stream": "LIBSODIUM_SECRETSTREAM_XCHACHA20POLY1305",
+    "identity_signature": "INDEPENDENT_ED25519",
+    "sealed_box_authenticates_sender": false,
+    "full_forward_secrecy_claimed": false,
+    "hpke": "SEPARATE_FUTURE_SUITE_ONLY",
+    "independent_crypto_review": "NOT_EXECUTED"
+  },
+  "keys": {
+    "distinct_purposes": [
+      "LOCAL_API_AUTH",
+      "PLATFORM_ROUTE_AUTH",
+      "DEVICE_AUTH",
+      "PROVIDER_CONTENT_RECIPIENT",
+      "BUYER_RESULT_RECIPIENT",
+      "INPUT_STREAM",
+      "OUTPUT_STREAM",
+      "CONTROL_STREAM",
+      "LOCAL_CACHE_OBJECT",
+      "ENDPOINT_IDENTITY_SIGNATURE",
+      "BUYER_RECEIPT_SIGNATURE",
+      "PLATFORM_EXECUTION_SIGNATURE",
+      "SOFTWARE_UPDATE_SIGNATURE"
+    ],
+    "stream_key_bytes": 32,
+    "fresh_for": [
+      "ATTEMPT",
+      "OBJECT",
+      "DIRECTION",
+      "EPOCH"
+    ],
+    "input_generated_by": "BUYER_GATEWAY",
+    "output_generated_by": "PROVIDER_SERVICE",
+    "input_key_reused_for_output": false,
+    "static_private_key_store": "DEDICATED_IDENTITY_OS_SECRET_STORE_OR_WRAPPED_KEY",
+    "transient_content_keys_in_regular_database": false,
+    "identity_recovery_recovers_old_content": false,
+    "content_key_required_for_completed_ciphertext_retransmit": false
+  },
+  "trust": {
+    "independent_first_trust_required": true,
+    "platform_directory_alone_sufficient": false,
+    "tofu_proves_first_contact": false,
+    "buyer_result_key_substitution_check": true,
+    "rotation": "OLD_IDENTITY_SIGNATURE_AND_POLICY_OR_INDEPENDENT_RECONFIRMATION",
+    "revocation_unknown_allows_new_key_release": false,
+    "revocation_recalls_existing_plaintext": false
+  },
+  "canonicalization": {
+    "candidate": "RFC8785_JCS_UTF8",
+    "reject_duplicate_keys_invalid_unicode_nonfinite_numbers": true,
+    "private_body_bytes_normalized": false,
+    "counter_encoding": "CANONICAL_DECIMAL_STRING_WITH_FIELD_SPECIFIC_RANGE",
+    "wire_sequence_epoch_max": "18446744073709551615",
+    "database_job_token_resource_generation_max": "9223372036854775807",
+    "digest": "SHA256_LOWERCASE_HEX_EXCEPT_RAW_32_BYTE_HEADER_HASH_IN_AAD",
+    "domain_separation": "DISTINCT_ASCII_PREFIX_TERMINATED_BY_ZERO_BYTE",
+    "draft_network_domain_prefix": "P11/E2E/BINARY_STREAM_1/",
+    "draft_network_domain_suffixes": [
+      "CONTEXT",
+      "HEADER_HASH",
+      "HEADER_SIGNATURE",
+      "RECORD_AAD",
+      "MANIFEST_SIGNATURE",
+      "RECEIPT_SIGNATURE"
+    ],
+    "draft_storage_domains": [
+      "P11/E2E/LOCAL_SEGMENTED_1/SEGMENT",
+      "P11/E2E/LOCAL_SEGMENTED_1/MANIFEST"
+    ],
+    "production_prefixes_and_cross_language_vectors_frozen": false
+  },
+  "header_binding": {
+    "context_groups": [
+      "PROTOCOL_SUITE_CANONICALIZATION",
+      "CONTRACT_ORDER_JOB_ATTEMPT",
+      "JOB_FENCING_TOKEN",
+      "SELLER_EXECUTION_RECIPIENT",
+      "BUYER_RECIPIENT_KEY",
+      "SENDER_SIGNING_KEY",
+      "DIRECTION_PURPOSE_OBJECT_STREAM_EPOCH",
+      "DIRECTION_RECIPIENT_KEY_AND_FINGERPRINT",
+      "KERNEL_ENVIRONMENT_POLICY_DEADLINE"
+    ],
+    "output_requires_reserved_delivery_id_and_positive_revision": true,
+    "input_invents_future_output_delivery_revision": false,
+    "construction": [
+      "BASE_CONTEXT_C_WITH_LIBRARY_HEADER",
+      "SEALED_PAYLOAD_KEY_AND_CONTEXT_HASH_AND_LIBRARY_HEADER",
+      "UNSIGNED_HEADER_H_ADDS_SEALED_MATERIAL_OR_REFERENCE_AND_HASH",
+      "DOMAIN_SEPARATED_SIGNATURE_OF_JCS_H",
+      "RECORD_AAD_DOMAIN_AND_H_HASH_AND_UINT32BE_BODYLEN_AND_UINT64BE_SEQUENCE"
+    ],
+    "unknown_resource_generation_in_prepared_input_aad": false,
+    "resource_identity_and_generation_verified_in_signed_execution_lease": true,
+    "signature_or_manifest_hash_self_reference": false
+  },
+  "wire": {
+    "profile_id": "BINARY_STREAM_1",
+    "status": "DRAFT_NOT_INTEROPERABILITY_TESTED",
+    "stream_header_length_prefix_bytes": 4,
+    "stream_header_max_bytes": 16384,
+    "record_length_prefix_bytes": 4,
+    "sequence_bytes": 8,
+    "first_sequence": 0,
+    "sequence_wrap_allowed": false,
+    "inner_header_bytes": 8,
+    "inner_header": [
+      "TYPE_U8",
+      "FLAGS_U8_ZERO",
+      "RESERVED_U16BE_ZERO",
+      "PAYLOAD_LEN_U32BE"
+    ],
+    "plaintext_record_max_bytes": 65536,
+    "data_payload_max_bytes": 65528,
+    "candidate_secretstream_abytes": 17,
+    "ciphertext_max_bytes": 65553,
+    "body_length_min_bytes": 33,
+    "body_length_max_bytes": 65561,
+    "wire_record_max_bytes": 65565,
+    "full_data_record_overhead_bytes": 37,
+    "sealed_key_envelope_max_bytes": 4096,
+    "record_types": {
+      "1": "HEADERS",
+      "2": "DATA",
+      "3": "USAGE",
+      "4": "ERROR",
+      "5": "END",
+      "6": "CANCEL"
+    },
+    "non_end_tag": "TAG_MESSAGE",
+    "end_tag": "TAG_FINAL",
+    "extra_empty_final_record": false,
+    "control_has_distinct_stream_key_and_queue": true,
+    "text_coalesce_max_ms": 8,
+    "shared_stream_buffer_max_bytes": 4194304,
+    "reorder_max_frames": 32,
+    "reorder_max_bytes": 2097152
+  },
+  "completion": {
+    "end_record_count_covers": "ALL_PRIOR_RECORDS_EXCLUDING_END",
+    "end_data_hash_and_bytes_cover": "PRIOR_DATA_ONLY_INSIDE_CIPHERTEXT",
+    "requires_business_end_library_final_and_standard_protocol_terminal": true,
+    "cipher_object_hash_covers": "HEADER_LENGTH_PREFIX_SIGNED_HEADER_AND_ALL_WIRE_RECORDS",
+    "unsigned_manifest_includes_signature": false,
+    "external_cipher_manifest_hash": "SHA256_OF_JCS_FULL_SIGNED_MANIFEST",
+    "manifest_contains_its_own_hash_field": false,
+    "streaming_authenticated_prefix_is_final_acceptance": false,
+    "receipt_includes": [
+      "PATH_JOB_ID",
+      "CONTRACT_HASH",
+      "RECEIPT_ID",
+      "ATTEMPT_ID",
+      "FENCING_TOKEN",
+      "DELIVERY_ID",
+      "DELIVERY_REVISION",
+      "CIPHER_MANIFEST_HASH",
+      "DECISION",
+      "SIGNER_KEY_ID",
+      "SIGNATURE_PROFILE_ID",
+      "SIGNED_AT"
+    ],
+    "receipt_signature_includes_itself": false,
+    "decrypt_success_alone_authorizes_quality_acceptance": false,
+    "no_receipt_is_success": false
+  },
+  "recovery": {
+    "retransmit": "IDENTICAL_DURABLY_PERSISTED_CIPHERTEXT_BYTES_ONLY",
+    "lost_push_state": "AUTHORIZED_NEW_EPOCH_KEY_HEADER_OR_FAIL",
+    "lost_pull_state": "REPLAY_FROM_HEADER_SEQUENCE_ZERO_IF_KEY_AND_SCOPE_VALID",
+    "duplicate_advances_pull_state": false,
+    "resume_replays_already_delivered_prefix_to_sdk": false,
+    "transport_recovery_authorizes_new_inference": false,
+    "backend_unknown": "QUERY_ORIGINAL_BACKEND_ID_BEFORE_ANY_RESUBMISSION",
+    "same_seller_retry_max": 1,
+    "new_recipient_requires_buyer_reseal": true,
+    "cross_seller_requires_confirmed_new_quote_and_order": true,
+    "standard_sse_transparent_reconnect_claimed": false,
+    "compute_release_invalidates_authorized_original_cipher_delivery": false,
+    "delivery_scope_authorizes_compute": false,
+    "old_cleanup_can_touch_new_resource_owner": false
+  },
+  "storage": {
+    "profile_id": "LOCAL_SEGMENTED_1",
+    "fresh_random_object_key": true,
+    "segment_plaintext_bytes": 1048576,
+    "independent_secretstream_header_and_single_final_per_segment": true,
+    "manifest_max_bytes": 65536,
+    "encrypted_manifest_and_distinct_purpose_domain": true,
+    "manifest_complete_before_read": true,
+    "segment_authenticate_before_plaintext": true,
+    "completed_immutable_objects_only": true,
+    "inplace_overwrite": false,
+    "desktop_segment_cache_max": 4,
+    "android_segment_cache_max": 2,
+    "range_requires_completed_network_authentication": true,
+    "network_secretstream_random_seek": false,
+    "plaintext_media_written_before_encryption": false,
+    "encrypt_public_model_weights_per_request": false,
+    "ram_disk_or_extra_model_copy": false
+  },
+  "limits": {
+    "classification": "UNMEASURED_DESIGN_BUDGETS",
+    "json_encoded_request_max_bytes": 2097152,
+    "media_plaintext_max_bytes": 67108864,
+    "media_ciphertext_max_bytes": 69206016,
+    "spool_max_bytes_per_active_resource": 268435456,
+    "device_total_spool_limit_also_required": true
+  },
+  "conformance_cases": [
+    {
+      "id": "E2E-01",
+      "name": "首次信任",
+      "task_ids": [
+        "DEV-29"
+      ],
+      "required_evidence": "换钥/伪独立指纹/TOFU首次风险及买方回传钥替换",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-02",
+      "name": "钥用途隔离",
+      "task_ids": [
+        "DEV-29",
+        "DEV-30"
+      ],
+      "required_evidence": "auth/content/identity/receipt/update互不越权、私钥不上平台",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-03",
+      "name": "密码互通",
+      "task_ids": [
+        "DEV-30",
+        "DEV-44"
+      ],
+      "required_evidence": "官方与Go/C++/Android开封/签名/AAD/FINAL黄金字节向量",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-04",
+      "name": "签名字节",
+      "task_ids": [
+        "DEV-29",
+        "DEV-30"
+      ],
+      "required_evidence": "JCS/重复键/Unicode/整数/域隔离及无循环摘要",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-05",
+      "name": "上下文绑定",
+      "task_ids": [
+        "DEV-30"
+      ],
+      "required_evidence": "逐字段篡改、串单/反向/跨端/旧attempt/环境替换拒绝",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-06",
+      "name": "执行准入",
+      "task_ids": [
+        "DEV-18",
+        "DEV-30"
+      ],
+      "required_evidence": "PREPARED不锁卡/不推理，旧双围栏不能执行/清新任务",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-07",
+      "name": "二进制解析",
+      "task_ids": [
+        "DEV-30",
+        "DEV-31"
+      ],
+      "required_evidence": "长度溢出/超限、type/flags/reserved/版本错误拒绝",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-08",
+      "name": "标准API",
+      "task_ids": [
+        "DEV-26",
+        "DEV-27",
+        "DEV-30"
+      ],
+      "required_evidence": "固定SDK三文本JSON/SSE/工具/错误/usage及媒体还原",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-09",
+      "name": "终态完整",
+      "task_ids": [
+        "DEV-30",
+        "DEV-31"
+      ],
+      "required_evidence": "END/FINAL/标准终止缺失、摘要冲突/追加不成功",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-10",
+      "name": "重传背压",
+      "task_ids": [
+        "DEV-30",
+        "DEV-31"
+      ],
+      "required_evidence": "原字节重复/冲突/超窗、pull重放及4MiB共享预算",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-11",
+      "name": "崩溃恢复",
+      "task_ids": [
+        "DEV-21",
+        "DEV-30"
+      ],
+      "required_evidence": "push状态/钥丢失、SQLite/文件时序故障不盲重跑",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-12",
+      "name": "回执并发",
+      "task_ids": [
+        "DEV-19",
+        "DEV-31"
+      ],
+      "required_evidence": "同ID不同内容/过期/旧版、接受拒绝取消超时唯一终态",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-13",
+      "name": "计算交付分权",
+      "task_ids": [
+        "DEV-18",
+        "DEV-31"
+      ],
+      "required_evidence": "释放GPU后原结果补传/签收，不获新计算权",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-14",
+      "name": "轮换撤销",
+      "task_ids": [
+        "DEV-29",
+        "DEV-30"
+      ],
+      "required_evidence": "正常/泄漏轮换、离线状态、重装/丢钥/换端重封",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-15",
+      "name": "分段Range",
+      "task_ids": [
+        "DEV-30",
+        "DEV-37"
+      ],
+      "required_evidence": "换段/坏manifest/截断/LRU并发及完整认证后Range",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-16",
+      "name": "媒体出口",
+      "task_ids": [
+        "DEV-22",
+        "DEV-37"
+      ],
+      "required_evidence": "PNG/视频/音频/GLB无普通temp/预览/日志泄漏",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-17",
+      "name": "多端LAN",
+      "task_ids": [
+        "DEV-21",
+        "DEV-44"
+      ],
+      "required_evidence": "两桌面OS/Android真机，未配对/错证书/Origin拒绝",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-18",
+      "name": "本地攻击",
+      "task_ids": [
+        "DEV-21",
+        "DEV-23",
+        "DEV-44"
+      ],
+      "required_evidence": "LP-01—14界面/抓包/日志/改包、LM兼容单独资格",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-19",
+      "name": "性能资源",
+      "task_ids": [
+        "DEV-51"
+      ],
+      "required_evidence": "同环境30次A/B、spool/缓冲/控制、不增GPU加密",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "id": "E2E-20",
+      "name": "增强拒绝",
+      "task_ids": [
+        "DEV-32"
+      ],
+      "required_evidence": "伪/过期/不完整证明、普通设备/升级不解锁",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    }
+  ],
+  "release_gates": [
+    "INDEPENDENT_ENDPOINT_TRUST",
+    "EXACT_LIBRARY_ABI_AND_LICENSE_FROZEN",
+    "BINARY_CHANNEL_NEGOTIATION_AND_WIRE_SCHEMA",
+    "CROSS_LANGUAGE_GOLDEN_VECTORS",
+    "INDEPENDENT_CRYPTO_REVIEW",
+    "STANDARD_SDK_AND_PHYSICAL_DEVICE_EVIDENCE",
+    "LOCAL_PRIVACY_AND_PERFORMANCE",
+    "EXISTING_LICENSE_PAYMENT_AND_ACCEPTANCE_RULES"
+  ]
+}

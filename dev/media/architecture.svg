@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="560" viewBox="0 0 1440 560" role="img" aria-labelledby="title desc">
+<title id="title">Token Share Mesh — C2C compute architecture design</title>
+<desc id="desc">Buyer applications use a contract-bound plaintext gateway or a local encrypted gateway. The platform relays ciphertext to the actual seller's native GPU or Android device. Design diagram, not a running inference service.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9" fill="none" stroke="#38597c" stroke-width="1.5"/></marker><marker id="secure" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9" fill="none" stroke="#087c79" stroke-width="1.5"/></marker></defs>
+<rect width="1440" height="560" rx="20" fill="#f3f6fa"/>
+<g font-family="Segoe UI,Arial,Microsoft YaHei,sans-serif">
+<text x="48" y="55" fill="#182b42" font-size="29" font-weight="700">TOKEN SHARE MESH</text>
+<text x="48" y="85" fill="#566980" font-size="16">User-owned compute. Explicit sellers. Standard AI interfaces.</text>
+<rect x="1110" y="34" width="280" height="33" rx="16" fill="#e6dcf5"/><text x="1250" y="56" font-size="13" fill="#5e3d80" text-anchor="middle">ARCHITECTURE DESIGN / 方案设计</text>
+<rect x="35" y="129" width="388" height="325" rx="13" fill="#fff" stroke="#c4cfdd"/>
+<rect x="526" y="129" width="388" height="325" rx="13" fill="#e8f3f3" stroke="#88b7b5"/>
+<rect x="1017" y="129" width="388" height="325" rx="13" fill="#fff" stroke="#c4cfdd"/>
+<text x="59" y="165" font-size="13" fill="#566980">BUYER TRUST DOMAIN / 买方信任域</text>
+<text x="550" y="165" font-size="13" fill="#087c79">C2C PLATFORM / 平台</text>
+<text x="1041" y="165" font-size="13" fill="#566980">ACTUAL SELLER / 实际用户卖家</text>
+<g fill="#182b42" font-size="22" font-weight="600"><text x="59" y="214">App / standard SDK</text><text x="550" y="214">Contract + scheduler</text><text x="1041" y="214">Private native service</text></g>
+<g fill="#566980" font-size="15"><text x="59" y="243">OpenAI Chat / Responses</text><text x="59" y="268">Anthropic Messages + approved media</text><text x="550" y="243">Seller · price · budget · deadline</text><text x="550" y="268">Resource lock + two fencing domains</text><text x="1041" y="243">llama.cpp / LM Studio / ComfyUI</text><text x="1041" y="268">Android: pinned LMA + internal JNI</text></g>
+<rect x="58" y="301" width="341" height="119" rx="9" fill="#edf8f6" stroke="#7cb5af"/>
+<text x="75" y="330" font-size="18" fill="#087c79" font-weight="600">Local / paired LAN gateway</text><text x="75" y="357" font-size="14" fill="#416d6a">Encrypt input · authenticate result</text><text x="75" y="387" font-size="14" fill="#416d6a">Keys stay in the endpoint trust domain</text>
+<rect x="549" y="301" width="341" height="119" rx="9" fill="#fff" stroke="#7cb5af"/>
+<text x="566" y="330" font-size="18" fill="#087c79" font-weight="600">Ciphertext relay</text><text x="566" y="357" font-size="14" fill="#416d6a">No content decryption key</text><text x="566" y="387" font-size="14" fill="#416d6a">Plaintext mode uses a separate gateway</text>
+<rect x="1040" y="301" width="341" height="119" rx="9" fill="#edf8f6" stroke="#7cb5af"/>
+<text x="1057" y="330" font-size="18" fill="#087c79" font-weight="600">Controlled pipe → real device</text><text x="1057" y="357" font-size="14" fill="#416d6a">Decrypt for inference · encrypt output</text><text x="1057" y="387" font-size="14" fill="#416d6a">One physical lock across all engines</text>
+<g fill="none" stroke="#38597c" stroke-width="2" marker-end="url(#arrow)"><path d="M423 235H513"/><path d="M914 235H1004"/></g>
+<g fill="none" stroke="#087c79" stroke-width="3" marker-end="url(#secure)"><path d="M423 351H513"/><path d="M914 351H1004"/></g>
+<g fill="#087c79" font-size="11" text-anchor="middle"><text x="469" y="335">ENCRYPTED</text><text x="960" y="335">ENCRYPTED</text></g>
+<text x="48" y="494" font-size="16" fill="#182b42" font-weight="600">Modes: plaintext · end-to-end encrypted · controlled GPU rental</text>
+<text x="48" y="526" font-size="14" fill="#566980">Current delivery: backend foundation + specification readers. Marketplace, inference, encryption and real payments remain in development.</text>
+</g></svg>

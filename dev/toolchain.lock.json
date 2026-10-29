@@ -1,0 +1,25 @@
+{
+  "platform": "windows-amd64",
+  "tools": [
+    {
+      "name": "go",
+      "version": "1.27.3",
+      "url": "https://dl.google.com/go/go1.27.3.windows-amd64.zip",
+      "publisher": "https://go.dev/dl/?mode=json",
+      "license": "BSD-3-Clause",
+      "archive_sha256": "f26081f438319757f8a1b46d7d0b2c5ec7583d4038e485e0aa725cfde7885fff",
+      "hash_provenance": "publisher SHA-256",
+      "directory": "runtime/tooling/native/go-1.27.3"
+    },
+    {
+      "name": "postgresql",
+      "version": "17.11-5",
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-17.11-5-windows-x64-binaries.zip",
+      "publisher": "https://www.enterprisedb.com/download-postgresql-binaries",
+      "license": "PostgreSQL and bundled component licenses",
+      "archive_sha256": "80379b2c04d51c30225532e0ae04509899141e9957ed096fe749d7fd9df8f82f",
+      "hash_provenance": "pinned first download over publisher HTTPS; no separately published digest asserted",
+      "directory": "runtime/tooling/native/postgresql-17.11-5"
+    }
+  ]
+}

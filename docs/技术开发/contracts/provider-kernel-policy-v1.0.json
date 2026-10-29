@@ -1,0 +1,199 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "test_status": "NOT_EXECUTED",
+  "sale_enabled": false,
+  "routes": [
+    {
+      "platform": "WINDOWS",
+      "purpose": "PRIVATE_LLM",
+      "engine": "LLAMA_CPP_NATIVE",
+      "implementation": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "transport": "INHERITED_PIPE_NO_TCP_CONTENT",
+      "frozen_versions": null,
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false
+    },
+    {
+      "platform": "LINUX",
+      "purpose": "PRIVATE_LLM",
+      "engine": "LLAMA_CPP_NATIVE",
+      "implementation": "NATIVE_CPP_WORKER_EMBEDDED_C_API",
+      "transport": "INHERITED_PIPE_NO_TCP_CONTENT",
+      "frozen_versions": null,
+      "test_status": "NOT_EXECUTED",
+      "sale_enabled": false
+    },
+    {
+      "platform": "WINDOWS",
+      "purpose": "LLM",
+      "engine": "LM_STUDIO",
+      "implementation": "LMS_CLI_LLMSTER_RUNTIME_WRAPPER",
+      "replaceable_layers": [
+        "CLI",
+        "DAEMON",
+        "INFERENCE_RUNTIME"
+      ],
+      "frozen_versions": null,
+      "private_profile_validation": "NOT_EXECUTED",
+      "license_status": "UNVERIFIED"
+    },
+    {
+      "platform": "WINDOWS",
+      "purpose": "MEDIA",
+      "engine": "COMFYUI",
+      "implementation": "COMPLETE_NATIVE_ENVIRONMENT",
+      "modalities": [
+        "IMAGE",
+        "VIDEO",
+        "AUDIO",
+        "THREED"
+      ],
+      "node_install_policy": "PLATFORM_ALLOWLIST_AND_OWNER_CONSENT",
+      "frozen_versions": null
+    },
+    {
+      "platform": "ANDROID",
+      "purpose": "LOCAL_INFERENCE",
+      "engine": "LMA_LOCAL",
+      "implementation": "LMA_SOURCE_DERIVATIVE",
+      "source_commit": "5d9e81d59273f2a656763ea3ee3401b2846a18cc",
+      "upstream_language_fact": "JAVA_SERVICE_AND_WEBVIEW",
+      "new_bridge_candidate": "KOTLIN_JAVA_INTEROP",
+      "executable_replacement": "SIGNED_APK_NATIVE_COMPONENTS",
+      "downloaded_executable_hotload": false
+    },
+    {
+      "platform": "LINUX",
+      "purpose": "RETAINED_NATIVE_DUAL_ENGINE",
+      "engine": "LM_STUDIO_AND_COMFYUI",
+      "windows_evidence_reused_as_linux_pass": false
+    }
+  ],
+  "replacement": {
+    "immutable_environment": true,
+    "replace_active_paid_environment": false,
+    "unreviewed_latest_activation": false,
+    "owner_confirmation_required": true,
+    "same_resource_maintenance_gate": true,
+    "requalify_before_new_sale": true,
+    "rollback_to_revoked_environment": false,
+    "preserve_fences_inbox_and_financial_facts": true
+  },
+  "binding_field": "kernel_environment_digest",
+  "binding_scopes": [
+    "CAPABILITY",
+    "QUOTE_CONTRACT",
+    "EXECUTION_MANIFEST_OR_RENTAL_GRANT",
+    "ADAPTER_COMMAND",
+    "LOCAL_TASK_RECORD"
+  ],
+  "whitelist": {
+    "before_import_inventory_check": true,
+    "exact_revision_and_hash": true,
+    "transitive_dependencies_reviewed": true,
+    "buyer_manager_access": false,
+    "runtime_package_install_allowed": false,
+    "native_venv_is_security_sandbox": false
+  },
+  "provider_controls": [
+    "INSTALL",
+    "MODEL_AND_RECIPE_SELECTION",
+    "VERSION_CONFIRMATION",
+    "SHARE_CONDITIONS",
+    "PRICE",
+    "DRAIN",
+    "EMERGENCY_STOP"
+  ],
+  "provider_visibility": [
+    "COMPONENT_VERSIONS",
+    "ENVIRONMENT_DIGEST",
+    "NODE_INVENTORY",
+    "UPDATE_DIFF",
+    "TASK_AND_RESOURCE_STATE",
+    "EARNINGS_STATE"
+  ],
+  "local_content_protection": {
+    "status": "DESIGN_UNIMPLEMENTED",
+    "test_status": "NOT_EXECUTED",
+    "target": "RAISE_LOCAL_CONTENT_ACCESS_COST_FOR_COMMON_TOOLS",
+    "required_checks": [
+      "PROVIDER_UI",
+      "TASK_FILES",
+      "ENGINE_HISTORY_AND_APIS",
+      "MODEL_LOGS",
+      "LOCAL_NETWORK_LAST_HOP",
+      "MEDIA_SAVE_PATHS",
+      "SIMPLE_NODE_OR_PACKAGE_CHANGES"
+    ],
+    "advanced_memory_analysis_required": false,
+    "recommended_first_route": "NATIVE_SEPARATE_IDENTITY_ENCRYPTED_WORKSPACE_CLOSED_CONTENT_ENDPOINTS",
+    "private_llm_engine": "LLAMA_CPP_NATIVE",
+    "lm_studio_compatibility_retained": true,
+    "complete_plan": "private-execution-plan-v1.0.json",
+    "new_service_mode": false,
+    "existing_privacy_profile_enum_changed": false,
+    "ordinary_native_or_vm_is_attested_confidential": false,
+    "ordinary_vm": "OPTIONAL_PRODUCT_EVALUATION_ONLY_NO_LOCAL_EXECUTION",
+    "lm_studio_log_and_http_last_hop_validation": "NOT_EXECUTED",
+    "comfyui_requires_native_route_auth_and_prewrite_encryption": true,
+    "lma_requires_internal_engine_path_and_private_encrypted_task_storage": true,
+    "qualification_bound_to_environment_digest": true,
+    "whole_malicious_client_resisted_by_self_hash": false,
+    "sale_enabled": false,
+    "conformance_cases": [
+      "LP-01",
+      "LP-02",
+      "LP-03",
+      "LP-04",
+      "LP-05",
+      "LP-06",
+      "LP-07",
+      "LP-08",
+      "LP-09",
+      "LP-10",
+      "LP-11",
+      "LP-12",
+      "LP-13",
+      "LP-14"
+    ],
+    "source_document": "docs/技术开发/附录-本地内容隐私防护与分级验收.md"
+  },
+  "protocol": {
+    "private_data_json_fields_required": false,
+    "audio": "OPENAI_APPROVED_SUBSETS",
+    "music_and_3d": "DECLARED_RESPONSES_STRUCTURED_ASSET_PROFILE",
+    "fake_vendor_3d_endpoint": false,
+    "unverified_profile_sale_enabled": false
+  },
+  "conformance_cases": [
+    "K01",
+    "K02",
+    "K03",
+    "K04",
+    "K05",
+    "K06",
+    "K07",
+    "K08",
+    "K09",
+    "K10",
+    "K11",
+    "K12",
+    "K13",
+    "K14",
+    "K15",
+    "K16",
+    "K17",
+    "K18",
+    "K19",
+    "K20"
+  ],
+  "deferred": [
+    "SERVER_DEPLOYMENT",
+    "HTTPS_CERTIFICATES",
+    "OBSERVABILITY"
+  ],
+  "source_document": "docs/技术开发/附录-供给端内核封装与替换规范.md",
+  "source_check": "docs/资料/供给端内核封装核查-2026-10-29.md"
+}

@@ -1,0 +1,102 @@
+{
+  "phase": "anchors",
+  "updated_at": "2026-10-29T19:26:08.426511+00:00",
+  "model": "gpt-image-2.5",
+  "results": [
+    {
+      "id": "03-home",
+      "style": "03",
+      "style_name": "明快平面-新扁平",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "03-明快平面-新扁平\\01-小程序-首页.png",
+      "prompt": "03-明快平面-新扁平\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1303948,
+        "sha256": "9b166befe6a2c7bde33cc46d95dadba02e85254d19efb5e71438dbee8d2fc5c7"
+      }
+    },
+    {
+      "id": "02-home",
+      "style": "02",
+      "style_name": "极光浮层-毛玻璃",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "02-极光浮层-毛玻璃\\01-小程序-首页.png",
+      "prompt": "02-极光浮层-毛玻璃\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1806712,
+        "sha256": "64389e0066ad71aeceda28d7079fdb5500ebb525fc5702debe212124c9a3dbdf"
+      }
+    },
+    {
+      "id": "01-home",
+      "style": "01",
+      "style_name": "柔白触感-新拟物",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "01-柔白触感-新拟物\\01-小程序-首页.png",
+      "prompt": "01-柔白触感-新拟物\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1600090,
+        "sha256": "150b4f2253809d7f2c4bf74890d0809ecd1d07c683ac644ba2602a3d5b42c987"
+      }
+    },
+    {
+      "id": "04-home",
+      "style": "04",
+      "style_name": "硬边交易所-新粗野主义",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "04-硬边交易所-新粗野主义\\01-小程序-首页.png",
+      "prompt": "04-硬边交易所-新粗野主义\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1410857,
+        "sha256": "046236fa8713dfe32ea9c4654bd40c19ed58d66fe61035fc717b148306dd9280"
+      }
+    },
+    {
+      "id": "05-home",
+      "style": "05",
+      "style_name": "留白目录-极简目录",
+      "page": "home",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "05-留白目录-极简目录\\01-小程序-首页.png",
+      "prompt": "05-留白目录-极简目录\\prompts\\home.txt",
+      "reference": null,
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1442426,
+        "sha256": "8f7a149d416551edcdf3243eff93179baa4fd759a4b69ab5b4c248f0950543f3"
+      }
+    }
+  ]
+}

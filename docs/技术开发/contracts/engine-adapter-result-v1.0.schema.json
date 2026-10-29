@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://p11.invalid/design/engine-adapter-result-v1.0.schema.json",
+  "title": "P11 local adapter safe result draft",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0-draft"
+    },
+    "command_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "status": {
+      "enum": [
+        "SUCCEEDED",
+        "PENDING",
+        "REJECTED",
+        "FAILED",
+        "UNKNOWN"
+      ]
+    },
+    "execution_state": {
+      "enum": [
+        "NOT_STARTED",
+        "RUNNING",
+        "STOPPING",
+        "STOPPED",
+        "CLEANED",
+        "UNKNOWN"
+      ]
+    },
+    "safe_code": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]{2,63}$"
+    },
+    "backend_reference": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "retryability": {
+      "enum": [
+        "QUERY_ORIGINAL",
+        "RETRY_SAME_COMMAND",
+        "NOT_RETRYABLE"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+      },
+      "maxItems": 50
+    },
+    "local_output_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+      },
+      "maxItems": 50
+    },
+    "capability_manifest_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "usage_evidence_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "command_id",
+    "status",
+    "execution_state",
+    "safe_code",
+    "retryability",
+    "evidence_refs"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "UNKNOWN"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "retryability": {
+            "const": "QUERY_ORIGINAL"
+          }
+        }
+      }
+    }
+  ],
+  "$comment": "SUCCEEDED means this command succeeded, not automatically a completed inference, buyer acceptance, refund or payout. Query original backend reference after uncertainty; no shell/path/secret/raw body in safe result."
+}

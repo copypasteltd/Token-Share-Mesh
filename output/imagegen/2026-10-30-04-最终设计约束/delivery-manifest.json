@@ -1,0 +1,158 @@
+{
+  "design_version": "NB-1.0",
+  "generated_at": "2026-10-29T21:19:52.327838+00:00",
+  "main_image_count": 5,
+  "mini_program_pages": 4,
+  "web_pages": 1,
+  "concept_only": true,
+  "image_model": "gpt-image-2.5",
+  "development_goal": "ACTIVE",
+  "images": [
+    {
+      "id": "UI-P01",
+      "name": "小程序-算力市场",
+      "path": "output/imagegen/2026-10-30-04-最终设计约束/UI-P01-小程序-算力市场.png",
+      "size": "1024x1536",
+      "bytes": 1450325,
+      "sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60",
+      "reference": "output/imagegen/2026-10-30-五种结构风格-V2/04-硬边交易所-新粗野主义/01-小程序-首页.png",
+      "reference_sha256": "046236fa8713dfe32ea9c4654bd40c19ed58d66fe61035fc717b148306dd9280",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "visual_review": "VISUALLY_REVIEWED"
+    },
+    {
+      "id": "UI-P02",
+      "name": "小程序-LLM服务详情",
+      "path": "output/imagegen/2026-10-30-04-最终设计约束/UI-P02-小程序-LLM服务详情.png",
+      "size": "1024x1536",
+      "bytes": 1452424,
+      "sha256": "f57d72c1f20c8138d53b3dda66d55de1bf0bcd75b1ff43a1203fc671dfae7610",
+      "reference": "output/imagegen/2026-10-30-04-最终设计约束/UI-P01-小程序-算力市场.png",
+      "reference_sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "visual_review": "VISUALLY_REVIEWED"
+    },
+    {
+      "id": "UI-P03",
+      "name": "小程序-GPU订单详情",
+      "path": "output/imagegen/2026-10-30-04-最终设计约束/UI-P03-小程序-GPU订单详情.png",
+      "size": "1024x1536",
+      "bytes": 1437199,
+      "sha256": "5ed6020d5beb0c362714e4574023b5f3fe66fc756969c5134768d2fee825be36",
+      "reference": "output/imagegen/2026-10-30-04-最终设计约束/UI-P01-小程序-算力市场.png",
+      "reference_sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "visual_review": "VISUALLY_REVIEWED"
+    },
+    {
+      "id": "UI-P04",
+      "name": "小程序-提供方共享",
+      "path": "output/imagegen/2026-10-30-04-最终设计约束/UI-P04-小程序-提供方共享.png",
+      "size": "1024x1536",
+      "bytes": 1466238,
+      "sha256": "4245f9c3a0b99ab81e6b34981e088db6a0d71d6dc673397ee26a392db1dda0db",
+      "reference": "output/imagegen/2026-10-30-04-最终设计约束/UI-P01-小程序-算力市场.png",
+      "reference_sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "visual_review": "VISUALLY_REVIEWED"
+    },
+    {
+      "id": "UI-P05",
+      "name": "Web-算力工作台",
+      "path": "output/imagegen/2026-10-30-04-最终设计约束/UI-P05-Web-算力工作台.png",
+      "size": "1536x1024",
+      "bytes": 1521275,
+      "sha256": "b20f3a586e0c8f0aa233945b221f8a00438b20c48504745146a4581fdb957bb4",
+      "reference": "output/imagegen/2026-10-30-04-最终设计约束/UI-P01-小程序-算力市场.png",
+      "reference_sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "visual_review": "VISUALLY_REVIEWED"
+    }
+  ],
+  "documents": [
+    {
+      "path": "dev/design/新粗野主义-v1.0/README.md",
+      "sha256": "d6cd2d55f6308eacf29dd3941dc5faddacd29042ed2319ffb5d9f7fad83845a6",
+      "bytes": 6708
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/01-视觉系统与设计令牌.md",
+      "sha256": "eaafd6edacc3fd026d325fa5cca20631ee66f9f15257906c0714618bb61990f2",
+      "bytes": 5246
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/02-信息架构与用户流程.md",
+      "sha256": "571e516730cda270220ee180ebd162fa19b09c22eda710fe2ebe0d8e5c97dbb4",
+      "bytes": 5231
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/03-组件规范与状态.md",
+      "sha256": "f68716e5d0d30580a37554ecab8748b304391343a963bfc430197c17b43e9d39",
+      "bytes": 6654
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/04-五页逐屏规格.md",
+      "sha256": "ad67ce90a4b07ed1b126b99a9f38cb4ae329b201c3fcea2f8b230e19cf69da8a",
+      "bytes": 7185
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/05-计价单位与费用展示.md",
+      "sha256": "a28903fd0bb9a53b7bebe5706a6bcd8dd87184c1a56ad21d81d96ceddaf35a4a",
+      "bytes": 5884
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/06-交互状态与隐私边界.md",
+      "sha256": "299ce0fa53dc183ef9c8585eff5355d2806e48525e0fae3e374b5950d7527a58",
+      "bytes": 5457
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/07-跨端适配与前端承接.md",
+      "sha256": "6545d744b09d4c951792c164923caffb22ffdeab99fc7fa21a564e4d9439b559",
+      "bytes": 4406
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/08-文案内容与资产规范.md",
+      "sha256": "8e64466c9151899a375bd6db59464172796541a3be957b3a52817cdab398e159",
+      "bytes": 4677
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/09-验收与交付约束.md",
+      "sha256": "126d1ad63b633704f26eeb992563032eb32f9e7c397218b880e9905bb75a0c0f",
+      "bytes": 5853
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/10-设计追踪与实施边界.md",
+      "sha256": "6e1319c286c7aba0a4c667eb1e7ffd23996e3fc5d36a8f02185e85aa1f132198",
+      "bytes": 5280
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/design-tokens.json",
+      "sha256": "7f68e106cc7047c846e51415c987bf4eef9a80fcd7ffafa82d7f7cca38b1c11c",
+      "bytes": 2236
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/示例数据.json",
+      "sha256": "d3e5c7e06f7e78c721612e47362b646a36cc0d14655f3169a2c0e5c3f09b7c99",
+      "bytes": 2191
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/设计规范合订本.md",
+      "sha256": "293f2f26a80d31ac3d405a1c59902467413bc1e34a3e673c64f86884789d4e5a",
+      "bytes": 63616
+    },
+    {
+      "path": "dev/design/新粗野主义-v1.0/artifact-checks.json",
+      "sha256": "cb9f05610e0568104987f4def97e455e4e987cdd3f83d31418fa68117bbad3b1",
+      "bytes": 1017
+    }
+  ],
+  "visual_review": "production/visual-review.json",
+  "refinements": "production/refinements.json",
+  "system_chrome": "Concept glyphs only; native Alipay chrome controls implementation",
+  "file_integrity_checks": "dev/design/新粗野主义-v1.0/artifact-checks.json"
+}

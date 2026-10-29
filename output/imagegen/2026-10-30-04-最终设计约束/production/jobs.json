@@ -1,0 +1,66 @@
+{
+  "design_version": "NB-1.0",
+  "source": "dev/design/新粗野主义-v1.0/示例数据.json",
+  "jobs": [
+    {
+      "id": "UI-P01",
+      "name": "小程序-算力市场",
+      "size": "1024x1536",
+      "kind": "anchor",
+      "brief": "TARGET: ONE Alipay MINI-PROGRAM MARKET HOME, 1024x1536 portrait. Use the selected reference's bold trade-ticket visual system and basic home composition, but update the data/units and mode semantics.\nTop mobile status and proper Alipay capsule, bold 算力共享 brand, outlined search 搜索型号、模型或卖家. Three square shortcut controls 明文 / 端对端加密 / 显卡租赁 are CATEGORY ENTRY points, NO privacy mode is preselected across this mixed market. Four small category cells 全部 / 对话 / 图像 / 视频, 全部 selected mustard.\nMain large GPU ticket: illustrated GPU and RTX 4090 · 24GB at left, dominant orange price block “¥3.60 / 小时” at right. Lower ticket: 星河同学, 个人卖家, ComfyUI · 图像生成, explicit 显卡租赁 and 标准隐私 labels, 查看服务 hard-shadow action. Do NOT mark this GPU rental 平台不可见.\nSecond compact phone ticket: actual name 摩托罗拉 X30, Qwen 3B, 阿澄 / 个人卖家. It has two crisp smaller price rows “输入 ¥0.80 / M token” and “输出 ¥1.60 / M token”, with 端对端加密 badge and short 平台不可见 label. Avoid crowding. The phone's concrete model must be prominent.\nBottom four square nav cells 发现 / 订单 / 共享 / 我的, 发现 selected. Fit both full resource tickets above the bottom nav. No gateway or fees panels on this discovery page.",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P01-小程序-算力市场.png",
+      "prompt": "output\\imagegen\\2026-10-30-04-最终设计约束\\prompts\\UI-P01.txt",
+      "reference": "output\\imagegen\\2026-10-30-五种结构风格-V2\\04-硬边交易所-新粗野主义\\01-小程序-首页.png"
+    },
+    {
+      "id": "UI-P02",
+      "name": "小程序-LLM服务详情",
+      "size": "1024x1536",
+      "kind": "page",
+      "brief": "TARGET: ONE Alipay MINI-PROGRAM LLM SERVICE DETAIL for the reference's PHONE offer, portrait 1024x1536. Same top status, Alipay capsule, heavy type and ticket grammar; back arrow and 服务详情. This page is NOT the GPU detail.\nHero trade ticket: modest Motorola phone illustration, large 摩托罗拉 X30, capability Qwen 3B · 对话, seller 阿澄 / 个人卖家. A bold rate area clearly separates “输入 ¥0.80 / M token” and “输出 ¥1.60 / M token”. Do not show the GPU's hourly price anywhere on this phone page.\nFeature cells say 本地推理 / OpenAI兼容 / Anthropic兼容. Privacy mode is explicitly 端对端加密 with selected yellow/orange square cell and readable note “平台不可见；执行设备仍需处理明文”. No claim of absolute secrecy from hardware owner.\nContract controls below: “预算上限 ¥5.00”, explanatory short text “输入、输出分别计量” and “最终按实际用量结算”. Platform fee is already included; do not add another buyer fee or fabricate exact final token cost before usage. Connection row says “本地网关未连接”.\nFixed bottom action area has a small “尚未产生费用” label and big orange hard-shadow “连接网关并继续” button. No bottom tabs. The user confirms the seller, rates, privacy and budget before any future paid call. No payment-success badge, no plaintext prompt field.",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P02-小程序-LLM服务详情.png",
+      "prompt": "output\\imagegen\\2026-10-30-04-最终设计约束\\prompts\\UI-P02.txt",
+      "reference": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P01-小程序-算力市场.png"
+    },
+    {
+      "id": "UI-P03",
+      "name": "小程序-GPU订单详情",
+      "size": "1024x1536",
+      "kind": "page",
+      "brief": "TARGET: ONE Alipay MINI-PROGRAM GPU RENTAL ORDER DETAIL, portrait 1024x1536, same chosen style. Top back arrow 订单详情, mobile status and Alipay capsule. A strong outlined status banner says 执行中 and small order id TSM20261030001.\nResource ticket: RTX 4090 · 24GB, seller 星河同学 / 个人卖家, ComfyUI · 图像生成, 显卡租赁 / 标准隐私. Price is ¥3.60 / 小时. This is standard-privacy controlled GPU rental; do NOT show 平台不可见 or 端对端加密 as the selected rental mode.\nMain two-column clock/fee panel: “已计费时长 10分钟” on left and “当前费用 ¥0.60” on right, very readable strong numerals. Below use a simple bounded progress bar, no chart: 本次时长上限 30分钟, 剩余 20分钟. Another concise row shows “预算上限 ¥5.00” and “30分钟预计 ¥1.80”. Show a small “当前费用待最终核对” helper, not a settled bill.\nSimple four-stage strip 就绪 / 执行中 / 停止清理 / 已结束, 执行中 active. Contract summary row and 查看合同 control. Use a small output/usage area saying 在工作台使用算力, no plaintext prompt, no generated-image thumbnail or secrets.\nFixed bottom has a secondary 联系卖家 control and a strong orange 结束会话 action. An active session can request stop; don't imply it is already stopped or funds refunded. No discovery tab bar and no fake payout.",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P03-小程序-GPU订单详情.png",
+      "prompt": "output\\imagegen\\2026-10-30-04-最终设计约束\\prompts\\UI-P03.txt",
+      "reference": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P01-小程序-算力市场.png"
+    },
+    {
+      "id": "UI-P04",
+      "name": "小程序-提供方共享",
+      "size": "1024x1536",
+      "kind": "page",
+      "brief": "TARGET: ONE Alipay MINI-PROGRAM PROVIDER SHARING DASHBOARD for current user 星河同学, portrait 1024x1536, same chosen style. Small status/capsule, title 我的共享 and small user 星河同学. This is C2C personal supply, not platform-owned inventory.\nCompact outlined summary strip: “运行设备 1”, “预估服务收入 ¥0.57”, and small “未结算” note. Do not show a withdrawable wallet or guarantee earnings.\nFirst large device ticket is current user's RTX 4090 · 24GB, status 运行中, capability ComfyUI, mode 显卡租赁 / 标准隐私, rate ¥3.60 / 小时. Small state text 当前会话 10分钟. Controls 查看会话 and 停止接新单. Stopping new orders must not claim instantly killing the active task.\nSecond smaller device ticket is the SAME user's separate own phone “努比亚 Z20”, Qwen 3B, status 未上架. Show draft rates “输入 ¥0.80 / M token” and “输出 ¥1.60 / M token”, with 草稿报价 caption and 编辑挂牌 action. This device is NOT 阿澄’s 摩托罗拉 X30; do not label it 阿澄.\nAn outlined 添加设备 button and short helper “运行设备客户端后配对”. A compact preference cell may say 仅充电时共享 for the phone draft, without implying it is already active. All device models explicit, no generic Android device label.\nBottom square nav 发现 / 订单 / 共享 / 我的 with 共享 selected. Keep the interface compact and readable with hard ticket borders and flat yellow/orange accents.",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P04-小程序-提供方共享.png",
+      "prompt": "output\\imagegen\\2026-10-30-04-最终设计约束\\prompts\\UI-P04.txt",
+      "reference": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P01-小程序-算力市场.png"
+    },
+    {
+      "id": "UI-P05",
+      "name": "Web-算力工作台",
+      "size": "1536x1024",
+      "kind": "page",
+      "brief": "TARGET: ONE desktop WEB buyer compute-market workspace, landscape 1536x1024. Use the reference's chosen NEUBRUTALIST style, translated into a genuine desktop composition. NO mobile status bar, NO Alipay capsule, NO phone-screen wrapper on desktop.\nStrong horizontal top navigation: brand 算力共享, 工作台 / 算力市场 / 我的订单 / 本地网关 / API密钥 / 账单, 算力市场 selected. Small ordinary account avatar at far right. Heading 算力工作台 plus outlined search.\nThree square mode shortcut entries 明文 / 端对端加密 / 显卡租赁 and a slim category row 全部 / 对话 / 图像 / 视频, 全部 active; these shortcuts do not falsely mark all mixed offers as E2E.\nLeft two-thirds is a wide chunky outlined resource comparison table with columns 设备与用途 / 个人卖家 / 模式 / 单价. GPU selected row: RTX 4090 · 24GB, ComfyUI · 图像生成, 星河同学, 显卡租赁, 标准隐私, ¥3.60 / 小时. Second row: 摩托罗拉 X30, Qwen 3B · 对话, 阿澄, 端对端加密, 平台不可见, two price lines 输入 ¥0.80 / M token and 输出 ¥1.60 / M token. Each resource stays a different seller/contract.\nRight third is a yellow hard-shadow selected-GPU contract ticket: 星河同学, RTX 4090 · 24GB, 显卡租赁 / 标准隐私, rate ¥3.60 / 小时, “使用时长 30分钟”, “预算上限 ¥5.00”. Exact estimated price rows: 卖家服务 ¥1.71, 平台服务费 ¥0.09, 合计 ¥1.80. Fees are included, no added charge. Readable short state “等待就绪后起计时”. Primary orange action “确认租赁条件”, secondary “查看合同”. No payment-success or fake reserve/freeze state, and no E2E claim for the selected standard rental.\nKeep visible hard black border, hard offset shadow, sharp geometry and bold type from the selected family. No dashboard charts, no KPI wall, no soft/glass cards. Full page in one frame.",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P05-Web-算力工作台.png",
+      "prompt": "output\\imagegen\\2026-10-30-04-最终设计约束\\prompts\\UI-P05.txt",
+      "reference": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P01-小程序-算力市场.png"
+    }
+  ]
+}

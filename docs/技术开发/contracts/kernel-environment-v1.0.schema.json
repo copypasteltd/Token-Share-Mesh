@@ -1,0 +1,445 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://p11.invalid/design/kernel-environment-v1.0.schema.json",
+  "title": "P11 immutable kernel environment payload draft",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0-draft"
+    },
+    "environment_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "engine_kind": {
+      "enum": [
+        "LM_STUDIO",
+        "LLAMA_CPP_NATIVE",
+        "COMFYUI",
+        "LMA_LOCAL",
+        "AUTHORIZED_UPSTREAM"
+      ]
+    },
+    "platform": {
+      "enum": [
+        "WINDOWS",
+        "LINUX",
+        "ANDROID"
+      ]
+    },
+    "arch": {
+      "enum": [
+        "X86_64",
+        "ARM64"
+      ]
+    },
+    "adapter_contract_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "not": {
+        "enum": [
+          "latest",
+          "main",
+          "master",
+          "HEAD",
+          "*",
+          "UNFROZEN"
+        ]
+      }
+    },
+    "adapter_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "not": {
+        "enum": [
+          "latest",
+          "main",
+          "master",
+          "HEAD",
+          "*",
+          "UNFROZEN"
+        ]
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "component_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+          },
+          "role": {
+            "enum": [
+              "LM_CLI",
+              "LM_DAEMON",
+              "LM_RUNTIME",
+              "COMFY_CORE",
+              "PYTHON",
+              "PYTHON_DEPENDENCY",
+              "NATIVE_DEPENDENCY",
+              "CUSTOM_NODE",
+              "MEDIA_TOOL",
+              "LMA_SOURCE",
+              "ANDROID_NATIVE",
+              "PLATFORM_BRIDGE",
+              "PRIVATE_WORKER",
+              "LLAMA_LIBRARY",
+              "GGML_BACKEND"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "not": {
+              "enum": [
+                "latest",
+                "main",
+                "master",
+                "HEAD",
+                "*",
+                "UNFROZEN"
+              ]
+            }
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "license_evidence_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+          }
+        },
+        "required": [
+          "component_id",
+          "role",
+          "version",
+          "source_url",
+          "sha256",
+          "license_evidence_ref"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 128,
+      "uniqueItems": true
+    },
+    "model_digests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      },
+      "minItems": 0,
+      "maxItems": 128,
+      "uniqueItems": true
+    },
+    "recipe_digests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      },
+      "minItems": 1,
+      "maxItems": 128,
+      "uniqueItems": true
+    },
+    "protocol_profile_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+      },
+      "minItems": 1,
+      "maxItems": 128,
+      "uniqueItems": true
+    },
+    "modalities": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "TEXT",
+          "IMAGE",
+          "VIDEO",
+          "AUDIO",
+          "THREED"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true
+    },
+    "node_allowlist_revision": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "node_allowlist_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "owner_consent_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "approval_key_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "environment_id",
+    "engine_kind",
+    "platform",
+    "arch",
+    "adapter_contract_version",
+    "adapter_version",
+    "components",
+    "model_digests",
+    "recipe_digests",
+    "protocol_profile_ids",
+    "modalities",
+    "owner_consent_ref",
+    "approval_key_id"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "engine_kind": {
+            "const": "LLAMA_CPP_NATIVE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "platform": {
+            "enum": [
+              "WINDOWS",
+              "LINUX"
+            ]
+          },
+          "components": {
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "PRIVATE_WORKER"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "LLAMA_LIBRARY"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "GGML_BACKEND"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "engine_kind": {
+            "const": "LM_STUDIO"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "platform": {
+            "enum": [
+              "WINDOWS",
+              "LINUX"
+            ]
+          },
+          "components": {
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "LM_CLI"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "LM_DAEMON"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "LM_RUNTIME"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "engine_kind": {
+            "const": "COMFYUI"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "node_allowlist_revision",
+          "node_allowlist_digest"
+        ],
+        "properties": {
+          "platform": {
+            "enum": [
+              "WINDOWS",
+              "LINUX"
+            ]
+          },
+          "components": {
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "COMFY_CORE"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "PYTHON"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "engine_kind": {
+            "const": "LMA_LOCAL"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "platform": {
+            "const": "ANDROID"
+          },
+          "components": {
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "LMA_SOURCE"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "ANDROID_NATIVE"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "PLATFORM_BRIDGE"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$comment": "Hash/sign detached outside payload; use exact approved UTF-8 bytes, not reserialization. Schema does not prove signatures, binaries, dependency closure, consent, licenses or sale qualification. Never include prompt/body/key/host paths."
+}

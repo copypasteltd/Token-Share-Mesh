@@ -1,0 +1,59 @@
+# Windows与Linux原生客户端设计
+
+P11｜技术v1.0｜需求v3.0｜2026-10-29｜F03—F06/F11/F12/F22/F57—F60/F64—F68/F80。无安装/物理设备验证。
+
+低开销完整方案（最新用户确认）：用户允许新增隐私档可嵌入LLM内核，LM Studio继续保留兼容。采用llama.cpp C API原生worker、ComfyUI私有管道入口、LMA内部JNI；买卖端加密/平台盲转，任务数据加密而模型保留原生加载，不使用VM/RAM盘/常驻第二份模型。输入准备和密文交付不额外占GPU锁，控制与大数据通道分离。内存/性能为待实测验收预算，完整链路、二进制协议、媒体、恢复及PE-01—PE-08见[完整实施方案](附录-低开销隐私执行完整方案.md)。当前尚未实现或通过设备/密码/性能验证。
+
+本地隐私目标修订（2026-10-29）：提供方UI只见组件/模型/节点、资源、任务阶段及收益，并保留停止权；正文进入独立低权限执行服务，任务文件加密，不从普通日志/预览/原生历史或文件接口读取。ComfyUI需源码内路由鉴权、受保护本地链路及首次写盘前加密；LM Studio必须单独验证lms日志通道及本机HTTP最后一跳，未封闭不得宣称已防日志/抓包。当前以提高日常访问成本为目标；策略与隐私补丁按环境摘要重新核验，见[细则](附录-本地内容隐私防护与分级验收.md)。未运行实机。
+
+## 1. 进程与目录
+
+p11-node负责配对、出站连接、本地资源门闩、持久收件箱、RuntimeSupervisor/KernelRegistry、引擎监督、停止清理；p11-gateway负责本机/LAN标准入口及买卖端加解密。可同发行包，身份、端口、配置和数据目录分离。Go主进程不以内嵌shell执行买家输入，专用引擎进程带明确可执行文件/参数数组。Windows/Linux隐私LLM为llama.cpp C API原生worker，LM Studio兼容分支封装lms CLI＋llmster＋实际推理runtime，媒体封装ComfyUI完整原生环境及隐私管道桥；引擎包与Go客户端、协议转发内核、模型数据分别版本化。
+
+卖家本人选择安装根目录；本开发工作区的引擎、venv、模型、日志和临时产物全部在本项目runtime。node-work按seller/device/attempt或session隔离，模型只读并记录文件归属；禁止覆盖他人ComfyUI/Python环境。loopback管理页默认本人有限权限，可选托盘不是租赁远程桌面。
+
+## 2. 安装/服务
+
+安装向导检查OS/架构、GPU驱动、磁盘、端口、许可及模型体积，逐组件确认下载。Windows服务或用户进程、Linux用户级systemd服务均明确启停/自启选择；不默认管理员/root。需要GPU驱动的系统安装只提示需求，不静默替用户升级。
+
+更新先drain→等待在途/按规则结束→验证签名/hash→切原生版本目录→重新probe/必要基准→启新单。失败回滚代码/配置兼容版，不回滚已记收益、token最高代次或撤证。卸载列出本程序拥有目录，个人原有模型/引擎默认保留。
+
+## 3. 本地状态与队列
+
+SQLite保存device identity引用、连接游标、inbox(command_id唯一)、attempt/token/resource_generation、engine_request_id、spool位置/密文hash、kernel_environment_digest、active/候选环境引用、节点清单/用户同意、清理待办及版本。正文/内容钥不进普通SQLite；原生秘密存储独立，崩溃诊断禁敏感内存。
+
+状态接收：先验证签名/身份/期限/资源代次→持久RECEIVED→获得本地执行锁→提交引擎→写真实request_id→进度/结果。提交结果不确定时查询引擎history及映射，不再无条件submit；无法确定则EXECUTION_UNKNOWN并向平台报告，不造失败后盲重跑。
+
+## 4. 统一资源仲裁
+
+所有本程序管理的ComfyUI、LLAMA_CPP_NATIVE、LM Studio、自用入口、共享任务、模型加载/卸载和租赁共用单资源门闩。手机另有相同语义实现。跨独立进程用受控本地IPC/锁文件和持久代次，单Go mutex不够；进程崩溃后要检查后端实际任务，不能因mutex消失判空闲。
+
+资源状态FREE/PREPARING/EXECUTING/RENTED/STOPPING/CLEANING/QUARANTINED。已知个人/外部GPU占用不可控时停止新独占租赁，不误杀个人进程。监测占用只是证据，不证明恶意管理员无其他任务。
+
+## 5. 连接和本机安全
+
+出站HTTPS/WSS，不要求家庭路由映射8188或把引擎公网暴露。设备认证token短时/限scope，连接重建先查撤证/当前任务/最高代次。适度退避并加随机抖动，超过原合同deadline停止，不用无穷重试延长收费。
+
+loopback默认鉴权并核Host/Origin；买方key不能用管理接口启动引擎/读磁盘。LAN另显式启用HTTPS、配对、绑定接口、允许访问方和撤销，DNS rebinding/任意目标代理拒绝。Windows凭据保护、Linuxsecret service/权限文件具体端口在POC冻结；存储保护不等于增强运行保密。
+
+## 6. 本地停止与清理
+
+收stop或到签名deadline立即撤会话入口，取消对应专用后端任务，查询停算，导出合法结果引用，清专用目录/缓存/钥，再发签名cleanup ACK。完成前平台锁不FREE；断电/离线待重连先清后售。失败进入隔离，用户可读诊断不含输入。
+
+桌面最少六组合分别验证：Win/Linux各ComfyUI、LLAMA_CPP_NATIVE、LM Studio兼容，含安装回滚、冷启动、真推理、重复、断网/重启、取消、到期停止、清理、SDK/基础加密及所售租赁。不能用Windows进程或WSL代Linux物理证据。
+
+## 7. 内核监督与版本替换
+
+RuntimeSupervisor仅管理明确归属的普通用户原生进程；KernelRegistry保存精确版本和受签payload原始字节，分离模型、运行任务和个人数据。Windows LLM通过公开CLI管理daemon/server/model/runtime，推理经本地HTTP/SSE；三层版本分别登记，专用配置域和精确版本获取/恢复能力由POC-02证明。已有桌面实例仅兼容接入，不因daemon up返回running就视为本程序所有。
+
+ComfyUI完整环境含Python/依赖锁、ComfyUI、批准节点及依赖、模型引用和按配方需要的媒体工具，支持图像/视频/音频/3D四类独立能力包。NodeAllowlistInstaller先校平台批准清单和本人同意，再暂存安装；启动导入前核完整启用目录。买家不得触发Manager、git/pip或更改class_type，运行期自装依赖拒绝。
+
+本地持久化候选STAGED/VERIFIED/QUALIFIED和active引用；切换需设备停新单、无在途执行/租赁、同资源维护门闩、实际旧进程停止、新环境实测和资格更新。恢复先核原backend ID/双围栏，不把active指针的改变当成旧任务消失。用户看见安装内容/权限、更新差异和版本，回滚不回绕身份、租约或资金记录。规范及K01—K20见[内核替换附录](附录-供给端内核封装与替换规范.md)。
+
+## 8. 双端加密与本地内容的执行合同
+
+提供方侧p11-node/SellerGateway/BoundRelayCore为单Go服务中的逻辑模块，不为每任务加一个网关进程；买方网关角色另有本人凭据/目录。隐私执行身份是Windows专用低权限服务身份或Linux专用非root账号；同本人账号的兼容模式不自动取得同等文件/诊断防护资格。
+
+静态接收/签名私钥在该身份的适用OS秘密存储，UI不能读；输入/输出/control/cache钥分用途，临时RAM钥不上SQLite。受控FD/句柄只定向继承到本任务拥有的worker，不把prompt/钥放argv/env；stdout是帧、stderr只有安全原因码，控制与大媒体管道分开。原生LLM/Comfy隐私入口不开正文HTTP/WS；LM兼容的原有本地HTTP只用于未获相应隐私资格的已披露分支。
+
+本地持久状态增加已签流头/钥版本引用、密文spool水位/hash、交付版/回执去重/清理标记，不保存secretstream push原始状态。PREPARED只缓存密文不执行；ISSUED核双围栏/环境再开封。崩溃先query后端再决定停止/重授权，不能因钥丢失重算。实际停算/清理才释放，原密文补传不需占卡；旧cleanup回调不能清下一owner。详细实现与E2E-01—20由[技术08](08-端到端加密协议与密钥实现设计.md)统一约束，均未执行。

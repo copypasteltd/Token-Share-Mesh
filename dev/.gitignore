@@ -1,0 +1,15 @@
+/src/node_modules/
+/src/**/node_modules/
+/src/**/dist/
+/src/**/.taro/
+/src/**/.gradle/
+/src/**/build/
+/.env
+/.env.*
+!/config/.env.example
+*.exe
+*.test
+*.prof
+*.pem
+*.key
+__pycache__/

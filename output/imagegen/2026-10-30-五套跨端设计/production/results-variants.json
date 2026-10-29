@@ -1,0 +1,64 @@
+{
+  "phase": "variants",
+  "updated_at": "2026-10-29T19:16:24.726843+00:00",
+  "model": "gpt-image-2.5",
+  "results": [
+    {
+      "id": "01-detail",
+      "style": "01",
+      "style_name": "晴空秩序",
+      "page": "detail",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "01-晴空秩序\\02-小程序-服务详情.png",
+      "prompt": "01-晴空秩序\\prompts\\detail.txt",
+      "reference": "01-晴空秩序\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1397485,
+        "sha256": "9a4d4861e2817a28d63a3a5d9c28ea9e0536e4699d35dfca5c74af2d529e8bc8"
+      }
+    },
+    {
+      "id": "01-web",
+      "style": "01",
+      "style_name": "晴空秩序",
+      "page": "web",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1536x1024",
+      "output": "01-晴空秩序\\03-Web-算力工作台.png",
+      "prompt": "01-晴空秩序\\prompts\\web.txt",
+      "reference": "01-晴空秩序\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 1470750,
+        "sha256": "f6230618611c30a2292d10620073b7a63eed3b4c08d017ec70d0e1ed47fbf9db"
+      }
+    },
+    {
+      "id": "02-detail",
+      "style": "02",
+      "style_name": "薄荷织网",
+      "page": "detail",
+      "model": "gpt-image-2.5",
+      "quality": "high",
+      "size": "1024x1536",
+      "output": "02-薄荷织网\\02-小程序-服务详情.png",
+      "prompt": "02-薄荷织网\\prompts\\detail.txt",
+      "reference": "02-薄荷织网\\01-小程序-首页.png",
+      "status": "GENERATED",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "bytes": 1511587,
+        "sha256": "ce19a5fae783fad261dd9a79de16a0dbd024edb2b3ca374e9464028b3d89e668"
+      }
+    }
+  ]
+}

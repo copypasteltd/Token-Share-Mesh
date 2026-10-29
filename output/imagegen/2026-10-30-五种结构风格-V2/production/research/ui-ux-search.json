@@ -1,0 +1,52 @@
+[
+  {
+    "full_name": "nextlevelbuilder/ui-ux-pro-max-skill",
+    "stargazers_count": 142474,
+    "description": "An AI skill that provides design intelligence for building professional UI/UX across multiple platforms."
+  },
+  {
+    "full_name": "Jakubantalik/transitions.dev",
+    "stargazers_count": 5912,
+    "description": "UI motion agent, a library of 43+ crafted transitions, a skill that fits your workflow."
+  },
+  {
+    "full_name": "plugin87/ux-ui-agent-skills",
+    "stargazers_count": 3057,
+    "description": "Turn Claude into a senior design architect: DTCG tokens, 52 components, WCAG 2.2 AA-AAA, 138 design systems, any-framework code, and 50 objective gates that fail the build instead of faking success."
+  },
+  {
+    "full_name": "dickwu/apple-design-skill",
+    "stargazers_count": 2325,
+    "description": "Cross-platform UI/UX design reviewer based on Apple HIG. Works with Flutter, Tauri, Electron, React Native. Compatible with Claude Code, Cursor, Codex."
+  },
+  {
+    "full_name": "bbylw/ui-ux-pro-max-skill-cn",
+    "stargazers_count": 1487,
+    "description": "本网站是 UI/UX Pro Max 技能库的官方中文教程，完整翻译并本地化了原始 README 的所有内容，帮助中文开发者快速上手这个强大的 AI 设计技能。"
+  },
+  {
+    "full_name": "ancoleman/ai-design-components",
+    "stargazers_count": 525,
+    "description": "Comprehensive UI/UX and Backend component design skills for AI-assisted development with Claude"
+  },
+  {
+    "full_name": "ceorkm/mobile-app-ui-design",
+    "stargazers_count": 468,
+    "description": "Professional mobile app UI/UX design skill for Claude Code"
+  },
+  {
+    "full_name": "anastasiaprh/product-design-roadmap",
+    "stargazers_count": 328,
+    "description": "UX/UI Product Design Roadmap is a diagram that outlines the main design topics and skills you need to know as a UX/UI Product designer in 2025."
+  },
+  {
+    "full_name": "lingxling/awesome-skills-cn",
+    "stargazers_count": 325,
+    "description": "热门Skills中文cn学习版+教程，提供7000+Skills，集成claude skills (18w+Star) | ui-ux-pro-max-skill (13w+Star)等10余个热门Skill项目"
+  },
+  {
+    "full_name": "hylarucoder/benchmark-skill-ui-ux-pro-max",
+    "stargazers_count": 319,
+    "description": null
+  }
+]

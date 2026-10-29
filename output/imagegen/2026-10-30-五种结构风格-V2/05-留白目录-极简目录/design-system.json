@@ -1,0 +1,19 @@
+{
+  "id": "05",
+  "name": "留白目录-极简目录",
+  "kind": "Editorial Minimal / Swiss",
+  "style_id": "minimalism-and-swiss-style",
+  "colors": {
+    "canvas": "#FFFFFF",
+    "surface": "#FFFFFF",
+    "ink": "#183B35",
+    "primary": "#23594B",
+    "accent": "#AC6B30",
+    "muted": "#65766F"
+  },
+  "type": "Refined modern Chinese sans serif, regular light large headlines with generously spaced lines, medium product names and small deliberate captions; NO serif newspaper and NO mono dashboard labels.",
+  "material": "A HIGH-END MINIMAL PRODUCT CATALOG for peer compute: pure white expansive canvas, deep forest-green ink, one muted ochre micro-accent, open typography and asymmetrical negative space. Hairlines only where they separate real fields. Almost no enclosed cards, no surface shadows, no gradients, no translucent effects, no decorative outlines. Essential controls have precise dark green fills or simple text underlines. Beautiful isolated hardware silhouettes with lots of white around them. Quiet confidence and legibility, not a generic SaaS kit or dense broadsheet.",
+  "home": "OPEN EDITORIAL CATALOG: compact tiny brand row plus Alipay capsule, then an asymmetric large two-line heading 发现合适的\n算力 with a small search icon/underline field at right/lower edge. Three privacy modes are a left-aligned TEXT navigation with a thin active underline, not a pill switch. Category labels are small text links. The main device showcase is unboxed: a broad isolated GPU image on white, followed by an open two-column caption with RTX 4090 · 24GB and seller 星河同学 at left, price ¥0.60/张 and a small 查看服务 control at right, plus capability and privacy badge as restrained text. A hairline separates a minimal phone catalog row with a small device image, 摩托罗拉 X30, Qwen 3B, 阿澄 and ¥0.02/千Token. Bottom navigation is tiny line icons and labels on white, no container. Preserve generous white space while fitting both resources.",
+  "detail": "Open gallery-like device detail: large isolated GPU visual with wide white margins, product title in large forest-green type, small seller caption. Specs form one unboxed typography row. Privacy is three plain text tabs with active underline; explanatory sentence stays fully readable. Fee rows are elegantly aligned open text, budget below, and a slim bottom total/action area uses a single filled forest-green gateway button. No card containers.",
+  "web": "NO STANDARD SIDEBAR OR CARD GRID. Use a minimal TOP horizontal navigation. Below it a slim left VERTICAL TEXT INDEX holds the mode names and categories. Center is an expansive unboxed GPU product catalog: isolated GPU image in generous white space with seller/model/capability caption below and a compact phone catalog strip underneath. Right is an OPEN quote column using aligned text and only a few meaningful hairlines, with fee details, budget, gateway state and a single green action. Asymmetrical editorial balance, no marketing gimmick and no fake KPI charts."
+}

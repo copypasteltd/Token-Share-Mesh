@@ -1,0 +1,15 @@
+{
+  "phase": "anchor",
+  "model": "gpt-image-2.5",
+  "records": [
+    {
+      "id": "UI-P01",
+      "status": "GENERATED",
+      "output": "output\\imagegen\\2026-10-30-04-最终设计约束\\UI-P01-小程序-算力市场.png",
+      "started_at": "2026-10-29T19:39:40.243326+00:00",
+      "finished_at": "2026-10-29T19:40:37.341410+00:00",
+      "sha256": "e590b7dcc6f403d7a1f1827b76a101b428f96a8ffe602cef149a813d86371e60",
+      "reference_sha256": "046236fa8713dfe32ea9c4654bd40c19ed58d66fe61035fc717b148306dd9280"
+    }
+  ]
+}

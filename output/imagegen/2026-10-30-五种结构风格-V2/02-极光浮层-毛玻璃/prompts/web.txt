@@ -1,0 +1,23 @@
+Create one high-fidelity, beautifully art-directed Chinese PRODUCT UI concept for “算力共享” / “Token Share Mesh”, a genuine C2C marketplace where INDIVIDUAL sellers list idle personal computing devices. It is a design concept with demo data.
+Hard framing: one flat straight-on edge-to-edge page, no physical device frame, no phone mockup, no hand/desk, no perspective, no multi-screen collage, no palette/style labels, no captions outside UI, no watermarks. Draw actual legible UI, not a presentation board.
+EXACT shared resource data: “RTX 4090 · 24GB”; seller “星河同学”; “个人卖家”; service “ComfyUI · 图像生成”; “¥0.60 / 张”. Secondary PHONE MUST explicitly be “摩托罗拉 X30”; model “Qwen 3B”; seller “阿澄”; “¥0.02 / 千Token”. The phone's visible TITLE MUST be the concrete model 摩托罗拉 X30, not a generic operating-system label. NEVER print “Android设备”, “Android 设备”, “Android设别”, “手机推理” as its name. Do not invent version fields, CUDA versions, benchmarks, ratings, sales, guarantee badges, or income claims.
+Service modes exactly “明文 / 端对端加密 / 显卡租赁”; select “端对端加密”. Categories “全部 / 对话 / 图像 / 视频”; select 全部. Main resource privacy text: “平台不可见”. Details/Web must also state “平台不可见；执行设备仍需处理明文”. Do not claim the hardware owner cannot access plaintext.
+Consistent brand glyph: a minimal mesh of three connected nodes, drawn in this family's style; repeat the same glyph across its pages.
+Text must be correct concise Simplified Chinese, clear touch targets and coherent hierarchy. Dark enough text and well-separated control edges. Never hide a resource's model/price behind the bottom bar. The two mobile pages must look like Alipay MINI-PROGRAM pages with a small top status bar, proper Alipay capsule in top-right, and safe-area insets.
+Each family is an independent DESIGN LANGUAGE AND LAYOUT. Do not revert to the generic search + pills + two identical rounded picture-left marketplace cards. All properties below are deliberate constraints, not loose inspiration.
+
+DESIGN FAMILY: Glassmorphism
+MATERIAL AND SHAPE GRAMMAR:
+AUTHENTIC FROSTED GLASS: a deep blue luminous background with broad soft blue/cyan aurora forms behind the UI. Panels are semi-transparent frosted glass: visibly blurred background colors transmit through them, restrained thin light edges, faint rim highlights and real layered depth. Floating islands, 24-32 logical px corners. Dense enough glass tint behind text for excellent readability. Pale cyan main buttons, white text elsewhere. Not opaque dark purple cards with glow; transparency and background blur MUST be obvious. No stars, planets, cyberpunk, photographic landscape, or excessive bloom.
+TYPE:
+Elegant modern Chinese sans-serif: lighter large headings, confident readable medium labels, airy line-height; luminous but crisp.
+PALETTE ROLES (do not print codes): {"canvas": "#142B53", "surface": "#314F73", "ink": "#F5FBFF", "primary": "#8DE5E5", "aurora": "#5576CF", "border": "#AECBDC"}
+
+REFERENCE RULE: the attached image is THIS family’s approved home anchor. Preserve its observed brand glyph, type, material, color roles, icon treatment, component geometry and selected states. Use the NEW target layout below, not the home content. Never paste the source screenshot into the result. The final image contains ONLY the new target page.
+
+TARGET: ONE DESKTOP WEB COMPUTE MARKET WORKSPACE, landscape 1536x1024. This is the same family's desktop companion, not a phone pasted onto desktop. Navigation offers 工作台 / 算力市场 / 我的订单 / 本地网关 / API密钥 / 账单, 算力市场 selected, located exactly as the family layout specifies. Page title 算力工作台. Include search and the same modes/categories, same GPU and concrete 摩托罗拉 X30 phone listing. Selected GPU contract/quote summary must contain seller 星河同学, mode 端对端加密, readable sentence 平台不可见；执行设备仍需处理明文, 预算上限 ¥5.00, exact fee rows 卖家服务 ¥0.57 / 平台服务费 ¥0.03 / 合计 ¥0.60, state 本地网关未连接, primary 连接网关 and secondary 查看合同. No charts, no fake analytics or sales, no code blocks, no platform-owned fleet. It must read as a usable buyer marketplace/connection workspace.
+
+REQUIRED UNIQUE PAGE COMPOSITION:
+NO LEFT SIDEBAR. Use a floating TOP horizontal glass navigation bar. Below it place an asymmetrical mosaic: a very large GPU resource glass island on left, a smaller phone card upper-right, and the selected GPU quote/contract panel lower-right. Headline/search/mode filters occupy a compact band above the mosaic. Show broad blurred cyan/blue background shapes through each frosted panel; the whole page remains a practical readable compute marketplace, not a sci-fi dashboard.
+
+Before finishing, verify the device names, units, selected privacy, one-page framing and the family-specific material. A color swap of a generic UI is not acceptable. Make this a resolved professional design.

@@ -1,0 +1,1370 @@
+{
+  "version": "NB-R1",
+  "date": "2026-10-30",
+  "baseline": "P11-v3.0",
+  "design_baseline": "NB-1.0",
+  "scope": "REQUIREMENTS_WITH_PARTIAL_SOURCE",
+  "verification_scope": "STRUCTURE_LINKS_TRACE_AND_EXAMPLE_ARITHMETIC_ONLY",
+  "runtime_acceptance": "NOT_EXECUTED",
+  "requirements": [
+    {
+      "id": "NB-R001",
+      "group": "市场发现",
+      "title": "实际个人卖家和具体型号",
+      "pages": [
+        "UI-P01"
+      ],
+      "requirements": [
+        "P11-F02",
+        "P11-F07",
+        "P11-F57"
+      ],
+      "tasks": [
+        "DEV-06",
+        "DEV-08",
+        "DEV-45"
+      ],
+      "rule": "公开卡片绑定实际seller/listing/revision与具体型号，未知或未核不伪装可售。",
+      "positive": "RTX4090属于星河同学，摩托罗拉X30属于阿澄，必要个人卖家公示可见。",
+      "negative": "替换seller_id、空型号或将两人设备合并后购买均被后端拒绝或转待核。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R002",
+      "group": "市场发现",
+      "title": "混合市场与模式入口",
+      "pages": [
+        "UI-P01"
+      ],
+      "requirements": [
+        "P11-F07",
+        "P11-F31",
+        "P11-F48"
+      ],
+      "tasks": [
+        "DEV-08",
+        "DEV-45"
+      ],
+      "rule": "三模式入口初始不全局预选，分类全部默认；每个挂牌单独标注模式和隐私。",
+      "positive": "初次进入同时看到STANDARD租赁GPU与基础E2E手机，并可明确筛选。",
+      "negative": "不能因选择页面主题或设备类型将全部卡片标成E2E或硬件增强。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R003",
+      "group": "市场发现",
+      "title": "分页、旧数据与弱网",
+      "pages": [
+        "UI-P01",
+        "UI-P05"
+      ],
+      "requirements": [
+        "P11-F07",
+        "P11-F15",
+        "P11-F54"
+      ],
+      "tasks": [
+        "DEV-08",
+        "DEV-45",
+        "DEV-47"
+      ],
+      "rule": "稳定cursor分页，筛选变化重置分页；加载/空/无结果/离线/刷新失败/权限失效有不同状态。",
+      "positive": "刷新失败保留已有卡片并显示采样时间，重试不重复条目。",
+      "negative": "旧分页响应不覆盖新筛选；过期缓存不得跳过购买时重核。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R004",
+      "group": "市场发现",
+      "title": "可售资格和容量重核",
+      "pages": [
+        "UI-P01",
+        "UI-P02",
+        "UI-P05"
+      ],
+      "requirements": [
+        "P11-F04",
+        "P11-F55",
+        "P11-F67",
+        "P11-F68"
+      ],
+      "tasks": [
+        "DEV-07",
+        "DEV-09",
+        "DEV-52"
+      ],
+      "rule": "OS/设备/模型/profile/模式/隐私/地区/计量/资金资格分别核，在线不等于可售。",
+      "positive": "已批准组合有有效容量时允许报价，缺件给出安全原因。",
+      "negative": "直接调用购买接口不能绕过关闭开关；图像资格不能解锁视频/3D。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R005",
+      "group": "市场发现",
+      "title": "可比较的价格与筛选",
+      "pages": [
+        "UI-P01",
+        "UI-P05"
+      ],
+      "requirements": [
+        "P11-F07",
+        "P11-F08",
+        "P11-F61"
+      ],
+      "tasks": [
+        "DEV-08",
+        "DEV-09",
+        "DEV-45",
+        "DEV-47"
+      ],
+      "rule": "GPU显示小时价，LLM同时显示输入输出M token价；排序声明比较口径。",
+      "positive": "GPU同单位排序，LLM明确按输入价或输出价排序，费用包含关系可见。",
+      "negative": "不得把3.60每小时与0.80每M token按裸数字比较或隐藏较高输出价。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R006",
+      "group": "市场发现",
+      "title": "挂牌详情与价版冻结",
+      "pages": [
+        "UI-P01",
+        "UI-P02",
+        "UI-P05",
+        "NB-S01"
+      ],
+      "requirements": [
+        "P11-F07",
+        "P11-F08",
+        "P11-F31"
+      ],
+      "tasks": [
+        "DEV-08",
+        "DEV-09",
+        "DEV-10"
+      ],
+      "rule": "列表进入详情绑定id/revision，购买前再报价；下架或变版需明确说明。",
+      "positive": "查看相同挂牌版本，新的价格只用于未来确认的订单。",
+      "negative": "页面保持旧卡片时服务已下架或变环境，原确认不可被静默用于新价。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R007",
+      "group": "LLM详情与网关",
+      "title": "手机LLM能力边界",
+      "pages": [
+        "UI-P02"
+      ],
+      "requirements": [
+        "P11-F57",
+        "P11-F61",
+        "P11-F62",
+        "P11-F70"
+      ],
+      "tasks": [
+        "DEV-07",
+        "DEV-26",
+        "DEV-42",
+        "DEV-45"
+      ],
+      "rule": "显示具体手机、模型、实际执行后端和批准profile；示例不证明该机已实测。",
+      "positive": "阿澄X30详情提供本地推理与已验证的双协议能力摘要。",
+      "negative": "CPU执行不可标为GPU；未实现工具调用/模型容量不因兼容标签自动开放。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R008",
+      "group": "LLM详情与网关",
+      "title": "输入输出独立价率",
+      "pages": [
+        "UI-P02",
+        "UI-P05",
+        "NB-S06"
+      ],
+      "requirements": [
+        "P11-F08",
+        "P11-F18",
+        "P11-F27",
+        "P11-F61"
+      ],
+      "tasks": [
+        "DEV-09",
+        "DEV-12",
+        "DEV-38",
+        "DEV-45"
+      ],
+      "rule": "冻结输入80分/M与输出160分/M等双价，所有新增收费组件事前声明。",
+      "positive": "1M输入加0.25M输出累计费用120分，有原始token与价版解释。",
+      "negative": "只收集单一token价或漏输出价不允许完成合同；未知费用不补扣。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R009",
+      "group": "LLM详情与网关",
+      "title": "基础E2E可见方披露",
+      "pages": [
+        "UI-P02",
+        "NB-S02",
+        "NB-S07"
+      ],
+      "requirements": [
+        "P11-F32",
+        "P11-F35",
+        "P11-F37",
+        "P11-F38"
+      ],
+      "tasks": [
+        "DEV-09",
+        "DEV-30",
+        "DEV-32",
+        "DEV-45"
+      ],
+      "rule": "写明平台不可见、执行设备仍处理明文；普通防护与硬件增强分开。",
+      "positive": "买方确认与合同相同的PLATFORM_BLIND披露，提供方UI默认不显示内容。",
+      "negative": "普通进程/Keystore/隐藏UI不能获取ATTESTED_CONFIDENTIAL标签，不静默降隐私。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R010",
+      "group": "LLM详情与网关",
+      "title": "可信程序配对与核验",
+      "pages": [
+        "UI-P02",
+        "NB-S07"
+      ],
+      "requirements": [
+        "P11-F33",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "tasks": [
+        "DEV-29",
+        "DEV-30",
+        "DEV-45",
+        "DEV-47",
+        "DEV-53"
+      ],
+      "rule": "一次配对、本人原生确认、独立指纹核验、能力摘要与撤销绑定账号。",
+      "positive": "正确配对后回到同卖家详情，显示已验证且尚未购买/收费。",
+      "negative": "码过期/复用/错账号/指纹变化拒绝，不能让普通网页代持私钥或以recipient注册冒充配对。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R011",
+      "group": "LLM详情与网关",
+      "title": "预算草稿与明确确认",
+      "pages": [
+        "UI-P02",
+        "NB-S02"
+      ],
+      "requirements": [
+        "P11-F08",
+        "P11-F31",
+        "P11-F32",
+        "P11-F77"
+      ],
+      "tasks": [
+        "DEV-09",
+        "DEV-10",
+        "DEV-12",
+        "DEV-45"
+      ],
+      "rule": "5元是可修改的预算草稿，确认卖家/模式/价格/上限/期限后才产生授权。",
+      "positive": "连接网关保留预算，报价说明最坏应收及实际付款状态。",
+      "negative": "连接或返回页面不能生成支付/新订单，预算不得显示已冻结。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R012",
+      "group": "LLM详情与网关",
+      "title": "路由、重试与购买授权",
+      "pages": [
+        "UI-P02",
+        "NB-S06"
+      ],
+      "requirements": [
+        "P11-F31",
+        "P11-F54",
+        "P11-F69",
+        "P11-F77",
+        "P11-F79"
+      ],
+      "tasks": [
+        "DEV-10",
+        "DEV-11",
+        "DEV-25",
+        "DEV-47"
+      ],
+      "rule": "RouteContract固定seller/profile/mode/privacy/budget/次数/期限，普通SDK请求无私有路由必填字段。",
+      "positive": "标准Base URL与key只调用已确认卖家，重查原请求不形成新购买。",
+      "negative": "无路由、超scope、过期或换卖家须拒绝/新确认；SDK重试不能自动采购其他节点。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R013",
+      "group": "GPU租赁",
+      "title": "双方就绪唯一起表",
+      "pages": [
+        "UI-P03",
+        "NB-S04"
+      ],
+      "requirements": [
+        "P11-F41",
+        "P11-F42",
+        "P11-F43"
+      ],
+      "tasks": [
+        "DEV-18",
+        "DEV-33"
+      ],
+      "rule": "设备与买方ready、资金/环境/资源代次均通过才ACTIVE；准备阶段零费。",
+      "positive": "双ready并发只起一次表，签发同一硬截止的受控授权。",
+      "negative": "在线、预热完成或仅付款不能单独开始收费；准备失败/超时零费并清理。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R014",
+      "group": "GPU租赁",
+      "title": "确认区间与倒计时",
+      "pages": [
+        "UI-P03",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F44",
+        "P11-F45",
+        "P11-F46"
+      ],
+      "tasks": [
+        "DEV-34",
+        "DEV-35",
+        "DEV-45"
+      ],
+      "rule": "有效区间并集累计毫秒，最大30分钟与剩余20分钟含义明确；倒计时不作计费证据。",
+      "positive": "600秒确认可用对应60分，离开/恢复页面按原session重查。",
+      "negative": "重叠区间、系统时钟回拨、未知断线尾段或旧代次不增加费用。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R015",
+      "group": "GPU租赁",
+      "title": "当前金额与资金分栏",
+      "pages": [
+        "UI-P03",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F18",
+        "P11-F44",
+        "P11-F53"
+      ],
+      "tasks": [
+        "DEV-34",
+        "DEV-39",
+        "DEV-45"
+      ],
+      "rule": "当前0.60、预计1.80、预算5.00、最终应付/实付分别显示，附账单水位。",
+      "positive": "界面从同一statement读取当前金额，最终确认后再标最终。",
+      "negative": "不可用本地计时生成正式金额，旧水位/旧价/支付成功不能覆盖最终账单。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R016",
+      "group": "GPU租赁",
+      "title": "结束会话与未知恢复",
+      "pages": [
+        "UI-P03",
+        "NB-S04"
+      ],
+      "requirements": [
+        "P11-F17",
+        "P11-F45",
+        "P11-F47"
+      ],
+      "tasks": [
+        "DEV-20",
+        "DEV-35",
+        "DEV-45"
+      ],
+      "rule": "结束幂等，立即阻新调用；停止请求/实际停止/计费上界分别核，超时查原session。",
+      "positive": "重复点击只一个停止意向，显示停止中并可查同一会话。",
+      "negative": "HTTP超时不显示已结束、不再买一单；前端时间不得回填缩减已确认租时。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R017",
+      "group": "GPU租赁",
+      "title": "停算清理与复租分离",
+      "pages": [
+        "UI-P03",
+        "UI-P04"
+      ],
+      "requirements": [
+        "P11-F22",
+        "P11-F47",
+        "P11-F52"
+      ],
+      "tasks": [
+        "DEV-20",
+        "DEV-36",
+        "DEV-46"
+      ],
+      "rule": "真实停止和任务作用域清理ACK后资源才可复用；账单/退款/清理分别展示。",
+      "positive": "当前代次清理完成才放行下一租户，原合法密文结果可按交付授权补传。",
+      "negative": "进程退出、TTL或买方stop响应不替代清理ACK；旧worker不能清理下一任务。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R018",
+      "group": "GPU租赁",
+      "title": "租内标准调用无叠加收费",
+      "pages": [
+        "UI-P03",
+        "UI-P05",
+        "NB-S04"
+      ],
+      "requirements": [
+        "P11-F41",
+        "P11-F43",
+        "P11-F48",
+        "P11-F69"
+      ],
+      "tasks": [
+        "DEV-24",
+        "DEV-27",
+        "DEV-33",
+        "DEV-47"
+      ],
+      "rule": "STANDARD租赁仅按可用时计费，允许批准模型/媒体profile与受控API。",
+      "positive": "同会话多次图像/文本调用只累计租时，队列和取消只作用本人invocation。",
+      "negative": "不得再收图费/token费、给shell/RDP/任意节点，子任务结束不能释放会话锁。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R019",
+      "group": "提供方共享",
+      "title": "本人资产与跨角色隔离",
+      "pages": [
+        "UI-P04"
+      ],
+      "requirements": [
+        "P11-F01",
+        "P11-F02",
+        "P11-F57"
+      ],
+      "tasks": [
+        "DEV-03",
+        "DEV-06",
+        "DEV-46"
+      ],
+      "rule": "星河同学自己的GPU与努比亚Z20草稿独立于市场阿澄X30；切账号清缓存。",
+      "positive": "P04只列当前seller设备与订单，Z20未上架状态明确。",
+      "negative": "猜id直调他人设备、复用旧账户缓存或把市场手机当本人草稿均拒绝。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R020",
+      "group": "提供方共享",
+      "title": "设备配对不是自动上架",
+      "pages": [
+        "UI-P04",
+        "NB-S08"
+      ],
+      "requirements": [
+        "P11-F03",
+        "P11-F04",
+        "P11-F65",
+        "P11-F67"
+      ],
+      "tasks": [
+        "DEV-06",
+        "DEV-07",
+        "DEV-21",
+        "DEV-41",
+        "DEV-46"
+      ],
+      "rule": "一次码和原生本人确认后探测/基准/资格；组件安装单独同意。",
+      "positive": "配对后显示缺件或待基准，提供本机客户端指引。",
+      "negative": "配对成功不自动下载模型、启动共享、继承旧租约或显示可售。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R021",
+      "group": "提供方共享",
+      "title": "挂牌草稿及未来价版",
+      "pages": [
+        "UI-P04",
+        "NB-S09"
+      ],
+      "requirements": [
+        "P11-F02",
+        "P11-F08",
+        "P11-F31"
+      ],
+      "tasks": [
+        "DEV-08",
+        "DEV-09",
+        "DEV-46"
+      ],
+      "rule": "本人设置能力/单位/双价或小时价/时段/模式/费用，按版本保存、核验、提交。",
+      "positive": "Z20可编辑输入0.80输出1.60的草稿，完成资格后另行发布。",
+      "negative": "无证据不得上架；修改未来价格、设备或内核不能改正在履约的合同。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R022",
+      "group": "提供方共享",
+      "title": "停止接新单的原子边界",
+      "pages": [
+        "UI-P04",
+        "NB-S09"
+      ],
+      "requirements": [
+        "P11-F05",
+        "P11-F10",
+        "P11-F64"
+      ],
+      "tasks": [
+        "DEV-06",
+        "DEV-18",
+        "DEV-21",
+        "DEV-43",
+        "DEV-46"
+      ],
+      "rule": "关闭资源新准入同时允许既有合法尾单排空；不靠依次暂停多挂牌模拟原子性。",
+      "positive": "停新单后新lease拒绝，既有ACTIVE租赁继续至约定结束。",
+      "negative": "并发尾单不能被悄悄强停；未确认政策更新不能提前显示全部停止。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R023",
+      "group": "提供方共享",
+      "title": "手机共享条件与停止通知",
+      "pages": [
+        "UI-P04",
+        "NB-S09"
+      ],
+      "requirements": [
+        "P11-F59",
+        "P11-F63",
+        "P11-F64",
+        "P11-F66"
+      ],
+      "tasks": [
+        "DEV-42",
+        "DEV-43",
+        "DEV-44",
+        "DEV-46"
+      ],
+      "rule": "LMA真机充电/WiFi/温度/个人使用条件生效，持续可见共享和停止；小程序只控制摘要。",
+      "positive": "仅充电共享在拔电时按安全策略停新单并处理在途任务，说明具体原因。",
+      "negative": "锁屏/强杀/切网不复活旧代次；不能读取相册/聊天或隐藏持续执行通知。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R024",
+      "group": "提供方共享",
+      "title": "预估净额与实际结算",
+      "pages": [
+        "UI-P04",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F18",
+        "P11-F19",
+        "P11-F20",
+        "P11-F53"
+      ],
+      "tasks": [
+        "DEV-34",
+        "DEV-39",
+        "DEV-40",
+        "DEV-46"
+      ],
+      "rule": "当前60分成交基数、3分示例佣金对应预估净57分，标未结算；渠道状态另列。",
+      "positive": "同statement及费用版生成预估，成交/退款后以追加修订更新。",
+      "negative": "不能把0.60写成净收益、0.57写成已到账/可提现，或用结算列表猜活动收益。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R025",
+      "group": "Web与协议入口",
+      "title": "Web选择资源一致性",
+      "pages": [
+        "UI-P05"
+      ],
+      "requirements": [
+        "P11-F07",
+        "P11-F08",
+        "P11-F31",
+        "P11-F48"
+      ],
+      "tasks": [
+        "DEV-08",
+        "DEV-09",
+        "DEV-47"
+      ],
+      "rule": "左右资源/合同同选择版本，GPU和LLM切换重置不适用字段并重新报价。",
+      "positive": "切至X30后显示阿澄、E2E与双价，不沿用GPU30分钟合同。",
+      "negative": "迟到GPU报价不能覆盖当前LLM详情；切换资源不得静默改已有订单卖家。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R026",
+      "group": "Web与协议入口",
+      "title": "合同票据和费用包含",
+      "pages": [
+        "UI-P05",
+        "NB-S02"
+      ],
+      "requirements": [
+        "P11-F08",
+        "P11-F31",
+        "P11-F42",
+        "P11-F53"
+      ],
+      "tasks": [
+        "DEV-09",
+        "DEV-10",
+        "DEV-47"
+      ],
+      "rule": "GPU30分钟预计180分拆成卖家171+含佣金9，显示双方就绪才起表。",
+      "positive": "确认条件生成有效报价/合同，预算5元仍与预计1.80分列。",
+      "negative": "不能在180分上再加9分，不能把点击确认写为已付或已冻结。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R027",
+      "group": "Web与协议入口",
+      "title": "标准SDK和数据面选择",
+      "pages": [
+        "UI-P05",
+        "NB-S06",
+        "NB-S07"
+      ],
+      "requirements": [
+        "P11-F54",
+        "P11-F69",
+        "P11-F70",
+        "P11-F79"
+      ],
+      "tasks": [
+        "DEV-11",
+        "DEV-26",
+        "DEV-47"
+      ],
+      "rule": "明确OpenAI Chat/Responses或Anthropic Messages档位、Base URL与scoped key；控制API与AI入口分离。",
+      "positive": "已确认路由可复制对应标准SDK样例，无自定义seller字段必填。",
+      "negative": "未知profile、必需字段不支持或工具转换有损应先拒绝，不伪造兼容。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R028",
+      "group": "Web与协议入口",
+      "title": "加密内容停留可信端",
+      "pages": [
+        "UI-P02",
+        "UI-P04",
+        "UI-P05",
+        "NB-S07"
+      ],
+      "requirements": [
+        "P11-F33",
+        "P11-F35",
+        "P11-F72",
+        "P11-F73",
+        "P11-F76"
+      ],
+      "tasks": [
+        "DEV-30",
+        "DEV-31",
+        "DEV-45",
+        "DEV-46",
+        "DEV-47"
+      ],
+      "rule": "本地请求加密后经平台盲转，卖方解密转发；平台页面只管理摘要、买方在可信程序看内容。",
+      "positive": "平台与提供方管理UI无prompt/结果，响应认证后在买方本地可读。",
+      "negative": "不能将密文先送平台Sub2API解密、在Web localStorage保存内容钥，或以未认证终块宣称成功。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R029",
+      "group": "Web与协议入口",
+      "title": "凭据一次展示与撤销",
+      "pages": [
+        "NB-S04",
+        "NB-S06",
+        "NB-S07"
+      ],
+      "requirements": [
+        "P11-F01",
+        "P11-F43",
+        "P11-F75"
+      ],
+      "tasks": [
+        "DEV-03",
+        "DEV-29",
+        "DEV-33",
+        "DEV-47",
+        "DEV-53"
+      ],
+      "rule": "配对码/route key/会话grant按用途隔离、一次显示、到期/撤销；不进URL及普通缓存。",
+      "positive": "合法首次显示后只留摘要，撤销阻新调用但不伪造已交付消失。",
+      "negative": "已用配对码、旧grant或错误aud/代次不能调用；客服不得导出私钥。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R030",
+      "group": "Web与协议入口",
+      "title": "Sub2API内核与媒体档位",
+      "pages": [
+        "UI-P05",
+        "NB-S04",
+        "NB-S06"
+      ],
+      "requirements": [
+        "P11-F69",
+        "P11-F70",
+        "P11-F71",
+        "P11-F74",
+        "P11-F78"
+      ],
+      "tasks": [
+        "DEV-25",
+        "DEV-26",
+        "DEV-27",
+        "DEV-28",
+        "DEV-52"
+      ],
+      "rule": "明文平台网关与卖方解密域共转发语义；有限PASS/MAP/REJECT和批准媒体profile。",
+      "positive": "固定SDK和真实后端的工具/usage/流/媒体结果逐档位验证。",
+      "negative": "不继承全局卖家池、钱包或正文遥测；不支持字段不可静默丢弃或转任意工作流。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R031",
+      "group": "计价与资金",
+      "title": "百万token精确定义",
+      "pages": [
+        "UI-P01",
+        "UI-P02",
+        "UI-P05",
+        "NB-S06"
+      ],
+      "requirements": [
+        "P11-F08",
+        "P11-F18",
+        "P11-F27",
+        "P11-F61"
+      ],
+      "tasks": [
+        "DEV-12",
+        "DEV-38",
+        "DEV-45",
+        "DEV-47"
+      ],
+      "rule": "1 M token固定十进制1000000；原始整数数量，不按整M进位、不使用千token新售文案。",
+      "positive": "1000输入和500输出按原始0.16分累计，在明确关账边界取整。",
+      "negative": "不能将M视为1024平方或单次百万上下文能力；不能每chunk至少收1M。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R032",
+      "group": "计价与资金",
+      "title": "小时价与旧分钟列兼容",
+      "pages": [
+        "UI-P03",
+        "UI-P04",
+        "UI-P05"
+      ],
+      "requirements": [
+        "P11-F08",
+        "P11-F44",
+        "P11-F56"
+      ],
+      "tasks": [
+        "DEV-02",
+        "DEV-09",
+        "DEV-12",
+        "DEV-34"
+      ],
+      "rule": "新小时合同精确到有理分；旧R分/分钟等价60R分/小时，非整除新价不写旧列。",
+      "positive": "360分/小时精确桥接6分/分钟，旧单按原版重算一致。",
+      "negative": "350分/小时不准偷偷存6分/分钟；不可改已执行001迁移或批量覆盖旧合同单位。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R033",
+      "group": "计价与资金",
+      "title": "整单累计取整与微额",
+      "pages": [
+        "UI-P03",
+        "NB-S06",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F18",
+        "P11-F27",
+        "P11-F44",
+        "P11-F53"
+      ],
+      "tasks": [
+        "DEV-12",
+        "DEV-34",
+        "DEV-38",
+        "DEV-39"
+      ],
+      "rule": "按冻结取整算法在整单最终金额取整，同价续租/用量分片不额外取整。",
+      "positive": "同一总用量分成多区间/分片，整单最终费用完全相同。",
+      "negative": "不得每心跳或每SSE片段ceil加钱，独立已关账订单不能任意跨单合并。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R034",
+      "group": "计价与资金",
+      "title": "可信usage及未知不可收费",
+      "pages": [
+        "UI-P02",
+        "NB-S06",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F18",
+        "P11-F27",
+        "P11-F61",
+        "P11-F77"
+      ],
+      "tasks": [
+        "DEV-12",
+        "DEV-38",
+        "DEV-52"
+      ],
+      "rule": "口径、模型/tokenizer/模板和证据版固定；签名自报不自动可信，unknown不是0。",
+      "positive": "有合格证据的原始输入输出可重算，缓存/推理包含关系先消重。",
+      "negative": "usage缺失不可猜数扣费、从密文长度算token或暗中改固定价新售。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R035",
+      "group": "计价与资金",
+      "title": "佣金与退款差额冲正",
+      "pages": [
+        "UI-P04",
+        "UI-P05",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F17",
+        "P11-F18",
+        "P11-F19",
+        "P11-F53"
+      ],
+      "tasks": [
+        "DEV-14",
+        "DEV-39",
+        "DEV-40",
+        "DEV-46"
+      ],
+      "rule": "示例500bps卖方承担且单价已含，整单保留成交额向下取佣金，退款后重算目标再冲正。",
+      "positive": "180退60后保留120、佣金6、卖家114，原9分佣金冲回3分。",
+      "negative": "不得退款后保留全额佣金、向买方重复加佣金或把示例费率当正式渠道批准。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R036",
+      "group": "计价与资金",
+      "title": "并发预算、期限和真实资金",
+      "pages": [
+        "UI-P02",
+        "UI-P03",
+        "UI-P05",
+        "NB-S03"
+      ],
+      "requirements": [
+        "P11-F08",
+        "P11-F09",
+        "P11-F27",
+        "P11-F44",
+        "P11-F77"
+      ],
+      "tasks": [
+        "DEV-12",
+        "DEV-13",
+        "DEV-15",
+        "DEV-35"
+      ],
+      "rule": "并发reserve/consume/release只作应用授权；最坏费用、最长时长和硬截止在执行前受控。",
+      "positive": "GPU30分钟1.80与预算5元分离，LLM多个并发请求总授权不超预算。",
+      "negative": "不能用预算5元自动延时/补扣，不能继续超额执行后仅截账单，内部reserve不称渠道冻结。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R037",
+      "group": "辅助流程与恢复",
+      "title": "十个辅助界面的完整入口",
+      "pages": [
+        "NB-S01",
+        "NB-S02",
+        "NB-S03",
+        "NB-S04",
+        "NB-S05",
+        "NB-S06",
+        "NB-S07",
+        "NB-S08",
+        "NB-S09",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F07",
+        "P11-F09",
+        "P11-F15",
+        "P11-F31",
+        "P11-F54"
+      ],
+      "tasks": [
+        "DEV-45",
+        "DEV-46",
+        "DEV-47"
+      ],
+      "rule": "五页不是孤立展示，十个界面有返回上下文、权限和空/错/待查状态，可合并合理弹层。",
+      "positive": "从市场到合同/资金/准备/订单/最终账单及配对挂牌均可完整走通。",
+      "negative": "无有效下一步的CTA、返回丢订单导致重新购买或只用toast代替待查流程均不通过。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R038",
+      "group": "辅助流程与恢复",
+      "title": "支付宝付款返回只查原单",
+      "pages": [
+        "NB-S03",
+        "NB-S05"
+      ],
+      "requirements": [
+        "P11-F09",
+        "P11-F17",
+        "P11-F20",
+        "P11-F55"
+      ],
+      "tasks": [
+        "DEV-13",
+        "DEV-14",
+        "DEV-15",
+        "DEV-45"
+      ],
+      "rule": "PayLauncher与precreate/验付/原号关联；返回页面、回调和业务履约分离。",
+      "positive": "重复回调/返回只验付并查询原订单一次履约。",
+      "negative": "用户关闭收银台或请求超时不得当支付失败重下扣款；无资格不能把模拟付款标正式。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R039",
+      "group": "辅助流程与恢复",
+      "title": "订单查询与跨卖家新确认",
+      "pages": [
+        "UI-P03",
+        "NB-S05"
+      ],
+      "requirements": [
+        "P11-F09",
+        "P11-F15",
+        "P11-F16",
+        "P11-F31"
+      ],
+      "tasks": [
+        "DEV-10",
+        "DEV-19",
+        "DEV-45"
+      ],
+      "rule": "按买卖身份查本人原订单，保持合同不可变；跨卖家需新报价和关联新单。",
+      "positive": "页面恢复继续TSM20261030001，P02阿澄订单与P03星河订单独立。",
+      "negative": "不能把LLM详情直接串成换卖家的旧GPU订单，越权订单id无数据。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R040",
+      "group": "辅助流程与恢复",
+      "title": "加密完整接受与交付恢复",
+      "pages": [
+        "NB-S06",
+        "NB-S07",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F34",
+        "P11-F35",
+        "P11-F39",
+        "P11-F74",
+        "P11-F76"
+      ],
+      "tasks": [
+        "DEV-19",
+        "DEV-30",
+        "DEV-31"
+      ],
+      "rule": "完整认证/FINAL与业务END后买方本地接受；无回执不默认为成功，交付与计算权分离。",
+      "positive": "原合法密文可在清理释放GPU后补传/签收，不再占锁或再次执行。",
+      "negative": "密文到达、缺终块或超时沉默不得标合格；丢钥/状态不能盲重跑或重用nonce。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R041",
+      "group": "辅助流程与恢复",
+      "title": "最终账单可重算与修订",
+      "pages": [
+        "NB-S06",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F18",
+        "P11-F20",
+        "P11-F44",
+        "P11-F53"
+      ],
+      "tasks": [
+        "DEV-16",
+        "DEV-34",
+        "DEV-38",
+        "DEV-39"
+      ],
+      "rule": "保留原始计量引用、价费/取整版、账单版本和修订原因；资金原号与金额分开。",
+      "positive": "按确认区间或原始token重算应付/佣金/净额，与最终statement一致。",
+      "negative": "客服不能覆盖历史金额，重复事件不二次入账；资金UNKNOWN保持待查。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R042",
+      "group": "辅助流程与恢复",
+      "title": "退款与争议最小披露",
+      "pages": [
+        "UI-P03",
+        "NB-S10"
+      ],
+      "requirements": [
+        "P11-F17",
+        "P11-F21",
+        "P11-F39",
+        "P11-F40",
+        "P11-F50"
+      ],
+      "tasks": [
+        "DEV-14",
+        "DEV-49",
+        "DEV-48"
+      ],
+      "rule": "分清故障/未用租时/质量规则；举证按目的/人员/期限授权，安全停算不等退款到账。",
+      "positive": "按证据取消未用部分，退款查询原号，买方可选择披露独立副本。",
+      "negative": "不得强索历史私钥/全量prompt，无明文证据不伪称裁定内容质量，未知退款不二退。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R043",
+      "group": "原生隐私与交付",
+      "title": "本机运行由提供方授权",
+      "pages": [
+        "UI-P04",
+        "NB-S08",
+        "NB-S09"
+      ],
+      "requirements": [
+        "P11-F03",
+        "P11-F06",
+        "P11-F57",
+        "P11-F59",
+        "P11-F62",
+        "P11-F80"
+      ],
+      "tasks": [
+        "DEV-21",
+        "DEV-22",
+        "DEV-23",
+        "DEV-24",
+        "DEV-41",
+        "DEV-46"
+      ],
+      "rule": "本人决定批准引擎/模型/节点/共享范围；平台仅在已授权能力中调度，安装资源信息透明。",
+      "positive": "桌面显示可替换内核和安装许可/体积，Android基于固定LMA源码执行。",
+      "negative": "买方或小程序不能任意安装/执行节点，不读个人聊天/相册，不接管其他项目引擎。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R044",
+      "group": "原生隐私与交付",
+      "title": "低开销本地内容防护",
+      "pages": [
+        "UI-P04",
+        "NB-S08"
+      ],
+      "requirements": [
+        "P11-F22",
+        "P11-F35",
+        "P11-F59",
+        "P11-F73",
+        "P11-F80"
+      ],
+      "tasks": [
+        "DEV-22",
+        "DEV-23",
+        "DEV-24",
+        "DEV-30",
+        "DEV-44",
+        "DEV-53"
+      ],
+      "rule": "隐私LLM用嵌入worker/受控管道，ComfyUI私有入口/LMA内部JNI，任务数据加密有界缓冲。",
+      "positive": "提供方UI/普通日志/任务文件/普通抓包无可直接查看内容，同机A/B验证开销。",
+      "negative": "未封闭LM Studio最后明文跳不可宣称通过，不加VM/RAM盘/第二模型副本或承诺高级内存不可读。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R045",
+      "group": "原生隐私与交付",
+      "title": "内核更新不改在途环境",
+      "pages": [
+        "UI-P04",
+        "NB-S09"
+      ],
+      "requirements": [
+        "P11-F05",
+        "P11-F06",
+        "P11-F58",
+        "P11-F67",
+        "P11-F68",
+        "P11-F80"
+      ],
+      "tasks": [
+        "DEV-07",
+        "DEV-21",
+        "DEV-22",
+        "DEV-24",
+        "DEV-43",
+        "DEV-54"
+      ],
+      "rule": "排空后验证切换/合格旧版回滚；Windows三层可替换，ComfyUI有限白名单，Android可执行随受签APK。",
+      "positive": "本人确认更新并完成验证后产生新环境摘要，未来合同引用新版。",
+      "negative": "ACTIVE租期不得热换节点/模型环境，回滚不回绕围栏账证，Android不任意下载可执行热更新。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R046",
+      "group": "原生隐私与交付",
+      "title": "物理资源共锁与安全复用",
+      "pages": [
+        "UI-P03",
+        "UI-P04",
+        "NB-S04"
+      ],
+      "requirements": [
+        "P11-F05",
+        "P11-F10",
+        "P11-F11",
+        "P11-F41",
+        "P11-F64"
+      ],
+      "tasks": [
+        "DEV-18",
+        "DEV-20",
+        "DEV-33",
+        "DEV-42",
+        "DEV-54"
+      ],
+      "rule": "同GPU所有引擎/模式共锁，手机个人/API/共享共槽；job与resource generation双围栏。",
+      "positive": "多挂牌、多引擎及个人使用竞争仅一个合法执行owner。",
+      "negative": "旧代次/迟到续约不得执行或清下一任务；失联未知不凭TTL放FREE。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R047",
+      "group": "原生隐私与交付",
+      "title": "新粗野主义与可访问交互",
+      "pages": [
+        "UI-P01",
+        "UI-P02",
+        "UI-P03",
+        "UI-P04",
+        "UI-P05"
+      ],
+      "requirements": [
+        "P11-F07",
+        "P11-F15",
+        "P11-F54",
+        "P11-F68"
+      ],
+      "tasks": [
+        "DEV-45",
+        "DEV-46",
+        "DEV-47",
+        "DEV-56"
+      ],
+      "rule": "统一NB令牌/硬阴影/结构线，Taro小程序优先，Vite桌面布局；安全区/焦点/文字状态完整。",
+      "positive": "四小程序一Web保持一致，系统胶囊用原生能力，字体放大/键盘操作关键动作可达。",
+      "negative": "不能只换色保持旧布局，不能用颜色独传未知/错误或AI图替代真实页面验收。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    },
+    {
+      "id": "NB-R048",
+      "group": "原生隐私与交付",
+      "title": "范围、条件能力与真实证据",
+      "pages": [
+        "UI-P01",
+        "UI-P02",
+        "UI-P03",
+        "UI-P04",
+        "UI-P05"
+      ],
+      "requirements": [
+        "P11-F37",
+        "P11-F38",
+        "P11-F55",
+        "P11-F56",
+        "P11-F68",
+        "P11-F78"
+      ],
+      "tasks": [
+        "DEV-32",
+        "DEV-52",
+        "DEV-53",
+        "DEV-54",
+        "DEV-56"
+      ],
+      "rule": "源码实施以进度登记和实际证据为准，需求文档与静态检查不改变可售资格；增强、加密租赁、上游和资金逐组合默认关闭，部署观测延后。",
+      "positive": "逐项记录真实版本/设备/渠道证据和NOT_EXECUTED，按条件解锁。",
+      "negative": "不调用本地Docker/WSL/QEMU/模拟器，不把mock/文档通过或演示5%佣金当实机/正式资金证据。",
+      "status": "DEFINED",
+      "acceptance_status": "NOT_EXECUTED"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "GAP-NB01",
+      "title": "版本化小时价与M token输入输出双价",
+      "tasks": [
+        "DEV-02",
+        "DEV-08",
+        "DEV-09",
+        "DEV-12",
+        "DEV-34",
+        "DEV-38"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "implementation_round": "R003",
+      "implementation_ref": "docs/技术开发/附录-NB价版与交易服务实施约束.md"
+    },
+    {
+      "id": "GAP-NB02",
+      "title": "公开市场和单项详情的卖家/型号/价版投影",
+      "tasks": [
+        "DEV-06",
+        "DEV-07",
+        "DEV-08",
+        "DEV-45",
+        "DEV-47"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "implementation_round": "R003",
+      "implementation_ref": "docs/技术开发/附录-NB价版与交易服务实施约束.md"
+    },
+    {
+      "id": "GAP-NB03",
+      "title": "买方可信程序配对与认证摘要控制通道",
+      "tasks": [
+        "DEV-29",
+        "DEV-30",
+        "DEV-45",
+        "DEV-47",
+        "DEV-53"
+      ],
+      "status": "REQUIREMENTS_DEFINED_NOT_IMPLEMENTED"
+    },
+    {
+      "id": "GAP-NB04",
+      "title": "活动订单预估净额与结算状态只读投影",
+      "tasks": [
+        "DEV-34",
+        "DEV-38",
+        "DEV-39",
+        "DEV-40",
+        "DEV-46"
+      ],
+      "status": "REQUIREMENTS_DEFINED_NOT_IMPLEMENTED"
+    },
+    {
+      "id": "GAP-NB05",
+      "title": "整机停止接新单与在途任务的原子准入边界",
+      "tasks": [
+        "DEV-06",
+        "DEV-18",
+        "DEV-20",
+        "DEV-21",
+        "DEV-43",
+        "DEV-46"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "implementation_round": "R003",
+      "implementation_ref": "docs/技术开发/附录-NB价版与交易服务实施约束.md"
+    },
+    {
+      "id": "GAP-NB06",
+      "title": "协议/媒体/沟通动作能力与计量/资金资格投影",
+      "tasks": [
+        "DEV-07",
+        "DEV-09",
+        "DEV-26",
+        "DEV-27",
+        "DEV-45",
+        "DEV-47",
+        "DEV-49",
+        "DEV-52",
+        "DEV-56"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "implementation_round": "R003",
+      "implementation_ref": "docs/技术开发/附录-NB价版与交易服务实施约束.md"
+    }
+  ],
+  "source_goal_status": "ACTIVE"
+}

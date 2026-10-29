@@ -1,0 +1,10 @@
+{
+  "name": "token-share-mesh-readme-capture",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Reproducible screenshots and browser screencasts of the real specification readers",
+  "engines": { "node": ">=22" },
+  "scripts": { "capture": "node capture.mjs" },
+  "dependencies": { "playwright-core": "1.59.1" }
+}
+

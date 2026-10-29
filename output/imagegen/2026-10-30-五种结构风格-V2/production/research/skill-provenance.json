@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-10-29T19:29:29.5185455Z",
+  "installer": "OpenAI skill-installer",
+  "skills": [
+    {
+      "name": "frontend-design",
+      "file": "production/skills/frontend-design/SKILL.md",
+      "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3",
+      "loaded": true,
+      "installed_scope": "project-local",
+      "requested_ref": "main"
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "file": "production/skills/ui-ux-pro-max/SKILL.md",
+      "sha256": "ea087c341bfb5b23195c7302027268ede86da802554c18a5c4896a6017b439f9",
+      "loaded": true,
+      "installed_scope": "project-local",
+      "requested_ref": "main"
+    }
+  ],
+  "image_generator": "user-invoked sub2-image-gen",
+  "image_model": "gpt-image-2.5",
+  "source_code_development": "paused"
+}

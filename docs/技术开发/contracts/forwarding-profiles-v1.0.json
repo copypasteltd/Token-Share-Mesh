@@ -1,0 +1,343 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "test_status": "NOT_EXECUTED",
+  "profiles": [
+    {
+      "id": "CHAT_NATIVE",
+      "source_dialect": "OPENAI_CHAT",
+      "target_dialect": "OPENAI_CHAT",
+      "conversion_kind": "NATIVE_SUBSET",
+      "endpoint_design": "POST /v1/chat/completions",
+      "minimum_design_fields": [
+        "model",
+        "messages"
+      ],
+      "backend_candidate": "QUALIFIED_NATIVE_LLM_LM_STUDIO_OR_AUTHORIZED_UPSTREAM",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "RESPONSES_NATIVE",
+      "source_dialect": "OPENAI_RESPONSES",
+      "target_dialect": "OPENAI_RESPONSES",
+      "conversion_kind": "NATIVE_SUBSET",
+      "endpoint_design": "POST /v1/responses",
+      "minimum_design_fields": [
+        "model",
+        "input"
+      ],
+      "backend_candidate": "QUALIFIED_NATIVE_RESPONSES",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "MESSAGES_NATIVE",
+      "source_dialect": "ANTHROPIC_MESSAGES",
+      "target_dialect": "ANTHROPIC_MESSAGES",
+      "conversion_kind": "NATIVE_SUBSET",
+      "endpoint_design": "POST /v1/messages",
+      "minimum_design_fields": [
+        "model",
+        "messages",
+        "max_tokens"
+      ],
+      "backend_candidate": "QUALIFIED_NATIVE_MESSAGES",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "RESPONSES_TO_CHAT",
+      "source_dialect": "OPENAI_RESPONSES",
+      "target_dialect": "OPENAI_CHAT",
+      "conversion_kind": "LOSSLESS_TEXT_SUBSET",
+      "endpoint_design": "POST /v1/responses",
+      "minimum_design_fields": [
+        "model",
+        "input"
+      ],
+      "backend_candidate": "QUALIFIED_CHAT_BACKEND",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "MESSAGES_TO_CHAT",
+      "source_dialect": "ANTHROPIC_MESSAGES",
+      "target_dialect": "OPENAI_CHAT",
+      "conversion_kind": "LOSSLESS_TEXT_SUBSET",
+      "endpoint_design": "POST /v1/messages",
+      "minimum_design_fields": [
+        "model",
+        "messages",
+        "max_tokens"
+      ],
+      "backend_candidate": "QUALIFIED_CHAT_BACKEND",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "IMAGES_GENERATE",
+      "source_dialect": "OPENAI_IMAGES",
+      "target_dialect": "COMFYUI_RECIPE",
+      "conversion_kind": "RECIPE_MAPPING",
+      "endpoint_design": "POST /v1/images/generations",
+      "minimum_design_fields": [
+        "model",
+        "prompt"
+      ],
+      "backend_candidate": "COMFYUI",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "IMAGES_EDIT",
+      "source_dialect": "OPENAI_IMAGES",
+      "target_dialect": "COMFYUI_RECIPE",
+      "conversion_kind": "RECIPE_MAPPING",
+      "endpoint_design": "POST /v1/images/edits",
+      "minimum_design_fields": [
+        "model",
+        "image"
+      ],
+      "backend_candidate": "COMFYUI",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "VIDEOS_ASYNC",
+      "source_dialect": "OPENAI_VIDEOS",
+      "target_dialect": "COMFYUI_RECIPE",
+      "conversion_kind": "SDK_VERIFIED_ASYNC_SUBSET",
+      "endpoint_design": "CREATE_GET_CONTENT_PER_FROZEN_SDK",
+      "minimum_design_fields": [],
+      "backend_candidate": "QUALIFIED_VIDEO_RECIPE",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "AUDIO_SPEECH",
+      "source_dialect": "OPENAI_AUDIO_SPEECH",
+      "target_dialect": "COMFYUI_RECIPE",
+      "conversion_kind": "APPROVED_AUDIO_SUBSET",
+      "endpoint_design": "POST /v1/audio/speech",
+      "minimum_design_fields": [
+        "model",
+        "input",
+        "voice"
+      ],
+      "backend_candidate": "QUALIFIED_AUDIO_RECIPE",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "AUDIO_TRANSCRIPTIONS",
+      "source_dialect": "OPENAI_AUDIO_TRANSCRIPTIONS",
+      "target_dialect": "COMFYUI_RECIPE",
+      "conversion_kind": "APPROVED_AUDIO_SUBSET",
+      "endpoint_design": "POST /v1/audio/transcriptions",
+      "minimum_design_fields": [
+        "model",
+        "file"
+      ],
+      "backend_candidate": "QUALIFIED_ASR_RECIPE",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    },
+    {
+      "id": "RESPONSES_ASSET_RECIPE",
+      "source_dialect": "OPENAI_RESPONSES",
+      "target_dialect": "COMFYUI_RECIPE",
+      "conversion_kind": "DECLARED_STRUCTURED_ASSET_RESULT",
+      "endpoint_design": "POST /v1/responses; background/retrieve/cancel only after SDK validation",
+      "minimum_design_fields": [
+        "model",
+        "input"
+      ],
+      "backend_candidate": "QUALIFIED_MUSIC_OR_3D_RECIPE",
+      "field_decisions": [
+        "PASS",
+        "MAP",
+        "REJECT"
+      ],
+      "seller_binding": "EXACT_CONFIRMED_SELLER",
+      "sdk_versions": null,
+      "api_version": null,
+      "model_binding": null,
+      "usage_evidence": null,
+      "evidence_refs": [],
+      "sale_enabled": false,
+      "test_status": "NOT_EXECUTED",
+      "source_document": "docs/技术开发/附录-协议字段映射与兼容档位.md"
+    }
+  ],
+  "data_plane_private_json_fields_required": false,
+  "idempotency_header": "Idempotency-Key",
+  "idempotency_header_required": false,
+  "sdk_without_stable_key_note": "No exactly-once purchase guarantee; disable automatic paid retries or supply a stable intent header.",
+  "payment_headers": {
+    "challenge": "amtPaymentLink",
+    "proof": "Payment-Proof",
+    "proof_forwarded_to_engine": false
+  },
+  "retry_policy": {
+    "cross_seller": false,
+    "same_seller_max_reassignments": 1,
+    "retry_after_content_sent": false
+  },
+  "limits_design": {
+    "request_json_bytes": 2097152,
+    "headers_bytes": 32768,
+    "payment_proof_header_bytes": 16384,
+    "sse_event_bytes": 1048576,
+    "tool_arguments_bytes": 1048576,
+    "stream_buffer_bytes": 4194304
+  },
+  "e2e_platform_content_access": false,
+  "rental_per_invocation_payment": false,
+  "conformance_cases": [
+    "FW01",
+    "FW02",
+    "FW03",
+    "FW04",
+    "FW05",
+    "FW06",
+    "FW07",
+    "FW08",
+    "FW09",
+    "FW10",
+    "FW11",
+    "FW12",
+    "FW13",
+    "FW14",
+    "FW15",
+    "FW16",
+    "FW17",
+    "FW18",
+    "FW19",
+    "FW20",
+    "FW21",
+    "FW22"
+  ],
+  "source_document": "docs/技术开发/07-统一协议网关与Sub2API改造.md"
+}

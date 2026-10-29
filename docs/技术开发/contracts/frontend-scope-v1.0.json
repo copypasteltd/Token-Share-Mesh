@@ -1,0 +1,66 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "test_status": "NOT_EXECUTED",
+  "primary_surface": "ALIPAY_MINIAPP",
+  "miniapp": {
+    "framework": "React + Taro",
+    "react_compatibility_line": "18",
+    "taro_major_candidate": "4.x",
+    "compiler_candidate": "webpack5",
+    "frozen_versions": null,
+    "planned_package": "dev/src/miniapp",
+    "default_ai_transport": "NON_STREAMING_JSON_OR_CONTROL_JOB_POLLING",
+    "sse_validated": false,
+    "e2e_role": "CONTROL_AND_PAIRING_SUMMARY"
+  },
+  "web": {
+    "framework": "React + Vite",
+    "planned_package": "dev/src/web",
+    "roles": [
+      "DEVELOPER",
+      "COMPLEX_BUYER_TASKS",
+      "SELLER_CONFIGURATION",
+      "OPERATIONS",
+      "FINANCE"
+    ],
+    "sse_design": true,
+    "frozen_versions": null
+  },
+  "shared": {
+    "planned_package": "dev/src/frontend/packages",
+    "language": "TypeScript",
+    "packages": [
+      "domain",
+      "api-types",
+      "api-client",
+      "ui-tokens"
+    ],
+    "forbidden_runtime_dependencies": [
+      "window",
+      "document",
+      "react-dom",
+      "Taro",
+      "Node networking/filesystem"
+    ]
+  },
+  "payment_actions": [
+    "HOSTED_PURCHASE",
+    "NATIVE_TRADE",
+    "A402_APPROVAL"
+  ],
+  "deferred": [
+    "HTTPS_AND_CERTIFICATES",
+    "DEPLOYMENT_AND_OPERATIONS",
+    "OBSERVABILITY"
+  ],
+  "deferred_tasks": [
+    "DEV-55"
+  ],
+  "deferred_pocs": [
+    "POC-12"
+  ],
+  "scope_document": "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+  "source_document": "docs/技术开发/14-前端路由状态与接口集成.md"
+}

@@ -1,0 +1,2568 @@
+{
+  "version": "1.0",
+  "goal_status": "ACTIVE",
+  "current_activity": "SOURCE_IMPLEMENTATION_R003",
+  "activity_source": "当前完整源码实施目标继续；设计/需求暂停阶段结束，真实设备/资金/部署资格仍独立。",
+  "round": "R003",
+  "tasks": [
+    {
+      "id": "DEV-01",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R001-001",
+        "IMP-R001-002",
+        "IMP-R001-010"
+      ],
+      "remaining_step_ids": [
+        "DEV-01.01",
+        "DEV-01.02",
+        "DEV-01.03",
+        "DEV-01.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R001-验证报告.md"
+      ],
+      "remaining_detail": "补齐 React/Taro/Vite、Android/NDK/CMake 构建和锁文件；Linux 原生验证、完整依赖/许可清单。"
+    },
+    {
+      "id": "DEV-02",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R001-003",
+        "IMP-R001-008",
+        "IMP-R001-010",
+        "IMP-R003-006",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-02.01",
+        "DEV-02.02",
+        "DEV-02.03",
+        "DEV-02.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R001-验证报告.md",
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "继续最小权限、已有数据升级/恢复和账表并发；002已验证，旧租赁分钟列及有理小时会话迁移未完成。"
+    },
+    {
+      "id": "DEV-03",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R001-004",
+        "IMP-R001-005",
+        "IMP-R001-006",
+        "IMP-R001-008",
+        "IMP-R003-005",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-03.01",
+        "DEV-03.02",
+        "DEV-03.03",
+        "DEV-03.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R001-验证报告.md",
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补真实OAuth/会话/CSRF和HTTP凭据适配，统一密钥/角色撤销生命周期；已有角色重核仅应用服务。"
+    },
+    {
+      "id": "DEV-04",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-04.01",
+        "DEV-04.02",
+        "DEV-04.03",
+        "DEV-04.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-05",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-05.01",
+        "DEV-05.02",
+        "DEV-05.03",
+        "DEV-05.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-06",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-06.01",
+        "DEV-06.02",
+        "DEV-06.03",
+        "DEV-06.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-07",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R003-002",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-07.01",
+        "DEV-07.02",
+        "DEV-07.03",
+        "DEV-07.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补环境/模型/组件清单来源、审核写服务、许可与六桌面/LMA真实组合证据及失效在途处置。"
+    },
+    {
+      "id": "DEV-08",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R003-002",
+        "IMP-R003-006",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-08.01",
+        "DEV-08.02",
+        "DEV-08.03",
+        "DEV-08.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补卖家挂牌编辑/提交/暂停、时段规则、HTTP公开详情与模型/完整筛选、实际设备型号来源；现有为受审模板读取。"
+    },
+    {
+      "id": "DEV-09",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R003-003",
+        "IMP-R003-005",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-09.01",
+        "DEV-09.02",
+        "DEV-09.03",
+        "DEV-09.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补HTTP会话接入、真实资金路线预检、完整媒体规格、报价后证据变更政策和历史报价兼容读端。"
+    },
+    {
+      "id": "DEV-10",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R003-004",
+        "IMP-R003-005",
+        "IMP-R003-006",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-10.01",
+        "DEV-10.02",
+        "DEV-10.03",
+        "DEV-10.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补订单列表/后续状态及持久化更新时间、支付取消/超时、跨卖家关联新确认、真实收款主体绑定。"
+    },
+    {
+      "id": "DEV-11",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-11.01",
+        "DEV-11.02",
+        "DEV-11.03",
+        "DEV-11.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-12",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R001-002",
+        "IMP-R001-008",
+        "IMP-R003-001",
+        "IMP-R003-003",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-12.01",
+        "DEV-12.02",
+        "DEV-12.03",
+        "DEV-12.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R001-验证报告.md",
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补并发reserve/consume/release及资金UNKNOWN、预算/期限硬停止和费用解释；NB价率及最坏费用已实现。"
+    },
+    {
+      "id": "DEV-13",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-13.01",
+        "DEV-13.02",
+        "DEV-13.03",
+        "DEV-13.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-14",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-14.01",
+        "DEV-14.02",
+        "DEV-14.03",
+        "DEV-14.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-15",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-15.01",
+        "DEV-15.02",
+        "DEV-15.03",
+        "DEV-15.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-16",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-16.01",
+        "DEV-16.02",
+        "DEV-16.03",
+        "DEV-16.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-17",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-17.01",
+        "DEV-17.02",
+        "DEV-17.03",
+        "DEV-17.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-18",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-18.01",
+        "DEV-18.02",
+        "DEV-18.03",
+        "DEV-18.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-19",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-19.01",
+        "DEV-19.02",
+        "DEV-19.03",
+        "DEV-19.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-20",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-20.01",
+        "DEV-20.02",
+        "DEV-20.03",
+        "DEV-20.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-21",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-21.01",
+        "DEV-21.02",
+        "DEV-21.03",
+        "DEV-21.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-22",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-22.01",
+        "DEV-22.02",
+        "DEV-22.03",
+        "DEV-22.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-23",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-23.01",
+        "DEV-23.02",
+        "DEV-23.03",
+        "DEV-23.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-24",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-24.01",
+        "DEV-24.02",
+        "DEV-24.03",
+        "DEV-24.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-25",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-25.01",
+        "DEV-25.02",
+        "DEV-25.03",
+        "DEV-25.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-26",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-26.01",
+        "DEV-26.02",
+        "DEV-26.03",
+        "DEV-26.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-27",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-27.01",
+        "DEV-27.02",
+        "DEV-27.03",
+        "DEV-27.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-28",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-28.01",
+        "DEV-28.02",
+        "DEV-28.03",
+        "DEV-28.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-29",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-29.01",
+        "DEV-29.02",
+        "DEV-29.03",
+        "DEV-29.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-30",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-30.01",
+        "DEV-30.02",
+        "DEV-30.03",
+        "DEV-30.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-31",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-31.01",
+        "DEV-31.02",
+        "DEV-31.03",
+        "DEV-31.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-32",
+      "implementation_status": "CONDITIONAL",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-32.01",
+        "DEV-32.02",
+        "DEV-32.03",
+        "DEV-32.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-33",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-33.01",
+        "DEV-33.02",
+        "DEV-33.03",
+        "DEV-33.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-34",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-34.01",
+        "DEV-34.02",
+        "DEV-34.03",
+        "DEV-34.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-35",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-35.01",
+        "DEV-35.02",
+        "DEV-35.03",
+        "DEV-35.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-36",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-36.01",
+        "DEV-36.02",
+        "DEV-36.03",
+        "DEV-36.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-37",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-37.01",
+        "DEV-37.02",
+        "DEV-37.03",
+        "DEV-37.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-38",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R003-001",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-38.01",
+        "DEV-38.02",
+        "DEV-38.03",
+        "DEV-38.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补真实模型/tokenizer/模板usage来源及缓存/推理去重，证据核验、账单版本与水位、缺证退款；目前仅精确价格计算。"
+    },
+    {
+      "id": "DEV-39",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-39.01",
+        "DEV-39.02",
+        "DEV-39.03",
+        "DEV-39.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-40",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-40.01",
+        "DEV-40.02",
+        "DEV-40.03",
+        "DEV-40.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-41",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-41.01",
+        "DEV-41.02",
+        "DEV-41.03",
+        "DEV-41.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-42",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-42.01",
+        "DEV-42.02",
+        "DEV-42.03",
+        "DEV-42.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-43",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-43.01",
+        "DEV-43.02",
+        "DEV-43.03",
+        "DEV-43.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-44",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-44.01",
+        "DEV-44.02",
+        "DEV-44.03",
+        "DEV-44.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-45",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-45.01",
+        "DEV-45.02",
+        "DEV-45.03",
+        "DEV-45.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-46",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-46.01",
+        "DEV-46.02",
+        "DEV-46.03",
+        "DEV-46.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-47",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-47.01",
+        "DEV-47.02",
+        "DEV-47.03",
+        "DEV-47.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-48",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-48.01",
+        "DEV-48.02",
+        "DEV-48.03",
+        "DEV-48.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-49",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-49.01",
+        "DEV-49.02",
+        "DEV-49.03",
+        "DEV-49.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-50",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-50.01",
+        "DEV-50.02",
+        "DEV-50.03",
+        "DEV-50.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-51",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R001-006",
+        "IMP-R001-007",
+        "IMP-R001-008",
+        "IMP-R003-004",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-51.01",
+        "DEV-51.02",
+        "DEV-51.03",
+        "DEV-51.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R001-验证报告.md",
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补outbox发布器/真实消费者和持久任务调度、死信受控重放及恢复；订单事务已写安全outbox。"
+    },
+    {
+      "id": "DEV-52",
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R003-002",
+        "IMP-R003-007"
+      ],
+      "remaining_step_ids": [
+        "DEV-52.01",
+        "DEV-52.02",
+        "DEV-52.03",
+        "DEV-52.04"
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R003-验证报告.md"
+      ],
+      "remaining_detail": "补审核/发布/撤销写端、审批权限/在途影响、真实许可/物理/渠道/密码证据；目前只有购买读路径的范围资格重核。"
+    },
+    {
+      "id": "DEV-53",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-53.01",
+        "DEV-53.02",
+        "DEV-53.03",
+        "DEV-53.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-54",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-54.01",
+        "DEV-54.02",
+        "DEV-54.03",
+        "DEV-54.04"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-55",
+      "implementation_status": "DEFERRED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-55.01",
+        "DEV-55.02"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "id": "DEV-56",
+      "implementation_status": "NOT_STARTED",
+      "completed_components": [],
+      "remaining_step_ids": [
+        "DEV-56.01",
+        "DEV-56.02",
+        "DEV-56.03",
+        "DEV-56.04"
+      ],
+      "evidence_refs": []
+    }
+  ],
+  "rounds": [
+    {
+      "id": "R001",
+      "title": "原生后端基础、数据库与授权核心",
+      "verification_status": "PASSED_FOR_FOUNDATION_ONLY",
+      "evidence_refs": [
+        "dev/tests/evidence/R001-验证报告.md",
+        "dev/tests/evidence/R001-验证报告.json",
+        "dev/tests/evidence/R001-native-source-checks.json",
+        "dev/tests/evidence/R001-native-summary.json",
+        "dev/评审/开发细则核验-v1.0.md"
+      ],
+      "implemented": [
+        {
+          "id": "IMP-R001-001",
+          "task_ids": [
+            "DEV-01"
+          ],
+          "title": "项目内固定 Go / PostgreSQL 原生工具链、校验与缓存隔离",
+          "artifacts": [
+            "dev/toolchain.lock.json",
+            "dev/tools/获取原生工具链.py",
+            "dev/tools/原生开发.py",
+            "dev/tools/核验原生源码.py",
+            "dev/licenses/go-dependencies.json"
+          ],
+          "verification": "ARCHIVE_PIN_AND_NATIVE_VERIFIED",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-002",
+          "task_ids": [
+            "DEV-01",
+            "DEV-12"
+          ],
+          "title": "单 Go 模块、ID/安全错误与整数有理金额核心",
+          "artifacts": [
+            "dev/src/go.mod",
+            "dev/src/shared/money/money.go"
+          ],
+          "verification": "COMPILED_AND_TESTED",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-003",
+          "task_ids": [
+            "DEV-02"
+          ],
+          "title": "60 张领域表的嵌入迁移、互斥执行和摘要漂移拒绝",
+          "artifacts": [
+            "dev/src/internal/persistence/migrate.go",
+            "dev/src/internal/persistence/migrations/001_domain.sql"
+          ],
+          "verification": "NATIVE_INTEGRATION_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-004",
+          "task_ids": [
+            "DEV-03"
+          ],
+          "title": "密钥名称/公开指纹/多路由存储与原草案修正",
+          "artifacts": [
+            "docs/技术开发/database/schema-draft.sql"
+          ],
+          "verification": "NATIVE_DDL_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-005",
+          "task_ids": [
+            "DEV-03"
+          ],
+          "title": "API 密钥创建/只显一次/列表/撤销/有限 scope 与路由归属检查",
+          "artifacts": [
+            "dev/src/internal/identity/keys.go"
+          ],
+          "verification": "NATIVE_SERVICE_TESTS_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-006",
+          "task_ids": [
+            "DEV-03",
+            "DEV-51"
+          ],
+          "title": "主体/操作/资源绑定的事务幂等与安全回放",
+          "artifacts": [
+            "dev/src/internal/outbox/idempotency.go"
+          ],
+          "verification": "NATIVE_CONCURRENCY_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-007",
+          "task_ids": [
+            "DEV-51"
+          ],
+          "title": "持久任务认领代次、有限重试及事务 inbox 去重",
+          "artifacts": [
+            "dev/src/internal/outbox/jobs.go"
+          ],
+          "verification": "NATIVE_QUEUE_TESTS_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-008",
+          "task_ids": [
+            "DEV-02",
+            "DEV-03",
+            "DEV-12",
+            "DEV-51"
+          ],
+          "title": "原生 PG 集成与金额、并发、回滚、权限和旧认领验证",
+          "artifacts": [
+            "dev/src/tests/integration/core_test.go",
+            "dev/src/tests/integration/constraints_test.go",
+            "dev/src/shared/money/money_test.go",
+            "dev/tools/原生数据库验证.py",
+            "dev/tools/整理原生验证证据.py"
+          ],
+          "verification": "10_NATIVE_TESTS_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-009",
+          "task_ids": [],
+          "title": "本轮交付与整体待办的机器登记和编号表",
+          "artifacts": [
+            "dev/progress/implementation-status.json",
+            "dev/tools/更新开发进度.py"
+          ],
+          "verification": "REGISTERED_ALL_56_AND_49_STRUCTURE_CHECKS_PASSED",
+          "scope": "ALL",
+          "evidence_refs": [
+            "dev/评审/开发细则核验-v1.0.md"
+          ]
+        },
+        {
+          "id": "IMP-R001-010",
+          "task_ids": [
+            "DEV-01",
+            "DEV-02"
+          ],
+          "title": "本地原生迁移/表结构核对命令",
+          "artifacts": [
+            "dev/src/api/cmd/p11-admin/main.go"
+          ],
+          "verification": "COMPILED_NO_CLI_E2E_TEST",
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ]
+        }
+      ],
+      "task_snapshot": [
+        {
+          "id": "DEV-01",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-001",
+            "IMP-R001-002",
+            "IMP-R001-010"
+          ],
+          "remaining_step_ids": [
+            "DEV-01.01",
+            "DEV-01.02",
+            "DEV-01.03",
+            "DEV-01.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ],
+          "remaining_detail": "补齐 React/Taro/Vite、Android/NDK/CMake 构建和锁文件；Linux 原生验证、完整依赖/许可清单。"
+        },
+        {
+          "id": "DEV-02",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-003",
+            "IMP-R001-008",
+            "IMP-R001-010"
+          ],
+          "remaining_step_ids": [
+            "DEV-02.01",
+            "DEV-02.02",
+            "DEV-02.03",
+            "DEV-02.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ],
+          "remaining_detail": "完善应用角色最小权限、全表事务/索引回归、已有数据升级和重启恢复/围栏持久性验证。"
+        },
+        {
+          "id": "DEV-03",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-004",
+            "IMP-R001-005",
+            "IMP-R001-006",
+            "IMP-R001-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-03.01",
+            "DEV-03.02",
+            "DEV-03.03",
+            "DEV-03.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ],
+          "remaining_detail": "完成账户身份/OAuth适配、会话/CSRF、HTTP接口；补齐多路由归属/过期/pepper轮换及配对令牌。"
+        },
+        {
+          "id": "DEV-04",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-04.01",
+            "DEV-04.02",
+            "DEV-04.03",
+            "DEV-04.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-05",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-05.01",
+            "DEV-05.02",
+            "DEV-05.03",
+            "DEV-05.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-06",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-06.01",
+            "DEV-06.02",
+            "DEV-06.03",
+            "DEV-06.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-07",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-07.01",
+            "DEV-07.02",
+            "DEV-07.03",
+            "DEV-07.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-08",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-08.01",
+            "DEV-08.02",
+            "DEV-08.03",
+            "DEV-08.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-09",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-09.01",
+            "DEV-09.02",
+            "DEV-09.03",
+            "DEV-09.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-10",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-10.01",
+            "DEV-10.02",
+            "DEV-10.03",
+            "DEV-10.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-11",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-11.01",
+            "DEV-11.02",
+            "DEV-11.03",
+            "DEV-11.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-12",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-002",
+            "IMP-R001-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-12.01",
+            "DEV-12.02",
+            "DEV-12.03",
+            "DEV-12.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ],
+          "remaining_detail": "实现预算数据库预留/消费/释放及并发守恒、合同费率/缓存口径和期限停止；目前已实现金额算术。"
+        },
+        {
+          "id": "DEV-13",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-13.01",
+            "DEV-13.02",
+            "DEV-13.03",
+            "DEV-13.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-14",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-14.01",
+            "DEV-14.02",
+            "DEV-14.03",
+            "DEV-14.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-15",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-15.01",
+            "DEV-15.02",
+            "DEV-15.03",
+            "DEV-15.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-16",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-16.01",
+            "DEV-16.02",
+            "DEV-16.03",
+            "DEV-16.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-17",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-17.01",
+            "DEV-17.02",
+            "DEV-17.03",
+            "DEV-17.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-18",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-18.01",
+            "DEV-18.02",
+            "DEV-18.03",
+            "DEV-18.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-19",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-19.01",
+            "DEV-19.02",
+            "DEV-19.03",
+            "DEV-19.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-20",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-20.01",
+            "DEV-20.02",
+            "DEV-20.03",
+            "DEV-20.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-21",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-21.01",
+            "DEV-21.02",
+            "DEV-21.03",
+            "DEV-21.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-22",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-22.01",
+            "DEV-22.02",
+            "DEV-22.03",
+            "DEV-22.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-23",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-23.01",
+            "DEV-23.02",
+            "DEV-23.03",
+            "DEV-23.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-24",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-24.01",
+            "DEV-24.02",
+            "DEV-24.03",
+            "DEV-24.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-25",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-25.01",
+            "DEV-25.02",
+            "DEV-25.03",
+            "DEV-25.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-26",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-26.01",
+            "DEV-26.02",
+            "DEV-26.03",
+            "DEV-26.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-27",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-27.01",
+            "DEV-27.02",
+            "DEV-27.03",
+            "DEV-27.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-28",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-28.01",
+            "DEV-28.02",
+            "DEV-28.03",
+            "DEV-28.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-29",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-29.01",
+            "DEV-29.02",
+            "DEV-29.03",
+            "DEV-29.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-30",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-30.01",
+            "DEV-30.02",
+            "DEV-30.03",
+            "DEV-30.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-31",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-31.01",
+            "DEV-31.02",
+            "DEV-31.03",
+            "DEV-31.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-32",
+          "implementation_status": "CONDITIONAL",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-32.01",
+            "DEV-32.02",
+            "DEV-32.03",
+            "DEV-32.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-33",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-33.01",
+            "DEV-33.02",
+            "DEV-33.03",
+            "DEV-33.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-34",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-34.01",
+            "DEV-34.02",
+            "DEV-34.03",
+            "DEV-34.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-35",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-35.01",
+            "DEV-35.02",
+            "DEV-35.03",
+            "DEV-35.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-36",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-36.01",
+            "DEV-36.02",
+            "DEV-36.03",
+            "DEV-36.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-37",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-37.01",
+            "DEV-37.02",
+            "DEV-37.03",
+            "DEV-37.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-38",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-38.01",
+            "DEV-38.02",
+            "DEV-38.03",
+            "DEV-38.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-39",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-39.01",
+            "DEV-39.02",
+            "DEV-39.03",
+            "DEV-39.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-40",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-40.01",
+            "DEV-40.02",
+            "DEV-40.03",
+            "DEV-40.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-41",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-41.01",
+            "DEV-41.02",
+            "DEV-41.03",
+            "DEV-41.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-42",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-42.01",
+            "DEV-42.02",
+            "DEV-42.03",
+            "DEV-42.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-43",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-43.01",
+            "DEV-43.02",
+            "DEV-43.03",
+            "DEV-43.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-44",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-44.01",
+            "DEV-44.02",
+            "DEV-44.03",
+            "DEV-44.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-45",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-45.01",
+            "DEV-45.02",
+            "DEV-45.03",
+            "DEV-45.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-46",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-46.01",
+            "DEV-46.02",
+            "DEV-46.03",
+            "DEV-46.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-47",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-47.01",
+            "DEV-47.02",
+            "DEV-47.03",
+            "DEV-47.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-48",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-48.01",
+            "DEV-48.02",
+            "DEV-48.03",
+            "DEV-48.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-49",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-49.01",
+            "DEV-49.02",
+            "DEV-49.03",
+            "DEV-49.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-50",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-50.01",
+            "DEV-50.02",
+            "DEV-50.03",
+            "DEV-50.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-51",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-006",
+            "IMP-R001-007",
+            "IMP-R001-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-51.01",
+            "DEV-51.02",
+            "DEV-51.03",
+            "DEV-51.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ],
+          "remaining_detail": "实现事务outbox发布器、真实worker消费者/通知/查单/补清、受控死信重放和LP/PE性能夹具。"
+        },
+        {
+          "id": "DEV-52",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-52.01",
+            "DEV-52.02",
+            "DEV-52.03",
+            "DEV-52.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-53",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-53.01",
+            "DEV-53.02",
+            "DEV-53.03",
+            "DEV-53.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-54",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-54.01",
+            "DEV-54.02",
+            "DEV-54.03",
+            "DEV-54.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-55",
+          "implementation_status": "DEFERRED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-55.01",
+            "DEV-55.02"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-56",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-56.01",
+            "DEV-56.02",
+            "DEV-56.03",
+            "DEV-56.04"
+          ],
+          "evidence_refs": []
+        }
+      ]
+    },
+    {
+      "id": "R003",
+      "title": "NB价格合同、市场资格与报价建单应用服务",
+      "verification_status": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+      "evidence_refs": [
+        "dev/tests/evidence/R003-验证报告.md",
+        "dev/tests/evidence/R003-验证报告.json",
+        "dev/tests/evidence/R003-native-source-checks.json",
+        "dev/tests/evidence/R003-native-summary.json",
+        "dev/tests/evidence/R003-repository-check.json",
+        "docs/评审/白皮书契约核验-v3.0.json",
+        "docs/评审/技术开发文档核验-v1.0.json",
+        "dev/评审/开发细则核验-v1.0.json"
+      ],
+      "implemented": [
+        {
+          "id": "IMP-R003-001",
+          "task_ids": [
+            "DEV-12",
+            "DEV-38"
+          ],
+          "title": "NB_PRICE_1小时及输入/输出M token双价，精确累计、费用/退款目标与旧价无损桥接",
+          "artifacts": [
+            "dev/src/internal/pricing/price.go",
+            "scripts/白皮书契约数据.py"
+          ],
+          "verification": "NATIVE_CONTROL_SERVICES_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R003-002",
+          "task_ids": [
+            "DEV-07",
+            "DEV-08",
+            "DEV-52"
+          ],
+          "title": "真实卖家/具体型号市场投影、筛选游标和组合范围/开关/证据/资源可用重核",
+          "artifacts": [
+            "dev/src/internal/market/catalog.go"
+          ],
+          "verification": "NATIVE_CONTROL_SERVICES_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R003-003",
+          "task_ids": [
+            "DEV-09",
+            "DEV-12"
+          ],
+          "title": "报价预检、最坏预算、不可变合同摘要及证据限时",
+          "artifacts": [
+            "dev/src/internal/trade/service.go"
+          ],
+          "verification": "NATIVE_CONTROL_SERVICES_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R003-004",
+          "task_ids": [
+            "DEV-10",
+            "DEV-51"
+          ],
+          "title": "本人报价原子建单、一次消费、明确同意及同事务outbox",
+          "artifacts": [
+            "dev/src/internal/trade/service.go"
+          ],
+          "verification": "NATIVE_CONTROL_SERVICES_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R003-005",
+          "task_ids": [
+            "DEV-03",
+            "DEV-09",
+            "DEV-10"
+          ],
+          "title": "幂等回放前重核角色；控制JSON有界/未知字段/重复键拒绝",
+          "artifacts": [
+            "dev/src/internal/identity/roles.go",
+            "dev/src/internal/outbox/idempotency.go",
+            "dev/src/shared/strictjson/decode.go"
+          ],
+          "verification": "NATIVE_CONTROL_SERVICES_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R003-006",
+          "task_ids": [
+            "DEV-02",
+            "DEV-08",
+            "DEV-10"
+          ],
+          "title": "前向002守卫及历史订单原始JSON保留，旧001/分钟列不改",
+          "artifacts": [
+            "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
+            "dev/src/internal/persistence/migrations/source-v2.json",
+            "dev/src/internal/trade/service.go"
+          ],
+          "verification": "NATIVE_CONTROL_SERVICES_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R003-007",
+          "task_ids": [
+            "DEV-02",
+            "DEV-03",
+            "DEV-07",
+            "DEV-08",
+            "DEV-09",
+            "DEV-10",
+            "DEV-12",
+            "DEV-38",
+            "DEV-51",
+            "DEV-52"
+          ],
+          "title": "22项原生测试、16同键/12异键并发、构建校验和数据库关闭证据",
+          "artifacts": [
+            "dev/src/tests/integration/trade_test.go",
+            "dev/src/internal/pricing/price_test.go",
+            "dev/src/shared/strictjson/decode_test.go",
+            "dev/tests/evidence/R003-验证报告.json"
+          ],
+          "verification": "NATIVE_CONTROL_SERVICES_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R003-008",
+          "task_ids": [],
+          "title": "NB契约、双语说明、真实阅读器媒体与完整56项待办同步",
+          "artifacts": [
+            "docs/技术开发/附录-NB价版与交易服务实施约束.md",
+            "dev/progress/implementation-status.json",
+            "dev/tools/更新开发进度.py",
+            "README.md",
+            "README.zh-CN.md",
+            "CHANGELOG.md",
+            "CHANGELOG.zh-CN.md",
+            "dev/media/media-manifest.json",
+            "dev/tools/同步仓库.py"
+          ],
+          "verification": "DOCUMENT_AND_15_REPOSITORY_CHECKS_PASSED",
+          "evidence_refs": [
+            "dev/tests/evidence/R003-repository-check.json",
+            "dev/评审/开发细则核验-v1.0.json"
+          ]
+        }
+      ],
+      "task_snapshot": [
+        {
+          "id": "DEV-01",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-001",
+            "IMP-R001-002",
+            "IMP-R001-010"
+          ],
+          "remaining_step_ids": [
+            "DEV-01.01",
+            "DEV-01.02",
+            "DEV-01.03",
+            "DEV-01.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md"
+          ],
+          "remaining_detail": "补齐 React/Taro/Vite、Android/NDK/CMake 构建和锁文件；Linux 原生验证、完整依赖/许可清单。"
+        },
+        {
+          "id": "DEV-02",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-003",
+            "IMP-R001-008",
+            "IMP-R001-010",
+            "IMP-R003-006",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-02.01",
+            "DEV-02.02",
+            "DEV-02.03",
+            "DEV-02.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "继续最小权限、已有数据升级/恢复和账表并发；002已验证，旧租赁分钟列及有理小时会话迁移未完成。"
+        },
+        {
+          "id": "DEV-03",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-004",
+            "IMP-R001-005",
+            "IMP-R001-006",
+            "IMP-R001-008",
+            "IMP-R003-005",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-03.01",
+            "DEV-03.02",
+            "DEV-03.03",
+            "DEV-03.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补真实OAuth/会话/CSRF和HTTP凭据适配，统一密钥/角色撤销生命周期；已有角色重核仅应用服务。"
+        },
+        {
+          "id": "DEV-04",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-04.01",
+            "DEV-04.02",
+            "DEV-04.03",
+            "DEV-04.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-05",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-05.01",
+            "DEV-05.02",
+            "DEV-05.03",
+            "DEV-05.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-06",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-06.01",
+            "DEV-06.02",
+            "DEV-06.03",
+            "DEV-06.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-07",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-07.01",
+            "DEV-07.02",
+            "DEV-07.03",
+            "DEV-07.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补环境/模型/组件清单来源、审核写服务、许可与六桌面/LMA真实组合证据及失效在途处置。"
+        },
+        {
+          "id": "DEV-08",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-006",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-08.01",
+            "DEV-08.02",
+            "DEV-08.03",
+            "DEV-08.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补卖家挂牌编辑/提交/暂停、时段规则、HTTP公开详情与模型/完整筛选、实际设备型号来源；现有为受审模板读取。"
+        },
+        {
+          "id": "DEV-09",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-003",
+            "IMP-R003-005",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-09.01",
+            "DEV-09.02",
+            "DEV-09.03",
+            "DEV-09.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补HTTP会话接入、真实资金路线预检、完整媒体规格、报价后证据变更政策和历史报价兼容读端。"
+        },
+        {
+          "id": "DEV-10",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-004",
+            "IMP-R003-005",
+            "IMP-R003-006",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-10.01",
+            "DEV-10.02",
+            "DEV-10.03",
+            "DEV-10.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补订单列表/后续状态及持久化更新时间、支付取消/超时、跨卖家关联新确认、真实收款主体绑定。"
+        },
+        {
+          "id": "DEV-11",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-11.01",
+            "DEV-11.02",
+            "DEV-11.03",
+            "DEV-11.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-12",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-002",
+            "IMP-R001-008",
+            "IMP-R003-001",
+            "IMP-R003-003",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-12.01",
+            "DEV-12.02",
+            "DEV-12.03",
+            "DEV-12.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补并发reserve/consume/release及资金UNKNOWN、预算/期限硬停止和费用解释；NB价率及最坏费用已实现。"
+        },
+        {
+          "id": "DEV-13",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-13.01",
+            "DEV-13.02",
+            "DEV-13.03",
+            "DEV-13.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-14",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-14.01",
+            "DEV-14.02",
+            "DEV-14.03",
+            "DEV-14.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-15",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-15.01",
+            "DEV-15.02",
+            "DEV-15.03",
+            "DEV-15.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-16",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-16.01",
+            "DEV-16.02",
+            "DEV-16.03",
+            "DEV-16.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-17",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-17.01",
+            "DEV-17.02",
+            "DEV-17.03",
+            "DEV-17.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-18",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-18.01",
+            "DEV-18.02",
+            "DEV-18.03",
+            "DEV-18.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-19",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-19.01",
+            "DEV-19.02",
+            "DEV-19.03",
+            "DEV-19.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-20",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-20.01",
+            "DEV-20.02",
+            "DEV-20.03",
+            "DEV-20.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-21",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-21.01",
+            "DEV-21.02",
+            "DEV-21.03",
+            "DEV-21.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-22",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-22.01",
+            "DEV-22.02",
+            "DEV-22.03",
+            "DEV-22.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-23",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-23.01",
+            "DEV-23.02",
+            "DEV-23.03",
+            "DEV-23.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-24",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-24.01",
+            "DEV-24.02",
+            "DEV-24.03",
+            "DEV-24.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-25",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-25.01",
+            "DEV-25.02",
+            "DEV-25.03",
+            "DEV-25.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-26",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-26.01",
+            "DEV-26.02",
+            "DEV-26.03",
+            "DEV-26.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-27",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-27.01",
+            "DEV-27.02",
+            "DEV-27.03",
+            "DEV-27.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-28",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-28.01",
+            "DEV-28.02",
+            "DEV-28.03",
+            "DEV-28.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-29",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-29.01",
+            "DEV-29.02",
+            "DEV-29.03",
+            "DEV-29.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-30",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-30.01",
+            "DEV-30.02",
+            "DEV-30.03",
+            "DEV-30.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-31",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-31.01",
+            "DEV-31.02",
+            "DEV-31.03",
+            "DEV-31.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-32",
+          "implementation_status": "CONDITIONAL",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-32.01",
+            "DEV-32.02",
+            "DEV-32.03",
+            "DEV-32.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-33",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-33.01",
+            "DEV-33.02",
+            "DEV-33.03",
+            "DEV-33.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-34",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-34.01",
+            "DEV-34.02",
+            "DEV-34.03",
+            "DEV-34.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-35",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-35.01",
+            "DEV-35.02",
+            "DEV-35.03",
+            "DEV-35.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-36",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-36.01",
+            "DEV-36.02",
+            "DEV-36.03",
+            "DEV-36.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-37",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-37.01",
+            "DEV-37.02",
+            "DEV-37.03",
+            "DEV-37.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-38",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-001",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-38.01",
+            "DEV-38.02",
+            "DEV-38.03",
+            "DEV-38.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补真实模型/tokenizer/模板usage来源及缓存/推理去重，证据核验、账单版本与水位、缺证退款；目前仅精确价格计算。"
+        },
+        {
+          "id": "DEV-39",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-39.01",
+            "DEV-39.02",
+            "DEV-39.03",
+            "DEV-39.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-40",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-40.01",
+            "DEV-40.02",
+            "DEV-40.03",
+            "DEV-40.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-41",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-41.01",
+            "DEV-41.02",
+            "DEV-41.03",
+            "DEV-41.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-42",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-42.01",
+            "DEV-42.02",
+            "DEV-42.03",
+            "DEV-42.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-43",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-43.01",
+            "DEV-43.02",
+            "DEV-43.03",
+            "DEV-43.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-44",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-44.01",
+            "DEV-44.02",
+            "DEV-44.03",
+            "DEV-44.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-45",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-45.01",
+            "DEV-45.02",
+            "DEV-45.03",
+            "DEV-45.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-46",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-46.01",
+            "DEV-46.02",
+            "DEV-46.03",
+            "DEV-46.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-47",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-47.01",
+            "DEV-47.02",
+            "DEV-47.03",
+            "DEV-47.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-48",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-48.01",
+            "DEV-48.02",
+            "DEV-48.03",
+            "DEV-48.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-49",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-49.01",
+            "DEV-49.02",
+            "DEV-49.03",
+            "DEV-49.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-50",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-50.01",
+            "DEV-50.02",
+            "DEV-50.03",
+            "DEV-50.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-51",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-006",
+            "IMP-R001-007",
+            "IMP-R001-008",
+            "IMP-R003-004",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-51.01",
+            "DEV-51.02",
+            "DEV-51.03",
+            "DEV-51.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补outbox发布器/真实消费者和持久任务调度、死信受控重放及恢复；订单事务已写安全outbox。"
+        },
+        {
+          "id": "DEV-52",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-52.01",
+            "DEV-52.02",
+            "DEV-52.03",
+            "DEV-52.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补审核/发布/撤销写端、审批权限/在途影响、真实许可/物理/渠道/密码证据；目前只有购买读路径的范围资格重核。"
+        },
+        {
+          "id": "DEV-53",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-53.01",
+            "DEV-53.02",
+            "DEV-53.03",
+            "DEV-53.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-54",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-54.01",
+            "DEV-54.02",
+            "DEV-54.03",
+            "DEV-54.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-55",
+          "implementation_status": "DEFERRED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-55.01",
+            "DEV-55.02"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-56",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-56.01",
+            "DEV-56.02",
+            "DEV-56.03",
+            "DEV-56.04"
+          ],
+          "evidence_refs": []
+        }
+      ]
+    }
+  ]
+}

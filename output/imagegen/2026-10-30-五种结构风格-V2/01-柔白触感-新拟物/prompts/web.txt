@@ -1,0 +1,23 @@
+Create one high-fidelity, beautifully art-directed Chinese PRODUCT UI concept for “算力共享” / “Token Share Mesh”, a genuine C2C marketplace where INDIVIDUAL sellers list idle personal computing devices. It is a design concept with demo data.
+Hard framing: one flat straight-on edge-to-edge page, no physical device frame, no phone mockup, no hand/desk, no perspective, no multi-screen collage, no palette/style labels, no captions outside UI, no watermarks. Draw actual legible UI, not a presentation board.
+EXACT shared resource data: “RTX 4090 · 24GB”; seller “星河同学”; “个人卖家”; service “ComfyUI · 图像生成”; “¥0.60 / 张”. Secondary PHONE MUST explicitly be “摩托罗拉 X30”; model “Qwen 3B”; seller “阿澄”; “¥0.02 / 千Token”. The phone's visible TITLE MUST be the concrete model 摩托罗拉 X30, not a generic operating-system label. NEVER print “Android设备”, “Android 设备”, “Android设别”, “手机推理” as its name. Do not invent version fields, CUDA versions, benchmarks, ratings, sales, guarantee badges, or income claims.
+Service modes exactly “明文 / 端对端加密 / 显卡租赁”; select “端对端加密”. Categories “全部 / 对话 / 图像 / 视频”; select 全部. Main resource privacy text: “平台不可见”. Details/Web must also state “平台不可见；执行设备仍需处理明文”. Do not claim the hardware owner cannot access plaintext.
+Consistent brand glyph: a minimal mesh of three connected nodes, drawn in this family's style; repeat the same glyph across its pages.
+Text must be correct concise Simplified Chinese, clear touch targets and coherent hierarchy. Dark enough text and well-separated control edges. Never hide a resource's model/price behind the bottom bar. The two mobile pages must look like Alipay MINI-PROGRAM pages with a small top status bar, proper Alipay capsule in top-right, and safe-area insets.
+Each family is an independent DESIGN LANGUAGE AND LAYOUT. Do not revert to the generic search + pills + two identical rounded picture-left marketplace cards. All properties below are deliberate constraints, not loose inspiration.
+
+DESIGN FAMILY: Neumorphism
+MATERIAL AND SHAPE GRAMMAR:
+AUTHENTIC NEUMORPHISM: all main surfaces are the SAME cool silver-white material as the canvas, sculpted rather than white cards pasted on grey. Convex extruded pads have paired white upper-left and cool grey lower-right soft shadows; the search and mode track are visibly debossed concave wells. Consistent upper-left light source. Tactile 18-28 logical px corners, embossed simple line icons. Deep blue-grey text and restrained slate-blue selected controls. No glass/transparency, no hard borders, no hard offset shadows. Emphasize tactile topography, not ordinary rounded SaaS cards.
+TYPE:
+Rounded humanist Chinese sans-serif, medium weight, gently rounded numerals; never thin low-contrast grey.
+PALETTE ROLES (do not print codes): {"canvas": "#E9EDF2", "surface": "#E9EDF2", "ink": "#25354A", "primary": "#4268B2", "light": "#FFFFFF", "shadow": "#BEC7D5"}
+
+REFERENCE RULE: the attached image is THIS family’s approved home anchor. Preserve its observed brand glyph, type, material, color roles, icon treatment, component geometry and selected states. Use the NEW target layout below, not the home content. Never paste the source screenshot into the result. The final image contains ONLY the new target page.
+
+TARGET: ONE DESKTOP WEB COMPUTE MARKET WORKSPACE, landscape 1536x1024. This is the same family's desktop companion, not a phone pasted onto desktop. Navigation offers 工作台 / 算力市场 / 我的订单 / 本地网关 / API密钥 / 账单, 算力市场 selected, located exactly as the family layout specifies. Page title 算力工作台. Include search and the same modes/categories, same GPU and concrete 摩托罗拉 X30 phone listing. Selected GPU contract/quote summary must contain seller 星河同学, mode 端对端加密, readable sentence 平台不可见；执行设备仍需处理明文, 预算上限 ¥5.00, exact fee rows 卖家服务 ¥0.57 / 平台服务费 ¥0.03 / 合计 ¥0.60, state 本地网关未连接, primary 连接网关 and secondary 查看合同. No charts, no fake analytics or sales, no code blocks, no platform-owned fleet. It must read as a usable buyer marketplace/connection workspace.
+
+REQUIRED UNIQUE PAGE COMPOSITION:
+Desktop uses a very NARROW left icon-and-label dock (not a 200px full sidebar), a large central sculpted device-showcase platform, and an independent tall recessed quote well on the right. Top center holds the inset mode selector/search. GPU and seller appear in a central product pedestal with phone availability as a short row beneath. The quote well has fee rows, budget and gateway action. The entire desktop is one continuous silver-white sculpted surface.
+
+Before finishing, verify the device names, units, selected privacy, one-page framing and the family-specific material. A color swap of a generic UI is not acceptable. Make this a resolved professional design.

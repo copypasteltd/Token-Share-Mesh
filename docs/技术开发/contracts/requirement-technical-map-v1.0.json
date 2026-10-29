@@ -1,0 +1,4126 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "source": "docs/评审/需求细化登记表-v3.0.json",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "requirements": [
+    {
+      "requirement_id": "P11-F01",
+      "title": "身份、角色与买家密钥",
+      "priority": "P0",
+      "acceptance_id": "P11-T01",
+      "primary_module_id": "MOD-01",
+      "module_ids": [
+        "MOD-01",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-02",
+        "DEV-03",
+        "DEV-53",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "getSelfProfile",
+        "listApiKeys",
+        "createApiKey",
+        "revokeApiKey"
+      ],
+      "tables": [
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents"
+      ],
+      "technical_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F02",
+      "title": "个人卖家自助准入、挂牌与合同",
+      "priority": "P0",
+      "acceptance_id": "P11-T02",
+      "primary_module_id": "MOD-02",
+      "module_ids": [
+        "MOD-02",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-05",
+        "DEV-08",
+        "DEV-46"
+      ],
+      "operation_ids": [
+        "createSellerApplication",
+        "getSellerProfile",
+        "requestSellerExit",
+        "listOwnListings",
+        "createListing",
+        "getOwnListing",
+        "updateFutureListing",
+        "submitListing",
+        "pauseListing",
+        "listServices"
+      ],
+      "tables": [
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices"
+      ],
+      "technical_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F09",
+        "P11-F55"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F03",
+      "title": "客户端安装与设备注册",
+      "priority": "P0",
+      "acceptance_id": "P11-T03",
+      "primary_module_id": "MOD-07",
+      "module_ids": [
+        "MOD-07",
+        "MOD-06",
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-06",
+        "DEV-21",
+        "DEV-41"
+      ],
+      "operation_ids": [
+        "listOwnDevices",
+        "createPairingIntent",
+        "enrollDevice",
+        "getDevice",
+        "recordDeviceHeartbeat",
+        "drainDevice",
+        "revokeDevice",
+        "updateResourcePolicy"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F02"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F04",
+      "title": "能力探测与基准测试",
+      "priority": "P0",
+      "acceptance_id": "P11-T04",
+      "primary_module_id": "MOD-03",
+      "module_ids": [
+        "MOD-03",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-07",
+        "DEV-46"
+      ],
+      "operation_ids": [
+        "registerCapability",
+        "listCatalogEntries",
+        "registerReviewedEvidence"
+      ],
+      "tables": [
+        "evidence",
+        "capabilities",
+        "catalog_entries"
+      ],
+      "technical_documents": [
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F03",
+        "P11-F06",
+        "P11-F67"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F05",
+      "title": "资源、时段和停止共享",
+      "priority": "P0",
+      "acceptance_id": "P11-T05",
+      "primary_module_id": "MOD-06",
+      "module_ids": [
+        "MOD-06",
+        "MOD-02",
+        "MOD-07",
+        "MOD-08",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-06",
+        "DEV-08",
+        "DEV-18",
+        "DEV-20",
+        "DEV-21",
+        "DEV-24",
+        "DEV-43",
+        "DEV-46"
+      ],
+      "operation_ids": [
+        "listOwnListings",
+        "createListing",
+        "getOwnListing",
+        "updateFutureListing",
+        "submitListing",
+        "pauseListing",
+        "listOwnDevices",
+        "createPairingIntent",
+        "enrollDevice",
+        "getDevice",
+        "recordDeviceHeartbeat",
+        "drainDevice",
+        "revokeDevice",
+        "updateResourcePolicy",
+        "listServices",
+        "cancelJob",
+        "claimLease",
+        "recordAttemptProgress",
+        "recordAttemptCleanup"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices"
+      ],
+      "technical_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F04",
+        "P11-F10",
+        "P11-F64"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F06",
+      "title": "工作流与依赖许可目录",
+      "priority": "P0",
+      "acceptance_id": "P11-T06",
+      "primary_module_id": "MOD-03",
+      "module_ids": [
+        "MOD-03",
+        "MOD-07"
+      ],
+      "task_ids": [
+        "DEV-07",
+        "DEV-22"
+      ],
+      "operation_ids": [
+        "registerCapability",
+        "listCatalogEntries",
+        "registerReviewedEvidence"
+      ],
+      "tables": [
+        "evidence",
+        "capabilities",
+        "catalog_entries"
+      ],
+      "technical_documents": [
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F04",
+        "P11-F67"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F07",
+      "title": "C2C能力市场、卖家选择与预检",
+      "priority": "P0",
+      "acceptance_id": "P11-T07",
+      "primary_module_id": "MOD-02",
+      "module_ids": [
+        "MOD-02",
+        "MOD-04",
+        "MOD-19",
+        "MOD-16"
+      ],
+      "task_ids": [
+        "DEV-08",
+        "DEV-09",
+        "DEV-45",
+        "DEV-50"
+      ],
+      "operation_ids": [
+        "listOwnListings",
+        "createListing",
+        "getOwnListing",
+        "updateFutureListing",
+        "submitListing",
+        "pauseListing",
+        "listServices",
+        "createQuote",
+        "getQuote",
+        "createReview"
+      ],
+      "tables": [
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants"
+      ],
+      "technical_documents": [
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F02",
+        "P11-F04",
+        "P11-F31",
+        "P11-F55"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F08",
+      "title": "卖家报价、平台费用与预算快照",
+      "priority": "P0",
+      "acceptance_id": "P11-T08",
+      "primary_module_id": "MOD-04",
+      "module_ids": [
+        "MOD-04",
+        "MOD-02",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-08",
+        "DEV-09",
+        "DEV-12",
+        "DEV-45"
+      ],
+      "operation_ids": [
+        "listOwnListings",
+        "createListing",
+        "getOwnListing",
+        "updateFutureListing",
+        "submitListing",
+        "pauseListing",
+        "listServices",
+        "createQuote",
+        "getQuote"
+      ],
+      "tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices"
+      ],
+      "technical_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F07",
+        "P11-F10",
+        "P11-F31",
+        "P11-F53"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F09",
+      "title": "C2C支付准入与业务订单",
+      "priority": "P0",
+      "acceptance_id": "P11-T09",
+      "primary_module_id": "MOD-05",
+      "module_ids": [
+        "MOD-05",
+        "MOD-04",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-10",
+        "DEV-13",
+        "DEV-15",
+        "DEV-45"
+      ],
+      "operation_ids": [
+        "listOrders",
+        "createOrder",
+        "getOrder",
+        "createPaymentIntent",
+        "getPayment"
+      ],
+      "tables": [
+        "payments",
+        "refunds",
+        "channel_requests",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F02",
+        "P11-F08"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F10",
+      "title": "按卖家归属匹配与容量控制",
+      "priority": "P0",
+      "acceptance_id": "P11-T10",
+      "primary_module_id": "MOD-06",
+      "module_ids": [
+        "MOD-06",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-02",
+        "DEV-17",
+        "DEV-18",
+        "DEV-54"
+      ],
+      "operation_ids": [
+        "createJob",
+        "getJob",
+        "claimLease",
+        "recordAttemptProgress"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F05",
+        "P11-F08",
+        "P11-F09",
+        "P11-F64"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F11",
+      "title": "领取租约与心跳",
+      "priority": "P0",
+      "acceptance_id": "P11-T11",
+      "primary_module_id": "MOD-06",
+      "module_ids": [
+        "MOD-06",
+        "MOD-18",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-17",
+        "DEV-18",
+        "DEV-51",
+        "DEV-54"
+      ],
+      "operation_ids": [
+        "listNotifications",
+        "createJob",
+        "getJob",
+        "claimLease",
+        "recordAttemptProgress"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "idempotency_records",
+        "outbox_events",
+        "inbox_events",
+        "durable_jobs",
+        "notifications"
+      ],
+      "technical_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/17-事件事务发件箱与后台任务.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F10",
+        "P11-F65"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F12",
+      "title": "ComfyUI 受控执行",
+      "priority": "P0",
+      "acceptance_id": "P11-T12",
+      "primary_module_id": "MOD-07",
+      "module_ids": [
+        "MOD-07"
+      ],
+      "task_ids": [
+        "DEV-22"
+      ],
+      "operation_ids": [],
+      "tables": [],
+      "technical_documents": [
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F06",
+        "P11-F11",
+        "P11-F59"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F13",
+      "title": "输入传输、结果上传与规范化",
+      "priority": "P0",
+      "acceptance_id": "P11-T13",
+      "primary_module_id": "MOD-13",
+      "module_ids": [
+        "MOD-13",
+        "MOD-07",
+        "MOD-09"
+      ],
+      "task_ids": [
+        "DEV-22",
+        "DEV-27",
+        "DEV-37"
+      ],
+      "operation_ids": [
+        "registerAsset",
+        "getAsset",
+        "completeAsset",
+        "createAssetTransferGrant",
+        "listResults"
+      ],
+      "tables": [
+        "assets",
+        "transfer_grants",
+        "deletion_tasks"
+      ],
+      "technical_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F11",
+        "P11-F22",
+        "P11-F34"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F14",
+      "title": "产物验收与单次有效交付",
+      "priority": "P0",
+      "acceptance_id": "P11-T14",
+      "primary_module_id": "MOD-06",
+      "module_ids": [
+        "MOD-06",
+        "MOD-20",
+        "MOD-15"
+      ],
+      "task_ids": [
+        "DEV-02",
+        "DEV-19",
+        "DEV-39",
+        "DEV-54"
+      ],
+      "operation_ids": [
+        "recordBuyerReceipt",
+        "registerAttemptDelivery"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "trade_qualifications",
+        "ledger_accounts",
+        "journal_transactions",
+        "journal_entries",
+        "settlements",
+        "settlement_items",
+        "settlement_batches",
+        "batch_items"
+      ],
+      "technical_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/20-性能容量与可观测性.md",
+        "docs/技术开发/13-支付退款账务与渠道结算.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F13",
+        "P11-F31",
+        "P11-F35",
+        "P11-F39"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F15",
+      "title": "结果领取与通知",
+      "priority": "P0",
+      "acceptance_id": "P11-T15",
+      "primary_module_id": "MOD-19",
+      "module_ids": [
+        "MOD-19",
+        "MOD-13",
+        "MOD-18"
+      ],
+      "task_ids": [
+        "DEV-37",
+        "DEV-45",
+        "DEV-51"
+      ],
+      "operation_ids": [
+        "listNotifications",
+        "registerAsset",
+        "getAsset",
+        "completeAsset",
+        "createAssetTransferGrant",
+        "listResults"
+      ],
+      "tables": [
+        "assets",
+        "transfer_grants",
+        "deletion_tasks",
+        "idempotency_records",
+        "outbox_events",
+        "inbox_events",
+        "durable_jobs",
+        "notifications"
+      ],
+      "technical_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/17-事件事务发件箱与后台任务.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F14",
+        "P11-F17",
+        "P11-F52"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F16",
+      "title": "同卖家重派、跨卖家重选与超时",
+      "priority": "P0",
+      "acceptance_id": "P11-T16",
+      "primary_module_id": "MOD-06",
+      "module_ids": [
+        "MOD-06",
+        "MOD-04",
+        "MOD-18",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-10",
+        "DEV-19",
+        "DEV-51",
+        "DEV-54"
+      ],
+      "operation_ids": [
+        "listNotifications",
+        "listOrders",
+        "createOrder",
+        "getOrder",
+        "recordBuyerReceipt",
+        "registerAttemptDelivery"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "idempotency_records",
+        "outbox_events",
+        "inbox_events",
+        "durable_jobs",
+        "notifications"
+      ],
+      "technical_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/17-事件事务发件箱与后台任务.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F10",
+        "P11-F11",
+        "P11-F36"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F17",
+      "title": "取消与退款",
+      "priority": "P0",
+      "acceptance_id": "P11-T17",
+      "primary_module_id": "MOD-05",
+      "module_ids": [
+        "MOD-05",
+        "MOD-06",
+        "MOD-19",
+        "MOD-18"
+      ],
+      "task_ids": [
+        "DEV-13",
+        "DEV-14",
+        "DEV-20",
+        "DEV-45",
+        "DEV-51"
+      ],
+      "operation_ids": [
+        "listNotifications",
+        "createPaymentIntent",
+        "getPayment",
+        "cancelJob",
+        "createRefund",
+        "getRefund",
+        "recordAttemptCleanup"
+      ],
+      "tables": [
+        "payments",
+        "refunds",
+        "channel_requests",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "idempotency_records",
+        "outbox_events",
+        "inbox_events",
+        "durable_jobs",
+        "notifications"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/17-事件事务发件箱与后台任务.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F09",
+        "P11-F14",
+        "P11-F46"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F18",
+      "title": "计量、成交额及费用账单",
+      "priority": "P0",
+      "acceptance_id": "P11-T18",
+      "primary_module_id": "MOD-14",
+      "module_ids": [
+        "MOD-14",
+        "MOD-04",
+        "MOD-15",
+        "MOD-12"
+      ],
+      "task_ids": [
+        "DEV-12",
+        "DEV-16",
+        "DEV-34",
+        "DEV-38",
+        "DEV-39"
+      ],
+      "operation_ids": [
+        "getOrderBill",
+        "recordRentalAvailability",
+        "getRentalMeterStatement",
+        "recordAttemptUsage"
+      ],
+      "tables": [
+        "usage_evidence",
+        "meter_statements",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "trade_qualifications",
+        "ledger_accounts",
+        "journal_transactions",
+        "journal_entries",
+        "settlements",
+        "settlement_items",
+        "settlement_batches",
+        "batch_items",
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/12-显卡租赁与可用时间计量.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F08",
+        "P11-F14",
+        "P11-F44",
+        "P11-F53"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F19",
+      "title": "卖家成交收益与结算状态",
+      "priority": "P0",
+      "acceptance_id": "P11-T19",
+      "primary_module_id": "MOD-15",
+      "module_ids": [
+        "MOD-15",
+        "MOD-02",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-05",
+        "DEV-16",
+        "DEV-39",
+        "DEV-40",
+        "DEV-46"
+      ],
+      "operation_ids": [
+        "createSellerApplication",
+        "getSellerProfile",
+        "requestSellerExit",
+        "listOwnSettlements",
+        "getSettlement",
+        "createSettlementBatch",
+        "getSettlementBatch",
+        "approveSettlementBatch",
+        "submitSettlementBatch"
+      ],
+      "tables": [
+        "trade_qualifications",
+        "ledger_accounts",
+        "journal_transactions",
+        "journal_entries",
+        "settlements",
+        "settlement_items",
+        "settlement_batches",
+        "batch_items",
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F14",
+        "P11-F18",
+        "P11-F39",
+        "P11-F53"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F20",
+      "title": "个人卖家渠道结算与对账",
+      "priority": "P0",
+      "acceptance_id": "P11-T20",
+      "primary_module_id": "MOD-15",
+      "module_ids": [
+        "MOD-15",
+        "MOD-20",
+        "MOD-05",
+        "MOD-19",
+        "MOD-18"
+      ],
+      "task_ids": [
+        "DEV-02",
+        "DEV-13",
+        "DEV-16",
+        "DEV-40",
+        "DEV-48",
+        "DEV-51",
+        "DEV-55"
+      ],
+      "operation_ids": [
+        "listNotifications",
+        "createPaymentIntent",
+        "getPayment",
+        "listOwnSettlements",
+        "getSettlement",
+        "createSettlementBatch",
+        "getSettlementBatch",
+        "approveSettlementBatch",
+        "submitSettlementBatch"
+      ],
+      "tables": [
+        "trade_qualifications",
+        "ledger_accounts",
+        "journal_transactions",
+        "journal_entries",
+        "settlements",
+        "settlement_items",
+        "settlement_batches",
+        "batch_items",
+        "payments",
+        "refunds",
+        "channel_requests",
+        "idempotency_records",
+        "outbox_events",
+        "inbox_events",
+        "durable_jobs",
+        "notifications"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/20-性能容量与可观测性.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/17-事件事务发件箱与后台任务.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F09",
+        "P11-F19",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F21",
+      "title": "买卖双方争议、责任与申诉",
+      "priority": "P0",
+      "acceptance_id": "P11-T21",
+      "primary_module_id": "MOD-16",
+      "module_ids": [
+        "MOD-16",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-48",
+        "DEV-49"
+      ],
+      "operation_ids": [
+        "createDispute",
+        "getDispute",
+        "createAppeal",
+        "recordDisputeDecision"
+      ],
+      "tables": [
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants"
+      ],
+      "technical_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F17",
+        "P11-F20",
+        "P11-F32",
+        "P11-F39"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F22",
+      "title": "内容保护、清理与设备退出",
+      "priority": "P0",
+      "acceptance_id": "P11-T22",
+      "primary_module_id": "MOD-13",
+      "module_ids": [
+        "MOD-13",
+        "MOD-01",
+        "MOD-06",
+        "MOD-12",
+        "MOD-18",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-04",
+        "DEV-20",
+        "DEV-36",
+        "DEV-37",
+        "DEV-51",
+        "DEV-53",
+        "DEV-55"
+      ],
+      "operation_ids": [
+        "recordConsent",
+        "createDeletionRequest",
+        "listNotifications",
+        "registerAsset",
+        "getAsset",
+        "completeAsset",
+        "createAssetTransferGrant",
+        "cancelJob",
+        "listResults",
+        "createRentalExport",
+        "recordRentalCleanup",
+        "recordAttemptCleanup"
+      ],
+      "tables": [
+        "assets",
+        "transfer_grants",
+        "deletion_tasks",
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals",
+        "idempotency_records",
+        "outbox_events",
+        "inbox_events",
+        "durable_jobs",
+        "notifications"
+      ],
+      "technical_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/17-事件事务发件箱与后台任务.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F13",
+        "P11-F52"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F23",
+      "title": "运营开关、监控与反滥用",
+      "priority": "P0",
+      "acceptance_id": "P11-T23",
+      "primary_module_id": "MOD-17",
+      "module_ids": [
+        "MOD-17",
+        "MOD-19",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-48",
+        "DEV-52",
+        "DEV-55"
+      ],
+      "operation_ids": [
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F51",
+        "P11-F55"
+      ],
+      "current_phase_scope": "PARTIAL",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F24",
+      "title": "生视频服务",
+      "priority": "P1",
+      "acceptance_id": "P11-T24",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-07",
+        "MOD-17",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-22",
+        "DEV-27",
+        "DEV-52",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F06",
+        "P11-F13",
+        "P11-F14",
+        "P11-F69",
+        "P11-F76"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F25",
+      "title": "订阅/API 授权接入",
+      "priority": "P1-AUTH",
+      "acceptance_id": "P11-T25",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-05",
+        "MOD-17",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-15",
+        "DEV-25",
+        "DEV-52",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "payments",
+        "refunds",
+        "channel_requests",
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F02",
+        "P11-F06",
+        "P11-F26",
+        "P11-F67"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F26",
+      "title": "订阅窗口、保留量与容量",
+      "priority": "P1-AUTH",
+      "acceptance_id": "P11-T26",
+      "primary_module_id": "MOD-06",
+      "module_ids": [
+        "MOD-06",
+        "MOD-09"
+      ],
+      "task_ids": [
+        "DEV-25"
+      ],
+      "operation_ids": [],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F05",
+        "P11-F25",
+        "P11-F64"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F27",
+      "title": "模型用量与流式计费",
+      "priority": "P1-AUTH",
+      "acceptance_id": "P11-T27",
+      "primary_module_id": "MOD-14",
+      "module_ids": [
+        "MOD-14",
+        "MOD-04",
+        "MOD-09"
+      ],
+      "task_ids": [
+        "DEV-12",
+        "DEV-25",
+        "DEV-38"
+      ],
+      "operation_ids": [
+        "getOrderBill",
+        "recordAttemptUsage"
+      ],
+      "tables": [
+        "usage_evidence",
+        "meter_statements",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F18",
+        "P11-F25",
+        "P11-F61",
+        "P11-F77"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F28",
+      "title": "更多工作流、MCP和SDK",
+      "priority": "P2",
+      "acceptance_id": "P11-T28",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-19",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-26",
+        "DEV-47",
+        "DEV-56"
+      ],
+      "operation_ids": [],
+      "tables": [],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F54",
+        "P11-F69",
+        "P11-F79"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F29",
+      "title": "C2C基础信誉、评价与反串通",
+      "priority": "P0",
+      "acceptance_id": "P11-T29",
+      "primary_module_id": "MOD-16",
+      "module_ids": [
+        "MOD-16",
+        "MOD-02",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-08",
+        "DEV-46",
+        "DEV-50"
+      ],
+      "operation_ids": [
+        "listOwnListings",
+        "createListing",
+        "getOwnListing",
+        "updateFutureListing",
+        "submitListing",
+        "pauseListing",
+        "listServices",
+        "createReview"
+      ],
+      "tables": [
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants",
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices"
+      ],
+      "technical_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/03-领域模块与应用服务设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F02",
+        "P11-F14",
+        "P11-F21"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F30",
+      "title": "用户之间长期预订与能力包",
+      "priority": "P2-AUTH",
+      "acceptance_id": "P11-T30",
+      "primary_module_id": "MOD-04",
+      "module_ids": [
+        "MOD-04",
+        "MOD-05",
+        "MOD-16",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-10",
+        "DEV-15",
+        "DEV-50",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "listOrders",
+        "createOrder",
+        "getOrder",
+        "createReview"
+      ],
+      "tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "payments",
+        "refunds",
+        "channel_requests",
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants"
+      ],
+      "technical_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F25",
+        "P11-F26",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F31",
+      "title": "C2C三模式不可变合同",
+      "priority": "P0",
+      "acceptance_id": "P11-T31",
+      "primary_module_id": "MOD-04",
+      "module_ids": [
+        "MOD-04",
+        "MOD-20",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-02",
+        "DEV-09",
+        "DEV-10",
+        "DEV-45"
+      ],
+      "operation_ids": [
+        "createQuote",
+        "getQuote",
+        "listOrders",
+        "createOrder",
+        "getOrder"
+      ],
+      "tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations"
+      ],
+      "technical_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/20-性能容量与可观测性.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F07",
+        "P11-F08",
+        "P11-F32"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F32",
+      "title": "可见方披露与同意",
+      "priority": "P0",
+      "acceptance_id": "P11-T32",
+      "primary_module_id": "MOD-01",
+      "module_ids": [
+        "MOD-01",
+        "MOD-04",
+        "MOD-10",
+        "MOD-19",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-03",
+        "DEV-04",
+        "DEV-09",
+        "DEV-29",
+        "DEV-45",
+        "DEV-53"
+      ],
+      "operation_ids": [
+        "getSelfProfile",
+        "recordConsent",
+        "createDeletionRequest",
+        "createQuote",
+        "getQuote",
+        "createEncryptionIntent",
+        "registerRecipient",
+        "getRecipient",
+        "createRecipientRotation",
+        "revokeRecipient",
+        "listApiKeys",
+        "createApiKey",
+        "revokeApiKey"
+      ],
+      "tables": [
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes"
+      ],
+      "technical_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F31",
+        "P11-F38",
+        "P11-F48"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F33",
+      "title": "买家加密端与端点身份",
+      "priority": "P0",
+      "acceptance_id": "P11-T33",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-06",
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-17",
+        "DEV-29",
+        "DEV-30",
+        "DEV-44"
+      ],
+      "operation_ids": [
+        "createJob",
+        "getJob",
+        "createEncryptionIntent",
+        "registerRecipient",
+        "getRecipient",
+        "createRecipientRotation",
+        "revokeRecipient",
+        "registerEnvelope"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F65",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F34",
+      "title": "密文对象与加密分块",
+      "priority": "P0",
+      "acceptance_id": "P11-T34",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-06",
+        "MOD-11",
+        "MOD-13"
+      ],
+      "task_ids": [
+        "DEV-17",
+        "DEV-30",
+        "DEV-31",
+        "DEV-37"
+      ],
+      "operation_ids": [
+        "registerAsset",
+        "getAsset",
+        "completeAsset",
+        "createAssetTransferGrant",
+        "createJob",
+        "getJob",
+        "listResults",
+        "registerEnvelope",
+        "createCipherChannel"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "cipher_channels",
+        "assets",
+        "transfer_grants",
+        "deletion_tasks"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/15-文件媒体与对象存储.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F33",
+        "P11-F74",
+        "P11-F75"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F35",
+      "title": "加密执行、回传与本地验收",
+      "priority": "P0",
+      "acceptance_id": "P11-T35",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-06",
+        "MOD-11",
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-19",
+        "DEV-30",
+        "DEV-31",
+        "DEV-44"
+      ],
+      "operation_ids": [
+        "registerEnvelope",
+        "recordBuyerReceipt",
+        "createCipherChannel",
+        "registerAttemptDelivery"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "cipher_channels"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F12",
+        "P11-F14",
+        "P11-F33",
+        "P11-F34",
+        "P11-F73"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F36",
+      "title": "同卖家加密换端与放钥",
+      "priority": "P0",
+      "acceptance_id": "P11-T36",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-06"
+      ],
+      "task_ids": [
+        "DEV-17",
+        "DEV-19",
+        "DEV-29"
+      ],
+      "operation_ids": [
+        "createJob",
+        "getJob",
+        "createEncryptionIntent",
+        "registerRecipient",
+        "getRecipient",
+        "createRecipientRotation",
+        "revokeRecipient",
+        "recordBuyerReceipt",
+        "registerAttemptDelivery"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F16",
+        "P11-F33",
+        "P11-F34"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F37",
+      "title": "增强档证明与密钥释放",
+      "priority": "P1",
+      "acceptance_id": "P11-T37",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-17",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-32",
+        "DEV-52",
+        "DEV-53",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "createAttestationChallenge",
+        "getAttestationEvidence",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F33",
+        "P11-F38",
+        "P11-F55"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F38",
+      "title": "增强档全路径保密与硬件准入",
+      "priority": "P1",
+      "acceptance_id": "P11-T38",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-17",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-32",
+        "DEV-52",
+        "DEV-53",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "createAttestationChallenge",
+        "getAttestationEvidence",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F37",
+        "P11-F67",
+        "P11-F68"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F39",
+      "title": "加密接受与C2C风险分担",
+      "priority": "P0",
+      "acceptance_id": "P11-T39",
+      "primary_module_id": "MOD-15",
+      "module_ids": [
+        "MOD-15",
+        "MOD-06",
+        "MOD-11",
+        "MOD-19",
+        "MOD-16"
+      ],
+      "task_ids": [
+        "DEV-19",
+        "DEV-31",
+        "DEV-39",
+        "DEV-45",
+        "DEV-49"
+      ],
+      "operation_ids": [
+        "recordBuyerReceipt",
+        "createCipherChannel",
+        "createDispute",
+        "getDispute",
+        "createAppeal",
+        "registerAttemptDelivery",
+        "recordDisputeDecision"
+      ],
+      "tables": [
+        "trade_qualifications",
+        "ledger_accounts",
+        "journal_transactions",
+        "journal_entries",
+        "settlements",
+        "settlement_items",
+        "settlement_batches",
+        "batch_items",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "cipher_channels",
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F14",
+        "P11-F21",
+        "P11-F35",
+        "P11-F53"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F40",
+      "title": "加密内容治理与能力限制",
+      "priority": "P0",
+      "acceptance_id": "P11-T40",
+      "primary_module_id": "MOD-17",
+      "module_ids": [
+        "MOD-17",
+        "MOD-01",
+        "MOD-11",
+        "MOD-10",
+        "MOD-16",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-04",
+        "DEV-31",
+        "DEV-32",
+        "DEV-49",
+        "DEV-52",
+        "DEV-53"
+      ],
+      "operation_ids": [
+        "recordConsent",
+        "createDeletionRequest",
+        "createAttestationChallenge",
+        "getAttestationEvidence",
+        "createCipherChannel",
+        "createDispute",
+        "getDispute",
+        "createAppeal",
+        "createCapabilityRelease",
+        "recordDisputeDecision",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "audit_events",
+        "feature_gates",
+        "releases",
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents",
+        "cipher_channels",
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants"
+      ],
+      "technical_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F32",
+        "P11-F35",
+        "P11-F55"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F41",
+      "title": "租赁供给、环境与独占锁",
+      "priority": "P0",
+      "acceptance_id": "P11-T41",
+      "primary_module_id": "MOD-12",
+      "module_ids": [
+        "MOD-12",
+        "MOD-06"
+      ],
+      "task_ids": [
+        "DEV-18",
+        "DEV-33"
+      ],
+      "operation_ids": [
+        "createRentalSession",
+        "getRentalSession",
+        "confirmRentalReady",
+        "recordRentalDeviceReady",
+        "createRentalAccessGrant",
+        "claimLease",
+        "recordAttemptProgress"
+      ],
+      "tables": [
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F05",
+        "P11-F10",
+        "P11-F43",
+        "P11-F64"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F42",
+      "title": "租赁准备与就绪起表",
+      "priority": "P0",
+      "acceptance_id": "P11-T42",
+      "primary_module_id": "MOD-12",
+      "module_ids": [
+        "MOD-12",
+        "MOD-05"
+      ],
+      "task_ids": [
+        "DEV-15",
+        "DEV-33"
+      ],
+      "operation_ids": [
+        "createRentalSession",
+        "getRentalSession",
+        "confirmRentalReady",
+        "recordRentalDeviceReady",
+        "createRentalAccessGrant"
+      ],
+      "tables": [
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals",
+        "payments",
+        "refunds",
+        "channel_requests"
+      ],
+      "technical_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/13-支付退款账务与渠道结算.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F09",
+        "P11-F41",
+        "P11-F44"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F43",
+      "title": "租赁工作区与受控操作",
+      "priority": "P0",
+      "acceptance_id": "P11-T43",
+      "primary_module_id": "MOD-12",
+      "module_ids": [
+        "MOD-12",
+        "MOD-07",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-24",
+        "DEV-33",
+        "DEV-36",
+        "DEV-47"
+      ],
+      "operation_ids": [
+        "createRentalSession",
+        "getRentalSession",
+        "confirmRentalReady",
+        "recordRentalDeviceReady",
+        "createRentalExport",
+        "recordRentalCleanup",
+        "createRentalAccessGrant"
+      ],
+      "tables": [
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals"
+      ],
+      "technical_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F12",
+        "P11-F41",
+        "P11-F42",
+        "P11-F48"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F44",
+      "title": "可用租时计量、取整与预算",
+      "priority": "P0",
+      "acceptance_id": "P11-T44",
+      "primary_module_id": "MOD-14",
+      "module_ids": [
+        "MOD-14",
+        "MOD-04",
+        "MOD-12"
+      ],
+      "task_ids": [
+        "DEV-12",
+        "DEV-34",
+        "DEV-38"
+      ],
+      "operation_ids": [
+        "getOrderBill",
+        "recordRentalAvailability",
+        "getRentalMeterStatement",
+        "recordAttemptUsage"
+      ],
+      "tables": [
+        "usage_evidence",
+        "meter_statements",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/12-显卡租赁与可用时间计量.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F18",
+        "P11-F42",
+        "P11-F46",
+        "P11-F53"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F45",
+      "title": "租期、断线、续租和强制到期",
+      "priority": "P0",
+      "acceptance_id": "P11-T45",
+      "primary_module_id": "MOD-12",
+      "module_ids": [
+        "MOD-12",
+        "MOD-05",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-15",
+        "DEV-35",
+        "DEV-54"
+      ],
+      "operation_ids": [
+        "createRentalRenewal",
+        "stopRentalSession"
+      ],
+      "tables": [
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals",
+        "payments",
+        "refunds",
+        "channel_requests"
+      ],
+      "technical_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F42",
+        "P11-F44",
+        "P11-F46",
+        "P11-F47"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F46",
+      "title": "租赁故障、早退和退款",
+      "priority": "P0",
+      "acceptance_id": "P11-T46",
+      "primary_module_id": "MOD-12",
+      "module_ids": [
+        "MOD-12",
+        "MOD-05",
+        "MOD-16"
+      ],
+      "task_ids": [
+        "DEV-14",
+        "DEV-34",
+        "DEV-35",
+        "DEV-36",
+        "DEV-49"
+      ],
+      "operation_ids": [
+        "createRentalRenewal",
+        "stopRentalSession",
+        "recordRentalAvailability",
+        "createRentalExport",
+        "recordRentalCleanup",
+        "getRentalMeterStatement",
+        "createRefund",
+        "getRefund",
+        "createDispute",
+        "getDispute",
+        "createAppeal",
+        "recordDisputeDecision"
+      ],
+      "tables": [
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals",
+        "payments",
+        "refunds",
+        "channel_requests",
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants"
+      ],
+      "technical_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F17",
+        "P11-F21",
+        "P11-F44",
+        "P11-F45"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F47",
+      "title": "结束撤权、清理与再出租",
+      "priority": "P0",
+      "acceptance_id": "P11-T47",
+      "primary_module_id": "MOD-12",
+      "module_ids": [
+        "MOD-12",
+        "MOD-06",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-20",
+        "DEV-36",
+        "DEV-54"
+      ],
+      "operation_ids": [
+        "cancelJob",
+        "createRentalExport",
+        "recordRentalCleanup",
+        "recordAttemptCleanup"
+      ],
+      "tables": [
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F22",
+        "P11-F43",
+        "P11-F45"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F48",
+      "title": "租赁隐私属性与组合限制",
+      "priority": "P0",
+      "acceptance_id": "P11-T48",
+      "primary_module_id": "MOD-12",
+      "module_ids": [
+        "MOD-12",
+        "MOD-04",
+        "MOD-10",
+        "MOD-19",
+        "MOD-17"
+      ],
+      "task_ids": [
+        "DEV-09",
+        "DEV-32",
+        "DEV-33",
+        "DEV-45",
+        "DEV-52"
+      ],
+      "operation_ids": [
+        "createQuote",
+        "getQuote",
+        "createAttestationChallenge",
+        "getAttestationEvidence",
+        "createRentalSession",
+        "getRentalSession",
+        "confirmRentalReady",
+        "recordRentalDeviceReady",
+        "createRentalAccessGrant",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/16-身份授权与安全工程.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F31",
+        "P11-F32",
+        "P11-F38",
+        "P11-F41"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F49",
+      "title": "明文预检与内容验收管线",
+      "priority": "P0",
+      "acceptance_id": "P11-T49",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-13"
+      ],
+      "task_ids": [
+        "DEV-27",
+        "DEV-37"
+      ],
+      "operation_ids": [
+        "registerAsset",
+        "getAsset",
+        "completeAsset",
+        "createAssetTransferGrant",
+        "listResults"
+      ],
+      "tables": [
+        "assets",
+        "transfer_grants",
+        "deletion_tasks"
+      ],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/15-文件媒体与对象存储.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F06",
+        "P11-F13",
+        "P11-F14",
+        "P11-F50"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F50",
+      "title": "明文访问分权与授权排障",
+      "priority": "P0",
+      "acceptance_id": "P11-T50",
+      "primary_module_id": "MOD-01",
+      "module_ids": [
+        "MOD-01",
+        "MOD-19",
+        "MOD-16",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-03",
+        "DEV-04",
+        "DEV-48",
+        "DEV-49",
+        "DEV-53"
+      ],
+      "operation_ids": [
+        "getSelfProfile",
+        "recordConsent",
+        "createDeletionRequest",
+        "listApiKeys",
+        "createApiKey",
+        "revokeApiKey",
+        "createDispute",
+        "getDispute",
+        "createAppeal",
+        "recordDisputeDecision"
+      ],
+      "tables": [
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents",
+        "reviews",
+        "disputes",
+        "appeals",
+        "evidence_grants"
+      ],
+      "technical_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F21",
+        "P11-F32",
+        "P11-F49"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F51",
+      "title": "分模式监控与指标（本轮延后）",
+      "priority": "P0",
+      "acceptance_id": "P11-T51",
+      "primary_module_id": "MOD-20",
+      "module_ids": [
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-55"
+      ],
+      "operation_ids": [],
+      "tables": [],
+      "technical_documents": [
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F14",
+        "P11-F39",
+        "P11-F44",
+        "P11-F53"
+      ],
+      "current_phase_scope": "DEFERRED",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F52",
+      "title": "分模式留存与删除",
+      "priority": "P0",
+      "acceptance_id": "P11-T52",
+      "primary_module_id": "MOD-13",
+      "module_ids": [
+        "MOD-13",
+        "MOD-01",
+        "MOD-06",
+        "MOD-12",
+        "MOD-18",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-04",
+        "DEV-20",
+        "DEV-36",
+        "DEV-37",
+        "DEV-51",
+        "DEV-53",
+        "DEV-55"
+      ],
+      "operation_ids": [
+        "recordConsent",
+        "createDeletionRequest",
+        "listNotifications",
+        "registerAsset",
+        "getAsset",
+        "completeAsset",
+        "createAssetTransferGrant",
+        "cancelJob",
+        "listResults",
+        "createRentalExport",
+        "recordRentalCleanup",
+        "recordAttemptCleanup"
+      ],
+      "tables": [
+        "assets",
+        "transfer_grants",
+        "deletion_tasks",
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances",
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals",
+        "idempotency_records",
+        "outbox_events",
+        "inbox_events",
+        "durable_jobs",
+        "notifications"
+      ],
+      "technical_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/17-事件事务发件箱与后台任务.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F22",
+        "P11-F32",
+        "P11-F66"
+      ],
+      "current_phase_scope": "PARTIAL",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F53",
+      "title": "C2C成交、佣金、卖家款与补偿分账",
+      "priority": "P0",
+      "acceptance_id": "P11-T53",
+      "primary_module_id": "MOD-15",
+      "module_ids": [
+        "MOD-15",
+        "MOD-20",
+        "MOD-05",
+        "MOD-14"
+      ],
+      "task_ids": [
+        "DEV-02",
+        "DEV-14",
+        "DEV-16",
+        "DEV-38",
+        "DEV-39",
+        "DEV-40"
+      ],
+      "operation_ids": [
+        "getOrderBill",
+        "createRefund",
+        "getRefund",
+        "listOwnSettlements",
+        "getSettlement",
+        "recordAttemptUsage",
+        "createSettlementBatch",
+        "getSettlementBatch",
+        "approveSettlementBatch",
+        "submitSettlementBatch"
+      ],
+      "tables": [
+        "trade_qualifications",
+        "ledger_accounts",
+        "journal_transactions",
+        "journal_entries",
+        "settlements",
+        "settlement_items",
+        "settlement_batches",
+        "batch_items",
+        "payments",
+        "refunds",
+        "channel_requests",
+        "usage_evidence",
+        "meter_statements"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F09",
+        "P11-F18",
+        "P11-F19",
+        "P11-F20",
+        "P11-F39"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F54",
+      "title": "模式化接口、SDK与错误",
+      "priority": "P0",
+      "acceptance_id": "P11-T54",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-04",
+        "MOD-06",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-10",
+        "DEV-11",
+        "DEV-17",
+        "DEV-26",
+        "DEV-47"
+      ],
+      "operation_ids": [
+        "listOrders",
+        "createOrder",
+        "getOrder",
+        "createJob",
+        "getJob",
+        "listRouteContracts",
+        "createRouteContract",
+        "getRouteContract"
+      ],
+      "tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F31",
+        "P11-F69",
+        "P11-F70",
+        "P11-F77"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F55",
+      "title": "按卖家能力与资金证据发布",
+      "priority": "P0",
+      "acceptance_id": "P11-T55",
+      "primary_module_id": "MOD-17",
+      "module_ids": [
+        "MOD-17",
+        "MOD-02",
+        "MOD-03",
+        "MOD-05",
+        "MOD-15",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-05",
+        "DEV-07",
+        "DEV-13",
+        "DEV-15",
+        "DEV-40",
+        "DEV-48",
+        "DEV-52"
+      ],
+      "operation_ids": [
+        "createSellerApplication",
+        "getSellerProfile",
+        "requestSellerExit",
+        "registerCapability",
+        "listCatalogEntries",
+        "createPaymentIntent",
+        "getPayment",
+        "listOwnSettlements",
+        "getSettlement",
+        "registerReviewedEvidence",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "createSettlementBatch",
+        "getSettlementBatch",
+        "approveSettlementBatch",
+        "submitSettlementBatch",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "audit_events",
+        "feature_gates",
+        "releases",
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices",
+        "evidence",
+        "capabilities",
+        "catalog_entries",
+        "payments",
+        "refunds",
+        "channel_requests",
+        "trade_qualifications",
+        "ledger_accounts",
+        "journal_transactions",
+        "journal_entries",
+        "settlements",
+        "settlement_items",
+        "settlement_batches",
+        "batch_items"
+      ],
+      "technical_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F02",
+        "P11-F09",
+        "P11-F37",
+        "P11-F38",
+        "P11-F67",
+        "P11-F68"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F56",
+      "title": "C2C基线、旧假设与待决事项",
+      "priority": "P0",
+      "acceptance_id": "P11-T56",
+      "primary_module_id": "MOD-17",
+      "module_ids": [
+        "MOD-17",
+        "MOD-20",
+        "MOD-02",
+        "MOD-04"
+      ],
+      "task_ids": [
+        "DEV-01",
+        "DEV-05",
+        "DEV-09",
+        "DEV-52",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "createSellerApplication",
+        "getSellerProfile",
+        "requestSellerExit",
+        "createQuote",
+        "getQuote",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "audit_events",
+        "feature_gates",
+        "releases",
+        "seller_profiles",
+        "listings",
+        "listing_versions",
+        "listing_devices",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations"
+      ],
+      "technical_documents": [
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/20-性能容量与可观测性.md",
+        "docs/技术开发/03-领域模块与应用服务设计.md",
+        "docs/技术开发/05-控制面接口实现规约.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F31",
+        "P11-F53",
+        "P11-F55"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F57",
+      "title": "多端与运行时能力登记",
+      "priority": "P0",
+      "acceptance_id": "P11-T57",
+      "primary_module_id": "MOD-03",
+      "module_ids": [
+        "MOD-03",
+        "MOD-06",
+        "MOD-08",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-06",
+        "DEV-07",
+        "DEV-41",
+        "DEV-46"
+      ],
+      "operation_ids": [
+        "listOwnDevices",
+        "createPairingIntent",
+        "enrollDevice",
+        "getDevice",
+        "registerCapability",
+        "recordDeviceHeartbeat",
+        "drainDevice",
+        "revokeDevice",
+        "updateResourcePolicy",
+        "listCatalogEntries",
+        "registerReviewedEvidence"
+      ],
+      "tables": [
+        "evidence",
+        "capabilities",
+        "catalog_entries",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F03",
+        "P11-F04",
+        "P11-F58",
+        "P11-F60",
+        "P11-F62"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F58",
+      "title": "Linux原生生命周期与权限",
+      "priority": "P0",
+      "acceptance_id": "P11-T58",
+      "primary_module_id": "MOD-07",
+      "module_ids": [
+        "MOD-07",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-01",
+        "DEV-21",
+        "DEV-55"
+      ],
+      "operation_ids": [],
+      "tables": [],
+      "technical_documents": [
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F03",
+        "P11-F57",
+        "P11-F65"
+      ],
+      "current_phase_scope": "PARTIAL",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F59",
+      "title": "统一引擎适配协议",
+      "priority": "P0",
+      "acceptance_id": "P11-T59",
+      "primary_module_id": "MOD-07",
+      "module_ids": [
+        "MOD-07",
+        "MOD-06",
+        "MOD-09",
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-20",
+        "DEV-22",
+        "DEV-23",
+        "DEV-25",
+        "DEV-42"
+      ],
+      "operation_ids": [
+        "cancelJob",
+        "recordAttemptCleanup"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F11",
+        "P11-F12",
+        "P11-F60",
+        "P11-F62",
+        "P11-F80"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F60",
+      "title": "LM Studio本地模型供给",
+      "priority": "P0",
+      "acceptance_id": "P11-T60",
+      "primary_module_id": "MOD-07",
+      "module_ids": [
+        "MOD-07",
+        "MOD-03"
+      ],
+      "task_ids": [
+        "DEV-07",
+        "DEV-23"
+      ],
+      "operation_ids": [
+        "registerCapability",
+        "listCatalogEntries",
+        "registerReviewedEvidence"
+      ],
+      "tables": [
+        "evidence",
+        "capabilities",
+        "catalog_entries"
+      ],
+      "technical_documents": [
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/11-引擎与授权上游适配器设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F04",
+        "P11-F57",
+        "P11-F59",
+        "P11-F61",
+        "P11-F67"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F61",
+      "title": "本地LLM与手机计价证据",
+      "priority": "P0",
+      "acceptance_id": "P11-T61",
+      "primary_module_id": "MOD-14",
+      "module_ids": [
+        "MOD-14",
+        "MOD-04",
+        "MOD-07",
+        "MOD-12",
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-12",
+        "DEV-23",
+        "DEV-34",
+        "DEV-38",
+        "DEV-42"
+      ],
+      "operation_ids": [
+        "getOrderBill",
+        "recordRentalAvailability",
+        "getRentalMeterStatement",
+        "recordAttemptUsage"
+      ],
+      "tables": [
+        "usage_evidence",
+        "meter_statements",
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "rental_sessions",
+        "rental_renewals",
+        "rental_access_grants",
+        "availability_intervals"
+      ],
+      "technical_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F18",
+        "P11-F27",
+        "P11-F60",
+        "P11-F62"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F62",
+      "title": "Android原生供给与LMA接入",
+      "priority": "P0",
+      "acceptance_id": "P11-T62",
+      "primary_module_id": "MOD-08",
+      "module_ids": [
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-41",
+        "DEV-42"
+      ],
+      "operation_ids": [],
+      "tables": [],
+      "technical_documents": [
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F57",
+        "P11-F59",
+        "P11-F61",
+        "P11-F63",
+        "P11-F66",
+        "P11-F67"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F63",
+      "title": "Android后台与资源条件",
+      "priority": "P0",
+      "acceptance_id": "P11-T63",
+      "primary_module_id": "MOD-08",
+      "module_ids": [
+        "MOD-08",
+        "MOD-19",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-43",
+        "DEV-46",
+        "DEV-54"
+      ],
+      "operation_ids": [],
+      "tables": [],
+      "technical_documents": [
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F05",
+        "P11-F62",
+        "P11-F64",
+        "P11-F65"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F64",
+      "title": "自用与共享统一资源槽",
+      "priority": "P0",
+      "acceptance_id": "P11-T64",
+      "primary_module_id": "MOD-06",
+      "module_ids": [
+        "MOD-06",
+        "MOD-07",
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-18",
+        "DEV-24",
+        "DEV-42",
+        "DEV-43"
+      ],
+      "operation_ids": [
+        "claimLease",
+        "recordAttemptProgress"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F05",
+        "P11-F10",
+        "P11-F41",
+        "P11-F57",
+        "P11-F59"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F65",
+      "title": "多端出站连接与凭据",
+      "priority": "P0",
+      "acceptance_id": "P11-T65",
+      "primary_module_id": "MOD-07",
+      "module_ids": [
+        "MOD-07",
+        "MOD-06",
+        "MOD-08",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-06",
+        "DEV-21",
+        "DEV-24",
+        "DEV-43",
+        "DEV-55"
+      ],
+      "operation_ids": [
+        "listOwnDevices",
+        "createPairingIntent",
+        "enrollDevice",
+        "getDevice",
+        "recordDeviceHeartbeat",
+        "drainDevice",
+        "revokeDevice",
+        "updateResourcePolicy"
+      ],
+      "tables": [
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F11",
+        "P11-F33",
+        "P11-F58",
+        "P11-F66"
+      ],
+      "current_phase_scope": "PARTIAL",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F66",
+      "title": "移动隐私、清数据与身份恢复",
+      "priority": "P0",
+      "acceptance_id": "P11-T66",
+      "primary_module_id": "MOD-08",
+      "module_ids": [
+        "MOD-08",
+        "MOD-01",
+        "MOD-06",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-04",
+        "DEV-06",
+        "DEV-44",
+        "DEV-53"
+      ],
+      "operation_ids": [
+        "recordConsent",
+        "createDeletionRequest",
+        "listOwnDevices",
+        "createPairingIntent",
+        "enrollDevice",
+        "getDevice",
+        "recordDeviceHeartbeat",
+        "drainDevice",
+        "revokeDevice",
+        "updateResourcePolicy"
+      ],
+      "tables": [
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents",
+        "devices",
+        "resources",
+        "resource_locks",
+        "jobs",
+        "attempts",
+        "execution_leases",
+        "deliveries",
+        "acceptances"
+      ],
+      "technical_documents": [
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F22",
+        "P11-F52",
+        "P11-F62",
+        "P11-F65"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F67",
+      "title": "引擎与模型许可及能力实测",
+      "priority": "P0",
+      "acceptance_id": "P11-T67",
+      "primary_module_id": "MOD-03",
+      "module_ids": [
+        "MOD-03",
+        "MOD-07",
+        "MOD-08",
+        "MOD-17"
+      ],
+      "task_ids": [
+        "DEV-07",
+        "DEV-22",
+        "DEV-23",
+        "DEV-41",
+        "DEV-52"
+      ],
+      "operation_ids": [
+        "registerCapability",
+        "listCatalogEntries",
+        "registerReviewedEvidence",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "evidence",
+        "capabilities",
+        "catalog_entries",
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/16-身份授权与安全工程.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F06",
+        "P11-F25",
+        "P11-F57",
+        "P11-F68"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F68",
+      "title": "多端物理设备与发布矩阵",
+      "priority": "P0",
+      "acceptance_id": "P11-T68",
+      "primary_module_id": "MOD-20",
+      "module_ids": [
+        "MOD-20",
+        "MOD-03",
+        "MOD-07",
+        "MOD-08",
+        "MOD-17"
+      ],
+      "task_ids": [
+        "DEV-01",
+        "DEV-07",
+        "DEV-21",
+        "DEV-41",
+        "DEV-52",
+        "DEV-54",
+        "DEV-55",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "registerCapability",
+        "listCatalogEntries",
+        "registerReviewedEvidence",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "evidence",
+        "capabilities",
+        "catalog_entries",
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/20-性能容量与可观测性.md",
+        "docs/技术开发/11-引擎与授权上游适配器设计.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/16-身份授权与安全工程.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F55",
+        "P11-F57",
+        "P11-F58",
+        "P11-F60",
+        "P11-F62",
+        "P11-F79",
+        "P11-F80"
+      ],
+      "current_phase_scope": "PARTIAL",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F69",
+      "title": "OpenAI与Anthropic标准数据入口",
+      "priority": "P0",
+      "acceptance_id": "P11-T69",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-04",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-11",
+        "DEV-26",
+        "DEV-27",
+        "DEV-47"
+      ],
+      "operation_ids": [
+        "listRouteContracts",
+        "createRouteContract",
+        "getRouteContract"
+      ],
+      "tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations"
+      ],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F54",
+        "P11-F70",
+        "P11-F71",
+        "P11-F72",
+        "P11-F76",
+        "P11-F79"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F70",
+      "title": "协议版本、能力与转换合同",
+      "priority": "P0",
+      "acceptance_id": "P11-T70",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-04",
+        "MOD-17"
+      ],
+      "task_ids": [
+        "DEV-11",
+        "DEV-26",
+        "DEV-52"
+      ],
+      "operation_ids": [
+        "listRouteContracts",
+        "createRouteContract",
+        "getRouteContract",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/16-身份授权与安全工程.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F60",
+        "P11-F61",
+        "P11-F69",
+        "P11-F74",
+        "P11-F79"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F71",
+      "title": "Sub2API类明文转发网关",
+      "priority": "P0",
+      "acceptance_id": "P11-T71",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09"
+      ],
+      "task_ids": [
+        "DEV-25",
+        "DEV-28"
+      ],
+      "operation_ids": [],
+      "tables": [],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F09",
+        "P11-F10",
+        "P11-F53",
+        "P11-F69",
+        "P11-F70",
+        "P11-F77",
+        "P11-F78"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F72",
+      "title": "买方本地或LAN加密网关",
+      "priority": "P0",
+      "acceptance_id": "P11-T72",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-08",
+        "MOD-19"
+      ],
+      "task_ids": [
+        "DEV-29",
+        "DEV-30",
+        "DEV-44",
+        "DEV-47"
+      ],
+      "operation_ids": [
+        "createEncryptionIntent",
+        "registerRecipient",
+        "getRecipient",
+        "createRecipientRotation",
+        "revokeRecipient",
+        "registerEnvelope"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F33",
+        "P11-F34",
+        "P11-F69",
+        "P11-F73",
+        "P11-F74",
+        "P11-F75"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F73",
+      "title": "卖方解密与内置转发内核",
+      "priority": "P0",
+      "acceptance_id": "P11-T73",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-09",
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-25",
+        "DEV-30",
+        "DEV-44"
+      ],
+      "operation_ids": [
+        "registerEnvelope"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F11",
+        "P11-F34",
+        "P11-F35",
+        "P11-F59",
+        "P11-F70",
+        "P11-F80"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F74",
+      "title": "密文分块、SSE与错误终态",
+      "priority": "P0",
+      "acceptance_id": "P11-T74",
+      "primary_module_id": "MOD-11",
+      "module_ids": [
+        "MOD-11",
+        "MOD-09",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-27",
+        "DEV-31",
+        "DEV-54"
+      ],
+      "operation_ids": [
+        "createCipherChannel"
+      ],
+      "tables": [
+        "cipher_channels"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F34",
+        "P11-F69",
+        "P11-F70",
+        "P11-F72",
+        "P11-F73"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F75",
+      "title": "本机与LAN接入和密钥隔离",
+      "priority": "P0",
+      "acceptance_id": "P11-T75",
+      "primary_module_id": "MOD-10",
+      "module_ids": [
+        "MOD-10",
+        "MOD-01",
+        "MOD-07",
+        "MOD-08",
+        "MOD-19",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-03",
+        "DEV-24",
+        "DEV-29",
+        "DEV-44",
+        "DEV-47",
+        "DEV-53"
+      ],
+      "operation_ids": [
+        "getSelfProfile",
+        "createEncryptionIntent",
+        "registerRecipient",
+        "getRecipient",
+        "createRecipientRotation",
+        "revokeRecipient",
+        "listApiKeys",
+        "createApiKey",
+        "revokeApiKey"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes",
+        "users",
+        "role_grants",
+        "api_keys",
+        "consents",
+        "pairing_intents"
+      ],
+      "technical_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/10-Android与LMA工程设计.md",
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F01",
+        "P11-F33",
+        "P11-F65",
+        "P11-F72",
+        "P11-F73"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F76",
+      "title": "媒体标准接口与加密附件",
+      "priority": "P0",
+      "acceptance_id": "P11-T76",
+      "primary_module_id": "MOD-13",
+      "module_ids": [
+        "MOD-13",
+        "MOD-09",
+        "MOD-11"
+      ],
+      "task_ids": [
+        "DEV-27",
+        "DEV-31",
+        "DEV-37"
+      ],
+      "operation_ids": [
+        "registerAsset",
+        "getAsset",
+        "completeAsset",
+        "createAssetTransferGrant",
+        "listResults",
+        "createCipherChannel"
+      ],
+      "tables": [
+        "assets",
+        "transfer_grants",
+        "deletion_tasks",
+        "cipher_channels"
+      ],
+      "technical_documents": [
+        "docs/技术开发/15-文件媒体与对象存储.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F13",
+        "P11-F24",
+        "P11-F34",
+        "P11-F69",
+        "P11-F72",
+        "P11-F74"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F77",
+      "title": "网关C2C路由、幂等与计量",
+      "priority": "P0",
+      "acceptance_id": "P11-T77",
+      "primary_module_id": "MOD-04",
+      "module_ids": [
+        "MOD-04",
+        "MOD-09"
+      ],
+      "task_ids": [
+        "DEV-11",
+        "DEV-12",
+        "DEV-25"
+      ],
+      "operation_ids": [
+        "listRouteContracts",
+        "createRouteContract",
+        "getRouteContract"
+      ],
+      "tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations"
+      ],
+      "technical_documents": [
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F08",
+        "P11-F09",
+        "P11-F16",
+        "P11-F18",
+        "P11-F27",
+        "P11-F53",
+        "P11-F54"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F78",
+      "title": "Sub2API源码复用与独立交易账",
+      "priority": "P0",
+      "acceptance_id": "P11-T78",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-28",
+        "DEV-55"
+      ],
+      "operation_ids": [],
+      "tables": [],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F25",
+        "P11-F53",
+        "P11-F69",
+        "P11-F71",
+        "P11-F73",
+        "P11-F80"
+      ],
+      "current_phase_scope": "PARTIAL",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F79",
+      "title": "标准SDK配置与兼容发布",
+      "priority": "P0",
+      "acceptance_id": "P11-T79",
+      "primary_module_id": "MOD-19",
+      "module_ids": [
+        "MOD-19",
+        "MOD-04",
+        "MOD-09",
+        "MOD-17",
+        "MOD-20"
+      ],
+      "task_ids": [
+        "DEV-11",
+        "DEV-26",
+        "DEV-47",
+        "DEV-52",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "listRouteContracts",
+        "createRouteContract",
+        "getRouteContract",
+        "createCapabilityRelease",
+        "updateFeatureGate",
+        "listAuditEvents"
+      ],
+      "tables": [
+        "quotes",
+        "orders",
+        "route_contracts",
+        "budget_reservations",
+        "audit_events",
+        "feature_gates",
+        "releases"
+      ],
+      "technical_documents": [
+        "docs/技术开发/14-前端路由状态与接口集成.md",
+        "docs/技术开发/05-控制面接口实现规约.md",
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/16-身份授权与安全工程.md",
+        "docs/技术开发/20-性能容量与可观测性.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F54",
+        "P11-F69",
+        "P11-F70",
+        "P11-F74",
+        "P11-F77",
+        "P11-F80"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    },
+    {
+      "requirement_id": "P11-F80",
+      "title": "多端原生网关内核与角色",
+      "priority": "P0",
+      "acceptance_id": "P11-T80",
+      "primary_module_id": "MOD-09",
+      "module_ids": [
+        "MOD-09",
+        "MOD-20",
+        "MOD-07",
+        "MOD-10",
+        "MOD-08"
+      ],
+      "task_ids": [
+        "DEV-01",
+        "DEV-21",
+        "DEV-22",
+        "DEV-24",
+        "DEV-25",
+        "DEV-28",
+        "DEV-30",
+        "DEV-41",
+        "DEV-42",
+        "DEV-44",
+        "DEV-56"
+      ],
+      "operation_ids": [
+        "registerEnvelope"
+      ],
+      "tables": [
+        "recipient_keys",
+        "encryption_intents",
+        "envelopes"
+      ],
+      "technical_documents": [
+        "docs/技术开发/07-统一协议网关与Sub2API改造.md",
+        "docs/技术开发/20-性能容量与可观测性.md",
+        "docs/技术开发/09-Windows与Linux原生客户端设计.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/10-Android与LMA工程设计.md"
+      ],
+      "requirement_dependencies": [
+        "P11-F57",
+        "P11-F58",
+        "P11-F59",
+        "P11-F62",
+        "P11-F68",
+        "P11-F72",
+        "P11-F73",
+        "P11-F78",
+        "P11-F79"
+      ],
+      "current_phase_scope": "CURRENT",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "evidence_refs": []
+    }
+  ]
+}

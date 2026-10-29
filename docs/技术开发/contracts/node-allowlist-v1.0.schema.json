@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://p11.invalid/design/node-allowlist-v1.0.schema.json",
+  "title": "P11 finite ComfyUI node allowlist payload draft",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0-draft"
+    },
+    "allowlist_revision": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "comfy_environment_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "approval_key_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "core_class_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_]{0,127}$"
+      },
+      "minItems": 1,
+      "maxItems": 128,
+      "uniqueItems": true
+    },
+    "node_packs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048
+          },
+          "exact_revision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "not": {
+              "enum": [
+                "latest",
+                "main",
+                "master",
+                "HEAD",
+                "*",
+                "UNFROZEN"
+              ]
+            }
+          },
+          "code_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "class_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_]{0,127}$"
+            },
+            "minItems": 1,
+            "maxItems": 128,
+            "uniqueItems": true
+          },
+          "dependency_artifacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "component_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+                },
+                "role": {
+                  "enum": [
+                    "LM_CLI",
+                    "LM_DAEMON",
+                    "LM_RUNTIME",
+                    "COMFY_CORE",
+                    "PYTHON",
+                    "PYTHON_DEPENDENCY",
+                    "NATIVE_DEPENDENCY",
+                    "CUSTOM_NODE",
+                    "MEDIA_TOOL",
+                    "LMA_SOURCE",
+                    "ANDROID_NATIVE",
+                    "PLATFORM_BRIDGE",
+                    "PRIVATE_WORKER",
+                    "LLAMA_LIBRARY",
+                    "GGML_BACKEND"
+                  ]
+                },
+                "version": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "not": {
+                    "enum": [
+                      "latest",
+                      "main",
+                      "master",
+                      "HEAD",
+                      "*",
+                      "UNFROZEN"
+                    ]
+                  }
+                },
+                "source_url": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https://",
+                  "maxLength": 2048
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "license_evidence_ref": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+                }
+              },
+              "required": [
+                "component_id",
+                "role",
+                "version",
+                "source_url",
+                "sha256",
+                "license_evidence_ref"
+              ]
+            },
+            "minItems": 0,
+            "maxItems": 128,
+            "uniqueItems": true
+          },
+          "reviewed_install_step_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+            },
+            "minItems": 0,
+            "maxItems": 128,
+            "uniqueItems": true
+          },
+          "license_evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+            },
+            "minItems": 1,
+            "maxItems": 128,
+            "uniqueItems": true
+          },
+          "file_scopes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "TASK_WORKSPACE",
+                "APPROVED_MODELS_READONLY"
+              ]
+            },
+            "minItems": 0,
+            "maxItems": 2,
+            "uniqueItems": true
+          },
+          "install_download_hosts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "hostname"
+            },
+            "minItems": 1,
+            "maxItems": 30,
+            "uniqueItems": true
+          },
+          "execution_network": {
+            "enum": [
+              "NONE",
+              "APPROVED_HOSTS"
+            ]
+          },
+          "execution_allowed_hosts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "hostname"
+            },
+            "minItems": 0,
+            "maxItems": 30,
+            "uniqueItems": true
+          },
+          "runtime_code_download_allowed": {
+            "const": false
+          },
+          "runtime_package_install_allowed": {
+            "const": false
+          }
+        },
+        "required": [
+          "node_id",
+          "source_url",
+          "exact_revision",
+          "code_sha256",
+          "class_types",
+          "dependency_artifacts",
+          "reviewed_install_step_ids",
+          "license_evidence_refs",
+          "file_scopes",
+          "install_download_hosts",
+          "execution_network",
+          "execution_allowed_hosts",
+          "runtime_code_download_allowed",
+          "runtime_package_install_allowed"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "execution_network": {
+                  "const": "NONE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "execution_allowed_hosts": {
+                  "maxItems": 0
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "execution_allowed_hosts": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minItems": 0,
+      "maxItems": 64,
+      "uniqueItems": true
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revoked": {
+      "type": "boolean"
+    },
+    "unlisted_enabled_node_policy": {
+      "const": "REJECT_BEFORE_IMPORT"
+    },
+    "buyer_install_permission": {
+      "const": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "allowlist_revision",
+    "comfy_environment_ref",
+    "approval_key_id",
+    "core_class_types",
+    "node_packs",
+    "valid_until",
+    "revoked",
+    "unlisted_enabled_node_policy",
+    "buyer_install_permission"
+  ],
+  "$comment": "Finite 64-pack representation limit, not 64 trusted packs or an installation target. Requires code and transitive dependency review, owner consent, enabled-directory verification before imports, and recipe requalification. Not an OS sandbox."
+}

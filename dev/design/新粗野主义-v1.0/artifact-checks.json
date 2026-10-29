@@ -1,0 +1,32 @@
+{
+  "design_version": "NB-1.0",
+  "checked_at": "2026-10-29T21:19:52.314854+00:00",
+  "status": "DESIGN_ARTIFACT_CHECKS_PASSED",
+  "checks": {
+    "exactly_five_images": true,
+    "full_png_decode": true,
+    "dimensions": true,
+    "visual_review_complete": true,
+    "design_chapters": 11,
+    "json_sources_valid": true,
+    "units_hours_and_million_tokens": true,
+    "quote_sum_180_equals_171_plus_9": true,
+    "current_10_minutes_60_fen": true,
+    "provider_60_minus_3_equals_57": true,
+    "phone_ownership_separate": true,
+    "links": {
+      "checked": 97,
+      "broken": []
+    },
+    "planned_token_contrast": {
+      "canvas": 19.12,
+      "surface": 21.0,
+      "primary": 6.81,
+      "selected": 11.56
+    }
+  },
+  "limits": "Checks validate design artifacts and examples only. No product/runtime, real device, payment, cryptography, accessibility or performance acceptance.",
+  "development_goal": "ACTIVE",
+  "browser_used": false,
+  "virtualization_used": false
+}

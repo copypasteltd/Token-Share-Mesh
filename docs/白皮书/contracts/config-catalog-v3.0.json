@@ -1,0 +1,405 @@
+{
+  "version": "3.0-draft",
+  "date": "2026-10-29",
+  "status": "DESIGN_UNIMPLEMENTED",
+  "description": "D为设计初值，未证明运行控制已实现；H/E未定项不能从示例金额补默认。其他模式也必须通过资金/许可/物理测试后可售。",
+  "defaults": [
+    {
+      "id": "CFG01",
+      "key": "quote_ttl_sec",
+      "value": 900,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "仅新报价"
+    },
+    {
+      "id": "CFG02",
+      "key": "admission_ttl_sec",
+      "value": 90,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "资金/输入就绪"
+    },
+    {
+      "id": "CFG03",
+      "key": "lease_sec",
+      "value": 45,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "当前token"
+    },
+    {
+      "id": "CFG04",
+      "key": "heartbeat_sec",
+      "value": 10,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "重传不加费"
+    },
+    {
+      "id": "CFG05",
+      "key": "node_active_slots",
+      "value": 1,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "所有引擎/模式共锁"
+    },
+    {
+      "id": "CFG06",
+      "key": "buyer_active_jobs",
+      "value": 2,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "按买方主体"
+    },
+    {
+      "id": "CFG07",
+      "key": "sku_queue_cap",
+      "value": "min(20,2*qualified_online)",
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "扣除租赁/清理占用"
+    },
+    {
+      "id": "CFG08",
+      "key": "same_seller_retries",
+      "value": 1,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "已披露同卖家设备"
+    },
+    {
+      "id": "CFG09",
+      "key": "image_total_deadline_sec",
+      "value": 300,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "含验收不延长"
+    },
+    {
+      "id": "CFG10",
+      "key": "e2e_rewrap_window_sec",
+      "value": 120,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "取总期剩余更小值"
+    },
+    {
+      "id": "CFG11",
+      "key": "e2e_accept_window_sec",
+      "value": 120,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "无回执不自动成交"
+    },
+    {
+      "id": "CFG12",
+      "key": "rental_reserve_sec",
+      "value": 90,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "准备阶段设置新截止"
+    },
+    {
+      "id": "CFG13",
+      "key": "rental_prepare_sec",
+      "value": 120,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "未就绪零费"
+    },
+    {
+      "id": "CFG14",
+      "key": "rental_ready_wait_sec",
+      "value": 120,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "未确认零费"
+    },
+    {
+      "id": "CFG15",
+      "key": "rental_disconnect_grace_sec",
+      "value": 60,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "可用且预算内"
+    },
+    {
+      "id": "CFG16",
+      "key": "result_retention_days",
+      "value": 7,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "权益及删除同步"
+    },
+    {
+      "id": "CFG17",
+      "key": "download_url_ttl_sec",
+      "value": 300,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "本人单对象"
+    },
+    {
+      "id": "CFG18",
+      "key": "platform_input_cleanup_hours",
+      "value": 24,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "终态后及含内容衍生对象"
+    },
+    {
+      "id": "CFG19",
+      "key": "node_success_cleanup_hours",
+      "value": 1,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "清完再复用"
+    },
+    {
+      "id": "CFG20",
+      "key": "node_failure_reconnect_cleanup_hours",
+      "value": 24,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "离线重连补清"
+    },
+    {
+      "id": "CFG21",
+      "key": "app_log_retention_days",
+      "value": 30,
+      "status": "D",
+      "current_phase_scope": "DEFERRED",
+      "constraint": "无正文/key"
+    },
+    {
+      "id": "CFG22",
+      "key": "rolling_backup_days",
+      "value": 7,
+      "status": "D",
+      "current_phase_scope": "DEFERRED",
+      "constraint": "恢复不复活删除对象"
+    },
+    {
+      "id": "CFG23",
+      "key": "recovery_targets_hours",
+      "value": {
+        "rpo": 24,
+        "rto": 4
+      },
+      "status": "D",
+      "current_phase_scope": "DEFERRED",
+      "constraint": "须真实恢复演练"
+    },
+    {
+      "id": "CFG24",
+      "key": "json_request_max_bytes",
+      "value": 2097152,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "含base64编码后"
+    },
+    {
+      "id": "CFG25",
+      "key": "media_object_max_bytes",
+      "value": 67108864,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "SKU可更低"
+    },
+    {
+      "id": "CFG26",
+      "key": "decoded_image_max_pixels",
+      "value": 40000000,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "解压内存另限"
+    },
+    {
+      "id": "CFG27",
+      "key": "cipher_data_chunk_max_bytes",
+      "value": 65536,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "成熟库认证分块"
+    },
+    {
+      "id": "CFG28",
+      "key": "cipher_frame_max_bytes",
+      "value": 131072,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "含编码元数据"
+    },
+    {
+      "id": "CFG29",
+      "key": "reorder_limits",
+      "value": {
+        "frames": 32,
+        "bytes": 2097152
+      },
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "较严者生效"
+    },
+    {
+      "id": "CFG30",
+      "key": "stream_send_buffer_bytes",
+      "value": 4194304,
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "有界背压"
+    },
+    {
+      "id": "CFG31",
+      "key": "pagination",
+      "value": {
+        "default": 20,
+        "max": 100
+      },
+      "status": "D",
+      "current_phase_scope": "CURRENT",
+      "constraint": "稳定cursor"
+    }
+  ],
+  "gated": [
+    {
+      "key": "commission_bps",
+      "value": null,
+      "status": "H",
+      "required_evidence": [
+        "E01",
+        "E13"
+      ]
+    },
+    {
+      "key": "channel_cost_owner",
+      "value": null,
+      "status": "E",
+      "required_evidence": [
+        "E01",
+        "E02"
+      ]
+    },
+    {
+      "key": "settlement_cycle_minimum_hold",
+      "value": null,
+      "status": "E",
+      "required_evidence": [
+        "E01",
+        "E02"
+      ]
+    },
+    {
+      "key": "payment_provider_product_scope",
+      "value": null,
+      "status": "E",
+      "required_evidence": [
+        "E01",
+        "E02"
+      ]
+    },
+    {
+      "key": "subscription_supply_enabled",
+      "value": false,
+      "status": "E",
+      "required_evidence": [
+        "E05",
+        "E11"
+      ]
+    },
+    {
+      "key": "enhanced_e2e_enabled",
+      "value": false,
+      "status": "E",
+      "required_evidence": [
+        "E08",
+        "E09"
+      ]
+    },
+    {
+      "key": "android_sale_enabled",
+      "value": false,
+      "status": "E",
+      "required_evidence": [
+        "E01",
+        "E04",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "key": "video_sale_enabled",
+      "value": false,
+      "status": "E",
+      "required_evidence": [
+        "E02",
+        "E04",
+        "E07"
+      ]
+    },
+    {
+      "key": "sub2api_commit_license_bundle",
+      "value": null,
+      "status": "E",
+      "required_evidence": [
+        "E06"
+      ]
+    },
+    {
+      "key": "api_sdk_profile_versions",
+      "value": null,
+      "status": "E",
+      "required_evidence": [
+        "E07"
+      ]
+    },
+    {
+      "key": "crypto_suite_library_signature_profile",
+      "value": null,
+      "status": "E",
+      "required_evidence": [
+        "E08"
+      ]
+    },
+    {
+      "key": "model_context_output_timeouts",
+      "value": null,
+      "status": "E",
+      "required_evidence": [
+        "E04",
+        "E07",
+        "E11"
+      ]
+    },
+    {
+      "key": "lan_cert_pairing_profile",
+      "value": null,
+      "status": "D",
+      "required_evidence": [
+        "E08"
+      ]
+    }
+  ],
+  "candidate_source": {
+    "sub2api_repo": "https://github.com/Wei-Shaw/sub2api",
+    "frozen_commit": null
+  },
+  "external_evidence_ids": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08",
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15"
+  ]
+}

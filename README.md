@@ -1,0 +1,188 @@
+# Token Share Mesh
+
+<!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
+
+**A C2C market for user-owned compute, with standard AI APIs and explicit privacy choices.**
+
+[简体中文](README.zh-CN.md) · [Documentation map](dev/repository/README.md) · [Development plan](dev/开发细则总表.md) · [Changelog](CHANGELOG.md)
+
+![Token Share Mesh architecture — design, not a running inference service](dev/media/architecture.svg)
+
+Token Share Mesh connects buyers with people voluntarily offering idle Windows/Linux GPUs, Android devices, or explicitly authorized upstream AI capacity. The seller sets availability and price and remains the seller of record. The platform provides discovery, contracts, routing, scheduling and transaction evidence, and charges a disclosed fee.
+
+## Current implementation
+
+This repository contains runnable **Go/PostgreSQL foundations and trade application services**, alongside the full platform specifications. Source implementation continues against the selected Neubrutalism design, with numbered changes and all 56 pending tasks tracked each round and synchronized to Git. Marketplace UI, model endpoints, desktop/Android providers, end-to-end encryption and real payments remain unfinished. Screenshots below show specification readers, not marketplace product screens.
+
+The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five final design pages](dev/design/新粗野主义-v1.0/README.md) with ten supporting views, 48 requirement refinements, 96 unexecuted scenarios and six open contract gaps. New offers use GPU hours or separate input/output prices per M token (1,000,000 tokens). Media runs within controlled GPU rentals without extra per-item charges. R003 implements the NB_PRICE_1 contract, exact calculation and quote/order application services. Arbitrary hourly rental sessions, renewals, final billing, trusted usage and concurrent budget reservations remain unfinished; historical orders retain their original prices.
+
+| Item | Evidence/status |
+| --- | --- |
+| Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
+| Implementation tasks | 11 in progress · 43 not started · 1 conditional · 1 deferred |
+| Latest source round | R003 · PASSED_FOR_CONTROL_SERVICES_ONLY |
+| Native test evidence | 22 passed · control services scope only |
+| Full product acceptance | 80 NOT_EXECUTED |
+| Source goal | ACTIVE |
+
+Implemented components include the initial 60-table migration and forward 002 guards, hourly and dual token rates, API keys, transactional idempotency/inbox/jobs, concrete seller/device projections, scoped qualification checks, frozen quotes, order creation and owner-only order reads. R003 passed 22 native tests, including 16 concurrent same-key submissions, 12 distinct-key submissions against one quote and role revocation. Only application services and the database CLI exist; there is no public login or HTTP trading/inference server. See [native evidence](dev/tests/evidence/R003-验证报告.md), [implementation boundaries](docs/技术开发/附录-NB价版与交易服务实施约束.md) and [all 56 tasks](dev/progress/README.md).
+
+The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_rate for TOKEN_1M. Each rate has an integer numerator in fen and a positive denominator, together with fee ownership, commission and rounding versions. At 360 fen/hour, 30 minutes costs at most 180 fen; 1M input at 80 fen/M plus 0.25M output at 160 fen/M totals 120 fen. Quotes freeze seller, environment, policy, rates and budget. Creating an order rechecks admission and atomically writes WAITING_PAYMENT, quote consumption, consent audit and outbox. It does not pay, lock a GPU or execute work. A 350 fen/hour rate cannot be rounded into the legacy integer-fen/minute column.
+
+## Screenshots and recording
+
+![Actual whitepaper reader with searchable requirements](dev/media/screenshots/whitepaper-desktop.png)
+
+![Actual technical reader showing the implementation design](dev/media/screenshots/technical-desktop.png)
+
+![Recorded search and navigation in the actual documentation readers](dev/media/recordings/readers-tour.gif)
+
+[Watch/download the MP4 recording](dev/media/recordings/readers-tour.mp4) · [Search screenshot](dev/media/screenshots/whitepaper-search.png) · [Mobile-width reader](dev/media/screenshots/whitepaper-mobile.png) · [Media provenance and reproduction](dev/repository/MEDIA.md)
+
+The readers are currently in Chinese. The walkthrough demonstrates local search and navigation; it does not demonstrate a completed marketplace, a generated model result or a successful payment.
+
+## Three service modes
+
+| Mode | What the buyer purchases | Content handling | Execution and acceptance |
+| --- | --- | --- | --- |
+| Plaintext | A specified model call or approved media workflow | The platform gateway and performing seller can process plaintext; any upstream processor must be disclosed | Contract-bound execution, trusted usage/result evidence |
+| End-to-end encrypted | A task for an explicitly confirmed seller endpoint | Buyer-local gateway encrypts; platform relays ciphertext; seller service decrypts for inference and encrypts results back | Bound identity, authenticated streams and buyer receipt |
+| GPU rental | A bounded period in an approved GPU application environment | The selected environment/privacy policy governs content | Both parties ready before billable availability; hard expiry and actual cleanup |
+
+Encryption is a processing path, while privacy strength is a separate qualification. `PLATFORM_BLIND` hides content from the platform, but the executing device processes plaintext. Local protections aim to make routine UI/file/log/API/packet inspection harder for ordinary and intermediate users. They do not claim protection from advanced memory/GPU extraction or full host control. `ATTESTED_CONFIDENTIAL` is a separate conditional capability requiring genuine end-to-end hardware evidence; it remains disabled.
+
+## Request routing and API compatibility
+
+The planned data plane accepts **OpenAI Chat Completions**, **OpenAI Responses** and **Anthropic Messages**, plus explicitly approved media/audio subsets. A published compatibility profile defines supported models, fields, tools, streaming events and limits. Unsupported semantics are rejected rather than silently dropped.
+
+```text
+Plaintext:
+App / standard SDK -> platform Sub2API-like gateway
+                   -> confirmed seller adapter -> native engine / authorized upstream
+
+Encrypted:
+App / standard SDK -> buyer-local or paired trusted-LAN gateway
+                   -> ciphertext relay -> seller-private gateway -> native worker
+Response           <- local authentication/decryption <- ciphertext <- seller encryption
+```
+
+Routing configuration binds the actual seller, immutable contract, mode, model/workflow, budget and deadline. Standard SDK requests do not need private JSON fields. Missing routing configuration cannot default to plaintext or purchase compute automatically. A single order permits at most one disclosed retry within the same seller's eligible devices; changing sellers requires the buyer to confirm a new transaction.
+
+The plaintext core is intended to reuse or adapt a Sub2API-like implementation after revision, license and dependency review. Default account pooling, cross-seller rotation, wallet logic and content telemetry must not bypass the C2C contract. The encrypted path has a buyer-side and seller-side local forwarding core; the platform must not decrypt it. See [gateway design](docs/技术开发/07-统一协议网关与Sub2API改造.md).
+
+## Provider software and kernel choices
+
+| Provider | Planned local software | Replacement policy |
+| --- | --- | --- |
+| Windows/Linux private LLM | Native supervisor + C++ worker embedding the llama.cpp C API, connected by controlled pipes | Approved engine/model/template/backend versions; no plaintext HTTP inference hop in the private path |
+| Windows/Linux compatible LLM | LM Studio CLI (`lms`), llmster and actual inference runtime | Three independently versioned layers; compatibility does not itself grant local privacy qualification |
+| Windows/Linux media | Complete native ComfyUI environment, PrivacyBridge and approved image/video/audio/3D capability packs | Explicit provider consent, limited node/dependency allowlist, staged validation and drain-before-switch |
+| Android | A pinned LMA fork with Java/Kotlin and internal JNI inference bridge | Executable changes through signed APK updates; model downloads are separate; no arbitrary executable hot loading |
+
+Providers control whether they participate, resource/time limits, eligible kernels, installation consent and published prices. The scheduler chooses only among already approved resources within the accepted contract. The provider UI shows resource usage, component versions, task stage, earnings and stop controls; privacy tasks do not expose prompts or outputs through ordinary UI/history/log APIs. GPU/phone support is a development target, not an already verified capability.
+
+## End-to-end encryption design
+
+The current candidate uses libsodium sealed boxes for per-object stream-key wrapping, `secretstream_xchacha20poly1305` for authenticated sequential records and separate Ed25519 signatures for endpoint identity and context. Exact library revisions, bindings, cross-platform byte vectors and independent review are still required. A sealed box does not authenticate its sender; signatures and independently verified endpoint identity are mandatory.
+
+1. Confirm seller, recipient identity/key version, environment and contract through a disclosed trust procedure. Platform-delivered key and fingerprint alone do not constitute independent verification.
+2. Create an `INPUT_PENDING/PREPARED` context bound to order/job/attempt/token/recipient. It grants no execution right and holds no GPU lock.
+3. Buyer encrypts inputs; platform forwards ciphertext and minimal routing metadata. Only after input, funding, permission and capacity checks can the platform issue a signed execution lease.
+4. Seller checks the job token and physical-resource lock generation, decrypts within the controlled native path, and runs the approved engine.
+5. Encrypt outputs before their first persistent write. Buyer authenticates/decrypts and submits a signed acceptance or rejection receipt. Delivery recovery can continue after GPU cleanup without granting new execution rights.
+
+The proposed `BINARY_STREAM_1` carries a bounded header and sequential authenticated records (`uint32be length + uint64be sequence + ciphertext`). Plaintext records are at most 64 KiB, including the 8-byte internal header. A single stream shares a 4 MiB buffer budget; this is a design limit, not a benchmark. `END` itself uses `TAG_FINAL`; closing a socket is not successful completion. Resumption retransmits original ciphertext, never blindly reruns inference.
+
+Only task data is encrypted at rest. Model weights remain in native read-only/mmap-compatible files; the design adds no VM, RAM disk or resident second model copy. Random reads use separately authenticated local segments after complete object verification, not arbitrary seeking inside one secretstream. Detailed [protocol](docs/技术开发/08-端到端加密协议与密钥实现设计.md) and [low-overhead local design](docs/技术开发/附录-低开销隐私执行完整方案.md) remain the implementation authority.
+
+## Contracts, scheduling and money
+
+- Quotes and orders freeze buyer/seller, listing revision, eligible devices, kernel environment, capability/profile, price, platform fee, budget, deadline and acceptance policy.
+- All engines and service modes on the same physical GPU share one resource lock. Job fencing and resource-generation fencing are separate, persistent and monotonic. Rental subtasks do not release their parent session lock.
+- Cancellation, timeout or disconnection does not make a GPU reusable until actual stop/cleanup is confirmed. Delivery acknowledgements cannot clean up a newer owner.
+- Money uses bounded integer fen and rational cumulative pricing. Rounding each stream chunk independently is forbidden. Result acceptance, consumption evidence, accounting and seller settlement are separate events.
+- Financial operations retain a unique original business reference. An unknown outcome is queried under that reference; it is not blindly recreated. Generic jobs are limited to approved query/cleanup/notification operations.
+
+The payment design follows the Alipay Payathon Machine Pay/A402 path: precreate, a payment challenge, buyer payment, proof verification and then authorized delivery. A normal OpenAI/Anthropic SDK does not automatically pay a `402`. The miniapp/Web or an explicitly payment-capable local program must complete the authorized payment interaction. Actual personal-seller eligibility, service registration, fees, refund and settlement support require independent channel confirmation. No real transaction or C2C settlement qualification has been demonstrated. See the [payment specification and dated official sources](docs/技术开发/13-支付退款账务与渠道结算.md).
+
+## Run what exists today
+
+Run commands from the clone root. The native bootstrap and database harness currently target **Windows amd64**, with **Python 3.13** recommended for the pinned documentation wheels. Node.js 22+ is used for reader JavaScript checks and optional media capture. Downloads, caches and temporary databases stay in `runtime/`.
+
+```powershell
+git clone git@github.com:copypasteltd/Token-Share-Mesh.git
+cd Token-Share-Mesh
+
+# Documentation dependencies, reconstruction and structural checks
+python -X utf8 dev/tools/文档工具.py bootstrap
+python -X utf8 dev/tools/文档工具.py build
+python -X utf8 dev/tools/文档工具.py check
+
+# Read the real offline readers locally; Ctrl+C stops this local server
+python -X utf8 dev/tools/预览文档.py --port 8765
+```
+
+Open `http://127.0.0.1:8765/`, search by requirement ID or keyword and follow the chapter links. The generated HTML files can also be opened directly. This local read-only preview is not a platform deployment and does not expose `runtime/`, `.git` or directory listings.
+
+```powershell
+# Explicit native tool download/bootstrap; no system database service installation
+python -X utf8 dev/tools/获取原生工具链.py
+python -X utf8 dev/tools/原生开发.py mod download
+
+# Disposable loopback PostgreSQL -> real tests -> instance stopped
+python -X utf8 dev/tools/原生数据库验证.py --round R003
+python -X utf8 dev/tools/核验原生源码.py --round R003
+python -X utf8 dev/tools/整理原生验证证据.py --round R003
+```
+
+The last three commands generate R003 evidence for the current source, preserving historical R001 records. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin CLI is cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+
+## Intended buyer and seller usage
+
+**Buyer:** choose a seller/capability → inspect mode, privacy, price and limits → accept an immutable quote/order → complete authorized payment → configure the contract-bound SDK route → run the task or rental → authenticate and accept the result → handle any dispute with minimal necessary evidence. For encrypted tasks, install/pair the local gateway before sending content.
+
+**Seller:** enroll → pair a device → approve a kernel/model/node set and resource policy → pass applicable capability/license checks → publish a listing and price → opt in to scheduling → see stages/resources/earnings → stop new work and drain existing work when changing kernels or withdrawing. Android availability additionally depends on consent, charging, network, temperature and foreground lifecycle rules.
+
+These are specified user journeys. They become runnable only as the corresponding entries in the implementation tracker are completed and verified.
+
+## Repository map
+
+```text
+README.md / README.zh-CN.md       English and Chinese entry points
+CHANGELOG*.md                    Synchronized release notes
+dev/src/go.mod                   One Go module
+dev/src/api/cmd/p11-admin/        Native migration/check CLI
+dev/src/internal/                Database, keys, idempotency, durable jobs
+dev/src/shared/                  IDs, safe errors, clock, money
+dev/src/tests/integration/       Real PostgreSQL tests
+dev/planning/ + dev/contracts/   Maintained plan and generated 56-task manifest
+dev/modules/ + dev/docs/         20 module specifications and 222 substeps
+dev/progress/                    Per-round delivery and complete pending tables
+dev/tools/                       Native, documentation, media and repository tools
+dev/repository/                  Bilingual supporting guides and README templates
+dev/media/                       Actual screenshots, MP4, GIF and provenance
+dev/licenses/                    Current Go dependency notices
+docs/白皮书/                     Detailed requirements and offline reader
+docs/技术开发/                   Architecture, protocols, SQL and offline reader
+scripts/                        Existing authoritative document generators
+runtime/                        Local data/tools/models/caches — never committed
+```
+
+React + Taro is selected for the Alipay miniapp; React + Vite for Web. Desktop providers use native processes and Android uses a real LMA fork. Local Docker, WSL, QEMU/VMs and Android emulators are excluded. Server deployment, public HTTPS and observability engineering are explicitly deferred.
+
+## Contributing and keeping releases in sync
+
+Read [CONTRIBUTING](CONTRIBUTING.md) and [the synchronization workflow](dev/repository/SYNCHRONIZATION.md). Update the maintained README templates, both changelogs and the full 56-task tracker for each meaningful round. Regenerate affected specifications; refresh real media when the illustrated UI or usage changes; validate before committing and pushing `main` to the configured repository. Never force-push over another contributor's changes.
+
+Applied migrations and content-addressed files retain exact bytes across checkout; `.gitattributes` prevents silent line-ending conversion. Do not rewrite an applied migration. Runtime data, secrets, downloaded kernels/models and binaries stay out of Git. Third-party notices are recorded separately and do not establish upstream API or model resale authorization.
+
+## Documentation entry points
+
+- [Complete development rules and numbered constraints](dev/开发细则总表.md)
+- [Requirements whitepaper](docs/白皮书/00-阅读导航与需求基线.md)
+- [Technical implementation navigation](docs/技术开发/00-技术文档导航与实施基线.md)
+- [System design / 系统方案](dev/repository/SYSTEM_DESIGN.md)
+- [Usage / 使用指南](dev/repository/USAGE.md)
+- [Media / 演示媒体](dev/repository/MEDIA.md)
+- [Implementation evidence and every outstanding task](dev/progress/README.md)
+
