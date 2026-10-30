@@ -1,0 +1,67 @@
+{
+  "round": "R016",
+  "suite": "full",
+  "run_id": "20261030T115323Z-6d34b23f",
+  "postgresql": "17.11-5",
+  "test_exit_code": 0,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "package_parallelism": 1,
+  "intra_test_concurrency_retained": true,
+  "test_segments": [
+    {
+      "id": "core",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "-skip",
+        "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$",
+        "./..."
+      ],
+      "exit_code": 0,
+      "database_isolation": "CORE",
+      "temporary_database_removed": null
+    },
+    {
+      "id": "web",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "-run",
+        "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^web$",
+        "./api/tests"
+      ],
+      "exit_code": 0,
+      "database_isolation": "FRESH_NATIVE_CHILD",
+      "temporary_database_removed": true
+    },
+    {
+      "id": "miniapp",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "-run",
+        "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^miniapp$",
+        "./api/tests"
+      ],
+      "exit_code": 0,
+      "database_isolation": "FRESH_NATIVE_CHILD",
+      "temporary_database_removed": true
+    }
+  ],
+  "case_inventory": "Unique top-level test IDs; R014 browser parent runs separately for each selected child",
+  "shutdown_mode": "FAST",
+  "runner_error": null,
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R016-native-go-tests.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test"
+}

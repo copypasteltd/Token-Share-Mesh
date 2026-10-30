@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql",
+  "source_sha256": "c63e4849bc23279f3fd0eca5ae866c2663482b1bf33a01165c6e0512b02fa375",
+  "migration": "008_route_invocation_preparation.sql",
+  "migration_sha256": "c63e4849bc23279f3fd0eca5ae866c2663482b1bf33a01165c6e0512b02fa375",
+  "policy": "008 forward-only R016 route invocation preparation; 001-007 and native client DDL unchanged; UNBOUND jobs are never retroactively granted route consent"
+}

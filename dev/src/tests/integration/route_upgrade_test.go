@@ -23,7 +23,7 @@ func TestRouteLegacyUpgradeQuarantinesWithoutInventingConsent(t *testing.T) {
 		t.Fatal(e)
 	}
 	for _, name := range paths {
-		if strings.HasPrefix(name, "migrations/007_") {
+		if strings.TrimPrefix(name, "migrations/")[:3] >= "007" {
 			continue
 		}
 		body, e := fs.ReadFile(source, name)
@@ -107,7 +107,7 @@ func TestReadOnlyStartupMigrationVerificationRejectsMetadataDrift(t *testing.T) 
 			t.Fatal(e)
 		}
 	}
-	if _, e := local.Pool.Exec(ctx, `INSERT INTO p11_meta.schema_migrations(version,name,sha256) VALUES(8,'008_unknown.sql',repeat('a',64))`); e != nil {
+	if _, e := local.Pool.Exec(ctx, `INSERT INTO p11_meta.schema_migrations(version,name,sha256) VALUES(9,'009_unknown.sql',repeat('a',64))`); e != nil {
 		t.Fatal(e)
 	}
 	if e := local.VerifyMigrations(ctx); e == nil {

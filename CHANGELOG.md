@@ -1,5 +1,16 @@
 # Changelog
 
+## R016 — Original-call preparation, call slots and atomic order capacity
+
+- Add the internal ROUTE_PREPARE_1 service. Under the original order write lock, recheck the current scoped key, route, same-order funding and qualification, then commit INPUT_PENDING, the full per-call hold, a durable call slot and a four-field safe event together.
+- Recover the original job/reservation with the original key; changed body, safe parameters or API key conflict. Current identity revocation blocks replay. An inactive route/funding/device allows only recovery of the original record; cancellation, expiry and unknown results retain holds and slots.
+- Persist only a domain-separated versioned HMAC, never the body or raw request digest. Copy configured keys, retain original versions for recovery and fail closed if missing. Production secret loading and full lifecycle remain pending.
+- Bound preparation by the shortest original route/order, current funding/qualification and API-key deadline. Require the frozen maximum input plus requested output ceiling to fit the per-call cap; never infer actual usage.
+- Add forward-only 008: six columns, three FKs, two indexes and deferred budget/event guards. Preserve 001–007 and native SQLite DDL bytes; historical UNBOUND jobs gain no invented consent.
+- Register 14 native regression cases; see the R016 report for the current full result. Refresh real browser/native-control media, bilingual docs and all 56 tasks/222 open steps. Retain the early progress-generation rejection for missing evidence and generate only after the evidence exists.
+- Keep 34/93 control operations and 65 tables. Preparation grants no Lease, relay Grant or inference authority. Input-ready/resource admission, trusted usage/funds, production engines, E2E/LP/PE, route UI and whole-product acceptance remain pending. No virtualization, deployment or observability work.
+- Preserve the first full run (183 passed/one existing renewal-cleanup failure) and three unchanged isolated passes. The cause remains unproven and DEV-53 timing stability stays open.
+
 ## R015 — Confirmed order routes and scoped SDK model resolution
 
 - Add three owner-session control operations with explicit original-order/payment binding, immutable seller/listing/model/profile/price limits, current-state replay and bounded signed pagination.

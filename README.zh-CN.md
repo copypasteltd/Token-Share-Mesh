@@ -19,11 +19,15 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 | 项目 | 证据/状态 |
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
-| 实施任务 | 27项进行中 · 27项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R015 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| 原生测试证据 | 170项通过，仅控制/原生/转发源码子集 |
+| 实施任务 | 28项进行中 · 26项待开发 · 1项条件能力 · 1项延后 |
+| 最新源码轮次 | R016 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| 原生测试证据 | 184项通过，仅控制/原生/转发源码子集 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
+
+R016首轮完整回归183通过/1失败，既有续租清理在原400ms截止内未确认，资源保留；源码/时限未改的三次独立复跑通过，但根因未确定。后续全量通过也不代表时序稳定性已验收，DEV-53继续开放。详见[开发记录](dev/tests/evidence/R016-development-attempts.json)。
+
+R016新增原调用准备库：当前scoped key/原订单/同单资金事实重新核对后，将INPUT_PENDING、整笔单次预算、次数占用及安全事件在同一事务提交。原键恢复不重复占用；改参数/key冲突；取消/过期/未知保留原记录和占用。请求摘要只以版本化HMAC持久保存。前向008追加六列，001—007和端侧DDL原字节不改；仍34/93操作、65表。仅三个原生文本档位的PLAINTEXT/STANDARD；没有挂载模型入口、签发Lease/Grant或运行模型。输入就绪/资源原子准入、可信usage、真实支付、E2E和路由UI仍待。见[RI-001—024](docs/技术开发/附录-原调用准备与次数预算原子接线.md)、[R016证据](dev/tests/evidence/R016-验证报告.md)和[56任务/222未收口子项](dev/progress/R016-本轮实现与完整待办.md)。
 
 R015新增已确认订单路由与标准SDK key绑定：明确原订单/同单支付引用，固定个人卖家、商品版本、模型、文本协议、价格、预算、次数上限和有效期。三个本人控制接口使已实现操作增至34/93；ResolveTx仅在key绑定范围内精确解析，同名歧义/失效/协议误配拒绝，不跨卖家兜底。007只追加5列，旧路由隔离；API启动改为核对所有内嵌迁移登记。当前只实现PLAINTEXT/STANDARD及三种native文本profile，路由不是执行或资金授权，调用签发/次数记账、真实付款、E2E和UI路由配置仍待完成。见[RC-001—022](docs/技术开发/附录-已确认订单路由与标准SDK绑定实施细则.md)、[R015实际证据](dev/tests/evidence/R015-验证报告.md)及[全部56任务/222未收口子项](dev/progress/R015-本轮实现与完整待办.md)。
 
@@ -69,17 +73,17 @@ SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，�
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R015/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R016/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R015/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R016/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R015/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R016/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R015/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R015/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R016/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R016/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R015/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R016/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R015/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R015/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R015/recordings/web-transaction.gif) · [订单待确认](dev/media/R015/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R016/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R016/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R016/recordings/web-transaction.gif) · [订单待确认](dev/media/R016/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 
@@ -197,15 +201,15 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # 临时 loopback PostgreSQL → 真实测试 → 确认关闭
-python -X utf8 dev/tools/核验原生源码.py --round R015
-python -X utf8 dev/tools/原生数据库验证.py --round R015
-python -X utf8 dev/tools/核验前端源码.py --round R015
-python -X utf8 dev/tools/整理原生验证证据.py --round R015
+python -X utf8 dev/tools/核验原生源码.py --round R016
+python -X utf8 dev/tools/原生数据库验证.py --round R016
+python -X utf8 dev/tools/核验前端源码.py --round R016
+python -X utf8 dev/tools/整理原生验证证据.py --round R016
 ```
 
 以上检查显式选择R015，保留历史记录；完整回归将核心、Web、H5分为三个独立进程，双端各用独立迁移并删除的临时数据库，须170个唯一顶层用例及全部双端子场景通过；严格整理器遇本轮失败即拒绝。150ms短租约记录实际零提交安全拒绝或单次有界提交分支，不扩大租约或元数据预算，旧R012补充工具不能替代R015全量验证。前端先构建，原生二进制先编译，再运行数据库联调。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API/node命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
 
-可选专项：`python -X utf8 dev/tools/原生数据库验证.py --round R015 --suite route`或`--suite budget`。它们独立输出`R015-route-*`或`R015-budget-*`，不能替代完整170项回归或产品验收。
+可选专项：`python -X utf8 dev/tools/原生数据库验证.py --round R016 --suite route`或`--suite budget`。它们独立输出`R015-route-*`或`R015-budget-*`，不能替代完整170项回归或产品验收。
 
 ## 买卖双方未来使用逻辑
 

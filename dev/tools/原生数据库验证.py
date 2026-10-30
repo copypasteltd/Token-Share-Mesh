@@ -46,8 +46,8 @@ def native_path_alias(lease=None):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R015', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015'])
-    parser.add_argument('--suite', default='full', choices=['full','budget','route'],
+    parser.add_argument('--round', default='R016', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016'])
+    parser.add_argument('--suite', default='full', choices=['full','budget','route','invocation'],
                         help='budget is an explicitly limited financial regression, never full-round evidence')
     options=parser.parse_args()
     lease = {'safe_to_release': True}
@@ -72,7 +72,7 @@ def run_suite(alias, lease, round_id, suite='full'):
     env['PGPASSWORD']=password;env['PGUSER']='p11_test';env['PGHOST']='127.0.0.1';env['PGPORT']=str(port)
     dsn=f'postgresql://p11_test:{quote(password,safe="")}@127.0.0.1:{port}/postgres?sslmode=disable'
     env['P11_TEST_DATABASE_URL']=dsn;env['P11_REQUIRE_INTEGRATION']='1'
-    if suite=='full' and round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015'}:
+    if suite=='full' and round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016'}:
         env['P11_FRONTEND_BROWSER']='1';env['P11_PROJECT_ROOT']=str(ROOT);env['P11_EVIDENCE_ROUND']=round_id
     flags=subprocess.CREATE_NO_WINDOW if os.name=='nt' else 0
     def run(args,timeout=60):
@@ -105,8 +105,8 @@ def run_suite(alias, lease, round_id, suite='full'):
             # sequential on this Windows host. Each test's real concurrent
             # goroutines/connections and ordinary 3s business locks are retained.
             browser_case='TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder'
-            selections=[('full',['./...'])] if suite=='full' else [(suite,['-run','^TestBudget' if suite=='budget' else '^TestRoute|^TestReadOnlyStartup|^TestHTTPRoute','./tests/integration','./api/tests'])]
-            if suite=='full' and round_id in {'R014','R015'}:
+            selections=[('full',['./...'])] if suite=='full' else [(suite,['-run','^TestInvocation' if suite=='invocation' else '^TestBudget' if suite=='budget' else '^TestRoute|^TestReadOnlyStartup|^TestHTTPRoute','./tests/integration','./api/tests'])]
+            if suite=='full' and round_id in {'R014','R015','R016'}:
                 # API TestMain has one bounded context for its whole process.
                 # Keep each browser journey in a fresh process instead of
                 # letting recording/encoding consume later fixtures' lifetime.
@@ -118,7 +118,7 @@ def run_suite(alias, lease, round_id, suite='full'):
             for name,packages in selections:
                 args=['test','-json','-count=1','-p=1','-timeout=240s',*packages]
                 segment_env=env.copy();segment_dsn=dsn;database_name=None
-                if suite=='full' and round_id in {'R014','R015'} and name in {'web','miniapp'}:
+                if suite=='full' and round_id in {'R014','R015','R016'} and name in {'web','miniapp'}:
                     # Market fixtures use the real default region and paging.
                     # Other cases must not push this journey's seeded offers
                     # out of its first page. Use a fresh owned native DB, not

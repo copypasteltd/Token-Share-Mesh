@@ -1,0 +1,50 @@
+{
+  "round": "R016",
+  "scope": "ISOLATED_THREE_REPEATS_NOT_FULL_ROUND_EVIDENCE",
+  "arguments": [
+    "test",
+    "-json",
+    "-count=3",
+    "-p=1",
+    "-timeout=60s",
+    "-run",
+    "^TestSupervisorSignedRenewalKeepsOriginalBackend$",
+    "./client/supervisor"
+  ],
+  "exit_code": 0,
+  "results": [
+    {
+      "test": "TestSupervisorSignedRenewalKeepsOriginalBackend",
+      "action": "pass",
+      "elapsed": 0.06
+    },
+    {
+      "test": "TestSupervisorSignedRenewalKeepsOriginalBackend",
+      "action": "pass",
+      "elapsed": 0.05
+    },
+    {
+      "test": "TestSupervisorSignedRenewalKeepsOriginalBackend",
+      "action": "pass",
+      "elapsed": 0.05
+    }
+  ],
+  "log": "dev/tests/evidence/R016-supervisor-renewal-diagnostic.jsonl",
+  "log_sha256": "3cf7d0672aab8aadd0bdaf7ebb1aee3bc5e9569c8c24f3985b5e729e1da0c0e9",
+  "baseline_sources": [
+    {
+      "path": "dev/src/client/supervisor/supervisor.go",
+      "sha256": "87fc91f958f37442f860fea1322231e964ff1d46de7ba1c73d8e0898646a07d7",
+      "unchanged_from_published_baseline": true
+    },
+    {
+      "path": "dev/src/client/supervisor/supervisor_test.go",
+      "sha256": "6a7f4c0bffa18900b98b6ed1ed40ce70ee019bf2b8052777c24b8440309d8831",
+      "unchanged_from_published_baseline": true
+    }
+  ],
+  "unchanged_shutdown_timeout_ms": 400,
+  "proven_cause": null,
+  "virtualization_used": false,
+  "limitation": "An isolated pass cannot prove absence of a timing/stability defect; do not overwrite or attribute the full-run failure to host load without evidence."
+}

@@ -22,3 +22,9 @@ The exact-field follow-up passes all 20 relay cases. The latest full rerun faile
 
 
 R015 update: the original failed R012 attempts remain historical evidence; the latest complete source-validation report is [R015](../../../../dev/tests/evidence/R015-验证报告.md). The new confirmed-order resolver supplies configuration only, not this core's Authorizer/Grant. Production invocation intent, funds, call-count and lease integration remain pending.
+
+## R016 integration boundary / 原调用准备边界
+
+R016 adds original-call preparation: current scoped-key, original order and same-order funding facts are rechecked, then INPUT_PENDING, the full per-call budget hold, one call slot and a safe event commit atomically. Original-key recovery does not reserve twice; changed parameters or keys conflict. Cancellation, expiry and unknown results retain the original intent and hold. Only a versioned HMAC of the transient request digest is persisted. Forward migration 008 adds six columns; 001–007 and native SQLite DDL retain their exact bytes. The scope remains 34/93 operations and 65 tables, with three native text profiles under PLAINTEXT/STANDARD. There is no model listener, Lease/Grant issuer or inference. Input-ready/resource admission, trusted usage, real payments, E2E and route UI remain pending. See [RI specification](../../../../docs/技术开发/附录-原调用准备与次数预算原子接线.md). The preparation result is never this core’s Authorizer/Grant.
+
+R016新增原调用准备库：当前scoped key/原订单/同单资金事实重新核对后，将INPUT_PENDING、整笔单次预算、次数占用及安全事件在同一事务提交。原键恢复不重复占用；改参数/key冲突；取消/过期/未知保留原记录和占用。请求摘要只以版本化HMAC持久保存。前向008追加六列，001—007和端侧DDL原字节不改；仍34/93操作、65表。仅三个原生文本档位的PLAINTEXT/STANDARD；没有挂载模型入口、签发Lease/Grant或运行模型。输入就绪/资源原子准入、可信usage、真实支付、E2E和路由UI仍待。当前PrepareTx仅SQL组合，不能在提交前触发本转发核或任何后端请求。

@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 146,
+  "catalog_statements": 153,
   "base_table_count": 60,
   "tables": [
     {
@@ -5492,6 +5492,144 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "invocation_profile",
+          "sql": "invocation_profile text NOT NULL DEFAULT 'UNBOUND_JOB' CHECK (invocation_profile IN ('UNBOUND_JOB', 'ROUTE_PREPARE_1'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "invocation_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'UNBOUND_JOB'",
+              "columns": [
+                "invocation_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (invocation_profile IN ('UNBOUND_JOB', 'ROUTE_PREPARE_1'))",
+              "columns": [
+                "invocation_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
+        },
+        {
+          "name": "route_contract_id",
+          "sql": "route_contract_id p11.entity_id REFERENCES p11.route_contracts (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.route_contracts (id)",
+              "columns": [
+                "route_contract_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "route_contracts",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
+        },
+        {
+          "name": "invoker_key_id",
+          "sql": "invoker_key_id p11.entity_id REFERENCES p11.api_keys (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.api_keys (id)",
+              "columns": [
+                "invoker_key_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "api_keys",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
+        },
+        {
+          "name": "fingerprint_version",
+          "sql": "fingerprint_version text",
+          "type": "text",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
+        },
+        {
+          "name": "invocation_spec",
+          "sql": "invocation_spec jsonb",
+          "type": "jsonb",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
+        },
+        {
+          "name": "reservation_id",
+          "sql": "reservation_id p11.entity_id REFERENCES p11.budget_reservations (id) DEFERRABLE INITIALLY DEFERRED",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.budget_reservations (id)",
+              "columns": [
+                "reservation_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "budget_reservations",
+              "target_columns": [
+                "id"
+              ]
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRABLE",
+              "name": null,
+              "sql": "DEFERRABLE",
+              "columns": [
+                "reservation_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRED",
+              "name": null,
+              "sql": "INITIALLY DEFERRED",
+              "columns": [
+                "reservation_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
         }
       ],
       "constraints": [
@@ -5569,7 +5707,18 @@
             "job_id",
             "attempt_id"
           ]
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "invocation_binding_shape",
+          "sql": "CONSTRAINT invocation_binding_shape CHECK ((invocation_profile = 'UNBOUND_JOB' AND route_contract_id IS NULL AND invoker_key_id IS NULL AND fingerprint_version IS NULL AND invocation_spec IS NULL AND reservation_id IS NULL) OR (invocation_profile = 'ROUTE_PREPARE_1' AND route_contract_id IS NOT NULL AND invoker_key_id IS NOT NULL AND fingerprint_version IS NOT NULL AND fingerprint_version ~ '^[A-Za-z][A-Za-z0-9_-]{2,127}$' AND invocation_spec IS NOT NULL AND jsonb_typeof(invocation_spec) = 'object' AND reservation_id IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
       ]
     },
     {
@@ -17123,6 +17272,51 @@
         "id",
         "order_id"
       ]
+    },
+    {
+      "table": "jobs",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.route_contracts (id)",
+      "columns": [
+        "route_contract_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "route_contracts",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "jobs",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.api_keys (id)",
+      "columns": [
+        "invoker_key_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "api_keys",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "jobs",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.budget_reservations (id)",
+      "columns": [
+        "reservation_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "budget_reservations",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -17203,6 +17397,18 @@
       "table": "route_contracts",
       "unique": false,
       "sql": "CREATE INDEX route_buyer_cursor ON p11.route_contracts (buyer_id, id)"
+    },
+    {
+      "name": "route_invocation_count",
+      "table": "jobs",
+      "unique": false,
+      "sql": "CREATE INDEX route_invocation_count ON p11.jobs (route_contract_id, id) WHERE invocation_profile = 'ROUTE_PREPARE_1'"
+    },
+    {
+      "name": "invocation_reservation_once",
+      "table": "jobs",
+      "unique": true,
+      "sql": "CREATE UNIQUE INDEX invocation_reservation_once ON p11.jobs (reservation_id) WHERE reservation_id IS NOT NULL"
     }
   ],
   "forward_migrations": [
@@ -17287,6 +17493,21 @@
         "IndexStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql",
+      "source_sha256": "c63e4849bc23279f3fd0eca5ae866c2663482b1bf33a01165c6e0512b02fa375",
+      "statement_count": 7,
+      "statement_types": [
+        "AlterTableStmt",
+        "IndexStmt",
+        "IndexStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",

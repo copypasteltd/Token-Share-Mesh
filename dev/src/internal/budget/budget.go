@@ -129,6 +129,20 @@ func LookupTx(ctx context.Context, tx pgx.Tx, s Scope, purpose string) (Result, 
 // caller's transaction. An original purpose is never reused for another call.
 // This primitive neither issues an execution grant nor commits independently.
 func ReserveTx(ctx context.Context, tx pgx.Tx, s Scope, in Request) (Result, error) {
+	return reserveTx(ctx, tx, s, in, "")
+}
+
+// ReserveIdentifiedTx lets a composing SQL transaction freeze its opaque
+// reservation ID before inserting a mutually referenced original purpose. It
+// changes no scope, capacity or replay rules and grants no execution authority.
+func ReserveIdentifiedTx(ctx context.Context, tx pgx.Tx, s Scope, in Request, reservationID string) (Result, error) {
+	if !ids.Valid(reservationID) {
+		return Result{}, fault.New(fault.Invalid, "Explicit opaque reservation ID required")
+	}
+	return reserveTx(ctx, tx, s, in, reservationID)
+}
+
+func reserveTx(ctx context.Context, tx pgx.Tx, s Scope, in Request, reservationID string) (Result, error) {
 	var out Result
 	if !ids.Valid(in.PurposeRef) || in.PurposeKind != "JOB" && in.PurposeKind != "RENTAL_SESSION" ||
 		in.MaximumFen < 0 || int64(in.MaximumFen) > money.MaxFen {
@@ -146,6 +160,9 @@ func ReserveTx(ctx context.Context, tx pgx.Tx, s Scope, in Request) (Result, err
 		if r.MaximumFen != in.MaximumFen || r.PurposeKind != in.PurposeKind {
 			return out, fault.New(fault.Conflict, "Original budget intent differs")
 		}
+		if reservationID != "" && r.ID != reservationID {
+			return out, fault.New(fault.Conflict, "Original reservation ID differs")
+		}
 		return Result{Reservation: r, Capacity: c}, nil
 	}
 	if err != pgx.ErrNoRows {
@@ -154,7 +171,10 @@ func ReserveTx(ctx context.Context, tx pgx.Tx, s Scope, in Request) (Result, err
 	if in.MaximumFen > c.Remaining {
 		return out, fault.New(fault.Conflict, "Order capacity exhausted")
 	}
-	r = Reservation{ID: ids.New("bgt"), PurposeRef: in.PurposeRef, PurposeKind: in.PurposeKind,
+	if reservationID == "" {
+		reservationID = ids.New("bgt")
+	}
+	r = Reservation{ID: reservationID, PurposeRef: in.PurposeRef, PurposeKind: in.PurposeKind,
 		State: "RESERVED", Profile: Profile, MaximumFen: in.MaximumFen, Version: 1}
 	_, err = tx.Exec(ctx, `INSERT INTO p11.budget_reservations
 (id,order_id,purpose_ref,amount_fen,state,accounting_profile,purpose_kind)

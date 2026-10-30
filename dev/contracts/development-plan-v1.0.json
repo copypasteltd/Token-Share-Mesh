@@ -15199,8 +15199,8 @@
       "name": "jobs",
       "schema": "p11",
       "module_id": "MOD-06",
-      "column_count": 12,
-      "foreign_key_count": 3,
+      "column_count": 18,
+      "foreign_key_count": 6,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
@@ -20024,11 +20024,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "4802acbf2e2086875bf98aeb8b5b2253e19b7be5b35b15fe9b4bff93d10e4ec2"
+      "sha256": "c72b0212fd91d48ddccdea6ff119f99551f091cdab12a123f625aa8d22ef5e58"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "a5efcba295e844e83feae184082e23ec82e635163ed8ad6c7e24a2d4ca6da7cd"
+      "sha256": "8ae4588449e92c16b974f1b35a713f0c71fbc85655e38faf48b99b5371cf4c34"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20068,11 +20068,11 @@
     },
     {
       "path": "docs/技术开发/06-调度资源锁与执行租约.md",
-      "sha256": "84cc70dc2c0de37a4c244bb132738b96c511dadea28b5a3f03859d7e4975ea87"
+      "sha256": "4688dec1c63e12c188404accf6dd48d4a5349e1926e6d4ff141edb9d66f28824"
     },
     {
       "path": "docs/技术开发/07-统一协议网关与Sub2API改造.md",
-      "sha256": "1d463b5f9f95000e6cfebb5ce63dee0f0d97c374f27d683efcaebdfacce37cf2"
+      "sha256": "86572c232ef804e0e5d6e33e060cb70e58aa6d1f63a6797bd7fa74c5af2c7603"
     },
     {
       "path": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -20112,7 +20112,7 @@
     },
     {
       "path": "docs/技术开发/17-事件事务发件箱与后台任务.md",
-      "sha256": "3ca3d3ed948045359707209fb2d4853da05bc1335c553007166e852b9bada745"
+      "sha256": "f6e31f9459afbda655326e671150723c236a004722064981b0ef8f3265947a03"
     },
     {
       "path": "docs/技术开发/18-测试工程与故障验证.md",
@@ -20124,7 +20124,7 @@
     },
     {
       "path": "docs/技术开发/21-开发任务分解与需求追踪.md",
-      "sha256": "92d21ed25480ba154eab4eb7cbb407cfec670367ca9580564d1951b4f4677599"
+      "sha256": "8d6fddc57a227f652de1ad60f0ca24a89a8f12baa7027c34b7f1ae18b02eefee"
     },
     {
       "path": "docs/技术开发/22-技术决策依赖与验证计划.md",
@@ -20136,7 +20136,7 @@
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "8883a817619ee460bc7fe73c86ba4b7ab41c9efbb9ade06366d25921ed4e6c15"
+      "sha256": "3c732d22316d002add26ef2b4c76fb886bc9865d11ac9d3f719e1d866357333a"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20173,6 +20173,10 @@
     {
       "path": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql",
       "sha256": "2b3406b5678ba6db23ae5c2845eb3b4bf76e36a259546ec673d99d8d1b0fede9"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql",
+      "sha256": "c63e4849bc23279f3fd0eca5ae866c2663482b1bf33a01165c6e0512b02fa375"
     },
     {
       "path": "docs/技术开发/database/schema-draft.sql",

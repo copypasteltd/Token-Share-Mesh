@@ -33,3 +33,7 @@ evidence_ids/asset_ids等数组须服务层逐项验证引用和权限；需要�
 ## R014订单容量前向006
 
 [006_order_budget_capacity.sql](migrations/006_order_budget_capacity.sql)为orders与budget_reservations追加8列和原子守恒/终态/资格来源约束，仍65表。001—005及端侧SQLite DDL保持原字节，source-v6.json记录嵌入副本。原预算任意状态均全额保留为未核实占用；历史总额超订单上限则整笔升级失败，不推测零费或释放。预算SQL事务primitive不能替代当前身份、渠道资金、路由授权或执行owner；完整依据见[OBC细则](../附录-订单预算预留与资格化消耗实施细则.md)。
+
+## R016原调用前向008
+
+[008_route_invocation_preparation.sql](migrations/008_route_invocation_preparation.sql)追加jobs六列、三外键、两个索引，冻结原调用和整笔预算绑定；延迟约束拒绝缺预算/安全事件提交。历史任务保留UNBOUND_JOB，不补造同意。001—007及端侧DDL原字节保持，source-v8.json绑定嵌入副本，仍65表。完整[RI-001—024](../附录-原调用准备与次数预算原子接线.md)及[当前证据](../../../dev/tests/evidence/R016-验证报告.md)说明元数据准备与执行授权的区别。

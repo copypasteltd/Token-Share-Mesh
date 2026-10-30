@@ -1,5 +1,11 @@
 # System design / 系统方案
 
+## R016 original-call preparation / 原调用准备
+
+Current scoped API key → exact original route → original order write lock → current same-order funding/qualification → original-key recovery or atomic INPUT_PENDING + full per-call hold + call slot + safe outbox. This is preparation metadata; input-ready, physical owner/dual fences and qualified Lease/Grant issuance must precede execution. The count measures accepted preparation intents, including later cancellation/expiry, not successful paid generations.
+
+同原键同参数恢复原job/预算且不重复计数；改参数/key冲突。只保存版本化HMAC，不保存正文或原始正文摘要；缺原指纹钥关闭。001—007和端侧DDL保原字节，008前向追加，仍34/93操作、65表。UI继续NB04、React/Taro优先与React/Vite，价格按小时或输入/输出分别M token。完整[RI-001—024](../../docs/技术开发/附录-原调用准备与次数预算原子接线.md)及[全部56任务/222子项](../progress/R016-本轮实现与完整待办.md)约束后续工作。
+
 ## R014 capacity accounting / 订单容量
 
 Order-local counters conserve maximum = reserved + consumed + unverified + remaining. Forward 006 makes parent updates and reservation outcomes atomic, preserves legacy uncertainty, and binds consumption to an existing immutable trade qualification and original purpose. / 不由转发usage、HTTP EOF或取消推导费用/释放，不发送渠道付款、退款或执行授权。见[OBC-001—017](../../docs/技术开发/附录-订单预算预留与资格化消耗实施细则.md)。

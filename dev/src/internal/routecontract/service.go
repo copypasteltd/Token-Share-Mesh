@@ -53,6 +53,7 @@ type Contract struct {
 	ProfileRevision string          `json:"protocol_profile_revision"`
 	OrderContract   json.RawMessage `json:"order_contract"`
 	Replayed        bool            `json:"-"`
+	CurrentDeadline time.Time       `json:"-"`
 }
 
 type Page struct {
@@ -252,6 +253,13 @@ FROM p11.route_contracts WHERE id=$1 AND buyer_id=$2 AND binding_profile=$3 FOR 
 		return c, fault.New(fault.Unavailable, "Route snapshot digest mismatch")
 	}
 	c.OrderContract, c.PublicModel, c.ProfileRevision = snapshot, frozen.Spec.ModelID, "1"
+	c.CurrentDeadline = expires
+	if f.deadline.Before(c.CurrentDeadline) {
+		c.CurrentDeadline = f.deadline
+	}
+	if err = tx.QueryRow(ctx, `SELECT count(*) FROM p11.jobs WHERE route_contract_id=$1 AND invocation_profile='ROUTE_PREPARE_1'`, id).Scan(&c.UsedCalls); err != nil {
+		return c, err
+	}
 	var now time.Time
 	if err = tx.QueryRow(ctx, "SELECT clock_timestamp()").Scan(&now); err != nil {
 		return c, err
@@ -260,7 +268,7 @@ FROM p11.route_contracts WHERE id=$1 AND buyer_id=$2 AND binding_profile=$3 FOR 
 		c.State = "EXPIRED"
 	}
 	if c.State == "ACTIVE" {
-		if !f.paymentCurrent || (f.state != "READY" && f.state != "FULFILLING") || f.remaining < c.Definition.PerCallFen {
+		if !f.paymentCurrent || (f.state != "READY" && f.state != "FULFILLING") || f.remaining < c.Definition.PerCallFen || c.UsedCalls >= c.Definition.MaxCalls {
 			c.State = "SUSPENDED"
 		} else {
 			offer, e := (market.Catalog{DB: s.DB}).LoadConfirmedTx(ctx, tx, c.Definition.ListingID, c.Definition.Revision)
@@ -271,6 +279,15 @@ FROM p11.route_contracts WHERE id=$1 AND buyer_id=$2 AND binding_profile=$3 FOR 
 				c.State = "SUSPENDED"
 			} else if !matches(offer, frozen) || offer.Availability == "UNAVAILABLE" {
 				c.State = "SUSPENDED"
+			} else {
+				if offer.ValidUntil.Before(c.CurrentDeadline) {
+					c.CurrentDeadline = offer.ValidUntil
+				}
+				for _, proof := range offer.Evidence {
+					if proof.ValidUntil.Before(c.CurrentDeadline) {
+						c.CurrentDeadline = proof.ValidUntil
+					}
+				}
 			}
 		}
 	}
@@ -349,6 +366,17 @@ func (s Service) List(ctx context.Context, p identity.Principal, cursor string, 
 // still persist invocation intent and revalidate funds, deadline, budget and
 // execution owner in its admission transaction; this value is not a relay Grant.
 func (s Service) ResolveTx(ctx context.Context, tx pgx.Tx, p identity.Principal, model string, protocol relay.Profile) (Contract, error) {
+	return s.resolveTx(ctx, tx, p, model, protocol, false)
+}
+
+// LockForPreparationTx follows identity -> order WRITE -> route/payment/offer.
+// Inactive original configuration is returned only so the preparation service
+// can resolve an already committed original request, never reissue execution.
+func (s Service) LockForPreparationTx(ctx context.Context, tx pgx.Tx, p identity.Principal, model string, protocol relay.Profile) (Contract, error) {
+	return s.resolveTx(ctx, tx, p, model, protocol, true)
+}
+
+func (s Service) resolveTx(ctx context.Context, tx pgx.Tx, p identity.Principal, model string, protocol relay.Profile, preparation bool) (Contract, error) {
 	var c Contract
 	if p.Kind != identity.APIKey || p.KeyID == "" {
 		return c, fault.New(fault.Forbidden, "Scoped SDK key required")
@@ -386,8 +414,15 @@ AND order_snapshot->'public_spec'->>'model_id'=$4 AND protocol_profile=$5 ORDER 
 	if len(candidates) != 1 {
 		return c, fault.New(fault.Conflict, "Ambiguous model; configure a key for one original route")
 	}
+	if preparation {
+		var order string
+		if err = tx.QueryRow(ctx, `SELECT o.id FROM p11.orders o JOIN p11.route_contracts r ON r.order_id=o.id
+WHERE r.id=$1 AND r.buyer_id=$2 FOR UPDATE OF o`, candidates[0], p.UserID).Scan(&order); err != nil {
+			return c, err
+		}
+	}
 	c, err = s.readTx(ctx, tx, p.UserID, candidates[0])
-	if err == nil && c.State != "ACTIVE" {
+	if err == nil && !preparation && c.State != "ACTIVE" {
 		err = fault.New(fault.Conflict, "Original route is not currently eligible")
 	}
 	return c, err

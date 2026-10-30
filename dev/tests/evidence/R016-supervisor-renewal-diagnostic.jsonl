@@ -1,0 +1,16 @@
+{"Time":"2026-10-30T19:53:02.1299991+08:00","Action":"start","Package":"p11.local/compute/client/supervisor"}
+{"Time":"2026-10-30T19:53:03.0474087+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend"}
+{"Time":"2026-10-30T19:53:03.0474087+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Output":"=== RUN   TestSupervisorSignedRenewalKeepsOriginalBackend\n","OutputType":"frame"}
+{"Time":"2026-10-30T19:53:03.1074412+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Output":"--- PASS: TestSupervisorSignedRenewalKeepsOriginalBackend (0.06s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T19:53:03.1079589+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Elapsed":0.06}
+{"Time":"2026-10-30T19:53:03.1079589+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend"}
+{"Time":"2026-10-30T19:53:03.1079589+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Output":"=== RUN   TestSupervisorSignedRenewalKeepsOriginalBackend\n","OutputType":"frame"}
+{"Time":"2026-10-30T19:53:03.1614223+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Output":"--- PASS: TestSupervisorSignedRenewalKeepsOriginalBackend (0.05s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T19:53:03.1619353+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Elapsed":0.05}
+{"Time":"2026-10-30T19:53:03.1619353+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend"}
+{"Time":"2026-10-30T19:53:03.1619353+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Output":"=== RUN   TestSupervisorSignedRenewalKeepsOriginalBackend\n","OutputType":"frame"}
+{"Time":"2026-10-30T19:53:03.2158131+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Output":"--- PASS: TestSupervisorSignedRenewalKeepsOriginalBackend (0.05s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T19:53:03.2158131+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorSignedRenewalKeepsOriginalBackend","Elapsed":0.05}
+{"Time":"2026-10-30T19:53:03.2158131+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T19:53:03.2424622+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"ok  \tp11.local/compute/client/supervisor\t1.112s\n"}
+{"Time":"2026-10-30T19:53:03.2424622+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Elapsed":1.112}

@@ -19,11 +19,15 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 27 in progress · 27 not started · 1 conditional · 1 deferred |
-| Latest source round | R015 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 170 passed · control/native/relay source subsets only |
+| Implementation tasks | 28 in progress · 26 not started · 1 conditional · 1 deferred |
+| Latest source round | R016 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 184 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
+
+The first R016 full run passed183 and failed one existing signed-renewal cleanup case under its original 400ms bound; resources were retained. Three unchanged isolated repeats passed, but the cause is unproven. A later full pass does not establish timing stability; DEV-53 remains open. See the [development record](dev/tests/evidence/R016-development-attempts.json).
+
+R016 adds original-call preparation: current scoped-key, original order and same-order funding facts are rechecked, then INPUT_PENDING, the full per-call budget hold, one call slot and a safe event commit atomically. Original-key recovery does not reserve twice; changed parameters or keys conflict. Cancellation, expiry and unknown results retain the original intent and hold. Only a versioned HMAC of the transient request digest is persisted. Forward migration 008 adds six columns; 001–007 and native SQLite DDL retain their exact bytes. The scope remains 34/93 operations and 65 tables, with three native text profiles under PLAINTEXT/STANDARD. There is no model listener, Lease/Grant issuer or inference. Input-ready/resource admission, trusted usage, real payments, E2E and route UI remain pending. See [RI-001–024](docs/技术开发/附录-原调用准备与次数预算原子接线.md), [R016 evidence](dev/tests/evidence/R016-验证报告.md) and [all 56 tasks/222 open steps](dev/progress/R016-本轮实现与完整待办.md).
 
 R015 adds confirmed original-order routes and scoped standard-SDK keys. Three owner-session control operations bring the implemented count to 34/93; routes freeze the original seller, listing revision, model, text protocol, price, budget, call ceiling and expiry. ResolveTx selects exactly one key-bound model/profile and rejects ambiguity, revocation or mismatch without seller failover. Forward-only 007 adds five columns and quarantines legacy routes; API startup verifies every embedded migration record. Only PLAINTEXT/STANDARD and the three native text profiles are implemented. Resolution grants no funds or execution; durable invocation/call accounting, real payments, E2E and route-configuration UI remain pending. See [RC-001–022](docs/技术开发/附录-已确认订单路由与标准SDK绑定实施细则.md), [R015 source evidence](dev/tests/evidence/R015-验证报告.md) and [all 56 tasks / 222 open steps](dev/progress/R015-本轮实现与完整待办.md).
 
@@ -69,17 +73,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R015/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R016/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R015/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R016/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R015/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R016/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R015/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R015/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R016/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R016/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R015/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R016/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R015/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R015/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R015/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R015/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R016/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R016/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R016/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R016/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 
@@ -197,15 +201,15 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # Disposable loopback PostgreSQL -> real tests -> instance stopped
-python -X utf8 dev/tools/核验原生源码.py --round R015
-python -X utf8 dev/tools/原生数据库验证.py --round R015
-python -X utf8 dev/tools/核验前端源码.py --round R015
-python -X utf8 dev/tools/整理原生验证证据.py --round R015
+python -X utf8 dev/tools/核验原生源码.py --round R016
+python -X utf8 dev/tools/原生数据库验证.py --round R016
+python -X utf8 dev/tools/核验前端源码.py --round R016
+python -X utf8 dev/tools/整理原生验证证据.py --round R016
 ```
 
 These commands explicitly target R015 and preserve earlier evidence. The full runner isolates core, Web and H5 into three sequential Go processes, with freshly migrated and subsequently dropped native databases for each browser journey; all 170 unique top-level IDs and both browser children must pass. The strict consolidator rejects failed current runs. The 150ms lease case records either safe zero-submission rejection or one deadline-bounded submission, without increasing lease or metadata budgets; the historical R012 helper cannot substitute for R015 full validation. Build the frontends and native binary before database/browser integration. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
 
-Optional subsets: `python -X utf8 dev/tools/原生数据库验证.py --round R015 --suite route` or `--suite budget` writes separate `R015-route-*` or `R015-budget-*` evidence. These cannot replace all 170 regression cases or product acceptance.
+Optional subsets: `python -X utf8 dev/tools/原生数据库验证.py --round R016 --suite route` or `--suite budget` writes separate `R015-route-*` or `R015-budget-*` evidence. These cannot replace all 170 regression cases or product acceptance.
 
 ## Intended buyer and seller usage
 

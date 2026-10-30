@@ -1,0 +1,1377 @@
+{
+  "round": "R016",
+  "status": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+  "database_run": "20261030T115323Z-6d34b23f",
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "passed_cases": 184,
+  "failed_cases": 0,
+  "skipped_cases": 0,
+  "product_acceptance_status": "NOT_EXECUTED",
+  "tests": [
+    {
+      "id": "R016-TEST-001",
+      "package": "p11.local/compute/shared/money",
+      "test": "TestCumulativeBillingDoesNotRoundEveryChunk",
+      "description": "累计有理计价；分块不反复向上舍入",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-002",
+      "package": "p11.local/compute/shared/money",
+      "test": "TestAmountsRejectOverflowNegativeAndReversal",
+      "description": "金额上限、溢出、负数和回退读数拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-003",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestJournalCommitBalancesAndPreventsLaterMutation",
+      "description": "空/不平账本拒绝；平账可提交；追加修改及普通角色绕过拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-004",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestCompositeForeignKeyRejectsWrongSellerResource",
+      "description": "资源复合外键拒绝其他卖家的设备",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-005",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestConsumedQuoteAndOrderTermsCannotBeChanged",
+      "description": "订单卖家不可暗改；已消费报价不可复原",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-006",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestMigrationsExecuteAllDomainDDLAndRejectDrift",
+      "description": "65张领域表真实迁移、重复执行与摘要漂移拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-007",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestKeysSecretOnceScopesOwnershipAndRevocation",
+      "description": "密钥只显一次、归属隔离、有限权限、HMAC存储与撤销",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-008",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestConcurrentIdempotencyCommitsOneBusinessMutation",
+      "description": "20个并发同意图只提交一次；用户版本变化拒绝旧回放",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-009",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInboxReceiptRollsBackWithSideEffectAndDeduplicates",
+      "description": "inbox与副作用同事务回滚；重复去重；异载荷拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-010",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestDurableJobsFenceStaleClaimsAndBoundRetries",
+      "description": "认领代次递增、旧ACK拒绝、有限重试和错误码/任务白名单",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-011",
+      "package": "p11.local/compute/internal/pricing",
+      "test": "TestHourlyAndTokenContractsUseExactAggregateRounding",
+      "description": "小时与输入/输出M token精确累计、合并一次进位",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-012",
+      "package": "p11.local/compute/internal/pricing",
+      "test": "TestUnknownUsageInvalidRatesAndOverflowAreRejected",
+      "description": "未知用量不当零；价率/费用缺失、负数与溢出拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-013",
+      "package": "p11.local/compute/internal/pricing",
+      "test": "TestFeeRefundTargetsAndLegacyConversion",
+      "description": "佣金退款目标重算；350分每小时拒绝有损分钟转换",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-014",
+      "package": "p11.local/compute/internal/pricing",
+      "test": "TestPriceDecoderRejectsUnknownComponentsAndTrailingData",
+      "description": "未支持收费组件、重复键、缺少费率及多余JSON拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-015",
+      "package": "p11.local/compute/shared/strictjson",
+      "test": "TestControlJSONRejectsAmbiguityAndBounds",
+      "description": "控制JSON大小、深度、UTF8、未知字段及嵌套重复键边界",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-016",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestMarketRequiresScopedApprovalsAndConcreteC2CModels",
+      "description": "具体卖家/型号、安全字段投影、分页及组合资格/撤销/资源忙",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-017",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestHourlyAndDualRateQuotesFreezeSellerBudgetAndPolicy",
+      "description": "报价冻结双价/预算/卖家；无默降、API购单和自购；证据TTL",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-018",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestOrderConfirmationConcurrentReplayAndOwnerIsolation",
+      "description": "16并发同键一个订单/outbox/同意；归属隔离和角色撤销回放",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-019",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestQuoteSingleConsumptionAcrossDifferentOrderKeysAndRollback",
+      "description": "数据库费率漂移拒绝并回滚报价消费；12异键同报价仅一单",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-020",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestNewListingRevisionPreservesHistoricalQuoteAndRejectsStalePurchase",
+      "description": "新挂牌价版不覆旧合同；旧确认拒绝；350分小时精确报价",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-021",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestOrderRechecksDeviceEvidenceAndBuyerConsentBeforeMutation",
+      "description": "停新单/撤证/错误意图拒绝，不消费原报价",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-022",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestHistoricalOrderProjectionRetainsLegacyPriceFields",
+      "description": "历史订单原始价格及扩展完整保留；不静默改写旧报价",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-023",
+      "package": "p11.local/compute/shared/strictjson",
+      "test": "TestControlJSONRequiresExactDeclaredKeys",
+      "description": "精确字段大小写、别名、嵌套键及非对象DTO拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-024",
+      "package": "p11.local/compute/internal/identity",
+      "test": "TestAlipayVerifiesOriginalBytesAndSignsApplicationRequest",
+      "description": "RSA2应用请求与原始响应字节验签；身份字段显式选择",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-025",
+      "package": "p11.local/compute/internal/identity",
+      "test": "TestAlipayRejectsUnsignedTamperedOrAmbiguousIdentityResponses",
+      "description": "未签名/篡改/重复/错身份/超界响应拒绝，禁止身份字段回退",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-026",
+      "package": "p11.local/compute/internal/identity",
+      "test": "TestAlipayRejectsIncompleteConfigurationAndNeverFollowsRedirects",
+      "description": "缺配置关闭身份；授权兑换不跟随HTTP重定向",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-027",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestAuthorizationChallengeIsSingleUseAndStoresNoOriginalCredentials",
+      "description": "16并发同挑战仅兑换/签发一次，原始码/凭据不落库",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-028",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBrowserAuthorizationBindingAndUnknownExchangeFailClosed",
+      "description": "浏览器挑战/state绑定及授权UNKNOWN不发会话、不盲重试",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-029",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestSessionVersionsExpiryAndRevocationApplyBeforeTradeReplay",
+      "description": "用户版本/会话到期/撤销在业务回放前再次生效",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-030",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRoleRevocationBlocksKeyReplayAndLoginDoesNotRestoreRevokedRoles",
+      "description": "撤销角色阻断密钥回放；重登不恢复撤权/封禁账户",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-031",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPMiniappLoginQuoteOrderAndTenantIsolation",
+      "description": "原生HTTP登录/市场/报价/订单同键回放和跨买家隔离",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-032",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPBrowserCookiesCSRFAndSessionRevocation",
+      "description": "Web HttpOnly Strict Cookie、CSRF、跨域、双端凭据混用及注销",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-033",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPRejectsAmbiguousOversizeAndUnsupportedRequests",
+      "description": "真实HTTP拒绝Host/方法/查询/JSON歧义、超限及未实现路由",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-034",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPKeySecretOnceSignedPaginationAndRateLimits",
+      "description": "密钥只显一次、签名游标用户隔离、撤销、预检和授权限流",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-035",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestSellerApplicationAndConsentAreIdempotentUntrustedSubmissions",
+      "description": "16并发申请仅留一份材料/事件、无自动SELLER；同意/撤回追加与数据库不可变",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-036",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestListingSubmissionNeverAutoPublishesAndRechecksEvidence",
+      "description": "草稿/提交不自动开售；撤证阻断且事务回滚；版本化原因留痕",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-037",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestListingFutureRevisionsPreserveSoldContractsAndRejectStaleETags",
+      "description": "新价创建未来修订；已售数据库合同不变；过期ETag拒绝及旧版不可删改",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-038",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestConcurrentListingEditsCommitOneRevisionAndRevocationBlocksReplay",
+      "description": "12异键竞争同版本只提交一个修订；角色撤销阻断旧回放",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-039",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestListingOwnershipFeeRegionAndEnvironmentCannotBeClientForged",
+      "description": "跨卖家设备/证据、佣金篡改、未批准地区、通用型号及环境漂移拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-040",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestListingWindowsRejectGapSalesAndBoundRemainingExecution",
+      "description": "真实跨排期边界/空档拒售；剩余可用时间限制deadline和GPU时长",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-041",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestSellerExitStopsNewAdmissionWithoutErasingOrdersOrResourceFences",
+      "description": "独立SELLER可退出；停新售但保留订单合同、隔离状态和资源代次",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-042",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPApplicantCanReadPendingProfileWithoutObtainingSellerAuthority",
+      "description": "小程序本人申请/读待审/同意/退出HTTP；申请不授予挂牌权限",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-043",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPSellerListingETagsTenantPagingAndBrowserCSRF",
+      "description": "实际Web Cookie/CSRF挂牌链、强ETag回放/竞争、空补丁值拒绝、租户分页及PATCH预检",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-044",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestNativeNonceAuthorizationIsExplicitSingleUseAndNotWebPKCE",
+      "description": "显式MINIAPP服务端随机证明：仅存摘要、错证明/重放拒绝；不可冒充Web PKCE",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-045",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder",
+      "description": "实际Web/Taro H5及Windows控制CLI：原建单/配对/PATCH丢回执恢复，登记/心跳、停止撤销与数据库唯一事件",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-046",
+      "package": "p11.local/compute/client/protocol/devicecontrol",
+      "test": "TestDeviceProofGoldenMessageAndRFC8032KeyVector",
+      "description": "RFC8032独立金向量与项目控制签名字节格式",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-047",
+      "package": "p11.local/compute/client/protocol/devicecontrol",
+      "test": "TestDeviceProofBindsEveryRoutingAndCommandField",
+      "description": "正文/方法/Host/路径/查询/幂等键/ETag/媒体类型/身份/时间/nonce逐字段篡改拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-048",
+      "package": "p11.local/compute/client/protocol/devicecontrol",
+      "test": "TestDeviceProofRejectsExpiredAmbiguousAndUnboundedInputs",
+      "description": "过期、非规范编码、公钥、控制字符、URI与正文上限拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-049",
+      "package": "p11.local/compute/client/protocol/devicecontrol",
+      "test": "TestDeviceNativeClientRecoversFrozenCommandWithFreshProof",
+      "description": "实际HTTP丢写回执标UNKNOWN，不自动重试；原字段/键配新证明显式恢复",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-050",
+      "package": "p11.local/compute/client/protocol/devicecontrol",
+      "test": "TestDeviceNativeClientRejectsRedirectsAndUnsafeBases",
+      "description": "不跟随重定向泄露证明、拒绝非安全base与关闭后调用",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-051",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestPairingSecretOnceAndConcurrentEnrollmentOriginalRecovery",
+      "description": "16并发配对/登记各仅一份、秘密只显一次、原意图恢复、公钥唯一/不可变",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-052",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestPairingLimitsExpiryFailedAttemptsAndCurrentSellerAuthority",
+      "description": "待配对上限、过期/错误5次提交关闭、具体型号和当前SELLER/审批校验",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-053",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestDeviceProofCurrentIdentityDurableNonceAndTamperRejection",
+      "description": "持久nonce跨服务实例防重放、逐字段篡改、过期/跨设备/停权拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-054",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestDeviceHeartbeatMonotonicConcurrencyAndNoAutomaticQualification",
+      "description": "16并发心跳同键一次、uint64完整范围/溢出、时钟/版本/假尝试拒绝，不自授资格",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-055",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestDeviceResourcePolicyVersionsSchedulesAndPhoneConditions",
+      "description": "12异键同ETag仅一次，时段/单槽/手机条件/他人设备隔离；更新不自动ONLINE",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-056",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestDeviceDrainRevokePreserveFencesAndInvalidateCredential",
+      "description": "停止保留隔离与在途attempt owner/77代次；撤销证明及旧业务回放立即失效、终态不可恢复",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-057",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestDeviceReportedHealthStopsOfferAdmissionWithoutGrantingQualification",
+      "description": "设备热/低电/低盘/忙/排空和45秒超时关闭市场新准入",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-058",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPDevicePairingCSRFEnrollmentAndNativeControl",
+      "description": "实际Web CSRF配对、原生配对消费/恢复、签名客户端读/心跳，不混用浏览器凭据",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-059",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPDeviceProofTamperingRevocationAndTenantPaging",
+      "description": "HTTP nonce重放/URI篡改/跨设备跨卖家拒绝，签名游标隔离、停止与撤销",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-060",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPDevicePolicyETagAndStrictInputBoundaries",
+      "description": "HTTP强ETag/原键恢复、签名绑定幂等键、重复头/Origin/重复JSON/超界拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-061",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeEncryptedStateLockAndTamper",
+      "description": "真实本地加密状态重开、独占锁、篡改/缺失拒绝与不重建身份",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-062",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeEnrollmentUnknownSurvivesRestart",
+      "description": "登记丢回执跨重启保持公钥/原正文/原命令，成功后移除配对凭据",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-063",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeHeartbeatUnknownSurvivesRestart",
+      "description": "心跳丢回执跨重启保持原序号/键/正文，恢复签新nonce且不自动报空闲",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-064",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeRejectedVersionRefreshAndCounterHighWater",
+      "description": "已知版本冲突经当前读取恢复，保留高水位后以新序号继续",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-065",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeInvalidAcknowledgementAndAuthorityPreservePending",
+      "description": "错设备回执不清命令，撤销即停出站循环并保留原状态",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-066",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodePersistenceFailureAndExhaustionStayClosed",
+      "description": "持久化失败前不发送、不换身份；uint64耗尽关闭不回绕",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-067",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeRunCancellationStopsOutboundControl",
+      "description": "实际出站HTTP取消及时关闭，不隐式后台执行",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-068",
+      "package": "p11.local/compute/client/node",
+      "test": "TestSecretServiceLookupCreationAndClosedFailure",
+      "description": "Secret Service线协议夹具：唯一查找/创建、锁定/缺钥/重复/提示拒绝及会话关闭",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-069",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNativeNodeDPAPIAndACLProtectControlState",
+      "description": "实际Windows DPAPI及本人/SYSTEM ACL，损坏保护钥不重建",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-070",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNativeNodeProcessDeathRetainsOriginalCommand",
+      "description": "实际原生子进程强制退出后释放OS锁，原身份/待登记命令恢复",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-071",
+      "package": "p11.local/compute/client/cmd/p11-node",
+      "test": "TestNativeCLIRejectsCredentialArgumentsAndUnboundedInput",
+      "description": "原生命令拒绝凭据参数/回显及超界标准输入",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-072",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPNativeProviderOriginalRecoveryAndRevocation",
+      "description": "实际原生代理/DPAPI/HTTP/临时PG：丢登记/心跳回执后原命令恢复，数据库唯一事件及撤销停止",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-073",
+      "package": "p11.local/compute/client/protocol/executionlease",
+      "test": "TestExecutionLeaseIndependentSignatureVector",
+      "description": "独立固定字节签名向量、全uint64和验后数据不可变",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-074",
+      "package": "p11.local/compute/client/protocol/executionlease",
+      "test": "TestExecutionLeaseRejectsAmbiguityTamperAndWrongPlan",
+      "description": "逐项计划绑定、重复/别名/未知/空值字段和签名篡改拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-075",
+      "package": "p11.local/compute/client/protocol/executionlease",
+      "test": "TestExecutionLeaseFreshnessAndZeroTrustFailClosed",
+      "description": "无信任钥、零值、未生效及到期租约关闭",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-076",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeInboxOriginalCommandAndSingleSubmit",
+      "description": "原命令去重、异载荷拒绝、一次提交与原backend映射",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-077",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativePhysicalGateUnifiesEnginesAndMaintenance",
+      "description": "同物理摘要不建别名；本地/任务/维护同门闩；不造租赁权",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-078",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeDualFencesPreserveFullUint64HighWater",
+      "description": "任务/资源双高水位、跨任务拒旧与本地代次耗尽不回绕",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-079",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeRenewalRequiresNewSignedImmutableRevision",
+      "description": "完整新签名递增revision；环境/截止不暗改，旧版和迟到续约拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-080",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeDeadlineAndClockRollbackNeverFreeResource",
+      "description": "绝对/单调双截止和回拨隔离，清理可继续但不自动FREE",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-081",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeReopenQuarantinesWithoutResubmit",
+      "description": "重开一律撤销内存执行权；保留原backend，先查停清",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-082",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeStopCleanupEvidenceAndOldOwnerCAS",
+      "description": "未知停算/部分清理拒绝；旧owner清理不能释放下一代",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-083",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeInboxSQLFailureRollsBackAndPoisonsGate",
+      "description": "事务中途真实SQLite故障原子回滚，门闩中毒关闭",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-084",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeStoreRejectsMissingCorruptionBindingAndSchemaDrift",
+      "description": "SQLite缺失/损坏/错误锚定/DDL及版本漂移拒绝，不重建",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-085",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeConcurrentReceiveAndSubmitReserveOnlyOnce",
+      "description": "20并发只接纳一个owner；20并发只保留一次提交权",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-086",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeAbruptProcessExitRetainsAmbiguousSubmission",
+      "description": "实际子进程异常退出保留WAL中的SUBMITTING，恢复只查不重提",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-087",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeLateBackendQueryDuringStopNeverRestoresExecution",
+      "description": "停止期间迟到原backend可用于取消，不恢复执行或替换映射",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-088",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeMetadataCapacityAndSQLiteBounds",
+      "description": "4096收据容量、SQLite缓存/映射/页数上限和安全投影",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-089",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeExecutionAnchorSingleInitAndSharedProcessLock",
+      "description": "节点加密锚定与一次初始化，共OS锁，重开本地owner隔离",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-090",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeExecutionMissingDatabaseNeverResetsIdentity",
+      "description": "丢执行库不重建、不换原控制身份或执行锚定",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-091",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeExecutionInterruptedInitAndBindingFailClosed",
+      "description": "先锚后库中断、既有无锚文件、错误绑定均关闭",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-092",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNativeExecutionSQLiteInheritsPrivateWindowsACL",
+      "description": "实际Windows DPAPI/本人SYSTEM ACL覆盖SQLite/WAL/SHM及重开",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-093",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorRequiresWatchdogAndFrozenRegistry",
+      "description": "监督循环未运行拒绝提交、注册绑定复制且单次运行",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-094",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorOriginalCommandSubmittedOnlyOnce",
+      "description": "原命令重复12次只提交一次，退出先停算清理",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-095",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorExpiryCancelsAndCleansWithoutRenewal",
+      "description": "租约到期自动取消/查询/清理，不由轮询续租",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-096",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorAmbiguousSubmitQueriesOriginalAndStops",
+      "description": "提交丢回执查询原backend后停止，不重新提交",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-097",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorStopInterruptsInFlightSubmit",
+      "description": "显式停止打断进行中的提交并继续清理",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-098",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorCallerCancellationDoesNotAbandonCleanup",
+      "description": "调用方取消不放弃原owner恢复清理",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-099",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorCancelAcknowledgementNeverProvesStopped",
+      "description": "取消ACK不冒充已停，关闭超时保留占用",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-100",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorQueryFailureStillCancelsAndRetainsOwner",
+      "description": "查询失败仍先取消，缺停止证据保留占用",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-101",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorWrongOwnerAndIncompleteCleanupRetainResource",
+      "description": "跨owner回执及不完整清理都不释放",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-102",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorReopenQueriesWithoutSubmissionOrAuthority",
+      "description": "SQLite重开只查停原任务，不重授执行或提交",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-103",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorUnknownRegistryQuarantinesWithoutFallback",
+      "description": "环境未注册隔离，禁止换内核兜底",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-104",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorDatabaseFailureClosesAdmissionAndCancelsOwnedWork",
+      "description": "数据库故障关闭准入并尽力取消原任务",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-105",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorCleanupRetryDoesNotResubmitOrRepeatStop",
+      "description": "CLEANING重试不重提或反复取消后端",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-106",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorQueryTimeoutDoesNotBlockExpiryLoop",
+      "description": "受阻查询不阻塞截止检查及取消",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-107",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorSignedRenewalKeepsOriginalBackend",
+      "description": "完整签名续约保持原backend，不重启任务",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-108",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorShortRealLeaseNeverExecutesPastExpiry",
+      "description": "150ms签名短租约：零提交安全拒绝或单次后端截止中止，禁止到期后迟交",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-109",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorKnownBackendAbsentCannotFreeResource",
+      "description": "已知backend消失不作为STOPPED证据",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-110",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorSlowResourceDoesNotBlockAnotherExpiry",
+      "description": "一资源查询受阻不阻塞另一资源到期清理",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-111",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorClockRollbackStopsWithoutFreeByTime",
+      "description": "时钟回拨触发实际取消/查询/清理流程",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-112",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeSupervisorRequiresExplicitLedgerAndSameOwnership",
+      "description": "显式初始化执行库，监督器不可越过原节点OS锁",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-113",
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeControlDrainStopsSupervisedOriginalOwner",
+      "description": "实际原生HTTP控制读到DRAINING/拒绝心跳，关闭监督器并等待原owner清理",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-114",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayNativeJSONThreeDialectsAndFixedSeller",
+      "description": "三种文本JSON原生直通、固定模型别名及协议usage候选",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-115",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayRejectsRequestAmbiguityBeforeAdmission",
+      "description": "重复键/大小写/Unicode/长度/未知字段在准入前拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-116",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayProfilesRejectToolsStateBetaAndMixedCredentials",
+      "description": "工具/状态/beta与冲突身份拒绝，Responses显式store=false",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-117",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayStripsBuyerSecretsProxyAndBackendHeaders",
+      "description": "买方凭据代理头不进后端，响应Cookie/调试地址不出域",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-118",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayAdmissionDenialAndGrantMismatchNeverSubmit",
+      "description": "准入拒绝及错误卖家/合同/围栏/期限不联系后端",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-119",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayFrozenBindingAndPrivacyDomains",
+      "description": "冻结固定路由、HTTP环回显式配置，平台明文拒绝E2E域",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-120",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayRedirectAndErrorNeverRetryOrLeak",
+      "description": "307/401/429/500均不轮换重试，不泄露上游正文",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-121",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayUnknownSubmissionIsAttemptedOnce",
+      "description": "原POST提交丢响应仅一次，结果保留未知",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-122",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayNativeStreamsAcrossByteBoundaries",
+      "description": "三方言实际HTTP逐字节UTF8/CRLF及原生流终态",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-123",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayChatRequiresFinishAndRequestedUsageBeforeDone",
+      "description": "Chat真实finish/按需usage之后才能传DONE",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-124",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayMessagesRejectsUnclosedBlocksThinkingAndErrors",
+      "description": "Messages内容块闭合，thinking/错误/缺终态拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-125",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayResponsesMaintainsItemsSequenceAndTextIntegrity",
+      "description": "Responses项索引/序号/文本摘要/完成事件一致性",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-126",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayUsageAbsentInvalidAndIncompleteRemainHonest",
+      "description": "usage缺失不补零、错误累计/包含关系拒绝、截断保留",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-127",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayBoundsRequestEventResponseAndMalformedSSE",
+      "description": "请求/事件/响应字节上限、坏UTF8/重复键/未闭合SSE拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-128",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelaySSECommentsMultilineCRAndEOFFraming",
+      "description": "SSE注释/多行data/LF-CRLF-CR及EOF不补事件",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-129",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayCancellationRevocationAndHardDeadlineReachUpstream",
+      "description": "调用取消/授权撤销/硬截止关闭实际上游HTTP",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-130",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayKeepaliveCannotRenewIdleOrAbsoluteDeadline",
+      "description": "注释不续事件空闲期，合法ping不续绝对截止",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-131",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayConcurrencyAndDurableAdmissionPortOwnReplay",
+      "description": "有界并发与原键准入端口；重复不得绕过门槛",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-132",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayDownstreamFailureStopsReadingAndUsesWriteDeadline",
+      "description": "下游断写及受阻写有界截止，不继续读取/补成功",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-133",
+      "package": "p11.local/compute/gateway/core",
+      "test": "TestRelayActualHTTPIngressAndOwnedServerClosure",
+      "description": "真实HTTP入口完成与慢请求正文读截止，关闭自建服务",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-134",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner",
+      "description": "清理后旧快照不误判退出失败，资源已释放或下一owner不受影响",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-135",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeCancelledMetadataDoesNotPoisonOriginalOwner",
+      "description": "SQL开始前取消不毒化健康元数据库或释放原owner",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-136",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeCancelledMetadataWaitReturnsBeforeOwnerTransaction",
+      "description": "取消排队可在原事务结束前返回，原事务与资源保留",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-137",
+      "package": "p11.local/compute/client/execution",
+      "test": "TestNativeMetadataLatencyCannotExtendExecutionAuthority",
+      "description": "事务延迟不能续执行权，原owner保留待清理",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-138",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorAdapterDeadlineCannotExceedSignedExpiry",
+      "description": "真实原生后端context截止不晚于签名expiry",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-139",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorMetadataStepsHaveIndependentBudgets",
+      "description": "各元数据步骤独立I/O预算，后端调用上限不放宽",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-140",
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorShutdownObservesCleanupBeforeNextPoll",
+      "description": "清理完成后唤醒退出重读，轮询间隔不制造假超时",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-141",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetConcurrentReservationsCannotExceedOriginalOrder",
+      "description": "20并发预留不超过原订单上限",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-142",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetOriginalPurposeReplaysWithoutSecondReservation",
+      "description": "同原purpose并发只预留一次，异金额冲突",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-143",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetQualifiedActualConsumesAndZeroReleasesUnusedCeiling",
+      "description": "可信资格实际额消耗，已确认零费用释放，未用上限返回",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-144",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetUnknownAndUnverifiedUsageNeverReleaseHold",
+      "description": "未知/未验证usage与订单关闭不释放预留",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-145",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetScopeAndOriginalPurposeCannotCrossOrders",
+      "description": "原买家/卖家/合同/用途绑定，跨单拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-146",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetDeadlineAndOrderStateStopNewCapacity",
+      "description": "待付款/关闭/复核/到期停止新预留",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-147",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetRollbackIncludesCapacityAndCallerMutation",
+      "description": "预算与调用方任务写同事务回滚",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-148",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetConcurrentCompletionIsOneImmutableOutcome",
+      "description": "并发同来源完成只消耗一次，终态不可重开",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-149",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetSourceAmountAndPurposeMustMatchReservation",
+      "description": "资格来源/原用途/实际额与预留上限匹配",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-150",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetSQLGuardsRejectCounterAndHistoryBypasses",
+      "description": "直接SQL不能改计数、删历史、伪零或改资格",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-151",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetRepeatableReadCannotUseStaleCapacity",
+      "description": "重复读旧快照因父行更新中止，不超分配",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-152",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetInvalidAndZeroRequestsStayBounded",
+      "description": "金额边界及零上限不伪造实际费用",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-153",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetDirectSQLConcurrencySharesParentCapacityGuard",
+      "description": "直接SQL并发仍受父订单原子容量约束",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-154",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetFinalRentalMeterReleasesOnlyItsOriginalSession",
+      "description": "只接受原租赁会话的最终计量资格",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-155",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetAcceptanceRequiresAcceptedOriginalDelivery",
+      "description": "接受来源须为原买家验收且关联原任务VALID已接受交付",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-156",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestBudgetLegacyMigrationRetainsUnknownCapacityAndRejectsOverbooking",
+      "description": "001—005升级保守保留旧行，历史超额整体回滚006",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-157",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteContractFreezesOriginalOrderAndConcurrentReplay",
+      "description": "原订单合同固定与12并发同键只建一份路由/事件",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-158",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteContractRejectsCrossOwnerAndChangedConfirmation",
+      "description": "跨买家、卖家、商品版本和策略改写拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-159",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteContractRequiresOriginalSettledEnvironmentAndNoRefund",
+      "description": "同单原付款、已结算、环境和退款门槛",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-160",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteContractBoundsDeadlineCapacityAndUnsupportedModes",
+      "description": "预算/次数/有效期边界及未实现模式拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-161",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteContractCurrentRevocationsAndReplayNeverRestoreActive",
+      "description": "当前撤销/关闭投影且旧键不恢复ACTIVE",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-162",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteSDKUsesOnlyKeyBoundModelAndExactProtocol",
+      "description": "标准SDK仅精确匹配key绑定模型和原协议",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-163",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteSDKAmbiguityIncludesUnavailableSellerAndNeverFailsOver",
+      "description": "同名歧义包含失效路由，禁止换卖家兜底",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-164",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteSDKRechecksKeyRoleOrderAndSellerRevocation",
+      "description": "事务内重查key、角色、卖家和原订单",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-165",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteSQLBindingsAreImmutableAndCannotCreateBareActiveRows",
+      "description": "SQL固定路由/订单/支付绑定，空壳ACTIVE拒绝",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-166",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteListIsOwnedBoundedAndSharesOriginalBudgetCapacity",
+      "description": "本人有界分页和原订单共享预算保留",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-167",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestRouteLegacyUpgradeQuarantinesWithoutInventingConsent",
+      "description": "007升级旧路由隔离，不推测确认/付款",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-168",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestReadOnlyStartupMigrationVerificationRejectsMetadataDrift",
+      "description": "API只读启动迁移校验拒绝缺失/漂移/未知版本",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-169",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPRouteContractsUseOriginalOrderScopedKeyAndSafeReplay",
+      "description": "真实HTTP原订单路由、scoped key和安全重放",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-170",
+      "package": "p11.local/compute/api/tests",
+      "test": "TestHTTPRouteContractsRejectAmbiguousInputCursorAndMissingCSRF",
+      "description": "真实HTTP严格输入、认证/CSRF及游标签名边界",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-171",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationPreparationAtomicAcrossThreeNativeProfiles",
+      "description": "三种原生文本方言：原调用/整笔预算/次数/安全事件同事务",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-172",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationConcurrentOriginalRetryCommitsOnePreparation",
+      "description": "12并发原键重试只生成一任务一预留一事件",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-173",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationConcurrentCallsCannotExceedCountOrRestoreCanceledSlot",
+      "description": "独立请求竞争次数上限，取消不恢复已占次数",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-174",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationDistinctCallsShareOriginalOrderCapacity",
+      "description": "不同调用共享原订单容量，不超额",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-175",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationChangedInputOrBoundKeyCannotReplaceOriginal",
+      "description": "改正文/参数/绑定key不能替换原调用",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-176",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationOriginalRecoveryAfterRouteClosureRetainsHold",
+      "description": "原路由/资金/设备失效或取消后只恢复原记录和原占用",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-177",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationCurrentIdentityBlocksNewAndOriginalReplay",
+      "description": "当前key/角色/用户/路由范围撤销均阻止新请求和重放",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-178",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationRejectsInvalidUnfundedOrUncoveredRequests",
+      "description": "无效输入/会话冒用/资金未知/单次上限不足均零副作用",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-179",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationFingerprintRotationAndMissingOldKeyFailClosed",
+      "description": "HMAC独立密钥复制轮换，缺旧钥或关闭服务拒绝重发",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-180",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationRollbackAndMissingEventCannotCommitPartialPreparation",
+      "description": "业务回滚与延迟约束拒绝缺安全事件的半成品",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-181",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationSQLBindingsCannotMutateDeleteOrRetrofit",
+      "description": "数据库固定原调用绑定，禁止覆盖/删除/降档",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-182",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationDirectSQLCannotBypassCountOrAtomicBudget",
+      "description": "直接SQL也不能越过次数或缺预算/事件提交",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-183",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationDeadlineUsesCurrentFundsEvidenceAndKey",
+      "description": "准备截止取当前资金/资格证据/API key最短值",
+      "result": "PASSED"
+    },
+    {
+      "id": "R016-TEST-184",
+      "package": "p11.local/compute/tests/integration",
+      "test": "TestInvocationUpgradePreservesUnboundHistoryWithoutConsent",
+      "description": "008保留历史未绑定任务，不补造同意/预算/调用资格",
+      "result": "PASSED"
+    }
+  ],
+  "source_evidence": [
+    "dev/tests/evidence/R016-native-summary.json",
+    "dev/tests/evidence/R016-native-go-tests.jsonl",
+    "dev/tests/evidence/R016-native-source-checks.json"
+  ],
+  "limitations": [
+    "OAuth uses independently signed synthetic responses; no real Alipay channel or seller/device integration",
+    "No GPU, Android, real payment, crypto interoperability, independent review or whole-product acceptance",
+    "Linux admin/API/node commands cross-compiled only; Linux Secret Service protocol fixtures do not validate a real Linux keyring",
+    "Windows process-termination recovery is exercised; no power-loss durability or Go race-detector claim",
+    "Native forwarding uses only loopback synthetic HTTP backends and explicit admission/secret fixtures. No production route/funding/lease gate, SDK compatibility certification, real engine stop, content E2E, paid model or billable usage evidence.",
+    "Three native text profiles only; no cross-dialect conversion, tools, media or Sub2API code extraction. Prior frontend TS/build receipts are reused after exact source/output/log hash checks; both current browser journeys rerun with the current native binary.",
+    "Order capacity is not a wallet, payment authorization, route/lease admission or GPU release. Qualifications and READY/usage/rental facts are explicitly synthetic; production qualified-source generation and integration remain pending. Legacy budget rows remain fully held, including old RELEASED/CONSUMED states.",
+    "Original routed invocation preparation now commits INPUT_PENDING, a full per-call order-capacity hold, a durable call slot and safe outbox atomically. It does not authorize execution: input-ready, original resource ownership/dual fences, qualified funds/lease issuance, trusted usage and production relay Grant/SecretSource remain pending. SETTLED/READY, qualifications and adapter observations are synthetic.",
+    "Fingerprint HMAC keys are copied and versioned by the preparation library; production secret loading and full key lifecycle remain pending. Recovery requires the current original scoped API key and retained fingerprint version. Accepted preparation count includes canceled/expired intents and is not billable successful inference count.",
+    "First complete R016 run passed183/failed1: unchanged TestSupervisorSignedRenewalKeepsOriginalBackend returned ErrShutdown under its original 400ms cleanup deadline. Resources remained retained. Three unchanged isolated repeats passed, but the cause is unproven and timing stability remains open under DEV-53; a later complete pass does not erase that failure."
+  ],
+  "development_attempts": [
+    "dev/tests/evidence/R016-development-attempts.json",
+    "dev/tests/evidence/R016-migration-immutability.json",
+    "dev/tests/evidence/R016-full-attempt1-archive.json",
+    "dev/tests/evidence/R016-supervisor-renewal-diagnostic.json",
+    "dev/tests/evidence/R016-supervisor-renewal-diagnostic.jsonl"
+  ],
+  "test_segments": [
+    {
+      "id": "core",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "-skip",
+        "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$",
+        "./..."
+      ],
+      "exit_code": 0,
+      "database_isolation": "CORE",
+      "temporary_database_removed": null
+    },
+    {
+      "id": "web",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "-run",
+        "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^web$",
+        "./api/tests"
+      ],
+      "exit_code": 0,
+      "database_isolation": "FRESH_NATIVE_CHILD",
+      "temporary_database_removed": true
+    },
+    {
+      "id": "miniapp",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "-run",
+        "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^miniapp$",
+        "./api/tests"
+      ],
+      "exit_code": 0,
+      "database_isolation": "FRESH_NATIVE_CHILD",
+      "temporary_database_removed": true
+    }
+  ],
+  "case_inventory": "Unique top-level test IDs; R014 browser parent runs separately for each selected child",
+  "short_real_lease_observed_path": "supervisor_test.go:648: ONE_SUBMIT_BOUNDED_BY_SIGNED_EXPIRY"
+}

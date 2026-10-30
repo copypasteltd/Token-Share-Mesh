@@ -1,0 +1,217 @@
+{
+  "round": "R016",
+  "baseline_commit": "6499011ce1ea411dd36127a00b618ab71b2eef04",
+  "native_runs": [
+    {
+      "path": "dev/tests/evidence/R016-invocation-native-summary.json",
+      "sha256": "0dd5c7fdea758fcd43f5073130138e4b28903f2b5ebd79ae3a97f583d9a00f13",
+      "suite": "invocation",
+      "test_exit_code": 0,
+      "temporary_instance_stopped": true
+    },
+    {
+      "path": "dev/tests/evidence/R016-native-summary-attempt1.json",
+      "sha256": "8ca2d35a2491294f50013f2c810811a1e88d8719b04d0c104d1447dc4d9564ca",
+      "suite": "full",
+      "test_exit_code": 1,
+      "temporary_instance_stopped": true
+    },
+    {
+      "path": "dev/tests/evidence/R016-native-summary.json",
+      "sha256": "65fb4700df923a44f8fe95d05831784d8374c24d7bb65b63149f06bebc9f29b6",
+      "suite": "full",
+      "test_exit_code": 0,
+      "temporary_instance_stopped": true
+    }
+  ],
+  "test_failures_are_not_overwritten": true,
+  "document_attempts": [
+    {
+      "command": "python -B -X utf8 dev/tools/文档工具.py build",
+      "exit_code": 1,
+      "observed_failure": "Progress generator rejected missing dev/tests/evidence/R016-验证报告.md before full verification existed",
+      "action": "Retain rejection; regenerate progress after actual evidence exists; do not weaken evidence checks"
+    }
+  ],
+  "unchanged_sql_evidence": "dev/tests/evidence/R016-migration-immutability.json",
+  "scope": "Preparation metadata only. Synthetic SETTLED/READY/qualification/adapter fixtures; no engine, payment, content E2E or whole-product acceptance. Unchanged frontend receipts require exact source/output/public-log hashes; current browser/native CLI rerun independently.",
+  "virtualization_used": false,
+  "full_failed_attempts": [
+    {
+      "path": "dev/tests/evidence/R016-full-attempt1-archive.json",
+      "sha256": "23e6e673036dd2f731be5b76364f7cb7062dca335f92758066bfbc6aecd7a545",
+      "attempt": 1,
+      "suite": "FULL_NATIVE_CORE_WEB_H5",
+      "failed": [
+        "TestSupervisorSignedRenewalKeepsOriginalBackend"
+      ],
+      "temporary_instance_stopped": true,
+      "files": [
+        {
+          "source": "dev/tests/evidence/R016-native-summary.json",
+          "archived": "dev/tests/evidence/R016-native-summary-attempt1.json",
+          "sha256": "8ca2d35a2491294f50013f2c810811a1e88d8719b04d0c104d1447dc4d9564ca"
+        },
+        {
+          "source": "dev/tests/evidence/R016-native-go-tests.jsonl",
+          "archived": "dev/tests/evidence/R016-native-go-tests-attempt1.jsonl",
+          "sha256": "e951e6137a5bca3460d643438c706f927cbaad14ebca5410f32387d1ea30ace5"
+        },
+        {
+          "source": "dev/tests/evidence/R016-web-browser.json",
+          "archived": "dev/tests/evidence/R016-web-browser-attempt1.json",
+          "sha256": "b54462851f4f0ec42dd68987b95e6f0ab8139b3fdf77704e936cbfd29c3a1bc1"
+        },
+        {
+          "source": "dev/tests/evidence/R016-miniapp-browser.json",
+          "archived": "dev/tests/evidence/R016-miniapp-browser-attempt1.json",
+          "sha256": "932c53165f4a7a3438d7eec44424869375eb2346eaab2f64a5fbea06b94d26bf"
+        },
+        {
+          "source": "dev/media/R016/recordings/miniapp-transaction.gif",
+          "archived": "dev/media/R016-attempt1/recordings/miniapp-transaction.gif",
+          "sha256": "7b3e26e1d738b92bda0746f04f77f6444d6422dbfcdb7c5dc6f316b0cb2682d3"
+        },
+        {
+          "source": "dev/media/R016/recordings/miniapp-transaction.mp4",
+          "archived": "dev/media/R016-attempt1/recordings/miniapp-transaction.mp4",
+          "sha256": "e16ac82cb825de4097bfe6ab6fd3dcddd98ddf560bbe3317ba829ed154b1dace"
+        },
+        {
+          "source": "dev/media/R016/recordings/web-transaction.gif",
+          "archived": "dev/media/R016-attempt1/recordings/web-transaction.gif",
+          "sha256": "5c668e3b2c61c7dee6f488591a2610faf2c70574a12b8a5f4238a0bf57f717af"
+        },
+        {
+          "source": "dev/media/R016/recordings/web-transaction.mp4",
+          "archived": "dev/media/R016-attempt1/recordings/web-transaction.mp4",
+          "sha256": "fd243e036d09915bebb0234b09ac89353280f6e6bdde26d991f6d578e1134139"
+        },
+        {
+          "source": "dev/media/R016/screenshots/miniapp-llm-detail.png",
+          "archived": "dev/media/R016-attempt1/screenshots/miniapp-llm-detail.png",
+          "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19"
+        },
+        {
+          "source": "dev/media/R016/screenshots/miniapp-market.png",
+          "archived": "dev/media/R016-attempt1/screenshots/miniapp-market.png",
+          "sha256": "947375d878a839f54f5896a8a9dd8691ec66d923f7bcfca1e4395786423cf55e"
+        },
+        {
+          "source": "dev/media/R016/screenshots/miniapp-order-pending.png",
+          "archived": "dev/media/R016-attempt1/screenshots/miniapp-order-pending.png",
+          "sha256": "ed4a32da84b1474a437df778709000f7a1c5ec50928f4503a4138693a848cf8b"
+        },
+        {
+          "source": "dev/media/R016/screenshots/miniapp-order.png",
+          "archived": "dev/media/R016-attempt1/screenshots/miniapp-order.png",
+          "sha256": "12daa50dd7639b8678ff023c01aa543af58fc780634a21224d87b7c9b3430e5f"
+        },
+        {
+          "source": "dev/media/R016/screenshots/miniapp-provider-conditions.png",
+          "archived": "dev/media/R016-attempt1/screenshots/miniapp-provider-conditions.png",
+          "sha256": "11ec0abb787e30b5a868527d5a82af75768ec354c0ff0d838ad9ca5b6d72baa4"
+        },
+        {
+          "source": "dev/media/R016/screenshots/miniapp-provider-revoked.png",
+          "archived": "dev/media/R016-attempt1/screenshots/miniapp-provider-revoked.png",
+          "sha256": "ddf673cdaca894bb83481836c9c6a04a7f37ecba20fad1e5d649e1ac83d07d25"
+        },
+        {
+          "source": "dev/media/R016/screenshots/miniapp-share.png",
+          "archived": "dev/media/R016-attempt1/screenshots/miniapp-share.png",
+          "sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411"
+        },
+        {
+          "source": "dev/media/R016/screenshots/web-llm-detail.png",
+          "archived": "dev/media/R016-attempt1/screenshots/web-llm-detail.png",
+          "sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9"
+        },
+        {
+          "source": "dev/media/R016/screenshots/web-market.png",
+          "archived": "dev/media/R016-attempt1/screenshots/web-market.png",
+          "sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9"
+        },
+        {
+          "source": "dev/media/R016/screenshots/web-order-pending.png",
+          "archived": "dev/media/R016-attempt1/screenshots/web-order-pending.png",
+          "sha256": "006323c93a7e0c41e5151ff20e0364d3bbc374bc5a136db5760b2e444a70aa0d"
+        },
+        {
+          "source": "dev/media/R016/screenshots/web-order.png",
+          "archived": "dev/media/R016-attempt1/screenshots/web-order.png",
+          "sha256": "c8b3750a4a0f440158df8768c285ac33b5f4a40d8bd1368cbf326c7d1da5faa8"
+        },
+        {
+          "source": "dev/media/R016/screenshots/web-provider-conditions.png",
+          "archived": "dev/media/R016-attempt1/screenshots/web-provider-conditions.png",
+          "sha256": "4451617adf5d86c6b28334a5c24bc32041bc8bb4f1417bba29d32bab6f6720ef"
+        },
+        {
+          "source": "dev/media/R016/screenshots/web-provider-revoked.png",
+          "archived": "dev/media/R016-attempt1/screenshots/web-provider-revoked.png",
+          "sha256": "34598d85e1e85b7ed4f07562c4690345a5ed317b6103c11fed6411fdb47f022d"
+        },
+        {
+          "source": "dev/media/R016/screenshots/web-share.png",
+          "archived": "dev/media/R016-attempt1/screenshots/web-share.png",
+          "sha256": "002df1cfdb5b116700521e99e2bd2b773bcd54b361e2ecc05e82bf17d6f81013"
+        }
+      ],
+      "note": "Existing signed-renewal supervisor shutdown returned ErrShutdown with original 400ms cleanup bound. Resource retained; no source/timeout/lease/cleanup-rule changes. Investigate separately before full rerun. Browser evidence is preserved byte-for-byte with explicit archived media-path mapping; original JSON is not rewritten."
+    }
+  ],
+  "isolated_diagnostic": {
+    "path": "dev/tests/evidence/R016-supervisor-renewal-diagnostic.json",
+    "sha256": "4a8a4b6983e0a2803b1e8adc20283cc6343c2eea8956f4493635693e4c5e2a74",
+    "round": "R016",
+    "scope": "ISOLATED_THREE_REPEATS_NOT_FULL_ROUND_EVIDENCE",
+    "arguments": [
+      "test",
+      "-json",
+      "-count=3",
+      "-p=1",
+      "-timeout=60s",
+      "-run",
+      "^TestSupervisorSignedRenewalKeepsOriginalBackend$",
+      "./client/supervisor"
+    ],
+    "exit_code": 0,
+    "results": [
+      {
+        "test": "TestSupervisorSignedRenewalKeepsOriginalBackend",
+        "action": "pass",
+        "elapsed": 0.06
+      },
+      {
+        "test": "TestSupervisorSignedRenewalKeepsOriginalBackend",
+        "action": "pass",
+        "elapsed": 0.05
+      },
+      {
+        "test": "TestSupervisorSignedRenewalKeepsOriginalBackend",
+        "action": "pass",
+        "elapsed": 0.05
+      }
+    ],
+    "log": "dev/tests/evidence/R016-supervisor-renewal-diagnostic.jsonl",
+    "log_sha256": "3cf7d0672aab8aadd0bdaf7ebb1aee3bc5e9569c8c24f3985b5e729e1da0c0e9",
+    "baseline_sources": [
+      {
+        "path": "dev/src/client/supervisor/supervisor.go",
+        "sha256": "87fc91f958f37442f860fea1322231e964ff1d46de7ba1c73d8e0898646a07d7",
+        "unchanged_from_published_baseline": true
+      },
+      {
+        "path": "dev/src/client/supervisor/supervisor_test.go",
+        "sha256": "6a7f4c0bffa18900b98b6ed1ed40ce70ee019bf2b8052777c24b8440309d8831",
+        "unchanged_from_published_baseline": true
+      }
+    ],
+    "unchanged_shutdown_timeout_ms": 400,
+    "proven_cause": null,
+    "virtualization_used": false,
+    "limitation": "An isolated pass cannot prove absence of a timing/stability defect; do not overwrite or attribute the full-run failure to host load without evidence."
+  },
+  "stability_risk": "First full run passed183/failed1 at TestSupervisorSignedRenewalKeepsOriginalBackend (ErrShutdown, resources retained). Three unchanged isolated repeats passed. Root cause is not established; any later full pass does not prove timing stability or whole-product acceptance. DEV-53 remains open."
+}
