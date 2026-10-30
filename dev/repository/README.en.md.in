@@ -16,7 +16,7 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 
 {{status_table}}
 
-The source has 65 domain tables and 31 of 93 control operations. R007 adds one-time pairing, original enrollment recovery, device request signing with durable nonce replay protection, monotonic heartbeats, resource policy and drain/revoke. Pairing starts with sharing off; heartbeats grant no qualification; revocation retains in-flight lock owners and generations. All 60 Go cases and 13 shared TypeScript cases pass, including actual Web/H5 HTTP/PostgreSQL recovery with one original order/event. Native Alipay remains compilation only. Real authorization/review/payment, complete provider daemons and native key stores remain pending. See [native evidence](dev/tests/evidence/R007-验证报告.md), [frontend regression](dev/tests/evidence/R007-frontend-checks.json), [device control constraints](docs/技术开发/附录-设备配对身份与控制协议实施约束.md) and [all 56 tasks](dev/progress/README.md).
+The source has 65 domain tables and 31/93 control operations. R008 adds foreground p11-node control, Windows DPAPI/Linux Secret Service adapters, an encrypted one-command journal and OS writer locks above the R007 identity contract. Unknown enrollment/heartbeat results recover the original identity/body/key/counter after restart. All 72 local Go cases include actual Windows key protection, process termination and native HTTP/PostgreSQL checks; Linux keyring evidence is fixture/cross-compilation only. Unchanged frontend source retains hash-verified 13-case/three-build receipts, with both browser journeys replayed against this backend. Real authorization/review/payment, GPU/engines/content encryption and complete execution remain pending. See [native evidence](dev/tests/evidence/R008-验证报告.md), [frontend regression](dev/tests/evidence/R008-frontend-checks.json), [native recovery constraints](docs/技术开发/附录-原生提供方控制代理与本地恢复.md) and [all 56 tasks](dev/progress/README.md).
 
 The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_rate for TOKEN_1M. Each rate has an integer numerator in fen and a positive denominator, together with fee ownership, commission and rounding versions. At 360 fen/hour, 30 minutes costs at most 180 fen; 1M input at 80 fen/M plus 0.25M output at 160 fen/M totals 120 fen. Quotes freeze seller, environment, policy, rates and budget. Creating an order rechecks admission and atomically writes WAITING_PAYMENT, quote consumption, consent audit and outbox. It does not pay, lock a GPU or execute work. A 350 fen/hour rate cannot be rounded into the legacy integer-fen/minute column.
 
@@ -36,17 +36,17 @@ An approved seller explicitly creates a five-minute pairing credential, disclose
 
 Subsequent P11_DEVICE_ED25519_1 proofs bind method, authority, exact URI, raw-body digest, idempotency key, If-Match and Content-Type; timestamps allow ±60 seconds and nonces are durably deduplicated. This custom control profile is separate from content encryption and is not HTTP Message Signatures. The Go library exposes NewClient→Prepare→Send→Close. Unknown writes require explicit recovery of the same prepared command with a fresh proof; there are no automatic retries or replacement command IDs. Owners use their account session and a strong ETag to set sharing windows, one slot, disk and phone battery/temperature/charging conditions. Drain/revoke close admission while actual stopping/cleanup remains the execution endpoint’s responsibility.
 
-Configure the separate P11_DEVICE_PAIRING_PEPPER_FILE to enable pairing; login/API-key secrets are never reused. Complete provider daemons, Windows/Linux native key storage, hardware/license qualification, engines, LMA integration and provider control pages remain pending. The transport library alone cannot rent out hardware. See [bilingual usage](dev/repository/USAGE.md) and [complete control protocol](docs/技术开发/附录-设备配对身份与控制协议实施约束.md).
+Configure the separate P11_DEVICE_PAIRING_PEPPER_FILE or pairing stays closed. R008 p11-node provides init/enroll/recover/status/heartbeat/run, with secrets accepted through bounded piped stdin only. Windows current-user DPAPI or Linux Secret Service protects the master; an AES-GCM journal and OS lock persist the original command before transmission. Unknown results do not change keys. Reports remain UNKNOWN with execution_enabled=false; no engine or local listener starts. Real Linux keyring validation, full RuntimeSupervisor/SQLite execution inbox/resource gates, LMA/engines/content encryption and provider pages remain pending. See [bilingual commands and recovery](dev/repository/USAGE.md) and [native agent specification](docs/技术开发/附录-原生提供方控制代理与本地恢复.md).
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R007/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R008/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R007/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R008/screenshots/miniapp-market.png)
 
-![Actual Taro H5 quote and lost-reply recovery recording](dev/media/R007/recordings/miniapp-transaction.gif)
+![Actual Taro H5 quote and lost-reply recovery recording](dev/media/R008/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R007/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R007/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R007/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R007/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R008/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R008/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R008/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R008/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 
@@ -164,12 +164,12 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # Disposable loopback PostgreSQL -> real tests -> instance stopped
-python -X utf8 dev/tools/原生数据库验证.py --round R007
-python -X utf8 dev/tools/核验原生源码.py --round R007
-python -X utf8 dev/tools/整理原生验证证据.py --round R007
+python -X utf8 dev/tools/原生数据库验证.py --round R008
+python -X utf8 dev/tools/核验原生源码.py --round R008
+python -X utf8 dev/tools/整理原生验证证据.py --round R008
 ```
 
-The last three commands generate R007 evidence for the current source, preserving historical R001/R003/R004/R005/R006 records. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+The last three commands generate R008 evidence for the current source, preserving historical R001/R003/R004/R005/R006/R007 records. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
 
 ## Intended buyer and seller usage
 

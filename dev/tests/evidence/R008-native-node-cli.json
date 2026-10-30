@@ -1,0 +1,74 @@
+{
+  "round": "R008",
+  "passed": true,
+  "kind": "ACTUAL_WINDOWS_NODE_CONTROL_CLI",
+  "binary": "runtime/bin/p11-node.exe",
+  "binary_sha256": "0eb9b81bd6c652e893204848865543325cba969d87bd2e2296d63c096c7142c7",
+  "checked_at": "2026-10-30T02:39:44.271972+00:00",
+  "commands": [
+    {
+      "action": "init",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "safe_status": {
+        "control_base": "http://127.0.0.1:1",
+        "device_id": "",
+        "model_name": "SYNTHETIC_CONTROL_TEST_RTX4090",
+        "platform": "WINDOWS",
+        "resource_kind": "GPU_DEVICE",
+        "key_profile_id": "ED25519_DEVICE_1",
+        "key_fingerprint": "72654d427b1648efae42c4e550337086b077f346209a29a72f3c0fbee9ccac7e",
+        "device_version": 0,
+        "last_known_remote_state": "",
+        "reserved_sequence": null,
+        "pending_command": "",
+        "last_control_outcome": "LOCAL_ONLY",
+        "execution_enabled": false
+      }
+    },
+    {
+      "action": "status",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "safe_status": {
+        "control_base": "http://127.0.0.1:1",
+        "device_id": "",
+        "model_name": "SYNTHETIC_CONTROL_TEST_RTX4090",
+        "platform": "WINDOWS",
+        "resource_kind": "GPU_DEVICE",
+        "key_profile_id": "ED25519_DEVICE_1",
+        "key_fingerprint": "72654d427b1648efae42c4e550337086b077f346209a29a72f3c0fbee9ccac7e",
+        "device_version": 0,
+        "last_known_remote_state": "",
+        "reserved_sequence": null,
+        "pending_command": "",
+        "last_control_outcome": "LOCAL_ONLY",
+        "execution_enabled": false
+      }
+    },
+    {
+      "action": "heartbeat",
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "safe_status": {
+        "control_base": "http://127.0.0.1:1",
+        "device_id": "",
+        "model_name": "SYNTHETIC_CONTROL_TEST_RTX4090",
+        "platform": "WINDOWS",
+        "resource_kind": "GPU_DEVICE",
+        "key_profile_id": "ED25519_DEVICE_1",
+        "key_fingerprint": "72654d427b1648efae42c4e550337086b077f346209a29a72f3c0fbee9ccac7e",
+        "device_version": 0,
+        "last_known_remote_state": "",
+        "reserved_sequence": null,
+        "pending_command": "",
+        "last_control_outcome": "LOCAL_ONLY",
+        "execution_enabled": false
+      }
+    }
+  ],
+  "all_processes_exited": true,
+  "virtualization_used": false,
+  "state_directory": "runtime/node/validation/8dd308952213456287c4306bc6ff72a8",
+  "scope": "Actual Windows CLI/DPAPI initialization and process reopen, with unenrolled heartbeat refused; no registration, GPU, Linux runtime, model, customer content, payment or product acceptance"
+}

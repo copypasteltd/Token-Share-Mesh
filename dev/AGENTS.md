@@ -49,3 +49,9 @@
 - 原生MINIAPP显式ALIPAY_NATIVE_NONCE_1服务端随机证明，不冒称客户端PKCE；Web/H5为WebCrypto S256与Cookie/state/CSRF。详见项目根docs/技术开发/附录-双端交易页面与授权恢复实施约束.md。真实支付宝/设备/资金/密码及完整验收未通过。
 - 前端依赖/源码副本/编译输出在runtime/frontend；dev/src仅源/锁文件，不放node_modules。实际Web/Taro H5截图和录屏单独来源，不冒称原生小程序。迁移只延长准入advisory锁等待，保留普通交易限制；001—004原字节不改。
 - 无本地虚拟化；临时原生数据库与本轮浏览器结束关闭；部署/HTTPS/可观测性延后；双语文档/变更/进度/Git继续同步。
+
+## 最新阶段：R008原生控制代理
+
+- R007设备合同延续，R008交付client/cmd/p11-node、client/node和共用protocol/devicecontrol DTO；当前31/93操作、65表，001—005原字节不改。完整规范见项目根docs/技术开发/附录-原生提供方控制代理与本地恢复.md。
+- Windows实际DPAPI/本人ACL、Linux Secret Service适配、AES-GCM单命令日志、OS进程锁及原登记/心跳恢复只覆盖控制链；Linux钥库仅夹具/交叉编译，完整执行inbox/门闩/RuntimeSupervisor/内核/内容加密仍待完成。只报UNKNOWN，不启动引擎、不自批或释放资源。
+- 72项Go局部证据、未改前端13项TS/三构建摘要与双端浏览器单列；全56任务/222待办、双语文档/媒体/远端同步持续维护。无本地虚拟化，测试原生子进程/数据库和自建浏览器结束关闭；DEV-55继续DEFERRED。

@@ -1,0 +1,33 @@
+{
+  "round": "R008",
+  "published_baseline": "2c178b1f7f9c1e8e755a11aab60b5b6cdbb43836",
+  "prior_migrations": [
+    {
+      "path": "dev/src/internal/persistence/migrations/001_domain.sql",
+      "sha256": "85da1d9b2d4948cca6f60c3a15bb3bdb03e4d2eb1ff1af6b14005588077faec5",
+      "unchanged": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/002_nb_contract_guards.sql",
+      "sha256": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc",
+      "unchanged": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/003_auth_sessions.sql",
+      "sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+      "unchanged": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/004_seller_listing_records.sql",
+      "sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+      "unchanged": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/005_device_identity_control.sql",
+      "sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+      "unchanged": true
+    }
+  ],
+  "prior_bytes_unchanged": true,
+  "new_migrations": []
+}

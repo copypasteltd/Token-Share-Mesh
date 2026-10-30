@@ -183,7 +183,7 @@ def tasks(module_catalog: list[dict], chapters: dict[int, str]) -> list[dict]:
             "acceptance_ids":[r.replace('-F','-T') for r in req_ids(reqs)],
             "dependencies":[f"DEV-{d:02d}" for d in deps],"gates":gates.split(),
             "implementation":work,"done_evidence":done,
-            "source_documents":list(dict.fromkeys([m[mid]['source_document'],chapters[21],chapters[18],"docs/技术开发/附录-本轮范围与端侧选型修订.md"] + (["docs/技术开发/附录-协议字段映射与兼容档位.md"] if n in (25,26,27,28) else []) + (["docs/技术开发/附录-供给端内核封装与替换规范.md"] if n in (7,9,10,18,20,21,22,23,24,27,32,33,37,41,42,43,44,49,51,54,56) else []))),
+            "source_documents":list(dict.fromkeys([m[mid]['source_document'],chapters[21],chapters[18],"docs/技术开发/附录-本轮范围与端侧选型修订.md"] + (["docs/技术开发/附录-协议字段映射与兼容档位.md"] if n in (25,26,27,28) else []) + (["docs/技术开发/附录-供给端内核封装与替换规范.md"] if n in (7,9,10,18,20,21,22,23,24,27,32,33,37,41,42,43,44,49,51,54,56) else []) + (["docs/技术开发/附录-原生提供方控制代理与本地恢复.md"] if n in (1,3,6,21,24,51,53) else []))),
             "development_status":"DEFERRED" if n==55 else "DESIGN",
             "current_phase_scope":"DEFERRED" if n==55 else "CURRENT",
             "test_status":"NOT_EXECUTED",

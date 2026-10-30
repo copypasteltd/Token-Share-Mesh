@@ -47,17 +47,34 @@ func (e *TransportError) Error() string {
 }
 
 func NewClient(base, deviceID string, key ed25519.PrivateKey) (*Client, error) {
-	u, err := url.Parse(base)
-	if err != nil || u.Host == "" || u.User != nil || u.Path != "" || u.RawQuery != "" || u.Fragment != "" || !ids.Valid(deviceID) || len(key) != ed25519.PrivateKeySize {
+	u, client, err := nativeTransport(base)
+	if err != nil || !ids.Valid(deviceID) || len(key) != ed25519.PrivateKeySize {
 		return nil, errors.New("explicit control base and identity required")
+	}
+	return &Client{base: u, id: deviceID, key: append(ed25519.PrivateKey{}, key...), http: client}, nil
+}
+
+func nativeTransport(base string) (*url.URL, *http.Client, error) {
+	u, err := url.Parse(base)
+	if err != nil || u.Host == "" || u.User != nil || u.Path != "" || u.RawQuery != "" || u.ForceQuery || u.Fragment != "" {
+		return nil, nil, errors.New("explicit control base required")
 	}
 	ip := net.ParseIP(u.Hostname())
 	local := u.Hostname() == "localhost" || ip != nil && ip.IsLoopback()
 	if u.Scheme != "https" && !(u.Scheme == "http" && local) {
-		return nil, errors.New("HTTPS or explicit native loopback required")
+		return nil, nil, errors.New("HTTPS or explicit native loopback required")
 	}
 	transport := &http.Transport{Proxy: nil, DialContext: (&net.Dialer{Timeout: 5 * time.Second}).DialContext, TLSHandshakeTimeout: 5 * time.Second, ResponseHeaderTimeout: 10 * time.Second, MaxResponseHeaderBytes: 16384, MaxIdleConnsPerHost: 2, IdleConnTimeout: 20 * time.Second}
-	return &Client{base: u, id: deviceID, key: append(ed25519.PrivateKey{}, key...), http: &http.Client{Transport: transport, Timeout: 15 * time.Second, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}, nil
+	return u, &http.Client{Transport: transport, Timeout: 15 * time.Second, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}, nil
+}
+
+// ValidateBase applies the same native origin restrictions before persisting it.
+func ValidateBase(base string) error {
+	_, client, err := nativeTransport(base)
+	if client != nil {
+		client.CloseIdleConnections()
+	}
+	return err
 }
 
 // Prepare freezes exact bytes and command headers. There is no automatic retry,
@@ -94,18 +111,23 @@ func (c *Client) Send(ctx context.Context, p Prepared) (Reply, error) {
 	if err != nil {
 		return reply, err
 	}
-	r, err := http.NewRequestWithContext(ctx, p.binding.Method, c.base.Scheme+"://"+c.base.Host+p.binding.URI, bytes.NewReader(p.body))
+	return sendNative(ctx, c.http, c.base, p.binding, p.body, proof)
+}
+
+func sendNative(ctx context.Context, client *http.Client, base *url.URL, binding Binding, body []byte, credential string) (Reply, error) {
+	var reply Reply
+	r, err := http.NewRequestWithContext(ctx, binding.Method, base.Scheme+"://"+base.Host+binding.URI, bytes.NewReader(body))
 	if err != nil {
 		return reply, errors.New("invalid prepared request")
 	}
-	r.Header.Set("Authorization", "Bearer "+proof)
-	for name, value := range map[string]string{"Idempotency-Key": p.binding.IdempotencyKey, "If-Match": p.binding.IfMatch, "Content-Type": p.binding.ContentType} {
+	r.Header.Set("Authorization", "Bearer "+credential)
+	for name, value := range map[string]string{"Idempotency-Key": binding.IdempotencyKey, "If-Match": binding.IfMatch, "Content-Type": binding.ContentType} {
 		if value != "" {
 			r.Header.Set(name, value)
 		}
 	}
-	unknown := p.binding.Method != "GET"
-	response, err := c.http.Do(r)
+	unknown := binding.Method != "GET"
+	response, err := client.Do(r)
 	if err != nil {
 		return reply, &TransportError{Unknown: unknown}
 	}

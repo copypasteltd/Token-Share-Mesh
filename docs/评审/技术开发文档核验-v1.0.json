@@ -4,7 +4,7 @@
   "passed": true,
   "verification_scope": "Design consistency, SQL AST and offline reader only; NO runtime acceptance",
   "source_chapters": 24,
-  "technical_markdown_files": 51,
+  "technical_markdown_files": 52,
   "modules": 20,
   "development_tasks": 56,
   "requirements": 80,
@@ -25,7 +25,8 @@
     "dev/tests/evidence/R004-验证报告.md",
     "dev/tests/evidence/R005-验证报告.md",
     "dev/tests/evidence/R006-验证报告.md",
-    "dev/tests/evidence/R007-验证报告.md"
+    "dev/tests/evidence/R007-验证报告.md",
+    "dev/tests/evidence/R008-验证报告.md"
   ],
   "schema_positive_fixtures": 12,
   "schema_negative_fixtures": 20,
@@ -256,12 +257,12 @@
     }
   ],
   "compatibility_combinations": 28,
-  "reader_sections": 420,
+  "reader_sections": 430,
   "e2e_design_cases_not_executed": 20,
-  "reader_local_links": 92,
+  "reader_local_links": 93,
   "reader_external_assets": 0,
   "reader_javascript": "PASSED_SYNTAX_ONLY",
-  "product_source_files": 105,
+  "product_source_files": 119,
   "product_acceptance": "ALL_NOT_EXECUTED",
   "priorities": {
     "P0": 72,

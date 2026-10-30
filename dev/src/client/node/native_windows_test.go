@@ -1,0 +1,120 @@
+package node
+
+import (
+	"bufio"
+	"bytes"
+	"context"
+	"errors"
+	"fmt"
+	"golang.org/x/sys/windows"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"testing"
+	"time"
+)
+
+func TestNativeNodeDPAPIAndACLProtectControlState(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "native")
+	s, err := Create(context.Background(), path, testConfig("http://127.0.0.1:1"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	fp := s.fingerprint()
+	master := bytes.Clone(s.master)
+	s.Close()
+	defer clear(master)
+	sealed, err := os.ReadFile(filepath.Join(path, "master.dpapi"))
+	if err != nil || bytes.Contains(sealed, master) {
+		t.Fatal("DPAPI master exposed", err)
+	}
+	s, err = Open(context.Background(), path)
+	if err != nil || s.fingerprint() != fp {
+		t.Fatal("DPAPI native reopen failed", err)
+	}
+	s.Close()
+	for _, p := range []string{path, filepath.Join(path, "state.enc"), filepath.Join(path, "master.dpapi")} {
+		sd, e := windows.GetNamedSecurityInfo(p, windows.SE_FILE_OBJECT, windows.DACL_SECURITY_INFORMATION|windows.OWNER_SECURITY_INFORMATION)
+		if e != nil {
+			t.Fatal(e)
+		}
+		acl, _, e := sd.DACL()
+		if e != nil || acl == nil || acl.AceCount != 2 {
+			t.Fatal("owner/SYSTEM-only ACL missing", e)
+		}
+	}
+	sealed[len(sealed)-1] ^= 1
+	if err = os.WriteFile(filepath.Join(path, "master.dpapi"), sealed, 0600); err != nil {
+		t.Fatal(err)
+	}
+	if _, err = Open(context.Background(), path); !errors.Is(err, ErrVault) {
+		t.Fatal("corrupt OS key silently replaced", err)
+	}
+}
+
+func TestNativeNodeProcessDeathRetainsOriginalCommand(t *testing.T) {
+	if path := os.Getenv("P11_TEST_NATIVE_NODE_STATE"); path != "" {
+		s, e := Open(context.Background(), path)
+		if e != nil {
+			t.Fatal(e)
+		}
+		defer s.Close()
+		fmt.Println("NODE_LOCKED")
+		for {
+			time.Sleep(time.Second)
+		}
+	}
+	path := filepath.Join(t.TempDir(), "native")
+	s, err := Create(context.Background(), path, testConfig("http://127.0.0.1:1"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	// The endpoint is deliberately unreachable: the encrypted enrollment
+	// command must exist on disk before the transport can fail.
+	fp := s.fingerprint()
+	if e := s.Enroll(context.Background(), pairingToken()); !retryable(e) {
+		t.Fatal("expected bounded transport failure", e)
+	}
+	key := s.s.Pending.Key
+	body := bytes.Clone(s.s.Pending.Body)
+	s.Close()
+	executable, err := os.Executable()
+	if err != nil {
+		t.Fatal(err)
+	}
+	child := exec.Command(executable, "-test.run=^TestNativeNodeProcessDeathRetainsOriginalCommand$")
+	child.Env = append(os.Environ(), "P11_TEST_NATIVE_NODE_STATE="+path)
+	output, err := child.StdoutPipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = child.Start(); err != nil {
+		t.Fatal(err)
+	}
+	defer func() { _ = child.Process.Kill(); _ = child.Wait() }()
+	ready := make(chan bool, 1)
+	go func() { scan := bufio.NewScanner(output); ready <- scan.Scan() && scan.Text() == "NODE_LOCKED" }()
+	select {
+	case ok := <-ready:
+		if !ok {
+			t.Fatal("child could not load native state")
+		}
+	case <-time.After(5 * time.Second):
+		t.Fatal("native child startup timed out")
+	}
+	if _, err = Open(context.Background(), path); !errors.Is(err, ErrLocked) {
+		t.Fatal("second process bypassed writer lock", err)
+	}
+	if err = child.Process.Kill(); err != nil {
+		t.Fatal(err)
+	}
+	_ = child.Wait()
+	s, err = Open(context.Background(), path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer s.Close()
+	if s.fingerprint() != fp || s.s.Pending == nil || s.s.Pending.Key != key || !bytes.Equal(s.s.Pending.Body, body) {
+		t.Fatal("process death lost/replaced original identity or command")
+	}
+}

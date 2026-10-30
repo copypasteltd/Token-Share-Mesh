@@ -5,6 +5,12 @@
 Entries use the same round IDs as the implementation tracker. No entry denotes a
 general-availability platform release unless the full acceptance evidence says so.
 
+## R008 · Native provider control agent and local recovery
+
+Added foreground p11-node initialization, enrollment, original-command recovery, safe status, heartbeat and bounded outbound loop. Windows protects the state master with current-user DPAPI and owner/SYSTEM ACLs; Linux uses Secret Service and fails closed on missing/locked keys, with real Linux keyring validation still pending. An AES-GCM one-command journal, atomic replacement and OS writer lock precede network writes; restart retains the identity, original key and counter. Reports remain UNKNOWN and start no engine or automatic sale.
+
+Added actual Windows DPAPI/ACL, process-termination recovery and native HTTP/PostgreSQL lost-enrollment/heartbeat-reply checks: 72 local Go cases, with two failed full attempts and their corrections retained. Still 31/93 operations and 65 tables; migrations 001–005 stay byte-identical. Unchanged frontend source reuses hash-verified 13-case/three-build receipts, with current backend browser/media regression. Bilingual docs and all 56 tasks/222 outstanding steps remain synchronized; full execution, engines, content encryption, real channels and 80 main acceptance cases remain incomplete.
+
 ## R007 · Provider identity and control
 
 Added one-time pairing, original enrollment recovery, Ed25519 request proofs with durable nonce protection, monotonic heartbeats, strong-ETag resource policies and drain/revoke: 31/93 control operations. Registration starts with sharing off; heartbeats grant no qualification. Revocation preserves in-flight attempt owners/resource generations. Complete provider daemons, native key stores and execution remain pending.

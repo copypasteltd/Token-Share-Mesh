@@ -76,7 +76,16 @@ def main():
     native = json.loads((ROOT / f'dev/tests/evidence/{round_id}-native-source-checks.json').read_text(encoding='utf-8'))
     changed = [name for name, digest in native['source_sha256'].items() if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest]
     check(native['status'] == 'PASSED_WITH_LIMITED_SCOPE' and native['round']==round_id and not changed, 'Current native evidence matches the Go/migration source', changed)
-    if round_id in {'R006','R007'}:
+    if round_id == 'R008':
+        cli = json.loads((ROOT / 'dev/tests/evidence/R008-native-node-cli.json').read_text(encoding='utf-8'))
+        artifact = next(a for a in native['artifacts'] if a['path'] == cli['binary'])
+        records = cli['commands']
+        check(cli['passed'] and cli['all_processes_exited'] and not cli['virtualization_used'] and cli['binary_sha256'] == artifact['sha256'] and
+              [(r['action'],r['exit_code']) for r in records] == [('init',0),('status',0),('heartbeat',1)] and
+              len({r['safe_status']['key_fingerprint'] for r in records}) == 1 and
+              all(not r['safe_status']['device_id'] and not r['safe_status']['execution_enabled'] for r in records),
+              'Actual current Windows node binary retains its identity across processes and refuses unenrolled heartbeats')
+    if round_id in {'R006','R007','R008'}:
         front = json.loads((ROOT / f'dev/tests/evidence/{round_id}-frontend-checks.json').read_text(encoding='utf-8'))
         changed_front = [name for name,digest in front['source_sha256'].items() if hashlib.sha256((ROOT/name).read_bytes()).hexdigest() != digest]
         check(front['status']=='PASSED_FOR_FRONTEND_CONTROL_SUBSET_ONLY' and front['unit_cases']==13 and len(front['browser_checks'])==2 and not changed_front, 'Current frontend evidence includes 13 unit cases, all builds and both native browser journeys', changed_front)

@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / 'dev/tests/evidence'
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument("--round",default="R007",choices=["R006","R007"]);round_id=parser.parse_args().round
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument("--round",default="R008",choices=["R006","R007","R008"]);round_id=parser.parse_args().round
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     records = []
     for action in ['bootstrap', 'check', 'test', 'build']:

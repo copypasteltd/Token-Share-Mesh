@@ -1,7 +1,7 @@
 {
-  "round": "R007",
+  "round": "R008",
   "kind": "ACTUAL_COMPILED_PRODUCT_UI_WITH_EXPLICIT_SYNTHETIC_FIXTURES",
-  "evidence": "dev/tests/evidence/R007-frontend-checks.json",
+  "evidence": "dev/tests/evidence/R008-frontend-checks.json",
   "source_sha256": {
     "dev/src/frontend/packages/core/assets/gpu.svg": "6206721a2e6ded4ce8aff6453aae7a82554eda2a5ba1e099c37826611d6a24e7",
     "dev/src/frontend/packages/core/assets/mesh.svg": "a64c2376d646d803806de9d4c3870febd568a7aba8254ad5f8746f2018ea4d6e",
@@ -46,8 +46,8 @@
   },
   "assets": [
     {
-      "path": "dev/media/R007/screenshots/web-market.png",
-      "sha256": "08f00bd6231be6931b88ec6bcb598e9837382ab185f18e94fa08d21ece9dca7c",
+      "path": "dev/media/R008/screenshots/web-market.png",
+      "sha256": "258b46a07d1a59da5475b7d4810681c543e5b446c0ce821790b345a7166b5154",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -55,8 +55,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/screenshots/web-llm-detail.png",
-      "sha256": "ae7c77cee2204dc6b69aa8dbcdf5f7e7aaab85034c08b0d2f9dcc70a1a83a369",
+      "path": "dev/media/R008/screenshots/web-llm-detail.png",
+      "sha256": "1f0eb3f62415d22eb4d959ffdb212ed33abac5b6aa676d627cb130343d0b820c",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -64,8 +64,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/screenshots/web-order-pending.png",
-      "sha256": "4af41adf44f0d5fb0016ccd5bbd05a3ec072cd7ba03679c4e2f373baeb9eb6dc",
+      "path": "dev/media/R008/screenshots/web-order-pending.png",
+      "sha256": "ea7d82ee304b766cb4441f4f845f07bbd038c55942c14a2cd2e590a79f62c02c",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -73,8 +73,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/screenshots/web-order.png",
-      "sha256": "501ba36a8fb4c8456ffa659d36df90a93ddf3941298abf8f17345ffab95a7591",
+      "path": "dev/media/R008/screenshots/web-order.png",
+      "sha256": "b068d0cba7dab23b1a273964314080040bc90683515a91a29c84b7c7f9647897",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -82,7 +82,7 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/screenshots/web-share.png",
+      "path": "dev/media/R008/screenshots/web-share.png",
       "sha256": "bfcf8c9d6753095df8f4633a6162e3921b02412f9a2c27c382a41f5cb790ad1c",
       "viewport": {
         "width": 1440,
@@ -91,16 +91,16 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/recordings/web-transaction.mp4",
-      "sha256": "93fd167d10efb54f711bdad8bfda9cf9ff2f46624b0a9656be776a1decc5d1d2"
+      "path": "dev/media/R008/recordings/web-transaction.mp4",
+      "sha256": "4f01d24e16f811cc0e901db36540d0b51598b5883ccd19fa27b47ea4c41bc7e5"
     },
     {
-      "path": "dev/media/R007/recordings/web-transaction.gif",
-      "sha256": "e5d3df646419c0398e9a08b8430ad2ac31b4c8e09af84ce3f26c42eeb9a295e7"
+      "path": "dev/media/R008/recordings/web-transaction.gif",
+      "sha256": "a8f49e5713675258e72beda798dd6749cbbee16b5ea8a739444f77e4c6060f9c"
     },
     {
-      "path": "dev/media/R007/screenshots/miniapp-market.png",
-      "sha256": "b630f6d0dd5f4de5e198ceaefed11432b053ffafcd52e17e7870225abaf405d5",
+      "path": "dev/media/R008/screenshots/miniapp-market.png",
+      "sha256": "ab86d4a243bddd441325a19e1e580641bc45a6eecb0bcbf90d5b6576141ef9d4",
       "viewport": {
         "width": 390,
         "height": 844
@@ -108,7 +108,7 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/screenshots/miniapp-llm-detail.png",
+      "path": "dev/media/R008/screenshots/miniapp-llm-detail.png",
       "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
       "viewport": {
         "width": 390,
@@ -117,8 +117,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/screenshots/miniapp-order-pending.png",
-      "sha256": "061ab57e4a42e3b8f048704ef88e67bcc93c1ce5a521303e05892be0d92313a6",
+      "path": "dev/media/R008/screenshots/miniapp-order-pending.png",
+      "sha256": "038680d9af72fec65d340f6e9f4331e71d8372f0ec612f916fe54b2a45710d4b",
       "viewport": {
         "width": 390,
         "height": 844
@@ -126,8 +126,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/screenshots/miniapp-order.png",
-      "sha256": "ee81f3532364a60e72abe311f278244d0ce5471dbb1facf9e6e86b6642219dd4",
+      "path": "dev/media/R008/screenshots/miniapp-order.png",
+      "sha256": "fdc6ed9e2ada5db8f0d6538b63dcadb153002cd55aa808e519b1a1c7a810225a",
       "viewport": {
         "width": 390,
         "height": 844
@@ -135,7 +135,7 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/screenshots/miniapp-share.png",
+      "path": "dev/media/R008/screenshots/miniapp-share.png",
       "sha256": "d636afe315d1f0f6b607894a81f996a81bede43bbd7d46cee582b644c99b34b3",
       "viewport": {
         "width": 390,
@@ -144,12 +144,12 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/R007/recordings/miniapp-transaction.mp4",
-      "sha256": "c9fb5dd2869046c2163555242bb1cae4c28a518d76674770bbbb5b29a310450c"
+      "path": "dev/media/R008/recordings/miniapp-transaction.mp4",
+      "sha256": "9444e2ddbfa710bec53d779fdba505fd0f863818052e713e157239e2b5ce0e00"
     },
     {
-      "path": "dev/media/R007/recordings/miniapp-transaction.gif",
-      "sha256": "8a8f4a62ff16ecf2a65f99171e5f5d516f94e1f91bc55a4e05c919d55447853e"
+      "path": "dev/media/R008/recordings/miniapp-transaction.gif",
+      "sha256": "6737554edb93ca6e008189090e288fbc963be272962eed1f2d5aded7a712dd4c"
     }
   ],
   "browser_closed": true,

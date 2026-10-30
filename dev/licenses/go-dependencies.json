@@ -2,6 +2,14 @@
   "scope": "Go modules actually used by this source and its tests on windows-amd64; not the entire upstream graph or a complete product SBOM",
   "modules": [
     {
+      "Path": "github.com/godbus/dbus/v5",
+      "Version": "v5.2.4",
+      "Sum": "h1:F2gUCy++NMIxGmo9J+z5le/+ZC8W1OgeR51P4i9ZB/U=",
+      "GoModSum": "h1:3AAv2+hPq5rdnr5txxxRwiGjPXamgoIHgz9FPBfOp3c=",
+      "license_file": "dev/licenses/go/github.com_godbus_dbus_v5@v5.2.4.txt",
+      "license_sha256": "e4646a82a976369d7ae8f6ed5c11d35dc0af18433a8ccc24c85b459ad8b95128"
+    },
+    {
       "Path": "github.com/jackc/pgpassfile",
       "Version": "v1.0.0",
       "Sum": "h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=",
@@ -39,6 +47,14 @@
       "Sum": "h1:l60nONMj9l5drqw6jlhIELNv9I0A4OFgRsG9k2oT9Ug=",
       "GoModSum": "h1:9KTHXmSnoGruLpwFjVSX0lNNA75CykiMECbovNTZqGI=",
       "license_file": "dev/licenses/go/golang.org_x_sync@v0.17.0.txt",
+      "license_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+    },
+    {
+      "Path": "golang.org/x/sys",
+      "Version": "v0.49.0",
+      "Sum": "h1:XbzkgYJHdqh/8m2Uu0W/dQv8nktxx4BFHp1M0gROTXA=",
+      "GoModSum": "h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og=",
+      "license_file": "dev/licenses/go/golang.org_x_sys@v0.49.0.txt",
       "license_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
     },
     {

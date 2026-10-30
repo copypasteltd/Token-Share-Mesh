@@ -17,7 +17,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R007', choices=['R003','R004','R005','R006','R007'])
+    parser.add_argument('--round', default='R008', choices=['R003','R004','R005','R006','R007','R008'])
     round_id = parser.parse_args().round
     binary, env = environment()
     # Dependencies were fetched by the explicit toolchain/bootstrap step.
@@ -31,7 +31,7 @@ def main() -> int:
     report = {
         'round': round_id,
         'recorded_at': datetime.now(timezone.utc).isoformat(),
-        'scope': 'Go source/dependencies and native admin/API builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance',
+        'scope': 'Go source/dependencies and native admin/API/node builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance',
         'virtualization_used': False,
         'checks': [],
         'artifacts': [],
@@ -70,13 +70,13 @@ def main() -> int:
         if unformatted.returncode or unformatted.stdout.strip():
             raise RuntimeError('Go formatting check failed')
 
-        for command in ['p11-admin','p11-api']:
+        for command, package in {'p11-admin':'./api/cmd/p11-admin','p11-api':'./api/cmd/p11-api','p11-node':'./client/cmd/p11-node'}.items():
             for target, suffix in [('windows','.exe'),('linux','-linux-amd64')]:
                 localenv = env.copy()
                 localenv['GOOS'] = target
                 output = ROOT / 'runtime/bin' / (command+suffix)
                 output.parent.mkdir(parents=True, exist_ok=True)
-                run(['build', '-trimpath', '-o', str(output), './api/cmd/'+command], localenv)
+                run(['build', '-trimpath', '-o', str(output), package], localenv)
                 report['artifacts'].append({'target': target + '-amd64', 'path': output.relative_to(ROOT).as_posix(), 'sha256': sha256(output), 'runtime_test': 'NOT_EXECUTED'})
 
         # Inspect packages actually compiled by this module and its tests.

@@ -1,0 +1,15 @@
+{
+  "round": "R008",
+  "run_id": "20261030T023400Z-f0d26594",
+  "postgresql": "17.11-5",
+  "test_exit_code": 0,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "package_parallelism": 1,
+  "intra_test_concurrency_retained": true,
+  "shutdown_mode": "FAST",
+  "runner_error": null,
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R008-native-go-tests.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test"
+}

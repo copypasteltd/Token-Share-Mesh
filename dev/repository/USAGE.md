@@ -174,9 +174,9 @@ acceptance is implied by a successful document build or CLI cross-compilation.
 
 [R001证据](../tests/evidence/R001-验证报告.md)覆盖10项原生基础场景；[实施进度](../progress/README.md)列全部缺口。文档构建或 CLI 交叉编译不代表真实登录/支付、GPU/手机、加密互通或完整平台验收通过。
 
-[R003 evidence](../tests/evidence/R003-验证报告.md) covers 22 native cases, including pricing, qualification, quote/order concurrency and revoked-role replay. Temporary DB approvals are synthetic fixtures and cannot qualify real supply. The current scripts default to R007 and preserve historical evidence.
+[R003 evidence](../tests/evidence/R003-验证报告.md) covers 22 native cases, including pricing, qualification, quote/order concurrency and revoked-role replay. Temporary DB approvals are synthetic fixtures and cannot qualify real supply. The current scripts default to R008 and preserve historical evidence.
 
-[R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。当前工具默认R007，保留历史证据。
+[R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。当前工具默认R008，保留历史证据。
 
 
 
@@ -216,9 +216,9 @@ BPS must be 0–10000, owner SELLER/PLATFORM, and submitted Price values must ma
 
 BPS为0—10000，费用承担方SELLER/PLATFORM；Price须精确匹配。未配置则关闭新增挂牌写入，部分或非法配置拒绝启动。前端读取政策的配置流程尚待实现，当前没有公共费率配置接口；不能自行把示例当真实政策。旧订单仍保原费率。
 
-R005 introduced migration 004; the current R007 API requires explicit migrations 001–005 before startup. Never rewrite 001–004. Migration 004 leaves existing approved_regions empty and model_name nullable, and does not invent historical listing definitions. Approved-region/model backfill and historical definition migration need independent review. The current owner list includes authored definitions only; directly reading an older listing without its definition returns an explicit migration-required failure. New-schema migration tests are not historical-upgrade tests.
+R005 introduced migration 004; the current R008 API requires explicit migrations 001–005 before startup. Never rewrite 001–004. Migration 004 leaves existing approved_regions empty and model_name nullable, and does not invent historical listing definitions. Approved-region/model backfill and historical definition migration need independent review. The current owner list includes authored definitions only; directly reading an older listing without its definition returns an explicit migration-required failure. New-schema migration tests are not historical-upgrade tests.
 
-R005引入004；当前R007 API启动前须显式迁移至005，不改001—004。旧地区默认空、型号可空，旧定义不补造；回填及历史升级仍须独立审核。本人列表当前只含有新定义的挂牌，直接GET无定义旧挂牌返回需迁移错误。新库迁移通过不等于存量升级已验证。
+R005引入004；当前R008 API启动前须显式迁移至005，不改001—004。旧地区默认空、型号可空，旧定义不补造；回填及历史升级仍须独立审核。本人列表当前只含有新定义的挂牌，直接GET无定义旧挂牌返回需迁移错误。新库迁移通过不等于存量升级已验证。
 
 ETags represent mutable resource versions, not listing revisions. PATCH requires one quoted numeric strong ETag; weak/list/wildcard/duplicate forms and null fields are rejected. PATCH replay returns the original receipt and ETag; GET again for current state. State changes use ReasonWrite.expected_version. All accepted edits preserve prior immutable versions and order snapshots. Display units remain 小时 or M token; availability gaps and insufficient remaining GPU time cannot be sold.
 
@@ -227,11 +227,54 @@ ETag代表资源version，与revision不同。PATCH不接收弱/列表/星号/�
 See [full seller/listing constraints](../../docs/技术开发/附录-卖家申请与挂牌版本实施约束.md) and [R005 evidence](../tests/evidence/R005-验证报告.md). The tests use explicitly synthetic approvals; that historical evidence does not establish actual seller review, payment or provider registration. R006 adds real Web/H5 interaction in its separate frontend evidence; native Alipay remains unverified.
 
 
+## R008 native provider control / 原生提供方控制程序
+
+Build both native targets with `python -X utf8 dev/tools/核验原生源码.py --round R008`; this creates runtime/bin/p11-node.exe and p11-node-linux-amd64. Linux is cross-compiled only. The foreground control agent starts no engine, accepts no customer prompts, opens no listener and reports UNKNOWN until a future qualified probe exists. Provider UI pairing/editing remains pending.
+
+构建后以本人普通账户明确运行p11-node；它不自动安装/下载内核，不接收Prompt，不开启共享或自启。Windows系统保护有本机测试，Linux真实钥库仍待联调。与完整RuntimeSupervisor/任务inbox/资源门闩的区别见[原生代理细则](../../docs/技术开发/附录-原生提供方控制代理与本地恢复.md)。
+
+PowerShell example, from the clone root / 以下从各自克隆根执行，先确认选定API地址及真实配对资格：
+
+```powershell
+New-Item -ItemType Directory -Force runtime/node | Out-Null
+$taskState = Join-Path (Get-Location) 'runtime/node/provider-1'
+@'
+{"control_base":"http://127.0.0.1:8787","model_name":"RTX 4090 24GB","resource_kind":"GPU_DEVICE","os_build":"OWNER_DECLARED_WINDOWS_BUILD","client_release_id":"p11_node_r008"}
+'@ | & ./runtime/bin/p11-node.exe init --state $taskState
+Get-Content -Raw -LiteralPath runtime/secrets/pair-token.txt | & ./runtime/bin/p11-node.exe enroll --state $taskState
+& ./runtime/bin/p11-node.exe status --state $taskState
+& ./runtime/bin/p11-node.exe recover --state $taskState
+& ./runtime/bin/p11-node.exe status --state $taskState --refresh
+& ./runtime/bin/p11-node.exe heartbeat --state $taskState
+& ./runtime/bin/p11-node.exe run --state $taskState
+```
+
+The pair-token file must be owner-controlled, ignored by Git, and contain the actual once-only credential from the approved seller's R007 pairing request. Never paste it in arguments/environment/screenshots. The example does not create or approve a seller, generate a token or start the API. `recover` retries the exact encrypted pending command; do not repeat `init` or create a new enrollment after an unknown response. `run` remains foreground; Ctrl+C cancels its current request/timer. It is not a stop/cleanup acknowledgement for an engine.
+
+配对文件仅由本人准备于受控runtime/secrets，不提交Git、不放参数或环境变量，不出现在截图。示例不会造卖家资格、配对令牌或启动API。回执未知时保留原目录并执行recover；不要重新初始化、更换私钥或登记键。run只在前台运行，Ctrl+C结束控制请求/定时器；不代表GPU任务停止或锁释放。若状态写入失败、钥库锁定或设备撤权，程序关闭处理并保留原状态。
+
+Linux equivalent, requiring an already running/unlocked user Secret Service with a local unix DBUS_SESSION_BUS_ADDRESS / Linux须先解锁已运行的本人桌面钥库，不会自动启动或退回文件明文：
+
+```sh
+mkdir -p runtime/node
+task_state="$(pwd)/runtime/node/provider-1"
+printf '%s' '{"control_base":"http://127.0.0.1:8787","model_name":"RTX 4090 24GB","resource_kind":"GPU_DEVICE","os_build":"OWNER_DECLARED_LINUX_BUILD","client_release_id":"p11_node_r008"}' | ./runtime/bin/p11-node-linux-amd64 init --state "$task_state"
+./runtime/bin/p11-node-linux-amd64 enroll --state "$task_state" < runtime/secrets/pair-token.txt
+./runtime/bin/p11-node-linux-amd64 recover --state "$task_state"
+./runtime/bin/p11-node-linux-amd64 run --state "$task_state"
+```
+
+The state directory must be new for init, absolute/canonical, privately owned and free of symlink/junction/reparse components. Linux requires 0700 directories/0600 files; Windows creates owner/SYSTEM DACLs. Same-directory concurrent writers fail; OS releases the lock after process termination. Missing/corrupt state or key never silently generates a replacement identity. Failed initialization may leave an unpaired directory/keyring entry; explicitly inspect before owner-directed cleanup. The encrypted one-command journal is not the pending SQLite execution inbox.
+
+初始化仅接受新目录；已有身份不能覆盖。目录须绝对规范、本人所属且无链接/重解析组件。状态主钥与加密日志损坏均停止，不回退明文。状态输出只含型号、设备/版本/序号与固定结果，execution_enabled为false；Windows DPAPI和Linux同用户钥库不等于客户内容隔离或严格增强档。真正的内容加密、低权限执行服务、物理机/真机及全产品验收仍待完成。
+
+See [R008 native evidence](../tests/evidence/R008-验证报告.md), [R008 frontend regression](../tests/evidence/R008-frontend-checks.json) and [all 56 tasks/222 remaining steps](../progress/R008-本轮实现与完整待办.md). Current scope remains 31/93 operations and 65 tables, with migrations 001–005 unchanged.
+
 ## R007 provider identity/control / 提供方设备身份控制
 
-Current source: 31/93 operations, 65 tables and 60 actual Go cases. R006 UI remains read-only for providers: pairing/policy buttons are not enabled merely because backend operations now exist. The shared TS/build evidence remains from unchanged frontend source; R007 replays both actual browser journeys against the current HTTP/backend and stores independent media under dev/media/R007.
+Historical R007 source: 31/93 operations, 65 tables and 60 actual Go cases. R006 UI remains read-only for providers: pairing/policy buttons are not enabled merely because backend operations now exist. The shared TS/build evidence remains from unchanged frontend source; R007 replayed both actual browser journeys against that HTTP/backend and stored independent media under dev/media/R007. See R008 above for current native agent delivery.
 
-当前31/93操作、65表、60项实际Go用例。提供方页面仍只读，不能因后台接口完成就启用尚未接通的按钮。共享TS与三目标编译记录对应未改前端源码；R007针对当前后台重跑双端浏览器，媒体独立保存在dev/media/R007，保留R006原证据。
+R007当时31/93操作、65表、60项实际Go用例。提供方页面仍只读，不能因后台接口完成就启用尚未接通的按钮。共享TS与三目标编译记录对应未改前端源码；R007针对当时后台重跑双端浏览器，媒体独立保存在dev/media/R007，保留R006原证据。当前原生代理进展见上方R008。
 
 | Step / 步骤 | Input / 输入 | Result / 结果 |
 | --- | --- | --- |

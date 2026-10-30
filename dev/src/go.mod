@@ -2,7 +2,11 @@ module p11.local/compute
 
 go 1.27.3
 
-require github.com/jackc/pgx/v5 v5.11.0
+require (
+	github.com/godbus/dbus/v5 v5.2.4
+	github.com/jackc/pgx/v5 v5.11.0
+	golang.org/x/sys v0.49.0
+)
 
 require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect

@@ -13,7 +13,7 @@ const require = createRequire(path.join(root, 'runtime/frontend/workspace/packag
 const { chromium } = require('playwright-core');
 const target = process.env.P11_UI_TARGET;
 const roundID = process.env.P11_EVIDENCE_ROUND || 'R006';
-if (!['R006','R007'].includes(roundID)) throw new Error('Explicit evidence round required');
+if (!['R006','R007','R008'].includes(roundID)) throw new Error('Explicit evidence round required');
 if (!['web', 'miniapp'].includes(target)) throw new Error('Explicit UI target required');
 const base = new URL(process.env.P11_UI_BASE);
 if (base.protocol !== 'http:' || base.hostname !== '127.0.0.1') throw new Error('Disposable loopback harness required');
