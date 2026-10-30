@@ -1,0 +1,26 @@
+{
+  "round": "R021",
+  "recorded_at": "2026-10-30T18:41:26.548103+00:00",
+  "virtualization_used": false,
+  "scope": "Windows native C API worker compilation; optional synthetic ABI fixture, not model/GPU/privacy acceptance",
+  "dependency_lock_sha256": "89e3f0f04b0982363256cb8b76aa921f62b6ab564498b76e68f4aa744901c075",
+  "compiler_sha256": "f6599825884bd087a81ef01e7a662025a9553de01dc501c824b6c568aa4e5ec9",
+  "targets": [
+    {
+      "source": "dev/src/client/kernels/llama-worker/worker.cpp",
+      "source_sha256": "745c6854f2028ac328b752341483dfb80c31faf572e06fb68f456f00d4168d59",
+      "output": "runtime/native-worker/build/p11-llama-worker.exe",
+      "returncode": 0,
+      "diagnostic": "",
+      "sha256": "b55635c4f62028a8c6f83b35a711f43ed3213e3c644fefa8af8fb0199b0b8f1d"
+    },
+    {
+      "source": "dev/tests/native-worker/fixture.cpp",
+      "source_sha256": "ed8ff104dcdb18e906848d21e6073cc269f8a4746dd80f7a0646fb36f3a0424a",
+      "output": "runtime/native-worker/build/fixture/llama-fixture.dll",
+      "returncode": 1,
+      "diagnostic": "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tests\\native-worker\\fixture.cpp:17:8: error: redefinition of 'llama_sampler'\n   17 | struct llama_sampler { std::vector<llama_sampler *> children; };\n      |        ^\nE:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\native-worker-research/llama.h:1428:12: note: previous definition is here\n 1428 |     struct llama_sampler {\n      |            ^\nE:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tests\\native-worker\\fixture.cpp:65:93: error: no member named 'children' in 'llama_sampler'\n   65 | EXPORT void llama_sampler_chain_add(llama_sampler * parent, llama_sampler * child) {parent->children.push_back(child);}\n      |                                                                                     ~~~~~~  ^\nE:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tests\\native-worker\\fixture.cpp:78:87: error: no member named 'children' in 'llama_sampler'\n   78 | EXPORT void llama_sampler_free(llama_sampler * sampler) {for (auto * child : sampler->children) llama_sampler_free(child);delete sampler;}\n      |                                                                              ~~~~~~~  ^\n3 errors generated.\n"
+    }
+  ],
+  "passed": false
+}

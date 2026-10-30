@@ -17,7 +17,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R020', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'])
+    parser.add_argument('--round', default='R021', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'])
     round_id = parser.parse_args().round
     binary, env = environment()
     # Dependencies were fetched by the explicit toolchain/bootstrap step.
@@ -38,14 +38,18 @@ def main() -> int:
     }
 
     def run(args: list[str], variables=None) -> str:
-        result = subprocess.run(
-            [str(binary), *args], cwd=source, env=variables or env,
-            capture_output=True, text=True, encoding='utf-8', errors='replace',
-            # SQLite's locked source module is large; verify hashes locally
-            # without network resolution, allowing a busy Windows disk to finish.
-            timeout=600 if args[:2] == ['mod','verify'] else 180,
-            creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
-        )
+        timeout = 600 if args[:2] == ['mod','verify'] else 180
+        try:
+            result = subprocess.run(
+                [str(binary), *args], cwd=source, env=variables or env,
+                capture_output=True, text=True, encoding='utf-8', errors='replace',
+                timeout=timeout, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
+            )
+        except subprocess.TimeoutExpired as failure:
+            report['checks'].append({'command': args, 'target_goos': (variables or env).get('GOOS'),
+                                     'exit_code': None, 'timeout_seconds': timeout, 'error_type': 'TimeoutExpired'})
+            print('go', args[0], 'timed out', flush=True)
+            raise
         report['checks'].append({'command': ['go', *args], 'exit_code': result.returncode})
         print('go', args[0], 'exit_code', result.returncode, flush=True)
         if result.returncode:
@@ -80,6 +84,11 @@ def main() -> int:
                 output.parent.mkdir(parents=True, exist_ok=True)
                 run(['build', '-trimpath', '-o', str(output), package], localenv)
                 report['artifacts'].append({'target': target + '-amd64', 'path': output.relative_to(ROOT).as_posix(), 'sha256': sha256(output), 'runtime_test': 'NOT_EXECUTED'})
+
+        if round_id == 'R021':
+            cross = env.copy();cross['GOOS'] = 'linux'
+            run(['build','./client/adapters/llamaworker'],cross)
+            report['native_adapter_linux_compile_only'] = True
 
         # Inspect packages actually compiled by this module and its tests.
         # Listing the entire transitive module graph would additionally fetch

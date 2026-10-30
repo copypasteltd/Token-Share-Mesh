@@ -36,6 +36,17 @@ def main():
         if not condition:
             errors.append(title)
 
+    if round_id == 'R021':
+        capi = json.loads((ROOT/'dev/tests/evidence/R021-native-capi-fixture-summary.json').read_text(encoding='utf-8'))
+        build = json.loads((ROOT/'dev/tests/evidence/R021-native-worker-build.json').read_text(encoding='utf-8'))
+        digest = lambda name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+        sources_current = all((ROOT/name).is_file() and digest(name)==value for name,value in capi['sources'].items())
+        built_current = all(t['returncode']==0 and digest(t['source'])==t['source_sha256'] and digest(t['output'])==t['sha256'] for t in build['targets'])
+        check(capi['passed'] and capi['returncode']==0 and len(capi['cases'])==5 and set(capi['cases'].values())=={'pass'} and capi['owned_worker_exit_waited_by_adapter'] and
+              digest(capi['raw'])==capi['raw_sha256'] and sources_current and build['passed'] and len(build['targets'])==2 and built_current and
+              digest('dev/src/client/kernels/llama-worker/dependencies.lock.json')==build['dependency_lock_sha256'] and not capi['virtualization_used'],
+              'Current native C API worker build and five actual Windows-process synthetic ABI tests; no real inference/GPU/privacy qualification')
+
     expected = outputs()
     check(all(p.is_file() and p.read_bytes() == body for p, body in expected.items()), 'Both READMEs match the same maintained sources and actual progress')
     readme_media = [re.findall(r'\]\((dev/media/R\d{3}/[^)]+)\)', body.decode('utf-8')) for body in expected.values()]
@@ -87,10 +98,10 @@ def main():
               len({r['safe_status']['key_fingerprint'] for r in records}) == 1 and
               all(not r['safe_status']['device_id'] and not r['safe_status']['execution_enabled'] for r in records),
               'Actual current Windows node binary retains its identity across processes and refuses unenrolled heartbeats')
-    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'}:
+    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'}:
         front = json.loads((ROOT / f'dev/tests/evidence/{round_id}-frontend-checks.json').read_text(encoding='utf-8'))
         changed_front = [name for name,digest in front['source_sha256'].items() if hashlib.sha256((ROOT/name).read_bytes()).hexdigest() != digest]
-        units = 21 if round_id in {'R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'} else 13
+        units = 21 if round_id in {'R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'} else 13
         check(front['status']=='PASSED_FOR_FRONTEND_CONTROL_SUBSET_ONLY' and front['unit_cases']==units and len(front['browser_checks'])==2 and not changed_front, f'Current frontend evidence includes {units} unit cases, all builds and both native browser journeys', changed_front)
         missing_logs = []
         for record in front['records']:
@@ -104,18 +115,18 @@ def main():
         check(not missing_logs, 'Current frontend build and unit logs are public evidence with matching recorded hashes', missing_logs)
         product_media = json.loads((ROOT / 'dev/media/frontend-manifest.json').read_text(encoding='utf-8'))
         stale = [item['path'] for item in product_media['assets'] if not (ROOT/item['path']).is_file() or hashlib.sha256((ROOT/item['path']).read_bytes()).hexdigest()!=item['sha256']]
-        screenshots = 14 if round_id in {'R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'} else 10
+        screenshots = 14 if round_id in {'R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'} else 10
         check(not stale and len(product_media['assets'])==screenshots+4, f'{screenshots} actual product screenshots and four recording files match their independent provenance', stale)
         closed = []
         for target in ['web','miniapp']:
             item = json.loads((ROOT / f'dev/tests/evidence/{round_id}-{target}-browser.json').read_text(encoding='utf-8'))
             closed.append(item['passed'] and item['browser_closed'] and item['remaining_owned_tabs']==0 and bool(item['recording']))
         check(all(closed) and not product_media['virtualization_used'], 'Product captures closed their owned browsers and do not claim native Alipay or device/payment acceptance')
-        if round_id in {'R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'}:
+        if round_id in {'R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'}:
             binary = next(a for a in native['artifacts'] if a['path'] == 'runtime/bin/p11-node.exe')
             providers = [json.loads((ROOT / f'dev/tests/evidence/{round_id}-{target}-browser.json').read_text(encoding='utf-8')) for target in ['web','miniapp']]
             check(all(r.get('provider_native_binary_sha256') == binary['sha256'] and r.get('provider_native_processes_exited') and
-                      [(c['action'],c['exit_code']) for c in r.get('provider_native_commands',[])] == ([('init',0),('enroll',0)] + ([('execution-init',0),('execution-status',0)] if round_id in {'R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'} else []) + [('heartbeat',0),('heartbeat',1)]) and
+                      [(c['action'],c['exit_code']) for c in r.get('provider_native_commands',[])] == ([('init',0),('enroll',0)] + ([('execution-init',0),('execution-status',0)] if round_id in {'R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'} else []) + [('heartbeat',0),('heartbeat',1)]) and
                       all(not c['safe_status']['execution_enabled'] for c in r['provider_native_commands']) and
                       r['provider_recovery']['original_pair_preserved'] and r['provider_recovery']['original_policy_preserved'] and
                       not r['provider_recovery']['credentials_persisted'] and not r['provider_recovery']['native_engine_started'] for r in providers),

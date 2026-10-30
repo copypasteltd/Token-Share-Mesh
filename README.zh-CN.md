@@ -2,6 +2,14 @@
 
 <!-- Generated from dev/repository/README.zh-CN.md.in; run dev/tools/构建仓库文档.py. -->
 
+## R021 · 原生 C API worker 与受限管道
+
+本轮增加可替换的 llama.cpp 原生 C++ worker 与 Go InputAdapter：独立本机批准包/模型/模板及逐文件摘要；三文本请求严格映射到同一模型模板与真实 tokenizer；受限匿名内容管道、独立取消、两个64KiB输出缓冲及原 owner 一次提交。模型权重可复用，每任务同步、清KV并释放上下文后才发原清理回执；进程退出保持 UNKNOWN。
+
+`本机批准包 → 独占资源准备 → Open暖机 → 可信HostKernel注册 → 原ticket.Start → 授权sink读取 → native同步清理 → 原凭证投影`。当前节点CLI执行仍关闭；对外输出/SSE/ACK、可信usage、真实模型/GPU、独立低权限服务、E2E、LM Studio兼容内核及其他设备路线继续待验。合成 C ABI 动态库测试证明实际进程接线，不证明真实推理或LP等级。
+
+[42条内核约束](docs/技术开发/附录-原生LLM受限管道与可替换worker.md) · [本轮证据](dev/tests/evidence/R021-验证报告.md) · [全部56任务与222子项](dev/progress/R021-本轮实现与完整待办.md)。原R016/R019/R020时序与归档限制继续保留，最终交付目标ACTIVE。
+
 ## R020 · 原生执行宿主 / Persistent native execution host
 
 R020新增持久原生执行宿主：独立issuer公钥与原订单/本机内核批准，原领取命令在网络前加密保存，丢回执和重启始终恢复原编号。清单/输入有界接收，正文仅在内存，通过显式InputAdapter交给原生一次提交监督器；旧receipt不能重送正文。清理状态只投影原执行账本的同lease/metadata凭证。损坏索引不能隐藏原命令，缺库/错绑定拒绝重建。Windows DPAPI/私有ACL复用，Linux仅交叉构建及既有钥环协议夹具。新增host-init/host-status，不自动安装或运行模型，execution_enabled仍false。只覆盖PLAINTEXT/STANDARD三文本profile，元数据加密不等于E2E或设备所有者不可见。真实tokenizer/内核、输出回传/usage/ACK/续期、支付渠道、LP/PE/租赁和完整验收仍待；37/95控制操作及65表/664列/113外键保持，旧SQL001—010与原执行DDL字节不变，新宿主SQLite独立首发。全部56任务/222子项及R016/R019慢元数据未证明根因风险保留，目标ACTIVE。
@@ -65,9 +73,9 @@ R018新增原设备签名领取原租约：35/93个控制操作、65表/664列/1
 | 项目 | 证据/状态 |
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
-| 实施任务 | 28项进行中 · 26项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R020 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| 原生测试证据 | 250项通过，仅控制/原生/转发源码子集 |
+| 实施任务 | 30项进行中 · 24项待开发 · 1项条件能力 · 1项延后 |
+| 最新源码轮次 | R021 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| 原生测试证据 | 258项通过，仅控制/原生/转发源码子集 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
@@ -121,17 +129,17 @@ SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，�
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R020/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R021/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R020/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R021/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R020/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R021/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R020/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R020/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R021/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R021/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R020/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R021/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R020/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R020/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R020/recordings/web-transaction.gif) · [订单待确认](dev/media/R020/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R021/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R021/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R021/recordings/web-transaction.gif) · [订单待确认](dev/media/R021/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 

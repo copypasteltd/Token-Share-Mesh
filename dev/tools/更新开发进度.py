@@ -100,6 +100,8 @@ def main():
         text+=progress['activity_source']+' 新增20项，当前完整204项Go回归与双端浏览器实际通过；未改21项TS/三目标构建按精确源码/输出/日志摘要复核，当前Windows命令另跑。全56任务/222未收口子项保留，R016时序风险未证明消除；80/96完整产品验收仍未执行，目标ACTIVE。\n\n'
     if progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R020':
         text+=progress['activity_source']+' [本轮完整证据](../tests/evidence/R020-验证报告.md)。\n\n'
+    if progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R021':
+        text+=progress['activity_source']+' [本轮完整证据](../tests/evidence/R021-验证报告.md)。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'

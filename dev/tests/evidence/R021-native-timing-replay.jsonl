@@ -1,0 +1,32 @@
+{"Time":"2026-10-31T04:20:54.805864+08:00","Action":"start","Package":"p11.local/compute/client/node"}
+{"Time":"2026-10-31T04:20:55.0102436+08:00","Action":"run","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner"}
+{"Time":"2026-10-31T04:20:55.0891807+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"=== RUN   TestNodeControlDrainStopsSupervisedOriginalOwner\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:55.2490123+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"--- PASS: TestNodeControlDrainStopsSupervisedOriginalOwner (0.20s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:55.2495182+08:00","Action":"pass","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Elapsed":0.2}
+{"Time":"2026-10-31T04:20:55.2511695+08:00","Action":"run","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner"}
+{"Time":"2026-10-31T04:20:55.2511695+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"=== RUN   TestNodeControlDrainStopsSupervisedOriginalOwner\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:55.3523775+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"--- PASS: TestNodeControlDrainStopsSupervisedOriginalOwner (0.14s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:55.3530516+08:00","Action":"pass","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Elapsed":0.14}
+{"Time":"2026-10-31T04:20:55.3530516+08:00","Action":"run","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner"}
+{"Time":"2026-10-31T04:20:55.3530516+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"=== RUN   TestNodeControlDrainStopsSupervisedOriginalOwner\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:55.5048788+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"--- PASS: TestNodeControlDrainStopsSupervisedOriginalOwner (0.15s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:55.5048788+08:00","Action":"pass","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Elapsed":0.15}
+{"Time":"2026-10-31T04:20:55.5048788+08:00","Action":"output","Package":"p11.local/compute/client/node","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:55.530132+08:00","Action":"output","Package":"p11.local/compute/client/node","Output":"ok  \tp11.local/compute/client/node\t0.724s\n"}
+{"Time":"2026-10-31T04:20:55.530132+08:00","Action":"pass","Package":"p11.local/compute/client/node","Elapsed":0.756}
+{"Time":"2026-10-31T04:20:56.9439725+08:00","Action":"start","Package":"p11.local/compute/client/supervisor"}
+{"Time":"2026-10-31T04:20:59.2495952+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry"}
+{"Time":"2026-10-31T04:20:59.2495952+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Output":"=== RUN   TestSupervisorAdapterDeadlineCannotExceedSignedExpiry\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:59.4224095+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Output":"--- PASS: TestSupervisorAdapterDeadlineCannotExceedSignedExpiry (0.17s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:59.4224095+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Elapsed":0.17}
+{"Time":"2026-10-31T04:20:59.4224095+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry"}
+{"Time":"2026-10-31T04:20:59.4224095+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Output":"=== RUN   TestSupervisorAdapterDeadlineCannotExceedSignedExpiry\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:59.6138069+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Output":"--- PASS: TestSupervisorAdapterDeadlineCannotExceedSignedExpiry (0.19s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:20:59.6138069+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Elapsed":0.19}
+{"Time":"2026-10-31T04:20:59.6138069+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry"}
+{"Time":"2026-10-31T04:20:59.6138069+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Output":"=== RUN   TestSupervisorAdapterDeadlineCannotExceedSignedExpiry\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:21:00.0217711+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Output":"--- PASS: TestSupervisorAdapterDeadlineCannotExceedSignedExpiry (0.41s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:21:00.0217711+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorAdapterDeadlineCannotExceedSignedExpiry","Elapsed":0.41}
+{"Time":"2026-10-31T04:21:00.0217711+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-31T04:21:00.1142207+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"ok  \tp11.local/compute/client/supervisor\t3.170s\n"}
+{"Time":"2026-10-31T04:21:00.1142207+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Elapsed":3.17}

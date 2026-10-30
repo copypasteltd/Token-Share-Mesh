@@ -1,0 +1,26 @@
+{
+  "round": "R021",
+  "recorded_at": "2026-10-30T18:45:52.458918+00:00",
+  "virtualization_used": false,
+  "scope": "Windows native C API worker compilation; optional synthetic ABI fixture, not model/GPU/privacy acceptance",
+  "dependency_lock_sha256": "89e3f0f04b0982363256cb8b76aa921f62b6ab564498b76e68f4aa744901c075",
+  "compiler_sha256": "f6599825884bd087a81ef01e7a662025a9553de01dc501c824b6c568aa4e5ec9",
+  "targets": [
+    {
+      "source": "dev/src/client/kernels/llama-worker/worker.cpp",
+      "source_sha256": "745c6854f2028ac328b752341483dfb80c31faf572e06fb68f456f00d4168d59",
+      "output": "runtime/native-worker/build/p11-llama-worker.exe",
+      "returncode": 0,
+      "diagnostic": "",
+      "sha256": "611189edb5d89ffedfe45ff8036d0f672f954f140fac797b6b8059d9533565bd"
+    },
+    {
+      "source": "dev/tests/native-worker/fixture.cpp",
+      "source_sha256": "747162f594754c5c181d501087d3b9bdef7e3ce0c38ac6fd95d6cb0249c7c4ab",
+      "output": "runtime/native-worker/build/fixture/llama-fixture.dll",
+      "returncode": 1,
+      "diagnostic": "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tests\\native-worker\\fixture.cpp:23:73: error: 'u8path<std::string, 0>' is deprecated [-Werror,-Wdeprecated-declarations]\n   23 | static void audit(const char * stage) {std::ofstream f(std::filesystem::u8path(audit_path), std::ios::app);f << stage << '\\n';f.flush();if (!f.good()) std::_Exit(91);}\n      |                                                                         ^\nE:/dev/sandbox/支付宝黑客松/算力共享平台/runtime/toolchains/llvm-mingw-20261020-ucrt-x86_64/include/c++/v1/__filesystem/u8path.h:73:37: note: 'u8path<std::string, 0>' has been explicitly marked deprecated here\n   73 | [[nodiscard]] _LIBCPP_HIDE_FROM_ABI _LIBCPP_DEPRECATED_WITH_CHAR8_T path u8path(const _Source& __s) {\n      |                                     ^\nE:/dev/sandbox/支付宝黑客松/算力共享平台/runtime/toolchains/llvm-mingw-20261020-ucrt-x86_64/include/c++/v1/__configuration/attributes.h:465:43: note: expanded from macro '_LIBCPP_DEPRECATED_WITH_CHAR8_T'\n  465 | #  define _LIBCPP_DEPRECATED_WITH_CHAR8_T _LIBCPP_DEPRECATED\n      |                                           ^\nE:/dev/sandbox/支付宝黑客松/算力共享平台/runtime/toolchains/llvm-mingw-20261020-ucrt-x86_64/include/c++/v1/__configuration/attributes.h:412:47: note: expanded from macro '_LIBCPP_DEPRECATED'\n  412 | #    define _LIBCPP_DEPRECATED __attribute__((__deprecated__))\n      |                                               ^\nE:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tests\\native-worker\\fixture.cpp:84:44: error: 'u8path<std::string, 0>' is deprecated [-Werror,-Wdeprecated-declarations]\n   84 |         if (std::ifstream(std::filesystem::u8path(audit_path + \".allow-clear\")).good()) return;\n      |                                            ^\nE:/dev/sandbox/支付宝黑客松/算力共享平台/runtime/toolchains/llvm-mingw-20261020-ucrt-x86_64/include/c++/v1/__filesystem/u8path.h:73:37: note: 'u8path<std::string, 0>' has been explicitly marked deprecated here\n   73 | [[nodiscard]] _LIBCPP_HIDE_FROM_ABI _LIBCPP_DEPRECATED_WITH_CHAR8_T path u8path(const _Source& __s) {\n      |                                     ^\nE:/dev/sandbox/支付宝黑客松/算力共享平台/runtime/toolchains/llvm-mingw-20261020-ucrt-x86_64/include/c++/v1/__configuration/attributes.h:465:43: note: expanded from macro '_LIBCPP_DEPRECATED_WITH_CHAR8_T'\n  465 | #  define _LIBCPP_DEPRECATED_WITH_CHAR8_T _LIBCPP_DEPRECATED\n      |                                           ^\nE:/dev/sandbox/支付宝黑客松/算力共享平台/runtime/toolchains/llvm-mingw-20261020-ucrt-x86_64/include/c++/v1/__configuration/attributes.h:412:47: note: expanded from macro '_LIBCPP_DEPRECATED'\n  412 | #    define _LIBCPP_DEPRECATED __attribute__((__deprecated__))\n      |                                               ^\n2 errors generated.\n"
+    }
+  ],
+  "passed": false
+}

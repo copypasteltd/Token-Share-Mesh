@@ -1,6 +1,6 @@
 {
-  "round": "R020",
-  "captured_at": "2026-10-30T17:54:21.468Z",
+  "round": "R021",
+  "captured_at": "2026-10-30T20:31:33.087Z",
   "scope": "Real repository documentation readers only; no trading, inference, payment or physical-device demonstration",
   "browser": {
     "engine": "Native Chromium",
@@ -20,8 +20,8 @@
   "virtualization_used": false,
   "recording": {
     "method": "CDP Page.startScreencast: actual browser compositor frames and received timestamps",
-    "actual_frames": 171,
-    "duration_seconds": 13.526,
+    "actual_frames": 130,
+    "duration_seconds": 14.102,
     "gif_playback_speed": 1.5,
     "audio": "none",
     "video": {
@@ -56,11 +56,11 @@
           "time_base": "1/12288",
           "start_pts": 0,
           "start_time": "0.000000",
-          "duration_ts": 182784,
-          "duration": "14.875000",
-          "bit_rate": "3662622",
+          "duration_ts": 190464,
+          "duration": "15.500000",
+          "bit_rate": "3390889",
           "bits_per_raw_sample": "8",
-          "nb_frames": "357",
+          "nb_frames": "372",
           "extradata_size": 50,
           "disposition": {
             "default": 1,
@@ -98,9 +98,9 @@
         "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
         "format_long_name": "QuickTime / MOV",
         "start_time": "0.000000",
-        "duration": "14.875000",
-        "size": "6815368",
-        "bit_rate": "3665408",
+        "duration": "15.500000",
+        "size": "6575244",
+        "bit_rate": "3393674",
         "probe_score": 100,
         "tags": {
           "major_brand": "isom",
@@ -118,24 +118,24 @@
     },
     {
       "path": "docs/技术开发/技术开发文档完整阅读版-v1.0.html",
-      "sha256": "6bd6ddefc9038155acd6153cdab0ccaaba988459a9434243aa96df09a10ee3ab"
+      "sha256": "1bd389e8e4302e689ebc04144078ef058d9444071f0b8de616ef1f780c5c9443"
     }
   ],
   "timeline": [
     {
-      "seconds": -0.02,
+      "seconds": -0.044,
       "action": "whitepaper overview"
     },
     {
-      "seconds": 1.872,
+      "seconds": 1.982,
       "action": "search for end-to-end encryption"
     },
     {
-      "seconds": 4.549,
+      "seconds": 4.727,
       "action": "open a search result"
     },
     {
-      "seconds": 8.182,
+      "seconds": 8.755,
       "action": "technical implementation reader"
     }
   ],
@@ -183,14 +183,14 @@
     {
       "path": "dev/media/recordings/readers-tour.mp4",
       "kind": "ACTUAL_BROWSER_RECORDING",
-      "sha256": "bdea0623b3f70229b166c44f8369db24ddacc7d005965a17014d1b1a1a0a032d",
-      "bytes": 6815368
+      "sha256": "e34cb82131fca165d651d357f3f2f0f11095fdcf276f5161eb0c06a71ebeb72b",
+      "bytes": 6575244
     },
     {
       "path": "dev/media/recordings/readers-tour.gif",
       "kind": "ACTUAL_BROWSER_RECORDING",
-      "sha256": "4d5f7e0d918cb6625395c32ea0eb870fe0e4a7083f8938ba34375d111fe19d6d",
-      "bytes": 7204613
+      "sha256": "6b750ed42910833d30abd7bfeab9bc14a7117bd67fa55ac59b29d03c85c6eb67",
+      "bytes": 7041780
     }
   ]
 }

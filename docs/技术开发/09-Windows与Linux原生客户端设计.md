@@ -81,3 +81,7 @@ R019接通已领取原租约的执行清单和原始输入受限交付，当前3
 R020新增持久原生执行宿主：独立issuer公钥与原订单/本机内核批准，原领取命令在网络前加密保存，丢回执和重启始终恢复原编号。清单/输入有界接收，正文仅在内存，通过显式InputAdapter交给原生一次提交监督器；旧receipt不能重送正文。清理状态只投影原执行账本的同lease/metadata凭证。损坏索引不能隐藏原命令，缺库/错绑定拒绝重建。Windows DPAPI/私有ACL复用，Linux仅交叉构建及既有钥环协议夹具。新增host-init/host-status，不自动安装或运行模型，execution_enabled仍false。只覆盖PLAINTEXT/STANDARD三文本profile，元数据加密不等于E2E或设备所有者不可见。真实tokenizer/内核、输出回传/usage/ACK/续期、支付渠道、LP/PE/租赁和完整验收仍待；37/95控制操作及65表/664列/113外键保持，旧SQL001—010与原执行DDL字节不变，新宿主SQLite独立首发。全部56任务/222子项及R016/R019慢元数据未证明根因风险保留，目标ACTIVE。
 
 [EH-001—036完整细则](附录-原生执行宿主与内容适配接线.md)。此前阶段描述保留为历史，以本节解释新增宿主接线；真实内核与完整产品尚未验收。
+
+## R021 原生 LLM 接线进展
+
+[原生LLM受限管道与可替换worker](附录-原生LLM受限管道与可替换worker.md)冻结NK-001—042：独立本机包/模型/模板摘要、固定C API、类型化P11_LLAMA_PIPE_1、真实tokenizer前置、原owner一次提交、独立取消、两个64KiB输出缓冲和同步后清理。当前Windows合成C ABI实进程测试与真实模型/GPU/LP/E2E资格分开登记；节点CLI执行仍关闭，LM Studio/ComfyUI/LMA、公共输出/ACK及可信usage继续待完工。普通调用账户和Job Object不能替代独立低权限服务。

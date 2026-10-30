@@ -2,6 +2,14 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
+## R021 · Native C API worker and bounded private pipes
+
+This round adds a replaceable llama.cpp C++ worker and Go InputAdapter. Locally approved pack/model/template hashes control loading; three strict text profiles preserve their semantics before the approved chat template and actual tokenizer. Directed anonymous content pipes, a separate cancellation pipe, two 64-KiB output buffers and original-owner once-only submission bound execution. Model weights are reused; each task synchronizes, clears KV and frees its context before its original cleanup receipt. Process exit remains UNKNOWN.
+
+`Owner-approved pack → exclusive resource preparation → Open/warm-up → trusted HostKernel → original ticket.Start → authorized content sink → native synchronization/clear → original cleanup projection`. Node CLI execution remains disabled. Public output/SSE/ACK, trusted usage, real models/GPUs, a separate low-privilege service, E2E, LM Studio compatibility and other device kernels still need implementation/qualification. Tests with a synthetic C ABI DLL exercise the actual Windows process; they are not real inference or LP acceptance.
+
+[42 kernel constraints](docs/技术开发/附录-原生LLM受限管道与可替换worker.md) · [Current evidence](dev/tests/evidence/R021-验证报告.md) · [All 56 tasks and 222 open steps](dev/progress/R021-本轮实现与完整待办.md). Historical R016/R019/R020 timing and archive limitations remain; the delivery goal is ACTIVE.
+
 ## R020 · 原生执行宿主 / Persistent native execution host
 
 R020 adds a persistent native execution host with an independently provisioned issuer public pin and original order/kernel approval. The original claim is encrypted and committed before networking; missing replies and restarts retain that exact command. Bounded manifest/input reads produce an in-memory ticket. An explicit InputAdapter hands original bytes to the existing once-only native supervisor; an old receipt cannot submit content again. Cleanup is projected only from the original execution journal with the same lease and metadata hash. Corrupted selectors cannot hide unfinished commands, and missing or mismatched anchored state is never recreated. Windows reuses actual DPAPI/private ACLs; Linux remains cross-built with protocol fixtures. CLI host-init/host-status do not install or run models; execution_enabled remains false. This covers three PLAINTEXT/STANDARD text profiles. Metadata encryption does not provide content E2E or provider blindness. Real tokenizers/kernels, output/usage/ACK/renewal, payment channels, LP/PE/rental and complete acceptance remain open. The 37/95 control-operation and 65-table/664-column/113-FK counts are unchanged. Previously published SQL001–010 and execution DDL bytes are preserved; a separate native host SQLite schema is new. All 56 tasks/222 development steps and unresolved R016/R019 slow-metadata timing risks remain open; the goal stays ACTIVE.
@@ -65,9 +73,9 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 28 in progress · 26 not started · 1 conditional · 1 deferred |
-| Latest source round | R020 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 250 passed · control/native/relay source subsets only |
+| Implementation tasks | 30 in progress · 24 not started · 1 conditional · 1 deferred |
+| Latest source round | R021 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 258 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
@@ -121,17 +129,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R020/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R021/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R020/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R021/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R020/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R021/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R020/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R020/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R021/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R021/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R020/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R021/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R020/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R020/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R020/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R020/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R021/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R021/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R021/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R021/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 

@@ -1,0 +1,44 @@
+{
+  "round": "R021",
+  "recorded_at": "2026-10-30T18:49:04.478823+00:00",
+  "scope": "Go source/dependencies and native admin/API/node builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance",
+  "virtualization_used": false,
+  "checks": [
+    {
+      "command": [
+        "go",
+        "version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "mod",
+        "verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "vet",
+        "./..."
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "gofmt",
+        "-l",
+        "."
+      ],
+      "exit_code": 0,
+      "unformatted_files": []
+    }
+  ],
+  "artifacts": [],
+  "go": "go version go1.27.3 windows/amd64",
+  "status": "FAILED",
+  "error_type": "TimeoutExpired"
+}

@@ -1,0 +1,48 @@
+{
+  "round": "R021",
+  "run_id": "20261030T193602Z-798d7ecf",
+  "scope": "Actual failed Web stdout and all five corresponding screenshots, recovered before another run; initial archive retained unchanged. Its five digest mismatches refer to stale successful receipts already archived exactly in attempt1, not missing original media.",
+  "source_events_sha256": "ee798617731f26ab0a04464f3a79e2fe96fbce61cc0d948054274150c4555027",
+  "artifacts": [
+    {
+      "original_path": "dev/tests/evidence/R021-web-browser-error.json",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/tests/evidence/R021-web-browser-error.json",
+      "sha256": "d3f6f866aaf7b46236d06f03bbde345dd46fda22417b1f0c09179857a0e2541b",
+      "bytes": 2907
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-market.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/web-market.png",
+      "sha256": "8008b2e9ac36291ce06eb5b46c180f2df845eed0d7abc79dee156604a25a149e",
+      "bytes": 157939
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-llm-detail.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/web-llm-detail.png",
+      "sha256": "8008b2e9ac36291ce06eb5b46c180f2df845eed0d7abc79dee156604a25a149e",
+      "bytes": 157939
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-order-pending.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/web-order-pending.png",
+      "sha256": "dc72c1cd31c56fe9af8527bc2e7d31b5a7f770945d7cc419f747075cca1b93d0",
+      "bytes": 117458
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-order.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/web-order.png",
+      "sha256": "7f866ca18fc4377e06c8647e97dc1b4d0602d4e60436fd5e5090fcfae84e374b",
+      "bytes": 103667
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-share.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/web-share.png",
+      "sha256": "faed0d75800ba04de899d3deadfa3729b92d889ccd972187286c791eb8d2f0a6",
+      "bytes": 117401
+    }
+  ],
+  "missing_assets": [],
+  "browser_closed": true,
+  "remaining_owned_tabs": 0,
+  "failure": "response.json: Protocol error (Network.getResponseBody): No data found for resource with given identifier\n    at E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tools\\frontend\\browser.mjs:238:61"
+}

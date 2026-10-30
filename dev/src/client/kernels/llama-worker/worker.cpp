@@ -1,0 +1,355 @@
+// P11_LLAMA_PIPE_1: native C API only; no HTTP/WebSocket server, shell, task
+// paths, installation or model download. See the numbered kernel IPC appendix.
+#include "llama.h"
+#include <algorithm>
+#include <atomic>
+#include <bit>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
+#include <exception>
+#include <limits>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <unordered_set>
+#include <vector>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#else
+#include <dlfcn.h>
+#include <unistd.h>
+#endif
+
+namespace {
+constexpr const char * profile = "P11_LLAMA_PIPE_1";
+constexpr const char * commit = "8642541b255bfb5dc39cd351a178be09013a55d6";
+constexpr size_t max_frame = 65536, max_body = 512 * 1024;
+using bytes = std::vector<uint8_t>;
+struct fault {};
+template<class T> void wipe(T & v) {
+    volatile unsigned char * p = reinterpret_cast<volatile unsigned char *>(v.data());
+    for (size_t i = 0; i < v.size() * sizeof(typename T::value_type); ++i) p[i] = 0;
+    v.clear();
+}
+[[noreturn]] void fatal() { std::_Exit(2); }
+void discard_log(enum ggml_log_level, const char *, void *) {}
+int64_t now_ms() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+}
+#ifdef _WIN32
+using pipe_handle = HANDLE;
+bool read_some(pipe_handle h, void * p, uint32_t n, uint32_t & got) {
+    DWORD count = 0; bool ok = ReadFile(h, p, n, &count, nullptr); got = count; return ok;
+}
+bool write_some(pipe_handle h, const void * p, uint32_t n, uint32_t & sent) {
+    DWORD count = 0; bool ok = WriteFile(h, p, n, &count, nullptr); sent = count; return ok;
+}
+std::wstring wide(const std::string & s) {
+    int n = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.data(), static_cast<int>(s.size()), nullptr, 0);
+    if (n <= 0) throw fault{};
+    std::wstring w(n, 0);
+    if (MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.data(), static_cast<int>(s.size()), w.data(), n) != n) throw fault{};
+    return w;
+}
+using library_handle = HMODULE;
+library_handle load(const std::string & path) {
+    auto h = LoadLibraryExW(wide(path).c_str(), nullptr, LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32);
+    if (!h) throw fault{}; return h;
+}
+template<class T> T symbol(library_handle h, const char * name) {
+    auto p = GetProcAddress(h, name); if (!p) throw fault{}; return reinterpret_cast<T>(p);
+}
+#else
+using pipe_handle = int;
+bool read_some(pipe_handle h, void * p, uint32_t n, uint32_t & got) {
+    auto r = ::read(h, p, n); got = r > 0 ? static_cast<uint32_t>(r) : 0; return r >= 0;
+}
+bool write_some(pipe_handle h, const void * p, uint32_t n, uint32_t & sent) {
+    auto r = ::write(h, p, n); sent = r > 0 ? static_cast<uint32_t>(r) : 0; return r >= 0;
+}
+using library_handle = void *;
+library_handle load(const std::string & path) { auto h = dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL); if (!h) throw fault{}; return h; }
+template<class T> T symbol(library_handle h, const char * name) { auto p = dlsym(h, name); if (!p) throw fault{}; return reinterpret_cast<T>(p); }
+#endif
+pipe_handle input_handle, output_handle, control_handle;
+bool read_exact(pipe_handle h, void * dst, uint32_t size) {
+    auto p = static_cast<uint8_t *>(dst);
+    while (size) { uint32_t n = 0; if (!read_some(h, p, size, n) || !n) return false; p += n; size -= n; }
+    return true;
+}
+void write_exact(pipe_handle h, const void * src, uint32_t size) {
+    auto p = static_cast<const uint8_t *>(src);
+    while (size) { uint32_t n = 0; if (!write_some(h, p, size, n) || !n) fatal(); p += n; size -= n; }
+}
+uint32_t be32(const uint8_t * p) { return uint32_t(p[0]) << 24 | uint32_t(p[1]) << 16 | uint32_t(p[2]) << 8 | p[3]; }
+void put32(bytes & b, uint32_t v) { for (int s = 24; s >= 0; s -= 8) b.push_back(static_cast<uint8_t>(v >> s)); }
+void putstr(bytes & b, const std::string & s) { put32(b, static_cast<uint32_t>(s.size())); b.insert(b.end(), s.begin(), s.end()); }
+struct frame { uint8_t kind; bytes data; };
+bool receive(pipe_handle h, frame & f) {
+    uint8_t size[4]; if (!read_exact(h, size, 4)) return false;
+    uint32_t n = be32(size); if (n < 1 || n > max_frame) throw fault{};
+    if (!read_exact(h, &f.kind, 1)) throw fault{};
+    f.data.resize(n - 1); if (!read_exact(h, f.data.data(), n - 1)) throw fault{}; return true;
+}
+void send(uint8_t type, bytes & data) {
+    if (data.size() + 1 > max_frame) fatal();
+    bytes h; put32(h, static_cast<uint32_t>(data.size() + 1)); h.push_back(type);
+    write_exact(output_handle, h.data(), static_cast<uint32_t>(h.size()));
+    write_exact(output_handle, data.data(), static_cast<uint32_t>(data.size())); wipe(data);
+}
+struct parser {
+    const bytes & b; size_t at = 0;
+    uint32_t u32() { if (b.size() - at < 4) throw fault{}; auto v = be32(b.data() + at); at += 4; return v; }
+    uint64_t u64() { uint64_t v = u32(); return v << 32 | u32(); }
+    double real() { return std::bit_cast<double>(u64()); }
+    std::string str(size_t limit) {
+        uint32_t n = u32(); if (n > limit || n > b.size() - at) throw fault{};
+        std::string v(reinterpret_cast<const char *>(b.data() + at), n); at += n;
+        if (v.find('\0') != std::string::npos) throw fault{}; return v;
+    }
+    void end() { if (at != b.size()) throw fault{}; }
+};
+
+#define LLAMA_FUNCTIONS(X) \
+    X(llama_log_set) X(llama_backend_init) X(llama_model_default_params) \
+    X(llama_model_load_from_file) X(llama_model_get_vocab) X(llama_model_has_encoder) \
+    X(llama_context_default_params) X(llama_init_from_model) X(llama_n_ctx) \
+    X(llama_chat_apply_template) X(llama_tokenize) X(llama_decode) X(llama_batch_get_one) \
+    X(llama_sampler_chain_default_params) X(llama_sampler_chain_init) X(llama_sampler_chain_add) \
+    X(llama_sampler_init_greedy) X(llama_sampler_init_top_p) X(llama_sampler_init_temp) \
+    X(llama_sampler_init_dist) X(llama_sampler_sample) X(llama_vocab_is_eog) \
+    X(llama_token_to_piece) X(llama_sampler_free) X(llama_synchronize) \
+    X(llama_get_memory) X(llama_memory_clear) X(llama_free)
+struct api {
+#define DECLARE(name) decltype(&name) name;
+    LLAMA_FUNCTIONS(DECLARE)
+#undef DECLARE
+    decltype(&ggml_backend_load_all_from_path) load_backends;
+    decltype(&ggml_backend_dev_by_name) device_by_name;
+    decltype(&ggml_backend_dev_type) device_type;
+    decltype(&ggml_log_set) log_set;
+    void open(library_handle lib, library_handle base) {
+#define RESOLVE(name) name = symbol<decltype(name)>(lib, #name);
+        LLAMA_FUNCTIONS(RESOLVE)
+#undef RESOLVE
+        load_backends = symbol<decltype(load_backends)>(base, "ggml_backend_load_all_from_path");
+        device_by_name = symbol<decltype(device_by_name)>(base, "ggml_backend_dev_by_name");
+        device_type = symbol<decltype(device_type)>(base, "ggml_backend_dev_type");
+        log_set = symbol<decltype(log_set)>(base, "ggml_log_set");
+    }
+};
+
+std::mutex control_mutex;
+std::unordered_set<std::string> cancelled_ids;
+std::string current_id;
+std::atomic<bool> cancel_flag{false};
+std::atomic<int64_t> hard_deadline{0};
+bool aborted(void *) { return cancel_flag.load(std::memory_order_relaxed) || now_ms() >= hard_deadline.load(std::memory_order_relaxed); }
+void control_loop() {
+    try {
+        frame f;
+        while (receive(control_handle, f)) {
+            if (f.kind != 5 || f.data.size() > 260) fatal();
+            parser p{f.data};auto id = p.str(256);p.end();wipe(f.data);
+            std::lock_guard<std::mutex> guard(control_mutex);
+            if (cancelled_ids.size() >= 1024 && !cancelled_ids.contains(id)) fatal();
+            cancelled_ids.insert(id);if (current_id == id) cancel_flag.store(true, std::memory_order_relaxed);
+        }
+    } catch (...) { fatal(); }
+    cancel_flag.store(true, std::memory_order_relaxed); fatal(); // parent control lost; never continue detached
+}
+
+struct config {
+    std::string library, registry, model, chat_template, device;
+    uint32_t context, batch, threads, gpu_layers;
+};
+config initialize() {
+    frame f; if (!receive(input_handle, f) || f.kind != 1) throw fault{};
+    parser p{f.data};if (p.str(64) != profile || p.str(64) != commit) throw fault{};
+    config c{p.str(16384), p.str(16384), p.str(16384), p.str(64), p.str(128), p.u32(), p.u32(), p.u32(), p.u32()};p.end();wipe(f.data);
+    if (c.context < 32 || c.context > 131072 || c.batch < 1 || c.batch > 2048 || c.batch > c.context || c.threads < 1 || c.threads > 64 || c.gpu_layers > 999 || (c.gpu_layers > 0) != !c.device.empty()) throw fault{};
+    return c;
+}
+struct request {
+    uint32_t max_input = 0, max_output = 0;
+    double temperature = 1, top_p = 1;
+    std::vector<std::string> stops;
+    std::vector<std::string> roles, texts;
+    void clear() { for (auto & s : stops) wipe(s); for (auto & s : texts) wipe(s); for (auto & s : roles) wipe(s); }
+    ~request() { clear(); }
+};
+void parse_request(bytes & body, request & r, const config & c) {
+    parser p{body};r.max_input = p.u32();r.max_output = p.u32();r.temperature = p.real();r.top_p = p.real();
+    if (r.max_input < 1 || r.max_input > c.context || r.max_output < 1 || r.max_output > c.context || !std::isfinite(r.temperature) || r.temperature < 0 || r.temperature > 2 || !std::isfinite(r.top_p) || r.top_p <= 0 || r.top_p > 1) throw fault{};
+    auto n = p.u32();if (n > 4) throw fault{};for (uint32_t i = 0; i < n; ++i) {auto s = p.str(256);if (s.empty()) throw fault{};r.stops.push_back(std::move(s));}
+    n = p.u32();if (n < 1 || n > 130) throw fault{};
+    for (uint32_t i = 0; i < n; ++i) {
+        auto role = p.str(16);if (role != "system" && role != "developer" && role != "user" && role != "assistant") throw fault{};
+        r.roles.push_back(std::move(role));r.texts.push_back(p.str(max_body));
+    }
+    p.end();wipe(body);
+}
+void emit(const std::string & id, uint32_t & seq, const char * data, size_t len) {
+    for (size_t at = 0; at < len; ) {
+        auto n = std::min<size_t>(16384, len - at);bytes b;putstr(b, id);put32(b, seq++);
+        b.insert(b.end(), data + at, data + at + n);send(131, b);at += n;
+    }
+}
+// Retain only a possible stop-prefix suffix, so a stop string is never emitted
+// and there is no full-output accumulator. UTF-8 may span token byte chunks.
+bool emit_pending(const std::string & id, uint32_t & seq, std::string & pending, const std::vector<std::string> & stops) {
+    size_t found = std::string::npos;
+    for (const auto & stop : stops) found = std::min(found, pending.find(stop));
+    if (found != std::string::npos) { emit(id, seq, pending.data(), found);wipe(pending);return true; }
+    size_t keep = 0;
+    for (const auto & stop : stops) {
+        for (size_t n = std::min(pending.size(), stop.size() - 1); n > keep; --n) {
+            if (pending.compare(pending.size() - n, n, stop, 0, n) == 0) {keep = n;break;}
+        }
+    }
+    auto n = pending.size() - keep;emit(id, seq, pending.data(), n);
+    std::string tail = pending.substr(n);wipe(pending);pending = std::move(tail);return false;
+}
+
+void run(api & a, llama_model * model, const config & c, const std::string & id, bytes & body) {
+    request r;std::string prompt, pending;std::vector<llama_token> tokens;
+    llama_context * ctx = nullptr;llama_sampler * sampler = nullptr;
+    uint32_t input_count = 0, output_count = 0, reason = 5, sequence = 0;
+    try {
+        parse_request(body, r, c);
+        if (aborted(nullptr)) {reason = 4;throw fault{};}
+        std::vector<llama_chat_message> messages;
+        for (size_t i = 0; i < r.roles.size(); ++i) messages.push_back({r.roles[i].c_str(), r.texts[i].c_str()});
+        int n = a.llama_chat_apply_template(c.chat_template.c_str(), messages.data(), messages.size(), true, nullptr, 0);
+        if (n <= 0 || n > 1024 * 1024) throw fault{};
+        prompt.resize(n + 1);
+        int actual = a.llama_chat_apply_template(c.chat_template.c_str(), messages.data(), messages.size(), true, prompt.data(), static_cast<int32_t>(prompt.size()));
+        if (actual <= 0 || actual > n) throw fault{};prompt.resize(actual);
+        const auto * vocab = a.llama_model_get_vocab(model);
+        n = a.llama_tokenize(vocab, prompt.data(), static_cast<int32_t>(prompt.size()), nullptr, 0, true, true);
+        if (n >= 0 || n < -static_cast<int>(c.context) || -n > static_cast<int>(r.max_input) || uint32_t(-n) + r.max_output > c.context) throw fault{};
+        tokens.resize(-n);
+        if (a.llama_tokenize(vocab, prompt.data(), static_cast<int32_t>(prompt.size()), tokens.data(), static_cast<int32_t>(tokens.size()), true, true) != -n) throw fault{};
+        input_count = static_cast<uint32_t>(tokens.size());wipe(prompt);
+        for (auto & s : r.roles) wipe(s);for (auto & s : r.texts) wipe(s);
+    } catch (...) {
+        wipe(body);wipe(prompt);wipe(tokens);r.clear();
+        bytes b;putstr(b, id);put32(b, input_count);put32(b, 0);put32(b, reason);put32(b, 1);send(132, b);return;
+    }
+    // Roles/texts are wiped; only bounded stop strings remain for filtering.
+    reason = 6;
+    try {
+        auto params = a.llama_context_default_params();params.n_ctx = c.context;params.n_batch = c.batch;params.n_ubatch = c.batch;
+        params.n_seq_max = 1;params.n_threads = static_cast<int>(c.threads);params.n_threads_batch = static_cast<int>(c.threads);
+        params.abort_callback = aborted;params.abort_callback_data = nullptr;params.no_perf = true;
+        params.offload_kqv = c.gpu_layers > 0;params.op_offload = c.gpu_layers > 0;
+        ctx = a.llama_init_from_model(model, params);
+        // A failed native init may have submitted work without returning a
+        // synchronizable handle. Do not manufacture a clean receipt for it.
+        if (!ctx) fatal();
+        if (a.llama_n_ctx(ctx) < c.context) throw fault{};
+        auto sparams = a.llama_sampler_chain_default_params();sparams.no_perf = true;
+        sampler = a.llama_sampler_chain_init(sparams);if (!sampler) throw fault{};
+        auto add = [&](llama_sampler * part) {if (!part) throw fault{};a.llama_sampler_chain_add(sampler, part);};
+        if (r.temperature == 0) add(a.llama_sampler_init_greedy());
+        else {
+            add(a.llama_sampler_init_top_p(static_cast<float>(r.top_p), 1));
+            add(a.llama_sampler_init_temp(static_cast<float>(r.temperature)));
+            add(a.llama_sampler_init_dist(LLAMA_DEFAULT_SEED));
+        }
+        reason = 6;
+        for (size_t at = 0; at < tokens.size(); ) {
+            if (aborted(nullptr)) {reason = 4;break;}
+            auto n = std::min<size_t>(c.batch, tokens.size() - at);
+            auto batch = a.llama_batch_get_one(tokens.data() + at, static_cast<int32_t>(n));
+            if (a.llama_decode(ctx, batch) != 0) {if (aborted(nullptr)) reason = 4;throw fault{};}at += n;
+        }
+        wipe(tokens);
+        if (!aborted(nullptr)) {
+            bytes started;putstr(started, id);send(130, started);reason = 2;
+            for (uint32_t i = 0; i < r.max_output; ++i) {
+                if (aborted(nullptr)) {reason = 4;break;}
+                auto token = a.llama_sampler_sample(sampler, ctx, -1);
+                if (a.llama_vocab_is_eog(a.llama_model_get_vocab(model), token)) {reason = 1;break;}
+                ++output_count;char piece[16384];
+                int n = a.llama_token_to_piece(a.llama_model_get_vocab(model), token, piece, sizeof(piece), 0, true);
+                if (n < 0 || n > static_cast<int>(sizeof(piece))) throw fault{};
+                pending.append(piece, n);volatile char * clear_piece = piece;for (size_t j = 0; j < sizeof(piece); ++j) clear_piece[j] = 0;
+                if (emit_pending(id, sequence, pending, r.stops)) {reason = 3;break;}
+                if (i + 1 < r.max_output) {
+                    if (aborted(nullptr)) {reason = 4;break;}
+                    auto batch = a.llama_batch_get_one(&token, 1);
+                    if (a.llama_decode(ctx, batch) != 0) {reason = aborted(nullptr) ? 4 : 6;throw fault{};}
+                }
+            }
+        } else reason = 4;
+        if (reason <= 3 && !aborted(nullptr)) emit(id, sequence, pending.data(), pending.size());
+        else if (aborted(nullptr)) reason = 4;
+    } catch (...) {if (!ctx) fatal();if (aborted(nullptr)) reason = 4;else reason = 6;}
+    // The CPU abort callback does not guarantee CUDA interruption. Synchronize
+    // all outstanding work, clear native KV data and free context BEFORE proof.
+    if (ctx) a.llama_synchronize(ctx);
+    if (sampler) a.llama_sampler_free(sampler);
+    if (ctx) {auto memory = a.llama_get_memory(ctx);if (memory) a.llama_memory_clear(memory, true);a.llama_free(ctx);}
+    wipe(body);wipe(tokens);wipe(prompt);wipe(pending);r.clear();
+    if (aborted(nullptr)) reason = 4;
+    bytes b;putstr(b, id);put32(b, input_count);put32(b, output_count);put32(b, reason);put32(b, 1);send(132, b);
+}
+
+int main_impl(int argc, char ** argv) {
+#ifdef _WIN32
+    SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX | SEM_NOOPENFILEERRORBOX);
+    if (argc != 3 || std::string(argv[1]) != "--control-handle") return 2;
+    char * end = nullptr;auto value = std::strtoull(argv[2], &end, 10);if (!end || *end || !value) return 2;
+    control_handle = reinterpret_cast<HANDLE>(static_cast<uintptr_t>(value));
+    input_handle = GetStdHandle(STD_INPUT_HANDLE);output_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (!SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32 | LOAD_LIBRARY_SEARCH_USER_DIRS)) return 2;
+#else
+    if (argc != 3 || std::string(argv[1]) != "--control-fd" || std::string(argv[2]) != "3") return 2;
+    input_handle = 0;output_handle = 1;control_handle = 3;
+#endif
+    auto c = initialize();
+    auto slash = c.library.find_last_of("/\\");if (slash == std::string::npos) return 2;
+    auto dir = c.library.substr(0, slash);
+#ifdef _WIN32
+    if (!AddDllDirectory(wide(dir).c_str())) return 2;
+#endif
+    api a;a.open(load(c.library), load(c.registry));a.log_set(discard_log, nullptr);a.llama_log_set(discard_log, nullptr);
+    a.load_backends(dir.c_str());a.llama_backend_init();
+    ggml_backend_dev_t devices[2] = {nullptr, nullptr};
+    if (c.gpu_layers) {devices[0] = a.device_by_name(c.device.c_str());if (!devices[0] || a.device_type(devices[0]) != GGML_BACKEND_DEVICE_TYPE_GPU) return 2;}
+    auto params = a.llama_model_default_params();params.devices = devices;params.n_gpu_layers = static_cast<int>(c.gpu_layers);
+    params.split_mode = LLAMA_SPLIT_MODE_NONE;params.main_gpu = 0;params.load_mode = LLAMA_LOAD_MODE_MMAP;
+    auto * model = a.llama_model_load_from_file(c.model.c_str(), params);
+    if (!model || a.llama_model_has_encoder(model)) return 2;
+    std::thread(control_loop).detach();bytes ready;putstr(ready, profile);putstr(ready, commit);send(129, ready);
+    std::unordered_set<std::string> seen;
+    frame f;
+    while (receive(input_handle, f)) {
+        if (f.kind != 2 || seen.size() >= 1024) throw fault{};
+        parser p{f.data};auto id = p.str(256);auto deadline = p.u64();auto length = p.u32();p.end();wipe(f.data);
+        if (id.empty() || seen.contains(id) || length < 1 || length > max_body || deadline > uint64_t(std::numeric_limits<int64_t>::max())) throw fault{};
+        seen.insert(id);
+        {std::lock_guard<std::mutex> guard(control_mutex);current_id = id;cancel_flag.store(cancelled_ids.contains(id), std::memory_order_relaxed);}
+        hard_deadline.store(static_cast<int64_t>(deadline), std::memory_order_relaxed);
+        bytes body;body.reserve(length);
+        while (body.size() < length) {
+            if (!receive(input_handle, f) || f.kind != 3 || f.data.empty() || f.data.size() > length - body.size()) throw fault{};
+            body.insert(body.end(), f.data.begin(), f.data.end());wipe(f.data);
+        }
+        if (!receive(input_handle, f) || f.kind != 4 || !f.data.empty()) throw fault{};
+        run(a, model, c, id, body);
+        {std::lock_guard<std::mutex> guard(control_mutex);current_id.clear();}
+    }
+    return 0;
+}
+} // namespace
+int main(int argc, char ** argv) {
+    std::set_terminate(fatal);
+    try {int result = main_impl(argc, argv);std::_Exit(result);} catch (...) {fatal();}
+}

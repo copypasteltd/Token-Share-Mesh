@@ -1,0 +1,18 @@
+{
+  "round": "R021",
+  "recorded_at": "2026-10-30T18:35:11.132114+00:00",
+  "virtualization_used": false,
+  "scope": "Windows native C API worker compilation; optional synthetic ABI fixture, not model/GPU/privacy acceptance",
+  "dependency_lock_sha256": "89e3f0f04b0982363256cb8b76aa921f62b6ab564498b76e68f4aa744901c075",
+  "compiler_sha256": "f6599825884bd087a81ef01e7a662025a9553de01dc501c824b6c568aa4e5ec9",
+  "targets": [
+    {
+      "source": "dev/src/client/kernels/llama-worker/worker.cpp",
+      "source_sha256": "c099276daa8c05efbd86fb859255440653b8ba324618bfc81e8c49c44f1eec66",
+      "output": "runtime/native-worker/build/p11-llama-worker.exe",
+      "returncode": 1,
+      "diagnostic": "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\src\\client\\kernels\\llama-worker\\worker.cpp:323:74: error: no member named 'use_mmap' in 'llama_model_params'\n  323 |     params.split_mode = LLAMA_SPLIT_MODE_NONE;params.main_gpu = 0;params.use_mmap = true;params.use_mlock = false;\n      |                                                                   ~~~~~~ ^\nE:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\src\\client\\kernels\\llama-worker\\worker.cpp:323:97: error: no member named 'use_mlock' in 'llama_model_params'\n  323 |     params.split_mode = LLAMA_SPLIT_MODE_NONE;params.main_gpu = 0;params.use_mmap = true;params.use_mlock = false;\n      |                                                                                          ~~~~~~ ^\n2 errors generated.\n"
+    }
+  ],
+  "passed": false
+}

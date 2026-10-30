@@ -1,0 +1,155 @@
+{
+  "round": "R021",
+  "run_id": "20261030T193602Z-798d7ecf",
+  "recorded_at": "2026-10-30T19:48:00.482453+00:00",
+  "status": "ARCHIVED_WITH_EXPLICIT_MISSING_ASSETS",
+  "artifacts": [
+    {
+      "original_path": "dev/tests/evidence/R021-native-summary.json",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/tests/evidence/R021-native-summary.json",
+      "sha256": "6259b2184f93adbcf56d555d1335c14bc5c47aadd10ad4c8c2535d92f6524889",
+      "bytes": 6864
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-native-go-tests.jsonl",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/tests/evidence/R021-native-go-tests.jsonl",
+      "sha256": "ee798617731f26ab0a04464f3a79e2fe96fbce61cc0d948054274150c4555027",
+      "bytes": 424033
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-native-source-checks.json",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/tests/evidence/R021-native-source-checks.json",
+      "sha256": "e42f0c097b10ab91b34815324ae80ec5510196feaeb849cf3f017882f2a27ea3",
+      "bytes": 24073
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-web-browser.json",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/tests/evidence/R021-web-browser.json",
+      "sha256": "eefaa303f583388f4311ca79fe6f8a8c1e0bb66a2c6e7c51159dd7e48df1cf97",
+      "bytes": 9039
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-miniapp-browser.json",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/tests/evidence/R021-miniapp-browser.json",
+      "sha256": "7343ad99eb34e4d912040a6398b18c8eca8d403c4a8bad91867893d2625a05c3",
+      "bytes": 9371
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-provider-conditions.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/web-provider-conditions.png",
+      "sha256": "b155f1a9c7efe20c1589ac8151bfe9d5715a95388969f7bcdedef74a6d7ddb42",
+      "bytes": 113815
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-provider-revoked.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/web-provider-revoked.png",
+      "sha256": "a29db14bfe31509722742de193232036fd3eb4654b7047cd65ae7362d90a9935",
+      "bytes": 112483
+    },
+    {
+      "original_path": "dev/media/R021/recordings/web-transaction.mp4",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/recordings/web-transaction.mp4",
+      "sha256": "a4c7a48b06b062c2b76473024245b9ad7f87fe86df983fc5c0cd10504ac50c2b",
+      "bytes": 1215200
+    },
+    {
+      "original_path": "dev/media/R021/recordings/web-transaction.gif",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/recordings/web-transaction.gif",
+      "sha256": "3d901899dfeafa8689b50c641495b545ed96fece83bb08b266f317b15fcac852",
+      "bytes": 978904
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-market.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/miniapp-market.png",
+      "sha256": "947375d878a839f54f5896a8a9dd8691ec66d923f7bcfca1e4395786423cf55e",
+      "bytes": 57715
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-llm-detail.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/miniapp-llm-detail.png",
+      "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
+      "bytes": 53102
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-order-pending.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/miniapp-order-pending.png",
+      "sha256": "97d5b0b479993ecc8d4e27c531bd4f5069d9efbbe73a7ea5b04239128b0e51cb",
+      "bytes": 65203
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-order.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/miniapp-order.png",
+      "sha256": "15ff563c09490ea1b311eba7b2d11fd9688ada720657c3df3ae20143585ea93b",
+      "bytes": 53034
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-share.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/miniapp-share.png",
+      "sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411",
+      "bytes": 59222
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-provider-conditions.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/miniapp-provider-conditions.png",
+      "sha256": "ee4fe330994d732999bcd7692b0c3faf9e1b79f2c05c9f8f30ff95c2ee159282",
+      "bytes": 55467
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-provider-revoked.png",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/screenshots/miniapp-provider-revoked.png",
+      "sha256": "877754d26d8e30b40dcbb823f2c0f82fa63d2eb09ee97312e375e73f38e47c58",
+      "bytes": 52130
+    },
+    {
+      "original_path": "dev/media/R021/recordings/miniapp-transaction.mp4",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/recordings/miniapp-transaction.mp4",
+      "sha256": "f63873584f3e6e3aca1b90b74b8ecc00ba730b4a67557a78cf8365cf7a2eccca",
+      "bytes": 652453
+    },
+    {
+      "original_path": "dev/media/R021/recordings/miniapp-transaction.gif",
+      "path": "dev/tests/evidence/R021-full-attempt2/dev/media/R021/recordings/miniapp-transaction.gif",
+      "sha256": "288fa5e175e5586e85576a037276e40c9e027ece15c4651b6a21013d9102196a",
+      "bytes": 5394024
+    },
+    {
+      "path": "dev/tests/evidence/R021-full-attempt2/source-snapshot.zip",
+      "sha256": "3197e0adf5252d6fbb25147be9729848f17e8741c56a356324a07ba3d29e730d",
+      "bytes": 401862,
+      "scope": "committed-type product/test sources and verification programs; no runtime secrets, model or binary"
+    }
+  ],
+  "missing_assets": [
+    {
+      "original_path": "dev/media/R021/screenshots/web-market.png",
+      "expected_sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9",
+      "actual_sha256": "8008b2e9ac36291ce06eb5b46c180f2df845eed0d7abc79dee156604a25a149e",
+      "reason": "DIGEST_MISMATCH"
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-llm-detail.png",
+      "expected_sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9",
+      "actual_sha256": "8008b2e9ac36291ce06eb5b46c180f2df845eed0d7abc79dee156604a25a149e",
+      "reason": "DIGEST_MISMATCH"
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-order-pending.png",
+      "expected_sha256": "30acab37e31fd35b54ba5cf8c9e313309c1f2a09103ed62d91d62edae8903370",
+      "actual_sha256": "dc72c1cd31c56fe9af8527bc2e7d31b5a7f770945d7cc419f747075cca1b93d0",
+      "reason": "DIGEST_MISMATCH"
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-order.png",
+      "expected_sha256": "05a42a1955aa0d8a2f18debce2fb3463ec860bc2e39c546019f10e55092ff683",
+      "actual_sha256": "7f866ca18fc4377e06c8647e97dc1b4d0602d4e60436fd5e5090fcfae84e374b",
+      "reason": "DIGEST_MISMATCH"
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-share.png",
+      "expected_sha256": "b114c19b967792b0bcd4bd7b8aadab787cc65fe4cc2be90c4796d31f0e23d43d",
+      "actual_sha256": "faed0d75800ba04de899d3deadfa3729b92d889ccd972187286c791eb8d2f0a6",
+      "reason": "DIGEST_MISMATCH"
+    }
+  ],
+  "virtualization_used": false
+}

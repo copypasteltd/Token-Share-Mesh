@@ -1,5 +1,19 @@
 # Changelog
 
+## R021 — Replaceable native LLM worker and bounded pipes
+
+- Add a frozen v0.8.0 llama.cpp C API worker and Go InputAdapter with independently approved pack/model/template/physical-resource hashes. Tasks cannot select local paths, shells or download URLs.
+- Preserve three strict text input profiles, template/tokenizer calls, sampling/stop behavior, reusable model weights, separate cancellation, two 64-KiB output buffers and original-owner synchronized cleanup. Null context initialization and process exits remain UNKNOWN; late completion cannot undo revocation.
+- Add owned Windows process/handle boundaries and Linux Go compilation. Five actual Windows-process tests use a synthetic C ABI DLL; they are separate from real model/GPU/LP/E2E/trusted-usage acceptance. Node CLI execution remains disabled; the long-running host and public SDK output/ACK remain open.
+- Update NK-001—042, bilingual usage/README, actual UI/reader media, eight IMP items and all 56 tasks/222 open steps. Preserve all 22 published SQL files byte-for-byte, deferred DEV-55 and the ACTIVE delivery goal.
+- Retain compilation errors, the initial synthetic ABI three-fail/two-pass run, source-build timeout and pre-hardening full regression. All 18 first-run browser assets are archived by exact receipt path/hash. Historical R016/R019/R020 timing causes and the 19 missing R020 historical PNGs remain disclosed.
+
+- The second full run failed only at the Web pairing response-body read through CDP. Preserve actual failed stdout and all five matching screenshots in a supplemental manifest; the initial archive followed a stale pass receipt. The browser fixture now captures the actual upstream response before fulfillment, without changing product behavior, assertions or time limits.
+
+- A subsequent full run recorded two native shutdown/deadline timing failures, expiry of the unchanged shared 220-second integration context, and a 12-second H5 narrow logout wait. The actual screenshot and raw failures are retained. The two unchanged native cases passed three isolated repetitions each; underlying timing causes remain open and all original bounds stay in force.
+
+[Current evidence](dev/tests/evidence/R021-验证报告.md) · [Development attempts](dev/tests/evidence/R021-development-attempts.json) · [All remaining work](dev/progress/R021-本轮实现与完整待办.md)
+
 ## R020 · 2026-10-31 · Native execution host / 原生执行宿主
 
 R020 adds a persistent native execution host with an independently provisioned issuer public pin and original order/kernel approval. The original claim is encrypted and committed before networking; missing replies and restarts retain that exact command. Bounded manifest/input reads produce an in-memory ticket. An explicit InputAdapter hands original bytes to the existing once-only native supervisor; an old receipt cannot submit content again. Cleanup is projected only from the original execution journal with the same lease and metadata hash. Corrupted selectors cannot hide unfinished commands, and missing or mismatched anchored state is never recreated. Windows reuses actual DPAPI/private ACLs; Linux remains cross-built with protocol fixtures. CLI host-init/host-status do not install or run models; execution_enabled remains false. This covers three PLAINTEXT/STANDARD text profiles. Metadata encryption does not provide content E2E or provider blindness. Real tokenizers/kernels, output/usage/ACK/renewal, payment channels, LP/PE/rental and complete acceptance remain open. The 37/95 control-operation and 65-table/664-column/113-FK counts are unchanged. Previously published SQL001–010 and execution DDL bytes are preserved; a separate native host SQLite schema is new. All 56 tasks/222 development steps and unresolved R016/R019 slow-metadata timing risks remain open; the goal stays ACTIVE.

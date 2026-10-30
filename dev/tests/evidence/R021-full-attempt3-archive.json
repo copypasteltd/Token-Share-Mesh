@@ -1,0 +1,151 @@
+{
+  "round": "R021",
+  "run_id": "20261030T195022Z-b41daaf3",
+  "recorded_at": "2026-10-30T20:16:50.315859+00:00",
+  "status": "ARCHIVED_EXACT_ASSETS",
+  "artifacts": [
+    {
+      "original_path": "dev/tests/evidence/R021-native-summary.json",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/tests/evidence/R021-native-summary.json",
+      "sha256": "0628164d38e0e5d3453fc8aa588c1795b6aa7dbfef8c5724e4f9334a288243a4",
+      "bytes": 6864
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-native-go-tests.jsonl",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/tests/evidence/R021-native-go-tests.jsonl",
+      "sha256": "bd9945a02fa845ee8ae94ba08ea85aebed2f4d8c0f73db1454fc78a79ef1487c",
+      "bytes": 472185
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-native-source-checks.json",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/tests/evidence/R021-native-source-checks.json",
+      "sha256": "e42f0c097b10ab91b34815324ae80ec5510196feaeb849cf3f017882f2a27ea3",
+      "bytes": 24073
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-web-browser.json",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/tests/evidence/R021-web-browser.json",
+      "sha256": "3b574f680859a2c1e5391e34bf406ee1a4fcfae87537dae24f42d8cbdcdd97c2",
+      "bytes": 9035
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-miniapp-browser.json",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/tests/evidence/R021-miniapp-browser.json",
+      "sha256": "7343ad99eb34e4d912040a6398b18c8eca8d403c4a8bad91867893d2625a05c3",
+      "bytes": 9371
+    },
+    {
+      "original_path": "dev/tests/evidence/R021-miniapp-browser-error.json",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/tests/evidence/R021-miniapp-browser-error.json",
+      "sha256": "cdf0c1ca690a9fd96adb2c9195e0d715093e24c9cc28b40743d32fba368a5ac6",
+      "bytes": 7297
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-market.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/web-market.png",
+      "sha256": "8008b2e9ac36291ce06eb5b46c180f2df845eed0d7abc79dee156604a25a149e",
+      "bytes": 157939
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-llm-detail.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/web-llm-detail.png",
+      "sha256": "8008b2e9ac36291ce06eb5b46c180f2df845eed0d7abc79dee156604a25a149e",
+      "bytes": 157939
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-order-pending.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/web-order-pending.png",
+      "sha256": "f0cb63d8226278ebd0a0d3f8166897bbc44f9545537b5e2be8ced8e8731efead",
+      "bytes": 117471
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-order.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/web-order.png",
+      "sha256": "ecbd51d01c8cad12c5873feabc135627c19d32e71d8483071cb52bb60d638301",
+      "bytes": 104889
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-share.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/web-share.png",
+      "sha256": "faed0d75800ba04de899d3deadfa3729b92d889ccd972187286c791eb8d2f0a6",
+      "bytes": 117401
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-provider-conditions.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/web-provider-conditions.png",
+      "sha256": "8340830713e2b42ff003fb3aaf85487784988e66a1981c2a9ed095fdbf63a219",
+      "bytes": 165205
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/web-provider-revoked.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/web-provider-revoked.png",
+      "sha256": "c1faad41ae4271b2db8190b5ae982340b593320f3a2877cbee15d2ab0e64b421",
+      "bytes": 147847
+    },
+    {
+      "original_path": "dev/media/R021/recordings/web-transaction.mp4",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/recordings/web-transaction.mp4",
+      "sha256": "4dba658d84f297daf270e3b4d5b705cc338dc5400d2e3010b093fc042e4a069e",
+      "bytes": 1533946
+    },
+    {
+      "original_path": "dev/media/R021/recordings/web-transaction.gif",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/recordings/web-transaction.gif",
+      "sha256": "1b243860c565bc2ba4d1e039cf604b82ed8fb21f2a2c795f686cee70c71074cf",
+      "bytes": 1428669
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-market.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/miniapp-market.png",
+      "sha256": "b630f6d0dd5f4de5e198ceaefed11432b053ffafcd52e17e7870225abaf405d5",
+      "bytes": 57310
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-llm-detail.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/miniapp-llm-detail.png",
+      "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
+      "bytes": 53102
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-order-pending.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/miniapp-order-pending.png",
+      "sha256": "e0d893a65da68c5763e884f1c88c5035a1c8b18b17a08fd1b359ac2b0d824bcb",
+      "bytes": 65103
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-order.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/miniapp-order.png",
+      "sha256": "ca8f5f29fd84fede7cb72c0624dee5eed8b13c0e61038a7ba152afe58e00b268",
+      "bytes": 52724
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-share.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/miniapp-share.png",
+      "sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411",
+      "bytes": 59222
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-provider-conditions.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/miniapp-provider-conditions.png",
+      "sha256": "48365b87af03d786e51ac72a9f44252cb3e4611b05a6f8a0eda50a426d917485",
+      "bytes": 55249
+    },
+    {
+      "original_path": "dev/media/R021/screenshots/miniapp-provider-revoked.png",
+      "path": "dev/tests/evidence/R021-full-attempt3/dev/media/R021/screenshots/miniapp-provider-revoked.png",
+      "sha256": "dabf250bfe4cd00d01a27eee518e6dd9fe1512a23ccfdcdf6b6631f97564d1b8",
+      "bytes": 62374
+    },
+    {
+      "path": "dev/tests/evidence/R021-full-attempt3/source-snapshot.zip",
+      "sha256": "44a18c20bbe8373d37cb516cea8947b6bd39b9baf93eb4d061ca250b43c2f858",
+      "bytes": 402446,
+      "scope": "committed-type product/test sources and verification programs; no runtime secrets, model or binary"
+    }
+  ],
+  "inactive_browser_receipts": [
+    "dev/tests/evidence/R021-miniapp-browser.json"
+  ],
+  "missing_assets": [],
+  "virtualization_used": false
+}

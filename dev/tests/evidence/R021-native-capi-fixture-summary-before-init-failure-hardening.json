@@ -1,0 +1,36 @@
+{
+  "round": "R021",
+  "recorded_at": "2026-10-30T18:49:04.438964+00:00",
+  "returncode": 0,
+  "passed": true,
+  "scope": "actual Windows process/pipe/C ABI call-order using synthetic DLL only; no real llama runtime/model/GPU/LP/E2E qualification",
+  "virtualization_used": false,
+  "cases": {
+    "TestNativeCAPISyntheticRoundTripStopAndModelReuse": "pass",
+    "TestNativeCAPITokenizerRejectsBeforeDecode": "pass",
+    "TestNativeCAPICancelRequiresSynchronizationAndClear": "pass",
+    "TestNativeCAPIUnexpectedExitNeverReleasesAmbiguousOwner": "pass",
+    "TestNativeCAPIPackTamperAndUnavailableDeviceFailClosed": "pass"
+  },
+  "raw": "dev/tests/evidence/R021-native-capi-fixture-tests.jsonl",
+  "raw_sha256": "337e1d0f340da145164c9127513b846c957e0c0534c10cc971965d7c2646c49f",
+  "sources": {
+    "dev/src/client/adapters/llamaworker/adapter.go": "8e005df284a3ff09f8c85f54797c71b36acb6cca3f5f404fd2c599c6b7e2de1b",
+    "dev/src/client/adapters/llamaworker/adapter_test.go": "987289d8b069a5b0c8f4bb712e56e5fc96792d8f1ab76bc6e4feeae1aa597fc3",
+    "dev/src/client/adapters/llamaworker/capi_fixture_test.go": "8acafe254aaf230077a74220d7b607d540e01f8856d1247b20f186065fb75bc7",
+    "dev/src/client/adapters/llamaworker/config.go": "8348deb89d6bdf884b4690527e4b0bfcc5cb6e01d5c59602968f3c84e586ece8",
+    "dev/src/client/adapters/llamaworker/input.go": "36ee7c062c466db3fb3c1f3a8971780422bb96d197c88d3f68e9f6171d402cde",
+    "dev/src/client/adapters/llamaworker/process.go": "45629fd32d7a8d2020db0d4a76bf60d4da25d4e753585c62a3b7e49df2bc5fae",
+    "dev/src/client/adapters/llamaworker/process_linux.go": "98ee8108f2469fe1ac3bde3f2599c302c51b8c263c736b725da06e7f14326ee2",
+    "dev/src/client/adapters/llamaworker/process_windows.go": "a11ddd5239ee94fa767237c0d9b4d3574349b71a4ffdf386be8268302a4d0198",
+    "dev/src/client/adapters/llamaworker/wire.go": "559274745a5b02500cdfa0c69723572b2f7d227415390929c01ef0fd43b3f1ae",
+    "dev/src/client/kernels/llama-worker/dependencies.lock.json": "89e3f0f04b0982363256cb8b76aa921f62b6ab564498b76e68f4aa744901c075",
+    "dev/src/client/kernels/llama-worker/worker.cpp": "745c6854f2028ac328b752341483dfb80c31faf572e06fb68f456f00d4168d59",
+    "dev/tests/native-worker/fixture.cpp": "1cc26130e7911294e97574858fd70d520e1b0cee8f213b6f50df37201fa0478f",
+    "dev/tools/核验原生LLM内核.py": "0ace41b74d65190eaf28ce47e3be7a837acf5e66e9cf8cf5c0d83033a8abf5a3",
+    "dev/tools/构建原生LLM内核.py": "281b1e8dd338ed6cadb279eb893c22b7dd4131375b69feca469372927025ac81",
+    "runtime/native-worker/build/p11-llama-worker.exe": "82182d28787129b7b76f0c82792b8bff2ef7b8bdd61870fadcf6f46354968866",
+    "runtime/native-worker/build/fixture/llama-fixture.dll": "9a9afa55473571011cd85cc87fd0928a35c19a5b13eb95bac23065816e3d5810"
+  },
+  "owned_worker_exit_waited_by_adapter": true
+}

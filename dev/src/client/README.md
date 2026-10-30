@@ -43,3 +43,7 @@ Outputs remain under runtime/bin. Explicit commands are init, enroll, recover, s
 输出在runtime/bin。所有命令均显式指定本人绝对状态目录；新建目录的父目录须已存在。Windows用本人/SYSTEM ACL和DPAPI；Linux需本人已解锁且运行中的Secret Service。缺钥、坏状态、重复写进程均停止，不静默重建身份。对外只输出不含秘密的型号/设备/版本/序号投影。临时数据、模型及凭据不能进入本源码目录。
 
 See [bilingual usage](../../repository/USAGE.md), [complete recovery specification](../../../docs/技术开发/附录-原生提供方控制代理与本地恢复.md) and [R008 evidence](../../tests/evidence/R008-验证报告.md). Future Windows/Linux engine adapters and LMA-derived Android execution remain separate pending work. No local virtualization is used or required.
+
+## R021 原生LLM源码
+
+[42项原生worker/管道细则](../../../docs/技术开发/附录-原生LLM受限管道与可替换worker.md)；源码在client/adapters/llamaworker与client/kernels/llama-worker。本机批准原物理资源/模型/模板，原提交一次、独立取消、128KiB输出、同步后清理；空上下文和退出保持UNKNOWN，撤销不能被迟到完成回执覆盖。合成C ABI实进程测试不是实际模型/GPU/LP/E2E资格，节点CLI执行保持关闭。

@@ -1,0 +1,28 @@
+{
+  "profile": "P11_LLAMA_PIPE_1",
+  "llama": {
+    "repository": "ggml-org/llama.cpp",
+    "release": "v0.8.0",
+    "commit": "8642541b255bfb5dc39cd351a178be09013a55d6",
+    "headers": {
+      "include/llama.h": "c0854771d3760a41642c4e59429c5b3b9fc774887c59d37eeadc4527681732cd",
+      "ggml/include/ggml.h": "2b4dd92fa992cb4ef484917a6c62fef5097698744160ccc09214fd0c459c92c7",
+      "ggml/include/ggml-cpu.h": "316279e004cdeb8e6ef78599acb602bf79a8abdf897fed9fd1914808c1518c6e",
+      "ggml/include/ggml-backend.h": "0e5e8e1f16d11ebbf501e38bc6705d79eee819b5f0b17476533f2100ed9674e2",
+      "ggml/include/ggml-opt.h": "3586de1bc8a934b5c72339e2b6937b0641e8f149b512231e666f67de0736eea2",
+      "ggml/include/gguf.h": "e56714aab702e5ce62ee587a409643c08f7e93e8fbb77f48ef7cc85075f96fa4",
+      "ggml/include/ggml-alloc.h": "d114067f9099c4a0e2bbc0625c676d4894d9cf0ea27168ee072c7de0e71bb51d"
+    },
+    "license_sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+  },
+  "compiler": {
+    "repository": "mstorsjo/llvm-mingw",
+    "release": "20261020",
+    "archive": "llvm-mingw-20261020-ucrt-x86_64.zip",
+    "size": 190612575,
+    "sha256": "fd5462b7f5d93b2ff981fcd3f9c7e427e47f3203c64ea91c27bcc444eebd74cd"
+  },
+  "runtime_libraries_supplied": false,
+  "model_supplied": false,
+  "real_inference_or_gpu_qualification": false
+}

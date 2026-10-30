@@ -1,0 +1,65 @@
+{
+  "round": "R021",
+  "scope": "Unchanged two existing native timing cases replayed three times each, separate diagnostic only; a pass does not establish a cause for the failed full run or prove stability. No model/GPU/database service.",
+  "arguments": [
+    "test",
+    "-json",
+    "-count=3",
+    "-p=1",
+    "-timeout=45s",
+    "-run",
+    "^(TestNodeControlDrainStopsSupervisedOriginalOwner|TestSupervisorAdapterDeadlineCannotExceedSignedExpiry)$",
+    "./client/node",
+    "./client/supervisor"
+  ],
+  "exit_code": 0,
+  "error": null,
+  "elapsed_seconds": 109.386,
+  "events": [
+    {
+      "Package": "p11.local/compute/client/node",
+      "Test": "TestNodeControlDrainStopsSupervisedOriginalOwner",
+      "Action": "pass",
+      "Elapsed": 0.2
+    },
+    {
+      "Package": "p11.local/compute/client/node",
+      "Test": "TestNodeControlDrainStopsSupervisedOriginalOwner",
+      "Action": "pass",
+      "Elapsed": 0.14
+    },
+    {
+      "Package": "p11.local/compute/client/node",
+      "Test": "TestNodeControlDrainStopsSupervisedOriginalOwner",
+      "Action": "pass",
+      "Elapsed": 0.15
+    },
+    {
+      "Package": "p11.local/compute/client/supervisor",
+      "Test": "TestSupervisorAdapterDeadlineCannotExceedSignedExpiry",
+      "Action": "pass",
+      "Elapsed": 0.17
+    },
+    {
+      "Package": "p11.local/compute/client/supervisor",
+      "Test": "TestSupervisorAdapterDeadlineCannotExceedSignedExpiry",
+      "Action": "pass",
+      "Elapsed": 0.19
+    },
+    {
+      "Package": "p11.local/compute/client/supervisor",
+      "Test": "TestSupervisorAdapterDeadlineCannotExceedSignedExpiry",
+      "Action": "pass",
+      "Elapsed": 0.41
+    }
+  ],
+  "passed": true,
+  "original_assertions_and_deadlines_unchanged": true,
+  "test_source_sha256": {
+    "dev/src/client/node/supervisor_test.go": "7599e310b95fbda73c09323fab25f8efc0db0d539ab9fcae99554df544390ec5",
+    "dev/src/client/supervisor/deadline_test.go": "e94ff949fff494b87a27ba3f193d20c9a9ae6a806078e4362bf4085a1740594b",
+    "dev/src/client/supervisor/supervisor_test.go": "6a7f4c0bffa18900b98b6ed1ed40ce70ee019bf2b8052777c24b8440309d8831"
+  },
+  "raw_sha256": "c6127267c0a2a511b41d447448aac5c412586f6a6393bb7ce7fd964cef8c6350",
+  "virtualization_used": false
+}

@@ -326,23 +326,35 @@ R020_CASES = [(f'R020-TEST-{i:03d}',p,n,d) for i,(_,p,n,d) in enumerate(R019_CAS
 ]
 
 
+R021_CASES = [(f'R021-TEST-{i:03d}',p,n,d) for i,(_,p,n,d) in enumerate(R020_CASES,1)] + [
+('R021-TEST-251', 'client/adapters/llamaworker', 'TestNativePipeThreeProfilesKeepTextAndRejectUnimplementedSemantics', '三文本规范保留正文/采样/停止语义，额外字段/错模式/错绑定拒绝'),
+('R021-TEST-252', 'client/adapters/llamaworker', 'TestNativePipeFramesBoundLengthBeforeAllocation', '内部分帧先验长，超限/截断在分配前拒绝'),
+('R021-TEST-253', 'client/adapters/llamaworker', 'TestNativePipeOriginalOwnerOnceAndCleanupReceipt', '一次原提交、原generation清理、输出只交授权内容读取者'),
+('R021-TEST-254', 'client/adapters/llamaworker', 'TestNativePipeCancelIndependentOfBlockedContent', '正文管道阻塞时独立原取消仍可达'),
+('R021-TEST-255', 'client/adapters/llamaworker', 'TestNativePipeExitKeepsAmbiguousOwner', '内核退出保持UNKNOWN、不可重提和伪造STOPPED'),
+('R021-TEST-256', 'client/adapters/llamaworker', 'TestNativePipeSlowOutputCancelsWithinFixedBuffer', '两个64KiB缓冲满后取消，清空输出不冒充成功'),
+('R021-TEST-257', 'client/adapters/llamaworker', 'TestNativePipeStaleCallbackCannotReleaseNextOwner', '旧内核回执不得释放新本地generation'),
+('R021-TEST-258', 'client/adapters/llamaworker', 'TestNativePackPinsPathsAndCompleteLibraryAllowlist', '本地包/模型/模板hash、路径范围及完整动态库白名单'),
+]
+
+
 def main() -> None:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round',default='R020',choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'])
+    parser.add_argument('--round',default='R021',choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'])
     round_id=parser.parse_args().round
-    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES,'R011':R011_CASES,'R012':R012_CASES,'R013':R013_CASES,'R014':R014_CASES,'R015':R015_CASES,'R016':R016_CASES,'R017':R017_CASES,'R018':R018_CASES,'R019':R019_CASES,'R020':R020_CASES}[round_id]
+    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES,'R011':R011_CASES,'R012':R012_CASES,'R013':R013_CASES,'R014':R014_CASES,'R015':R015_CASES,'R016':R016_CASES,'R017':R017_CASES,'R018':R018_CASES,'R019':R019_CASES,'R020':R020_CASES,'R021':R021_CASES}[round_id]
     summary = json.loads((EVIDENCE / f'{round_id}-native-summary.json').read_text(encoding='utf-8'))
     checks = json.loads((EVIDENCE / f'{round_id}-native-source-checks.json').read_text(encoding='utf-8'))
-    if round_id in {'R014','R015','R016','R017','R018','R019','R020'} and summary.get('suite') != 'full':
+    if round_id in {'R014','R015','R016','R017','R018','R019','R020','R021'} and summary.get('suite') != 'full':
         raise ValueError(f'专项验证不能替代完整{len(cases)}项实际回归')
-    if round_id in {'R014','R015','R016','R017','R018','R019','R020'} and ([x['id'] for x in summary.get('test_segments', [])] != (['native','core','web','miniapp'] if round_id=='R020' else ['core','web','miniapp']) or
+    if round_id in {'R014','R015','R016','R017','R018','R019','R020','R021'} and ([x['id'] for x in summary.get('test_segments', [])] != (['native','core','web','miniapp'] if round_id in {'R020','R021'} else ['core','web','miniapp']) or
                               any(x['exit_code'] for x in summary['test_segments']) or
                               any(x.get('database_isolation') != 'FRESH_NATIVE_CHILD' or x.get('temporary_database_removed') is not True
-                                  for x in summary['test_segments'][2 if round_id=='R020' else 1:])):
+                                  for x in summary['test_segments'][2 if round_id in {'R020','R021'} else 1:])):
         raise ValueError('全部登记的原生/核心/Web/H5独立分组必须完整实际通过')
-    if round_id=='R020' and (not summary.get('native_before_postgres') or summary['test_segments'][0]['database_isolation']!='NO_DATABASE_SERVER'):
+    if round_id in {'R020','R021'} and (not summary.get('native_before_postgres') or summary['test_segments'][0]['database_isolation']!='NO_DATABASE_SERVER'):
         raise ValueError('R020 requires all independent native cases before starting the temporary platform DB')
-    if round_id == 'R020':
+    if round_id in {'R020','R021'}:
         if summary.get('test_event_converter') != ['go','tool','test2json']:
             raise ValueError('Pinned Go test event converter is required')
         if set(summary.get('verification_sources', {})) != {'dev/tools/原生数据库验证.py','dev/tools/frontend/browser.mjs'}:
@@ -380,7 +392,7 @@ def main() -> None:
     top = {k: v for k, v in results.items() if '/' not in k[1]}
     if set(top) != expected or any(event['Action'] != 'pass' for event in results.values()):
         raise ValueError(f'本轮{len(cases)}项实际用例必须齐全且无跳过/失败')
-    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'}:
+    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'}:
         for target in ['web', 'miniapp']:
             key = ('p11.local/compute/api/tests', 'TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder/' + target)
             if key not in results or results[key]['Action'] != 'pass': raise ValueError('双端实际浏览器子场景不可跳过')
@@ -390,7 +402,7 @@ def main() -> None:
         if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest:
             raise ValueError('源码已变化，不能复用旧构建证据')
     report = {
-        'round': round_id, 'status': 'PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY' if round_id in {'R012','R013','R014','R015','R016','R017','R018','R019','R020'} else 'PASSED_FOR_CONTROL_SERVICES_ONLY',
+        'round': round_id, 'status': 'PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY' if round_id in {'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'} else 'PASSED_FOR_CONTROL_SERVICES_ONLY',
         'database_run': summary['run_id'], 'temporary_instance_stopped': True,
         'virtualization_used': False, 'passed_cases': len(cases), 'failed_cases': 0, 'skipped_cases': 0,
         'product_acceptance_status': 'NOT_EXECUTED',
@@ -398,7 +410,7 @@ def main() -> None:
         'source_evidence': [f'dev/tests/evidence/{round_id}-native-summary.json', f'dev/tests/evidence/{round_id}-native-go-tests.jsonl', f'dev/tests/evidence/{round_id}-native-source-checks.json'],
         'limitations': ['OAuth uses independently signed synthetic responses; no real Alipay channel or seller/device integration', 'No GPU, Android, real payment, crypto interoperability, independent review or whole-product acceptance', 'Linux admin/API commands cross-compiled only, no Linux runtime validation', 'Not a crash or power-loss durability test; no Go race-detector claim', 'Seller/listing approvals and browser device heartbeats are synthetic, no runtime self-approval; provider pairing UI, complete native key stores/daemons and actual device qualification remain pending'],
     }
-    if round_id in {'R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'}:
+    if round_id in {'R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'}:
         report['limitations'][2] = 'Linux admin/API/node commands cross-compiled only; Linux Secret Service protocol fixtures do not validate a real Linux keyring'
         report['limitations'][3] = 'Windows process-termination recovery is exercised; no power-loss durability or Go race-detector claim'
         report['limitations'][-1] = 'Windows DPAPI/control agent is exercised; Linux Secret Service uses protocol fixtures and cross-compilation only. No GPU, engine execution, job inbox, content encryption or native Alipay acceptance.'
@@ -412,7 +424,7 @@ def main() -> None:
         report['limitations'].append('Adapter observations/cancellation/cleanup are synthetic and must not qualify hardware. Adapter implementations must honor bounded contexts and authoritative original-key query/cancel semantics; no malicious-adapter containment or timing/performance acceptance is claimed.')
         report['limitations'].append('Current 21 shared TS cases and all three frontend builds are rerun after the provider-loading fix; the held-recovery navigation regression runs on both browser targets. H5 is not native Alipay acceptance.')
         report['development_attempts'] = ['dev/tests/evidence/R011-native-summary-attempt1.json', 'dev/tests/evidence/R011-native-go-tests-attempt1.jsonl', 'dev/tests/evidence/R011-web-browser-attempt1.json', 'dev/tests/evidence/R011-development-attempts.json']
-    if round_id in {'R012','R013','R014','R015','R016','R017','R018','R019','R020'}:
+    if round_id in {'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'}:
         report['limitations'][-1] = 'Native forwarding uses only loopback synthetic HTTP backends and explicit admission/secret fixtures. No production route/funding/lease gate, SDK compatibility certification, real engine stop, content E2E, paid model or billable usage evidence.'
         report['limitations'].append('Three native text profiles only; no cross-dialect conversion, tools, media or Sub2API code extraction. Prior frontend TS/build receipts are reused after exact source/output/log hash checks; both current browser journeys rerun with the current native binary.')
         report['development_attempts'] = ['dev/tests/evidence/R012-development-attempts.json','dev/tests/evidence/R012-native-go-tests-attempt1.jsonl','dev/tests/evidence/R012-native-summary-attempt1.json','dev/tests/evidence/R012-stale-sweep-before-fix.jsonl','dev/tests/evidence/R012-targeted-after-fix.jsonl','dev/tests/evidence/R012-field-whitelist-before-fix.jsonl','dev/tests/evidence/R012-field-whitelist-after-fix.jsonl']
@@ -424,7 +436,7 @@ def main() -> None:
     for code, _, _, description in cases:
         text += f'| {code} | {description} | PASSED |\n'
     text += '\n原生 PostgreSQL 实例：`' + summary['run_id'] + '`；关闭方式：`' + summary['shutdown_mode'] + '`。实例与工具均在项目 runtime，无本地虚拟化。\n\n'
-    if round_id in {'R014','R015','R016','R017','R018','R019','R020'}:
+    if round_id in {'R014','R015','R016','R017','R018','R019','R020','R021'}:
         report['test_segments'] = summary['test_segments']
         report['case_inventory'] = summary['case_inventory']
         report['limitations'].append('Order capacity is not a wallet, payment authorization, route/lease admission or GPU release. Qualifications and READY/usage/rental facts are explicitly synthetic; production qualified-source generation and integration remain pending. Legacy budget rows remain fully held, including old RELEASED/CONSUMED states.')
@@ -454,31 +466,45 @@ def main() -> None:
         report['limitations'].append('Original bounded native input is actually validated and AES-GCM encrypted in the PLAINTEXT storage domain. Atomic first issuance binds the original hold, current eligibility, explicit FREE native resource, dual fences, signed lease, metadata manifest and delivery intent. This is an internal SQL/local-crypto library, not a mounted SDK listener, relay Grant or actual device delivery/engine execution.')
         report['limitations'].extend(['Production issuer/input/fingerprint key provisioning, independently approved device pins/kernel plan, authenticated claim/download transport, lease renewal/revocation transport, tokenizer enforcement, trusted usage/payment, E2E/LP/PE and rental remain pending. No customer prompt is sent to a GPU or phone.', 'Platform PostgreSQL counters remain signed bigint (max 9223372036854775807); native wire/SQLite preserve uint64 strings, but this issuer closes at its narrower persisted upper bound. No published SQL byte or timeout was relaxed.', 'R016 timing failure remains unresolved: its first full run returned ErrShutdown under the unchanged 400ms cleanup deadline; later passes do not prove stability. DEV-53 remains open.', 'This round retains its failed development attempts and raw evidence; a current full pass does not erase historical failures.'])
         report['development_attempts'] += ['dev/tests/evidence/R016-full-attempt1-archive.json','dev/tests/evidence/R016-supervisor-renewal-diagnostic.json']
-    if round_id == 'R020':
+    if round_id in {'R020','R021'}:
         report['compiled_db_tests'] = summary['compiled_db_tests']
         report['verification_sources'] = summary['verification_sources']
         report['test_event_converter'] = summary['test_event_converter']
         report['limitations'][-1] = 'Native control/execution/host journals, once-only metadata fencing and in-memory content handoff are exercised with synthetic lease/backend observations. The real model/tokenizer/output lifecycle and hardware qualifications remain pending.'
         report['development_attempts'] = ['dev/tests/evidence/R020-development-attempts.json','dev/tests/evidence/R020-host-attempt1-tests.jsonl','dev/tests/evidence/R020-host-attempt2-tests.jsonl','dev/tests/evidence/R020-host-development-tests.jsonl','dev/tests/evidence/R020-full-attempt2-archive.json','dev/tests/evidence/R020-full-attempt3-archive.json','dev/tests/evidence/R020-full-attempt4-archive.json','dev/tests/evidence/R020-full-attempt5-archive.json','dev/tests/evidence/R020-historical-media-recovery.json','dev/tests/evidence/R020-supervisor-cleanup-diagnostic.json','dev/tests/evidence/R020-supervisor-cleanup-diagnostic.jsonl']
         report['limitations'].extend(['Native execution host metadata uses a separate OS-anchored AEAD SQLite journal, independently provisioned issuer public pin and original order/kernel rules. The original claim is persisted before networking. Input is bounded and in memory, handed only to an explicitly trusted InputAdapter inside the existing once-only native supervisor path. No real engine, tokenizer, content output, usage, execution ACK, renewal or billing is supplied by this slice.', 'PLAINTEXT/STANDARD only. Metadata encryption is not content E2E or protection against the device owner; LP/PE/enhanced privacy remain unqualified. The host CLI exposes init/status only, heartbeat execution_enabled stays false. Backends in host tests are synthetic; Windows DPAPI/ACL/SQLite and HTTP/device-proof operations are real. Linux is cross-built, not a physical runtime result.', 'Published SQL001–010 and original execution SQLite DDL remain byte-identical to R019; the separate host SQLite schema is first introduced here. R016/R019 slow-metadata cleanup root causes and real hardware/channel/end-to-end acceptance remain unresolved; all 56 tasks/222 child steps stay open.'])
-    if round_id=='R020':
+    if round_id in {'R020','R021'}:
         report['development_attempts'] += ['dev/tests/evidence/R020-full-attempt1-archive.json','dev/tests/evidence/R020-budget-native-summary.json','dev/tests/evidence/R020-budget-native-go-tests.jsonl']
         report['limitations'].append('The first R020 full run failed: legacy child-DB migration 001 timed out under unchanged statement bounds, a contemporaneous checkpoint had long synchronization, and later integration cases exhausted their unchanged 220s context. The H5 browser also terminated without its final receipt; a failure screenshot and exact runner/browser sources are retained. Underlying storage and browser causes are not proven. Independent native tests now finish before PG starts, and consent readiness/failure journaling are explicit; product source, SQL, assertions and time bounds are unchanged. Later passes do not establish timing stability.')
         report['limitations'].append('A subsequent unchanged two-case diagnostic passed one / failed one; this is not complete verification. The second R020 run was partial: native segment 113 passed / 2 failed, with unchanged supervisor shutdown bounds returning ErrShutdown. Final on-disk ownership was not independently observed in that failed run. Database tests compiled, but a standalone test2json path assumption aborted preparation; PG/browser segments never started. Exact evidence and scripts remain archived. The harness now uses the verified pinned go tool entry; this correction does not fix or establish the cause of supervisor timing failures.')
         report['limitations'].append('The fourth complete R020 run passed 245 / failed 5 / skipped 0. Native 115 cases and both actual browser journeys passed. Five migration-fixture cases could not read their real pre-006 scripts because the precompiled test runner used the source root instead of go test package working directories. Exact failed events and runner/browser sources are archived; historical media retention is partial and explicitly inventoried in the archive manifests. Only the runner working directory is corrected; product source, SQL, fixtures and time bounds are unchanged. This establishes that path-error cause, not the earlier timing-failure causes.')
         report['limitations'].append('The fifth complete R020 run passed 249 / failed 1 / skipped 0: native/core and both actual page journeys passed, but synthetic batch-device heartbeat cleanup reported PostgreSQL 40P01. The retained server log shows the batch UPDATE and market share-lock transaction waiting on one another. Only this test fixture is changed to independent per-device autocommit heartbeats; the 5s tick, every fixture device, real 45s online rule and all error assertions remain. Current source/vet/build checks are rerun after that Go test-source change. This does not prove production deadlocks absent or resolve earlier unproven timing causes.')
         report['limitations'].append('Historical attempt 4/5 media archiving omitted nested directories before subsequent captures overwrote files. Exact original SHA-256 recovery retained 8/18 and 9/18 assets, including all eight historical MP4/GIF files from original frames; 19 original PNGs remain unavailable and are explicitly listed. No replacements are labelled original. The final current 18 frontend assets and reader media are complete; historical missing media are not current passing evidence.')
-    if round_id in {'R015','R016','R017','R018','R019','R020'}:
+    if round_id == 'R021':
+        capi_path=EVIDENCE/'R021-native-capi-fixture-summary.json'
+        capi=json.loads(capi_path.read_text(encoding='utf-8'))
+        native_build=json.loads((EVIDENCE/'R021-native-worker-build.json').read_text(encoding='utf-8'))
+        if not capi['passed'] or capi['returncode'] or len(capi['cases'])!=5 or set(capi['cases'].values())!={'pass'} or not capi['owned_worker_exit_waited_by_adapter'] or not native_build['passed']:
+            raise ValueError('Current native worker build and actual synthetic C ABI process cases required')
+        for name,digest in capi['sources'].items():
+            if hashlib.sha256((ROOT/name).read_bytes()).hexdigest()!=digest:raise ValueError('Native worker source/build changed after tagged tests: '+name)
+        if hashlib.sha256((ROOT/capi['raw']).read_bytes()).hexdigest()!=capi['raw_sha256'] or checks.get('native_adapter_linux_compile_only') is not True:
+            raise ValueError('Native C ABI raw events or Linux compile-only evidence missing')
+        report['native_capi_subset']={'cases':capi['cases'],'source':'dev/tests/evidence/R021-native-capi-fixture-summary.json','scope':capi['scope'],'separate_from_regular_cases':True}
+        report['development_attempts'] += ['dev/tests/evidence/R021-development-attempts.json','dev/tests/evidence/R021-full-attempt1-archive.json','dev/tests/evidence/R021-full-attempt2-archive.json','dev/tests/evidence/R021-full-attempt2-failed-browser-assets.json','dev/tests/evidence/R021-full-attempt3-archive.json','dev/tests/evidence/R021-full-attempt3-extra-diagnostics.json','dev/tests/evidence/R021-native-timing-replay.json']
+        report['limitations'].append('R021 adds a fixed-header native C API worker and Go InputAdapter with approved physical-resource binding, explicit template/tokenizer calls, bounded output, independent cancellation and original synchronized cleanup. Null native-context initialization remains UNKNOWN, and parent revocation cannot be undone by a later completion receipt. Actual Windows process tests use a synthetic ABI DLL only, not real llama libraries/weights, GPU offload, LP, E2E, trusted usage, final ACK or public protocol output. The process still uses the caller account; Linux is Go compile-only. Node execution remains disabled. All 56 tasks/222 steps and historical limitations remain open.')
+        report['limitations'].append('R021 attempt2 failed only at the Web CDP response body read; the fixture now captures the real upstream body before fulfillment. Attempt3 passed Web but recorded unconfirmed native control-drain cleanup, a two-second watchdog finish timeout, expired shared 220-second integration context, and a 12-second H5 narrow logout locator timeout. Both unchanged native cases passed three isolated repetitions each; the underlying timing/latency causes remain unproven. All original failures/media and exact recovery receipts remain linked; no production/test deadline or assertion was relaxed.')
+    if round_id in {'R015','R016','R017','R018','R019','R020','R021'}:
         lease_paths = [event.get('Output', '').strip() for event in (json.loads(line) for line in events.read_text(encoding='utf-8').splitlines()) if event.get('Test') == 'TestSupervisorShortRealLeaseNeverExecutesPastExpiry' and event.get('Action') == 'output' and any(marker in event.get('Output', '') for marker in ['ZERO_SUBMIT_SAFE_REJECTION', 'ONE_SUBMIT_BOUNDED_BY_SIGNED_EXPIRY'])]
         if len(lease_paths) != 1:
             raise ValueError('短签名租约必须有实际零提交/截止中止分支证据')
         report['short_real_lease_observed_path'] = lease_paths[0]
-    commands = 'admin/API/node' if round_id in {'R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'} else 'admin/API'
+    commands = 'admin/API/node' if round_id in {'R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'} else 'admin/API'
     text += f'Go 依赖校验、格式检查、vet及 Windows/Linux amd64 {commands}命令构建均通过；Linux仅交叉编译。依赖版本/许可清单只覆盖当前Go模块，不是全平台SBOM。\n\n'
     text += f'- [Go/数据库实际事件]({round_id}-native-go-tests.jsonl)\n- [实例退出与范围]({round_id}-native-summary.json)\n- [构建、源码摘要与依赖校验]({round_id}-native-source-checks.json)\n- [Go依赖与许可证](../../licenses/go-dependencies.json)\n\n'
     text += '本轮实际覆盖原生HTTP/会话/CSRF，但仅通过签名合成渠道响应；未覆盖真实支付宝授权、GPU、Android、资金渠道、密码互通、独立评审、性能和完整产品主验收；不声称Go race detector或断电恢复通过。测试资格均为显式写入临时数据库的合成夹具，不能作为真实开售证据。\n\n'
-    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'}:
-        text += f'第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有{21 if round_id in {'R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'} else 13}项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查]({round_id}-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
+    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'}:
+        text += f'第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有{21 if round_id in {'R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'} else 13}项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查]({round_id}-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
     if round_id == 'R008':
         text += '第61—72项新增原生提供方控制代理：实际Windows DPAPI/ACL、进程强制终止后的OS锁与原命令恢复，以及真实HTTP/临时PG丢登记和心跳回执验证。另以当前编译出的Windows二进制独立运行init、status和未登记heartbeat三个命令，跨进程身份不变且未登记心跳被拒绝，所有命令进程已退出，见[实际CLI记录](R008-native-node-cli.json)。Linux Secret Service只经过线协议夹具与交叉编译，未实测真实Linux钥库；这里的控制状态加密不是客户内容端对端加密。\n\n'
     if round_id == 'R009':
@@ -514,9 +540,11 @@ def main() -> None:
         text += 'R018：35/93操作、65表/664列/113外键；010仅追加六列和领取约束，001—009及端侧DDL原字节保留。实际签名设备通过原订单/资源/租期重新核验领取原lease，原命令固定，领取不等于执行ACK/推理/计费。输入/manifest交付、生产独立信任、可信usage/真实渠道和完整验收仍待；R016时序风险继续开放。\n\n'
     if round_id == 'R020':
         text += 'R020：持久原生命令、独立pin/订单内核批准、受限内存输入及一次提交监督器接线；宿主清理只投影原执行凭证。Windows DPAPI/ACL实际测试、真实HTTP和原生SQLite，模型后端为合成夹具，CLI执行仍关闭。完整源码回归按以上逐项记录核验；无E2E、GPU推理或计费，全部56/222及既有时序风险开放。\n\n'
+    if round_id == 'R021':
+        text += 'R021另有5项带构建标签的实际Windows原生worker＋合成C ABI测试（含退出与空上下文子场景），独立于上述258项登记。NK-001—042、完整包与原物理资源绑定、一次提交、分词/采样/停止、独立取消、128KiB输出和同步后清理已有源码；真实模型/GPU/LP/E2E、长期CLI、完整结果/SSE/ACK、可信usage与支付仍待。全部56/222和历史时序/归档限制继续开放。\n\n'
     (EVIDENCE / f'{round_id}-验证报告.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     (EVIDENCE / f'{round_id}-验证报告.md').write_text(text.rstrip() + '\n', encoding='utf-8')
-    print(json.dumps({'round': round_id, 'passed': len(cases), 'scope': 'CONTROL_AND_RELAY_SUBSET_ONLY' if round_id in {'R012','R013','R014','R015','R016','R017','R018','R019','R020'} else 'CONTROL_SERVICES_ONLY'}, ensure_ascii=False))
+    print(json.dumps({'round': round_id, 'passed': len(cases), 'scope': 'CONTROL_AND_RELAY_SUBSET_ONLY' if round_id in {'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'} else 'CONTROL_SERVICES_ONLY'}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

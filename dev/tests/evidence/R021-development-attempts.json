@@ -1,0 +1,147 @@
+{
+  "round": "R021",
+  "scope": "Development attempts are separate from full final regression, real inference and hardware/payment qualification.",
+  "attempts": [
+    {
+      "kind": "NATIVE_CPP_COMPILATION",
+      "artifact": "dev/tests/evidence/R021-native-worker-build-attempt1.json",
+      "sha256": "f6b983b24f9a6ca0ed536ba288426caeace8b48255d3528b367b29d2fcfb7808",
+      "passed": false,
+      "failed_targets": [
+        "dev/src/client/kernels/llama-worker/worker.cpp"
+      ]
+    },
+    {
+      "kind": "NATIVE_CPP_COMPILATION",
+      "artifact": "dev/tests/evidence/R021-native-worker-build-attempt2.json",
+      "sha256": "59a1d79ed4d4b56a888da2574ab50f1a33e6496717a5fe7b12f4f64c929e8e76",
+      "passed": false,
+      "failed_targets": [
+        "dev/tests/native-worker/fixture.cpp"
+      ]
+    },
+    {
+      "kind": "NATIVE_CPP_COMPILATION",
+      "artifact": "dev/tests/evidence/R021-native-worker-build-attempt3.json",
+      "sha256": "7486ec111ba19c2dabdc7745f95c59232ea6c99b298bce8c557fb7c23ae58b00",
+      "passed": false,
+      "failed_targets": [
+        "dev/tests/native-worker/fixture.cpp"
+      ]
+    },
+    {
+      "kind": "NATIVE_CPP_COMPILATION",
+      "artifact": "dev/tests/evidence/R021-native-worker-build-attempt4.json",
+      "sha256": "c39cbf819f34feaec87c9d9e623e4ba3902928ad00a281d9090a3a8ac1f15737",
+      "passed": false,
+      "failed_targets": [
+        "dev/tests/native-worker/fixture.cpp"
+      ]
+    },
+    {
+      "kind": "EARLY_GO_COMPILATION",
+      "passed": false,
+      "diagnostic": "rand.Read was passed a [16]byte instead of a slice; corrected to nonce[:]; no runtime test executed in that attempt."
+    },
+    {
+      "kind": "SYNTHETIC_C_ABI_PROCESS",
+      "artifact": "dev/tests/evidence/R021-native-capi-fixture-summary-attempt1.json",
+      "sha256": "37a923012c4b62a0ff4f4e6e01802b53d1c7c015aa58d3884f410ea316164fc5",
+      "passed": false,
+      "observed_cases": {
+        "TestNativeCAPISyntheticRoundTripStopAndModelReuse": "fail",
+        "TestNativeCAPITokenizerRejectsBeforeDecode": "fail",
+        "TestNativeCAPICancelRequiresSynchronizationAndClear": "fail",
+        "TestNativeCAPIUnexpectedExitNeverReleasesAmbiguousOwner": "pass",
+        "TestNativeCAPIPackTamperAndUnavailableDeviceFailClosed": "pass"
+      },
+      "note": "Three failed / two passed; narrow std::fstream path handling failed under the Chinese project path. Fixture now explicitly constructs UTF-8 filesystem paths and checks writes; no product timeout/assertion relaxed. The old receipt field owned_worker_exit_waited_by_adapter was unconditional and is not independent exit proof; current tagged tests explicitly observe exited."
+    },
+    {
+      "kind": "SOURCE_CHECK_PREPARATION",
+      "artifact": "dev/tests/evidence/R021-native-source-checks-attempt1.json",
+      "sha256": "0a97136dcb974d4c343d664ac2d11ba046369a95366506c9f59b919c4be5551a",
+      "passed": false,
+      "note": "Version/mod verification/vet/gofmt passed; first native build exceeded the unchanged 180-second build bound. Original tool recorded only TimeoutExpired, not exact timed-out arguments; source snapshot retained. Root cause unproven. Added command/target/timeout recording for later failures, without changing limits."
+    }
+  ],
+  "virtualization_used": false,
+  "historical_limitations": [
+    "R016/R019/R020 storage/cleanup/H5 timing causes remain unproven; no later pass proves stability.",
+    "R020 attempt4/5 retain 19 missing original PNGs; exact recovered assets and individual missing list remain in R020-historical-media-recovery.json."
+  ],
+  "hardening_after_first_full_run": {
+    "baseline_archive": "dev/tests/evidence/R021-full-attempt1-archive.json",
+    "baseline_scope": "All 258 regular Go/native database cases and both browser journeys; separate C API baseline archived before hardening.",
+    "all_18_browser_assets_retained_by_exact_receipt_hash": true,
+    "changes": [
+      "Null native-context initialization or pre-handle exception exits without a fake STOPPED/clear receipt; new tagged crash/null-init subcases.",
+      "Locally approved physical resource is mandatory and independently matched even when work and companion manifest agree on another resource.",
+      "Parent revocation remains cancellation if a completion receipt races it; native deadline is rechecked after synchronization."
+    ],
+    "verification": "Current source checks, all 258 regular cases across native/core/Web/H5, five separate tagged native-process C ABI cases, four document-check groups and the frozen NB04 static requirement check pass. Actual reader capture/decoding completed and its owned browser/preview closed. Earlier full-run timing and historical archival limitations remain disclosed; this does not establish real model/GPU, LP/E2E, trusted usage, payments or full product acceptance."
+  },
+  "full_attempt2": {
+    "archive": "dev/tests/evidence/R021-full-attempt2-archive.json",
+    "failed_browser_recovery": "dev/tests/evidence/R021-full-attempt2-failed-browser-assets.json",
+    "result": "All 258 registered regular top-level cases were exercised; browser parent case includes a failed Web subcase and a passed miniapp subcase. Native/core/miniapp segments pass; Web fails because CDP response.json could not retrieve the real third pairing response body.",
+    "fix": "Only browser fixture captures the actual route.fetch response before fulfillment. No response synthesized, no write retry, no product source or assertion/deadline changed.",
+    "archive_limitation": "Initial archiver followed stale successful Web receipt and reported five digest mismatches; all five current failed screenshots plus actual failed stdout recovered in supplemental manifest, all original successful assets already retained in attempt1. Future archiver extracts failed current-run stdout before discovering assets.",
+    "failed_browser_receipt": "dev/tests/evidence/R021-full-attempt2-web-browser-error.json"
+  },
+  "full_attempt3": {
+    "archive": "dev/tests/evidence/R021-full-attempt3-archive.json",
+    "extra_diagnostics": "dev/tests/evidence/R021-full-attempt3-extra-diagnostics.json",
+    "segments": {
+      "native": 1,
+      "core": 1,
+      "web": 0,
+      "miniapp": 1
+    },
+    "issues": [
+      "TestNodeControlDrainStopsSupervisedOriginalOwner returned ErrShutdown (unconfirmed cleanup, resource retained).",
+      "TestSupervisorAdapterDeadlineCannotExceedSignedExpiry timed out in the unchanged two-second finish helper.",
+      "Integration TestMain shared 220-second context expired; later cases cancelled immediately. Underlying latency cause unproven.",
+      "H5 320px logout locator exceeded unchanged 12 seconds; failure screenshot captured the account and button afterward. A screenshot does not establish timely readiness."
+    ],
+    "browser_fix_result": "Web real pairing body capture passed; no product source changed.",
+    "owned_database_stopped": true,
+    "archive_missing_assets": 0,
+    "no_production_or_test_bound_changed": true,
+    "failed_browser_receipt": "dev/tests/evidence/R021-full-attempt3-miniapp-browser-error.json"
+  },
+  "timing_replay": {
+    "summary": "dev/tests/evidence/R021-native-timing-replay.json",
+    "raw": "dev/tests/evidence/R021-native-timing-replay.jsonl",
+    "result": "Both unchanged existing native timing cases pass three repetitions each. This does not establish the failed full-run latency cause or prove stability. No production/test timeout, assertion, SQL or product source changed."
+  },
+  "final_full_run": {
+    "run_id": "20261030T202128Z-f281db08",
+    "regular_top_level_cases": 258,
+    "segments": {
+      "native": 0,
+      "core": 0,
+      "web": 0,
+      "miniapp": 0
+    },
+    "separate_tagged_native_capi_cases": 5,
+    "owned_database_stopped": true,
+    "both_browsers_closed": true,
+    "remaining_owned_tabs": 0,
+    "scope": "Current native/control/relay/UI subsets only; does not prove stability, real model/GPU performance, LP/E2E, trusted usage or payments.",
+    "reader_capture": {
+      "files": 7,
+      "actual_frames": 130,
+      "seconds": 14.1,
+      "browser_closed": true,
+      "preview_stopped": true
+    },
+    "document_check_groups_passed": 4,
+    "nb04_static_check_passed": true
+  },
+  "documentation_generation_attempt": {
+    "failure": "Progress validation rejected its own not-yet-generated R021 progress Markdown listed as an input artifact.",
+    "correction": "The increment lists the existing progress generator as its input artifact; the generated current-round Markdown remains an output, with all file-existence validation retained.",
+    "product_or_test_source_changed": false
+  }
+}
