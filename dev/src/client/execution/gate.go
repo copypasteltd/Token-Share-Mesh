@@ -59,7 +59,10 @@ func receiptCapacity(ctx context.Context, tx *sql.Tx) error {
 }
 func (s *Store) installGuard(l executionlease.Lease, stamp Stamp) {
 	expires, _ := time.Parse(time.RFC3339Nano, l.Expires)
-	s.guards[l.ID] = guard{expires, stamp.Elapsed + expires.Sub(stamp.Wall)}
+	remaining := expires.Sub(stamp.Wall)
+	// Anchor the native monotonic deadline BEFORE metadata processing and
+	// fsync. Neither transaction latency nor later reads can renew a lease.
+	s.guards[l.ID] = guard{expires: expires, until: stamp.Elapsed + remaining, deadline: s.sampledAt.Add(remaining)}
 }
 
 // Receive durably records the original command and both remote fences before

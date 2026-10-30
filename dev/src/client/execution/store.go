@@ -18,7 +18,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -63,11 +62,12 @@ func (h Hold) Owner() string           { return h.owner }
 func (h Hold) LocalGeneration() string { return h.local }
 
 type guard struct {
-	expires time.Time
-	until   time.Duration
+	expires  time.Time
+	until    time.Duration
+	deadline time.Time
 }
 type Store struct {
-	mu          sync.Mutex
+	gate        chan struct{}
 	db          *sql.DB
 	binding     Binding
 	clock       Clock
@@ -75,6 +75,7 @@ type Store struct {
 	lastElapsed time.Duration
 	poisoned    bool
 	clockUnsafe bool
+	sampledAt   time.Time
 }
 type ResourceStatus struct {
 	Resource   string `json:"resource_id"`
@@ -134,7 +135,7 @@ func Open(ctx context.Context, path string, b Binding, create bool, clock Clock)
 	if clock == nil {
 		clock = nativeClock{time.Now()}
 	}
-	s := &Store{db: db, binding: b, clock: clock, guards: map[string]guard{}}
+	s := &Store{gate: make(chan struct{}, 1), db: db, binding: b, clock: clock, guards: map[string]guard{}}
 	if err = s.initialize(ctx, create); err != nil {
 		db.Close()
 		return nil, ErrStorage
@@ -233,8 +234,21 @@ func (s *Store) initialize(ctx context.Context, create bool) error {
 // admission check returns a domain refusal. Any SQL/commit failure poisons the
 // whole gate. Callers never receive raw SQL, filesystem or input diagnostics.
 func (s *Store) transaction(ctx context.Context, action func(*sql.Tx, Stamp) error) error {
-	s.mu.Lock()
-	defer s.mu.Unlock()
+	if s.gate == nil {
+		return ErrStorage
+	}
+	select {
+	case s.gate <- struct{}{}:
+	case <-ctx.Done():
+		return ErrStorage
+	}
+	defer func() { <-s.gate }()
+	// A cancelled waiter has not touched SQL and cannot make its outcome
+	// ambiguous. Preserve the ledger for original-owner recovery. SQL/commit
+	// errors after BeginTx still poison the gate conservatively.
+	if ctx.Err() != nil {
+		return ErrStorage
+	}
 	if s.db == nil || s.poisoned {
 		return ErrStorage
 	}
@@ -244,6 +258,7 @@ func (s *Store) transaction(ctx context.Context, action func(*sql.Tx, Stamp) err
 		return ErrStorage
 	}
 	defer tx.Rollback()
+	s.sampledAt = time.Now()
 	stamp := s.clock.Sample()
 	err := s.advance(ctx, tx, stamp)
 	if err == nil {
@@ -284,7 +299,7 @@ func (s *Store) advance(ctx context.Context, tx *sql.Tx, stamp Stamp) error {
 		return ErrStorage
 	}
 	for id, g := range s.guards {
-		if !stamp.Wall.Before(g.expires) || stamp.Elapsed >= g.until {
+		if !stamp.Wall.Before(g.expires) || stamp.Elapsed >= g.until || !time.Now().Before(g.deadline) {
 			if _, e = tx.ExecContext(ctx, `UPDATE resources SET phase='QUARANTINED',stopped=0 WHERE owner_id=? AND mode='JOB'`, id); e != nil {
 				return ErrStorage
 			}
@@ -305,8 +320,11 @@ func (s *Store) Tick(ctx context.Context) error {
 	})
 }
 func (s *Store) Close() {
-	s.mu.Lock()
-	defer s.mu.Unlock()
+	if s.gate == nil {
+		return
+	}
+	s.gate <- struct{}{}
+	defer func() { <-s.gate }()
 	if s.db != nil {
 		s.db.Close()
 		s.db = nil

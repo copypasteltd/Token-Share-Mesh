@@ -20,14 +20,16 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
 | Implementation tasks | 25 in progress · 29 not started · 1 conditional · 1 deferred |
-| Latest source round | R012 · VERIFIED_CHANGED_RELAY_WITH_UNCHANGED_BASELINE_FULL_RERUN_FAILED |
-| Native test evidence | 20 targeted relay cases passed; latest full rerun: 127 passed / 7 FAILED; 114 baseline cases are historical only |
+| Latest source round | R013 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 140 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
+R013 fixes cancellable native metadata admission, pre-SQL cancellation poisoning, transaction-time lease extension and backend deadline drift. MetadataTimeout now has an independent 2s default per operation (20ms–5s), capped by shutdown deadlines; signed leases and backend call limits are unchanged. Repeated identical mappings and already-persisted stop phases avoid redundant writes. Durable cleanup completion wakes shutdown after slot release, preventing false poll-based timeouts without extending the deadline. Five controlled negative regressions and their failed attempts are retained; current native/full and browser evidence is reported separately. The CLI still enables no inference or hardware qualification. See [NMD-001–013](docs/技术开发/附录-原生元数据事务与执行截止修正.md), [R013 source evidence](dev/tests/evidence/R013-验证报告.md), [current UI evidence](dev/tests/evidence/R013-frontend-checks.json) and [all 56 tasks/222 open steps](dev/progress/R013-本轮实现与完整待办.md).
+
 R012 adds a fixed-seller/contract/route native text relay for Chat Completions, stateless Responses and Messages JSON/SSE subsets. It validates exact fields, separate stream terminals, scoped headers/secrets, no retry and bounded cancellation/deadlines/backpressure. Twenty-one new Go cases (20 relay and one supervisor regression) bring the total to 134, using owned loopback synthetic backends and explicit admission/secret fixtures. No paid inference listener, production route/funding gate, SDK certification, real engine stop, billable usage or content E2E is claimed. Unchanged 21-case TS/three-target build receipts are reused only after source/output/log hash checks; both browser journeys rerun against the current Windows node binary. A deterministic regression fixes stale post-cleanup snapshots being reported as failed shutdowns, without touching replacement owners. The API remains 31/93 operations, 65 platform tables and byte-identical migrations 001–005. See [source evidence](dev/tests/evidence/R012-验证报告.md), [frontend evidence](dev/tests/evidence/R012-frontend-checks.json), [BRC-001–024](docs/技术开发/附录-固定路由协议转发核心实施细则.md) and [all 56 tasks/222 pending steps](dev/progress/README.md). Field allowlists compare complete names exactly; delimiter-bearing forged keys are rejected in request and response regression cases.
 
-**Latest validation is limited:** the initial R012 full run passed 134 cases in published commit `694f9be`. The exact-field follow-up changes only three relay Go files and passes all 20 relay cases. Another 114 cases reuse only immutable, byte-identical source/module/input evidence; the latest full rerun passed 127 cases and FAILED seven existing short-deadline cases, and a serialized diagnostic FAILED six. Host contention was observed but is not a proven cause. No lease, cleanup or test deadline was widened. This is not a current 134-case full pass. See the failure lists and reuse proof in the source report above.
+**Historical R012 follow-up validation:** the initial R012 full run passed 134 cases in published commit `694f9be`. The exact-field follow-up changes only three relay Go files and passes all 20 relay cases. Another 114 cases reuse only immutable, byte-identical source/module/input evidence; the final R012 full rerun passed 127 cases and FAILED seven existing short-deadline cases, and a serialized diagnostic FAILED six. Host contention was observed but is not a proven cause. No lease, cleanup or test deadline was widened. This is not a current 134-case full pass. See the failure lists and reuse proof in the source report above.
 
 The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_rate for TOKEN_1M. Each rate has an integer numerator in fen and a positive denominator, together with fee ownership, commission and rounding versions. At 360 fen/hour, 30 minutes costs at most 180 fen; 1M input at 80 fen/M plus 0.25M output at 160 fen/M totals 120 fen. Quotes freeze seller, environment, policy, rates and budget. Creating an order rechecks admission and atomically writes WAITING_PAYMENT, quote consumption, consent audit and outbox. It does not pay, lock a GPU or execute work. A 350 fen/hour rate cannot be rounded into the legacy integer-fen/minute column.
 
@@ -63,17 +65,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R012/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R013/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R012/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R013/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R012/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R013/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R012/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R012/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R013/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R013/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R012/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R013/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R012/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R012/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R012/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R012/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R013/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R013/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R013/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R013/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 
@@ -191,13 +193,13 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # Disposable loopback PostgreSQL -> real tests -> instance stopped
-python -X utf8 dev/tools/核验原生源码.py --round R012
-python -X utf8 dev/tools/原生数据库验证.py --round R012
-python -X utf8 dev/tools/核验前端源码.py --round R012
-python -X utf8 dev/tools/整理原生验证证据.py --round R012
+python -X utf8 dev/tools/核验原生源码.py --round R013
+python -X utf8 dev/tools/原生数据库验证.py --round R013
+python -X utf8 dev/tools/核验前端源码.py --round R013
+python -X utf8 dev/tools/整理原生验证证据.py --round R013
 ```
 
-These commands explicitly target R012 and preserve earlier evidence. The strict full-run consolidator rejects failed runs; the latest recorded full rerun failed seven cases, as stated above. The follow-up evidence helper is specific to the immutable R012 baseline and cannot replace full-suite validation. Build the frontends and native binary before database/browser integration. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+These commands explicitly target R013 and preserve earlier evidence. The strict consolidator rejects failed current runs; the historical R012 helper cannot substitute for R013 full validation. Build the frontends and native binary before database/browser integration. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
 
 ## Intended buyer and seller usage
 

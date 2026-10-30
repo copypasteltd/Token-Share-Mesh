@@ -1,0 +1,8 @@
+{"Time":"2026-10-30T15:58:00.4150192+08:00","Action":"start","Package":"p11.local/compute/client/supervisor"}
+{"Time":"2026-10-30T15:58:02.2002488+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorMetadataStepsHaveIndependentBudgets"}
+{"Time":"2026-10-30T15:58:02.2012483+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorMetadataStepsHaveIndependentBudgets","Output":"=== RUN   TestSupervisorMetadataStepsHaveIndependentBudgets\n","OutputType":"frame"}
+{"Time":"2026-10-30T15:58:11.5843041+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorMetadataStepsHaveIndependentBudgets","Output":"--- PASS: TestSupervisorMetadataStepsHaveIndependentBudgets (9.38s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T15:58:11.5843041+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorMetadataStepsHaveIndependentBudgets","Elapsed":9.38}
+{"Time":"2026-10-30T15:58:11.5843041+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T15:58:11.6064006+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"ok  \tp11.local/compute/client/supervisor\t11.191s\n"}
+{"Time":"2026-10-30T15:58:11.6064006+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Elapsed":11.192}

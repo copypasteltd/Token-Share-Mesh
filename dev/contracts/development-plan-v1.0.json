@@ -20006,11 +20006,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "fd0942433f96541852629b38056de7c5101ac63c48bd78539367c153a81e1910"
+      "sha256": "d614d12051183837291b7d3f73cccd7a9f34957c6e010c754995109b705b43ab"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "17fb2f030890b17ed11bc2347f00b5334f8dd85463c221ec082845b1aee03f37"
+      "sha256": "9506fdc03b27cb4e0e9df44a62bdd33b642e991ab92c6b2afa4af2684cc98142"
     },
     {
       "path": "dev/planning/开发细则源数据.py",

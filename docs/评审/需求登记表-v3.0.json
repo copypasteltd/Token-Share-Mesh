@@ -11,10 +11,10 @@
   "gateway_design": "Sub2API类明文内核＋买卖端本地/LAN加解密＋平台密文中转；未实现",
   "passed": true,
   "main_documents": 7,
-  "markdown_files": 122,
+  "markdown_files": 123,
   "functional_requirements": 80,
   "acceptance_cases": 80,
-  "local_links": 1147,
+  "local_links": 1157,
   "priorities": {
     "P0": 72,
     "P1": 3,
@@ -22,7 +22,7 @@
     "P2": 1,
     "P2-AUTH": 1
   },
-  "product_source_files": 143,
+  "product_source_files": 145,
   "verification_kind": "文档结构；软件/密码安全/支付/硬件及Android真机均未验收",
   "errors": [],
   "requirements": [

@@ -1,5 +1,11 @@
 # Usage / 使用指南
 
+## R013 native metadata / 元数据与执行截止
+
+Trusted supervisor embeddings may set Options.MetadataTimeout (default 2s, 20ms–5s) independently of CallTimeout. Each metadata step gets its own budget, capped by an earlier shutdown deadline. The CLI exposes no engine or public execution listener. See [NMD-001–013](../../docs/技术开发/附录-原生元数据事务与执行截止修正.md) and [current native evidence](../tests/evidence/R013-验证报告.md).
+
+SQL开始前取消只拒绝该次操作，不重建/清空健康账证；SQL或提交不确定仍关闭。原owner必须查、停、清后才能复用。Activity.Deadline是事务前锚定的固定原生截止，不能用Remaining在返回后重新计时。当前严格回归选--round R013；旧R012失败和受限对照仍为历史记录。
+
 ## R012 relay embedding / 转发核使用
 
 Run the native protocol tests from the clone root:

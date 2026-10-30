@@ -1,0 +1,9 @@
+{"Time":"2026-10-30T16:01:23.1882158+08:00","Action":"start","Package":"p11.local/compute/client/supervisor"}
+{"Time":"2026-10-30T16:01:23.9952582+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShutdownObservesCleanupBeforeNextPoll"}
+{"Time":"2026-10-30T16:01:23.9952582+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShutdownObservesCleanupBeforeNextPoll","Output":"=== RUN   TestSupervisorShutdownObservesCleanupBeforeNextPoll\n","OutputType":"frame"}
+{"Time":"2026-10-30T16:01:24.5190972+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShutdownObservesCleanupBeforeNextPoll","Output":"    deadline_test.go:142: shutdown missed completed cleanup between polls shutdown cleanup is unconfirmed; retain resource {P11_NATIVE_EXECUTION_STORE_1 [{resource_test FREE  1 1 false}] 1 false} \u003cnil\u003e\n","OutputType":"error"}
+{"Time":"2026-10-30T16:01:24.5339839+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShutdownObservesCleanupBeforeNextPoll","Output":"--- FAIL: TestSupervisorShutdownObservesCleanupBeforeNextPoll (0.54s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T16:01:24.5339839+08:00","Action":"fail","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShutdownObservesCleanupBeforeNextPoll","Elapsed":0.54}
+{"Time":"2026-10-30T16:01:24.5339839+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"FAIL\n","OutputType":"frame"}
+{"Time":"2026-10-30T16:01:24.5502447+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"FAIL\tp11.local/compute/client/supervisor\t1.361s\n","OutputType":"frame"}
+{"Time":"2026-10-30T16:01:24.5502447+08:00","Action":"fail","Package":"p11.local/compute/client/supervisor","Elapsed":1.362}

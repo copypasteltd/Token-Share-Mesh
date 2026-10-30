@@ -1,5 +1,15 @@
 # Changelog
 
+## R013 — Native metadata and execution deadlines
+
+- Make metadata waiters cancellable; cancellation before SQL preserves the healthy original-owner ledger. SQL/commit ambiguity still closes the gate.
+- Anchor native execution deadlines before transaction work; return no expired authority and give adapters the fixed deadline rather than restarting relative remaining time.
+- Add per-operation MetadataTimeout (2s default, 20ms–5s) independently of backend CallTimeout; cap shutdown I/O by its absolute deadline. Signed lease and backend limits are unchanged.
+- Avoid rewriting known backend mappings and already-persisted stop phases; keep full stopped/cleanup evidence and owner CAS.
+- Wake shutdown after durable cleanup and slot release, without extending its deadline; retain the deterministic FREE-yet-timeout regression.
+- Retain five initial controlled failures and intermediate fixture/I/O failures. Update strict 140-case registration, both current browser/native-binary journeys, exact-source reused frontend receipts, NMD-001–013, bilingual docs/media and all 56 tasks/222 pending steps.
+- Keep 31/93 operations, 65 platform tables, byte-identical 001–005/local DDL and deferred deployment/observability. No local virtualization, GPU inference, real payment or content E2E acceptance.
+
 ## R012 — Bound native protocol relay
 
 - Follow-up: replace delimiter-based substring checks with exact field-name equality in request/response allowlists; preserve pre-fix failures. The 20 changed relay cases pass. Reuse 114 identical-source cases from the initial published full pass only after exact source/module/input and independent-package checks. The latest full rerun FAILED seven existing short-deadline cases; a serialized diagnostic FAILED six. Preserve both failures; host contention is an observation, not a proven cause. No deadline or cleanup rule was relaxed, and no current 134-case full pass is claimed.

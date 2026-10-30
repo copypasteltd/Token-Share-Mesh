@@ -162,3 +162,9 @@ A core owns one immutable seller, route, contract, profile, model mapping and up
 平台STANDARD明文域与未来卖方E2E_BASIC解密域由可信配置区分，CipherRelay不使用正文核。库仅取消HTTP并返回Outcome，原执行停止/清理、可信计费和入站租约由其他生产模块接入；未挂载可售入口。详见[完整BRC细则](../../docs/技术开发/附录-固定路由协议转发核心实施细则.md)。
 
 Exact-field follow-up: request/response field names use whole-name equality, including delimiter-bearing negative cases. All 20 current relay cases pass, while the latest full rerun failed seven existing short-deadline cases. The 114 unchanged-package cases use only immutable, identical-source baseline evidence; six serialized diagnostic failures are retained too. / 当前补充验证受限，不能宣称全量通过，见[逐项证据和失败](../tests/evidence/R012-验证报告.md)。
+
+## R013 metadata budgets / 元数据预算与固定截止
+
+A cancellable native metadata gate distinguishes pre-SQL cancellation from ambiguous SQL/commit failures. Receive/Renew anchor a fixed monotonic deadline before transaction work; Activity returns that deadline and recalculates remaining authority after commit. Each metadata step has independent bounded I/O, while adapters retain their original call/lease limits.
+
+MetadataTimeout默认2秒、20毫秒—5秒，受退出总截止约束；已知相同映射和已持久停止阶段不重复写。停止、清理及owner比较规则保持，详见[NMD约束](../../docs/技术开发/附录-原生元数据事务与执行截止修正.md)。

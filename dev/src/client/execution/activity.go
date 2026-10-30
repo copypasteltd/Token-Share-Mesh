@@ -16,6 +16,7 @@ type Activity struct {
 	Environment, Capability, ManifestHash string
 	Authorized                            bool
 	Remaining                             time.Duration
+	Deadline                              time.Time
 }
 
 func (s *Store) activities(ctx context.Context, only *Hold) ([]Activity, error) {
@@ -42,6 +43,10 @@ func (s *Store) activities(ctx context.Context, only *Hold) ([]Activity, error) 
 			a.Environment, a.Capability, a.ManifestHash = l.Environment, l.Capability, l.ManifestHash
 			if g, live := s.guards[l.ID]; live && !s.clockUnsafe && (a.Phase == "PREPARING" || a.Phase == "EXECUTING") {
 				a.Remaining = min(g.expires.Sub(stamp.Wall), g.until-stamp.Elapsed)
+				a.Deadline = s.sampledAt.Add(a.Remaining)
+				if g.deadline.Before(a.Deadline) {
+					a.Deadline = g.deadline
+				}
 				a.Authorized = a.Remaining > 0
 			}
 			result = append(result, a)
@@ -54,6 +59,14 @@ func (s *Store) activities(ctx context.Context, only *Hold) ([]Activity, error) 
 		}
 		return nil
 	})
+	// Commit may consume the whole remaining interval. Return no stale live
+	// authority, while retaining the durable owner until actual cleanup.
+	for i := range result {
+		if result[i].Authorized {
+			result[i].Remaining = max(0, time.Until(result[i].Deadline))
+			result[i].Authorized = result[i].Remaining > 0
+		}
+	}
 	return result, err
 }
 

@@ -42,7 +42,7 @@ func TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner(t *testing.
 		if shutdown {
 			s.Drain()
 		}
-		if e = s.sweepActivities(ctx, ctx, stale, shutdown); e != nil {
+		if e = s.sweepActivities(ctx, stale, shutdown); e != nil {
 			t.Fatal("completed owner treated as a shutdown/storage failure", e)
 		}
 	}
@@ -53,7 +53,7 @@ func TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner(t *testing.
 	if e != nil {
 		t.Fatal(e)
 	}
-	if e = s.sweepActivities(ctx, ctx, stale, true); e != nil {
+	if e = s.sweepActivities(ctx, stale, true); e != nil {
 		t.Fatal("old snapshot failed after next owner", e)
 	}
 	status, e := f.store.Snapshot(ctx)

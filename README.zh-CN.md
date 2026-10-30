@@ -20,14 +20,16 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
 | 实施任务 | 25项进行中 · 29项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R012 · VERIFIED_CHANGED_RELAY_WITH_UNCHANGED_BASELINE_FULL_RERUN_FAILED |
-| 原生测试证据 | 当前转发20项通过；末次全量127通过/7失败；114项对照仅为历史依据 |
+| 最新源码轮次 | R013 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| 原生测试证据 | 140项通过，仅控制/原生/转发源码子集 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
-R012新增固定卖家/合同/路由的原生文本转发核：Chat Completions、无状态Responses和Messages三种JSON/SSE子集，精确字段校验、独立流终态、受限头/凭据、无重试和有界取消/截止/背压。新增21项Go用例（20项转发与1项监督竞态），累计134项；只用原生loopback合成后端与显式准入/凭据夹具，不发布付费模型入口，不代表真实SDK/内核停算/计费或内容E2E通过。前端21项TS/三目标构建按原字节摘要复核复用，双端浏览器和当前Windows节点命令重新运行。另修复清理后旧快照误判退出失败的竞态，原owner围栏与下一使用者不受影响。平台31/93操作、65表及001—005字节保持。见[本轮源码证据](dev/tests/evidence/R012-验证报告.md)、[双端证据](dev/tests/evidence/R012-frontend-checks.json)、[BRC-001—024细则](docs/技术开发/附录-固定路由协议转发核心实施细则.md)和[全部56任务/222子项](dev/progress/README.md)。 字段白名单按完整名称精确相等比较，含分隔符伪字段在请求/响应负向回归中拒绝。
+R013修正原生元数据排队取消、SQL开始前误毒化、事务耗时延租及后端截止漂移。新增独立逐步骤MetadataTimeout，默认2秒、范围20毫秒—5秒，受退出绝对截止压缩；原签名租期和后端调用上限不变。相同后端映射及已持久停止阶段避免重复写；持久清理完成且内部占用释放后唤醒退出，避免轮询误判超时，不扩大截止。五项受控负向复现及中途失败均保留，当前完整回归与浏览器证据单列；CLI仍不开推理或自授资格。见[NMD-001—013细则](docs/技术开发/附录-原生元数据事务与执行截止修正.md)、[R013源码证据](dev/tests/evidence/R013-验证报告.md)、[当前双端证据](dev/tests/evidence/R013-frontend-checks.json)和[全部56任务/222子项](dev/progress/R013-本轮实现与完整待办.md)。
 
-**当前验证受限：**初次R012完整回归134项通过，已发布于`694f9be`。字段补充修复仅改转发包三份Go文件，当前20项转发全部通过；其他114项只复用源码/模块/输入字节一致的不可变对照。末次全量复跑127项通过、7项已有短时限用例失败，串行诊断另有6项失败，全部保留。主机繁忙只是观察，尚未证明逐项根因；未放宽租约、清理或测试时限，不能声称当前134项全量通过。失败及复用依据见上方源码报告。
+历史R012新增固定卖家/合同/路由的原生文本转发核：Chat Completions、无状态Responses和Messages三种JSON/SSE子集，精确字段校验、独立流终态、受限头/凭据、无重试和有界取消/截止/背压。新增21项Go用例（20项转发与1项监督竞态），累计134项；只用原生loopback合成后端与显式准入/凭据夹具，不发布付费模型入口，不代表真实SDK/内核停算/计费或内容E2E通过。前端21项TS/三目标构建按原字节摘要复核复用，双端浏览器和当前Windows节点命令重新运行。另修复清理后旧快照误判退出失败的竞态，原owner围栏与下一使用者不受影响。平台31/93操作、65表及001—005字节保持。见[历史源码证据](dev/tests/evidence/R012-验证报告.md)、[双端证据](dev/tests/evidence/R012-frontend-checks.json)、[BRC-001—024细则](docs/技术开发/附录-固定路由协议转发核心实施细则.md)和[全部56任务/222子项](dev/progress/README.md)。 字段白名单按完整名称精确相等比较，含分隔符伪字段在请求/响应负向回归中拒绝。
+
+**R012历史补充验证：**初次R012完整回归134项通过，已发布于`694f9be`。字段补充修复仅改转发包三份Go文件，当前20项转发全部通过；其他114项只复用源码/模块/输入字节一致的不可变对照。R012末次全量复跑127项通过、7项已有短时限用例失败，串行诊断另有6项失败，全部保留。主机繁忙只是观察，尚未证明逐项根因；未放宽租约、清理或测试时限，不能声称R012补充修复后134项全量通过。失败及复用依据见上方源码报告。
 
 新价合同把AVAILABLE_HOUR的hour_rate，或TOKEN_1M的input_rate/output_rate明确分开；每项均含整数分子/正整数分母、费用承担、佣金和取整版。360分/小时的30分钟最坏180分；80分/M输入加160分/M输出，1M输入与0.25M输出共120分。报价冻结卖家、环境、政策、价格及预算，建单复核后只进入WAITING_PAYMENT；订单、报价消费、同意审计和outbox同事务。它不代表已支付、已锁GPU或已执行。350分/小时不能舍入写进旧整数分/分钟列。
 
@@ -63,17 +65,17 @@ SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，�
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R012/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R013/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R012/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R013/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R012/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R013/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R012/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R012/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R013/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R013/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R012/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R013/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R012/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R012/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R012/recordings/web-transaction.gif) · [订单待确认](dev/media/R012/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R013/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R013/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R013/recordings/web-transaction.gif) · [订单待确认](dev/media/R013/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 
@@ -191,13 +193,13 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # 临时 loopback PostgreSQL → 真实测试 → 确认关闭
-python -X utf8 dev/tools/核验原生源码.py --round R012
-python -X utf8 dev/tools/原生数据库验证.py --round R012
-python -X utf8 dev/tools/核验前端源码.py --round R012
-python -X utf8 dev/tools/整理原生验证证据.py --round R012
+python -X utf8 dev/tools/核验原生源码.py --round R013
+python -X utf8 dev/tools/原生数据库验证.py --round R013
+python -X utf8 dev/tools/核验前端源码.py --round R013
+python -X utf8 dev/tools/整理原生验证证据.py --round R013
 ```
 
-以上检查显式选择R012，保留历史记录；严格全量整理器遇失败即拒绝，末次7项失败如上。补充证据工具仅适用于固定R012对照，不能代替全量验证。前端先构建，原生二进制先编译，再运行数据库联调。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API/node命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
+以上检查显式选择R013，保留历史记录；严格整理器遇本轮失败即拒绝，旧R012补充工具不能替代R013全量验证。前端先构建，原生二进制先编译，再运行数据库联调。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API/node命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
 
 ## 买卖双方未来使用逻辑
 

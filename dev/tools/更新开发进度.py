@@ -88,6 +88,8 @@ def main():
         text+='R012新增固定卖家/合同/路由的独立Sub2API类转发核：三种原生文本JSON/SSE、精确字段、独立终态/文本一致性、显式准入与取钥端口、无重试和有界取消/截止/背压。新增21项Go局部用例（20项转发与1项监督竞态），累计134项；后端与授权为明确合成夹具，不发布付费推理入口，不替真实SDK/内核停算/计费/E2E或性能验收。未变21项TS/三目标构建只按源码/输出/日志摘要复用，当前双端浏览器与Windows命令重跑。平台31/93操作、65表、001—005字节保持，全部56任务/222未收口子项与80/96未执行、DEV-55延后保留。\n\n'
         if progress['rounds'][-1]['verification_status']=='VERIFIED_CHANGED_RELAY_WITH_UNCHANGED_BASELINE_FULL_RERUN_FAILED':
             text+='**当前补充验证受限：**初次完整134项通过已发布；字段修复仅改转发包三份Go文件，当前20项转发通过，114项仅复用不可变相同源码对照。末次全量7项已有短时限用例失败，串行诊断另有6项失败，全部保留，不能表述为当前全量通过。主机负载只是观察，未证明逐项原因；时限/清理规则未放宽，稳定性继续列DEV-53待办。\n\n'
+    if progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R013':
+        text+='R013修正可取消元数据门闩、SQL开始前误毒化、事务耗时延租和实际后端截止漂移；新增独立逐步骤MetadataTimeout默认2秒并受退出绝对截止约束，减少相同映射/已失权停止状态重复写；持久清理完成并释放内部占用后唤醒退出，避免轮询误判超时。原签名租期、后端调用上限及清理owner CAS保持。五项初始受控失败及中途失败均保留；完整140项、当前双端浏览器/Windows命令及未变前端21项/三构建摘要分别登记，不冒称真实GPU、内核、资金、内容E2E或LP/PE验收。31/93操作、65表、001—005及端侧DDL原字节保持，全56任务/222未收口子项、80/96未执行与DEV-55延后保留。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'
