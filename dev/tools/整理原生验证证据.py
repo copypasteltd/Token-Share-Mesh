@@ -106,11 +106,34 @@ R008_CASES = [(f'R008-TEST-{i:03d}', p, n, d) for i, (_, p, n, d) in enumerate(R
 
 R009_CASES = [(f'R009-TEST-{i:03d}', p, n, d if i != 45 else '实际Web/Taro H5及Windows控制CLI：原建单/配对/PATCH丢回执恢复，登记/心跳、停止撤销与数据库唯一事件') for i, (_, p, n, d) in enumerate(R008_CASES, 1)]
 
+R010_CASES = [(f'R010-TEST-{i:03d}', p, n, d) for i, (_, p, n, d) in enumerate(R009_CASES, 1)] + [
+    ('R010-TEST-073', 'client/protocol/executionlease', 'TestExecutionLeaseIndependentSignatureVector', '独立固定字节签名向量、全uint64和验后数据不可变'),
+    ('R010-TEST-074', 'client/protocol/executionlease', 'TestExecutionLeaseRejectsAmbiguityTamperAndWrongPlan', '逐项计划绑定、重复/别名/未知/空值字段和签名篡改拒绝'),
+    ('R010-TEST-075', 'client/protocol/executionlease', 'TestExecutionLeaseFreshnessAndZeroTrustFailClosed', '无信任钥、零值、未生效及到期租约关闭'),
+    ('R010-TEST-076', 'client/execution', 'TestNativeInboxOriginalCommandAndSingleSubmit', '原命令去重、异载荷拒绝、一次提交与原backend映射'),
+    ('R010-TEST-077', 'client/execution', 'TestNativePhysicalGateUnifiesEnginesAndMaintenance', '同物理摘要不建别名；本地/任务/维护同门闩；不造租赁权'),
+    ('R010-TEST-078', 'client/execution', 'TestNativeDualFencesPreserveFullUint64HighWater', '任务/资源双高水位、跨任务拒旧与本地代次耗尽不回绕'),
+    ('R010-TEST-079', 'client/execution', 'TestNativeRenewalRequiresNewSignedImmutableRevision', '完整新签名递增revision；环境/截止不暗改，旧版和迟到续约拒绝'),
+    ('R010-TEST-080', 'client/execution', 'TestNativeDeadlineAndClockRollbackNeverFreeResource', '绝对/单调双截止和回拨隔离，清理可继续但不自动FREE'),
+    ('R010-TEST-081', 'client/execution', 'TestNativeReopenQuarantinesWithoutResubmit', '重开一律撤销内存执行权；保留原backend，先查停清'),
+    ('R010-TEST-082', 'client/execution', 'TestNativeStopCleanupEvidenceAndOldOwnerCAS', '未知停算/部分清理拒绝；旧owner清理不能释放下一代'),
+    ('R010-TEST-083', 'client/execution', 'TestNativeInboxSQLFailureRollsBackAndPoisonsGate', '事务中途真实SQLite故障原子回滚，门闩中毒关闭'),
+    ('R010-TEST-084', 'client/execution', 'TestNativeStoreRejectsMissingCorruptionBindingAndSchemaDrift', 'SQLite缺失/损坏/错误锚定/DDL及版本漂移拒绝，不重建'),
+    ('R010-TEST-085', 'client/execution', 'TestNativeConcurrentReceiveAndSubmitReserveOnlyOnce', '20并发只接纳一个owner；20并发只保留一次提交权'),
+    ('R010-TEST-086', 'client/execution', 'TestNativeAbruptProcessExitRetainsAmbiguousSubmission', '实际子进程异常退出保留WAL中的SUBMITTING，恢复只查不重提'),
+    ('R010-TEST-087', 'client/execution', 'TestNativeLateBackendQueryDuringStopNeverRestoresExecution', '停止期间迟到原backend可用于取消，不恢复执行或替换映射'),
+    ('R010-TEST-088', 'client/execution', 'TestNativeMetadataCapacityAndSQLiteBounds', '4096收据容量、SQLite缓存/映射/页数上限和安全投影'),
+    ('R010-TEST-089', 'client/node', 'TestNodeExecutionAnchorSingleInitAndSharedProcessLock', '节点加密锚定与一次初始化，共OS锁，重开本地owner隔离'),
+    ('R010-TEST-090', 'client/node', 'TestNodeExecutionMissingDatabaseNeverResetsIdentity', '丢执行库不重建、不换原控制身份或执行锚定'),
+    ('R010-TEST-091', 'client/node', 'TestNodeExecutionInterruptedInitAndBindingFailClosed', '先锚后库中断、既有无锚文件、错误绑定均关闭'),
+    ('R010-TEST-092', 'client/node', 'TestNativeExecutionSQLiteInheritsPrivateWindowsACL', '实际Windows DPAPI/本人SYSTEM ACL覆盖SQLite/WAL/SHM及重开'),
+]
+
 def main() -> None:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round',default='R009',choices=['R003','R004','R005','R006','R007','R008','R009'])
+    parser.add_argument('--round',default='R010',choices=['R003','R004','R005','R006','R007','R008','R009','R010'])
     round_id=parser.parse_args().round
-    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES}[round_id]
+    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES}[round_id]
     summary = json.loads((EVIDENCE / f'{round_id}-native-summary.json').read_text(encoding='utf-8'))
     checks = json.loads((EVIDENCE / f'{round_id}-native-source-checks.json').read_text(encoding='utf-8'))
     if summary['test_exit_code'] or not summary['temporary_instance_stopped'] or summary['runner_error'] or summary['cleanup_error'] or checks['status'] != 'PASSED_WITH_LIMITED_SCOPE':
@@ -125,7 +148,7 @@ def main() -> None:
     top = {k: v for k, v in results.items() if '/' not in k[1]}
     if set(top) != expected or any(event['Action'] != 'pass' for event in results.values()):
         raise ValueError(f'本轮{len(cases)}项实际用例必须齐全且无跳过/失败')
-    if round_id in {'R006','R007','R008','R009'}:
+    if round_id in {'R006','R007','R008','R009','R010'}:
         for target in ['web', 'miniapp']:
             key = ('p11.local/compute/api/tests', 'TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder/' + target)
             if key not in results or results[key]['Action'] != 'pass': raise ValueError('双端实际浏览器子场景不可跳过')
@@ -143,26 +166,33 @@ def main() -> None:
         'source_evidence': [f'dev/tests/evidence/{round_id}-native-summary.json', f'dev/tests/evidence/{round_id}-native-go-tests.jsonl', f'dev/tests/evidence/{round_id}-native-source-checks.json'],
         'limitations': ['OAuth uses independently signed synthetic responses; no real Alipay channel or seller/device integration', 'No GPU, Android, real payment, crypto interoperability, independent review or whole-product acceptance', 'Linux admin/API commands cross-compiled only, no Linux runtime validation', 'Not a crash or power-loss durability test; no Go race-detector claim', 'Seller/listing approvals and browser device heartbeats are synthetic, no runtime self-approval; provider pairing UI, complete native key stores/daemons and actual device qualification remain pending'],
     }
-    if round_id in {'R008','R009'}:
+    if round_id in {'R008','R009','R010'}:
         report['limitations'][2] = 'Linux admin/API/node commands cross-compiled only; Linux Secret Service protocol fixtures do not validate a real Linux keyring'
         report['limitations'][3] = 'Windows process-termination recovery is exercised; no power-loss durability or Go race-detector claim'
         report['limitations'][-1] = 'Windows DPAPI/control agent is exercised; Linux Secret Service uses protocol fixtures and cross-compilation only. No GPU, engine execution, job inbox, content encryption or native Alipay acceptance.'
+    if round_id == 'R010':
+        report['limitations'][-1] = 'Native metadata inbox, one-shot submission reservations, dual fences and cleanup CAS use explicit synthetic lease/backend observations. No platform issuer/trust lifecycle, timer-driven engine stopping, real GPU/engine/rental, content encryption or native Alipay acceptance.'
+        report['limitations'].append('Unchanged frontend unit/build records are reused only after exact source/output/public-log hash checks; both current browser/native-binary journeys are rerun independently.')
+        report['development_attempts'] = ['dev/tests/evidence/R010-execution-unit-attempt1.jsonl', 'dev/tests/evidence/R010-native-source-checks-attempt1.json']
     (EVIDENCE / f'{round_id}-验证报告.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     text = f'# {round_id} 原生源码验证报告\n\n仅控制应用服务/原生HTTP身份子集及既有基础通过：{len(cases)}项用例通过，实际用例无失败/跳过；临时原生数据库已停止。完整平台80项主验收仍为 NOT_EXECUTED。\n\n'
     text += '| 用例编号 | 验证内容 | 结果 |\n| --- | --- | --- |\n'
     for code, _, _, description in cases:
         text += f'| {code} | {description} | PASSED |\n'
     text += '\n原生 PostgreSQL 实例：`' + summary['run_id'] + '`；关闭方式：`' + summary['shutdown_mode'] + '`。实例与工具均在项目 runtime，无本地虚拟化。\n\n'
-    commands = 'admin/API/node' if round_id in {'R008','R009'} else 'admin/API'
+    commands = 'admin/API/node' if round_id in {'R008','R009','R010'} else 'admin/API'
     text += f'Go 依赖校验、格式检查、vet及 Windows/Linux amd64 {commands}命令构建均通过；Linux仅交叉编译。依赖版本/许可清单只覆盖当前Go模块，不是全平台SBOM。\n\n'
     text += f'- [Go/数据库实际事件]({round_id}-native-go-tests.jsonl)\n- [实例退出与范围]({round_id}-native-summary.json)\n- [构建、源码摘要与依赖校验]({round_id}-native-source-checks.json)\n- [Go依赖与许可证](../../licenses/go-dependencies.json)\n\n'
     text += '本轮实际覆盖原生HTTP/会话/CSRF，但仅通过签名合成渠道响应；未覆盖真实支付宝授权、GPU、Android、资金渠道、密码互通、独立评审、性能和完整产品主验收；不声称Go race detector或断电恢复通过。测试资格均为显式写入临时数据库的合成夹具，不能作为真实开售证据。\n\n'
-    if round_id in {'R006','R007','R008','R009'}:
-        text += f'第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有{21 if round_id == 'R009' else 13}项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查]({round_id}-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
+    if round_id in {'R006','R007','R008','R009','R010'}:
+        text += f'第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有{21 if round_id in {'R009','R010'} else 13}项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查]({round_id}-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
     if round_id == 'R008':
         text += '第61—72项新增原生提供方控制代理：实际Windows DPAPI/ACL、进程强制终止后的OS锁与原命令恢复，以及真实HTTP/临时PG丢登记和心跳回执验证。另以当前编译出的Windows二进制独立运行init、status和未登记heartbeat三个命令，跨进程身份不变且未登记心跳被拒绝，所有命令进程已退出，见[实际CLI记录](R008-native-node-cli.json)。Linux Secret Service只经过线协议夹具与交叉编译，未实测真实Linux钥库；这里的控制状态加密不是客户内容端对端加密。\n\n'
     if round_id == 'R009':
         text += '第45项另实际覆盖提供方控制：Web和Taro H5各丢弃首次配对及策略提交回执，刷新后恢复原键/方法/正文/If-Match；显式另开配对，通过当前Windows p11-node二进制标准输入登记，心跳只报UNKNOWN。共享条件保存不自授资格，停止/撤销各仅一事件，撤销后的原生心跳拒绝。每端init/enroll/heartbeat/撤权后heartbeat四个进程均退出，见[Web记录](R009-web-browser.json)及[H5记录](R009-miniapp-browser.json)。两次失败记录均保留：首轮H5脚本过早读取配对响应，后一次Web市场读取与合成心跳并发发生RepeatableRead冲突返回503；分别等待完整响应、通过现有页面显式刷新只读市场后重跑，不自动重试写请求或放宽业务事务。Linux钥库、真机、内核、内容加密和资金仍未验收。\n\n'
+    if round_id == 'R010':
+        text += '第73—92项新增严格签名Lease、独立计划绑定、SQLite原命令/一次提交/双围栏、双截止/回拨/重开隔离及停止清理owner比较更新；包含真实SQLite异常进程退出和Windows DPAPI/WAL/SHM权限，backend状态仍为合成观察。第45项双端各运行当前Windows二进制init/enroll/execution-init/execution-status/heartbeat/撤销后heartbeat六个进程，元数据库保持0任务/0资源且未启用执行；所有进程/浏览器退出。完整平台签发/信任生命周期、真实引擎停止/删除、租赁父会话、内容E2E及硬件/资金未通过。\n\n'
+        text += '开发期失败记录保留：[Windows URI首次失败事件](R010-execution-unit-attempt1.jsonl)与[依赖整理未结束时过早核验的缺sum记录](R010-native-source-checks-attempt1.json)。修正本地盘URI，等待固定依赖整理完成再核验；回拨重复隔离影响清理的问题由同名回归覆盖。最终本轮报告仅汇集最终92项全部通过的实际事件，不重写历史失败。\n\n'
     attempts=sorted(EVIDENCE.glob(round_id+'-native-summary-attempt*.json'))
     for path in attempts:
         old=json.loads(path.read_text(encoding='utf-8'))

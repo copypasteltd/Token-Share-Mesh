@@ -9,6 +9,7 @@ import (
 	"io"
 	"os"
 	"os/signal"
+	"p11.local/compute/client/execution"
 	"p11.local/compute/client/node"
 	"p11.local/compute/shared/strictjson"
 	"strings"
@@ -18,11 +19,11 @@ import (
 func main() { os.Exit(run()) }
 func run() int {
 	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "usage: p11-node init|enroll|recover|status|heartbeat|run --state <absolute-private-directory>")
+		fmt.Fprintln(os.Stderr, "usage: p11-node init|enroll|recover|status|heartbeat|run|execution-init|execution-status --state <absolute-private-directory>")
 		return 2
 	}
 	action := os.Args[1]
-	if action != "init" && action != "enroll" && action != "recover" && action != "status" && action != "heartbeat" && action != "run" {
+	if action != "init" && action != "enroll" && action != "recover" && action != "status" && action != "heartbeat" && action != "run" && action != "execution-init" && action != "execution-status" {
 		fmt.Fprintln(os.Stderr, "unknown native control command")
 		return 2
 	}
@@ -59,6 +60,7 @@ func run() int {
 		return 1
 	}
 	defer s.Close()
+	var output any
 	switch action {
 	case "enroll":
 		var token []byte
@@ -77,9 +79,22 @@ func run() int {
 		err = s.Step(ctx)
 	case "run":
 		err = s.Run(ctx, func(status node.Status) { _ = json.NewEncoder(os.Stdout).Encode(status) })
+	case "execution-init", "execution-status":
+		var ledger *execution.Store
+		if action == "execution-init" {
+			ledger, err = s.InitExecution(ctx)
+		} else {
+			ledger, err = s.OpenExecution(ctx)
+		}
+		if err == nil {
+			output, err = ledger.Snapshot(ctx)
+		}
 	}
-	if action != "run" {
-		_ = json.NewEncoder(os.Stdout).Encode(s.Status())
+	if action != "run" && (action != "execution-init" && action != "execution-status" || err == nil) {
+		if output == nil {
+			output = s.Status()
+		}
+		_ = json.NewEncoder(os.Stdout).Encode(output)
 	}
 	if err != nil {
 		fmt.Fprintln(os.Stderr, safe(err))
@@ -100,7 +115,7 @@ func readInput(maximum int) ([]byte, error) {
 	return b, nil
 }
 func safe(err error) string {
-	for _, e := range []error{node.ErrState, node.ErrLocked, node.ErrVault, node.ErrPending, node.ErrAuthority, node.ErrRejected, node.ErrEnrollment, node.ErrCounter} {
+	for _, e := range []error{node.ErrState, node.ErrLocked, node.ErrVault, node.ErrPending, node.ErrAuthority, node.ErrRejected, node.ErrEnrollment, node.ErrCounter, execution.ErrStorage, execution.ErrRecovery, execution.ErrFence, execution.ErrBusy, execution.ErrEvidence, execution.ErrCapacity} {
 		if errors.Is(err, e) {
 			return e.Error()
 		}

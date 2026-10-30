@@ -1,0 +1,35 @@
+{
+  "round": "R010",
+  "recorded_at": "2026-10-30T04:10:26.884589+00:00",
+  "scope": "Go source/dependencies and native admin/API/node builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance",
+  "virtualization_used": false,
+  "checks": [
+    {
+      "command": [
+        "go",
+        "version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "mod",
+        "verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "vet",
+        "./..."
+      ],
+      "exit_code": 1
+    }
+  ],
+  "artifacts": [],
+  "go": "go version go1.27.3 windows/amd64",
+  "status": "FAILED",
+  "error_type": "RuntimeError"
+}

@@ -17,7 +17,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R009', choices=['R003','R004','R005','R006','R007','R008','R009'])
+    parser.add_argument('--round', default='R010', choices=['R003','R004','R005','R006','R007','R008','R009','R010'])
     round_id = parser.parse_args().round
     binary, env = environment()
     # Dependencies were fetched by the explicit toolchain/bootstrap step.
@@ -112,6 +112,14 @@ def main() -> int:
                 destination.write_bytes(license_file.read_bytes())
                 record['license_file'] = destination.relative_to(ROOT).as_posix()
                 record['license_sha256'] = sha256(destination)
+                if entry['Path'] == 'modernc.org/sqlite':
+                    record['bundled_notices'] = []
+                    for name in ['LICENSE-SQLITE', 'LICENSE-SQLITE_VEC', 'LICENSE-3RD-PARTY.md']:
+                        notice = directory / name
+                        if not notice.is_file(): raise RuntimeError('Bundled SQLite notice is missing')
+                        dest = ROOT / 'dev/licenses/go' / ('modernc.org_sqlite@' + version + '-' + name)
+                        dest.write_bytes(notice.read_bytes())
+                        record['bundled_notices'].append({'path': dest.relative_to(ROOT).as_posix(), 'sha256': sha256(dest)})
             modules.append(record)
         inventory = ROOT / 'dev/licenses/go-dependencies.json'
         inventory.write_text(json.dumps({'scope': 'Go modules actually used by this source and its tests on windows-amd64; not the entire upstream graph or a complete product SBOM', 'modules': sorted(modules, key=lambda m: m['Path'])}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')

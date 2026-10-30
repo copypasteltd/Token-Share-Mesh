@@ -20006,11 +20006,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "686bb78384e0ebbbca056e369610b4fe7fa5f8f6306def70df0e065715a318f0"
+      "sha256": "c5b2a5f00c59e42c6d1dba9c42bbeb34c8c771d4b0d039a308a25991ad53780e"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "6d65408fb970f78462714a703e33d5c75204e8efecdba88d8ec7c14a4c366fb7"
+      "sha256": "ed8d3df956f00afbbfbac652132b2bca5d9517dafbeb7c84d6ecaae0f942f22d"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20050,7 +20050,7 @@
     },
     {
       "path": "docs/技术开发/06-调度资源锁与执行租约.md",
-      "sha256": "f700d92f3d063911e76dc2084eb668d6161ef0bfc880c0302409c4a44860146f"
+      "sha256": "84cc70dc2c0de37a4c244bb132738b96c511dadea28b5a3f03859d7e4975ea87"
     },
     {
       "path": "docs/技术开发/07-统一协议网关与Sub2API改造.md",
@@ -20062,7 +20062,7 @@
     },
     {
       "path": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
-      "sha256": "8365658c610857ddce0eeab0a5a77c3f962d383a0828d832920b27d179df974b"
+      "sha256": "f50e2f95b61edce0ddc936e7c157e365c026c7b8be48a9986a933817a91f4c0d"
     },
     {
       "path": "docs/技术开发/10-Android与LMA工程设计.md",
@@ -20174,11 +20174,11 @@
     },
     {
       "path": "docs/技术开发/附录-原生提供方控制代理与本地恢复.md",
-      "sha256": "1381244e43eaa19f3fe0d53fa57fb240821352c154eeb4a78fca5d2dc8405056"
+      "sha256": "d65d28bb9cca7c6904905a326e4c5d14b708644c5ce14a2e34c23c141035c523"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
-      "sha256": "47df1716d4e3fa3131d40778000d65b3ddd98638fde0a3d6c4048119372d57df"
+      "sha256": "8f180c394ebc3e766cbcd93e150d8acc71e3d4e505d87fc4785b4ba4eb3a5695"
     },
     {
       "path": "docs/技术开发/附录-本地内容隐私防护与分级验收.md",

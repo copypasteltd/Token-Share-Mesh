@@ -5,6 +5,12 @@
 Entries use the same round IDs as the implementation tracker. No entry denotes a
 general-availability platform release unless the full acceptance evidence says so.
 
+## R010 · Native execution metadata inbox and physical-resource gate
+
+Added strict signed execution-Lease verification, an independently approved-plan boundary, a once-only encrypted node anchor and a bounded CGO-free SQLite inbox. Original commands, uint64 job/resource high waters, local owner generations and backend mappings persist before submission; duplicates query the original request. Managed local work/jobs/maintenance share one physical gate. Signed revision renewals, absolute/monotonic expiry, clock rollback/reopen quarantine and stop/cleanup owner CAS cannot silently free or resurrect an owner.
+
+Added 20 local Go cases (92 total), actual SQLite abrupt-process recovery and Windows DPAPI/SQLite/WAL/SHM ACL checks. Both current browser journeys run six real Windows commands including execution-init/status; no engine or resource qualification is enabled. Unchanged frontend cases/builds are verified by hashes and current captures; 31/93 operations, 65 platform tables and migrations 001–005 remain unchanged. SQLite's five local tables contain metadata only, not prompts/content keys or an encrypted content store. Real platform trust issuance, timers/adapters, rentals, content E2E, hardware/channels and full acceptance remain pending. All 56 tasks/222 open steps, bilingual docs, exact dependency/bundled notices and media provenance stay synchronized.
+
 ## R009 · Provider controls across both clients with original-command recovery
 
 Connect the frozen NB04 React/Taro and React/Vite views to owner pairing, paginated devices, availability/disk/phone conditions, drain and identity revocation. Once-only credentials remain masked in page memory and are removed on hide/leave/expiry/authority loss; late replies cannot reintroduce them. Unknown writes keep the original method, key, body and strong ETag. Policy acknowledgement requires a fresh device read and grants neither execution nor sale qualification.

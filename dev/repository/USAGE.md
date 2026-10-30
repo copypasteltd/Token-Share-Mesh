@@ -1,5 +1,17 @@
 # Usage / 使用指南
 
+## R010 native metadata commands / 原生执行元数据命令
+
+After explicit owner enrollment, run `p11-node execution-init --state <same-private-absolute-directory>` once, then `p11-node execution-status --state <same-private-absolute-directory>`. Both commands run in the foreground and close their database/OS lock before returning. Initialization requires no pending control command and a non-revoked registered identity. Do not initialize a different directory to bypass an ambiguous/lost state. There is no reset, force-free or lease-input command.
+
+本人登记后新增execution-init/status，第一次先加密锚定后建库，第二次打开原库；只输出档位、资源状态/代次、收据数量。缺库、坏库、绑定错误或DDL漂移保持关闭，不重建；旧owner重开先隔离，再由未来真实适配器查/停/清，不自动恢复推理。不能与持有同目录OS锁的run并行调用；当前没有UI绕锁直读库。用户仍自主决定安装、运行/停止程序，本轮无模型或后台服务启动。
+
+SQLite is metadata-only and not encrypted content storage. It accepts no prompt/output/content key. Exact database/WAL/SHM files remain in the private state directory under runtime; never commit or publicly copy them. No real backend execution is enabled. The verification runner uses independent public synthetic signatures and explicit synthetic identities/qualifications; it is not a production lease issuer.
+
+当前真实浏览器联调每端运行init/enroll/execution-init/execution-status/heartbeat/撤权后heartbeat共六个Windows进程；元数据库始终0资源/0任务、execution_enabled=false。Go局部用例另外验证合成任务的并发、异常退出、双截止和owner清理状态机；不能替代真实GPU或内容隐私验收。源码改动后先完成依赖整理，再运行 `核验原生源码.py --round R010`、`原生数据库验证.py --round R010`、`核验前端源码.py --round R010`、`整理原生验证证据.py --round R010`。真实数据库/自建浏览器/子进程全部结束关闭。
+
+See [complete implementation constraints](../../docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md), [R010 evidence](../tests/evidence/R010-验证报告.md) and [all 56 tasks/222 outstanding steps](../progress/R010-本轮实现与完整待办.md). Historical flows below retain their round labels; current scripts default to R010.
+
 ## R009 provider page flow / 提供方页面操作
 
 | Step / 步骤 | Owner action / 本人操作 | Actual boundary / 实际边界 |

@@ -10,9 +10,70 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
+
+func TestNativeExecutionSQLiteInheritsPrivateWindowsACL(t *testing.T) {
+	ctx := context.Background()
+	s, e := Create(ctx, filepath.Join(t.TempDir(), "native_execution"), testConfig("http://127.0.0.1:1"))
+	if e != nil {
+		t.Fatal(e)
+	}
+	defer s.Close()
+	// This is an explicit synthetic identity fixture, not real registration or
+	// GPU discovery. DPAPI, ACL, SQLite files and reopen are native and actual.
+	s.s.DeviceID = "device_acl_test"
+	s.s.SellerID = "seller_acl_test"
+	s.s.Version = 1
+	s.s.RemoteState = "PAIRED"
+	if e = s.save(); e != nil {
+		t.Fatal(e)
+	}
+	store, e := s.InitExecution(ctx)
+	if e != nil {
+		t.Fatal(e)
+	}
+	if e = store.RegisterResource(ctx, "resource_acl_test", strings.Repeat("a", 64)); e != nil {
+		t.Fatal(e)
+	}
+	if e = s.checkExecutionFiles(); e != nil {
+		t.Fatal(e)
+	}
+	for _, name := range []string{executionFile, executionFile + "-wal", executionFile + "-shm"} {
+		path := filepath.Join(s.path, name)
+		sd, e := windows.GetNamedSecurityInfo(path, windows.SE_FILE_OBJECT, windows.DACL_SECURITY_INFORMATION|windows.OWNER_SECURITY_INFORMATION)
+		if e != nil {
+			t.Fatal(e)
+		}
+		acl, _, e := sd.DACL()
+		if e != nil || acl == nil || acl.AceCount != 2 {
+			t.Fatal("execution metadata is not owner/SYSTEM-only", e)
+		}
+		b, e := os.ReadFile(path)
+		if e != nil || bytes.Contains(b, s.s.Seed) || bytes.Contains(b, s.master) {
+			t.Fatal("control secret copied into SQLite", e)
+		}
+	}
+	path := s.path
+	anchor := s.s.ExecutionID
+	fp := s.fingerprint()
+	s.Close()
+	next, e := Open(ctx, path)
+	if e != nil {
+		t.Fatal(e)
+	}
+	defer next.Close()
+	store, e = next.OpenExecution(ctx)
+	if e != nil {
+		t.Fatal(e)
+	}
+	status, e := store.Snapshot(ctx)
+	if e != nil || len(status.Resources) != 1 || status.ExecutionEnabled || next.s.ExecutionID != anchor || next.fingerprint() != fp {
+		t.Fatal("native protected execution store did not reopen", e)
+	}
+}
 
 func TestNativeNodeDPAPIAndACLProtectControlState(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "native")

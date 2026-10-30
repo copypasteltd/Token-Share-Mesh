@@ -19,13 +19,13 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 | 项目 | 证据/状态 |
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
-| 实施任务 | 20项进行中 · 34项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R009 · PASSED_FOR_CONTROL_SERVICES_ONLY |
-| 原生测试证据 | 72项通过，仅控制应用服务范围 |
+| 实施任务 | 22项进行中 · 32项待开发 · 1项条件能力 · 1项延后 |
+| 最新源码轮次 | R010 · PASSED_FOR_CONTROL_SERVICES_ONLY |
+| 原生测试证据 | 92项通过，仅控制应用服务范围 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
-当前65领域表、31/93控制操作。R009将R007身份合同和R008原生控制程序接入双端页面：一次性秘密仅页内存、默认遮盖，后台/离开/到期/撤权移除；配对/PATCH/停止撤销按原方法、键、正文与强ETag恢复。共享条件保存不等于设备执行，须刷新当前版本。72项Go、21项TS、三目标构建及双端浏览器/Windows二进制联调通过；Linux钥库仅夹具及交叉编译，真实渠道/设备/内核/内容加密未通过。见[原生证据](dev/tests/evidence/R009-验证报告.md)、[前端证据](dev/tests/evidence/R009-frontend-checks.json)、[双端提供方细则](docs/技术开发/附录-提供方双端设备管理与原请求恢复.md)及[全部56项进度](dev/progress/README.md)。
+R010新增严格签名执行Lease、有限SQLite元数据收件箱、同物理资源门闩、双高水位、一次提交预留、到期/重开隔离和停止清理比较更新。平台仍65领域表、31/93控制操作；另有5张端侧元数据表，001—005迁移保持原字节。92项Go局部用例，未改前端21项TS/三目标构建按摘要复核，当前双端浏览器实际执行Windows execution-init/status但不授GPU资格。真实引擎、平台信任发行、内容加密及渠道仍待，见[原生证据](dev/tests/evidence/R010-验证报告.md)、[前端证据](dev/tests/evidence/R010-frontend-checks.json)、[原生执行细则](docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md)及[全部56任务/222待办](dev/progress/README.md)。
 
 新价合同把AVAILABLE_HOUR的hour_rate，或TOKEN_1M的input_rate/output_rate明确分开；每项均含整数分子/正整数分母、费用承担、佣金和取整版。360分/小时的30分钟最坏180分；80分/M输入加160分/M输出，1M输入与0.25M输出共120分。报价冻结卖家、环境、政策、价格及预算，建单复核后只进入WAITING_PAYMENT；订单、报价消费、同意审计和outbox同事务。它不代表已支付、已锁GPU或已执行。350分/小时不能舍入写进旧整数分/分钟列。
 
@@ -45,21 +45,29 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 
 设备后续以P11_DEVICE_ED25519_1签入方法、Host、精确URI、原正文摘要、幂等键、If-Match和Content-Type，时间±60秒，nonce持久去重。控制身份与客户内容加密钥分离；本项目封装不是标准HTTP Message Signatures。Go调用库提供NewClient→Prepare→Send→Close；写回执未知只按原Prepare显式恢复，每次使用新签名，不自动重试或换命令号。主人通过本人会话设置时段/单槽/磁盘和手机电量、温度、充电条件；修改须强ETag。停止/撤销先关新准入，原任务仍须执行端真实停算清理，不因心跳或断线释放GPU锁。
 
-API使用独立P11_DEVICE_PAIRING_PEPPER_FILE，缺配置关闭配对。p11-node提供init/enroll/recover/status/heartbeat/run，秘密仅走受控标准输入；Windows本人DPAPI与Linux Secret Service保护主钥，AES-GCM日志与进程锁在发送前保存原命令。当前只报UNKNOWN、execution_enabled=false，不启动内核/监听。共享页由已审核SELLER选择系统、名称并主动确认，凭据显式显示后在本人程序使用；离开不能找回，首次丢回执只恢复安全元数据，如需另开须再确认。设置北京时间时段、整数MB与手机条件须强ETag和责任确认；保存后刷新，停止/撤销不代表已清理GPU。完整RuntimeSupervisor/执行inbox/门闩、Linux钥库实机、LMA/内核/内容E2E仍待完成。详见[中英使用步骤](dev/repository/USAGE.md)、[双端细则](docs/技术开发/附录-提供方双端设备管理与原请求恢复.md)及[原生代理规范](docs/技术开发/附录-原生提供方控制代理与本地恢复.md)。
+API使用独立P11_DEVICE_PAIRING_PEPPER_FILE，缺配置关闭配对。p11-node提供init/enroll/recover/status/heartbeat/run，秘密仅走受控标准输入；Windows本人DPAPI与Linux Secret Service保护主钥，AES-GCM日志与进程锁在发送前保存原命令。当前只报UNKNOWN、execution_enabled=false，不启动内核/监听。共享页由已审核SELLER选择系统、名称并主动确认，凭据显式显示后在本人程序使用；离开不能找回，首次丢回执只恢复安全元数据，如需另开须再确认。设置北京时间时段、整数MB与手机条件须强ETag和责任确认；保存后刷新，停止/撤销不代表已清理GPU。R010已补元数据inbox/共门闩；完整RuntimeSupervisor/实际内核、签名租赁父owner、独立平台信任发行、Linux钥库实机及内容E2E仍待完成。详见[中英使用步骤](dev/repository/USAGE.md)、[双端细则](docs/技术开发/附录-提供方双端设备管理与原请求恢复.md)及[原生代理规范](docs/技术开发/附录-原生提供方控制代理与本地恢复.md)。
+
+## 原生执行元数据与资源归属
+
+本人完成显式登记后，execution-init先在既有OS钥库/AES-GCM日志中保存随机锚，再建唯一SQLite库；execution-status读取原库，只输出资源状态/代次和收据数量。缺库、坏库、错误绑定不重建，每次重开都隔离上一owner。CLI不接受租约/prompt、不启动内核或付费工作，execution_enabled继续为false。
+
+底层库依据独立批准计划及另行受信的平台Ed25519公钥核验既有Lease，原命令/完整uint64任务与资源围栏/backend映射先于外部副作用持久化。受管本地使用、任务、维护共物理摘要和本地owner代次，不能伪造租赁权；重复或未知提交只查询原请求。续约必须有完整新签名及更高修订、固定环境/合同/硬截止，绝对或单调截止、回拨均关闭执行。只有当前backend确认停算、撤权和工作区清理全项通过且owner代次相符，才允许复用；本状态机本身不证明真实停算，也未实施显存/文件/密钥删除。
+
+SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，页缓存2MiB、mmap关闭、16384个4KiB页上限；它不是加密内容库。固定CGO-free依赖及内嵌第三方许可，无新增VM或模型副本。完整设备发现、平台发行/信任生命周期、定时停止循环、租赁父会话、内容E2E和物理机性能仍待完成。[完整编号细则](docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md) · [操作与恢复](dev/repository/USAGE.md)。
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R009/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R010/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R009/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R010/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R009/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R010/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R009/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R009/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R010/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R010/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R009/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R010/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R009/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R009/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R009/recordings/web-transaction.gif) · [订单待确认](dev/media/R009/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R010/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R010/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R010/recordings/web-transaction.gif) · [订单待确认](dev/media/R010/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 
@@ -177,12 +185,12 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # 临时 loopback PostgreSQL → 真实测试 → 确认关闭
-python -X utf8 dev/tools/核验原生源码.py --round R009
-python -X utf8 dev/tools/原生数据库验证.py --round R009
-python -X utf8 dev/tools/整理原生验证证据.py --round R009
+python -X utf8 dev/tools/核验原生源码.py --round R010
+python -X utf8 dev/tools/原生数据库验证.py --round R010
+python -X utf8 dev/tools/整理原生验证证据.py --round R010
 ```
 
-以上检查生成当前R009范围证据，保留R001—R008历史记录；前端先构建，原生二进制先编译，再运行数据库联调。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API/node命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
+以上检查生成当前R010范围证据，保留R001—R009历史记录；前端先构建，原生二进制先编译，再运行数据库联调。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API/node命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
 
 ## 买卖双方未来使用逻辑
 

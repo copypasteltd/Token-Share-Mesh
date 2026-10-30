@@ -15,18 +15,18 @@ Web与Taro H5截图/录屏为真正编译页面，实际连接HTTP/临时原生�
 
 | Product asset / 产品媒体 | Content / 内容 |
 | --- | --- |
-| [Web market](../media/R009/screenshots/web-market.png) / [Taro H5 market](../media/R009/screenshots/miniapp-market.png) | Concrete model/seller, dual prices and privacy / 具体型号、卖家、单位与隐私 |
-| [Web E2E detail](../media/R009/screenshots/web-llm-detail.png) / [Taro H5 detail](../media/R009/screenshots/miniapp-llm-detail.png) | Buyer gateway unavailable; no prompt collection / 买方可信网关尚未连接，不收Prompt |
-| [Web unknown reply](../media/R009/screenshots/web-order-pending.png) / [Taro H5 unknown reply](../media/R009/screenshots/miniapp-order-pending.png) | A committed order reply is deliberately lost; original key/body retained / 后台已提交，故意丢回执，保留原键/参数 |
-| [Web order](../media/R009/screenshots/web-order.png) / [Taro H5 order](../media/R009/screenshots/miniapp-order.png) | Recovered WAITING_PAYMENT; no active billing / 恢复原单，未付款未计时 |
-| [Web sharing](../media/R009/screenshots/web-share.png) / [Taro H5 sharing](../media/R009/screenshots/miniapp-share.png) | Real account projection, no fabricated income or device connection / 本人投影，不虚构收入或已配对设备 |
-| [Web conditions](../media/R009/screenshots/web-provider-conditions.png) / [H5 conditions](../media/R009/screenshots/miniapp-provider-conditions.png) | Real policy forms before original PATCH recovery; credential masked / 共享条件与显式确认，秘密遮盖 |
-| [Web revoked](../media/R009/screenshots/web-provider-revoked.png) / [H5 revoked](../media/R009/screenshots/miniapp-provider-revoked.png) | Revoked identity after explicit confirmation; cleanup not claimed / 撤销身份，不冒称已清理GPU |
-| [Web MP4](../media/R009/recordings/web-transaction.mp4) / [GIF](../media/R009/recordings/web-transaction.gif) | Actual browser compositor frames and original timing, silent / 实际浏览器帧与原时间，无声 |
-| [Taro H5 MP4](../media/R009/recordings/miniapp-transaction.mp4) / [GIF](../media/R009/recordings/miniapp-transaction.gif) | Real H5 actions, not a sequence of design PNGs / 实际页面操作，不是设计图轮播 |
-| [Product manifest](../media/frontend-manifest.json) / [Web evidence](../tests/evidence/R009-web-browser.json) / [H5 evidence](../tests/evidence/R009-miniapp-browser.json) | Source/output hashes, frame provenance and browser closure / 源码/产物摘要、逐帧来源和浏览器关闭 |
+| [Web market](../media/R010/screenshots/web-market.png) / [Taro H5 market](../media/R010/screenshots/miniapp-market.png) | Concrete model/seller, dual prices and privacy / 具体型号、卖家、单位与隐私 |
+| [Web E2E detail](../media/R010/screenshots/web-llm-detail.png) / [Taro H5 detail](../media/R010/screenshots/miniapp-llm-detail.png) | Buyer gateway unavailable; no prompt collection / 买方可信网关尚未连接，不收Prompt |
+| [Web unknown reply](../media/R010/screenshots/web-order-pending.png) / [Taro H5 unknown reply](../media/R010/screenshots/miniapp-order-pending.png) | A committed order reply is deliberately lost; original key/body retained / 后台已提交，故意丢回执，保留原键/参数 |
+| [Web order](../media/R010/screenshots/web-order.png) / [Taro H5 order](../media/R010/screenshots/miniapp-order.png) | Recovered WAITING_PAYMENT; no active billing / 恢复原单，未付款未计时 |
+| [Web sharing](../media/R010/screenshots/web-share.png) / [Taro H5 sharing](../media/R010/screenshots/miniapp-share.png) | Real account projection, no fabricated income or device connection / 本人投影，不虚构收入或已配对设备 |
+| [Web conditions](../media/R010/screenshots/web-provider-conditions.png) / [H5 conditions](../media/R010/screenshots/miniapp-provider-conditions.png) | Real policy forms before original PATCH recovery; credential masked / 共享条件与显式确认，秘密遮盖 |
+| [Web revoked](../media/R010/screenshots/web-provider-revoked.png) / [H5 revoked](../media/R010/screenshots/miniapp-provider-revoked.png) | Revoked identity after explicit confirmation; cleanup not claimed / 撤销身份，不冒称已清理GPU |
+| [Web MP4](../media/R010/recordings/web-transaction.mp4) / [GIF](../media/R010/recordings/web-transaction.gif) | Actual browser compositor frames and original timing, silent / 实际浏览器帧与原时间，无声 |
+| [Taro H5 MP4](../media/R010/recordings/miniapp-transaction.mp4) / [GIF](../media/R010/recordings/miniapp-transaction.gif) | Real H5 actions, not a sequence of design PNGs / 实际页面操作，不是设计图轮播 |
+| [Product manifest](../media/frontend-manifest.json) / [Web evidence](../tests/evidence/R010-web-browser.json) / [H5 evidence](../tests/evidence/R010-miniapp-browser.json) | Source/output hashes, frame provenance and browser closure / 源码/产物摘要、逐帧来源和浏览器关闭 |
 
-After `前端开发.py bootstrap` and `build`, compile the native agent with `核验原生源码.py --round R009`, run `原生数据库验证.py --round R009`, then `核验前端源码.py --round R009`. Existing native Edge/Chrome and FFmpeg/FFprobe are required. The test automatically closes its owned browser; the Go harness and database runner close their own HTTP/DB resources. Keep failed attempts rather than relabeling them as passes. Regenerating assets requires refreshing their manifests and the README together.
+After `前端开发.py bootstrap` and `build`, compile the native agent with `核验原生源码.py --round R010`, run `原生数据库验证.py --round R010`, then `核验前端源码.py --round R010`. Existing native Edge/Chrome and FFmpeg/FFprobe are required. The test automatically closes its owned browser; the Go harness and database runner close their own HTTP/DB resources. Keep failed attempts rather than relabeling them as passes. Regenerating assets requires refreshing their manifests and the README together.
 
 先构建再实际联调/录制；所有依赖/临时配置/原始帧在runtime。媒体来源不等于真机/真实渠道或完整产品验收；历史阅读器媒体继续按下列独立清单维护。
 
@@ -72,3 +72,5 @@ R008 reuses build/test receipts only when their hashes match the unchanged front
 R008 adds a native foreground control agent with separate [actual Windows CLI evidence](../tests/evidence/R008-native-node-cli.json); these UI heartbeats remain labelled synthetic fixtures and do not prove GPU execution or Linux keyring operation. / R008新增原生控制代理，另保留实际Windows CLI证据；当前页面心跳仍是标注的合成夹具，不证明GPU执行或Linux钥库。
 
 R009 rebuilds all three current frontend targets and adds real Windows control CLI init/enroll/heartbeat/revoked-heartbeat to each browser journey; device policy/pairing reply loss uses the original command. The 14 viewport screenshots and four MP4/GIF files never render the once-only pairing secret. Device captures start at the concrete model; the recording scrolls the full conditions form without resizing the H5 viewport. Market hardware/OAuth/seller review stay synthetic; the native control process does not run GPU work. R006–R008 media and evidence remain historical, independent records. / R009新增双端实际控制流程，所有自建浏览器/进程结束关闭；真实GPU、原生支付宝和资金未验收。
+
+R010 preserves the same frozen NB04 interface and independently recaptures both browser journeys against the current backend/native binary. Each owner CLI journey also initializes and reopens its empty native SQLite store; this is control metadata evidence, never inference or GPU qualification. Fourteen viewport screenshots and four MP4/GIF files retain separate hashes. The unchanged 21 TS cases/three builds are reused only after source/output/log digest verification. / R010沿用冻结设计，当前后台/二进制重新联调并独立截图录制；新增元数据库初始化/重开，不伪装模型、资源资格或原生支付宝验收。

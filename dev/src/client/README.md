@@ -1,5 +1,17 @@
 # Native provider control / 原生提供方控制
 
+R010 adds a native SQLite metadata inbox, signed Lease verification, one physical-resource gate and conservative stop/cleanup recovery. Explicit execution-init/status initialize/read only; no kernel, lease claimant, content decryption or paid execution is enabled. The original OS lock and encrypted node journal anchor the new database once; lost files are never recreated automatically.
+
+R010新增client/execution与protocol/executionlease：原命令去重、双围栏、受管本地/任务/维护共门闩、到期/重开隔离和owner比较清理。SQLite只存限定元数据，prompt/输出/内容钥不进入库；它不是加密内容库。完整RuntimeSupervisor、平台发行/信任钥、真实适配器/停止/清理和租赁父owner仍待。
+
+| New path / 新路径 | Responsibility / 职责 |
+| --- | --- |
+| execution | Bounded SQLite inbox, generations, one-shot submit reservation and cleanup CAS / 有界收件箱、代次、一次提交与清理比较更新 |
+| protocol/executionlease | Strict signed Lease + independent approved plan binding / 严格签名租约及独立计划绑定 |
+| node/execution.go | Once-only encrypted anchor and private SQLite lifecycle / 加密一次锚定及私有库生命周期 |
+
+See [R010 details](../../../docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md) and [all remaining tasks](../../progress/README.md). Compile current sources with 核验原生源码.py --round R010; historical R008 commands below describe the original control baseline.
+
 R008 implements the p11-node control foundation in the shared Go module. Windows current-user DPAPI is locally exercised; Linux Secret Service is implemented but has protocol-fixture/cross-build evidence only. This is not an inference engine, resource scheduler, content encryption gateway or complete provider release.
 
 R008实现原生控制基座：本人显式初始化/登记/前台运行，加密本地状态及原命令恢复。当前心跳只报UNKNOWN，execution_enabled=false，不自授可售资格，不接受任务、下载模型、启动内核或打开监听端口。

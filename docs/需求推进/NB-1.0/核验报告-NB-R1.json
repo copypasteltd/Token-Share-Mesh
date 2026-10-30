@@ -10,7 +10,7 @@
   "contract_gaps": 6,
   "referenced_original_requirements": 66,
   "referenced_development_tasks": 48,
-  "local_links_checked": 23,
+  "local_links_checked": 25,
   "broken_links": [],
   "examples_fen": {
     "gpu_half_hour_fen": 180,
@@ -29,7 +29,7 @@
   "documents": [
     {
       "path": "docs/需求推进/NB-1.0/README.md",
-      "sha256": "fc051f4f5ea08ea153b463ee185aa59f8e3b9cac7fdee543eb3828f738e0e8e2"
+      "sha256": "9b76fe35b5218a086b5c1e8a676916d14740c6aba9316131bc6d31902b6451ef"
     },
     {
       "path": "docs/需求推进/NB-1.0/01-范围与需求决策.md",

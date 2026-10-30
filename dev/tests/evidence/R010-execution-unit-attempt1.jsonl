@@ -1,0 +1,9 @@
+{"Time":"2026-10-30T12:04:27.4734034+08:00","Action":"start","Package":"p11.local/compute/client/execution"}
+{"Time":"2026-10-30T12:04:32.4782357+08:00","Action":"run","Package":"p11.local/compute/client/execution","Test":"TestNativeInboxOriginalCommandAndSingleSubmit"}
+{"Time":"2026-10-30T12:04:32.4792444+08:00","Action":"output","Package":"p11.local/compute/client/execution","Test":"TestNativeInboxOriginalCommandAndSingleSubmit","Output":"=== RUN   TestNativeInboxOriginalCommandAndSingleSubmit\n","OutputType":"frame"}
+{"Time":"2026-10-30T12:04:32.4826705+08:00","Action":"output","Package":"p11.local/compute/client/execution","Test":"TestNativeInboxOriginalCommandAndSingleSubmit","Output":"    store_test.go:104: execution metadata unavailable; retain state and stop owned work\n","OutputType":"error"}
+{"Time":"2026-10-30T12:04:32.8797776+08:00","Action":"output","Package":"p11.local/compute/client/execution","Test":"TestNativeInboxOriginalCommandAndSingleSubmit","Output":"--- FAIL: TestNativeInboxOriginalCommandAndSingleSubmit (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T12:04:32.8797776+08:00","Action":"fail","Package":"p11.local/compute/client/execution","Test":"TestNativeInboxOriginalCommandAndSingleSubmit","Elapsed":0}
+{"Time":"2026-10-30T12:04:32.8797776+08:00","Action":"output","Package":"p11.local/compute/client/execution","Output":"FAIL\n","OutputType":"frame"}
+{"Time":"2026-10-30T12:04:32.8797776+08:00","Action":"output","Package":"p11.local/compute/client/execution","Output":"FAIL\tp11.local/compute/client/execution\t5.406s\n","OutputType":"frame"}
+{"Time":"2026-10-30T12:04:32.8797776+08:00","Action":"fail","Package":"p11.local/compute/client/execution","Elapsed":5.406}

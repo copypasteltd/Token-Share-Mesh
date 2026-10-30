@@ -11,6 +11,7 @@
 | [Contributing / 贡献约定](../../CONTRIBUTING.md) | Development scope, immutable contracts and evidence / 开发边界、不可变契约及证据 |
 | [Changelog](../../CHANGELOG.md) / [更新说明](../../CHANGELOG.zh-CN.md) | Same release entries in both languages / 中英文同编号版本记录 |
 | [Frontend source guide / 前端源码](../src/frontend/README.md) | Native build commands, dual-client control flow, authorization and lost-reply recovery / 双端构建、授权及原请求恢复 |
+| [R010 native inbox/gate / 原生执行元数据](../../docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md) | Signed Lease, one-shot submit reservation, physical ownership, recovery and cleanup CAS / 签名租约、一次提交、共资源owner、恢复与清理比较更新 |
 | [R009 provider UI / 提供方双端控制](../../docs/技术开发/附录-提供方双端设备管理与原请求恢复.md) | Memory-only pairing, policy, drain/revoke and original POST/PATCH recovery / 配对生命周期、共享条件、停止撤销与原请求恢复 |
 | [R008 native control / 原生代理与本地恢复](../../docs/技术开发/附录-原生提供方控制代理与本地恢复.md) | OS key adapters, encrypted journal, process locks and original command recovery / 系统钥库、加密日志、进程锁及原命令恢复 |
 | [R007 device control / 设备身份控制](../../docs/技术开发/附录-设备配对身份与控制协议实施约束.md) | One-time pairing, request proofs, heartbeat and policy/revocation boundaries / 配对、签名、心跳和资源保留 |

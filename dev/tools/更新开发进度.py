@@ -80,6 +80,8 @@ def main():
         text+='R008已交付p11-node原生前台控制、Windows DPAPI/Linux Secret Service适配、加密单命令日志与OS进程锁，以及跨重启原登记/心跳恢复。72项Go局部、实际Windows三命令CLI及双端浏览器通过；Linux钥库仅线协议夹具/交叉编译。当前31/93操作、65表，001—005原字节不改；只报UNKNOWN、不开执行/监听/自启，不把控制代理当完整RuntimeSupervisor/执行inbox/资源门闩。完整内核/内容加密/真实设备渠道仍待完成；全部56任务/222子项、80主验收/96完整NB未执行和DEV-55延后保留。\n\n'
     elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R009':
         text+='R009已将一次性设备配对、本人设备分页、共享条件及停止/撤销接入React/Taro和React/Vite，配对凭据仅页内存，后台/离开/到期/撤权清除，原请求恢复保留方法/键/正文/强ETag。72项Go、21项TS、三目标构建及双端实际浏览器/Windows控制二进制联调通过；H5不冒称原生容器，控制在线不授执行资格。31/93操作、65表及001—005原字节不变；完整执行/内核/内容加密/真实渠道待完成，全部56任务/222子项、80/96未执行和DEV-55延后保留。\n\n'
+    elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R010':
+        text+='R010新增签名Lease验证、一次加密锚定SQLite收件箱、受管本地/任务/维护共物理门闩、双高水位、签名续约/双截止/重开隔离与停止清理CAS；CLI只显式初始化/查询，不领取或执行模型。92项Go局部、既有21项TS/三目标摘要复核及当前双端浏览器/Windows元数据命令证据单列，真实GPU/内核/信任发行/内容加密/渠道待接入。平台31/93操作和65表、001—005原字节保持；全部56任务/222子项、80/96未执行和DEV-55延后保留。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'

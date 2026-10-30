@@ -13,7 +13,8 @@ const require = createRequire(path.join(root, 'runtime/frontend/workspace/packag
 const { chromium } = require('playwright-core');
 const target = process.env.P11_UI_TARGET;
 const roundID = process.env.P11_EVIDENCE_ROUND || 'R006';
-if (!['R006','R007','R008','R009'].includes(roundID)) throw new Error('Explicit evidence round required');
+if (!['R006','R007','R008','R009','R010'].includes(roundID)) throw new Error('Explicit evidence round required');
+const providerRound = ['R009', 'R010'].includes(roundID);
 if (!['web', 'miniapp'].includes(target)) throw new Error('Explicit UI target required');
 const base = new URL(process.env.P11_UI_BASE);
 if (base.protocol !== 'http:' || base.hostname !== '127.0.0.1') throw new Error('Disposable loopback harness required');
@@ -49,11 +50,11 @@ try {
       orderRequests.push({ key: request.headers()['idempotency-key'], body: request.postData() });
       if (!lostReceipt) { lostReceipt = true; const actual = await route.fetch(); assert.equal(actual.status(), 201); return route.abort('failed'); }
     }
-    if (roundID === 'R009' && url.pathname === '/v1/p11/devices/pairing-intents' && request.method() === 'POST') {
+    if (providerRound && url.pathname === '/v1/p11/devices/pairing-intents' && request.method() === 'POST') {
       pairRequests.push({ key: request.headers()['idempotency-key'], body: request.postData() });
       if (!lostPairing) { lostPairing = true; const actual = await route.fetch(); assert.equal(actual.status(), 201); return route.abort('failed'); }
     }
-    if (roundID === 'R009' && url.pathname.endsWith('/resource-policy') && request.method() === 'PATCH') {
+    if (providerRound && url.pathname.endsWith('/resource-policy') && request.method() === 'PATCH') {
       policyRequests.push({ key: request.headers()['idempotency-key'], body: request.postData(), ifMatch: request.headers()['if-match'] });
       if (!lostPolicy) { lostPolicy = true; const actual = await route.fetch(); assert.equal(actual.status(), 200); return route.abort('failed'); }
     }
@@ -192,7 +193,7 @@ try {
   await navigation(target === 'web' ? '我的共享' : '共享').click(); await visible('暂无已确认账单');
   if (target === 'miniapp') await readableButton(button('刷新本人共享状态'));
   await shot(target + '-share'); record('No fabricated seller income or device connection; pairing requires explicit approved-owner confirmation');
-  if (roundID === 'R009') {
+  if (providerRound) {
     await input('配对设备名称').fill('合成本机 RTX 4090');
     const confirmPair = async () => target === 'web' ? page.locator('input[aria-label="确认本人设备配对"]').check() : page.getByText('我持有这台设备，将在本机自主确认配对和运行内容。', { exact: true }).click();
     await confirmPair(); await button('创建一次性配对申请').click(); await visible('结果尚未确认');
@@ -220,6 +221,12 @@ try {
     native('init', JSON.stringify({ control_base: base.origin, model_name: 'RTX 4090 24GB', resource_kind: 'GPU_DEVICE', os_build: 'SYNTHETIC_BROWSER_CONTROL', client_release_id: 'SYNTHETIC_BROWSER_CONTROL' }));
     const enrolled = native('enroll', pairingCredential); pairingCredential = '';
     receipt.provider_device_id = enrolled.device_id; assert(receipt.provider_device_id?.startsWith('dev_'));
+    if (roundID === 'R010') {
+      const initialized = native('execution-init'); const reopened = native('execution-status');
+      assert.deepEqual(reopened, initialized); assert.equal(initialized.profile, 'P11_NATIVE_EXECUTION_STORE_1');
+      assert.equal(initialized.receipt_count, 0); assert.deepEqual(initialized.resources, []);
+      receipt.provider_execution_metadata = { initialized_once: true, reopened_same_anchor: true, native_sqlite: true, no_resources_qualified: true, content_received: false };
+    }
     native('heartbeat');
     await button('隐藏并清除凭据').click(); await button('刷新本人设备 ↻').click();
     let card = page.locator(`[data-device-id="${receipt.provider_device_id}"]`); await card.waitFor({ state: 'visible' });
