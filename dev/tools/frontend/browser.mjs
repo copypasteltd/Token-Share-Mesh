@@ -13,7 +13,7 @@ const require = createRequire(path.join(root, 'runtime/frontend/workspace/packag
 const { chromium } = require('playwright-core');
 const target = process.env.P11_UI_TARGET;
 const roundID = process.env.P11_EVIDENCE_ROUND || 'R006';
-if (!['R006','R007','R008'].includes(roundID)) throw new Error('Explicit evidence round required');
+if (!['R006','R007','R008','R009'].includes(roundID)) throw new Error('Explicit evidence round required');
 if (!['web', 'miniapp'].includes(target)) throw new Error('Explicit UI target required');
 const base = new URL(process.env.P11_UI_BASE);
 if (base.protocol !== 'http:' || base.hostname !== '127.0.0.1') throw new Error('Disposable loopback harness required');
@@ -35,6 +35,8 @@ const digest = f => createHash('sha256').update(readFileSync(f)).digest('hex');
 let browser, context, page, cdp, stoppedAt;
 const errors = [], frames = [], orderRequests = [];
 let lostReceipt = false, quoteRequests = 0;
+let lostPairing = false, lostPolicy = false, pairingCredential = '';
+const pairRequests = [], policyRequests = [];
 try {
   browser = await chromium.launch({ executablePath: browserPath, headless: true, args: ['--disable-extensions', '--no-first-run', '--disable-background-networking'] });
   receipt.browser_version = browser.version();
@@ -46,6 +48,14 @@ try {
     if (url.pathname === '/v1/p11/orders' && request.method() === 'POST') {
       orderRequests.push({ key: request.headers()['idempotency-key'], body: request.postData() });
       if (!lostReceipt) { lostReceipt = true; const actual = await route.fetch(); assert.equal(actual.status(), 201); return route.abort('failed'); }
+    }
+    if (roundID === 'R009' && url.pathname === '/v1/p11/devices/pairing-intents' && request.method() === 'POST') {
+      pairRequests.push({ key: request.headers()['idempotency-key'], body: request.postData() });
+      if (!lostPairing) { lostPairing = true; const actual = await route.fetch(); assert.equal(actual.status(), 201); return route.abort('failed'); }
+    }
+    if (roundID === 'R009' && url.pathname.endsWith('/resource-policy') && request.method() === 'PATCH') {
+      policyRequests.push({ key: request.headers()['idempotency-key'], body: request.postData(), ifMatch: request.headers()['if-match'] });
+      if (!lostPolicy) { lostPolicy = true; const actual = await route.fetch(); assert.equal(actual.status(), 200); return route.abort('failed'); }
     }
     return route.continue();
   });
@@ -63,6 +73,19 @@ try {
     : button(name);
   const input = name => page.locator(`input[aria-label="${name}"], [aria-label="${name}"] input`).filter({ visible: true }).first();
   const visible = async text => { await page.getByText(text, { exact: false }).filter({ visible: true }).first().waitFor({ state: 'visible' }); };
+  const readyMarket = async () => {
+    const resource = page.getByText('摩托罗拉 X30', { exact: true }).filter({ visible: true });
+    const unavailable = page.getByText('服务暂不可用，请稍后重试。', { exact: true }).filter({ visible: true });
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await resource.or(unavailable).first().waitFor({ state: 'visible' });
+      if (await resource.count()) return;
+      assert(attempt < 2, 'Market read remains unavailable after bounded explicit refreshes');
+      // A concurrent fixture heartbeat can conflict with the real repeatable-read
+      // catalog snapshot. Exercise the existing UI refresh; never retry a write.
+      await button(target === 'web' ? '刷新资源 ↻' : '清除筛选并刷新').click();
+      receipt.market_read_refreshes = (receipt.market_read_refreshes || 0) + 1;
+    }
+  };
   const readableButton = async locator => {
     const result = await locator.evaluate(el => {
       const style = getComputedStyle(el);
@@ -89,8 +112,9 @@ try {
     });
     assert(result.text && result.rendered && result.contrast >= 4.5, 'Button label must render with at least 4.5:1 text contrast: ' + JSON.stringify(result));
   };
-  const shot = async name => {
+  const shot = async (name, deviceCard) => {
     await page.evaluate(() => document.fonts.ready);
+    if (deviceCard) await deviceCard.evaluate(el => el.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'instant' }));
     await page.waitForFunction(() => {
       const active = Array.from(document.querySelectorAll('.taro_page')).filter(el => getComputedStyle(el).display !== 'none').at(-1);
       if (!active) return true;
@@ -99,7 +123,10 @@ try {
     });
     await pause(180);
     const relative = `dev/media/${roundID === 'R006' ? '' : roundID + '/'}screenshots/${name}.png`, f = path.join(root, relative);
-    await page.screenshot({ path: f }); receipt.screenshots.push({ path: relative, sha256: digest(f), viewport: page.viewportSize(), actual_ui: true });
+    // Keep the original viewport: oversized element screenshots resize the H5
+    // scroll container and clip its content. The recording covers the full form.
+    await page.screenshot({ path: f });
+    receipt.screenshots.push({ path: relative, sha256: digest(f), viewport: page.viewportSize(), actual_ui: true, capture: deviceCard ? 'ACTUAL_PAGE_VIEWPORT_AT_DEVICE' : 'ACTUAL_PAGE_VIEWPORT' });
   };
   const choose = async id => {
     const row = page.locator(`[data-listing-id="${id}"]`);
@@ -108,7 +135,7 @@ try {
   };
   await page.goto(base.origin + '/' + target + '/', { waitUntil: 'networkidle' });
   await button(target === 'web' ? '支付宝授权登录 →' : '支付宝授权登录').click();
-  await visible('摩托罗拉 X30'); await visible('RTX 4090 24GB');
+  await readyMarket(); await visible('RTX 4090 24GB');
   assert(receipt.buyer_id, 'Actual session response must supply the buyer');
   assert(!page.url().includes('auth_code=') && !page.url().includes('state='), 'OAuth return parameters removed');
   const persisted = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.keys(sessionStorage).map(k => [k, sessionStorage.getItem(k)]))));
@@ -164,7 +191,66 @@ try {
   await shot(target + '-order');
   await navigation(target === 'web' ? '我的共享' : '共享').click(); await visible('暂无已确认账单');
   if (target === 'miniapp') await readableButton(button('刷新本人共享状态'));
-  await shot(target + '-share'); record('No fabricated seller income/device connection; pairing explicitly unavailable');
+  await shot(target + '-share'); record('No fabricated seller income or device connection; pairing requires explicit approved-owner confirmation');
+  if (roundID === 'R009') {
+    await input('配对设备名称').fill('合成本机 RTX 4090');
+    const confirmPair = async () => target === 'web' ? page.locator('input[aria-label="确认本人设备配对"]').check() : page.getByText('我持有这台设备，将在本机自主确认配对和运行内容。', { exact: true }).click();
+    await confirmPair(); await button('创建一次性配对申请').click(); await visible('结果尚未确认');
+    await page.reload({ waitUntil: 'networkidle' }); await button('核对原请求').click();
+    await navigation(target === 'web' ? '我的共享' : '共享').click(); await visible('原配对申请已确认，凭据不再显示');
+    assert.equal(pairRequests.length, 2); assert.deepEqual(pairRequests[0], pairRequests[1]); assert.equal(pairingCredential, '');
+    await input('配对设备名称').fill('合成本机 RTX 4090'); await confirmPair();
+    const freshPairingResponse = page.waitForResponse(r => r.url().endsWith('/v1/p11/devices/pairing-intents') && r.status() === 201);
+    await button('创建一次性配对申请').click();
+    pairingCredential = (await (await freshPairingResponse).json()).one_time_token;
+    await visible('一次性凭据已遮盖'); assert(typeof pairingCredential === 'string' && pairingCredential.startsWith('p11p.'));
+    const stored = await page.evaluate(() => JSON.stringify({ session: { ...sessionStorage }, local: { ...localStorage } }));
+    assert(!stored.includes('p11p.') && !stored.includes('one_time_token'), 'Pairing credentials never enter browser storage');
+    assert(!(await page.content()).includes(pairingCredential), 'Masked credential does not enter rendered HTML or recording');
+    const binary = path.join(root, 'runtime/bin/p11-node.exe'), stateParent = path.join(root, 'runtime/node/provider-validation'); mkdirSync(stateParent, { recursive: true });
+    const nativeState = path.join(stateParent, target + '-' + Date.now());
+    receipt.provider_native_binary_sha256 = digest(binary); receipt.provider_native_commands = [];
+    const native = (action, inputData, expected = 0) => {
+      const result = spawnSync(binary, [action, '--state', nativeState], { input: inputData, cwd: root, encoding: 'utf8', windowsHide: true, timeout: 20000 });
+      assert.equal(result.status, expected, 'Native control command must enforce its expected result');
+      assert(!result.stdout.includes('p11p.') && !result.stderr.includes('p11p.'), 'Native command output must contain no pairing credential');
+      const status = JSON.parse(result.stdout); assert.equal(status.execution_enabled, false);
+      receipt.provider_native_commands.push({ action, exit_code: result.status, safe_status: status }); return status;
+    };
+    native('init', JSON.stringify({ control_base: base.origin, model_name: 'RTX 4090 24GB', resource_kind: 'GPU_DEVICE', os_build: 'SYNTHETIC_BROWSER_CONTROL', client_release_id: 'SYNTHETIC_BROWSER_CONTROL' }));
+    const enrolled = native('enroll', pairingCredential); pairingCredential = '';
+    receipt.provider_device_id = enrolled.device_id; assert(receipt.provider_device_id?.startsWith('dev_'));
+    native('heartbeat');
+    await button('隐藏并清除凭据').click(); await button('刷新本人设备 ↻').click();
+    let card = page.locator(`[data-device-id="${receipt.provider_device_id}"]`); await card.waitFor({ state: 'visible' });
+    assert((await card.textContent()).includes('已登记，待核验'));
+    const cardButton = name => host(card.getByText(name, { exact: true }));
+    await cardButton('设置共享条件').click();
+    if (target === 'web') await card.locator('input[type="checkbox"]').first().check();
+    else await card.getByText('申请按以下条件共享', { exact: true }).click();
+    await cardButton('添加共享时段').click();
+    const china = ms => new Date(ms + 8 * 3600000).toISOString().slice(0, 16).replace('T', ' ');
+    await input('共享开始时间1').fill(china(Date.now() + 5 * 60000)); await input('共享结束时间1').fill(china(Date.now() + 65 * 60000)); await input('预留磁盘MB').fill('1024');
+    if (target === 'web') await card.locator('input[aria-label="确认共享条件"]').check();
+    else await card.getByText('我确认上述条件；保存后仍等待设备执行与资格核验。', { exact: true }).click();
+    await shot(target + '-provider-conditions', card); await cardButton('保存共享条件').click(); await visible('结果尚未确认');
+    await page.reload({ waitUntil: 'networkidle' }); await button('核对原请求').click();
+    await navigation(target === 'web' ? '我的共享' : '共享').click(); await visible('共享条件已由平台保存');
+    card = page.locator(`[data-device-id="${receipt.provider_device_id}"]`); await card.getByText('等待能力核验', { exact: true }).waitFor({ state: 'visible' });
+    assert.equal(policyRequests.length, 2); assert.deepEqual(policyRequests[0], policyRequests[1]); assert.equal(policyRequests[0].ifMatch, '"1"');
+    const confirmAction = async () => target === 'web' ? card.locator('input[aria-label="确认设备操作责任"]').check() : card.getByText('我已核对型号、设备编号和操作责任。', { exact: true }).click();
+    await cardButton('停止接新单').click(); await confirmAction(); await cardButton('确认停止接新单').click(); await visible('已关闭新接单；已有任务仍须实际停止与清理。');
+    await cardButton('撤销设备身份').click(); await confirmAction(); await cardButton('确认撤销设备身份').click();
+    await card.getByText('身份已撤销', { exact: true }).waitFor({ state: 'visible' });
+    native('heartbeat', undefined, 1); receipt.provider_native_processes_exited = true;
+    receipt.provider_recovery = { pair_requests: pairRequests.length, original_pair_preserved: JSON.stringify(pairRequests[0]) === JSON.stringify(pairRequests[1]),
+      policy_requests: policyRequests.length, original_policy_preserved: JSON.stringify(policyRequests[0]) === JSON.stringify(policyRequests[1]), policy_if_match: policyRequests[0].ifMatch,
+      credentials_persisted: false, credential_rendered_or_recorded: false, native_engine_started: false };
+    await shot(target + '-provider-revoked', card);
+    record('Approved synthetic owner: lost pairing reply reloads the original intent without redisclosing its secret; fresh intent is explicit and credential stays out of storage/HTML/media');
+    record('Actual Windows p11-node initializes, enrolls via stdin and reports UNKNOWN; lost policy PATCH recovers exact method/key/body/If-Match once');
+    record('Device remains unqualified after policy save; explicit drain/revoke close new admission, and revoked native heartbeat is denied without engine or lock-cleanup claims');
+  }
   // Finish the actual transaction recording and close its pages before the
   // narrow-screen journey. A new mobile viewport is set before navigation,
   // rather than resizing an already emulated phone mid-session.
@@ -178,7 +264,7 @@ try {
   page = await context.newPage(); page.setDefaultTimeout(12000);
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(base.origin + '/' + target + '/', { waitUntil: 'networkidle' });
-  await visible('摩托罗拉 X30');
+  await readyMarket();
   await navigation(target === 'web' ? '我的共享' : '共享').click(); await visible('暂无已确认账单');
   await page.waitForFunction(() => innerWidth === 320);
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 2), 'No horizontal page overflow at 320px');

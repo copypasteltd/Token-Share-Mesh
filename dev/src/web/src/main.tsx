@@ -8,6 +8,7 @@ import gpu from '@tsm/core/assets/gpu.svg';
 import phone from '@tsm/core/assets/phone.svg';
 import '@tsm/core/tokens.css';
 import './styles.css';
+import { ProviderDevices } from './provider';
 
 const storage = browserStorage('tsm-web:');
 const client = new ControlClient(P11_API_BASE, browserTransport, 'WEB');
@@ -102,8 +103,8 @@ function Orders() {
 function Share() {
   const s = useApp(); useEffect(() => { if (!s.sellerLoaded) void model.loadSeller(); }, []);
   return <><div className='page-heading'><div><div className='eyebrow'>由你决定，如何共享</div><h1>我的共享</h1></div><button className='button' disabled={s.busy} onClick={() => void model.loadSeller()}>刷新本人状态 ↻</button></div>
-    <div className='two-columns'><section className='white-panel'><h2>{s.seller?.display_name || '个人卖家资格'}</h2><p>你自主挂出自己的设备，决定价格和共享条件。平台不采购设备，也不承诺保底收入。</p><dl className='facts'><dt>卖家资格</dt><dd>{s.seller ? stateLabel(s.seller.qualification_state) : '尚未取得'}</dd><dt>收款资格</dt><dd>{s.seller ? stateLabel(s.seller.payee_eligibility_state) : '待核验'}</dd><dt>已结算收入</dt><dd>暂无已确认账单</dd></dl><h3>连接自己的设备</h3><p>在设备上确认共享范围、模型及安装内容，再进行本人配对。</p><button className='button' disabled>设备配对尚未开放</button></section>
-      <section><h2>本人挂牌</h2>{s.listings.length ? s.listings.map(l => <article key={l.listing_id} className='white-panel listing'><div className='order-heading'><h3>{l.definition.title}</h3><span className='status-tag'>{stateLabel(l.state)}</span></div><p>修订 {l.revision} · {modeLabels[l.definition.policy.service_mode]}</p><PriceLines price={l.definition.price} /><p className='muted break'>本人设备编号：{l.definition.device_ids.join(' / ')}</p></article>) : <div className='white-panel empty'>暂无可展示的本人挂牌。完成资格及设备配对后，才能设置价格并申请上架。</div>}</section></div></>;
+    <div className='two-columns'><section className='white-panel'><h2>{s.seller?.display_name || '个人卖家资格'}</h2><p>你自主挂出自己的设备，决定价格和共享条件。平台不采购设备，也不承诺保底收入。</p><dl className='facts'><dt>卖家资格</dt><dd>{s.seller ? stateLabel(s.seller.qualification_state) : '尚未取得'}</dd><dt>收款资格</dt><dd>{s.seller ? stateLabel(s.seller.payee_eligibility_state) : '待核验'}</dd><dt>已结算收入</dt><dd>暂无已确认账单</dd></dl></section>
+      <section><h2>本人挂牌</h2>{s.listings.length ? s.listings.map(l => <article key={l.listing_id} className='white-panel listing'><div className='order-heading'><h3>{l.definition.title}</h3><span className='status-tag'>{stateLabel(l.state)}</span></div><p>修订 {l.revision} · {modeLabels[l.definition.policy.service_mode]}</p><PriceLines price={l.definition.price} /><p className='muted break'>本人设备编号：{l.definition.device_ids.join(' / ')}</p></article>) : <div className='white-panel empty'>暂无可展示的本人挂牌。完成资格及设备配对后，才能设置价格并申请上架。</div>}</section></div><ProviderDevices model={model} /></>;
 }
 function Developer() { return <section className='white-panel readable'><div className='eyebrow'>内容留在可信程序</div><h1>开发者接入</h1><p>文本与媒体调用将使用OpenAI或Anthropic兼容入口。每个路由需要明确绑定个人卖家、模式、预算和协议档位。</p><h2>端对端加密</h2><p>在自己的电脑或可信局域网程序中配置端点和密钥。小程序与Web只负责交易控制，不在此输入Prompt或上传解密密钥。</p><p className='notice'>本地程序配对、调用路由及推理接口尚未开放。此处不会生成可调用的示例密钥或把明文当作加密发送。</p><button className='button' disabled>可信程序配对尚未开放</button></section>; }
 function Guide() { return <section className='white-panel readable'><div className='eyebrow'>先了解，再确认</div><h1>如何使用算力共享</h1><ol className='guide-list'><li><h2>选择一个个人卖家的服务</h2><p>查看具体设备型号、可用状态、模式及约定单价。GPU按小时；LLM输入和输出分别按M token报价。</p></li><li><h2>核对用量、预算与正式合同</h2><p>预算为授权上限。正式报价绑定卖家及价版；平台佣金已包含，不在末步重复加收。</p></li><li><h2>确认后创建订单</h2><p>当前订单只到等待付款，付款与设备执行尚未开放。网络结果未知时，核对原请求，不另建一笔。</p></li></ol><h2>三种模式的内容边界</h2><p>明文模式由转发链路处理内容。基础端对端加密对平台隐藏内容，执行设备仍需处理明文。普通GPU租赁采用标准隐私。</p></section>; }

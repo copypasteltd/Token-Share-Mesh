@@ -33,8 +33,14 @@ Usage / 使用顺序：
 2. Select a resource, enter bounded duration/usage and budget, request an authoritative quote / 填用量和预算，取得正式合同。
 3. Explicitly check disclosure and create the order / 主动勾选确认，建单后仍等待付款。
 4. If the reply is lost, reload and use “核对原请求”; the original key and body are reused / 未知不换参数、不新购，后台再次核验当前权限与原单。
-5. Read the current account's orders/profile/listings. Local recent IDs are not complete history. Seller write flows and device pairing remain pending / 本人只读资料不能冒充审核或开售。
+5. Read the current account's orders/profile/listings. Local recent IDs are not complete history. Approved sellers can pair their own device, set conditions, drain and revoke; full listing editing/earnings remain pending / 配对不冒充审核或开售。
 
-`core/tests/core.test.ts` is the actual 13-case unit entry. The Go browser integration harness installs synthetic OAuth/qualification only in the test binary, serves compiled real UI, exercises the real HTTP/DB chain and closes its native browser. Run `python -X utf8 dev/tools/原生数据库验证.py --round R006` **after building**; it creates/stops a disposable native PostgreSQL instance and uses an existing Edge/Chrome plus native FFmpeg. It performs no payment or device execution. Never use Docker/WSL/emulators.
+`core/tests/core.test.ts` is the actual 21-case unit entry. The Go browser integration harness installs synthetic OAuth/qualification only in the test binary, serves compiled real UI, exercises the real HTTP/DB chain and closes its native browser. Run `python -X utf8 dev/tools/原生数据库验证.py --round R009` **after building**; it creates/stops a disposable native PostgreSQL instance and uses an existing Edge/Chrome plus native FFmpeg. It performs no payment or device execution. Never use Docker/WSL/emulators.
 
 See [implementation constraints / 完整实施细则](../../../docs/技术开发/附录-双端交易页面与授权恢复实施约束.md), [source progress / 编号进度](../../progress/README.md) and [actual media / 真实媒体来源](../../repository/MEDIA.md). Full product acceptance, true Alipay authorization, GPU/Android, crypto interoperability and performance remain unexecuted.
+
+## R009 provider controls / 提供方控制
+
+Both clients share provider.ts validation, account-bound projections and original POST/PATCH recovery including strong If-Match. A once-only pairing secret is page-memory only, masked by default and removed on hide/leave/expiry/authority loss; late replies cannot restore it. Policy ACK is saved configuration, not device execution. Refresh the device version before further writes. Drain/revocation require explicit owner responsibility and never claim actual cleanup.
+
+双端配对、本人设备分页、北京时区时段、MB及手机电量/温度/充电条件、停止/撤销均接入既有设备API。旧设备只读，跨卖家/错设备/错版本回执关闭处理；凭据不入存储/URL/自动剪贴板。真实Windows控制CLI经页面/HTTP/临时PG登记后仍报UNKNOWN，不启动内核。完整规则见[提供方双端细则](../../../docs/技术开发/附录-提供方双端设备管理与原请求恢复.md)。

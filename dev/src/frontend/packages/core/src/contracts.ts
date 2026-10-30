@@ -48,6 +48,7 @@ export const stateLabels: Record<string, string> = {
   DRAFT: '草稿', SUBMITTED: '待审核', REVIEWING: '审核中', APPROVED: '资格已通过', PUBLISHED: '已上架',
   PAUSED: '已暂停新售', EXITING: '退出处理中', CLOSED: '已关闭', UNVERIFIED: '待核验',
   AVAILABLE: '可申请报价', BUSY: '暂不可接单', UNAVAILABLE: '暂不可接单', ACTIVE: '有效',
+  PAIRED: '已登记，待核验', PROBING: '等待能力核验', ONLINE: '控制在线', OFFLINE: '控制离线', DRAINING: '已停新单，待处理在途', QUARANTINED: '隔离待处理', REVOKED: '身份已撤销', RETIRED: '已退役',
 };
 export const stateLabel = (value: string) => stateLabels[value] || '待核对';
 
@@ -59,7 +60,7 @@ export function safeInteger(value: unknown, minimum = 0): number {
   if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < minimum) throw new Error('INVALID_RESPONSE');
   return value;
 }
-function text(value: unknown, max = 256): string {
+export function text(value: unknown, max = 256): string {
   if (typeof value !== 'string' || !value.trim() || value.length > max || /[\u0000-\u001f]/.test(value)) throw new Error('INVALID_RESPONSE');
   return value;
 }

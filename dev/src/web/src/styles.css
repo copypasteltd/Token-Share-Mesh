@@ -1,5 +1,21 @@
 * { box-sizing: border-box; }
 body { margin: 0; color: #000; background: #FFF5C5; font: 500 16px/1.5 'Noto Sans SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif; }
+.provider-workspace { margin-top: 40px; }
+.provider-workspace fieldset { min-width: 0; border: 2px solid #000; padding: 16px; margin: 16px 0; }
+.provider-workspace legend { font-weight: 800; padding: 0 8px; }
+.provider-workspace select { width: 100%; border: 2px solid #000; background: #fff; color: #000; padding: 12px; font: inherit; border-radius: 0; }
+.provider-workspace select:focus-visible { outline: 3px solid #276846; outline-offset: 4px; }
+.provider-platforms, .provider-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+.provider-platforms label { display: flex; align-items: center; gap: 6px; }
+.provider-device, .provider-devices, .pairing-panel { min-width: 0; }
+.provider-device { margin-bottom: 24px; }
+.provider-device .facts dd, .pairing-receipt, .pairing-secret { overflow-wrap: anywhere; word-break: break-word; }
+.pairing-receipt, .provider-confirm { border: 2px dashed #000; padding: 16px; margin-top: 20px; background: #FFF5C5; }
+.pairing-secret { display: block; padding: 16px; border: 2px solid #000; background: #fff; font-size: 13px; user-select: text; }
+.provider-window { border-bottom: 2px solid #000; margin-bottom: 16px; }
+.provider-actions .danger { border-color: #A32722; color: #A32722; }
+.provider-actions .button { flex: 1 1 130px; }
+.provider-workspace .field { margin: 16px 0; }
 button, input { font: inherit; color: inherit; }
 button { cursor: pointer; } button:disabled { cursor: not-allowed; }
 button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #276846; outline-offset: 4px; }

@@ -1,6 +1,27 @@
 # Usage / 使用指南
 
-## R006 frontends / 双端页面
+## R009 provider page flow / 提供方页面操作
+
+| Step / 步骤 | Owner action / 本人操作 | Actual boundary / 实际边界 |
+| --- | --- | --- |
+| 1 | Authorize, open sharing, check APPROVED SELLER / 授权后打开共享页，核对已审核卖家 | No UI self-approval; fixtures only in tests / 页面不能自批 |
+| 2 | Choose Windows/Linux/Android, name the device and confirm ownership / 选择系统、设备名并主动确认 | Actual device cards show concrete models / 设备显示具体型号 |
+| 3 | Create pairing, explicitly reveal the masked credential and use owner-controlled stdin in p11-node / 创建配对、显式显示并在本人程序受控输入 | Five-minute once-only secret stays in page memory; never URL/arguments/logs/screenshots / 五分钟、只首次、默认遮盖 |
+| 4 | Refresh own devices and check ID/model/fingerprint/version / 刷新本人设备并核对身份 | PAIRED and UNKNOWN do not grant sale or execution / 登记与控制上报不是可售资格 |
+| 5 | Set ordered Beijing-time windows, MB reserve, phone conditions and stopping responsibility / 设置北京时间时段、磁盘MB、手机条件和停止责任 | One slot; 1 MB=1,000,000 bytes, max100 windows, each≤30days and span≤90days / 单槽、有界条件 |
+| 6 | Save, then refresh current device version / 保存后刷新当前设备版本 | ACK proves platform persistence, not device enforcement / 保存不等于执行生效 |
+| 7 | Confirm drain or irrevocable identity revocation separately / 分别确认停止接单或撤销身份 | New admission closes; existing work needs real stopping/cleanup / 不冒称GPU清理完成 |
+| 8 | On an unknown reply reload and choose 核对原请求 / 未知时刷新并核对原请求 | Preserve original method/key/body/If-Match; never overwrite at a newer version automatically / 不换键、不自动覆盖 |
+
+Hiding, backgrounding, leaving, expiry, logout or 401/403 removes the pairing secret and suppresses late secret adoption. A lost first response recovers only the original intent metadata. If needed, explicitly confirm a new intent; existing expiry/three-pending-intent limits still apply. Policy forms reset responsibility consent when edited. Terminal and legacy identities are read-only; quarantine prevents policy editing. This page is not the buyer content-gateway pairing flow.
+
+离开/后台/隐藏/到期/退出或撤权清除秘密，晚到响应不放回。首次回执丢失只能恢复原申请元数据；需要另开时重新主动确认，仍受服务端限制。表单修改后重新确认，旧身份和终态只读，隔离关闭策略编辑。提供方控制不等于买方内容加密网关，不收Prompt。Android页面条件可规划/保存，真实LMA控制程序与真机仍待实现；Linux钥库仍需物理机实测。
+
+Reproduce the actual local control journey after building: `python -B -X utf8 dev/tools/核验原生源码.py --round R009`, then `python -B -X utf8 dev/tools/原生数据库验证.py --round R009` and `python -B -X utf8 dev/tools/核验前端源码.py --round R009`. The temporary database, owned browsers and native command processes are closed. Test seller approval/OAuth/market hardware are explicit synthetic fixtures; Windows CLI identity/enrollment/control signatures and HTTP persistence are real, with execution disabled.
+
+See [provider UI constraints](../../docs/技术开发/附录-提供方双端设备管理与原请求恢复.md), [R009 local evidence](../tests/evidence/R009-验证报告.md) and [all 56 tasks/222 pending steps](../progress/R009-本轮实现与完整待办.md).
+
+## Frontend builds / 双端构建
 
 Native Node22.14.0/npm10.9.2 is pinned by the frontend manifests. Run from the clone root. The wrapper copies tracked sources and keeps dependencies, npm cache and build output under runtime/frontend; install scripts are disabled. No Docker/WSL/emulator is used.
 
@@ -13,9 +34,9 @@ python -X utf8 dev/tools/前端开发.py build
 
 Builds produce miniapp-alipay, miniapp-h5 and web under runtime/frontend/builds. Native login requires an explicit P11_FRONTEND_API_BASE compiled in and actual registered Alipay identity; an empty address disables it. Web/H5 use the same-origin control API by default. These outputs are application sources/builds, not a deployment plan. See [frontend details](../src/frontend/README.md).
 
-使用顺序为授权→发现个人设备→选实际卖家/模式→填时长或双向token上限/预算→正式报价→主动勾选披露→建单等待付款。E2E可信程序未配对则关闭继续；页面不收Prompt。原生显式nonce档与Web/H5 S256档分开，参见[完整约束](../../docs/技术开发/附录-双端交易页面与授权恢复实施约束.md)。未知写刷新后核对原请求，保留相同键和参数；本机历史仅订单号，不能当全历史。共享页仅本人资格和挂牌只读，配对、编辑、收益结算及付款未交付。
+使用顺序为授权→发现个人设备→选实际卖家/模式→填时长或双向token上限/预算→正式报价→主动勾选披露→建单等待付款。E2E可信程序未配对则关闭继续；页面不收Prompt。原生显式nonce档与Web/H5 S256档分开，参见[完整约束](../../docs/技术开发/附录-双端交易页面与授权恢复实施约束.md)。未知写刷新后核对原请求，保留相同键和参数；本机历史仅订单号，不能当全历史。共享页展示本人资格/挂牌，并支持本人设备配对/策略/停止撤销；完整挂牌编辑、收益结算及付款未交付。
 
-After building, `python -X utf8 dev/tools/原生数据库验证.py --round R006` exercises actual compiled Web/Taro H5 with native HTTP/PostgreSQL, synthetic OAuth, qualification and fixture-device heartbeats only. It captures genuine screenshots and recordings and checks one order/event after lost-reply recovery. It closes its browser/database. Run `python -X utf8 dev/tools/核验前端源码.py` to consolidate current evidence. Native Alipay rendering, real authorization, devices and payments remain unverified.
+After building the frontends and native binary, `python -X utf8 dev/tools/原生数据库验证.py --round R009` exercises actual compiled Web/Taro H5 with native HTTP/PostgreSQL, synthetic OAuth, qualification and fixture-device heartbeats only. It captures genuine screenshots and recordings and checks one order/event after lost-reply recovery. It closes its browser/database. Run `python -X utf8 dev/tools/核验前端源码.py` to consolidate current evidence. Native Alipay rendering, real authorization, devices and payments remain unverified.
 
 ## Existing runnable software / 当前可运行内容
 
@@ -174,9 +195,9 @@ acceptance is implied by a successful document build or CLI cross-compilation.
 
 [R001证据](../tests/evidence/R001-验证报告.md)覆盖10项原生基础场景；[实施进度](../progress/README.md)列全部缺口。文档构建或 CLI 交叉编译不代表真实登录/支付、GPU/手机、加密互通或完整平台验收通过。
 
-[R003 evidence](../tests/evidence/R003-验证报告.md) covers 22 native cases, including pricing, qualification, quote/order concurrency and revoked-role replay. Temporary DB approvals are synthetic fixtures and cannot qualify real supply. The current scripts default to R008 and preserve historical evidence.
+[R003 evidence](../tests/evidence/R003-验证报告.md) covers 22 native cases, including pricing, qualification, quote/order concurrency and revoked-role replay. Temporary DB approvals are synthetic fixtures and cannot qualify real supply. The current scripts default to R009 and preserve historical evidence.
 
-[R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。当前工具默认R008，保留历史证据。
+[R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。当前工具默认R009，保留历史证据。
 
 
 
@@ -216,9 +237,9 @@ BPS must be 0–10000, owner SELLER/PLATFORM, and submitted Price values must ma
 
 BPS为0—10000，费用承担方SELLER/PLATFORM；Price须精确匹配。未配置则关闭新增挂牌写入，部分或非法配置拒绝启动。前端读取政策的配置流程尚待实现，当前没有公共费率配置接口；不能自行把示例当真实政策。旧订单仍保原费率。
 
-R005 introduced migration 004; the current R008 API requires explicit migrations 001–005 before startup. Never rewrite 001–004. Migration 004 leaves existing approved_regions empty and model_name nullable, and does not invent historical listing definitions. Approved-region/model backfill and historical definition migration need independent review. The current owner list includes authored definitions only; directly reading an older listing without its definition returns an explicit migration-required failure. New-schema migration tests are not historical-upgrade tests.
+R005 introduced migration 004; the current R009 API requires explicit migrations 001–005 before startup. Never rewrite 001–004. Migration 004 leaves existing approved_regions empty and model_name nullable, and does not invent historical listing definitions. Approved-region/model backfill and historical definition migration need independent review. The current owner list includes authored definitions only; directly reading an older listing without its definition returns an explicit migration-required failure. New-schema migration tests are not historical-upgrade tests.
 
-R005引入004；当前R008 API启动前须显式迁移至005，不改001—004。旧地区默认空、型号可空，旧定义不补造；回填及历史升级仍须独立审核。本人列表当前只含有新定义的挂牌，直接GET无定义旧挂牌返回需迁移错误。新库迁移通过不等于存量升级已验证。
+R005引入004；当前R009 API启动前须显式迁移至005，不改001—004。旧地区默认空、型号可空，旧定义不补造；回填及历史升级仍须独立审核。本人列表当前只含有新定义的挂牌，直接GET无定义旧挂牌返回需迁移错误。新库迁移通过不等于存量升级已验证。
 
 ETags represent mutable resource versions, not listing revisions. PATCH requires one quoted numeric strong ETag; weak/list/wildcard/duplicate forms and null fields are rejected. PATCH replay returns the original receipt and ETag; GET again for current state. State changes use ReasonWrite.expected_version. All accepted edits preserve prior immutable versions and order snapshots. Display units remain 小时 or M token; availability gaps and insufficient remaining GPU time cannot be sold.
 
@@ -229,7 +250,7 @@ See [full seller/listing constraints](../../docs/技术开发/附录-卖家申�
 
 ## R008 native provider control / 原生提供方控制程序
 
-Build both native targets with `python -X utf8 dev/tools/核验原生源码.py --round R008`; this creates runtime/bin/p11-node.exe and p11-node-linux-amd64. Linux is cross-compiled only. The foreground control agent starts no engine, accepts no customer prompts, opens no listener and reports UNKNOWN until a future qualified probe exists. Provider UI pairing/editing remains pending.
+Build both native targets with `python -X utf8 dev/tools/核验原生源码.py --round R008`; this creates runtime/bin/p11-node.exe and p11-node-linux-amd64. Linux is cross-compiled only. The foreground control agent starts no engine, accepts no customer prompts, opens no listener and reports UNKNOWN until a future qualified probe exists. R009 adds provider pairing/policy UI; full listing editing remains pending.
 
 构建后以本人普通账户明确运行p11-node；它不自动安装/下载内核，不接收Prompt，不开启共享或自启。Windows系统保护有本机测试，Linux真实钥库仍待联调。与完整RuntimeSupervisor/任务inbox/资源门闩的区别见[原生代理细则](../../docs/技术开发/附录-原生提供方控制代理与本地恢复.md)。
 

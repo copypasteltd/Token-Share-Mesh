@@ -12,7 +12,7 @@ Token Share Mesh connects buyers with people voluntarily offering idle Windows/L
 
 ## Current implementation
 
-This repository contains **React/Taro Alipay pages, React/Vite Web, shared control logic and a runnable Go/PostgreSQL service subset**, alongside the platform specifications. R006 implements the selected Neubrutalism marketplace, quote confirmation, owner orders, read-only seller views and lost-reply recovery. Transactions stop at WAITING_PAYMENT. Inference, provider clients, content encryption, payment and the complete platform remain unfinished. Product captures use explicitly synthetic OAuth/qualifications/device heartbeats; Taro captures show H5, not native Alipay.
+This repository contains **React/Taro Alipay pages, React/Vite Web, shared control logic and a runnable Go/PostgreSQL service subset**, alongside full specifications. The frozen Neubrutalism UI covers marketplace, authoritative quotes, owner orders awaiting payment, and provider pairing/policy/drain/revocation controls. Inference, full device execution, content encryption, real payments and the complete platform remain unfinished. Captures label synthetic authorization/qualification; Taro captures show H5, not native Alipay. Provider controls also exercise a real Windows CLI, without GPU execution.
 
 The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five final design pages](dev/design/新粗野主义-v1.0/README.md) with ten supporting views, 48 requirement refinements, 96 unexecuted scenarios and six open contract gaps. New offers use GPU hours or separate input/output prices per M token (1,000,000 tokens). Media runs within controlled GPU rentals without extra per-item charges. R003 implements NB_PRICE_1, exact calculation and quote/order services; R004 adds identity/HTTP; R005 adds seller submissions and versioned listing control. Arbitrary hourly rental sessions, renewals, final billing, trusted usage and concurrent budget reservations remain unfinished; historical orders retain their original prices.
 
@@ -20,12 +20,12 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
 | Implementation tasks | 20 in progress · 34 not started · 1 conditional · 1 deferred |
-| Latest source round | R008 · PASSED_FOR_CONTROL_SERVICES_ONLY |
+| Latest source round | R009 · PASSED_FOR_CONTROL_SERVICES_ONLY |
 | Native test evidence | 72 passed · control services scope only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
-The source has 65 domain tables and 31/93 control operations. R008 adds foreground p11-node control, Windows DPAPI/Linux Secret Service adapters, an encrypted one-command journal and OS writer locks above the R007 identity contract. Unknown enrollment/heartbeat results recover the original identity/body/key/counter after restart. All 72 local Go cases include actual Windows key protection, process termination and native HTTP/PostgreSQL checks; Linux keyring evidence is fixture/cross-compilation only. Unchanged frontend source retains hash-verified 13-case/three-build receipts, with both browser journeys replayed against this backend. Real authorization/review/payment, GPU/engines/content encryption and complete execution remain pending. See [native evidence](dev/tests/evidence/R008-验证报告.md), [frontend regression](dev/tests/evidence/R008-frontend-checks.json), [native recovery constraints](docs/技术开发/附录-原生提供方控制代理与本地恢复.md) and [all 56 tasks](dev/progress/README.md).
+The source has 65 domain tables and 31/93 control operations. R009 connects the R007 identity contract and R008 native agent to both clients. Once-only credentials stay masked in page memory and are removed on hide/leave/expiry/authority loss; original methods, keys, bodies and strong ETags survive unknown writes. Saved policies require a fresh device read and grant no execution qualification. All 72 local Go cases, 21 shared TS cases, three build targets and both browser/Windows-binary journeys pass. Linux keyring evidence remains fixture/cross-compilation only; real channels, hardware, engines and content encryption remain pending. See [native evidence](dev/tests/evidence/R009-验证报告.md), [frontend evidence](dev/tests/evidence/R009-frontend-checks.json), [provider UI constraints](docs/技术开发/附录-提供方双端设备管理与原请求恢复.md) and [all 56 tasks](dev/progress/README.md).
 
 The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_rate for TOKEN_1M. Each rate has an integer numerator in fen and a positive denominator, together with fee ownership, commission and rounding versions. At 360 fen/hour, 30 minutes costs at most 180 fen; 1M input at 80 fen/M plus 0.25M output at 160 fen/M totals 120 fen. Quotes freeze seller, environment, policy, rates and budget. Creating an order rechecks admission and atomically writes WAITING_PAYMENT, quote consumption, consent audit and outbox. It does not pay, lock a GPU or execute work. A 350 fen/hour rate cannot be rounded into the legacy integer-fen/minute column.
 
@@ -33,7 +33,7 @@ The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_ra
 
 The native control command is `p11-api`. Explicitly configure the selected development database, application identity and secret-file paths, then apply migrations; [environment variables and call order](dev/repository/USAGE.md) are documented. It listens on loopback and enables no test login, model or payment shortcut. The [embedded route manifest](dev/src/api/internal/http/routes.json) drives 31 actual operations and is checked against the 93-operation canonical contract; the other operations remain pending.
 
-Seller submissions remain `SUBMITTED` and never grant SELLER or automatically publish an offer. New listing writes require approved regions, owned concrete device models and an explicitly configured platform fee policy; edits create future revisions and preserve sold contracts. Exiting stops new admission and keeps prior money/resource records until their own cleanup. Device pairing/enrollment control APIs are implemented; real seller/device qualification, provider execution, controlled publication and pairing/seller write pages remain pending.
+Seller submissions remain SUBMITTED and grant neither SELLER nor sale admission. New listings require approved regions, owner-specific concrete models/capabilities and explicit platform fees. Edits create future revisions without changing sold contracts; exit closes new admission while existing obligations continue. Provider pairing/policy/drain/revocation pages are implemented; the complete listing editor, real review, hardware qualification, execution endpoint and controlled publication remain unfinished.
 
 The native miniapp explicitly selects ALIPAY_NATIVE_NONCE_1: a 32-byte server-generated one-time proof stored only as a digest, then my.getAuthCode and POST exchange. Bearer remains memory-only; restart requires authorization. This is not client-generated PKCE and uses neither Math.random nor timestamps. Command IDs use an independent memory-only HMAC counter seed, never content keys. Web/H5 uses WebCrypto S256, bound Cookie/state and the implemented callback; OAuth URL parameters and temporary proof are consumed immediately. Session transport is HttpOnly/Strict Cookie plus Origin/CSRF for writes. Login is not KYC or seller approval; new accounts receive BUYER only. Unknown exchange requires fresh authorization.
 
@@ -45,17 +45,21 @@ An approved seller explicitly creates a five-minute pairing credential, disclose
 
 Subsequent P11_DEVICE_ED25519_1 proofs bind method, authority, exact URI, raw-body digest, idempotency key, If-Match and Content-Type; timestamps allow ±60 seconds and nonces are durably deduplicated. This custom control profile is separate from content encryption and is not HTTP Message Signatures. The Go library exposes NewClient→Prepare→Send→Close. Unknown writes require explicit recovery of the same prepared command with a fresh proof; there are no automatic retries or replacement command IDs. Owners use their account session and a strong ETag to set sharing windows, one slot, disk and phone battery/temperature/charging conditions. Drain/revoke close admission while actual stopping/cleanup remains the execution endpoint’s responsibility.
 
-Configure the separate P11_DEVICE_PAIRING_PEPPER_FILE or pairing stays closed. R008 p11-node provides init/enroll/recover/status/heartbeat/run, with secrets accepted through bounded piped stdin only. Windows current-user DPAPI or Linux Secret Service protects the master; an AES-GCM journal and OS lock persist the original command before transmission. Unknown results do not change keys. Reports remain UNKNOWN with execution_enabled=false; no engine or local listener starts. Real Linux keyring validation, full RuntimeSupervisor/SQLite execution inbox/resource gates, LMA/engines/content encryption and provider pages remain pending. See [bilingual commands and recovery](dev/repository/USAGE.md) and [native agent specification](docs/技术开发/附录-原生提供方控制代理与本地恢复.md).
+Configure the separate P11_DEVICE_PAIRING_PEPPER_FILE or pairing stays closed. p11-node provides init/enroll/recover/status/heartbeat/run with bounded piped stdin. Windows DPAPI or Linux Secret Service protects the master; the AES-GCM journal and OS lock persist original commands before transmission. Reports stay UNKNOWN with execution_enabled=false; no engine/listener starts. An approved SELLER explicitly selects platform/name and confirms ownership in the sharing page. Credentials are masked and revealed only on request, then used in the owner CLI; leaving removes them. A lost first reply recovers metadata only; a new intent requires fresh confirmation. Beijing-time windows, integer MB and phone conditions require a strong ETag and responsibility confirmation. Refresh after saving; drain/revocation do not acknowledge GPU cleanup. Real Linux keyrings, full RuntimeSupervisor/execution inbox/resource gates, LMA/engines/content E2E remain pending. See [bilingual usage](dev/repository/USAGE.md), [provider UI constraints](docs/技术开发/附录-提供方双端设备管理与原请求恢复.md) and [native agent specification](docs/技术开发/附录-原生提供方控制代理与本地恢复.md).
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R008/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R009/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R008/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R009/screenshots/miniapp-market.png)
 
-![Actual Taro H5 quote and lost-reply recovery recording](dev/media/R008/recordings/miniapp-transaction.gif)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R009/screenshots/miniapp-provider-conditions.png)
 
-[Web MP4](dev/media/R008/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R008/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R008/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R008/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web provider conditions](dev/media/R009/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R009/screenshots/miniapp-provider-revoked.png)
+
+![Actual Taro H5 transaction and provider-control recording](dev/media/R009/recordings/miniapp-transaction.gif)
+
+[Web MP4](dev/media/R009/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R009/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R009/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R009/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 
@@ -144,7 +148,7 @@ python -X utf8 dev/tools/前端开发.py test
 python -X utf8 dev/tools/前端开发.py build
 ```
 
-Alipay output is runtime/frontend/builds/miniapp-alipay; H5 is miniapp-h5, Web is web. Native builds require an explicit P11_FRONTEND_API_BASE and actual application identity; an empty address blocks native login. Web/H5 defaults to same-origin control. Authorize → select seller/model/mode → enter limits/budget → obtain authoritative quote → explicitly confirm → wait for payment. If a reply is unknown, reload and use “核对原请求” with the original parameters. Seller pages are read-only; pairing and payment are closed. See the [bilingual frontend guide](dev/src/frontend/README.md).
+Alipay output is runtime/frontend/builds/miniapp-alipay; H5 is miniapp-h5, Web is web. Native builds require an explicit P11_FRONTEND_API_BASE and actual application identity; an empty address blocks native login. Web/H5 defaults to same-origin control. Authorize → select seller/model/mode → enter limits/budget → obtain authoritative quote → explicitly confirm → wait for payment. If a reply is unknown, reload and use “核对原请求” with the original parameters. Provider pairing/policy/drain/revocation are available; seller qualification/listing views are read-only and payment stays closed. See the [bilingual frontend guide](dev/src/frontend/README.md).
 
 After building, the native database verification command below runs real compiled UI/HTTP/PostgreSQL journeys. The test binary temporarily supplies synthetic OAuth/qualifications/device heartbeats, captures actual screenshots/recordings and closes its browser/database. It cannot approve real sales. H5 does not validate native Alipay behavior.
 
@@ -173,12 +177,12 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # Disposable loopback PostgreSQL -> real tests -> instance stopped
-python -X utf8 dev/tools/原生数据库验证.py --round R008
-python -X utf8 dev/tools/核验原生源码.py --round R008
-python -X utf8 dev/tools/整理原生验证证据.py --round R008
+python -X utf8 dev/tools/核验原生源码.py --round R009
+python -X utf8 dev/tools/原生数据库验证.py --round R009
+python -X utf8 dev/tools/整理原生验证证据.py --round R009
 ```
 
-The last three commands generate R008 evidence for the current source, preserving historical R001/R003/R004/R005/R006/R007 records. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+These commands generate current R009 evidence and preserve R001–R008 history. Build the frontends and native binary before database/browser integration. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
 
 ## Intended buyer and seller usage
 
@@ -196,7 +200,7 @@ CHANGELOG*.md                    Synchronized release notes
 dev/src/go.mod                   One Go module
 dev/src/api/cmd/p11-admin/        Native migration/check CLI
 dev/src/api/cmd/p11-api/          Native loopback identity/control API
-dev/src/api/internal/http/       13-route registration and credential adapters
+dev/src/api/internal/http/       31-operation registration and credential adapters
 dev/src/internal/                Database, keys, idempotency, durable jobs
 dev/src/shared/                  IDs, safe errors, clock, money
 dev/src/tests/integration/       Real PostgreSQL tests
@@ -206,7 +210,9 @@ dev/progress/                    Per-round delivery and complete pending tables
 dev/tools/                       Native, documentation, media and repository tools
 dev/repository/                  Bilingual supporting guides and README templates
 dev/media/                       Actual screenshots, MP4, GIF and provenance
-dev/licenses/                    Current Go dependency notices
+dev/src/frontend/ + miniapp/ + web/  Shared TS and both client sources
+dev/src/client/                 Native control CLI/journal/key adapters/protocol
+dev/licenses/                    Current Go and frontend dependency notices
 docs/白皮书/                     Detailed requirements and offline reader
 docs/技术开发/                   Architecture, protocols, SQL and offline reader
 scripts/                        Existing authoritative document generators

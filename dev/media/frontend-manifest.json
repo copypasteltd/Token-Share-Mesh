@@ -1,7 +1,7 @@
 {
-  "round": "R008",
+  "round": "R009",
   "kind": "ACTUAL_COMPILED_PRODUCT_UI_WITH_EXPLICIT_SYNTHETIC_FIXTURES",
-  "evidence": "dev/tests/evidence/R008-frontend-checks.json",
+  "evidence": "dev/tests/evidence/R009-frontend-checks.json",
   "source_sha256": {
     "dev/src/frontend/packages/core/assets/gpu.svg": "6206721a2e6ded4ce8aff6453aae7a82554eda2a5ba1e099c37826611d6a24e7",
     "dev/src/frontend/packages/core/assets/mesh.svg": "a64c2376d646d803806de9d4c3870febd568a7aba8254ad5f8746f2018ea4d6e",
@@ -9,22 +9,23 @@
     "dev/src/frontend/packages/core/package.json": "8ce61ff2e658a19fcf16344a8ad73a44ac1047eec291a3878ed16a20160f86b0",
     "dev/src/frontend/packages/core/src/auth.ts": "0e22932561607891421580beb9ac0f1be113d9ab8057e48796c630b2f74f61b6",
     "dev/src/frontend/packages/core/src/browser.ts": "8c572a9ad124cb8fa0ac81545f816e4eed0ec688ee10c8375e090d94343795dd",
-    "dev/src/frontend/packages/core/src/client.ts": "66b2e98686a35eb3b45bb9deff90ac4fcdcf1836ce7472d81d5ccf674659c583",
-    "dev/src/frontend/packages/core/src/contracts.ts": "57f9562dc469ec2ced08f9febdbe508bcc38bc832ec054369fc1898cb9038682",
-    "dev/src/frontend/packages/core/src/index.ts": "ca82edcd765b46f0d68b259cf189919d06a4a95c92c5155ce98aaab1113a9788",
-    "dev/src/frontend/packages/core/src/journal.ts": "dd19b27564d00308338b93653757c8e6e2c9b6344f99d60ab584fe6af3539e4b",
-    "dev/src/frontend/packages/core/src/model.ts": "5ef8880e72f2956af0b9250986d53df54999a798434409115451cb853521efd1",
+    "dev/src/frontend/packages/core/src/client.ts": "159c534b88e162ed7c180059528118f004cee3a65718337e835b57635ed5f515",
+    "dev/src/frontend/packages/core/src/contracts.ts": "31119d7c4a67ed796a5f4acdcb7ff17f9e3adf3abe0119a781ff82bdd8c40fb7",
+    "dev/src/frontend/packages/core/src/index.ts": "430fa9b2d2d5a6f09aa589a4cda460cdeeceb1177cf70c3d6dcc7339b696726f",
+    "dev/src/frontend/packages/core/src/journal.ts": "457399a4a49fc714dcbf42a6225c8b727e82a9a972ac780b4e6d546346ace5c1",
+    "dev/src/frontend/packages/core/src/model.ts": "2ede56d8dbef0b80f790de446179587e05759c05499e4d896ae4e38f9017729f",
     "dev/src/frontend/packages/core/src/money.ts": "a104402cf2ac87886b5f4423742decc790a922a690df04d3d62ed3437f9c2c64",
+    "dev/src/frontend/packages/core/src/provider.ts": "e8d27dfddd3e8f67816e7f70d4f5dafff44926ba66740d3f9df1f1bb339b30a1",
     "dev/src/frontend/packages/core/src/tokens.css": "a9a9813329e56709a7d52e597e0e2f8adea37fb39e4e6318b693187ae83184a9",
-    "dev/src/frontend/packages/core/tests/core.test.ts": "a1e713114916ceaa377cb30c9c825c4e2181743093f530c47c586a1ddfa261a3",
+    "dev/src/frontend/packages/core/tests/core.test.ts": "0e1a3280ff20774d2b2de3a6cf14f6e318fea2e3f6c004ccbac20cbb524122aa",
     "dev/src/frontend/packages/core/tsconfig.json": "f749beefcbf9e69f812c864c1d241e4881a95e2acb5c8da7456f141af6769c78",
-    "dev/src/frontend/README.md": "e319e4978aa8f9d448f7a3e93d7008781b50bf018079aafc0f53e160f5750547",
+    "dev/src/frontend/README.md": "f3bcd14851c5541c47856bb0a6f4fd075c1301016d8f525c6b17c7177f72d24f",
     "dev/src/miniapp/babel.config.cjs": "2ff23e6be5a01a8a0c310eb727b37599692f1b8d3c7f9af3d830e5e1eae3be59",
     "dev/src/miniapp/config/index.ts": "3f2dc8e2b81c73fdaa1bc54054eed6f6d23d981fb47c2b58c49b988b770cd35c",
     "dev/src/miniapp/package.json": "7d216d38c47b440bbd5d6d35004f031622d65de1c0c6119af73c864ca193de6c",
     "dev/src/miniapp/src/app.config.ts": "df539e943da26f1c8170b0c5559ee13fce5d2e62d78a7debf76231694a360f72",
-    "dev/src/miniapp/src/app.css": "6ef7dfa3a7da68d558c2a44934d77f840bb55782881b695ba9f3af548fc394a2",
-    "dev/src/miniapp/src/app.tsx": "4e8d33cc8dbf1b85ff0d058db73a98169a8912613c47d5dfeec7a4e5671aa553",
+    "dev/src/miniapp/src/app.css": "3acb5e5ed3894e73a2f85f87bcfdf187dc372608797d1416bf8a0077ef9ff50a",
+    "dev/src/miniapp/src/app.tsx": "9aa949766200f99393be619fa350e85c39f6028081ad359162aaecd7edfbba7a",
     "dev/src/miniapp/src/components.tsx": "c41fd3e7c59ec80fd1baa72f35d0a4f93a46e94ecbc07b759316266a1549dc4f",
     "dev/src/miniapp/src/index.html": "a1d6eb7bc5cb086addb96aa313e131d6b579c3bf15f3c626e98257ddf944a25d",
     "dev/src/miniapp/src/pages/account/index.tsx": "ccfd0a641694bdac2ad42119a681a2d617c87b311dd7bcd1d07f37f80c405b4e",
@@ -32,124 +33,176 @@
     "dev/src/miniapp/src/pages/order/index.tsx": "a90bc1f6ef0b31ca390dea111e3b79c72fe7c47ac306b65fc7f76c2f996209ae",
     "dev/src/miniapp/src/pages/orders/index.tsx": "62f3e7c8a86b461cb20832b612592c47e3157ed2fd2e8b369407728126968501",
     "dev/src/miniapp/src/pages/service/index.tsx": "d781df5249046a623013f0f9bb9e077a5df31346ca5448870d9e08175bc61724",
-    "dev/src/miniapp/src/pages/share/index.tsx": "7d4fb283015df8679aa8e82878aaf71ebd48d0598b9f589deb762eb586cfe041",
+    "dev/src/miniapp/src/pages/share/index.tsx": "01033b0608cadc83a60a6915f9f052ceeefe9253df766b2fdca59e39b05df837",
+    "dev/src/miniapp/src/provider.tsx": "a46f9b2c7b92832987ebd63a07fddb00b663afa9015e41f95c47dfe3917a497c",
     "dev/src/miniapp/src/runtime.ts": "24a0b9b3b13bddfcd04113b5a960744e409c4599e9dd772f391f37ac3bf2ffbd",
     "dev/src/miniapp/tsconfig.json": "48ae8d82b53f2f8456f806db747c15438a48068dae6175bb5d3252cb437a8513",
     "dev/src/miniapp/types/global.d.ts": "677ab2cdb855152b5177ea608a74783fe568c628b717826f878fe5721f2b2494",
     "dev/src/web/index.html": "fe0faf57376539daa96bb241b67201b8c00c177fe3cc25c661084a841415d51f",
     "dev/src/web/package.json": "7f2b5495853e49eb2617a0f2f1eec2bad9a1643621b9d1d12fd99d6abcd541d3",
     "dev/src/web/src/env.d.ts": "3ea1f81306f7c4947e84b347d14f80b868d2a40188068f4a45be432e0f34bb9f",
-    "dev/src/web/src/main.tsx": "6a861d048a374887bce1c8c40b4681ee65e8d56d590483cc5b929065fd74bdc7",
-    "dev/src/web/src/styles.css": "2d33e2a8f7af9241ca2a5e774bf98a8ab54ab6536d57c622ce0c7360ae7051e9",
+    "dev/src/web/src/main.tsx": "31bd52526451da60ccce0564ad0db749dcc7a9c2cf09abc5a87fabd8d3b5c971",
+    "dev/src/web/src/provider.tsx": "ee02cda6f2c67ea2015c612d3c08bc8326fdeba26ccc2bda0baa6ca50db9a043",
+    "dev/src/web/src/styles.css": "e1301a500f2ce82956de20568343023bc940323919f55a97dd13599ddb6b4c4c",
     "dev/src/web/tsconfig.json": "3257a55885d326196dba74759ab1b0844b98ff9387ad102a731e1b3525bbc6ea",
     "dev/src/web/vite.config.ts": "74c610cc9e4f8d42e924d33736c649d4aa4947a243bf8cbbd9e0cb97667370da"
   },
   "assets": [
     {
-      "path": "dev/media/R008/screenshots/web-market.png",
-      "sha256": "258b46a07d1a59da5475b7d4810681c543e5b446c0ce821790b345a7166b5154",
+      "path": "dev/media/R009/screenshots/web-market.png",
+      "sha256": "979e21f0d8add717567d962c911b012b58bb1a95ef1ae0526a413dd513c348bb",
       "viewport": {
         "width": 1440,
         "height": 1000
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/screenshots/web-llm-detail.png",
-      "sha256": "1f0eb3f62415d22eb4d959ffdb212ed33abac5b6aa676d627cb130343d0b820c",
+      "path": "dev/media/R009/screenshots/web-llm-detail.png",
+      "sha256": "8ce7176751ff1dd4f57c93849fba3b2284f98968ac210822d1addd2c3d795899",
       "viewport": {
         "width": 1440,
         "height": 1000
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/screenshots/web-order-pending.png",
-      "sha256": "ea7d82ee304b766cb4441f4f845f07bbd038c55942c14a2cd2e590a79f62c02c",
+      "path": "dev/media/R009/screenshots/web-order-pending.png",
+      "sha256": "d7eb38b9af3916a66d74f774ff1ff65e8ebf4b1cf0e4efccb34bbe53f738af6a",
       "viewport": {
         "width": 1440,
         "height": 1000
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/screenshots/web-order.png",
-      "sha256": "b068d0cba7dab23b1a273964314080040bc90683515a91a29c84b7c7f9647897",
+      "path": "dev/media/R009/screenshots/web-order.png",
+      "sha256": "7c81c2fce22590088164e2227d216c273d442053c5ed6a4944a9562c14f94b1f",
       "viewport": {
         "width": 1440,
         "height": 1000
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/screenshots/web-share.png",
-      "sha256": "bfcf8c9d6753095df8f4633a6162e3921b02412f9a2c27c382a41f5cb790ad1c",
+      "path": "dev/media/R009/screenshots/web-share.png",
+      "sha256": "2e2fc929a8e764add0ad99833d30c498a28e59d781255fa698536b92f3e35b27",
       "viewport": {
         "width": 1440,
         "height": 1000
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/recordings/web-transaction.mp4",
-      "sha256": "4f01d24e16f811cc0e901db36540d0b51598b5883ccd19fa27b47ea4c41bc7e5"
+      "path": "dev/media/R009/screenshots/web-provider-conditions.png",
+      "sha256": "092888cf177fcb75fb37a8fd7703006c53a8a4ea44c9809a2073c95fdbd7d200",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT_AT_DEVICE"
     },
     {
-      "path": "dev/media/R008/recordings/web-transaction.gif",
-      "sha256": "a8f49e5713675258e72beda798dd6749cbbee16b5ea8a739444f77e4c6060f9c"
+      "path": "dev/media/R009/screenshots/web-provider-revoked.png",
+      "sha256": "6b758f7c22472e39337fd681fd5a5599b38c5bc6c59411528a38533855d373e3",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT_AT_DEVICE"
     },
     {
-      "path": "dev/media/R008/screenshots/miniapp-market.png",
-      "sha256": "ab86d4a243bddd441325a19e1e580641bc45a6eecb0bcbf90d5b6576141ef9d4",
+      "path": "dev/media/R009/recordings/web-transaction.mp4",
+      "sha256": "c273ff8657e1ba8d58713b951fda1efe8e2279155327fbc6389e6f9094baf82e"
+    },
+    {
+      "path": "dev/media/R009/recordings/web-transaction.gif",
+      "sha256": "fc0d6927797526a1ea509449c75bb0382d6ef4068a6c4e5dd85c2e2a50461caf"
+    },
+    {
+      "path": "dev/media/R009/screenshots/miniapp-market.png",
+      "sha256": "b630f6d0dd5f4de5e198ceaefed11432b053ffafcd52e17e7870225abaf405d5",
       "viewport": {
         "width": 390,
         "height": 844
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/screenshots/miniapp-llm-detail.png",
+      "path": "dev/media/R009/screenshots/miniapp-llm-detail.png",
       "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
       "viewport": {
         "width": 390,
         "height": 844
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/screenshots/miniapp-order-pending.png",
-      "sha256": "038680d9af72fec65d340f6e9f4331e71d8372f0ec612f916fe54b2a45710d4b",
+      "path": "dev/media/R009/screenshots/miniapp-order-pending.png",
+      "sha256": "4a1330f475fb0058a6427ef46e9f4ca6c45c0dd7936b2a737709515fd8e765ce",
       "viewport": {
         "width": 390,
         "height": 844
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/screenshots/miniapp-order.png",
-      "sha256": "fdc6ed9e2ada5db8f0d6538b63dcadb153002cd55aa808e519b1a1c7a810225a",
+      "path": "dev/media/R009/screenshots/miniapp-order.png",
+      "sha256": "8e8947634f6bc258ad98020f7fabe3ef9aa1af0b04c245ef032b33f109c1813d",
       "viewport": {
         "width": 390,
         "height": 844
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/screenshots/miniapp-share.png",
-      "sha256": "d636afe315d1f0f6b607894a81f996a81bede43bbd7d46cee582b644c99b34b3",
+      "path": "dev/media/R009/screenshots/miniapp-share.png",
+      "sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411",
       "viewport": {
         "width": 390,
         "height": 844
       },
-      "actual_ui": true
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
     },
     {
-      "path": "dev/media/R008/recordings/miniapp-transaction.mp4",
-      "sha256": "9444e2ddbfa710bec53d779fdba505fd0f863818052e713e157239e2b5ce0e00"
+      "path": "dev/media/R009/screenshots/miniapp-provider-conditions.png",
+      "sha256": "599765b8b74add7f9981fc1e270adcfd476e761a463ad2bc4fe6b255762eafdc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT_AT_DEVICE"
     },
     {
-      "path": "dev/media/R008/recordings/miniapp-transaction.gif",
-      "sha256": "6737554edb93ca6e008189090e288fbc963be272962eed1f2d5aded7a712dd4c"
+      "path": "dev/media/R009/screenshots/miniapp-provider-revoked.png",
+      "sha256": "f870c41601920159736d46859545b3a9834259abfa1d6c897c66fb86b1851eaa",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT_AT_DEVICE"
+    },
+    {
+      "path": "dev/media/R009/recordings/miniapp-transaction.mp4",
+      "sha256": "79d3909acf14abc0f653af9759ba0283addd468a509b92b733695a77246e4821"
+    },
+    {
+      "path": "dev/media/R009/recordings/miniapp-transaction.gif",
+      "sha256": "fcc7cde5a6e5e418d5f59cd62748ee539a5f1220536c3e788467e8cdc474e032"
     }
   ],
   "browser_closed": true,

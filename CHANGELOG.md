@@ -5,6 +5,12 @@
 Entries use the same round IDs as the implementation tracker. No entry denotes a
 general-availability platform release unless the full acceptance evidence says so.
 
+## R009 · Provider controls across both clients with original-command recovery
+
+Connect the frozen NB04 React/Taro and React/Vite views to owner pairing, paginated devices, availability/disk/phone conditions, drain and identity revocation. Once-only credentials remain masked in page memory and are removed on hide/leave/expiry/authority loss; late replies cannot reintroduce them. Unknown writes keep the original method, key, body and strong ETag. Policy acknowledgement requires a fresh device read and grants neither execution nor sale qualification.
+
+Verify 72 local Go cases, 21 shared TypeScript cases, three build targets and both real browser/native Windows control journeys. Preserve both the early asynchronous H5 response-read failure and a Web catalog/fixture-heartbeat snapshot conflict. Await the complete response and use the existing explicit market refresh for transient read 503s; never automatically retry writes. Each UI recovers the original pairing/PATCH, drains/revokes and checks that the native heartbeat is rejected after revocation. Publish 14 product screenshots and MP4/GIF provenance without credentials. Still 31/93 operations and 65 tables, migrations 001–005 unchanged; retain all 56 tasks/222 steps and real-channel/hardware/content-encryption/full-acceptance gates.
+
 ## R008 · Native provider control agent and local recovery
 
 Added foreground p11-node initialization, enrollment, original-command recovery, safe status, heartbeat and bounded outbound loop. Windows protects the state master with current-user DPAPI and owner/SYSTEM ACLs; Linux uses Secret Service and fails closed on missing/locked keys, with real Linux keyring validation still pending. An AES-GCM one-command journal, atomic replacement and OS writer lock precede network writes; restart retains the identity, original key and counter. Reports remain UNKNOWN and start no engine or automatic sale.

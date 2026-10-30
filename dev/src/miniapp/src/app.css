@@ -1,4 +1,16 @@
 page, body { margin: 0; background: #FFF5C5; color: #000; font-family: 'Noto Sans SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif; font-size: 15px; line-height: 1.5; }
+.provider-platforms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 16px 0; }
+.provider-platforms .nb-button { min-width: 0; font-size: 12px; padding: 10px 2px; }
+.provider-actions { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+.provider-device, .provider-workspace { min-width: 0; }
+.provider-workspace .pairing-receipt, .provider-confirm { border: 2px dashed #000; padding: 14px; margin-top: 20px; background: #FFF5C5; }
+.pairing-receipt > text, .pairing-receipt > taro-text-core, .provider-confirm > text, .provider-confirm > taro-text-core { display: block; margin-bottom: 12px; }
+.pairing-secret { display: block; padding: 14px; border: 2px solid #000; background: #fff; font-size: 12px; overflow-wrap: anywhere; word-break: break-all; }
+.provider-form { border-top: 3px solid #000; padding-top: 20px; margin-top: 20px; }
+.provider-window { border-bottom: 2px solid #000; margin-bottom: 16px; }
+.provider-picker { border: 2px solid #000; background: #fff; padding: 12px; min-height: 48px; }
+.provider-actions .danger { border-color: #A32722; color: #A32722; }
+.provider-form .form-field input, .provider-workspace .form-field input, .provider-form .form-field taro-input-core, .provider-workspace .form-field taro-input-core { min-width: 0; width: 100%; }
 .nb-page { background: #FFF5C5; min-height: 100vh; padding: 20px 16px calc(104px + env(safe-area-inset-bottom)); box-sizing: border-box; }
 .nb-page text, .nb-page taro-text-core { overflow-wrap: anywhere; }
 .brand { display: flex; align-items: center; gap: 12px; margin: 6px 0 24px; }

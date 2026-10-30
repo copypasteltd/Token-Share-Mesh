@@ -12,7 +12,7 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 
 ## 当前实现状态
 
-仓库包含可运行的 **React/Taro支付宝小程序页面、React/Vite Web、共享控制逻辑及Go/PostgreSQL后端子集**，配有完整需求和技术细则。R006按选定新粗野主义落地市场、报价确认、本人订单和共享只读页，并处理丢失建单回执后的原请求恢复。当前交易仅到等待付款；模型服务、完整设备执行客户端、内容加密、真实支付和完整平台仍待完成。产品截图明确使用合成授权/卖家资格/设备心跳，Taro画面为H5预览。
+仓库包含可运行的 **React/Taro支付宝小程序页面、React/Vite Web、共享控制逻辑及Go/PostgreSQL后端子集**，配有完整需求和技术细则。沿选定的新粗野主义，已实现市场、正式报价、本人待付款订单和提供方设备控制：配对、共享条件、停止与撤销。模型服务、完整设备执行端、内容加密、真实支付和完整平台仍待完成。产品截图明确使用合成授权/卖家资格，Taro画面为H5预览；提供方控制另联调真实Windows命令程序，不代表GPU执行。
 
 [NB-R1需求推进](docs/需求推进/NB-1.0/README.md)将[五页最终设计](dev/design/新粗野主义-v1.0/README.md)接入十辅助界面、48项需求细化、96个未执行验收场景和六项开放缺口。新售GPU按小时，LLM输入/输出分别按M token（1,000,000 token）；媒体在受控GPU租赁内执行且不另按作品收费。R003已实现NB_PRICE_1价格合同、精确计算和报价建单应用服务，R004接入身份及HTTP子集，R005加入卖家申请与挂牌版本控制；任意小时价租赁/续租/账单、可信usage和并发预算仍待完成，旧订单价版不改。
 
@@ -20,12 +20,12 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
 | 实施任务 | 20项进行中 · 34项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R008 · PASSED_FOR_CONTROL_SERVICES_ONLY |
+| 最新源码轮次 | R009 · PASSED_FOR_CONTROL_SERVICES_ONLY |
 | 原生测试证据 | 72项通过，仅控制应用服务范围 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
-当前65领域表、31/93控制操作。R007设备身份合同之上，R008新增p11-node原生前台控制、Windows DPAPI/Linux Secret Service适配、加密单命令日志和OS进程锁，登记/心跳丢回执后跨重启恢复原身份/键/序号。72项Go局部用例包含实际Windows系统保护、子进程强制结束与HTTP/临时PG回归；Linux钥库仅夹具及交叉编译。前端未改，13项TS/三目标编译按摘要复核，双端浏览器针对当前后台重跑。真实授权/审核/支付、GPU/内核/内容加密/完整执行端仍待完成。见[原生证据](dev/tests/evidence/R008-验证报告.md)、[前端回归](dev/tests/evidence/R008-frontend-checks.json)、[原生恢复细则](docs/技术开发/附录-原生提供方控制代理与本地恢复.md)及[全部56项进度](dev/progress/README.md)。
+当前65领域表、31/93控制操作。R009将R007身份合同和R008原生控制程序接入双端页面：一次性秘密仅页内存、默认遮盖，后台/离开/到期/撤权移除；配对/PATCH/停止撤销按原方法、键、正文与强ETag恢复。共享条件保存不等于设备执行，须刷新当前版本。72项Go、21项TS、三目标构建及双端浏览器/Windows二进制联调通过；Linux钥库仅夹具及交叉编译，真实渠道/设备/内核/内容加密未通过。见[原生证据](dev/tests/evidence/R009-验证报告.md)、[前端证据](dev/tests/evidence/R009-frontend-checks.json)、[双端提供方细则](docs/技术开发/附录-提供方双端设备管理与原请求恢复.md)及[全部56项进度](dev/progress/README.md)。
 
 新价合同把AVAILABLE_HOUR的hour_rate，或TOKEN_1M的input_rate/output_rate明确分开；每项均含整数分子/正整数分母、费用承担、佣金和取整版。360分/小时的30分钟最坏180分；80分/M输入加160分/M输出，1M输入与0.25M输出共120分。报价冻结卖家、环境、政策、价格及预算，建单复核后只进入WAITING_PAYMENT；订单、报价消费、同意审计和outbox同事务。它不代表已支付、已锁GPU或已执行。350分/小时不能舍入写进旧整数分/分钟列。
 
@@ -33,7 +33,7 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 
 本机控制命令为`p11-api`，先显式配置所选开发数据库、应用身份和密钥文件并执行迁移；[完整环境变量及调用顺序](dev/repository/USAGE.md)提供步骤。命令只监听loopback，不自动启用任何测试登录、模型或支付。实际31路由由[源码登记](dev/src/api/internal/http/routes.json)驱动，与93操作权威契约逐项核对；其余操作仍待开发。
 
-卖家申请只到SUBMITTED，不自动授予SELLER或开售。新挂牌要求已批准地区、本人具体型号/能力及显式平台费用配置；修改只产生未来修订，保留已售合同。退出只停新准入，原资金和资源记录等待各自善后。设备配对/登记已提供控制API；真实卖家审核、物理设备资格、原生执行端、受控发布与配对/卖家写页面仍是待办。
+卖家申请只到SUBMITTED，不自动授予SELLER或开售。新挂牌要求已批准地区、本人具体型号/能力及显式平台费用；修改只产生未来修订，保留已售合同。退出只停新准入，原资金和资源记录等待各自善后。当前提供方页面已接入本人配对/策略/停止撤销，完整挂牌写页面、真实审核、物理资格、执行端和受控发布仍待完成。
 
 原生小程序显式选ALIPAY_NATIVE_NONCE_1：服务端签发32字节一次性随机证明、数据库仅存摘要，再my.getAuthCode→POST兑换→仅内存保留Bearer；重启重新授权。它不冒称客户端PKCE，不使用Math.random或时间戳。命令号由独立内存种子与HMAC计数派生，不作内容密钥。Web/H5使用WebCrypto S256、绑定Cookie/state及实际回调，兑换后会话只在HttpOnly/Strict Cookie，写操作另带Origin/CSRF；回调即删URL参数及临时证明。登录不等于KYC/卖家资格，新账号只获BUYER；未知兑换重新授权，不重发原码。
 
@@ -45,17 +45,21 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 
 设备后续以P11_DEVICE_ED25519_1签入方法、Host、精确URI、原正文摘要、幂等键、If-Match和Content-Type，时间±60秒，nonce持久去重。控制身份与客户内容加密钥分离；本项目封装不是标准HTTP Message Signatures。Go调用库提供NewClient→Prepare→Send→Close；写回执未知只按原Prepare显式恢复，每次使用新签名，不自动重试或换命令号。主人通过本人会话设置时段/单槽/磁盘和手机电量、温度、充电条件；修改须强ETag。停止/撤销先关新准入，原任务仍须执行端真实停算清理，不因心跳或断线释放GPU锁。
 
-API使用独立P11_DEVICE_PAIRING_PEPPER_FILE，缺配置关闭配对。R008提供p11-node的init/enroll/recover/status/heartbeat/run，秘密仅走受控标准输入；Windows本人DPAPI与Linux Secret Service保护状态主钥，AES-GCM日志与进程锁在发送前保存原命令，未知结果不换键。当前只报UNKNOWN、execution_enabled=false，不启动内核或本机监听。Linux钥库实测、完整RuntimeSupervisor/SQLite执行inbox/门闩、LMA/内核/内容加密和提供方页面仍待完成。详见[中英命令与恢复步骤](dev/repository/USAGE.md)及[原生代理规范](docs/技术开发/附录-原生提供方控制代理与本地恢复.md)。
+API使用独立P11_DEVICE_PAIRING_PEPPER_FILE，缺配置关闭配对。p11-node提供init/enroll/recover/status/heartbeat/run，秘密仅走受控标准输入；Windows本人DPAPI与Linux Secret Service保护主钥，AES-GCM日志与进程锁在发送前保存原命令。当前只报UNKNOWN、execution_enabled=false，不启动内核/监听。共享页由已审核SELLER选择系统、名称并主动确认，凭据显式显示后在本人程序使用；离开不能找回，首次丢回执只恢复安全元数据，如需另开须再确认。设置北京时间时段、整数MB与手机条件须强ETag和责任确认；保存后刷新，停止/撤销不代表已清理GPU。完整RuntimeSupervisor/执行inbox/门闩、Linux钥库实机、LMA/内核/内容E2E仍待完成。详见[中英使用步骤](dev/repository/USAGE.md)、[双端细则](docs/技术开发/附录-提供方双端设备管理与原请求恢复.md)及[原生代理规范](docs/技术开发/附录-原生提供方控制代理与本地恢复.md)。
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R008/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R009/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R008/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R009/screenshots/miniapp-market.png)
 
-![实际Taro H5报价与丢回执恢复操作录制](dev/media/R008/recordings/miniapp-transaction.gif)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R009/screenshots/miniapp-provider-conditions.png)
 
-[Web操作MP4](dev/media/R008/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R008/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R008/recordings/web-transaction.gif) · [订单待确认](dev/media/R008/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web共享条件](dev/media/R009/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R009/screenshots/miniapp-provider-revoked.png)
+
+![实际Taro H5交易与提供方设备控制录制](dev/media/R009/recordings/miniapp-transaction.gif)
+
+[Web操作MP4](dev/media/R009/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R009/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R009/recordings/web-transaction.gif) · [订单待确认](dev/media/R009/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 
@@ -144,7 +148,7 @@ python -X utf8 dev/tools/前端开发.py test
 python -X utf8 dev/tools/前端开发.py build
 ```
 
-支付宝原生产物在runtime/frontend/builds/miniapp-alipay；H5在miniapp-h5，Web在web。原生构建须显式配置P11_FRONTEND_API_BASE及实际应用身份，空地址阻止登录；Web/H5空地址使用同源控制面。登录→选个人卖家/型号/模式→填用量预算→取正式报价→主动确认合同→等待付款。回执未知刷新后点击“核对原请求”，不换参数或新下单。共享目前只读资格/挂牌，配对与付款关闭。见[双语前端使用说明](dev/src/frontend/README.md)。
+支付宝原生产物在runtime/frontend/builds/miniapp-alipay；H5在miniapp-h5，Web在web。原生构建须显式配置P11_FRONTEND_API_BASE及实际应用身份，空地址阻止登录；Web/H5空地址使用同源控制面。登录→选个人卖家/型号/模式→填用量预算→取正式报价→主动确认合同→等待付款。回执未知刷新后点击“核对原请求”，不换参数或新下单。共享页可操作本人配对/策略/停止撤销；资格/挂牌只读，付款关闭。见[双语前端使用说明](dev/src/frontend/README.md)。
 
 实际本地联调可在构建后运行下列原生数据库验证命令；Go测试二进制临时提供合成OAuth/资格/设备心跳及编译页面，自动截图录制、验证原请求恢复，并停止浏览器/数据库。该夹具不能用于真实开售；Taro H5不代表真机通过。
 
@@ -173,12 +177,12 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # 临时 loopback PostgreSQL → 真实测试 → 确认关闭
-python -X utf8 dev/tools/原生数据库验证.py --round R008
-python -X utf8 dev/tools/核验原生源码.py --round R008
-python -X utf8 dev/tools/整理原生验证证据.py --round R008
+python -X utf8 dev/tools/核验原生源码.py --round R009
+python -X utf8 dev/tools/原生数据库验证.py --round R009
+python -X utf8 dev/tools/整理原生验证证据.py --round R009
 ```
 
-后三条生成当前源码的R008范围证据，保留R001/R003/R004/R005/R006/R007历史记录。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API/node命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
+以上检查生成当前R009范围证据，保留R001—R008历史记录；前端先构建，原生二进制先编译，再运行数据库联调。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API/node命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
 
 ## 买卖双方未来使用逻辑
 
@@ -196,7 +200,7 @@ CHANGELOG*.md                    同步更新说明
 dev/src/go.mod                   单 Go 模块
 dev/src/api/cmd/p11-admin/        原生迁移/检查命令
 dev/src/api/cmd/p11-api/          原生本机身份/控制接口
-dev/src/api/internal/http/       23操作注册与鉴权适配
+dev/src/api/internal/http/       31操作注册与鉴权适配
 dev/src/internal/                数据库、密钥、计价、市场、报价订单、幂等与任务
 dev/src/shared/                  ID、安全错误、时钟、金额
 dev/src/tests/integration/       真实 PostgreSQL 测试
@@ -206,7 +210,9 @@ dev/progress/                    每轮实现表和完整待办快照
 dev/tools/                       原生、文档、媒体及仓库工具
 dev/repository/                  双语补充指南及README人工模板
 dev/media/                       真实截图、MP4、GIF及来源
-dev/licenses/                    当前Go依赖许可
+dev/src/frontend/ + miniapp/ + web/  共享TS及双端页面源
+dev/src/client/                 原生控制CLI、日志、系统钥库及协议
+dev/licenses/                    当前Go与前端依赖许可
 docs/白皮书/                     完整需求及离线阅读器
 docs/技术开发/                   架构、协议、SQL及离线阅读器
 scripts/                        既有权威文档生成器

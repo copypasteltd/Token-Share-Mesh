@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { sha256 } from '@noble/hashes/sha256';
+import { type Device, type PolicyInput, pairingOf, deviceOf, providerCommand, policyFromForm, policyForm } from '../src/provider';
 import { ControlClient, ApiError, CommandJournal, base64url, beginLogin, finishLogin, AppModel,
   estimate, parseYuan, yuan, splitIncludedFee, rateText, offerOf, priceOf, beginNativeLogin, type Price, type Offer, type Storage, type Session, type Transport, object } from '../src/index';
 
@@ -116,4 +117,87 @@ test('UI-UNIT-013 native nonce is an explicit profile and command IDs use a sepa
     assert.equal(calls, 1); await assert.rejects(p.commandBytes(16));
   } finally { Object.defineProperty(globalThis, 'TextEncoder', descriptor); }
   await assert.rejects(beginNativeLogin(client(async () => { throw new Error('WEB must not request a native proof'); })));
+});
+
+const sellerSession: Session = { ...session, profile: { ...session.profile, roles: ['BUYER', 'SELLER'] } };
+const providerDevice = (): Device => ({ device_id: 'dev_provider', seller_id: 'usr_buyer', platform: 'WINDOWS', resource_kind: 'GPU_DEVICE', state: 'PAIRED', version: 1, model_name: 'RTX 4090 24GB', device_label: '本人书房显卡', identity_profile_id: 'ED25519_DEVICE_1', key_fingerprint: 'a'.repeat(64), client_release_id: 'SYNTHETIC_TEST', last_seen_at: null, heartbeat_sequence: null, reported_resource_state: 'UNKNOWN', active_slots: 0, capability_ids: [], resource_policy: { sharing_enabled: false, accepting_new_jobs: false, active_slots: 1, windows: [], minimum_free_disk_bytes: 0, stop_policy: 'DRAIN' } });
+const pairInput = { platform: 'WINDOWS' as const, device_label: '本人书房显卡', owner_confirmed: true };
+const pairReceipt = () => ({ pairing_id: 'pair_synthetic', seller_id: session.profile.user_id, expires_at: '2099-01-01T00:00:00Z', one_time_token: 'p11p.pair_synthetic.' + 'A'.repeat(43) });
+const providerPolicy = (): PolicyInput => ({ expected_version: 1, sharing_enabled: true, windows: [{ starts_at: '2090-01-01T00:00:00Z', ends_at: '2090-01-01T02:00:00Z' }], active_slots: 1, minimum_free_disk_bytes: 1000000, stop_policy: 'DRAIN' });
+async function providerModel(route: Transport, storage = store()) {
+  const c = client(async request => {
+    if (request.url.endsWith('/seller/profile')) return ok({ seller_id: session.profile.user_id, display_name: '合成已审核卖家', qualification_state: 'APPROVED', public_identity_notice: 'SYNTHETIC', payee_eligibility_state: 'UNVERIFIED', approved_regions: [], version: 1, evidence_refs: [] });
+    if (request.url.includes('/seller/listings') || request.url.includes('/services?')) return ok({ items: [], next_cursor: null });
+    if (request.url.includes('/seller/devices?')) return ok({ items: [providerDevice()], next_cursor: null });
+    return route(request);
+  });
+  const m = new AppModel(c, storage, random, { async login() {}, async resume() { return sellerSession; } });
+  await m.start(); await m.loadSeller(); return m;
+}
+test('UI-UNIT-014 provider projections reject cross-protocol secrets, generic phones and unsafe sequence values', () => {
+  assert.equal(deviceOf(providerDevice()).device_id, 'dev_provider');
+  for (const value of [{ ...providerDevice(), heartbeat_sequence: '18446744073709551616' }, { ...providerDevice(), model_name: 'Android 设别' }, { ...providerDevice(), resource_policy: { ...providerDevice().resource_policy, accepting_new_jobs: null } }]) assert.throws(() => deviceOf(value));
+  assert.throws(() => pairingOf({ ...pairReceipt(), access_token: 'forbidden' }));
+  assert.throws(() => pairingOf({ ...pairReceipt(), one_time_token: 'p11p.pair_other.' + 'A'.repeat(43) }));
+});
+test('UI-UNIT-015 original PATCH method, ETag and body survive reload without containing a credential', async () => {
+  const storage = store(), seen: unknown[] = []; let fail = true;
+  const c = client(async r => { seen.push([r.method, r.body, r.headers['Idempotency-Key'], r.headers['If-Match']]); if (fail) { fail = false; throw new Error('committed receipt lost'); } return ok({ id: 'dev_provider' }); });
+  const a = new CommandJournal(c, storage, random), p = providerPolicy();
+  await assert.rejects(a.run('/devices/dev_provider/resource-policy', p, object, 'PATCH', '"1"'));
+  const b = new CommandJournal(c, storage, async () => { throw new Error('must retain original key'); }), original = b.pending()!;
+  await b.run(original.path, original.body, object, original.method, original.ifMatch);
+  assert.deepEqual(seen[0], seen[1]); assert.equal(b.pending(), null);
+});
+test('UI-UNIT-016 provider journal refuses token-bearing payloads, wrong methods, weak ETags and arbitrary routes before saving or sending', async () => {
+  let calls = 0, saved = 0; const storage = { ...store(), set() { saved++; } };
+  const j = new CommandJournal(client(async () => { calls++; return ok({}); }), storage, random);
+  await assert.rejects(j.run('/devices/pairing-intents', { ...pairInput, one_time_token: pairReceipt().one_time_token }, object));
+  await assert.rejects(j.run('/device-enrollments', {}, object));
+  await assert.rejects(j.run('/devices/dev_provider/resource-policy', providerPolicy(), object, 'PATCH', 'W/"1"'));
+  await assert.rejects(j.run('/devices/dev_provider/revoke', { expected_version: 1, reason_code: 'OWNER_REVOKE', content: 'forbidden' }, object));
+  assert.equal(calls, 0); assert.equal(saved, 0);
+});
+test('UI-UNIT-017 lost pairing reply restores the same intent without redisclosing or persisting its one-time token', async () => {
+  const backing = store(), saved: string[] = [], requests: unknown[] = []; const storage = { ...backing, set(k: string, v: string) { saved.push(v); backing.set(k, v); } }; let lost = true;
+  const m = await providerModel(async r => { requests.push([r.body, r.headers['Idempotency-Key']]); if (lost) { lost = false; throw new Error('first response lost'); } const { one_time_token: _secret, ...safe } = pairReceipt(); return ok(safe); }, storage);
+  await m.createPairing(pairInput); assert.equal(m.snapshot().pending, true); assert.equal(m.snapshot().pairing, null);
+  await m.recover(); assert.deepEqual(requests[0], requests[1]); assert.equal(m.snapshot().pairing?.one_time_token, undefined); assert.equal(m.snapshot().pending, false);
+  assert(!saved.join('').includes('p11p.')); assert.match(m.snapshot().providerNotice, /凭据不再显示/);
+});
+test('UI-UNIT-018 clearing or hiding during an in-flight pairing also suppresses a late secret; expired receipts stay hidden', async () => {
+  let resolve: (x: ReturnType<typeof ok>) => void = () => {};
+  const m = await providerModel(() => new Promise(r => { resolve = r; }));
+  const pending = m.createPairing(pairInput); await new Promise(r => setImmediate(r)); m.clearPairingSecret(); resolve(ok(pairReceipt())); await pending;
+  assert.equal(m.snapshot().pairing?.one_time_token, undefined);
+  const next = m.createPairing(pairInput); await new Promise(r => setImmediate(r)); resolve(ok(pairReceipt())); await next;
+  m.revealPairing(); assert(m.snapshot().pairingVisible); m.clearPairingSecret(); assert.equal(m.snapshot().pairingVisible, false); assert.equal(m.snapshot().pairing?.one_time_token, undefined);
+  const expired = await providerModel(async () => ok({ ...pairReceipt(), expires_at: '2000-01-01T00:00:00Z' })); await expired.createPairing(pairInput); assert.equal(expired.snapshot().pairing?.one_time_token, undefined);
+});
+test('UI-UNIT-019 shared time form preserves Beijing timezone, rejects invalid dates/overlaps and requires explicit phone conditions', () => {
+  const d = providerDevice(), f = policyForm(d); f.enabled = true; f.windows = [{ start: '2090-01-01 08:00', end: '2090-01-01 10:00' }]; f.freeDiskMB = '1024';
+  assert.throws(() => policyFromForm(d, f, false));
+  const p = policyFromForm(d, f, true); assert.equal(p.windows[0].starts_at, '2090-01-01T00:00:00.000Z'); assert.equal(p.minimum_free_disk_bytes, 1024000000);
+  assert.throws(() => policyFromForm(d, { ...f, windows: [{ start: '2090-02-30 08:00', end: '2090-03-01 09:00' }] }, true));
+  assert.throws(() => policyFromForm(d, { ...f, windows: [...f.windows, ...f.windows] }, true));
+  const phone = policyFromForm({ ...d, platform: 'ANDROID', model_name: '摩托罗拉 X30' }, f, true);
+  assert.equal(phone.charging_required, true); assert.equal(phone.minimum_battery_percent, 30); assert.equal(phone.maximum_temperature_celsius, 45);
+  assert.throws(() => providerCommand('/devices/dev_provider/resource-policy', 'PATCH', { ...p, accepting_new_jobs: true }, '"1"'));
+});
+test('UI-UNIT-020 policy acknowledgement does not claim device execution; stale versions require a fresh owner read', async () => {
+  let writes = 0; const m = await providerModel(async r => { writes++; assert.equal(r.headers['If-Match'], '"1"'); return ok({ id: 'dev_provider', version: 2, status: 'PROBING', recorded_at: '2090-01-01T00:00:00Z' }); });
+  await m.savePolicy(providerDevice(), providerPolicy()); assert.equal(m.snapshot().deviceAck?.version, 2); assert.equal(m.snapshot().devices[0].state, 'PAIRED'); assert.equal(m.snapshot().devices[0].resource_policy.accepting_new_jobs, false);
+  assert.match(m.snapshot().providerNotice, /设备执行与资格仍待确认/); assert.equal(writes, 1);
+  await m.savePolicy(providerDevice(), providerPolicy()); await m.changeDevice(providerDevice(), 'revoke', true); assert.equal(writes, 1); assert.match(m.snapshot().error, /刷新本人设备/);
+  const wrong = await providerModel(async () => ok({ id: 'dev_other', version: 2, status: 'PROBING', recorded_at: '2090-01-01T00:00:00Z' })); await wrong.savePolicy(providerDevice(), providerPolicy()); assert.equal(wrong.snapshot().pending, true); assert.equal(wrong.snapshot().deviceAck, null);
+});
+test('UI-UNIT-021 unconfirmed/foreign device actions never send; permission revocation clears the ephemeral pairing secret', async () => {
+  let writes = 0, denied = false;
+  const m = await providerModel(async () => { writes++; return denied ? { status: 403, headers: {}, data: { error: { code: 'FORBIDDEN' } } } : ok(pairReceipt()); });
+  await m.createPairing(pairInput); assert(m.snapshot().pairing?.one_time_token); const before = writes;
+  await m.changeDevice(providerDevice(), 'drain', false); await m.changeDevice({ ...providerDevice(), seller_id: 'usr_other' }, 'revoke', true); assert.equal(writes, before);
+  denied = true; await m.changeDevice(providerDevice(), 'drain', true); assert.equal(m.snapshot().pairing?.one_time_token, undefined); assert(m.snapshot().pending);
+  for (const reply of [{ ...providerDevice(), state: 'REVOKED', version: 1 }, { ...providerDevice(), state: 'PAIRED', version: 2 }]) {
+    const wrong = await providerModel(async () => ok(reply)); await wrong.changeDevice(providerDevice(), 'revoke', true); assert(wrong.snapshot().pending); assert.equal(wrong.snapshot().devices[0].state, 'PAIRED');
+  }
 });

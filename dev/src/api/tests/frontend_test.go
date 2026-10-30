@@ -17,6 +17,7 @@ import (
 	"time"
 
 	controlhttp "p11.local/compute/api/internal/http"
+	"p11.local/compute/internal/dispatch/device"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/testsupport"
 	"p11.local/compute/shared/ids"
@@ -63,11 +64,19 @@ func TestNativeNonceAuthorizationIsExplicitSingleUseAndNotWebPKCE(t *testing.T) 
 // still runs through the real Alipay adapter's independent signed-response fixture.
 type syntheticBrowserProvider struct {
 	identity.LoginProvider
-	base string
+	base    string
+	subject string
 }
 
 func (s syntheticBrowserProvider) AuthorizationURL(state string) (string, error) {
 	return s.base + "/fixture/authorize?state=" + url.QueryEscape(state), nil
+}
+func (s syntheticBrowserProvider) Exchange(ctx context.Context, code string) (string, error) {
+	subject, err := s.LoginProvider.Exchange(ctx, code)
+	if err == nil && s.subject != "" {
+		return s.subject, nil
+	}
+	return subject, err
 }
 
 func TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder(t *testing.T) {
@@ -84,11 +93,17 @@ func TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder(t *testing.T
 			phone := testsupport.SeedOffer(t, ctx, db, "E2E", "CN")
 			keepSyntheticDevicesOnline(t, gpu.Device, phone.Device)
 			code := ids.New("SYNTHETIC_BROWSER")
+			providerRound := os.Getenv("P11_EVIDENCE_ROUND") == "R009"
 			var origin string
 			h := newHarnessConfigured(t, 10000, 1000, func(c *controlhttp.Config) {
 				origin = "http://" + c.AllowedHosts[0]
 				c.BrowserOrigin = origin
-				c.Sessions.Provider = syntheticBrowserProvider{c.Sessions.Provider, origin}
+				provider := syntheticBrowserProvider{LoginProvider: c.Sessions.Provider, base: origin}
+				if providerRound {
+					provider.subject = ids.New("SYNTHETIC_PROVIDER_SUBJECT")
+					c.Devices = device.Service{DB: db, PepperVersion: "synthetic_ui_pair_1", Peppers: map[string][]byte{"synthetic_ui_pair_1": bytes.Repeat([]byte{'p'}, 32)}}
+				}
+				c.Sessions.Provider = provider
 			}, func(control http.Handler) http.Handler {
 				return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 					if strings.HasPrefix(r.URL.Path, "/v1/p11/") {
@@ -128,6 +143,11 @@ func TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder(t *testing.T
 					_, _ = w.Write(data)
 				})
 			})
+			if providerRound {
+				// Explicit disposable-database approval; production commands cannot install it.
+				approved, _ := h.login(t, "MINIAPP")
+				grantDeviceSeller(t, approved)
+			}
 			command := exec.CommandContext(ctx, "node", filepath.Join(root, "dev/tools/frontend/browser.mjs"))
 			command.Env = append(os.Environ(), "P11_UI_BASE="+h.server.URL, "P11_UI_TARGET="+target, "P11_UI_GPU="+gpu.ID, "P11_UI_PHONE="+phone.ID)
 			output, err := command.CombinedOutput()
@@ -135,11 +155,12 @@ func TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder(t *testing.T
 				t.Fatalf("browser journey failed: %v\n%s", err, output)
 			}
 			var receipt struct {
-				Passed        bool   `json:"passed"`
-				Buyer         string `json:"buyer_id"`
-				Order         string `json:"order_id"`
-				BrowserClosed bool   `json:"browser_closed"`
-				RemainingTabs int    `json:"remaining_owned_tabs"`
+				Passed         bool   `json:"passed"`
+				Buyer          string `json:"buyer_id"`
+				Order          string `json:"order_id"`
+				BrowserClosed  bool   `json:"browser_closed"`
+				RemainingTabs  int    `json:"remaining_owned_tabs"`
+				ProviderDevice string `json:"provider_device_id"`
 			}
 			if err = json.Unmarshal(bytes.TrimSpace(output), &receipt); err != nil || !receipt.Passed || !receipt.BrowserClosed || receipt.RemainingTabs != 0 {
 				t.Fatalf("browser receipt invalid: %s", output)
@@ -150,6 +171,18 @@ func TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder(t *testing.T
 			}
 			if err = db.Pool.QueryRow(ctx, "SELECT count(*) FROM p11.outbox_events WHERE aggregate_id=$1 AND event_type='OrderCreated'", receipt.Order).Scan(&events); err != nil || events != 1 {
 				t.Fatal("original order must have exactly one creation event", err, events)
+			}
+			if providerRound {
+				var state string
+				var accepting, sharing bool
+				if err = db.Pool.QueryRow(ctx, "SELECT state,(resource_policy->>'accepting_new_jobs')::boolean,(resource_policy->>'sharing_enabled')::boolean FROM p11.devices WHERE id=$1 AND seller_id=$2", receipt.ProviderDevice, receipt.Buyer).Scan(&state, &accepting, &sharing); err != nil || state != "REVOKED" || accepting || sharing {
+					t.Fatal("UI/native provider did not finish revoked with new admission closed", err)
+				}
+				for _, action := range []string{"DeviceEnrolled", "DeviceResourcePolicyChanged", "DeviceDrainRequested", "DeviceRevoked"} {
+					if err = db.Pool.QueryRow(ctx, "SELECT count(*) FROM p11.outbox_events WHERE aggregate_id=$1 AND event_type=$2", receipt.ProviderDevice, action).Scan(&events); err != nil || events != 1 {
+						t.Fatal("provider original recovery duplicated or omitted event", action, err, events)
+					}
+				}
 			}
 			t.Logf("%s: actual browser/control/DB journey passed; synthetic OAuth and qualification only; one order and one outbox event", target)
 		})
