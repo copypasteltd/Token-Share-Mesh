@@ -1,0 +1,9 @@
+{
+  "round": "R024",
+  "attempt": 1,
+  "archive": "dev/tests/evidence/archive/R024-native-real-attempt1.zip",
+  "sha256": "dc1a2b7f9bb5742f7996bf1e005da624200243af57ddc9831069b5b245c05230",
+  "files": 45,
+  "source_hashes_exact": true,
+  "scope": "Exact original source/worker/package metadata; pinned official runtime libraries and model remain private reproducible downloads, not redistributed"
+}

@@ -1,4 +1,4 @@
-// P11_LLAMA_PIPE_2: native C API only; no HTTP/WebSocket server, shell, task
+// P11_LLAMA_PIPE_4: native C API only; no HTTP/WebSocket server, shell, task
 // paths, installation or model download. See the numbered kernel IPC appendix.
 #include "llama.h"
 #include <algorithm>
@@ -7,6 +7,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <exception>
@@ -25,7 +26,7 @@
 #endif
 
 namespace {
-constexpr const char * profile = "P11_LLAMA_PIPE_3";
+constexpr const char * profile = "P11_LLAMA_PIPE_4";
 constexpr const char * commit = "8642541b255bfb5dc39cd351a178be09013a55d6";
 constexpr size_t max_frame = 65536, max_body = 512 * 1024;
 using bytes = std::vector<uint8_t>;
@@ -134,6 +135,9 @@ struct api {
     decltype(&ggml_backend_load_all_from_path) load_backends;
     decltype(&ggml_backend_dev_by_name) device_by_name;
     decltype(&ggml_backend_dev_type) device_type;
+    decltype(&ggml_backend_dev_get_props) device_props;
+    decltype(&ggml_backend_dev_count) device_count;
+    decltype(&ggml_backend_dev_get) device_get;
     decltype(&ggml_log_set) log_set;
     void open(library_handle lib, library_handle registry, library_handle base) {
 #define RESOLVE(name) name = symbol<decltype(name)>(lib, #name);
@@ -142,6 +146,9 @@ struct api {
         load_backends = symbol<decltype(load_backends)>(registry, "ggml_backend_load_all_from_path");
         device_by_name = symbol<decltype(device_by_name)>(registry, "ggml_backend_dev_by_name");
         device_type = symbol<decltype(device_type)>(base, "ggml_backend_dev_type");
+        device_props = symbol<decltype(device_props)>(base, "ggml_backend_dev_get_props");
+        device_count = symbol<decltype(device_count)>(registry, "ggml_backend_dev_count");
+        device_get = symbol<decltype(device_get)>(registry, "ggml_backend_dev_get");
         log_set = symbol<decltype(log_set)>(base, "ggml_log_set");
     }
 };
@@ -167,16 +174,22 @@ void control_loop() {
 }
 
 struct config {
-    std::string library, registry, core, model, chat_template, device;
+    std::string library, registry, core, model, chat_template, device, uuid, pci;
+    bool probe = false;
     uint32_t context, batch, threads, gpu_layers;
 };
 config initialize() {
-    frame f; if (!receive(input_handle, f) || f.kind != 1) throw fault{};
+    frame f; if (!receive(input_handle, f) || (f.kind != 1 && f.kind != 6)) throw fault{};
     parser p{f.data};if (p.str(64) != profile || p.str(64) != commit) throw fault{};
-    config c{p.str(16384), p.str(16384), p.str(16384), p.str(16384), p.str(64), p.str(128), p.u32(), p.u32(), p.u32(), p.u32()};p.end();wipe(f.data);
-    if (c.context < 32 || c.context > 131072 || c.batch < 1 || c.batch > 2048 || c.batch > c.context || c.threads < 1 || c.threads > 64 || c.gpu_layers > 999 || (c.gpu_layers > 0) != !c.device.empty()) throw fault{};
+    config c{};c.library=p.str(16384);c.registry=p.str(16384);c.core=p.str(16384);
+    if (f.kind == 6) { c.probe=true;p.end();wipe(f.data);return c; }
+    c.model=p.str(16384);c.chat_template=p.str(64);c.device=p.str(128);c.uuid=p.str(40);c.pci=p.str(16);
+    c.context=p.u32();c.batch=p.u32();c.threads=p.u32();c.gpu_layers=p.u32();p.end();wipe(f.data);
+    if (c.context < 32 || c.context > 131072 || c.batch < 1 || c.batch > 2048 || c.batch > c.context || c.threads < 1 || c.threads > 64 || c.gpu_layers > 999 || (c.gpu_layers > 0) != !c.device.empty() || (c.gpu_layers > 0) != !c.uuid.empty() || (c.gpu_layers > 0) != !c.pci.empty()) throw fault{};
     return c;
 }
+#include "gpu_identity.h"
+
 struct request {
     uint32_t max_input = 0, max_output = 0;
     double temperature = 1, top_p = 1;
@@ -327,13 +340,23 @@ int main_impl(int argc, char ** argv) {
     startup_stage = 1;auto lib = load(c.library);startup_stage = 2;auto registry = load(c.registry);startup_stage = 3;auto core = load(c.core);
     startup_stage = 4;api a;a.open(lib, registry, core);a.log_set(discard_log, nullptr);a.llama_log_set(discard_log, nullptr);
     startup_stage = 5;a.load_backends(dir.c_str());a.llama_backend_init();
+    if (c.probe) {
+        startup_stage = 9;bytes inventory;putstr(inventory, profile);putstr(inventory, commit);
+        auto count=a.device_count();if(count>64) throw fault{};
+        std::vector<physical_gpu> found;
+        for(size_t i=0;i<count;++i) { auto d=a.device_get(i);if(a.device_type(d)==GGML_BACKEND_DEVICE_TYPE_GPU) found.push_back(identify(a,d)); }
+        put32(inventory,static_cast<uint32_t>(found.size()));for(const auto & i:found) put_identity(inventory,i);
+        send(135,inventory);startup_complete=true;return 0;
+    }
+    physical_gpu observed;
     ggml_backend_dev_t devices[2] = {nullptr, nullptr};
     startup_stage = 6;if (c.gpu_layers) {devices[0] = a.device_by_name(c.device.c_str());if (!devices[0] || a.device_type(devices[0]) != GGML_BACKEND_DEVICE_TYPE_GPU) throw fault{};}
+    if(c.gpu_layers) { startup_stage=8;observed=identify(a,devices[0]);if(observed.device!=c.device || observed.uuid!=c.uuid || observed.pci!=c.pci) throw fault{}; }
     auto params = a.llama_model_default_params();params.devices = devices;params.n_gpu_layers = static_cast<int>(c.gpu_layers);
     params.split_mode = LLAMA_SPLIT_MODE_NONE;params.main_gpu = 0;params.load_mode = LLAMA_LOAD_MODE_MMAP;
     startup_stage = 7;auto * model = a.llama_model_load_from_file(c.model.c_str(), params);
     if (!model || a.llama_model_has_encoder(model)) throw fault{};
-    std::thread(control_loop).detach();bytes ready;putstr(ready, profile);putstr(ready, commit);send(129, ready);startup_complete = true;
+    std::thread(control_loop).detach();bytes ready;putstr(ready, profile);putstr(ready, commit);put_identity(ready,observed);send(129, ready);startup_complete = true;
     std::unordered_set<std::string> seen;
     frame f;
     while (receive(input_handle, f)) {

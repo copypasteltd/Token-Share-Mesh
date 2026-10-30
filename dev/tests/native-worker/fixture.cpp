@@ -26,6 +26,9 @@ static void audit(const char * stage) {std::ofstream f(utf8path(audit_path), std
 
 EXPORT void llama_log_set(ggml_log_callback, void *) {}
 EXPORT void ggml_log_set(ggml_log_callback, void *) {}
+EXPORT size_t ggml_backend_dev_count() {return 0;}
+EXPORT ggml_backend_dev_t ggml_backend_dev_get(size_t) {return nullptr;}
+EXPORT void ggml_backend_dev_get_props(ggml_backend_dev_t, struct ggml_backend_dev_props * p) {*p={};}
 EXPORT void ggml_backend_load_all_from_path(const char *) {}
 EXPORT ggml_backend_dev_t ggml_backend_dev_by_name(const char *) {return nullptr;}
 EXPORT enum ggml_backend_dev_type ggml_backend_dev_type(ggml_backend_dev_t) {return GGML_BACKEND_DEVICE_TYPE_CPU;}

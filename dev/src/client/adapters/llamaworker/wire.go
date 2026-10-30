@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	Profile             = "P11_LLAMA_PIPE_3"
+	Profile             = "P11_LLAMA_PIPE_4"
 	UpstreamCommit      = "8642541b255bfb5dc39cd351a178be09013a55d6"
 	EngineRelease       = "llama.cpp-v0.8.0-8642541b"
 	maxFrame            = 65536 // includes the type byte, excludes the four-byte prefix
@@ -30,6 +30,8 @@ const (
 	kDone          byte = 132
 	kError         byte = 133
 	kInitError     byte = 134
+	kProbe         byte = 6
+	kInventory     byte = 135
 )
 
 // StartupError reports only a fixed stage and numeric native error. It contains
@@ -44,7 +46,7 @@ func (e StartupError) Error() string {
 }
 func (e StartupError) Unwrap() error { return ErrUnknown }
 
-var startupStages = [...]string{"", "LOAD_MAIN", "LOAD_REGISTRY", "LOAD_CORE", "RESOLVE_API", "LOAD_BACKENDS", "SELECT_DEVICE", "LOAD_MODEL"}
+var startupStages = [...]string{"", "LOAD_MAIN", "LOAD_REGISTRY", "LOAD_CORE", "RESOLVE_API", "LOAD_BACKENDS", "SELECT_DEVICE", "LOAD_MODEL", "IDENTIFY_DEVICE", "PROBE_DEVICES"}
 
 var (
 	ErrConfig   = errors.New("native kernel configuration rejected")

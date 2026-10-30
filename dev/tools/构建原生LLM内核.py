@@ -78,9 +78,9 @@ def main():
     targets = [(SOURCE / 'worker.cpp', out / 'p11-llama-worker.exe', [])]
     if args.fixture:
         targets.append((ROOT / 'dev/tests/native-worker/fixture.cpp', out / 'fixture/llama-fixture.dll', ['-shared']))
-    receipt = {'round': 'R023', 'recorded_at': datetime.now(timezone.utc).isoformat(), 'virtualization_used': False,
+    receipt = {'round': 'R024', 'recorded_at': datetime.now(timezone.utc).isoformat(), 'virtualization_used': False,
                'scope': 'Windows native C API worker compilation; optional synthetic ABI fixture, not model/GPU/privacy acceptance',
-               'dependency_lock_sha256': sha(LOCK), 'compiler_sha256': sha(compiler), 'targets': []}
+               'worker_header_sha256': sha(SOURCE/'gpu_identity.h'), 'dependency_lock_sha256': sha(LOCK), 'compiler_sha256': sha(compiler), 'targets': []}
     for src, output, options in targets:
         output.parent.mkdir(parents=True, exist_ok=True)
         result = subprocess.run(common + options + [str(src), '-o', str(output)], cwd=ROOT, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=180)
@@ -90,7 +90,7 @@ def main():
         else:
             break
     receipt['passed'] = all(t['returncode'] == 0 for t in receipt['targets'])
-    target = ROOT / 'dev/tests/evidence/R023-native-worker-build.json'
+    target = ROOT / 'dev/tests/evidence/R024-native-worker-build.json'
     target.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'passed': receipt['passed'], 'targets': len(receipt['targets']), 'receipt': str(target.relative_to(ROOT))}))
     return 0 if receipt['passed'] else 1

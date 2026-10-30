@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"io"
 	"os"
+	"p11.local/compute/shared/gpuid"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -27,7 +28,8 @@ type Config struct {
 	Library, BackendRegistry, BackendCore          string
 	Model, Template                                FilePin
 	Environment, Capability, Resource              string
-	GPUDevice                                      string // owner-approved native device name; physical mapping needs qualification
+	GPUDevice                                      string // owner-approved native name
+	GPUUUID, GPUPCI                                string // independently approved physical selection
 	ContextTokens, BatchTokens, Threads, GPULayers uint32
 }
 
@@ -94,6 +96,9 @@ func (c Config) validate(ctx context.Context) (string, error) {
 		len(c.Libraries) < 1 || len(c.Libraries) > 64 || strings.ToLower(filepath.Ext(c.Model.Path)) != ".gguf" || splitPattern.MatchString(c.Model.Path) || len(c.GPUDevice) > 128 || strings.IndexByte(c.GPUDevice, 0) >= 0 || c.GPULayers > 0 && c.GPUDevice == "" || c.GPULayers == 0 && c.GPUDevice != "" {
 		return "", ErrConfig
 	}
+	if err := validateGPU(c.GPUDevice, c.GPUUUID, c.GPUPCI, c.GPULayers); err != nil {
+		return "", err
+	}
 	all := append([]FilePin{c.Executable, c.Model, c.Template}, c.Libraries...)
 	for _, p := range all {
 		if e := pinned(ctx, root, p); e != nil {
@@ -129,4 +134,18 @@ func (c Config) validate(ctx context.Context) (string, error) {
 	}
 	defer clear(b)
 	return string(b), nil
+}
+
+func validateGPU(device, uuid, pci string, layers uint32) error {
+	if layers == 0 {
+		if device != "" || uuid != "" || pci != "" {
+			return ErrConfig
+		}
+		return nil
+	}
+	u, p, err := gpuid.Normalize(uuid, pci)
+	if err != nil || u != uuid || p != pci || device == "" {
+		return ErrConfig
+	}
+	return nil
 }

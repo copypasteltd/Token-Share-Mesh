@@ -141,3 +141,7 @@ python -B -X utf8 dev/tools/归档真实LLM验证.py --attempt 1
 - [llama.cpp v0.8.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.8.0) 与 [对应 b11960 构建](https://github.com/ggml-org/llama.cpp/releases/tag/b11960)。
 - [固定 llama.h](https://github.com/ggml-org/llama.cpp/blob/8642541b255bfb5dc39cd351a178be09013a55d6/include/llama.h) 与 [ggml-backend.h](https://github.com/ggml-org/llama.cpp/blob/8642541b255bfb5dc39cd351a178be09013a55d6/ggml/include/ggml-backend.h)。
 - [Qwen 官方 GGUF 文件页及 SHA-256](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf)；下载固定修订与摘要写入锁文件，main 链接仅作为查证来源。
+
+## R024 当前物理显卡约束
+
+当前私有握手为PIPE_4，环境域为P11_LLAMA_ENV_2；旧版握手仅作历史证据。以[GI-001—032](附录-物理显卡身份探测与启动绑定.md)为当前启动身份约束。R024增加Windows NVIDIA整卡UUID/PCI探测及PIPE_4启动复核；显式GPU选择和环境摘要绑定实际身份，同UUID别名不能绕过共享门闩。只读gpu-discover不加载模型、不准入共享，LocalInfo仅含安全元数据。本机观测不构成远程证明或LP/E2E/性能/usage/ACK/资金资格；Linux/AMD/手机实际接入与完整LM Studio隔离封装仍待。全56任务222子项、80/96完整验收保持开放。

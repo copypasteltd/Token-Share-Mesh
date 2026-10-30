@@ -4,7 +4,9 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
+	"errors"
 	"io"
+	"p11.local/compute/shared/gpuid"
 	"sync"
 	"time"
 
@@ -48,6 +50,7 @@ type entry struct {
 type Result = supervisor.TextResult
 
 type Adapter struct {
+	physical       gpuid.Identity
 	mu             sync.Mutex
 	c              Config
 	p              child
@@ -91,7 +94,7 @@ func Open(ctx context.Context, c Config) (*Adapter, error) {
 	}
 	a := newAdapter(c, p)
 	var init encoder
-	for _, s := range []string{Profile, UpstreamCommit, c.Library, c.BackendRegistry, c.BackendCore, c.Model.Path, template, c.GPUDevice} {
+	for _, s := range []string{Profile, UpstreamCommit, c.Library, c.BackendRegistry, c.BackendCore, c.Model.Path, template, c.GPUDevice, c.GPUUUID, c.GPUPCI} {
 		init.str(s)
 	}
 	for _, v := range []uint32{c.ContextTokens, c.BatchTokens, c.Threads, c.GPULayers} {
@@ -122,7 +125,11 @@ func Open(ctx context.Context, c Config) (*Adapter, error) {
 		case <-a.exited:
 		case <-ctx.Done():
 		}
-		return nil, e
+		var startup StartupError
+		if errors.As(e, &startup) {
+			return nil, startup
+		}
+		return nil, ErrUnknown
 	}
 	return a, nil
 }
@@ -535,7 +542,17 @@ func (a *Adapter) readLoop() {
 				a.failure()
 				return
 			}
-			valid := kind == kReady && d.str(64) == Profile && d.str(64) == UpstreamCommit && d.end()
+			valid := kind == kReady && d.str(64) == Profile && d.str(64) == UpstreamCommit
+			identity := decodeIdentity(&d)
+			if a.c.GPULayers > 0 {
+				valid = valid && identity.Validate() == nil && identity.Device == a.c.GPUDevice && identity.UUID == a.c.GPUUUID && identity.PCI == a.c.GPUPCI
+			} else {
+				valid = valid && identity == (gpuid.Identity{})
+			}
+			valid = valid && d.end()
+			if valid {
+				a.physical = identity
+			}
 			clear(b)
 			if !valid {
 				a.failure()

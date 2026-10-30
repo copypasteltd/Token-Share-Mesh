@@ -2,79 +2,7 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
-R023: pinned real LLM packages, PIPE_3 split libraries, safe local inspection and explicit RTX 3060/Qwen 0.5B tests. Six JSON/SSE combinations, cancel/deadline and unavailable-device rejection passed. The 281 regular, six synthetic ABI and three actual model cases are reported separately; production execution, LP/E2E, performance, trusted usage/ACK and funds remain open. See [round ledger](dev/progress/R023-本轮实现与完整待办.md) and [NF constraints](docs/技术开发/附录-真实原生LLM包校验与本机接入.md).
-
-## R022 · Encrypted native result custody and three protocol outputs
-
-Original native output now moves into a separate AES-256-GCM result store before compute cleanup. Defaults reserve 16 × 8 MiB for five minutes. Synchronized original compute can release its GPU while its exact order/local-generation result remains readable. Process-only keys, one reader, reserved quotas and expiration bound custody; key loss or ambiguous submission never reruns inference. PIPE_2 adds actual input counts and the matched original stop index.
-
-An authorized original result renders OpenAI Chat, Responses or Anthropic Messages as JSON/SSE with UTF-8, usage options, stop semantics and bounded writes. Defaults are 512 KiB JSON and 64 KiB per event. Responses repeats final text and needs explicit capability budgeting before public activation; overflow cannot emit a false success tail. A local write Receipt is not buyer ACK, trusted usage or payment evidence.
-
-This is a PLAINTEXT/STANDARD source subset, not E2E/LP. Node CLI execution stays disabled. Seventeen new regular Go cases bring the manifest to 275; six separately tagged actual Windows worker/synthetic C ABI cases include encrypted custody and all three protocol outputs. Real models/GPUs, a separate execution identity, independent official SDK certification, public result transport, funds and full acceptance remain pending. The early supervisor shutdown timeout and first tagged failure are preserved; later passing runs do not resolve historical timing risks.
-
-[RC-001—060](docs/技术开发/附录-原生文本结果加密保管与标准协议交付.md) · [R022 evidence](dev/tests/evidence/R022-验证报告.md) · [All 56 tasks](dev/progress/R022-本轮实现与完整待办.md).
-
-## R021 · Native C API worker and bounded private pipes
-
-This round adds a replaceable llama.cpp C++ worker and Go InputAdapter. Locally approved pack/model/template hashes control loading; three strict text profiles preserve their semantics before the approved chat template and actual tokenizer. Directed anonymous content pipes, a separate cancellation pipe, two 64-KiB output buffers and original-owner once-only submission bound execution. Model weights are reused; each task synchronizes, clears KV and frees its context before its original cleanup receipt. Process exit remains UNKNOWN.
-
-`Owner-approved pack → exclusive resource preparation → Open/warm-up → trusted HostKernel → original ticket.Start → authorized content sink → native synchronization/clear → original cleanup projection`. Node CLI execution remains disabled. Public output/SSE/ACK, trusted usage, real models/GPUs, a separate low-privilege service, E2E, LM Studio compatibility and other device kernels still need implementation/qualification. Tests with a synthetic C ABI DLL exercise the actual Windows process; they are not real inference or LP acceptance.
-
-[42 kernel constraints](docs/技术开发/附录-原生LLM受限管道与可替换worker.md) · [Current evidence](dev/tests/evidence/R021-验证报告.md) · [All 56 tasks and 222 open steps](dev/progress/R021-本轮实现与完整待办.md). Historical R016/R019/R020 timing and archive limitations remain; the delivery goal is ACTIVE.
-
-## R020 · 原生执行宿主 / Persistent native execution host
-
-R020 adds a persistent native execution host with an independently provisioned issuer public pin and original order/kernel approval. The original claim is encrypted and committed before networking; missing replies and restarts retain that exact command. Bounded manifest/input reads produce an in-memory ticket. An explicit InputAdapter hands original bytes to the existing once-only native supervisor; an old receipt cannot submit content again. Cleanup is projected only from the original execution journal with the same lease and metadata hash. Corrupted selectors cannot hide unfinished commands, and missing or mismatched anchored state is never recreated. Windows reuses actual DPAPI/private ACLs; Linux remains cross-built with protocol fixtures. CLI host-init/host-status do not install or run models; execution_enabled remains false. This covers three PLAINTEXT/STANDARD text profiles. Metadata encryption does not provide content E2E or provider blindness. Real tokenizers/kernels, output/usage/ACK/renewal, payment channels, LP/PE/rental and complete acceptance remain open. The 37/95 control-operation and 65-table/664-column/113-FK counts are unchanged. Previously published SQL001–010 and execution DDL bytes are preserved; a separate native host SQLite schema is new. All 56 tasks/222 development steps and unresolved R016/R019 slow-metadata timing risks remain open; the goal stays ACTIVE.
-
-`Recover control state → Begin → Prepare → trusted HostKernel → node.RunSupervised → ticket.Start → original cleanup projection`.
-
-The embedding must reject pending, revoked or draining control state before new work, couple the watchdog to the existing control loop, and recheck state after termination. A standalone watchdog test is not a complete production daemon.
-
-[EH-001—036](docs/技术开发/附录-原生执行宿主与内容适配接线.md) · [R020 evidence](dev/tests/evidence/R020-验证报告.md) · [All 56 tasks](dev/progress/R020-本轮实现与完整待办.md)。
-
-**A C2C market for user-owned compute, with standard AI APIs and explicit privacy choices.**
-
-[简体中文](README.zh-CN.md) · [Documentation map](dev/repository/README.md) · [Development plan](dev/开发细则总表.md) · [Changelog](CHANGELOG.md)
-
-![Token Share Mesh architecture — design, not a running inference service](dev/media/architecture.svg)
-
-Token Share Mesh connects buyers with people voluntarily offering idle Windows/Linux GPUs, Android devices, or explicitly authorized upstream AI capacity. The seller sets availability and price and remains the seller of record. The platform provides discovery, contracts, routing, scheduling and transaction evidence, and charges a disclosed fee.
-
-<details>
-<summary>Validation attempts and open timing risks</summary>
-
-The first R020 complete run passed 177 / failed 73 / skipped 0. Migration 001 in a legacy-upgrade child DB hit the existing statement timeout; a contemporaneous checkpoint reported 110.501s sync, and later cases exhausted the unchanged 220s package context. The H5 journey separately terminated after 237.63s without a final receipt; its failure screenshot is retained. Underlying storage and browser causes remain unproven. Validation now runs independent native tests before starting PG, explicitly observes enabled/checked Taro consent, and journals failure evidence earlier. Product source, published SQL, existing assertions and time bounds are unchanged. Later passing runs do not establish timing stability or erase these failures. [Full failure archive / 完整失败归档](dev/tests/evidence/R020-full-attempt1-archive.json)。
-
-The second R020 run completed only the native segment: 113 passed / 2 failed / 0 skipped. Two existing supervisor cases returned ErrShutdown within the unchanged cleanup bound; the failed run did not independently observe final disk ownership. Both database test executables compiled, but the runner incorrectly expected test2json to be a standalone executable and stopped during preparation. PostgreSQL and both browser segments never started. The runner now uses the pinned Go tool entry; product Go source, assertions, SQL and runtime deadlines are unchanged. Original events, the runner and build digests are retained. A later pass does not establish cleanup timing stability. [Partial failure archive / 部分失败归档](dev/tests/evidence/R020-full-attempt2-archive.json)。
-
-Five legacy-migration tests in the fourth complete R020 run failed because the precompiled-test runner did not preserve go test package working directories; their fixture could not read the five real pre-006 SQL files. The test-launch cause is identified and corrected by restoring package working directories, without changing fixtures, product source or published SQL. This is separate from the first-run SQL timeout and second-run supervisor cleanup failures, whose underlying causes remain unproven. [Failure archive / 失败归档](dev/tests/evidence/R020-full-attempt4-archive.json)。
-
-The fifth complete R020 run passed 249 / failed 1 / skipped 0. Native 115 cases, database core and Web passed; H5 page interactions also passed and the browser closed, but the test-only multi-device heartbeat UPDATE deadlocked with the market FOR SHARE transaction (40P01), reported by test cleanup. Both waits and the batch statement are retained. Synthetic heartbeats now use independent per-device autocommit statements, preserving the 5s tick, real 45s freshness, every fixture device and all error assertions, without retries or ignored failures. This fixture correction does not prove production deadlocks absent or resolve earlier unproven cleanup/storage/H5 timing causes. [Failure archive / 失败归档](dev/tests/evidence/R020-full-attempt5-archive.json)。
-
-The historical attempt 4/5 archiver omitted nested media directories. Exact original SHA-256 matches recovered 8/18 and 9/18 assets; all eight historical MP4/GIF files re-encoded from retained original frames match their original digests. Nineteen original PNG files are unavailable and individually listed. The final 14 frontend screenshots, four frontend MP4/GIF files and reader assets are complete. Missing historical files are not used as current verification evidence. [Historical media retention inventory](dev/tests/evidence/R020-historical-media-recovery.json)。
-
-</details>
-
-
-## R019 · 原清单与输入 / Restricted manifest and original input
-
-R019 adds restricted manifest and exact original input delivery for an already claimed lease: 37/95 explicitly registered control operations, 65 tables / 664 columns / 113 foreign keys. INT-094/095 are added to the authoritative contract and permanent registry first. Both GETs require the original signed device and recheck its original buyer key/route/order, same-payment funds, qualification, full existing hold, device version, input, physical owner, both fences and unchanged expiry using the shared order-first lock sequence. The delivery service has no issuer private key. Input requires original AES-GCM/AAD, separately keyed versioned HMAC and same-profile Preflight, then returns the original bytes. The native receiver requires an independent issuer pin and original order/route/mode plus locally approved kernel facts; it neither approves nor starts a kernel. This is a trusted PLAINTEXT/STANDARD authenticated transport hop: a ciphertext digest is not a signed plaintext commitment, E2E or provider blindness. Reads never ACK execution, renew, reassign, complete delivery jobs, bill or release a resource. Published 001–010 and client SQLite bytes remain unchanged. Durable host commands, real tokenizer/kernels/usage/channel, E2E/LP/PE/rental and complete acceptance remain open.
-
-The first R019 complete run passed 233 / failed 1: the existing TestSupervisorMetadataStepsHaveIndependentBudgets returned ErrShutdown under injected slow metadata. That failure did not authorize release; final disk ownership was not independently observed in that failed run. Exact original logs and 18 media files are archived. The standalone diagnostic emitted no test events before its outer build/process timeout, so it has no passing result. The second complete native/browser attempt repeated unchanged source, assertions and runtime bounds; the subsequent frozen-registry correction is documented separately. A later pass does not establish the cause or timing stability; DEV-53 remains open.
-
-The second R019 complete run also passed 233 / failed 1: the slow-metadata case passed, while the existing unknown-registry case could not read its expected occupied snapshot after shutdown. Exact logs, source evidence and 18 media files are separately archived. A subsequent correction preserves already quarantined/stopping/cleaning owners without repeated writes when a frozen kernel binding is absent, visits every resource before reporting incomplete shutdown, and retains bounded cancellation for other matching original owners. A mixed-resource regression was added without relaxing existing assertions or bounds. This does not establish the cause of the R016 or first R019 slow-metadata failure; DEV-53 remains open.
-
-[DG-001—030](docs/技术开发/附录-原设备清单与输入受限交付.md) · [R019 evidence](dev/tests/evidence/R019-验证报告.md) · [All 56 tasks](dev/progress/R019-本轮实现与完整待办.md)。
-
-`PrepareLeaseClaim → PrepareManifest → independent pin + Approval → AcceptDelivery → PrepareInput → AcceptInput`; `P11_INPUT_DELIVERY_KEYS_FILE` explicitly enables the separately keyed content service. CLI inference stays disabled.
-
-## R018 · 原设备签名领取 / Native original-lease claim
-
-R018 adds authenticated native delivery of the original signed lease: 35/93 registered control operations and 65 tables / 664 columns / 113 foreign keys. Only the original device proof can claim; its original command ID equals Idempotency-Key and is permanently bound to the same lease by forward migration 010 with one atomic safe event. Every recovery rechecks the original scoped buyer key/route, order and same-payment funds, eligibility, full existing hold, encrypted input metadata, physical owner, both fences and unchanged expiry. The delivery service has explicit public verifiers only: it cannot decrypt, issue, renew, reassign, ACK execution, complete delivery tasks or bill. Generic metadata workers can claim or exhaust only their supported kinds, leaving execution-delivery intents untouched. Independent device pins/approved plans, input/manifest transport, durable host execution commands, real kernels/usage/channel, E2E/LP/PE and rental remain open. Published 001–009 and client SQLite bytes are unchanged; history stays UNBOUND_CLAIM.
-
-[CL-001—028](docs/技术开发/附录-原设备签名领取与原租约交付.md) · [R018 evidence](dev/tests/evidence/R018-验证报告.md) · [All 56 tasks](dev/progress/R018-本轮实现与完整待办.md)。
-
-`P11_LEASE_VERIFIERS_FILE` → `P11_LEASE_VERIFIERS_1` public verifier configuration; `P11_PAYMENT_ENVIRONMENT` must be explicit. Without the file, claim stays 503. Native `PrepareLeaseClaim → Send → UnverifiedClaim` returns metadata requiring independent `executionlease.Verify`; CLI inference remains disabled.
+R024 adds Windows whole-board discovery, PIPE_4 UUID/PCI startup binding and a stable shared-gate identity. Discovery is metadata-only and grants no sharing permission. The 288 regular, six synthetic ABI and three actual CUDA top-level cases are recorded separately. Complete LM Studio isolation, cross-platform execution and privacy/performance/funds qualification remain open. See [round](dev/progress/R024-本轮实现与完整待办.md) and [GI contract](docs/技术开发/附录-物理显卡身份探测与启动绑定.md).
 
 ## Current implementation
 
@@ -86,8 +14,8 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
 | Implementation tasks | 31 in progress · 23 not started · 1 conditional · 1 deferred |
-| Latest source round | R023 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 281 passed · control/native/relay source subsets only |
+| Latest source round | R024 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 288 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
@@ -139,19 +67,33 @@ SQLite contains bounded control metadata only, not prompts, output, media or con
 
 The watchdog uses only metadata Work records, never prompts, argv, paths, URLs or content keys. Registrations bind environment/capability/manifest exactly and cannot silently fall back. An adapter must honor bounded contexts, query/cancel the original request authoritatively, and prove STOPPED before generation-scoped cleanup. Cancel ACK, network loss, missing PID or a shutdown timeout cannot release a resource. Unknown control commands or revoked/draining state close admission while recovery remains available. The trusted embedding API is NewSupervisor → RunSupervised; paid task reception and production engine adapters are not exposed by the CLI. [Complete usage](dev/repository/USAGE.md) · [NSV-001–020](docs/技术开发/附录-原生执行监督与后端恢复实施细则.md).
 
+## Inspect a local native GPU package
+
+After preparing the pinned native toolchain as described below, build the worker, explicitly fetch/verify the frozen research inputs, then build the node:
+
+```powershell
+python dev/tools/构建原生LLM内核.py --fetch
+python dev/tools/准备真实LLM验证包.py --fetch --model-mirror hf-mirror
+python dev/tools/核验原生源码.py --round R024
+$meshPackage = Get-Content runtime/native-llama/preparation.json -Raw | ConvertFrom-Json
+@{ package=$meshPackage.package; package_sha256=$meshPackage.package_sha256 } | ConvertTo-Json -Compress | & ./runtime/bin/p11-node.exe gpu-discover --runtime-root "$PWD/runtime"
+```
+
+Use PowerShell 7 with UTF-8 input. The explicit fetch may download roughly 1.2 GB of pinned runtime/model inputs plus the compiler; these stay ignored in `runtime/`. Discovery verifies pins and returns actual board metadata with `execution_enabled=false` and `qualification=NOT_GRANTED`. It loads no model and opens no content server. The owner must then select the exact UUID/PCI and independently approve its environment. `kernel-inspect` validates that selection without inference; native execution is currently an embedding/test-library path, and the node does not expose a public inference command. Formal Host/marketplace approval remains pending. See the [32 identity requirements](docs/技术开发/附录-物理显卡身份探测与启动绑定.md).
+
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R023/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R024/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R023/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R024/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R023/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R024/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R023/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R023/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R024/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R024/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R023/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R024/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R023/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R023/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R023/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R023/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R024/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R024/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R024/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R024/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 

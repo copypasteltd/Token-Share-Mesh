@@ -1,0 +1,71 @@
+{
+  "round": "R024",
+  "passed": true,
+  "cases": {
+    "valid": {
+      "passed": true,
+      "returncode": 0
+    },
+    "wrong_pin": {
+      "passed": true,
+      "returncode": 2
+    },
+    "unknown_field": {
+      "passed": true,
+      "returncode": 2
+    },
+    "oversize": {
+      "passed": true,
+      "returncode": 2
+    }
+  },
+  "binary": {
+    "target": "windows-amd64",
+    "path": "runtime/bin/p11-node.exe",
+    "sha256": "9512025880328ca9c10ad77647a09f8d3ff32ba38068bfe152e935d56886cdef",
+    "runtime_test": "NOT_EXECUTED"
+  },
+  "gpus": [
+    {
+      "backend_device": "CUDA0",
+      "gpu_uuid": "GPU-c101fc79-ced0-9579-92ab-a20c8dcd8a21",
+      "gpu_pci": "0000:01:00.0",
+      "name": "NVIDIA GeForce RTX 3060",
+      "total_bytes": 12884377600
+    }
+  ],
+  "scope": "Actual current Windows CLI and system-driver metadata only; no model/context load, execution approval, Host registration, remote attestation or marketplace/privacy/performance/funds qualification",
+  "execution_enabled": false,
+  "model_loaded": false,
+  "virtualization_used": false,
+  "sources": {
+    "dev/src/client/adapters/llamaworker/adapter.go": "f5ade6d57c1481f77c8f01b72af37a86d34ac68bdeaea05ee0bc7a2f22354800",
+    "dev/src/client/adapters/llamaworker/adapter_test.go": "6a4baf3f1d027b4ca5754ae291ac29b44e71f282b54b2806f51a572b5ef6fd1a",
+    "dev/src/client/adapters/llamaworker/capi_fixture_test.go": "b092f6169446e2f2052088bf9095b42713fdffe7ac532e4cfd8dc99f0da3a3c4",
+    "dev/src/client/adapters/llamaworker/config.go": "fdb12151ab63de4116a3566f3a022cb301cb716323fa597703db03005fe6b686",
+    "dev/src/client/adapters/llamaworker/discovery.go": "3b2b566b9c1fb7873fbbd842277b8ee2adc60f18185b86ddfed5706318436edd",
+    "dev/src/client/adapters/llamaworker/discovery_test.go": "82dff742dc858862cf1c1437c9c243b24d8656dc5449891fa4717fc7d6b7c029",
+    "dev/src/client/adapters/llamaworker/info.go": "b16d80020c371f1a7027888b30bbb4b487cc183c0859b7d3b4e81d8f2e6d2dc1",
+    "dev/src/client/adapters/llamaworker/input.go": "4daa5760f1bf2426553bf9bd0f881fb44eaa60278bf36e4c2c684326a048763d",
+    "dev/src/client/adapters/llamaworker/package.go": "e358463252e1e6a068138f7191ab5b8b1acd71b175c23ce9cafcdd9e265b19ba",
+    "dev/src/client/adapters/llamaworker/package_test.go": "5b3dae4b0d89b9e8bf1908d46a51d4b4559f098c1612248217b44c1959c39ae7",
+    "dev/src/client/adapters/llamaworker/process.go": "3eca915fe9eb7046e7f8a4a602d78589164a0844ba2419642ac32179fe7adc35",
+    "dev/src/client/adapters/llamaworker/process_linux.go": "98ee8108f2469fe1ac3bde3f2599c302c51b8c263c736b725da06e7f14326ee2",
+    "dev/src/client/adapters/llamaworker/process_windows.go": "a11ddd5239ee94fa767237c0d9b4d3574349b71a4ffdf386be8268302a4d0198",
+    "dev/src/client/adapters/llamaworker/README.md": "692b1364d10284407e704a39ec0ec5504a8d7289b706ceafe4383ad41aac34aa",
+    "dev/src/client/adapters/llamaworker/real_windows_test.go": "b79ba5ccc1c31897ea0b39a29946bbd4427efae88f1227677327608f11dc4537",
+    "dev/src/client/adapters/llamaworker/startup_test.go": "57840d6934c9b79c60edbe88aa7484409c099a5e2536f2ee0f666e5d25c48e6d",
+    "dev/src/client/adapters/llamaworker/wire.go": "efc7f0a43ce9e9af6ca1f492bd41c97e03e9bb8319a31faefb220201970591ff",
+    "dev/src/client/kernels/llama-worker/dependencies.lock.json": "9e003ba13186f0c436cdbe8ff804a79c832c3ba84262c712353f56be90b46e6a",
+    "dev/src/client/kernels/llama-worker/gpu_identity.h": "0970cc53a4fe38df5d25885ea988621faa8e70e69b285e9bfd9dc060f09243f9",
+    "dev/src/client/kernels/llama-worker/qualification.lock.json": "cd38a249c3a1c4a032d82a008d01d275b8332ee8f4aa4e04346dd93684b8b6c6",
+    "dev/src/client/kernels/llama-worker/README.md": "5e16b0492f4893076e6d7f9fe7fc9800731ae278fbeb1fe82e7b92907aca7a54",
+    "dev/src/client/kernels/llama-worker/worker.cpp": "031fd05e0cf365fb3f63867f1b72643b0ab01a77110c226fe6f3fb9cf7da8a7f",
+    "dev/src/shared/gpuid/identity.go": "63cde53f1a76b554d9a875ca2e1ab66e905371fcf11ec6953963cbe05aa0a372",
+    "dev/src/shared/gpuid/identity_test.go": "26126022d6207eb4e2a24a58f07b4117bc5b775a6ffa494eaaab408cd57e616f",
+    "dev/src/client/cmd/p11-node/kernel.go": "bf585042ee3ca3771eff7e5c7dc9195087a2821fe51801cf01133a1537f08b88",
+    "dev/src/client/cmd/p11-node/main.go": "78faeda2be23b97cc3eb53fa20205531588edc5e84edbd7779d4a1cdfabd4941",
+    "dev/src/client/cmd/p11-node/main_test.go": "51ef84a836dd995012c9699e5bfa6af8273215e4649b93268b47369aa8da9aab",
+    "dev/tools/核验本机显卡探测.py": "d4e530a6bc72517304c4485e1f0502789ce861742b6edae8acbb05ee3a75f6ff"
+  }
+}

@@ -19,7 +19,7 @@ func TestNativeStartupReportsOnlyBoundedStagesAndNeverGrantsWork(t *testing.T) {
 		trailing bool
 		valid    bool
 	}{
-		{"load_dependency", Profile, 1, false, true}, {"resolve_api", Profile, 4, false, true}, {"unknown_stage", Profile, 8, false, false},
+		{"load_dependency", Profile, 1, false, true}, {"resolve_api", Profile, 4, false, true}, {"unknown_stage", Profile, 999, false, false},
 		{"zero_stage", Profile, 0, false, false}, {"old_profile", "P11_LLAMA_PIPE_2", 1, false, false}, {"trailing", Profile, 1, true, false},
 	} {
 		t.Run(tc.name, func(t *testing.T) {

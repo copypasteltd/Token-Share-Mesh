@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/exec"
 	"p11.local/compute/client/protocol/executionlease"
+	"p11.local/compute/shared/gpuid"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -575,5 +576,35 @@ func TestNativeMetadataCapacityAndSQLiteBounds(t *testing.T) {
 		if bytes.Contains(raw, []byte(forbidden)) {
 			t.Fatal("safe status contains execution data", forbidden)
 		}
+	}
+}
+
+func TestNativePhysicalUUIDAliasesCannotCreateParallelGates(t *testing.T) {
+	s, _, _ := newStore(t)
+	ctx := context.Background()
+	uuid := "GPU-c101fc79-ced0-9579-92ab-a20c8dcd8a21"
+	digest, err := gpuid.Digest(uuid)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = s.RegisterResource(ctx, "resource_gpu_original", digest); err != nil {
+		t.Fatal(err)
+	}
+	// Reordered CUDA ordinal or changed PCI placement cannot create another board.
+	for _, alias := range []string{"resource_lmstudio_alias", "resource_comfy_alias", "resource_slot_moved"} {
+		if err = s.RegisterResource(ctx, alias, digest); !errors.Is(err, ErrFence) {
+			t.Fatal("UUID alias bypassed shared physical gate", err)
+		}
+	}
+	h, err := s.AcquireLocal(ctx, "resource_gpu_original", "local_llama", "LOCAL")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = s.AcquireLocal(ctx, "resource_gpu_original", "maintenance_comfy", "MAINTENANCE"); !errors.Is(err, ErrBusy) {
+		t.Fatal("another engine bypassed owner", err)
+	}
+	clean(t, s, h, "")
+	if _, err = s.AcquireLocal(ctx, "resource_gpu_original", "maintenance_comfy", "MAINTENANCE"); err != nil {
+		t.Fatal(err)
 	}
 }

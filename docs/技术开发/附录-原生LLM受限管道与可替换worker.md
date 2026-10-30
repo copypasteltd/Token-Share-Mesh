@@ -80,3 +80,7 @@
 R022 新增 [RC-001—060](附录-原生文本结果加密保管与标准协议交付.md)：原生输出先独立加密保管，计算清理与原结果读取分别授权；三文本 JSON/SSE 仅属 PLAINTEXT/STANDARD 局部源码，不授予 E2E/LP、可信用量、最终 ACK 或资金资格。CLI 执行继续关闭，全部未收口验收保留。 PIPE_2 的 DONE stop_index 命中原停止词数组，否则 UINT32_MAX；STARTED/DONE 输入计数须一致。旧 PIPE_1 READY 不再兼容。原 NK-001—042 的停止与资格边界继续适用。
 
 R023 当前接入补充：[NF 约束](附录-真实原生LLM包校验与本机接入.md)。主库、注册库、基础库均须在同一批准白名单中；官方 Windows 分别为 llama.dll、ggml.dll、ggml-base.dll。PIPE_3 拒绝旧 INIT；R021/R022 原证据与旧档位记录保留，不作兼容回落。
+
+## R024 当前物理显卡约束
+
+当前私有握手为PIPE_4，环境域为P11_LLAMA_ENV_2；旧版握手仅作历史证据。以[GI-001—032](附录-物理显卡身份探测与启动绑定.md)为当前启动身份约束。R024增加Windows NVIDIA整卡UUID/PCI探测及PIPE_4启动复核；显式GPU选择和环境摘要绑定实际身份，同UUID别名不能绕过共享门闩。只读gpu-discover不加载模型、不准入共享，LocalInfo仅含安全元数据。本机观测不构成远程证明或LP/E2E/性能/usage/ACK/资金资格；Linux/AMD/手机实际接入与完整LM Studio隔离封装仍待。全56任务222子项、80/96完整验收保持开放。

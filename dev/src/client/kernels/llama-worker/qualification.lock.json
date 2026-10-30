@@ -1,6 +1,6 @@
 {
   "schema": "P11_NATIVE_QUALIFICATION_INPUTS_1",
-  "profile": "P11_LLAMA_PIPE_3",
+  "profile": "P11_LLAMA_PIPE_4",
   "platform": "windows-amd64",
   "engine_release": "llama.cpp-v0.8.0-8642541b",
   "upstream_commit": "8642541b255bfb5dc39cd351a178be09013a55d6",

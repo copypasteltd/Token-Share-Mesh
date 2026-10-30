@@ -1,79 +1,6 @@
 # Token Share Mesh · 算力共享平台
 
-R023 当前推进：固定真实LLM包、PIPE_3三库、本机只读检查及RTX 3060/Qwen 0.5B显式测试。三协议JSON/SSE、取消/截止及缺失设备拒绝已通过；常规281项、合成ABI6项、真实模型3项分别登记。生产执行、LP/E2E、性能、可信usage/ACK/支付仍待。见[本轮详情](dev/progress/R023-本轮实现与完整待办.md)及[NF规范](docs/技术开发/附录-真实原生LLM包校验与本机接入.md)。
-
-## R022 · 原生文本结果加密保管与三协议交付
-
-本轮把原生结果保管与显卡执行清理分开：一次原提交的输出先写入独立 AES-256-GCM 密文仓，默认 16 × 8 MiB、保留 5 分钟；原计算同步停止并清理后可释放显卡，旧结果仍按原订单/本地围栏读取。密钥只在进程中，单读者、定额预留、到期撤权；丢密钥或未知提交不重跑。管道升级 PIPE_2，补实际输入计数与原停止词序号。
-
-原结果可输出 OpenAI Chat、Responses、Anthropic Messages 的 JSON/SSE，保留 UTF-8、流式用量选项、停止原因和有界写入。默认 JSON 512 KiB、单事件 64 KiB；Responses 最终重复全文需要显式能力预算，超限拒绝成功尾，生产准入尚待接通。写出 Receipt 不是买家 ACK、可信 usage 或付款凭证。
-
-仅 PLAINTEXT/STANDARD 源码子集；本地密文不等于 E2E/LP。CLI 执行仍关闭。17 项新增常规 Go 用例，累计 275 项；另 6 项带标签的实际 Windows worker＋合成 C ABI 用例，包含密文保管到三协议的串联。真实模型/GPU/隔离身份、独立官方 SDK、外网结果通道、资金与完整验收仍待。早期监督器关闭超时和首轮 ABI 测试失败均留档；后续通过不能证明历史时序风险消除。
-
-[RC-001—060](docs/技术开发/附录-原生文本结果加密保管与标准协议交付.md) · [R022 证据](dev/tests/evidence/R022-验证报告.md) · [完整56任务](dev/progress/R022-本轮实现与完整待办.md)。
-
-
-## R021 · 原生 C API worker 与受限管道
-
-本轮增加可替换的 llama.cpp 原生 C++ worker 与 Go InputAdapter：独立本机批准包/模型/模板及逐文件摘要；三文本请求严格映射到同一模型模板与真实 tokenizer；受限匿名内容管道、独立取消、两个64KiB输出缓冲及原 owner 一次提交。模型权重可复用，每任务同步、清KV并释放上下文后才发原清理回执；进程退出保持 UNKNOWN。
-
-`本机批准包 → 独占资源准备 → Open暖机 → 可信HostKernel注册 → 原ticket.Start → 授权sink读取 → native同步清理 → 原凭证投影`。当前节点CLI执行仍关闭；对外输出/SSE/ACK、可信usage、真实模型/GPU、独立低权限服务、E2E、LM Studio兼容内核及其他设备路线继续待验。合成 C ABI 动态库测试证明实际进程接线，不证明真实推理或LP等级。
-
-[42条内核约束](docs/技术开发/附录-原生LLM受限管道与可替换worker.md) · [本轮证据](dev/tests/evidence/R021-验证报告.md) · [全部56任务与222子项](dev/progress/R021-本轮实现与完整待办.md)。原R016/R019/R020时序与归档限制继续保留，最终交付目标ACTIVE。
-
-## R020 · 原生执行宿主 / Persistent native execution host
-
-R020新增持久原生执行宿主：独立issuer公钥与原订单/本机内核批准，原领取命令在网络前加密保存，丢回执和重启始终恢复原编号。清单/输入有界接收，正文仅在内存，通过显式InputAdapter交给原生一次提交监督器；旧receipt不能重送正文。清理状态只投影原执行账本的同lease/metadata凭证。损坏索引不能隐藏原命令，缺库/错绑定拒绝重建。Windows DPAPI/私有ACL复用，Linux仅交叉构建及既有钥环协议夹具。新增host-init/host-status，不自动安装或运行模型，execution_enabled仍false。只覆盖PLAINTEXT/STANDARD三文本profile，元数据加密不等于E2E或设备所有者不可见。真实tokenizer/内核、输出回传/usage/ACK/续期、支付渠道、LP/PE/租赁和完整验收仍待；37/95控制操作及65表/664列/113外键保持，旧SQL001—010与原执行DDL字节不变，新宿主SQLite独立首发。全部56任务/222子项及R016/R019慢元数据未证明根因风险保留，目标ACTIVE。
-
-`恢复控制状态 → Begin → Prepare → 可信HostKernel → node.RunSupervised → ticket.Start → 原清理凭证投影`。
-
-实际接入须先恢复原待定控制写；撤权/排空状态禁止新工作，监督器与已有控制循环耦合，终止后重核状态。裸监督器用例不代表完整生产守护进程已验收。
-
-[EH-001—036](docs/技术开发/附录-原生执行宿主与内容适配接线.md) · [R020 evidence](dev/tests/evidence/R020-验证报告.md) · [All 56 tasks](dev/progress/R020-本轮实现与完整待办.md)。
-
-**用户自愿共享闲置算力的 C2C 平台，使用标准 AI 接口，明确选择隐私边界。**
-
-[English](README.md) · [文档导航](dev/repository/README.md) · [开发细则](dev/开发细则总表.md) · [更新说明](CHANGELOG.zh-CN.md)
-
-![Token Share Mesh 系统设计示意，当前不是运行中的推理服务](dev/media/architecture.svg)
-
-Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 显卡、Android 手机或获明确授权上游 AI 能力的个人卖家。卖家自主决定价格和开放时段、直接向买家履约；平台提供发现、合同、路由、调度和交易证据，并收取披露的费用。
-
-<details>
-<summary>验证尝试与尚未消除的时序风险</summary>
-
-R020首次完整回归177过/73失/0跳过：旧预算升级子数据库执行001时触发原statement_timeout，同期检查点sync110.501秒，后续多例耗尽原220秒包级上下文；H5旅程另在237.63秒后终止且无最终收据，保留失败画面。存储底层原因与浏览器终止原因仍未证明。验证现将独立原生测试移到PG启动前，明确等待Taro确认控件可用/勾选及提前保存失败收据；未改变产品源码、旧SQL、既有断言或时间上限。后续通过不能证明时序稳定或抹除首轮失败。 [Full failure archive / 完整失败归档](dev/tests/evidence/R020-full-attempt1-archive.json)。
-
-R020第二次运行只完成原生组：113过/2失/0跳过，两项既有监督器测试在原清理期限内返回ErrShutdown；该失败运行未独立观察最终磁盘owner。随后两个数据库测试程序编译成功，但验证脚本错误地假定test2json是独立exe，准备阶段中断；PG及两个浏览器分组均未启动。修正为锁定Go的标准tool入口，不改Go产品源码、既有断言/SQL/运行期限。失败原始事件、当时脚本及构建摘要保留；后续通过不证明清理时序稳定。 [Partial failure archive / 部分失败归档](dev/tests/evidence/R020-full-attempt2-archive.json)。
-
-R020第四次完整运行中的五项旧迁移测试因验证工具未保留go test的包工作目录而失败，fixture未读取到五份真实pre-006 SQL；该测试启动问题已定位，修正工作目录而不改夹具、产品或旧SQL。此问题不同于首轮SQL超时及第二轮监督器清理失败，后两者根因仍未证明。 [Failure archive / 失败归档](dev/tests/evidence/R020-full-attempt4-archive.json)。
-
-R020第五次完整运行249过/1失/0跳过：原生115项、数据库core及Web通过，H5页面操作本身也通过并关闭浏览器，但测试专用合成设备批量保活UPDATE与市场FOR SHARE事务发生40P01死锁，包级清理报告失败。PG日志保留双方等待与批量语句。将合成保活改为逐设备独立自动提交，保持原5秒节拍、45秒在线规则、全部设备及失败断言，不重试/吞掉错误。该测试夹具修正不证明生产死锁不存在，也不修复此前未证明根因的清理/存储/H5时序风险。 [Failure archive / 失败归档](dev/tests/evidence/R020-full-attempt5-archive.json)。
-
-历史第4、5次尝试的归档脚本漏拷嵌套媒体目录，分别按原SHA-256恢复8/18及9/18件；全部8份历史MP4/GIF从原始帧重编码后与原回执摘要完全一致，另有19份原始PNG无法恢复并逐项登记。当前最终版14份前端截图、4份前端MP4/GIF及阅读器素材完整；历史缺失不作为当前验证凭证。 [历史媒体保留清单](dev/tests/evidence/R020-historical-media-recovery.json)。
-
-</details>
-
-
-## R019 · 原清单与输入 / Restricted manifest and original input
-
-R019接通已领取原租约的执行清单和原始输入受限交付，当前37/95显式控制操作、65表/664列/113外键。INT-094/095先登记权威契约与固定编号；两个GET仅接受原签名设备，不隐式领取。每次读取沿同一原订单优先锁序复核原买方key/路由/同单资金/资格、完整已占预算、原设备版本、输入、物理owner/双围栏和原期限。独立交付服务无签发私钥，输入必须通过原AES-GCM/AAD、独立版本化HMAC和同档位Preflight，按原始字节返回。客户端用独立公钥、原订单/路由/模式及本机内核批准核验清单和租约，有界接收输入；不自动批准内核或提交模型。此为PLAINTEXT/STANDARD可信平台经认证连接交付，密文摘要不能当原文明文签名，不是E2E或卖方不可见。领取/读取均不ACK、不续期、不重派、不完成DELIVER任务、不计费/清锁。001—010及端侧DDL原字节保持；真实宿主持久命令、tokenizer/内核/usage/渠道、E2E/LP/PE/租赁和完整验收仍待。
-
-R019首次完整回归为233项通过/1项失败：既有TestSupervisorMetadataStepsHaveIndependentBudgets在注入慢元数据后返回ErrShutdown；失败未作为清锁依据，该次运行未独立确认最终磁盘owner。原始日志和18个页面媒体已按原字节归档；单独诊断命令在产生测试事件前遇到构建/进程等待时限，没有有效通过结果。源代码、测试断言及运行时限保持原样后重新全量执行；后续通过也不证明该时序根因或稳定性，DEV-53继续开放。
-
-R019第二次完整回归仍为233过/1失：慢元数据用例通过，但既有未知内核登记用例在关停后无法读取期望的占用快照。失败日志、源码证据和18个媒体另行原字节归档。随后修正冻结内核登记缺失时的关停路径：已隔离/停止/清理中的资源保留原占用，避免重复隔离写入；完成所有资源的本轮访问后报告关停未完成，并对匹配原内核的其他owner执行有界取消。新增混合资源回归，所有既有时限和断言不变。此修正不证明R016或第一次R019慢元数据问题的根因，DEV-53仍开放。
-
-[DG-001—030](docs/技术开发/附录-原设备清单与输入受限交付.md) · [R019验证证据](dev/tests/evidence/R019-验证报告.md) · [全部56项待办](dev/progress/R019-本轮实现与完整待办.md)。
-
-调用顺序：`PrepareLeaseClaim → PrepareManifest → 独立公钥和Approval → AcceptDelivery → PrepareInput → AcceptInput`。只有显式配置`P11_INPUT_DELIVERY_KEYS_FILE`才启用独立内容密钥服务；CLI模型执行入口继续关闭。
-
-## R018 · 原设备签名领取 / Native original-lease claim
-
-R018新增原设备签名领取原租约：35/93个控制操作、65表/664列/113外键。仅原设备ED25519证明可领取；原命令编号与header相同，010将其固定绑定原lease并和安全事件原子提交。每次包括重试都重新核原买方scoped key/route、原订单与同单资金、资格、完整已占预算、加密输入元数据、原owner/双围栏和原期限；不换单、不重签/续租。领取服务只有显式公钥，不解密输入、不确认实际执行或计费；DELIVER任务、预算和资源保持原状。通用元数据队列仅认领/耗尽标记自身白名单类型，不能处理独立的执行投递意图。设备独立公钥/批准计划、输入/manifest交付、宿主持久执行命令、真实内核/usage/渠道及E2E/LP/PE/租赁仍待。001—009及端侧DDL保持原字节，历史UNBOUND_CLAIM。
-
-[CL-001—028](docs/技术开发/附录-原设备签名领取与原租约交付.md) · [R018 evidence](dev/tests/evidence/R018-验证报告.md) · [All 56 tasks](dev/progress/R018-本轮实现与完整待办.md)。
-
-`P11_LEASE_VERIFIERS_FILE` → `P11_LEASE_VERIFIERS_1` public verifier configuration; `P11_PAYMENT_ENVIRONMENT` must be explicit. Without the file, claim stays 503. Native `PrepareLeaseClaim → Send → UnverifiedClaim` returns metadata requiring independent `executionlease.Verify`; CLI inference remains disabled.
+R024：新增Windows整卡身份探测、PIPE_4启动绑定和同UUID别名冲突保护。只读探测不加载模型、不自动共享；实际身份不符在模型加载前拒绝。当前288项常规、6项合成ABI、3项真实CUDA顶层用例分别记录；完整LM Studio、跨平台、隐私/性能与资金资格仍待。见[本轮](dev/progress/R024-本轮实现与完整待办.md)及[GI规范](docs/技术开发/附录-物理显卡身份探测与启动绑定.md)。
 
 ## 当前实现状态
 
@@ -130,6 +57,20 @@ SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，�
 ## 执行监督与后端恢复
 
 监督器只处理限定元数据，不接受prompt、路径、URL、任意参数或内容钥。按环境/能力/清单精确绑定后端，禁止失败后换引擎兜底。适配器须遵守有界context、原请求权威查询/取消和真实STOPPED语义，完整清理后再按owner代次释放。取消ACK、断网、PID消失和退出超时都不能释放资源。控制命令未知或设备停止/撤销时关闭准入，仍允许旧任务恢复。可信宿主接入为NewSupervisor → RunSupervised；CLI尚不开放付费任务或生产引擎配置。见[使用说明](dev/repository/USAGE.md)与[NSV-001—020](docs/技术开发/附录-原生执行监督与后端恢复实施细则.md)。
+
+## 检查本机原生显卡包
+
+先按下文准备固定原生工具链，再构建 worker、显式下载/校验研究输入并构建节点：
+
+```powershell
+python dev/tools/构建原生LLM内核.py --fetch
+python dev/tools/准备真实LLM验证包.py --fetch --model-mirror hf-mirror
+python dev/tools/核验原生源码.py --round R024
+$meshPackage = Get-Content runtime/native-llama/preparation.json -Raw | ConvertFrom-Json
+@{ package=$meshPackage.package; package_sha256=$meshPackage.package_sha256 } | ConvertTo-Json -Compress | & ./runtime/bin/p11-node.exe gpu-discover --runtime-root "$PWD/runtime"
+```
+
+使用 PowerShell 7 和 UTF-8 输入。显式 fetch 可能下载约1.2 GB固定内核/模型及额外编译器，全部留在被忽略的 runtime/。探测验证文件摘要并返回实际显卡元数据，固定标记 execution_enabled=false、qualification=NOT_GRANTED；不加载模型、不开内容服务。随后由所有者选择准确 UUID/PCI 并独立批准环境，kernel-inspect 可在不推理的情况下检查该选择。当前原生执行通过嵌入库/测试使用，节点未开放公共推理命令；正式 Host 与挂牌审批仍待接通。详见[32项身份约束](docs/技术开发/附录-物理显卡身份探测与启动绑定.md)。
 
 ## 页面截图、录屏与 GIF
 

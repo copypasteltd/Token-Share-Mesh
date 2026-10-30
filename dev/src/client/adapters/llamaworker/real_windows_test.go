@@ -27,7 +27,7 @@ import (
 func realConfig(t *testing.T, device string) Config {
 	t.Helper()
 	document := FilePin{Path: os.Getenv("P11_REAL_PACKAGE"), SHA256: os.Getenv("P11_REAL_PACKAGE_SHA256")}
-	s := OwnerSelection{Capability: "cap_real_cuda_test", Resource: "physical_gpu_0", GPUDevice: device, GPULayers: 999, ContextTokens: 2048, BatchTokens: 128, Threads: 2}
+	s := OwnerSelection{Capability: "cap_real_cuda_test", Resource: "physical_gpu_0", GPUDevice: device, GPUUUID: os.Getenv("P11_REAL_GPU_UUID"), GPUPCI: os.Getenv("P11_REAL_GPU_PCI"), GPULayers: 999, ContextTokens: 2048, BatchTokens: 128, Threads: 2}
 	env, err := PackageEnvironment(document.SHA256, s)
 	if err != nil {
 		t.Fatal("explicit pinned real package required", err)
@@ -61,7 +61,7 @@ func realOpen(t *testing.T, c Config) *Adapter {
 		}
 	})
 	info := a.LocalInfo()
-	if info.ProcessID < 1 || info.SelectedGPUDevice != "CUDA0" || info.SelectedGPULayers != 999 || info.ModelSHA256 != c.Model.SHA256 || info.Environment != c.Environment {
+	if info.ProcessID < 1 || info.SelectedGPUDevice != "CUDA0" || info.SelectedGPULayers != 999 || info.ModelSHA256 != c.Model.SHA256 || info.Environment != c.Environment || info.ObservedGPU.UUID != c.GPUUUID || info.ObservedGPU.PCI != c.GPUPCI || info.PhysicalDigest == "" {
 		t.Fatal("original local metadata lost")
 	}
 	// Observe modules only in this exact owned process; inspect no memory/content.
@@ -300,16 +300,39 @@ func TestNativeRealCUDATokenLimitCancelAndHardDeadline(t *testing.T) {
 	}
 }
 func TestNativeRealCUDAUnavailableDeviceNeverFallsBack(t *testing.T) {
-	c := realConfig(t, "CUDA_DOES_NOT_EXIST_999")
-	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
-	defer cancel()
-	if a, err := Open(ctx, c); err == nil {
-		_ = a.Close(ctx)
-		t.Fatal("unavailable GPU silently fell back")
-	} else {
-		var startup StartupError
-		if !errors.As(err, &startup) || startup.Stage != "SELECT_DEVICE" {
-			t.Fatal("missing GPU failed for another unverified cause", err)
+	t.Run("metadata_only_discovery", func(t *testing.T) {
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+		items, err := DiscoverPackage(ctx, os.Getenv("P11_NATIVE_RUNTIME_ROOT"), FilePin{Path: os.Getenv("P11_REAL_PACKAGE"), SHA256: os.Getenv("P11_REAL_PACKAGE_SHA256")})
+		if err != nil || len(items) != 1 || items[0].UUID != os.Getenv("P11_REAL_GPU_UUID") || items[0].PCI != os.Getenv("P11_REAL_GPU_PCI") || items[0].Device != "CUDA0" {
+			t.Fatal("explicit test board identity missing", err)
 		}
+		t.Logf("metadata_only_devices=%d model_loaded=false", len(items))
+	})
+	for _, mode := range []string{"missing", "wrong_uuid", "wrong_pci"} {
+		t.Run(mode, func(t *testing.T) {
+			c := realConfig(t, "CUDA0")
+			stage := "IDENTIFY_DEVICE"
+			switch mode {
+			case "missing":
+				c.GPUDevice = "CUDA_DOES_NOT_EXIST_999"
+				stage = "SELECT_DEVICE"
+			case "wrong_uuid":
+				c.GPUUUID = "GPU-d101fc79-ced0-9579-92ab-a20c8dcd8a21"
+			case "wrong_pci":
+				c.GPUPCI = "0000:02:00.0"
+			}
+			ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+			defer cancel()
+			if a, err := Open(ctx, c); err == nil {
+				_ = a.Close(ctx)
+				t.Fatal("physical GPU mismatch silently accepted")
+			} else {
+				var startup StartupError
+				if !errors.As(err, &startup) || startup.Stage != stage {
+					t.Fatal("GPU rejected for another cause", err)
+				}
+			}
+		})
 	}
 }

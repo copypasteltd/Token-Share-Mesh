@@ -409,6 +409,8 @@ func TestNativeCAPIPackTamperAndUnavailableDeviceFailClosed(t *testing.T) {
 	c = capiPack(t)
 	c.GPULayers = 1
 	c.GPUDevice = "CUDA0"
+	c.GPUUUID = "GPU-c101fc79-ced0-9579-92ab-a20c8dcd8a21"
+	c.GPUPCI = "0000:01:00.0"
 	if a, e := Open(ctx, c); e == nil {
 		_ = a.Close(ctx)
 		t.Fatal("unavailable GPU silently fell back")

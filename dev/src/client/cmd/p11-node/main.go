@@ -18,6 +18,9 @@ import (
 
 func main() { os.Exit(run()) }
 func run() int {
+	if len(os.Args) > 1 && os.Args[1] == "gpu-discover" {
+		return discoverGPU(os.Args[2:], os.Stdin, os.Stdout, os.Stderr)
+	}
 	if len(os.Args) > 1 && os.Args[1] == "kernel-inspect" {
 		return inspectKernel(os.Args[2:], os.Stdin, os.Stdout, os.Stderr)
 	}

@@ -27,7 +27,7 @@ func packageFixture(t *testing.T) (string, Package, OwnerSelection) {
 	p := Package{Schema: PackageProfile, Profile: Profile, EngineRelease: EngineRelease,
 		Executable: file("worker.exe", "not an executable: configuration test only"), Model: file("model.gguf", "not real weights"), Template: file("template.txt", "chatml"),
 		Library: "lib/llama.dll", BackendRegistry: "lib/base.dll", BackendCore: "lib/base.dll", Libraries: []PackageFile{file("lib/llama.dll", "library"), file("lib/base.dll", "registry")}}
-	return root, p, OwnerSelection{Capability: "cap_local", Resource: "physical_gpu_original", GPUDevice: "CUDA0", ContextTokens: 2048, BatchTokens: 32, Threads: 2, GPULayers: 99}
+	return root, p, OwnerSelection{Capability: "cap_local", Resource: "physical_gpu_original", GPUDevice: "CUDA0", GPUUUID: "GPU-c101fc79-ced0-9579-92ab-a20c8dcd8a21", GPUPCI: "0000:01:00.0", ContextTokens: 2048, BatchTokens: 32, Threads: 2, GPULayers: 99}
 }
 func packageDocument(t *testing.T, root string, raw []byte, s OwnerSelection) (FilePin, string) {
 	t.Helper()
@@ -59,7 +59,7 @@ func TestNativePackageLoadsOnlyCompletePinnedLocalSelection(t *testing.T) {
 		t.Fatal("local package binding lost", err)
 	}
 	// CPU operation is possible only with a newly approved explicit selection.
-	s.GPULayers, s.GPUDevice = 0, ""
+	s.GPULayers, s.GPUDevice, s.GPUUUID, s.GPUPCI = 0, "", "", ""
 	if _, err = LoadPackage(context.Background(), root, pin, s, env); err == nil {
 		t.Fatal("GPU approval silently downgraded to CPU")
 	}
@@ -123,7 +123,7 @@ func TestNativePackageEnvironmentBindsEveryOwnerExecutionParameter(t *testing.T)
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, change := range []func(*OwnerSelection){func(v *OwnerSelection) { v.GPUDevice = "CUDA1" }, func(v *OwnerSelection) { v.ContextTokens++ }, func(v *OwnerSelection) { v.BatchTokens++ }, func(v *OwnerSelection) { v.Threads++ }, func(v *OwnerSelection) { v.GPULayers++ }} {
+	for _, change := range []func(*OwnerSelection){func(v *OwnerSelection) { v.GPUDevice = "CUDA1" }, func(v *OwnerSelection) { v.GPUUUID = "GPU-d101fc79-ced0-9579-92ab-a20c8dcd8a21" }, func(v *OwnerSelection) { v.GPUPCI = "0000:02:00.0" }, func(v *OwnerSelection) { v.ContextTokens++ }, func(v *OwnerSelection) { v.BatchTokens++ }, func(v *OwnerSelection) { v.Threads++ }, func(v *OwnerSelection) { v.GPULayers++ }} {
 		next := s
 		change(&next)
 		got, err := PackageEnvironment(sha, next)
@@ -131,7 +131,7 @@ func TestNativePackageEnvironmentBindsEveryOwnerExecutionParameter(t *testing.T)
 			t.Fatal("changed owner parameter inherited approval")
 		}
 	}
-	for _, next := range []OwnerSelection{{}, {GPUDevice: "CUDA0", ContextTokens: 32, BatchTokens: 1, Threads: 1}, {GPULayers: 1, ContextTokens: 32, BatchTokens: 1, Threads: 1}, {ContextTokens: 32, BatchTokens: 33, Threads: 1}} {
+	for _, next := range []OwnerSelection{{}, {GPUDevice: "CUDA0", GPUUUID: "GPU-c101fc79-ced0-9579-92ab-a20c8dcd8a21", GPUPCI: "0000:01:00.0", ContextTokens: 32, BatchTokens: 1, Threads: 1}, {GPULayers: 1, ContextTokens: 32, BatchTokens: 1, Threads: 1}, {ContextTokens: 32, BatchTokens: 33, Threads: 1}} {
 		if _, err := PackageEnvironment(sha, next); err == nil {
 			t.Fatal("invalid selection accepted")
 		}

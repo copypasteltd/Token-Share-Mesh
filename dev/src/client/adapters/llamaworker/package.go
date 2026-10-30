@@ -42,6 +42,8 @@ type OwnerSelection struct {
 	Capability    string `json:"capability"`
 	Resource      string `json:"resource"`
 	GPUDevice     string `json:"gpu_device"`
+	GPUUUID       string `json:"gpu_uuid"`
+	GPUPCI        string `json:"gpu_pci"`
 	ContextTokens uint32 `json:"context_tokens"`
 	BatchTokens   uint32 `json:"batch_tokens"`
 	Threads       uint32 `json:"threads"`
@@ -57,16 +59,19 @@ func PackageEnvironment(packageSHA256 string, s OwnerSelection) (string, error) 
 		s.GPULayers > 999 || len(s.GPUDevice) > 128 || strings.IndexByte(s.GPUDevice, 0) >= 0 || (s.GPULayers > 0) != (s.GPUDevice != "") {
 		return "", ErrConfig
 	}
+	if validateGPU(s.GPUDevice, s.GPUUUID, s.GPUPCI, s.GPULayers) != nil {
+		return "", ErrConfig
+	}
 	parameters := struct {
-		GPUDevice                                      string
+		GPUDevice, GPUUUID, GPUPCI                     string
 		ContextTokens, BatchTokens, Threads, GPULayers uint32
-	}{s.GPUDevice, s.ContextTokens, s.BatchTokens, s.Threads, s.GPULayers}
+	}{s.GPUDevice, s.GPUUUID, s.GPUPCI, s.ContextTokens, s.BatchTokens, s.Threads, s.GPULayers}
 	b, err := json.Marshal(parameters)
 	if err != nil {
 		return "", ErrConfig
 	}
 	h := sha256.New()
-	_, _ = h.Write([]byte("P11_LLAMA_ENV_1\x00" + packageSHA256 + "\x00"))
+	_, _ = h.Write([]byte("P11_LLAMA_ENV_2\x00" + packageSHA256 + "\x00"))
 	_, _ = h.Write(b)
 	return hex.EncodeToString(h.Sum(nil)), nil
 }
@@ -126,7 +131,7 @@ func LoadPackage(ctx context.Context, runtimeRoot string, document FilePin, s Ow
 		return FilePin{Path: path, SHA256: v.SHA256}, e
 	}
 	c := Config{RuntimeRoot: filepath.Clean(runtimeRoot), Environment: environment, Capability: s.Capability, Resource: s.Resource,
-		GPUDevice: s.GPUDevice, ContextTokens: s.ContextTokens, BatchTokens: s.BatchTokens, Threads: s.Threads, GPULayers: s.GPULayers}
+		GPUDevice: s.GPUDevice, GPUUUID: s.GPUUUID, GPUPCI: s.GPUPCI, ContextTokens: s.ContextTokens, BatchTokens: s.BatchTokens, Threads: s.Threads, GPULayers: s.GPULayers}
 	if c.Executable, err = pin(p.Executable); err != nil {
 		return empty, err
 	}

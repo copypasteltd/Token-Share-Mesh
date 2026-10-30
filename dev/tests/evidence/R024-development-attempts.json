@@ -1,0 +1,28 @@
+{
+  "round": "R024",
+  "scope": "Preserved development failures do not count as passing evidence",
+  "attempts": [
+    {
+      "id": "R024-REAL-ATTEMPT-1",
+      "passed": false,
+      "reason": "Preparation was invoked without required explicit --fetch; the subsequent manually invoked test read the prior PIPE_3 package and failed package validation against PIPE_4 before model startup. Original failure and source/worker/package metadata archived; corrected preparation must pass before further tests.",
+      "original": [
+        "dev/tests/evidence/R024-native-real-attempt1-summary.json",
+        "dev/tests/evidence/R024-native-real-attempt1-tests.jsonl",
+        "dev/tests/evidence/R024-native-real-attempt1-archive.json"
+      ]
+    },
+    {
+      "id": "R024-CLI-INITIAL-REJECTION",
+      "passed": false,
+      "reason": "Initial kernel-inspect harness received empty stdout and crashed while parsing it; original rejection cause unproven. A subsequent independent exact-file rehash found every package pin unchanged and the same CLI returned success, without product changes or relaxed deadlines. Harness now records a failed empty-output case instead of losing the report. Original complete stdout/stderr of the first child was not retained, and is not reconstructed.",
+      "original_console_error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+      "scope": "Harness robustness adjustment; not a demonstrated product timing fix."
+    }
+  ],
+  "historical_limits": [
+    "R016/R019/R020/R021/R022 timing and storage causes remain unproven; no assertions, durations or persistence requirements relaxed.",
+    "R020 nineteen original screenshots remain missing; no recreated replacement is presented as original evidence."
+  ],
+  "virtualization_used": false
+}

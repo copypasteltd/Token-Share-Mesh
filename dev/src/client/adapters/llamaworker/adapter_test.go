@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"io"
 	"os"
+	"p11.local/compute/shared/gpuid"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -141,7 +142,13 @@ func synthetic(t *testing.T, c Config) (*Adapter, *syntheticPipe) {
 			clear(b)
 		}
 	}()
-	go func() { var b encoder; b.str(Profile); b.str(UpstreamCommit); p.frame(kReady, b.Bytes()) }()
+	go func() {
+		var b encoder
+		b.str(Profile)
+		b.str(UpstreamCommit)
+		encodeIdentity(&b, gpuid.Identity{})
+		p.frame(kReady, b.Bytes())
+	}()
 	select {
 	case e := <-a.ready:
 		if e != nil {

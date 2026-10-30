@@ -1,5 +1,11 @@
 # Changelog
 
+## R024 — Physical GPU identity / 物理显卡绑定
+
+R024 adds Windows whole-board discovery, PIPE_4 UUID/PCI startup binding and a stable shared-gate identity. Discovery is metadata-only and grants no sharing permission. The 288 regular, six synthetic ABI and three actual CUDA top-level cases are recorded separately. Complete LM Studio isolation, cross-platform execution and privacy/performance/funds qualification remain open. See [round](dev/progress/R024-本轮实现与完整待办.md) and [GI contract](docs/技术开发/附录-物理显卡身份探测与启动绑定.md).
+
+Validation: 288 current regular Go cases passed; 6 synthetic ABI, 3 actual CUDA top-level cases and 8 actual CLI cases are recorded separately. Unchanged 21 frontend cases and 3 builds were reused only after exact digest checks; current Web/H5 browser tests generated 18 assets and closed their owned pages. All 56 tasks/222 steps remain open; earlier timing/storage causes and the initial unproven CLI rejection remain documented.
+
 ## R023 — Pinned native packages, local inspection and real CUDA verification
 
 Pinned official b11960/CUDA12.4 and Qwen 0.5B inputs now load through independent package/environment pins. PIPE_3 separates main/registry/core libraries and returns bounded startup errors. The local inspection command exposes safe selected metadata while execution stays disabled. Explicit native tests cover six JSON/SSE combinations, reuse, token rejection, cancellation, hard deadline and missing-device rejection.

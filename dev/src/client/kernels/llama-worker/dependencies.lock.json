@@ -1,5 +1,5 @@
 {
-  "profile": "P11_LLAMA_PIPE_3",
+  "profile": "P11_LLAMA_PIPE_4",
   "llama": {
     "repository": "ggml-org/llama.cpp",
     "release": "v0.8.0",

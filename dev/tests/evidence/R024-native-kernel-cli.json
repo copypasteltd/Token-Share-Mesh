@@ -1,0 +1,65 @@
+{
+  "round": "R024",
+  "passed": true,
+  "binary": "runtime/bin/p11-node.exe",
+  "binary_sha256": "9512025880328ca9c10ad77647a09f8d3ff32ba38068bfe152e935d56886cdef",
+  "cases": [
+    {
+      "case": "valid",
+      "exit_code": 0,
+      "passed": true,
+      "safe_view": {
+        "profile": "P11_LLAMA_PIPE_4",
+        "engine_release": "llama.cpp-v0.8.0-8642541b",
+        "package_sha256": "f014459dc38872efe04db8db4d2871037afc75718d1ad437199381966c19ee93",
+        "environment": "61341c9f4928dd1833006d0fa1785e93a9636abcfd8b1c892988ad5cbf722cc4",
+        "model_sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db",
+        "template_sha256": "1e53ec5bf20c1dc9cea38577f9081373e97694037ff51ab6efb47721d8ea76b0",
+        "selection": {
+          "capability": "cap_local_inspection_only",
+          "resource": "physical_gpu_0",
+          "gpu_device": "CUDA0",
+          "gpu_uuid": "GPU-c101fc79-ced0-9579-92ab-a20c8dcd8a21",
+          "gpu_pci": "0000:01:00.0",
+          "context_tokens": 2048,
+          "batch_tokens": 128,
+          "threads": 2,
+          "gpu_layers": 999
+        },
+        "execution_enabled": false,
+        "qualification": "NOT_GRANTED"
+      },
+      "diagnostic": ""
+    },
+    {
+      "case": "environment_mismatch",
+      "exit_code": 2,
+      "passed": true,
+      "safe_view": null,
+      "diagnostic": "local kernel inspection rejected"
+    },
+    {
+      "case": "unknown_input",
+      "exit_code": 2,
+      "passed": true,
+      "safe_view": null,
+      "diagnostic": "local kernel inspection rejected"
+    },
+    {
+      "case": "oversize",
+      "exit_code": 2,
+      "passed": true,
+      "safe_view": null,
+      "diagnostic": "local kernel inspection rejected"
+    }
+  ],
+  "package_sha256": "f014459dc38872efe04db8db4d2871037afc75718d1ad437199381966c19ee93",
+  "proposal_is_approval": false,
+  "inference_executed": false,
+  "execution_enabled": false,
+  "virtualization_used": false,
+  "sources": {
+    "dev/tools/核验本机LLM检查入口.py": "47ee46021ebb63311a50efba64112c5268b0194cc875c7482ce37bdbc5f61713",
+    "dev/src/client/cmd/p11-node/kernel.go": "bf585042ee3ca3771eff7e5c7dc9195087a2821fe51801cf01133a1537f08b88"
+  }
+}
