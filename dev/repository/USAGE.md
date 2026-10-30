@@ -1,5 +1,13 @@
 # Usage / 使用指南
 
+## R011 supervisor integration / 执行监督接入
+
+Use the trusted Go embedding API only: explicitly initialize the registered node execution ledger, construct node.NewSupervisor with exact environment/capability/manifest adapters, start node.RunSupervised and wait for Ready before Submit. Keep the original OS lock until RunSupervised returns. Pending control commands and DRAINING/REVOKED state latch new admission closed while original-owner query/stop/cleanup remains available. No CLI task input, trust-key installation or engine configuration is enabled.
+
+可信宿主调用顺序为显式登记→execution-init→NewSupervisor→RunSupervised；同一OS锁下等待退出完成再关闭节点。租约到期/回拨先撤权并取消原请求，查询确认停算后清理，再按owner代次释放；Cancel ACK、查询超时、PID消失或退出超时均不释放。当前适配器测试仅合成元数据，生产引擎/低权限/真实文件钥清理仍待。完整参数及错误见[NSV-001—020](../../docs/技术开发/附录-原生执行监督与后端恢复实施细则.md)。
+
+Web/Taro在原配对恢复期间进入共享页，会等待请求空闲后自动尝试一次本人资料读取；读取失败保留显式刷新，不自动重试写请求。NB04视觉、具体型号及小时/M token不变。
+
 ## R010 native metadata commands / 原生执行元数据命令
 
 After explicit owner enrollment, run `p11-node execution-init --state <same-private-absolute-directory>` once, then `p11-node execution-status --state <same-private-absolute-directory>`. Both commands run in the foreground and close their database/OS lock before returning. Initialization requires no pending control command and a non-revoked registered identity. Do not initialize a different directory to bypass an ambiguous/lost state. There is no reset, force-free or lease-input command.

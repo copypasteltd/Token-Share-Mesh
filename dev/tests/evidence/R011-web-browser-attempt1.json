@@ -1,0 +1,79 @@
+{
+  "round": "R011",
+  "target": "web",
+  "passed": false,
+  "buyer_id": "usr_93a0b751806c22385f20a537c602cb89",
+  "order_id": "ord_aded5d10ad9b6e3d266fede0c2a69d49",
+  "browser_closed": true,
+  "remaining_owned_tabs": 0,
+  "assertions": [
+    "Signed synthetic OAuth -> real HttpOnly session; one-time proof removed from URL/storage",
+    "Concrete phone and independent M token prices; E2E blocked until buyer gateway exists, no prompt collected",
+    "Budget below exact preview sends no quote request; contract consent starts unchecked",
+    "Committed order response lost -> reload -> original exact key/body recovered; no duplicate command",
+    "Order remains WAITING_PAYMENT; confirmed usage absent and final fee pending; no client-side billing clock",
+    "No fabricated seller income or device connection; pairing requires explicit approved-owner confirmation"
+  ],
+  "screenshots": [
+    {
+      "path": "dev/media/R011/screenshots/web-market.png",
+      "sha256": "dddfdea54861dba03a7f5a8457ae328c00ceea2da65aa5dd7be36df6d6aa84ef",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R011/screenshots/web-llm-detail.png",
+      "sha256": "c7b212dd31300a6d350ecc276963d55c2b092cf6fd706b698b8fc2ed451994f6",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R011/screenshots/web-order-pending.png",
+      "sha256": "e42326601dbebf7dc6847ac787761b24a342149f63395c742941a66120eaaa8c",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R011/screenshots/web-order.png",
+      "sha256": "63664299f4c8e55080928136f1dd8ac1609a894351b51430ee213edcb6f8f110",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R011/screenshots/web-share.png",
+      "sha256": "b9ad9d8aee82df9fe3048659316f088d38b34b3c8dce7386b02b7a93f826b0c4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    }
+  ],
+  "recording": null,
+  "scope": "Actual compiled UI/HTTP/DB with synthetic OAuth/qualification/device heartbeats; H5 is not native Alipay validation; no payment, device or inference execution",
+  "virtualization_used": false,
+  "browser_version": "156.0.4314.50",
+  "failure": "locator.fill: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[aria-label=\"配对设备名称\"], [aria-label=\"配对设备名称\"] input').filter({ visible: true }).first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" maxlength=\"512\" aria-label=\"配对设备名称\" placeholder=\"例如：书房 RTX 4090 / 摩托罗拉 X30\"/>\u001b[22m\n\u001b[2m    - fill(\"合成本机 RTX 4090\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying fill action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying fill action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    23 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying fill action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tools\\frontend\\browser.mjs:203:27",
+  "build_receipt_sha256": {
+    "runtime/frontend/check-receipt.json": "2ede1f518d081c394178346514a584a410e83df5b185f69ef2371ea2a331d888",
+    "runtime/frontend/test-receipt.json": "ea975f2ee21e8065fbbe0e811eb425bdd828adc2f16cb2e979ceb90837eccfbf",
+    "runtime/frontend/build-receipt.json": "8b280416f6fe1f903a51df3513831a833060e49c64a239ca5585427458ee9e55"
+  }
+}

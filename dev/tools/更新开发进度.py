@@ -82,6 +82,8 @@ def main():
         text+='R009已将一次性设备配对、本人设备分页、共享条件及停止/撤销接入React/Taro和React/Vite，配对凭据仅页内存，后台/离开/到期/撤权清除，原请求恢复保留方法/键/正文/强ETag。72项Go、21项TS、三目标构建及双端实际浏览器/Windows控制二进制联调通过；H5不冒称原生容器，控制在线不授执行资格。31/93操作、65表及001—005原字节不变；完整执行/内核/内容加密/真实渠道待完成，全部56任务/222子项、80/96未执行和DEV-55延后保留。\n\n'
     elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R010':
         text+='R010新增签名Lease验证、一次加密锚定SQLite收件箱、受管本地/任务/维护共物理门闩、双高水位、签名续约/双截止/重开隔离与停止清理CAS；CLI只显式初始化/查询，不领取或执行模型。92项Go局部、既有21项TS/三目标摘要复核及当前双端浏览器/Windows元数据命令证据单列，真实GPU/内核/信任发行/内容加密/渠道待接入。平台31/93操作和65表、001—005原字节保持；全部56任务/222子项、80/96未执行和DEV-55延后保留。\n\n'
+    elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R011':
+        text+='R011新增运行中的原生执行监督、冻结后端绑定、原命令一次提交/查询、到期/回拨取消、停止清理重试、有界退出和同节点控制联动；未知/停止/撤销状态允许清理旧owner但关闭新准入。新增21项Go局部用例，累计113项；适配器仅合成元数据，真实内核/低权限/文件钥清理/E2E/渠道仍待。首次回归发现并修复Web/Taro恢复期间进入共享页错过本人资料加载；21项TS/三目标构建及双端浏览器本轮重跑。31/93操作、65表和001—005字节不变，全部56任务/222子项、80/96未执行及DEV-55延后保留。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'

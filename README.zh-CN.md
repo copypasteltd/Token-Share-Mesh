@@ -20,12 +20,12 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
 | 实施任务 | 22项进行中 · 32项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R010 · PASSED_FOR_CONTROL_SERVICES_ONLY |
-| 原生测试证据 | 92项通过，仅控制应用服务范围 |
+| 最新源码轮次 | R011 · PASSED_FOR_CONTROL_SERVICES_ONLY |
+| 原生测试证据 | 113项通过，仅控制应用服务范围 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
-R010新增严格签名执行Lease、有限SQLite元数据收件箱、同物理资源门闩、双高水位、一次提交预留、到期/重开隔离和停止清理比较更新。平台仍65领域表、31/93控制操作；另有5张端侧元数据表，001—005迁移保持原字节。92项Go局部用例，未改前端21项TS/三目标构建按摘要复核，当前双端浏览器实际执行Windows execution-init/status但不授GPU资格。真实引擎、平台信任发行、内容加密及渠道仍待，见[原生证据](dev/tests/evidence/R010-验证报告.md)、[前端证据](dev/tests/evidence/R010-frontend-checks.json)、[原生执行细则](docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md)及[全部56任务/222待办](dev/progress/README.md)。
+R011新增运行中的原生执行监督：精确后端绑定、一次提交、原请求查询恢复、到期/回拨取消、停算确认后的清理重试与有界退出。node.NewSupervisor/RunSupervised保持同一OS锁，将控制停止/撤销与旧任务恢复联动。当前113项Go局部用例，新增21项监督/控制用例；后端仍是明确合成元数据适配器，不冒充真实GPU停算或客户文件/密钥清理。双端浏览器/Windows命令本轮重跑，恢复请求期间进入提供方页面的加载时序已修复，21项TS/三目标构建本轮重跑。平台仍31/93操作、65表，001—005原字节不变。见[原生证据](dev/tests/evidence/R011-验证报告.md)、[前端证据](dev/tests/evidence/R011-frontend-checks.json)、[监督细则](docs/技术开发/附录-原生执行监督与后端恢复实施细则.md)和[全部56任务/222子项](dev/progress/README.md)。
 
 新价合同把AVAILABLE_HOUR的hour_rate，或TOKEN_1M的input_rate/output_rate明确分开；每项均含整数分子/正整数分母、费用承担、佣金和取整版。360分/小时的30分钟最坏180分；80分/M输入加160分/M输出，1M输入与0.25M输出共120分。报价冻结卖家、环境、政策、价格及预算，建单复核后只进入WAITING_PAYMENT；订单、报价消费、同意审计和outbox同事务。它不代表已支付、已锁GPU或已执行。350分/小时不能舍入写进旧整数分/分钟列。
 
@@ -53,21 +53,25 @@ API使用独立P11_DEVICE_PAIRING_PEPPER_FILE，缺配置关闭配对。p11-node
 
 底层库依据独立批准计划及另行受信的平台Ed25519公钥核验既有Lease，原命令/完整uint64任务与资源围栏/backend映射先于外部副作用持久化。受管本地使用、任务、维护共物理摘要和本地owner代次，不能伪造租赁权；重复或未知提交只查询原请求。续约必须有完整新签名及更高修订、固定环境/合同/硬截止，绝对或单调截止、回拨均关闭执行。只有当前backend确认停算、撤权和工作区清理全项通过且owner代次相符，才允许复用；本状态机本身不证明真实停算，也未实施显存/文件/密钥删除。
 
-SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，页缓存2MiB、mmap关闭、16384个4KiB页上限；它不是加密内容库。固定CGO-free依赖及内嵌第三方许可，无新增VM或模型副本。完整设备发现、平台发行/信任生命周期、定时停止循环、租赁父会话、内容E2E和物理机性能仍待完成。[完整编号细则](docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md) · [操作与恢复](dev/repository/USAGE.md)。
+SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，页缓存2MiB、mmap关闭、16384个4KiB页上限；它不是加密内容库。固定CGO-free依赖及内嵌第三方许可，无新增VM或模型副本。完整设备发现、平台发行/信任生命周期、真实引擎定时停止循环、租赁父会话、内容E2E和物理机性能仍待完成。[完整编号细则](docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md) · [操作与恢复](dev/repository/USAGE.md)。
+
+## 执行监督与后端恢复
+
+监督器只处理限定元数据，不接受prompt、路径、URL、任意参数或内容钥。按环境/能力/清单精确绑定后端，禁止失败后换引擎兜底。适配器须遵守有界context、原请求权威查询/取消和真实STOPPED语义，完整清理后再按owner代次释放。取消ACK、断网、PID消失和退出超时都不能释放资源。控制命令未知或设备停止/撤销时关闭准入，仍允许旧任务恢复。可信宿主接入为NewSupervisor → RunSupervised；CLI尚不开放付费任务或生产引擎配置。见[使用说明](dev/repository/USAGE.md)与[NSV-001—020](docs/技术开发/附录-原生执行监督与后端恢复实施细则.md)。
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R010/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R011/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R010/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R011/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R010/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R011/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R010/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R010/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R011/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R011/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R010/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R011/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R010/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R010/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R010/recordings/web-transaction.gif) · [订单待确认](dev/media/R010/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R011/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R011/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R011/recordings/web-transaction.gif) · [订单待确认](dev/media/R011/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 

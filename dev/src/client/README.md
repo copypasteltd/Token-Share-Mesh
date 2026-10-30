@@ -1,5 +1,9 @@
 # Native provider control / 原生提供方控制
 
+R011 adds client/supervisor: a running watchdog, frozen exact backend bindings, one-shot submission, original-query recovery, expiry/cancel/cleanup retries and bounded shutdown. node.NewSupervisor/RunSupervised retains the same OS lock and couples control failure/drain to cleanup. The adapters in tests are synthetic metadata components; production engine adapters, process isolation and content handling remain pending.
+
+R011新增执行监督与原生控制联动；仍不开放CLI任务领取/内核/信任配置，不授GPU资格。详见[监督实施细则](../../../docs/技术开发/附录-原生执行监督与后端恢复实施细则.md)，核验当前源码使用--round R011。
+
 R010 adds a native SQLite metadata inbox, signed Lease verification, one physical-resource gate and conservative stop/cleanup recovery. Explicit execution-init/status initialize/read only; no kernel, lease claimant, content decryption or paid execution is enabled. The original OS lock and encrypted node journal anchor the new database once; lost files are never recreated automatically.
 
 R010新增client/execution与protocol/executionlease：原命令去重、双围栏、受管本地/任务/维护共门闩、到期/重开隔离和owner比较清理。SQLite只存限定元数据，prompt/输出/内容钥不进入库；它不是加密内容库。完整RuntimeSupervisor、平台发行/信任钥、真实适配器/停止/清理和租赁父owner仍待。

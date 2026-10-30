@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useSyncExternalStore } from 'react';
+import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AppModel, ControlClient, modeLabels, privacyLabel, stateLabel, rateText, yuan, parseYuan, estimate, splitIncludedFee,
   contractOf, type Offer, type Price, type Spec, type Mode } from '@tsm/core';
@@ -101,7 +101,14 @@ function Orders() {
       <p className='notice'>{o.state === 'WAITING_PAYMENT' ? '尚未付款，尚未开始计时。当前付款入口未开放。' : '仅展示服务端已确认状态；运行、计量和停止结果等待确认。'}</p><button className='button' disabled={s.busy} onClick={() => void model.readOrder(o.order_id)}>刷新订单状态 ↻</button></> : <div className='empty'>选择或查询一笔本人订单后，查看合同和当前状态。</div>}</section></div></>;
 }
 function Share() {
-  const s = useApp(); useEffect(() => { if (!s.sellerLoaded) void model.loadSeller(); }, []);
+  const s = useApp(); const attempted = useRef<string | null>(null);
+  useEffect(() => {
+    const owner = s.session?.profile.user_id;
+    if (!owner) { attempted.current = null; return; }
+    if (!s.busy && !s.sellerLoaded && attempted.current !== owner) {
+      attempted.current = owner; void model.loadSeller();
+    }
+  }, [s.busy, s.sellerLoaded, s.session?.profile.user_id]);
   return <><div className='page-heading'><div><div className='eyebrow'>由你决定，如何共享</div><h1>我的共享</h1></div><button className='button' disabled={s.busy} onClick={() => void model.loadSeller()}>刷新本人状态 ↻</button></div>
     <div className='two-columns'><section className='white-panel'><h2>{s.seller?.display_name || '个人卖家资格'}</h2><p>你自主挂出自己的设备，决定价格和共享条件。平台不采购设备，也不承诺保底收入。</p><dl className='facts'><dt>卖家资格</dt><dd>{s.seller ? stateLabel(s.seller.qualification_state) : '尚未取得'}</dd><dt>收款资格</dt><dd>{s.seller ? stateLabel(s.seller.payee_eligibility_state) : '待核验'}</dd><dt>已结算收入</dt><dd>暂无已确认账单</dd></dl></section>
       <section><h2>本人挂牌</h2>{s.listings.length ? s.listings.map(l => <article key={l.listing_id} className='white-panel listing'><div className='order-heading'><h3>{l.definition.title}</h3><span className='status-tag'>{stateLabel(l.state)}</span></div><p>修订 {l.revision} · {modeLabels[l.definition.policy.service_mode]}</p><PriceLines price={l.definition.price} /><p className='muted break'>本人设备编号：{l.definition.device_ids.join(' / ')}</p></article>) : <div className='white-panel empty'>暂无可展示的本人挂牌。完成资格及设备配对后，才能设置价格并申请上架。</div>}</section></div><ProviderDevices model={model} /></>;

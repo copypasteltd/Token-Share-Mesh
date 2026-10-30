@@ -1,0 +1,39 @@
+{
+  "round": "R011",
+  "checked_at": "2026-10-30T04:59:00.551357+00:00",
+  "baseline_commit": "7018521f32ff796f8ecf90071fccb06a56a491b5",
+  "platform_migrations_unchanged": true,
+  "migrations": [
+    {
+      "path": "dev/src/internal/persistence/migrations/001_domain.sql",
+      "baseline_sha256": "85da1d9b2d4948cca6f60c3a15bb3bdb03e4d2eb1ff1af6b14005588077faec5",
+      "current_sha256": "85da1d9b2d4948cca6f60c3a15bb3bdb03e4d2eb1ff1af6b14005588077faec5",
+      "unchanged": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/002_nb_contract_guards.sql",
+      "baseline_sha256": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc",
+      "current_sha256": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc",
+      "unchanged": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/003_auth_sessions.sql",
+      "baseline_sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+      "current_sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+      "unchanged": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/004_seller_listing_records.sql",
+      "baseline_sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+      "current_sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+      "unchanged": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/005_device_identity_control.sql",
+      "baseline_sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+      "current_sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+      "unchanged": true
+    }
+  ],
+  "scope": "Five platform migrations byte-for-byte unchanged; R011 only adds native supervisor code, no migration"
+}

@@ -20006,11 +20006,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "c5b2a5f00c59e42c6d1dba9c42bbeb34c8c771d4b0d039a308a25991ad53780e"
+      "sha256": "6a224e3b80294ee2f8b586a746218c7578663393c3ef7ab340caa2aa22624841"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "ed8d3df956f00afbbfbac652132b2bca5d9517dafbeb7c84d6ecaae0f942f22d"
+      "sha256": "75f220c8b13af39b9caabd54f48750e29ea678759054a91ecd607b5449744911"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20062,7 +20062,7 @@
     },
     {
       "path": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
-      "sha256": "f50e2f95b61edce0ddc936e7c157e365c026c7b8be48a9986a933817a91f4c0d"
+      "sha256": "a60a640d2769a09d6a06ebea4c7f0c68cda22a36cec12359f2dadab378255648"
     },
     {
       "path": "docs/技术开发/10-Android与LMA工程设计.md",

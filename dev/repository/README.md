@@ -1,5 +1,7 @@
 # Repository documentation / 仓库文档
 
+Latest R011: [supervisor specification](../../docs/技术开发/附录-原生执行监督与后端恢复实施细则.md), [native evidence](../tests/evidence/R011-验证报告.md) and [all 56 tasks/222 steps](../progress/R011-本轮实现与完整待办.md). 原生监督、控制停止联动和双端恢复加载修复已纳入本轮；真实引擎/内容加密/支付仍待。
+
 [English README](../../README.md) · [中文 README](../../README.zh-CN.md)
 
 | Guide / 指南 | Purpose / 用途 |

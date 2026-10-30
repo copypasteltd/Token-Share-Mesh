@@ -1,5 +1,13 @@
 # Changelog
 
+## R011 — Native execution supervisor and original-backend recovery
+
+- Add a running, bounded metadata supervisor with frozen environment/capability/manifest bindings, original one-shot submit/query, deadline/cancellation handling, stopped-backend cleanup retries and conservative shutdown.
+- Couple native control drain/revocation to the same-node supervisor; pending or revoked control may recover old owners while new admission remains closed.
+- Fix provider-profile loading when Web/Taro pages mount during original-request recovery; wait for idle and attempt once per owner, retaining explicit refresh after a read failure.
+- Add 21 local Go cases (113 total). Engine observations and cleanup remain synthetic; real GPU engines, process isolation, content E2E, payment and full acceptance are pending. Rerun both browser/native-CLI journeys and update bilingual docs, screenshots/recordings and all 56 tasks/222 remaining steps.
+- Keep platform migrations 001–005 byte-identical, 31/93 operations, 65 tables and deferred deployment/observability. No local virtualization.
+
 [简体中文](CHANGELOG.zh-CN.md)
 
 Entries use the same round IDs as the implementation tracker. No entry denotes a

@@ -129,11 +129,35 @@ R010_CASES = [(f'R010-TEST-{i:03d}', p, n, d) for i, (_, p, n, d) in enumerate(R
     ('R010-TEST-092', 'client/node', 'TestNativeExecutionSQLiteInheritsPrivateWindowsACL', '实际Windows DPAPI/本人SYSTEM ACL覆盖SQLite/WAL/SHM及重开'),
 ]
 
+R011_CASES = [(f'R011-TEST-{i:03d}', p, n, d) for i, (_, p, n, d) in enumerate(R010_CASES, 1)] + [
+    ('R011-TEST-093', 'client/supervisor', 'TestSupervisorRequiresWatchdogAndFrozenRegistry', '监督循环未运行拒绝提交、注册绑定复制且单次运行'),
+    ('R011-TEST-094', 'client/supervisor', 'TestSupervisorOriginalCommandSubmittedOnlyOnce', '原命令重复12次只提交一次，退出先停算清理'),
+    ('R011-TEST-095', 'client/supervisor', 'TestSupervisorExpiryCancelsAndCleansWithoutRenewal', '租约到期自动取消/查询/清理，不由轮询续租'),
+    ('R011-TEST-096', 'client/supervisor', 'TestSupervisorAmbiguousSubmitQueriesOriginalAndStops', '提交丢回执查询原backend后停止，不重新提交'),
+    ('R011-TEST-097', 'client/supervisor', 'TestSupervisorStopInterruptsInFlightSubmit', '显式停止打断进行中的提交并继续清理'),
+    ('R011-TEST-098', 'client/supervisor', 'TestSupervisorCallerCancellationDoesNotAbandonCleanup', '调用方取消不放弃原owner恢复清理'),
+    ('R011-TEST-099', 'client/supervisor', 'TestSupervisorCancelAcknowledgementNeverProvesStopped', '取消ACK不冒充已停，关闭超时保留占用'),
+    ('R011-TEST-100', 'client/supervisor', 'TestSupervisorQueryFailureStillCancelsAndRetainsOwner', '查询失败仍先取消，缺停止证据保留占用'),
+    ('R011-TEST-101', 'client/supervisor', 'TestSupervisorWrongOwnerAndIncompleteCleanupRetainResource', '跨owner回执及不完整清理都不释放'),
+    ('R011-TEST-102', 'client/supervisor', 'TestSupervisorReopenQueriesWithoutSubmissionOrAuthority', 'SQLite重开只查停原任务，不重授执行或提交'),
+    ('R011-TEST-103', 'client/supervisor', 'TestSupervisorUnknownRegistryQuarantinesWithoutFallback', '环境未注册隔离，禁止换内核兜底'),
+    ('R011-TEST-104', 'client/supervisor', 'TestSupervisorDatabaseFailureClosesAdmissionAndCancelsOwnedWork', '数据库故障关闭准入并尽力取消原任务'),
+    ('R011-TEST-105', 'client/supervisor', 'TestSupervisorCleanupRetryDoesNotResubmitOrRepeatStop', 'CLEANING重试不重提或反复取消后端'),
+    ('R011-TEST-106', 'client/supervisor', 'TestSupervisorQueryTimeoutDoesNotBlockExpiryLoop', '受阻查询不阻塞截止检查及取消'),
+    ('R011-TEST-107', 'client/supervisor', 'TestSupervisorSignedRenewalKeepsOriginalBackend', '完整签名续约保持原backend，不重启任务'),
+    ('R011-TEST-108', 'client/supervisor', 'TestSupervisorRealDeadlineInterruptsPendingSubmission', '真实时钟截止打断未完成提交，不等待更长调用超时'),
+    ('R011-TEST-109', 'client/supervisor', 'TestSupervisorKnownBackendAbsentCannotFreeResource', '已知backend消失不作为STOPPED证据'),
+    ('R011-TEST-110', 'client/supervisor', 'TestSupervisorSlowResourceDoesNotBlockAnotherExpiry', '一资源查询受阻不阻塞另一资源到期清理'),
+    ('R011-TEST-111', 'client/supervisor', 'TestSupervisorClockRollbackStopsWithoutFreeByTime', '时钟回拨触发实际取消/查询/清理流程'),
+    ('R011-TEST-112', 'client/node', 'TestNodeSupervisorRequiresExplicitLedgerAndSameOwnership', '显式初始化执行库，监督器不可越过原节点OS锁'),
+    ('R011-TEST-113', 'client/node', 'TestNodeControlDrainStopsSupervisedOriginalOwner', '实际原生HTTP控制读到DRAINING/拒绝心跳，关闭监督器并等待原owner清理'),
+]
+
 def main() -> None:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round',default='R010',choices=['R003','R004','R005','R006','R007','R008','R009','R010'])
+    parser.add_argument('--round',default='R011',choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011'])
     round_id=parser.parse_args().round
-    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES}[round_id]
+    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES,'R011':R011_CASES}[round_id]
     summary = json.loads((EVIDENCE / f'{round_id}-native-summary.json').read_text(encoding='utf-8'))
     checks = json.loads((EVIDENCE / f'{round_id}-native-source-checks.json').read_text(encoding='utf-8'))
     if summary['test_exit_code'] or not summary['temporary_instance_stopped'] or summary['runner_error'] or summary['cleanup_error'] or checks['status'] != 'PASSED_WITH_LIMITED_SCOPE':
@@ -148,7 +172,7 @@ def main() -> None:
     top = {k: v for k, v in results.items() if '/' not in k[1]}
     if set(top) != expected or any(event['Action'] != 'pass' for event in results.values()):
         raise ValueError(f'本轮{len(cases)}项实际用例必须齐全且无跳过/失败')
-    if round_id in {'R006','R007','R008','R009','R010'}:
+    if round_id in {'R006','R007','R008','R009','R010','R011'}:
         for target in ['web', 'miniapp']:
             key = ('p11.local/compute/api/tests', 'TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder/' + target)
             if key not in results or results[key]['Action'] != 'pass': raise ValueError('双端实际浏览器子场景不可跳过')
@@ -166,7 +190,7 @@ def main() -> None:
         'source_evidence': [f'dev/tests/evidence/{round_id}-native-summary.json', f'dev/tests/evidence/{round_id}-native-go-tests.jsonl', f'dev/tests/evidence/{round_id}-native-source-checks.json'],
         'limitations': ['OAuth uses independently signed synthetic responses; no real Alipay channel or seller/device integration', 'No GPU, Android, real payment, crypto interoperability, independent review or whole-product acceptance', 'Linux admin/API commands cross-compiled only, no Linux runtime validation', 'Not a crash or power-loss durability test; no Go race-detector claim', 'Seller/listing approvals and browser device heartbeats are synthetic, no runtime self-approval; provider pairing UI, complete native key stores/daemons and actual device qualification remain pending'],
     }
-    if round_id in {'R008','R009','R010'}:
+    if round_id in {'R008','R009','R010','R011'}:
         report['limitations'][2] = 'Linux admin/API/node commands cross-compiled only; Linux Secret Service protocol fixtures do not validate a real Linux keyring'
         report['limitations'][3] = 'Windows process-termination recovery is exercised; no power-loss durability or Go race-detector claim'
         report['limitations'][-1] = 'Windows DPAPI/control agent is exercised; Linux Secret Service uses protocol fixtures and cross-compilation only. No GPU, engine execution, job inbox, content encryption or native Alipay acceptance.'
@@ -174,18 +198,24 @@ def main() -> None:
         report['limitations'][-1] = 'Native metadata inbox, one-shot submission reservations, dual fences and cleanup CAS use explicit synthetic lease/backend observations. No platform issuer/trust lifecycle, timer-driven engine stopping, real GPU/engine/rental, content encryption or native Alipay acceptance.'
         report['limitations'].append('Unchanged frontend unit/build records are reused only after exact source/output/public-log hash checks; both current browser/native-binary journeys are rerun independently.')
         report['development_attempts'] = ['dev/tests/evidence/R010-execution-unit-attempt1.jsonl', 'dev/tests/evidence/R010-native-source-checks-attempt1.json']
+    if round_id == 'R011':
+        report['limitations'][3] = 'Includes owned native process-exit and SQLite WAL recovery tests; no actual engine crash, power-loss durability or Go race-detector acceptance.'
+        report['limitations'][-1] = 'Real native watchdog/SQLite/control coupling uses synthetic metadata-only adapters. Production llama.cpp/LM Studio/ComfyUI/LMA adapters, low-privilege process isolation, physical GPU stop/key/file cleanup, platform lease issuer/trust, rental, E2E and real payments remain pending.'
+        report['limitations'].append('Adapter observations/cancellation/cleanup are synthetic and must not qualify hardware. Adapter implementations must honor bounded contexts and authoritative original-key query/cancel semantics; no malicious-adapter containment or timing/performance acceptance is claimed.')
+        report['limitations'].append('Current 21 shared TS cases and all three frontend builds are rerun after the provider-loading fix; the held-recovery navigation regression runs on both browser targets. H5 is not native Alipay acceptance.')
+        report['development_attempts'] = ['dev/tests/evidence/R011-native-summary-attempt1.json', 'dev/tests/evidence/R011-native-go-tests-attempt1.jsonl', 'dev/tests/evidence/R011-web-browser-attempt1.json', 'dev/tests/evidence/R011-development-attempts.json']
     (EVIDENCE / f'{round_id}-验证报告.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     text = f'# {round_id} 原生源码验证报告\n\n仅控制应用服务/原生HTTP身份子集及既有基础通过：{len(cases)}项用例通过，实际用例无失败/跳过；临时原生数据库已停止。完整平台80项主验收仍为 NOT_EXECUTED。\n\n'
     text += '| 用例编号 | 验证内容 | 结果 |\n| --- | --- | --- |\n'
     for code, _, _, description in cases:
         text += f'| {code} | {description} | PASSED |\n'
     text += '\n原生 PostgreSQL 实例：`' + summary['run_id'] + '`；关闭方式：`' + summary['shutdown_mode'] + '`。实例与工具均在项目 runtime，无本地虚拟化。\n\n'
-    commands = 'admin/API/node' if round_id in {'R008','R009','R010'} else 'admin/API'
+    commands = 'admin/API/node' if round_id in {'R008','R009','R010','R011'} else 'admin/API'
     text += f'Go 依赖校验、格式检查、vet及 Windows/Linux amd64 {commands}命令构建均通过；Linux仅交叉编译。依赖版本/许可清单只覆盖当前Go模块，不是全平台SBOM。\n\n'
     text += f'- [Go/数据库实际事件]({round_id}-native-go-tests.jsonl)\n- [实例退出与范围]({round_id}-native-summary.json)\n- [构建、源码摘要与依赖校验]({round_id}-native-source-checks.json)\n- [Go依赖与许可证](../../licenses/go-dependencies.json)\n\n'
     text += '本轮实际覆盖原生HTTP/会话/CSRF，但仅通过签名合成渠道响应；未覆盖真实支付宝授权、GPU、Android、资金渠道、密码互通、独立评审、性能和完整产品主验收；不声称Go race detector或断电恢复通过。测试资格均为显式写入临时数据库的合成夹具，不能作为真实开售证据。\n\n'
-    if round_id in {'R006','R007','R008','R009','R010'}:
-        text += f'第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有{21 if round_id in {'R009','R010'} else 13}项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查]({round_id}-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
+    if round_id in {'R006','R007','R008','R009','R010','R011'}:
+        text += f'第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有{21 if round_id in {'R009','R010','R011'} else 13}项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查]({round_id}-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
     if round_id == 'R008':
         text += '第61—72项新增原生提供方控制代理：实际Windows DPAPI/ACL、进程强制终止后的OS锁与原命令恢复，以及真实HTTP/临时PG丢登记和心跳回执验证。另以当前编译出的Windows二进制独立运行init、status和未登记heartbeat三个命令，跨进程身份不变且未登记心跳被拒绝，所有命令进程已退出，见[实际CLI记录](R008-native-node-cli.json)。Linux Secret Service只经过线协议夹具与交叉编译，未实测真实Linux钥库；这里的控制状态加密不是客户内容端对端加密。\n\n'
     if round_id == 'R009':
@@ -193,6 +223,8 @@ def main() -> None:
     if round_id == 'R010':
         text += '第73—92项新增严格签名Lease、独立计划绑定、SQLite原命令/一次提交/双围栏、双截止/回拨/重开隔离及停止清理owner比较更新；包含真实SQLite异常进程退出和Windows DPAPI/WAL/SHM权限，backend状态仍为合成观察。第45项双端各运行当前Windows二进制init/enroll/execution-init/execution-status/heartbeat/撤销后heartbeat六个进程，元数据库保持0任务/0资源且未启用执行；所有进程/浏览器退出。完整平台签发/信任生命周期、真实引擎停止/删除、租赁父会话、内容E2E及硬件/资金未通过。\n\n'
         text += '开发期失败记录保留：[Windows URI首次失败事件](R010-execution-unit-attempt1.jsonl)与[依赖整理未结束时过早核验的缺sum记录](R010-native-source-checks-attempt1.json)。修正本地盘URI，等待固定依赖整理完成再核验；回拨重复隔离影响清理的问题由同名回归覆盖。最终本轮报告仅汇集最终92项全部通过的实际事件，不重写历史失败。\n\n'
+    if round_id == 'R011':
+        text += '第93—113项实际运行监督循环、SQLite原命令及原生控制联动，覆盖到期/回拨、调用取消、未知提交、原backend查询、停止/清理重试、不同资源并行和数据库失败关闭。后端为明确合成元数据适配器，没有运行真实模型/GPU或删除真实任务文件/密钥；不得将其作为LP/PE/E2E或完整RuntimeSupervisor验收。前端与原生命令证据沿本轮重跑；所有临时实例/浏览器结束关闭。完整开发仍保留全部56项与222子项。首次失败为恢复中挂载页面错过本人资料加载，事件/已停止实例/关闭浏览器及截图见[开发失败留档](R011-development-attempts.json)，修复后通过冻结恢复回执的双端回归验证，不抹除失败记录。\n\n'
     attempts=sorted(EVIDENCE.glob(round_id+'-native-summary-attempt*.json'))
     for path in attempts:
         old=json.loads(path.read_text(encoding='utf-8'))

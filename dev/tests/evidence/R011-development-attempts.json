@@ -1,0 +1,29 @@
+{
+  "round": "R011",
+  "attempt": 1,
+  "result": "FAILED",
+  "cause": "Web sharing page mounted while original pairing recovery was busy; initial seller-profile effect was skipped and did not rerun after idle.",
+  "fix": "Web/Taro attempt owner profile once after idle; deterministic browser harness holds the recovery response until sharing page mounts.",
+  "native_instance_stopped": true,
+  "owned_browser_closed": true,
+  "remaining_owned_tabs": 0,
+  "evidence": [
+    {
+      "path": "dev/tests/evidence/R011-native-summary-attempt1.json",
+      "sha256": "f964ca84218caae6848ac4fb9c57a555e83fb3389f26dbccb3ffe48f5cfe832e"
+    },
+    {
+      "path": "dev/tests/evidence/R011-native-go-tests-attempt1.jsonl",
+      "sha256": "63f75a138a122e72fff3e7288b353ceec98a5c5f308bc350a620cbfa8bf3bc78"
+    },
+    {
+      "path": "dev/tests/evidence/R011-web-browser-attempt1.json",
+      "sha256": "e3291d32287a1db07bd37d6b47c2b242fb6f4885079698c91c422907db783822"
+    },
+    {
+      "path": "dev/media/R011/development-attempts/web-recovery-disabled.png",
+      "sha256": "c80f7640b2c2d8b2bfab639f575460752aa119682fd364c94c7a3a58d15117d3"
+    }
+  ],
+  "scope": "Retained development failure, not final acceptance and not real device inference"
+}

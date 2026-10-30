@@ -1,5 +1,9 @@
 # System design / 系统方案
 
+R011 implementation: [native supervisor and backend recovery](../../docs/技术开发/附录-原生执行监督与后端恢复实施细则.md). A bounded watchdog uses the existing SQLite owner/fences, frozen backend bindings and original command IDs. Control drain/revocation closes admission and waits for confirmed stop/cleanup. Synthetic metadata adapters do not prove production engines, process isolation, E2E or GPU performance. Platform remains 31/93 operations and 65 tables.
+
+R011实施为执行监督循环与原生控制联动；原请求恢复期间的提供方资料加载时序已在Web/Taro修正。真实内核、完整KernelRegistry、内容加密/支付及56任务/222子项仍待收口。
+
 The detailed requirements and technical chapters are authoritative; this guide
 connects them into a single system. Data-plane behavior below remains planned.
 The delivered Go foundation is identified separately in the implementation tracker.

@@ -93,7 +93,7 @@ func TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder(t *testing.T
 			phone := testsupport.SeedOffer(t, ctx, db, "E2E", "CN")
 			keepSyntheticDevicesOnline(t, gpu.Device, phone.Device)
 			code := ids.New("SYNTHETIC_BROWSER")
-			providerRound := (os.Getenv("P11_EVIDENCE_ROUND") == "R009" || os.Getenv("P11_EVIDENCE_ROUND") == "R010")
+			providerRound := (os.Getenv("P11_EVIDENCE_ROUND") == "R009" || os.Getenv("P11_EVIDENCE_ROUND") == "R010" || os.Getenv("P11_EVIDENCE_ROUND") == "R011")
 			var origin string
 			h := newHarnessConfigured(t, 10000, 1000, func(c *controlhttp.Config) {
 				origin = "http://" + c.AllowedHosts[0]

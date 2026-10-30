@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { View, Text, Button } from '@tarojs/components';
 import { stateLabel } from '@tsm/core';
 import { BottomNav, Feedback, LoginGate, PageTitle, PriceBlock, Empty, useApp } from '../../components';
@@ -6,7 +6,14 @@ import { model } from '../../runtime';
 import { ProviderDevices } from '../../provider';
 export default function Share() {
   const s = useApp();
-  useEffect(() => { if (s.session && !s.sellerLoaded) void model.loadSeller(); }, [s.session?.profile.user_id]);
+  const attempted = useRef<string | null>(null);
+  useEffect(() => {
+    const owner = s.session?.profile.user_id;
+    if (!owner) { attempted.current = null; return; }
+    if (!s.busy && !s.sellerLoaded && attempted.current !== owner) {
+      attempted.current = owner; void model.loadSeller();
+    }
+  }, [s.busy, s.sellerLoaded, s.session?.profile.user_id]);
   return <View className='nb-page'><PageTitle>我的共享</PageTitle><Feedback /><LoginGate>
     <View className='ticket panel'><Text className='section-title'>{s.seller?.display_name || '让闲置设备自主接单'}</Text><Text>设备由你持有并自主决定共享条件。平台提供撮合服务，不承诺保底收入。</Text><View className='facts'>
       <View className='fact'><Text>卖家资格</Text><Text>{s.seller ? stateLabel(s.seller.qualification_state) : '尚未取得'}</Text></View><View className='fact'><Text>收款资格</Text><Text>{s.seller ? stateLabel(s.seller.payee_eligibility_state) : '待核验'}</Text></View>

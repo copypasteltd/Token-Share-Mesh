@@ -46,7 +46,7 @@ def native_path_alias(lease=None):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R010', choices=['R003','R004','R005','R006','R007','R008','R009','R010'])
+    parser.add_argument('--round', default='R011', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011'])
     options=parser.parse_args()
     lease = {'safe_to_release': True}
     with native_path_alias(lease) as alias:
@@ -69,7 +69,7 @@ def run_suite(alias, lease, round_id):
     env['PGPASSWORD']=password;env['PGUSER']='p11_test';env['PGHOST']='127.0.0.1';env['PGPORT']=str(port)
     dsn=f'postgresql://p11_test:{quote(password,safe="")}@127.0.0.1:{port}/postgres?sslmode=disable'
     env['P11_TEST_DATABASE_URL']=dsn;env['P11_REQUIRE_INTEGRATION']='1'
-    if round_id in {'R006','R007','R008','R009','R010'}:
+    if round_id in {'R006','R007','R008','R009','R010','R011'}:
         env['P11_FRONTEND_BROWSER']='1';env['P11_PROJECT_ROOT']=str(ROOT);env['P11_EVIDENCE_ROUND']=round_id
     flags=subprocess.CREATE_NO_WINDOW if os.name=='nt' else 0
     def run(args,timeout=60):

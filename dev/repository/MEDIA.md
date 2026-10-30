@@ -1,5 +1,9 @@
 # Media provenance / 演示媒体来源
 
+R011 captures rerun the actual current React/Vite Web and Taro H5 builds, Windows control/metadata CLI and HTTP/temporary PostgreSQL. A held pairing-recovery response deliberately mounts the provider page while busy; the form loads after idle without an extra write or manual reload. The initial failed Web run and stopped-instance evidence are preserved under dev/tests/evidence/R011-*-attempt1.*. Current product media remains separate from documentation-reader recordings; neither proves GPU inference or real payment.
+
+本轮真实产品媒体在dev/media/R011；新监督器只通过合成元数据适配器验证，不在页面伪造GPU或模型结果。所有自建浏览器结束关闭。
+
 The historical reader screenshots and recordings show real generated specification readers.
 They are captured from a native, locally installed Chromium browser against a
 loopback-only document preview. There are no fabricated marketplace transactions,
