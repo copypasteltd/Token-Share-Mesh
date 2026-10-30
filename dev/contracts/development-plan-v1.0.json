@@ -14981,8 +14981,8 @@
       "name": "budget_reservations",
       "schema": "p11",
       "module_id": "MOD-04",
-      "column_count": 7,
-      "foreign_key_count": 1,
+      "column_count": 12,
+      "foreign_key_count": 2,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
@@ -15281,7 +15281,7 @@
       "name": "orders",
       "schema": "p11",
       "module_id": "MOD-04",
-      "column_count": 16,
+      "column_count": 19,
       "foreign_key_count": 2,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
@@ -20006,11 +20006,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "d614d12051183837291b7d3f73cccd7a9f34957c6e010c754995109b705b43ab"
+      "sha256": "82f7a52a3986fdb7581a490fa10d89e714ed4816b5dc7e6efd010e4e20c4b722"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "9506fdc03b27cb4e0e9df44a62bdd33b642e991ab92c6b2afa4af2684cc98142"
+      "sha256": "5f4c89682cb5a2ed48c12dec7bf28e51bd9db67335c3e5783676f71847d1f127"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20118,7 +20118,7 @@
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "eed78b39ce6cb239776adfd04419d34dcaa0b612ad2bb5d58f8d224bda85ad6c"
+      "sha256": "497c2cdd789919da270f24faf162e28c01253d4466c78e0e338f0581ba17cdf2"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20147,6 +20147,10 @@
     {
       "path": "docs/技术开发/database/migrations/005_device_identity_control.sql",
       "sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/006_order_budget_capacity.sql",
+      "sha256": "c4293dcaafbf9f4fe397d25cf593742621972b1b05cd4e08f58fd3cb7bfe24b1"
     },
     {
       "path": "docs/技术开发/database/schema-draft.sql",

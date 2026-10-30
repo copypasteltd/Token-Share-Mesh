@@ -14,16 +14,18 @@ Token Share Mesh connects buyers with people voluntarily offering idle Windows/L
 
 This repository contains **React/Taro Alipay pages, React/Vite Web, shared control logic and a runnable Go/PostgreSQL service subset**, alongside full specifications. The frozen Neubrutalism UI covers marketplace, authoritative quotes, owner orders awaiting payment, and provider pairing/policy/drain/revocation controls. Inference, full device execution, content encryption, real payments and the complete platform remain unfinished. Captures label synthetic authorization/qualification; Taro captures show H5, not native Alipay. Provider controls also exercise a real Windows CLI, without GPU execution.
 
-The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five final design pages](dev/design/新粗野主义-v1.0/README.md) with ten supporting views, 48 requirement refinements, 96 unexecuted scenarios and six open contract gaps. New offers use GPU hours or separate input/output prices per M token (1,000,000 tokens). Media runs within controlled GPU rentals without extra per-item charges. R003 implements NB_PRICE_1, exact calculation and quote/order services; R004 adds identity/HTTP; R005 adds seller submissions and versioned listing control. Arbitrary hourly rental sessions, renewals, final billing, trusted usage and concurrent budget reservations remain unfinished; historical orders retain their original prices.
+The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five final design pages](dev/design/新粗野主义-v1.0/README.md) with ten supporting views, 48 requirement refinements, 96 unexecuted scenarios and six open contract gaps. New offers use GPU hours or separate input/output prices per M token (1,000,000 tokens). Media runs within controlled GPU rentals without extra per-item charges. R003 implements NB_PRICE_1, exact calculation and quote/order services; R004 adds identity/HTTP; R005 adds seller submissions and versioned listing control. Arbitrary hourly rental sessions, renewals, final billing, trusted usage and production budget-admission integration remain unfinished; historical orders retain their original prices.
 
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 25 in progress · 29 not started · 1 conditional · 1 deferred |
-| Latest source round | R013 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 140 passed · control/native/relay source subsets only |
+| Implementation tasks | 26 in progress · 28 not started · 1 conditional · 1 deferred |
+| Latest source round | R014 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 156 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
+
+R014 adds order-local budget transactions: reserve an original purpose once, consume the actual amount from an existing immutable trade qualification, or release on a qualified zero. Parent-row updates keep ordinary SQL concurrency and stale higher-isolation snapshots from overbooking. Forward migration 006 adds eight columns; all legacy reservation states remain fully held as unverified, and inconsistent history aborts the upgrade. Capacity is not a wallet, paid funds, route/lease admission or GPU release. Qualified-source generation and production admission integration remain pending. See [OBC-001–017](docs/技术开发/附录-订单预算预留与资格化消耗实施细则.md), [current R014 source evidence](dev/tests/evidence/R014-验证报告.md) and [all 56 tasks/222 open steps](dev/progress/R014-本轮实现与完整待办.md).
 
 R013 fixes cancellable native metadata admission, pre-SQL cancellation poisoning, transaction-time lease extension and backend deadline drift. MetadataTimeout now has an independent 2s default per operation (20ms–5s), capped by shutdown deadlines; signed leases and backend call limits are unchanged. Repeated identical mappings and already-persisted stop phases avoid redundant writes. Durable cleanup completion wakes shutdown after slot release, preventing false poll-based timeouts without extending the deadline. Five controlled negative regressions and their failed attempts are retained; current native/full and browser evidence is reported separately. The CLI still enables no inference or hardware qualification. See [NMD-001–013](docs/技术开发/附录-原生元数据事务与执行截止修正.md), [R013 source evidence](dev/tests/evidence/R013-验证报告.md), [current UI evidence](dev/tests/evidence/R013-frontend-checks.json) and [all 56 tasks/222 open steps](dev/progress/R013-本轮实现与完整待办.md).
 
@@ -65,17 +67,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R013/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R014/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R013/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R014/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R013/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R014/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R013/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R013/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R014/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R014/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R013/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R014/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R013/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R013/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R013/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R013/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R014/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R014/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R014/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R014/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 
@@ -193,13 +195,15 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # Disposable loopback PostgreSQL -> real tests -> instance stopped
-python -X utf8 dev/tools/核验原生源码.py --round R013
-python -X utf8 dev/tools/原生数据库验证.py --round R013
-python -X utf8 dev/tools/核验前端源码.py --round R013
-python -X utf8 dev/tools/整理原生验证证据.py --round R013
+python -X utf8 dev/tools/核验原生源码.py --round R014
+python -X utf8 dev/tools/原生数据库验证.py --round R014
+python -X utf8 dev/tools/核验前端源码.py --round R014
+python -X utf8 dev/tools/整理原生验证证据.py --round R014
 ```
 
-These commands explicitly target R013 and preserve earlier evidence. The strict consolidator rejects failed current runs; the historical R012 helper cannot substitute for R013 full validation. Build the frontends and native binary before database/browser integration. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+These commands explicitly target R014 and preserve earlier evidence. The full runner isolates core, Web and H5 into three sequential Go processes, with freshly migrated and subsequently dropped native databases for each browser journey; all 156 unique top-level IDs and both browser children must pass, with existing business and package deadlines retained. The strict consolidator rejects failed current runs; the historical R012 helper cannot substitute for R014 full validation. Build the frontends and native binary before database/browser integration. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+
+Optional financial subset: `python -X utf8 dev/tools/原生数据库验证.py --round R014 --suite budget` writes separate `R014-budget-*` evidence. It cannot replace all 156 regression cases or product acceptance.
 
 ## Intended buyer and seller usage
 

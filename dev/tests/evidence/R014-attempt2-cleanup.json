@@ -1,0 +1,10 @@
+{
+  "round": "R014",
+  "recorded_at": "2026-10-30T09:38:19.486601+00:00",
+  "native_summary": "dev/tests/evidence/R014-native-summary-attempt2.json",
+  "native_instance_stopped": true,
+  "browser_check": "Native Win32 process inventory for Edge/Chrome whose command line contains this project runtime frontend-browser path",
+  "remaining_matching_processes": 0,
+  "failed_h5_success_receipt_reused": false,
+  "virtualization_used": false
+}

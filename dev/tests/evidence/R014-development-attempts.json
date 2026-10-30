@@ -1,0 +1,74 @@
+{
+  "round": "R014",
+  "attempts": [
+    {
+      "id": "R014-ATTEMPT-001",
+      "result": "FULL_BUILD_AND_SIX_EXISTING_CASE_FAILURES",
+      "evidence": "dev/tests/evidence/R014-native-go-tests-attempt1.jsonl",
+      "sha256": "c87f6add35932f558c74197606289960344a1eb70d721198f3d615263e3da584",
+      "summary": "dev/tests/evidence/R014-native-summary-attempt1.json",
+      "passed_top_level": 101,
+      "failed_top_level": 6,
+      "missing_integration_package": "BUILD_FAILED",
+      "observed": "The new financial fixture reversed CreateQuote input/key arguments, so budget/integration cases did not execute. Six prior supervisor deadline/shutdown cases also failed; no root cause is inferred from host load. The disposable database stopped. No current full pass."
+    },
+    {
+      "id": "R014-ATTEMPT-002",
+      "result": "BUDGET_FIXTURE_FAILURE",
+      "evidence": "dev/tests/evidence/R014-budget-native-go-tests-attempt1.jsonl",
+      "sha256": "04be4501d0582b5b8e3a3224e26840c8babc3157c3a57738bed42527a78c4976",
+      "summary": "dev/tests/evidence/R014-budget-native-summary-attempt1.json",
+      "passed_top_level": 1,
+      "failed_top_level": 15,
+      "observed": "Synthetic job fixture reused one PostgreSQL parameter across entity_id and text domains (42P08). Upgrade fixture changed pgx Config.Database but reused its original ConnString and reopened the parent database; old migration set correctly refused unknown version 6. Both fixture errors corrected; no migration-version guard or financial limit relaxed. Disposable native instance stopped."
+    },
+    {
+      "id": "R014-ATTEMPT-003",
+      "result": "PASSED_BUDGET_SUBSET_ONLY",
+      "evidence": "dev/tests/evidence/R014-budget-native-go-tests.jsonl",
+      "sha256": "aac40dabf3ad31626991af369f864939fe5abed699853d237242b904f982f44a",
+      "summary": "dev/tests/evidence/R014-budget-native-summary.json",
+      "passed_top_level": 16,
+      "failed_top_level": 0,
+      "observed": "Real native PostgreSQL budget subset passed after fixture repairs. Includes buyer signer and VALID delivery checks. Full 156-case regression remains independently required. No real funding, GPU, phone or qualified-source producer exercised. Owned database stopped."
+    },
+    {
+      "id": "R014-ATTEMPT-004",
+      "result": "FULL_API_SHARED_TEST_CONTEXT_EXPIRED",
+      "evidence": "dev/tests/evidence/R014-native-go-tests-attempt2.jsonl",
+      "sha256": "43b5a57a08774aa4412f1717e5f9d02a698b2b0e9d2684ef1e3ae22448a88b51",
+      "summary": "dev/tests/evidence/R014-native-summary-attempt2.json",
+      "passed_top_level": 152,
+      "failed_top_level": 4,
+      "observed": "All 16 budget cases and all native supervisor cases passed. API TestMain has a shared 220s context. A 191.67s two-browser journey exhausted its remaining lifetime; the miniapp child was terminated and three following DB fixtures immediately received context deadline exceeded. Final full acceptance is still failed. Runner isolation will separate core, Web and H5 processes without changing business, lease, cleanup, per-page or package timeouts. Owned native DB stopped."
+    },
+    {
+      "id": "R014-ATTEMPT-005",
+      "result": "CORE_PASSED_BROWSER_FIXTURE_DATA_CONTAMINATION",
+      "evidence": "dev/tests/evidence/R014-native-go-tests-attempt3.jsonl",
+      "sha256": "55c572b360c7ef7b30c016b6685f39b58263be2496921dbd78b8aeb974991b4e",
+      "summary": "dev/tests/evidence/R014-native-summary-attempt3.json",
+      "passed_top_level": 155,
+      "failed_top_level": 1,
+      "failed_browser_children": 2,
+      "observed": "The isolated core process passed all 155 selected cases. Web and H5 both failed selecting their seeded market offer after reusing the core database; accumulated unrelated qualified offers occupied the first page. Both browser receipts confirm closure. Give each browser process an independently migrated empty database within the SAME owned disposable native PostgreSQL cluster. No selection/page/SQL/lease/cleanup timeout changes. Owned instance stopped."
+    },
+    {
+      "id": "R014-ATTEMPT-006",
+      "result": "PASSED_FULL_UNIQUE_156_WITH_ISOLATED_BROWSER_DATABASES",
+      "evidence": "dev/tests/evidence/R014-native-go-tests.jsonl",
+      "sha256": "e815effcbb882cf70babe3318912adae316d5fbf4ea8d20e07fb270cac064886",
+      "summary": "dev/tests/evidence/R014-native-summary.json",
+      "passed_top_level": 156,
+      "failed_top_level": 0,
+      "observed": "Core, Web and H5 processes all passed with original business and package deadlines. Both browser databases independently migrated and were dropped; all owned browser contexts closed and native instance stopped. The strict consolidator rejects every raw failure or test skip and verifies all 156 unique top-level IDs plus both browser children. No real funding/GPU/phone/E2E acceptance."
+    }
+  ],
+  "limits": "Failures are retained. Synthetic READY, qualification and usage fixtures do not establish channel, GPU, payment, E2E or LP/PE acceptance. Existing lease/cleanup limits are not relaxed.",
+  "virtualization_used": false,
+  "related_cleanup_and_browser_evidence": [
+    "dev/tests/evidence/R014-attempt2-cleanup.json",
+    "dev/tests/evidence/R014-web-browser-attempt3.json",
+    "dev/tests/evidence/R014-miniapp-browser-attempt3.json"
+  ]
+}

@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 128,
+  "catalog_statements": 136,
   "base_table_count": 60,
   "tables": [
     {
@@ -3727,6 +3727,90 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "budget_reserved_fen",
+          "sql": "budget_reserved_fen p11.money_fen NOT NULL DEFAULT 0",
+          "type": "p11.money_fen",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "budget_reserved_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 0",
+              "columns": [
+                "budget_reserved_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
+        },
+        {
+          "name": "budget_consumed_fen",
+          "sql": "budget_consumed_fen p11.money_fen NOT NULL DEFAULT 0",
+          "type": "p11.money_fen",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "budget_consumed_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 0",
+              "columns": [
+                "budget_consumed_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
+        },
+        {
+          "name": "budget_unverified_fen",
+          "sql": "budget_unverified_fen p11.money_fen NOT NULL DEFAULT 0",
+          "type": "p11.money_fen",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "budget_unverified_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 0",
+              "columns": [
+                "budget_unverified_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
         }
       ],
       "constraints": [
@@ -3778,7 +3862,18 @@
           "columns": [],
           "deferrable": false,
           "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "order_budget_capacity",
+          "sql": "CONSTRAINT order_budget_capacity CHECK (CAST(budget_reserved_fen AS numeric) + CAST(budget_consumed_fen AS numeric) + CAST(budget_unverified_fen AS numeric) <= max_amount_fen)",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
       ]
     },
     {
@@ -4148,6 +4243,108 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "accounting_profile",
+          "sql": "accounting_profile text NOT NULL DEFAULT 'LEGACY_UNVERIFIED' CHECK (accounting_profile IN ('LEGACY_UNVERIFIED', 'ORDER_CAPACITY_1'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "accounting_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'LEGACY_UNVERIFIED'",
+              "columns": [
+                "accounting_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (accounting_profile IN ('LEGACY_UNVERIFIED', 'ORDER_CAPACITY_1'))",
+              "columns": [
+                "accounting_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
+        },
+        {
+          "name": "purpose_kind",
+          "sql": "purpose_kind text CHECK (purpose_kind IN ('JOB', 'RENTAL_SESSION'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (purpose_kind IN ('JOB', 'RENTAL_SESSION'))",
+              "columns": [
+                "purpose_kind"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
+        },
+        {
+          "name": "consumed_fen",
+          "sql": "consumed_fen p11.money_fen",
+          "type": "p11.money_fen",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
+        },
+        {
+          "name": "qualification_id",
+          "sql": "qualification_id p11.entity_id REFERENCES p11.trade_qualifications (id) UNIQUE",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.trade_qualifications (id)",
+              "columns": [
+                "qualification_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "trade_qualifications",
+              "target_columns": [
+                "id"
+              ]
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "qualification_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
+        },
+        {
+          "name": "resolved_at",
+          "sql": "resolved_at timestamptz",
+          "type": "timestamptz",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
         }
       ],
       "constraints": [
@@ -4161,7 +4358,18 @@
           ],
           "deferrable": false,
           "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "budget_resolution_shape",
+          "sql": "CONSTRAINT budget_resolution_shape CHECK ((accounting_profile = 'LEGACY_UNVERIFIED' AND purpose_kind IS NULL AND consumed_fen IS NULL AND qualification_id IS NULL AND resolved_at IS NULL) OR (accounting_profile = 'ORDER_CAPACITY_1' AND purpose_kind IS NOT NULL AND ((state = 'RESERVED' AND consumed_fen IS NULL AND qualification_id IS NULL AND resolved_at IS NULL) OR (state = 'CONSUMED' AND consumed_fen IS NOT NULL AND consumed_fen > 0 AND consumed_fen <= amount_fen AND qualification_id IS NOT NULL AND resolved_at IS NOT NULL) OR (state = 'RELEASED' AND consumed_fen IS NOT NULL AND consumed_fen = 0 AND qualification_id IS NOT NULL AND resolved_at IS NOT NULL))))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/006_order_budget_capacity.sql"
       ]
     },
     {
@@ -16790,6 +16998,21 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "budget_reservations",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.trade_qualifications (id)",
+      "columns": [
+        "qualification_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "trade_qualifications",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -16910,6 +17133,22 @@
         "AlterTableStmt",
         "CreateStmt",
         "IndexStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql",
+      "source_sha256": "c4293dcaafbf9f4fe397d25cf593742621972b1b05cd4e08f58fd3cb7bfe24b1",
+      "statement_count": 8,
+      "statement_types": [
+        "AlterTableStmt",
+        "AlterTableStmt",
+        "UpdateStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateTrigStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt"
       ],

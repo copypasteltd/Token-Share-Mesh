@@ -29,3 +29,7 @@ evidence_ids/asset_ids等数组须服务层逐项验证引用和权限；需要�
 ## R005前向申请与挂牌记录
 
 [004_seller_listing_records.sql](migrations/004_seller_listing_records.sql)新增seller_applications/listing_definitions及6个前向字段，当前64表/613列；申请、定义、同意追加不可变。001—003保原字节；source-v4.json记录精确副本。新表和ALTER新增列合并到结构目录，静态构建不执行SQL；[实际局部证据](../../../dev/tests/evidence/R005-验证报告.md)与[限制](../附录-卖家申请与挂牌版本实施约束.md)分开。旧批准地区默认空、型号/挂牌定义不推测补造，历史迁移仍须独立验证。
+
+## R014订单容量前向006
+
+[006_order_budget_capacity.sql](migrations/006_order_budget_capacity.sql)为orders与budget_reservations追加8列和原子守恒/终态/资格来源约束，仍65表。001—005及端侧SQLite DDL保持原字节，source-v6.json记录嵌入副本。原预算任意状态均全额保留为未核实占用；历史总额超订单上限则整笔升级失败，不推测零费或释放。预算SQL事务primitive不能替代当前身份、渠道资金、路由授权或执行owner；完整依据见[OBC细则](../附录-订单预算预留与资格化消耗实施细则.md)。

@@ -90,6 +90,8 @@ def main():
             text+='**当前补充验证受限：**初次完整134项通过已发布；字段修复仅改转发包三份Go文件，当前20项转发通过，114项仅复用不可变相同源码对照。末次全量7项已有短时限用例失败，串行诊断另有6项失败，全部保留，不能表述为当前全量通过。主机负载只是观察，未证明逐项原因；时限/清理规则未放宽，稳定性继续列DEV-53待办。\n\n'
     if progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R013':
         text+='R013修正可取消元数据门闩、SQL开始前误毒化、事务耗时延租和实际后端截止漂移；新增独立逐步骤MetadataTimeout默认2秒并受退出绝对截止约束，减少相同映射/已失权停止状态重复写；持久清理完成并释放内部占用后唤醒退出，避免轮询误判超时。原签名租期、后端调用上限及清理owner CAS保持。五项初始受控失败及中途失败均保留；完整140项、当前双端浏览器/Windows命令及未变前端21项/三构建摘要分别登记，不冒称真实GPU、内核、资金、内容E2E或LP/PE验收。31/93操作、65表、001—005及端侧DDL原字节保持，全56任务/222未收口子项、80/96未执行与DEV-55延后保留。\n\n'
+    if progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R014':
+        text+='R014补齐订单容量事务：原用途一次预留、父行原子计数、已有不可变资格的实际消耗/已确认零额释放、未知保留、SQL旁路与旧快照关闭，以及001—005到006的保守历史升级。新添8列，仍31/93操作、65表；旧迁移和端侧DDL原字节保持。新增16项原生用例，完整156项结果以当轮证据为准；前端21项/三构建仅字节一致复核，双端浏览器与Windows命令另跑。预算不是钱包/已付/执行权，真实资格生产、资金/路由准入及完整硬件/E2E/LP/PE仍待。全部56任务222未收口子项、80/96未执行与DEV-55延后保留。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'

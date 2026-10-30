@@ -1,5 +1,9 @@
 # Usage / 使用指南
 
+## R014 order capacity / 订单容量
+
+Trusted application transactions can compose `budget.ReserveTx`, `CompleteTx`, `LookupTx` and `SnapshotTx`. Authenticate and check actual funding/route/lease eligibility independently before execution. Complete takes an existing original qualification reference, never a client amount or usage candidate. On unknown commit query the original purpose. / 容量不是钱包或已付证明；未知保留、旧数据保守持有，见[OBC细则](../../docs/技术开发/附录-订单预算预留与资格化消耗实施细则.md)。
+
 ## R013 native metadata / 元数据与执行截止
 
 Trusted supervisor embeddings may set Options.MetadataTimeout (default 2s, 20ms–5s) independently of CallTimeout. Each metadata step gets its own budget, capped by an earlier shutdown deadline. The CLI exposes no engine or public execution listener. See [NMD-001–013](../../docs/技术开发/附录-原生元数据事务与执行截止修正.md) and [current native evidence](../tests/evidence/R013-验证报告.md).

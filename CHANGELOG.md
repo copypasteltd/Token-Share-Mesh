@@ -1,5 +1,14 @@
 # Changelog
 
+## R014 — Order capacity reservations and qualified consumption
+
+- Add SQL-only reserve/complete/lookup/snapshot transactions bound to the original order, buyer, seller, contract and purpose. They compose with caller intents and never authorize payment or execution.
+- Update the parent order atomically; enforce capacity and immutable bindings for service and direct SQL writers, including stale repeatable-read snapshots.
+- Consume only existing immutable trade qualifications linked to original verified usage, accepted delivery or final rental meter. Caller amounts, unknown usage and disconnected streams cannot release holds.
+- Add forward-only 006 with eight columns and conservative legacy occupancy; inconsistent historical totals abort the entire upgrade. Keep 001–005 and native SQLite DDL byte-identical.
+- Register 16 native budget/concurrency/upgrade cases and strict 156-case full evidence; isolate core/Web/H5 processes and browser fixture databases without extending deadlines, and retain failures separately. Refresh current browser/native CLI media and exact-hash reused frontend receipts, bilingual docs and all 56 tasks/222 open steps.
+- Keep 31/93 control operations and 65 tables; funding/route admission, real qualified-source generation, engines, payments and E2E/LP/PE acceptance remain pending. No local virtualization or deployment/observability work.
+
 ## R013 — Native metadata and execution deadlines
 
 - Make metadata waiters cancellable; cancellation before SQL preserves the healthy original-owner ledger. SQL/commit ambiguity still closes the gate.

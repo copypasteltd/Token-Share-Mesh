@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/006_order_budget_capacity.sql",
+  "source_sha256": "c4293dcaafbf9f4fe397d25cf593742621972b1b05cd4e08f58fd3cb7bfe24b1",
+  "migration": "006_order_budget_capacity.sql",
+  "migration_sha256": "c4293dcaafbf9f4fe397d25cf593742621972b1b05cd4e08f58fd3cb7bfe24b1",
+  "policy": "006 forward-only R014 order capacity; 001-005 and native client DDL unchanged; unknown legacy capacity retained"
+}

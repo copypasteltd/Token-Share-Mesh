@@ -1,0 +1,34 @@
+{
+  "round": "R014",
+  "target": "web",
+  "passed": false,
+  "buyer_id": "usr_d0c2d8ab0cbb0a3618830077f6c32293",
+  "order_id": "",
+  "browser_closed": true,
+  "remaining_owned_tabs": 0,
+  "assertions": [
+    "Signed synthetic OAuth -> real HttpOnly session; one-time proof removed from URL/storage"
+  ],
+  "screenshots": [
+    {
+      "path": "dev/media/R014/screenshots/web-market.png",
+      "sha256": "909fa499fcd4c2725b792e0eed84337db90d4f3ba46fc163c630cfd9918a4a46",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    }
+  ],
+  "recording": null,
+  "scope": "Actual compiled UI/HTTP/DB with synthetic OAuth/qualification/device heartbeats; H5 is not native Alipay validation; no payment, device or inference execution",
+  "virtualization_used": false,
+  "browser_version": "156.0.4314.50",
+  "failure": "locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-listing-id=\"lst_09c18c1560fdb9d09f2bfc59d8f3ad3b\"]') to be visible\u001b[22m\n\n    at choose (E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tools\\frontend\\browser.mjs:140:15)\n    at E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\dev\\tools\\frontend\\browser.mjs:166:9",
+  "build_receipt_sha256": {
+    "runtime/frontend/check-receipt.json": "d92c361ea4c0c164b6c029cebbe3c022e6cf495278dc887a3d59a6a749676202",
+    "runtime/frontend/test-receipt.json": "dec326901f686fafe4bf030ae1fcccae586d8292de2724c2a9e05af46e95dae8",
+    "runtime/frontend/build-receipt.json": "8c97ae8a7f35f68f13ee5bbc7b4552dd31e9ed7bee19237e6e5f542d73f22743"
+  }
+}

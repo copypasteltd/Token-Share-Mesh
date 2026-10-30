@@ -1,5 +1,9 @@
 # System design / 系统方案
 
+## R014 capacity accounting / 订单容量
+
+Order-local counters conserve maximum = reserved + consumed + unverified + remaining. Forward 006 makes parent updates and reservation outcomes atomic, preserves legacy uncertainty, and binds consumption to an existing immutable trade qualification and original purpose. / 不由转发usage、HTTP EOF或取消推导费用/释放，不发送渠道付款、退款或执行授权。见[OBC-001—017](../../docs/技术开发/附录-订单预算预留与资格化消耗实施细则.md)。
+
 R011 implementation: [native supervisor and backend recovery](../../docs/技术开发/附录-原生执行监督与后端恢复实施细则.md). A bounded watchdog uses the existing SQLite owner/fences, frozen backend bindings and original command IDs. Control drain/revocation closes admission and waits for confirmed stop/cleanup. Synthetic metadata adapters do not prove production engines, process isolation, E2E or GPU performance. Platform remains 31/93 operations and 65 tables.
 
 R011实施为执行监督循环与原生控制联动；原请求恢复期间的提供方资料加载时序已在Web/Taro修正。真实内核、完整KernelRegistry、内容加密/支付及56任务/222子项仍待收口。
