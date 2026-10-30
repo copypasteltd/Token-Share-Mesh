@@ -13,7 +13,7 @@ MODULE_ROWS = [
  (3,"目录证据","资格/许可工程","catalog",11,"evidence capabilities catalog_entries","CapabilityQualification LicenseReview ProfileCatalog",[1]),
  (4,"合同订单路由预算","交易后端","orders",5,"quotes orders route_contracts budget_reservations","QuoteService OrderService RouteContractService BudgetReservation",[1,2,3]),
  (5,"支付退款适配","支付工程","payments",13,"payments refunds channel_requests","PaymentIntent ChannelQuery RefundCommand",[1,4]),
- (6,"调度资源租约","调度工程","dispatch",6,"devices resources resource_locks jobs attempts execution_leases deliveries acceptances","Admission ResourceArbiter AttemptLease Fence",[3,4,5]),
+ (6,"调度资源租约","调度工程","dispatch",6,"devices device_request_nonces resources resource_locks jobs attempts execution_leases deliveries acceptances","Admission ResourceArbiter AttemptLease Fence",[3,4,5]),
  (7,"桌面执行客户端","Windows/Linux工程","desktop",9,"","AgentLifecycle LocalInbox RuntimeSupervisor KernelRegistry NodeAllowlistInstaller AdapterSupervisor",[6,9]),
  (8,"Android客户端","Android工程","android",10,"","LmaDerivedApp PlatformBridge ShareService InferenceGate MobileAdapter",[6,9]),
  (9,"兼容明文网关内核","网关工程","relay",7,"","ProfileValidator DialectAdapter BoundRelayCore",[4,6]),

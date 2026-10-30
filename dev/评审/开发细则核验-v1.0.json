@@ -7,7 +7,7 @@
   "steps": 222,
   "constraints": 47,
   "control_operations": 93,
-  "tables": 64,
+  "tables": 65,
   "requirements": 80,
   "acceptance_cases": 80,
   "current_tasks": 55,
@@ -15,10 +15,10 @@
   "checks": 49,
   "markdown_files": 30,
   "generated_files": 30,
-  "local_links": 6779,
-  "product_source_files": 93,
+  "local_links": 6786,
+  "product_source_files": 105,
   "product_tests": "NOT_EXECUTED",
-  "source_hashes_checked": 52,
+  "source_hashes_checked": 53,
   "errors": [],
   "details": [
     {
@@ -209,13 +209,13 @@
     },
     {
       "id": "VFY-032",
-      "title": "64 数据表连续唯一",
+      "title": "65 数据表连续唯一",
       "status": "PASSED",
       "details": ""
     },
     {
       "id": "VFY-033",
-      "title": "64 表各有唯一权威模块，无遗漏/重叠",
+      "title": "65 表各有唯一权威模块，无遗漏/重叠",
       "status": "PASSED",
       "details": ""
     },

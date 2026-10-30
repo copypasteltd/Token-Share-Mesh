@@ -160,6 +160,7 @@
     "auth_sessions": "DATA-061",
     "auth_attempts": "DATA-062",
     "seller_applications": "DATA-063",
-    "listing_definitions": "DATA-064"
+    "listing_definitions": "DATA-064",
+    "device_request_nonces": "DATA-065"
   }
 }

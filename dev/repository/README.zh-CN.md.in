@@ -16,29 +16,37 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 
 {{status_table}}
 
-当前64领域表、23/93个控制操作。R006新增双端实际控制页面、共享DTO/金额预览/状态模型、明确原生授权证明档及有界响应读取；原有卖家申请、同意、挂牌未来修订/ETag继续保留。45项Go原生用例和13项共享TS用例通过；双端浏览器实际连HTTP与临时数据库，丢失回执后原键恢复、数据库各确认一单一事件。支付宝原生仅编译，真实授权/审核/支付/设备、完整挂牌编辑和开发者配对仍未完成。见[原生证据](dev/tests/evidence/R006-验证报告.md)、[前端证据](dev/tests/evidence/R006-frontend-checks.json)、[双端实施细则](docs/技术开发/附录-双端交易页面与授权恢复实施约束.md)及[全部56项进度](dev/progress/README.md)。
+当前65领域表、31/93个控制操作。R007新增一次性配对、登记恢复、设备签名与持久nonce防重放、单调心跳、共享策略和停止撤销；配对默认不共享，心跳不自授资格，撤销不释放在途资源owner/代次。60项Go原生用例与13项共享TS用例通过，双端浏览器实际连HTTP/临时数据库并核对原键恢复后各一单一事件。支付宝原生仅编译；真实授权/审核/支付、完整原生执行端和本机密钥存储仍待完成。见[原生证据](dev/tests/evidence/R007-验证报告.md)、[前端回归](dev/tests/evidence/R007-frontend-checks.json)、[设备控制细则](docs/技术开发/附录-设备配对身份与控制协议实施约束.md)及[全部56项进度](dev/progress/README.md)。
 
 新价合同把AVAILABLE_HOUR的hour_rate，或TOKEN_1M的input_rate/output_rate明确分开；每项均含整数分子/正整数分母、费用承担、佣金和取整版。360分/小时的30分钟最坏180分；80分/M输入加160分/M输出，1M输入与0.25M输出共120分。报价冻结卖家、环境、政策、价格及预算，建单复核后只进入WAITING_PAYMENT；订单、报价消费、同意审计和outbox同事务。它不代表已支付、已锁GPU或已执行。350分/小时不能舍入写进旧整数分/分钟列。
 
 ## 当前身份与HTTP使用逻辑
 
-本机控制命令为`p11-api`，先显式配置所选开发数据库、应用身份和密钥文件并执行迁移；[完整环境变量及调用顺序](dev/repository/USAGE.md)提供步骤。命令只监听loopback，不自动启用任何测试登录、模型或支付。实际23路由由[源码登记](dev/src/api/internal/http/routes.json)驱动，与93操作权威契约逐项核对；其余操作仍待开发。
+本机控制命令为`p11-api`，先显式配置所选开发数据库、应用身份和密钥文件并执行迁移；[完整环境变量及调用顺序](dev/repository/USAGE.md)提供步骤。命令只监听loopback，不自动启用任何测试登录、模型或支付。实际31路由由[源码登记](dev/src/api/internal/http/routes.json)驱动，与93操作权威契约逐项核对；其余操作仍待开发。
 
-卖家申请只到SUBMITTED，不自动授予SELLER或开售。新挂牌要求已批准地区、本人具体型号/能力及显式平台费用配置；修改只产生未来修订，保留已售合同。退出只停新准入，原资金和资源记录等待各自善后。真实卖家审核、设备配对、受控发布与卖家写流程页面仍是待办。
+卖家申请只到SUBMITTED，不自动授予SELLER或开售。新挂牌要求已批准地区、本人具体型号/能力及显式平台费用配置；修改只产生未来修订，保留已售合同。退出只停新准入，原资金和资源记录等待各自善后。设备配对/登记已提供控制API；真实卖家审核、物理设备资格、原生执行端、受控发布与配对/卖家写页面仍是待办。
 
 原生小程序显式选ALIPAY_NATIVE_NONCE_1：服务端签发32字节一次性随机证明、数据库仅存摘要，再my.getAuthCode→POST兑换→仅内存保留Bearer；重启重新授权。它不冒称客户端PKCE，不使用Math.random或时间戳。命令号由独立内存种子与HMAC计数派生，不作内容密钥。Web/H5使用WebCrypto S256、绑定Cookie/state及实际回调，兑换后会话只在HttpOnly/Strict Cookie，写操作另带Origin/CSRF；回调即删URL参数及临时证明。登录不等于KYC/卖家资格，新账号只获BUYER；未知兑换重新授权，不重发原码。
 
 当前HTTP及页面交易止于市场查询→报价冻结→本人确认建单→读取WAITING_PAYMENT订单。未知写按账号保存原键/原参数，刷新后核对原请求；会话/角色撤销在服务端回放前再次核查，API key不能代购。尚无推理HTTP入口或付款成功处理，完整前端仍在推进。
 
+## 提供方设备控制的实际使用逻辑
+
+先以合格卖家本人会话创建配对，5分钟凭据只显示一次；本机生成独立Ed25519安装钥，携配对凭据提交公钥、系统、发行版、资源类型与具体型号（如摩托罗拉 X30）。登记仅到PAIRED，共享关闭。相同原登记键/原字段可恢复一个设备，不重显秘密；重新安装必须生成新钥和新配对。
+
+设备后续以P11_DEVICE_ED25519_1签入方法、Host、精确URI、原正文摘要、幂等键、If-Match和Content-Type，时间±60秒，nonce持久去重。控制身份与客户内容加密钥分离；本项目封装不是标准HTTP Message Signatures。Go调用库提供NewClient→Prepare→Send→Close；写回执未知只按原Prepare显式恢复，每次使用新签名，不自动重试或换命令号。主人通过本人会话设置时段/单槽/磁盘和手机电量、温度、充电条件；修改须强ETag。停止/撤销先关新准入，原任务仍须执行端真实停算清理，不因心跳或断线释放GPU锁。
+
+API新增独立P11_DEVICE_PAIRING_PEPPER_FILE，未配置关闭配对，不借用登录或API key秘密。完整本机daemon、Windows/Linux原生密钥存储、探测/许可/内核执行、LMA接入与提供方页面尚待完成；当前调用库不代表已经能出租设备。详见[双语使用步骤](dev/repository/USAGE.md)与[完整协议](docs/技术开发/附录-设备配对身份与控制协议实施约束.md)。
+
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R007/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R007/screenshots/miniapp-market.png)
 
-![实际Taro H5报价与丢回执恢复操作录制](dev/media/recordings/miniapp-transaction.gif)
+![实际Taro H5报价与丢回执恢复操作录制](dev/media/R007/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/recordings/web-transaction.gif) · [订单待确认](dev/media/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R007/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R007/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R007/recordings/web-transaction.gif) · [订单待确认](dev/media/R007/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 
@@ -156,12 +164,12 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # 临时 loopback PostgreSQL → 真实测试 → 确认关闭
-python -X utf8 dev/tools/原生数据库验证.py --round R006
-python -X utf8 dev/tools/核验原生源码.py --round R006
-python -X utf8 dev/tools/整理原生验证证据.py --round R006
+python -X utf8 dev/tools/原生数据库验证.py --round R007
+python -X utf8 dev/tools/核验原生源码.py --round R007
+python -X utf8 dev/tools/整理原生验证证据.py --round R007
 ```
 
-后三条生成当前源码的R006范围证据，保留R001/R003/R004/R005历史记录。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
+后三条生成当前源码的R007范围证据，保留R001/R003/R004/R005/R006历史记录。直接运行 `go test` 而未配置数据库时，数据库场景会明确跳过，不能当原生集成通过。Linux admin/API命令仅交叉编译，尚无Linux运行或GPU验收结论。对明确选择的PostgreSQL17，可用`P11_DATABASE_URL`环境变量运行`migrate`、`check-schema`，见[详细使用及恢复说明](dev/repository/USAGE.md)。
 
 ## 买卖双方未来使用逻辑
 

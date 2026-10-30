@@ -74,6 +74,8 @@ def main():
         text+='R005已实现本人卖家申请、同意与未来挂牌控制：23/93操作、64表；43项实际局部测试通过，临时数据库已停止。申请/提交不自批或自动开售，真实审核/渠道/设备/前端和完整执行链仍待完成；全部56任务/222未收口子项保留，80主验收及96完整场景未执行。\n\n'
     elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R006':
         text+='R006已实现React/Taro支付宝编译页面、React/Vite Web和共享控制逻辑，实际交易到等待付款，卖家页面只读、配对/付款关闭。45项Go用例（含Web/Taro H5浏览器子场景）及13项TS用例通过，原请求恢复后各一单一事件；浏览器与临时数据库已停止。支付宝原生只编译，真实授权/设备/资金/密码和完整平台仍未验收；23/93操作、64表，全部56任务/222未收口子项、六项NB缺口和80/96未执行状态保留。\n\n'
+    elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R007':
+        text+='R007已实现一次性配对/登记恢复、设备逐请求签名与持久nonce、单调心跳、共享策略/停止撤销和可复用原生控制库；31/93操作、65表。60项Go局部用例及既有13项TS/三目标构建证据、双端实际浏览器回归通过，临时数据库/自建浏览器关闭。完整原生执行端/系统密钥存储/探测/资格/内核/资金仍待完成；停止撤销不释放在途owner/代次，配对与心跳不自授可售。全部56任务/222未收口子项、六项NB缺口和80/96未执行状态保留。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'

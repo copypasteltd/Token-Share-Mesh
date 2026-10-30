@@ -1,7 +1,7 @@
 {
-  "round": "R006",
+  "round": "R007",
   "kind": "ACTUAL_COMPILED_PRODUCT_UI_WITH_EXPLICIT_SYNTHETIC_FIXTURES",
-  "evidence": "dev/tests/evidence/R006-frontend-checks.json",
+  "evidence": "dev/tests/evidence/R007-frontend-checks.json",
   "source_sha256": {
     "dev/src/frontend/packages/core/assets/gpu.svg": "6206721a2e6ded4ce8aff6453aae7a82554eda2a5ba1e099c37826611d6a24e7",
     "dev/src/frontend/packages/core/assets/mesh.svg": "a64c2376d646d803806de9d4c3870febd568a7aba8254ad5f8746f2018ea4d6e",
@@ -46,8 +46,8 @@
   },
   "assets": [
     {
-      "path": "dev/media/screenshots/web-market.png",
-      "sha256": "bee34a973d01c8edeb29dec5bfeef0751fe403c925b58af83c194637ca6aac19",
+      "path": "dev/media/R007/screenshots/web-market.png",
+      "sha256": "08f00bd6231be6931b88ec6bcb598e9837382ab185f18e94fa08d21ece9dca7c",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -55,8 +55,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/screenshots/web-llm-detail.png",
-      "sha256": "bee34a973d01c8edeb29dec5bfeef0751fe403c925b58af83c194637ca6aac19",
+      "path": "dev/media/R007/screenshots/web-llm-detail.png",
+      "sha256": "ae7c77cee2204dc6b69aa8dbcdf5f7e7aaab85034c08b0d2f9dcc70a1a83a369",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -64,8 +64,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/screenshots/web-order-pending.png",
-      "sha256": "4569d8538c749e232a1ba7f9f920d1e24ba1e4c73df0a26af939609a7a78e770",
+      "path": "dev/media/R007/screenshots/web-order-pending.png",
+      "sha256": "4af41adf44f0d5fb0016ccd5bbd05a3ec072cd7ba03679c4e2f373baeb9eb6dc",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -73,8 +73,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/screenshots/web-order.png",
-      "sha256": "9379767dab6a3554ff123fcf9c548da3efa1bf006f57a7e971dd52286e35a7a6",
+      "path": "dev/media/R007/screenshots/web-order.png",
+      "sha256": "501ba36a8fb4c8456ffa659d36df90a93ddf3941298abf8f17345ffab95a7591",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -82,7 +82,7 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/screenshots/web-share.png",
+      "path": "dev/media/R007/screenshots/web-share.png",
       "sha256": "bfcf8c9d6753095df8f4633a6162e3921b02412f9a2c27c382a41f5cb790ad1c",
       "viewport": {
         "width": 1440,
@@ -91,16 +91,16 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/recordings/web-transaction.mp4",
-      "sha256": "8b24335b568cedb8c07c9d745377d66451213550922ff647259f26115a532a7b"
+      "path": "dev/media/R007/recordings/web-transaction.mp4",
+      "sha256": "93fd167d10efb54f711bdad8bfda9cf9ff2f46624b0a9656be776a1decc5d1d2"
     },
     {
-      "path": "dev/media/recordings/web-transaction.gif",
-      "sha256": "41e3e21817644d1cdb7b0ed8ea9a1acff48d2f6f649867d067c61d5a4a6901c5"
+      "path": "dev/media/R007/recordings/web-transaction.gif",
+      "sha256": "e5d3df646419c0398e9a08b8430ad2ac31b4c8e09af84ce3f26c42eeb9a295e7"
     },
     {
-      "path": "dev/media/screenshots/miniapp-market.png",
-      "sha256": "a27ca65e31e27292782f6e265f3ecdfcd4cff7ca884e1444c72af51a17ccc147",
+      "path": "dev/media/R007/screenshots/miniapp-market.png",
+      "sha256": "b630f6d0dd5f4de5e198ceaefed11432b053ffafcd52e17e7870225abaf405d5",
       "viewport": {
         "width": 390,
         "height": 844
@@ -108,7 +108,7 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/screenshots/miniapp-llm-detail.png",
+      "path": "dev/media/R007/screenshots/miniapp-llm-detail.png",
       "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
       "viewport": {
         "width": 390,
@@ -117,8 +117,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/screenshots/miniapp-order-pending.png",
-      "sha256": "4a20fb7586481316ee9bb26d7560d45b379b0e817fce03bdeecdd7d796668558",
+      "path": "dev/media/R007/screenshots/miniapp-order-pending.png",
+      "sha256": "061ab57e4a42e3b8f048704ef88e67bcc93c1ce5a521303e05892be0d92313a6",
       "viewport": {
         "width": 390,
         "height": 844
@@ -126,8 +126,8 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/screenshots/miniapp-order.png",
-      "sha256": "5663f3d7dc3fb9c0ddc0f4ec146737d90b2cd98b68680b7142b0497eeb376141",
+      "path": "dev/media/R007/screenshots/miniapp-order.png",
+      "sha256": "ee81f3532364a60e72abe311f278244d0ce5471dbb1facf9e6e86b6642219dd4",
       "viewport": {
         "width": 390,
         "height": 844
@@ -135,7 +135,7 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/screenshots/miniapp-share.png",
+      "path": "dev/media/R007/screenshots/miniapp-share.png",
       "sha256": "d636afe315d1f0f6b607894a81f996a81bede43bbd7d46cee582b644c99b34b3",
       "viewport": {
         "width": 390,
@@ -144,12 +144,12 @@
       "actual_ui": true
     },
     {
-      "path": "dev/media/recordings/miniapp-transaction.mp4",
-      "sha256": "5b04da53fd0190928e9e19fbab1c21eaa32bcd6e35480e33adb6ce8534580c9a"
+      "path": "dev/media/R007/recordings/miniapp-transaction.mp4",
+      "sha256": "c9fb5dd2869046c2163555242bb1cae4c28a518d76674770bbbb5b29a310450c"
     },
     {
-      "path": "dev/media/recordings/miniapp-transaction.gif",
-      "sha256": "a6f64b55a2a2e918bba0444602ba733790ca383afaed1a0ca72f584eb99e74d7"
+      "path": "dev/media/R007/recordings/miniapp-transaction.gif",
+      "sha256": "8a8f4a62ff16ecf2a65f99171e5f5d516f94e1f91bc55a4e05c919d55447853e"
     }
   ],
   "browser_closed": true,

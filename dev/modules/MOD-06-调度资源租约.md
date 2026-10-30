@@ -18,7 +18,7 @@ P11｜开发细则 v1.0｜MOD-06｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 计划路径 | dev/src/internal/dispatch |
 | 协作模块 | [MOD-03](MOD-03-目录证据.md)、[MOD-04](MOD-04-合同订单路由预算.md)、[MOD-05](MOD-05-支付退款适配.md) |
 | 应用服务 | Admission、ResourceArbiter、AttemptLease、Fence |
-| 权威表 | devices、resources、resource_locks、jobs、attempts、execution_leases、deliveries、acceptances |
+| 权威表 | devices、device_request_nonces、resources、resource_locks、jobs、attempts、execution_leases、deliveries、acceptances |
 | 适用约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-002](../docs/02-表格化需求约束.md#CON-002)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-016](../docs/02-表格化需求约束.md#CON-016)、[CON-018](../docs/02-表格化需求约束.md#CON-018)、[CON-019](../docs/02-表格化需求约束.md#CON-019)、[CON-020](../docs/02-表格化需求约束.md#CON-020)、[CON-021](../docs/02-表格化需求约束.md#CON-021)、[CON-022](../docs/02-表格化需求约束.md#CON-022)、[CON-032](../docs/02-表格化需求约束.md#CON-032)、[CON-033](../docs/02-表格化需求约束.md#CON-033)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-044](../docs/02-表格化需求约束.md#CON-044)、[CON-046](../docs/02-表格化需求约束.md#CON-046) |
 | 核心规范 | [06-调度资源锁与执行租约.md](../../docs/技术开发/06-调度资源锁与执行租约.md) |
 

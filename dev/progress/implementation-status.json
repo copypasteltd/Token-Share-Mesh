@@ -1,9 +1,9 @@
 {
   "version": "1.0",
   "goal_status": "ACTIVE",
-  "current_activity": "SOURCE_IMPLEMENTATION_R006",
-  "activity_source": "持续完整源码目标；本轮双端控制页面、显式授权档位和未知写恢复，真实渠道/设备/资金与完整平台仍待完成。",
-  "round": "R006",
+  "current_activity": "SOURCE_IMPLEMENTATION_R007",
+  "activity_source": "持续完整源码目标；新增提供方配对/登记/签名/心跳/策略/撤销控制，完整原生执行端、系统钥库、资格与资金仍待完成。",
+  "round": "R007",
   "tasks": [
     {
       "id": "DEV-01",
@@ -20,7 +20,10 @@
         "IMP-R005-008",
         "IMP-R006-001",
         "IMP-R006-007",
-        "IMP-R006-008"
+        "IMP-R006-008",
+        "IMP-R007-003",
+        "IMP-R007-007",
+        "IMP-R007-009"
       ],
       "remaining_step_ids": [
         "DEV-01.01",
@@ -33,7 +36,9 @@
         "dev/tests/evidence/R004-验证报告.md",
         "dev/tests/evidence/R005-验证报告.md",
         "dev/tests/evidence/R006-验证报告.md",
-        "dev/tests/evidence/R006-frontend-checks.json"
+        "dev/tests/evidence/R006-frontend-checks.json",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
       "remaining_detail": "已有Go/React/Taro/Vite原生锁定工程和有限控制入口；继续全客户端/网关/调度组合、跨端构建与整体交付。"
     },
@@ -52,7 +57,8 @@
         "IMP-R005-007",
         "IMP-R005-008",
         "IMP-R006-007",
-        "IMP-R006-008"
+        "IMP-R006-008",
+        "IMP-R007-007"
       ],
       "remaining_step_ids": [
         "DEV-02.01",
@@ -66,9 +72,11 @@
         "dev/tests/evidence/R004-验证报告.md",
         "dev/tests/evidence/R005-验证报告.md",
         "dev/tests/evidence/R006-验证报告.md",
-        "dev/tests/evidence/R006-frontend-checks.json"
+        "dev/tests/evidence/R006-frontend-checks.json",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "现64表；迁移准入单独有界锁等待及实际并发回归。继续历史数据升级恢复、最小权限、旧定义/地区/型号回填与租赁分钟列有理小时迁移。"
+      "remaining_detail": "现65表，005新增设备身份/nonce/配对恢复和不可变触发器，001—004原字节不改；继续存量升级恢复、最小权限、历史地区/型号/定义回填及租赁小时迁移。"
     },
     {
       "id": "DEV-03",
@@ -91,7 +99,10 @@
         "IMP-R005-006",
         "IMP-R005-008",
         "IMP-R006-002",
-        "IMP-R006-008"
+        "IMP-R006-008",
+        "IMP-R007-001",
+        "IMP-R007-003",
+        "IMP-R007-007"
       ],
       "remaining_step_ids": [
         "DEV-03.01",
@@ -105,9 +116,11 @@
         "dev/tests/evidence/R004-验证报告.md",
         "dev/tests/evidence/R005-验证报告.md",
         "dev/tests/evidence/R006-验证报告.md",
-        "dev/tests/evidence/R006-frontend-checks.json"
+        "dev/tests/evidence/R006-frontend-checks.json",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "双端控制授权已接入，原生显式nonce仅HTTP/编译验证；继续真实支付宝真机/渠道、密钥轮换、账号合并、全部角色和配对凭据。"
+      "remaining_detail": "已有有限会话/API key/一次性配对与设备签名；继续真实支付宝渠道、密钥轮换、系统钥库、账号合并及全部角色审计。"
     },
     {
       "id": "DEV-04",
@@ -136,7 +149,8 @@
         "IMP-R005-005",
         "IMP-R005-006",
         "IMP-R005-007",
-        "IMP-R005-008"
+        "IMP-R005-008",
+        "IMP-R007-006"
       ],
       "remaining_step_ids": [
         "DEV-05.01",
@@ -145,21 +159,34 @@
         "DEV-05.04"
       ],
       "evidence_refs": [
-        "dev/tests/evidence/R005-验证报告.md"
+        "dev/tests/evidence/R005-验证报告.md",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "已有申请留档/本人投影/EXITING停新售；继续独立资格审核、本人昵称/证据投影、真实个人卖家渠道绑定、在途退款清理结算及最终CLOSED。"
+      "remaining_detail": "申请/退出已实现，退出/撤销保留在途资源owner；继续真实个人卖家审核、收款主体准入和尾单/结算闭环。"
     },
     {
       "id": "DEV-06",
-      "implementation_status": "NOT_STARTED",
-      "completed_components": [],
+      "implementation_status": "IN_PROGRESS",
+      "completed_components": [
+        "IMP-R007-001",
+        "IMP-R007-002",
+        "IMP-R007-003",
+        "IMP-R007-004",
+        "IMP-R007-005",
+        "IMP-R007-006"
+      ],
       "remaining_step_ids": [
         "DEV-06.01",
         "DEV-06.02",
         "DEV-06.03",
         "DEV-06.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
+      ],
+      "remaining_detail": "已完成配对/登记恢复、签名/nonce、心跳/策略/drain/revoke控制；继续完整原生daemon/系统钥库、出站重连、持久本地命令/恢复、实际停算清理、真机联调和重新登记流程。"
     },
     {
       "id": "DEV-07",
@@ -168,7 +195,9 @@
         "IMP-R003-002",
         "IMP-R003-007",
         "IMP-R005-004",
-        "IMP-R005-008"
+        "IMP-R005-008",
+        "IMP-R007-002",
+        "IMP-R007-004"
       ],
       "remaining_step_ids": [
         "DEV-07.01",
@@ -178,9 +207,11 @@
       ],
       "evidence_refs": [
         "dev/tests/evidence/R003-验证报告.md",
-        "dev/tests/evidence/R005-验证报告.md"
+        "dev/tests/evidence/R005-验证报告.md",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "补环境/模型/组件清单来源、审核写服务、许可与六桌面/LMA真实组合证据及失效在途处置。"
+      "remaining_detail": "登记自报型号不授资格，心跳/健康不自批；继续能力登记审查、原生环境/许可/探测/基准、版本漂移与物理/真机证据。"
     },
     {
       "id": "DEV-08",
@@ -197,7 +228,8 @@
         "IMP-R005-006",
         "IMP-R005-007",
         "IMP-R005-008",
-        "IMP-R006-003"
+        "IMP-R006-003",
+        "IMP-R007-004"
       ],
       "remaining_step_ids": [
         "DEV-08.01",
@@ -210,9 +242,11 @@
         "dev/tests/evidence/R004-验证报告.md",
         "dev/tests/evidence/R005-验证报告.md",
         "dev/tests/evidence/R006-验证报告.md",
-        "dev/tests/evidence/R006-frontend-checks.json"
+        "dev/tests/evidence/R006-frontend-checks.json",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "已有挂牌控制/市场和双端资源只读；继续受控审核发布、多能力选择、旧定义/媒体完整字段、本人挂牌编辑及真实组合。"
+      "remaining_detail": "已有未来挂牌/市场，新增设备健康/超时停准入；继续设备策略时段与真实容量调度、挂牌审核/发布和存量数据升级。"
     },
     {
       "id": "DEV-09",
@@ -225,7 +259,8 @@
         "IMP-R004-007",
         "IMP-R005-004",
         "IMP-R005-008",
-        "IMP-R006-003"
+        "IMP-R006-003",
+        "IMP-R007-004"
       ],
       "remaining_step_ids": [
         "DEV-09.01",
@@ -238,9 +273,11 @@
         "dev/tests/evidence/R004-验证报告.md",
         "dev/tests/evidence/R005-验证报告.md",
         "dev/tests/evidence/R006-验证报告.md",
-        "dev/tests/evidence/R006-frontend-checks.json"
+        "dev/tests/evidence/R006-frontend-checks.json",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "已有报价及双端正式确认；继续历史报价专用读端、所有规格/组合、真实资金和容量前置；尚无真实预留。"
+      "remaining_detail": "已有不可变价费/环境报价与健康重核；继续资金/真实容量/持久预算和全部协议规格组合预检。"
     },
     {
       "id": "DEV-10",
@@ -724,7 +761,8 @@
       "implementation_status": "IN_PROGRESS",
       "completed_components": [
         "IMP-R006-006",
-        "IMP-R006-008"
+        "IMP-R006-008",
+        "IMP-R007-005"
       ],
       "remaining_step_ids": [
         "DEV-46.01",
@@ -734,9 +772,11 @@
       ],
       "evidence_refs": [
         "dev/tests/evidence/R006-验证报告.md",
-        "dev/tests/evidence/R006-frontend-checks.json"
+        "dev/tests/evidence/R006-frontend-checks.json",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "已有Taro/Web本人资格与挂牌只读；继续申请材料、同意/退出表单、设备配对/安装确认、价格/排期编辑、真实账单结算与收益。"
+      "remaining_detail": "已有卖家只读页及后台设备配对/策略控制；继续NB页面配对/共享策略/挂牌编辑/收益的真实端联调、提供方授权安装与状态可见性。"
     },
     {
       "id": "DEV-47",
@@ -807,7 +847,10 @@
         "IMP-R003-004",
         "IMP-R003-007",
         "IMP-R004-007",
-        "IMP-R005-008"
+        "IMP-R005-008",
+        "IMP-R007-007",
+        "IMP-R007-008",
+        "IMP-R007-009"
       ],
       "remaining_step_ids": [
         "DEV-51.01",
@@ -819,9 +862,11 @@
         "dev/tests/evidence/R001-验证报告.md",
         "dev/tests/evidence/R003-验证报告.md",
         "dev/tests/evidence/R004-验证报告.md",
-        "dev/tests/evidence/R005-验证报告.md"
+        "dev/tests/evidence/R005-验证报告.md",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "继续outbox投递/消费者编排、查询/清理后台任务与跨模块事件集成及恢复；现有inbox/持久任务基础和建单outbox不等于完整事件链。"
+      "remaining_detail": "已有幂等/inbox/持久任务基础及设备安全事件事务outbox；继续发布/消费worker、重启恢复、设备停止/清理事件消费和完整后台业务联调。"
     },
     {
       "id": "DEV-52",
@@ -830,7 +875,8 @@
         "IMP-R003-002",
         "IMP-R003-007",
         "IMP-R005-004",
-        "IMP-R005-008"
+        "IMP-R005-008",
+        "IMP-R007-008"
       ],
       "remaining_step_ids": [
         "DEV-52.01",
@@ -840,9 +886,11 @@
       ],
       "evidence_refs": [
         "dev/tests/evidence/R003-验证报告.md",
-        "dev/tests/evidence/R005-验证报告.md"
+        "dev/tests/evidence/R005-验证报告.md",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "已有提交时组合证据重核；继续受控审核/发布/撤销写服务、审批权限、在途影响及真实许可/物理/渠道/密码证据；提交仍到SUBMITTED。"
+      "remaining_detail": "资格重核、撤销身份/健康关闭准入已局部覆盖；继续真实证据登记/双人受控审批/撤销广播与组合发布门槛。"
     },
     {
       "id": "DEV-53",
@@ -854,7 +902,9 @@
         "IMP-R005-006",
         "IMP-R005-008",
         "IMP-R006-002",
-        "IMP-R006-008"
+        "IMP-R006-008",
+        "IMP-R007-008",
+        "IMP-R007-009"
       ],
       "remaining_step_ids": [
         "DEV-53.01",
@@ -866,9 +916,11 @@
         "dev/tests/evidence/R004-验证报告.md",
         "dev/tests/evidence/R005-验证报告.md",
         "dev/tests/evidence/R006-验证报告.md",
-        "dev/tests/evidence/R006-frontend-checks.json"
+        "dev/tests/evidence/R006-frontend-checks.json",
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json"
       ],
-      "remaining_detail": "已有身份/CSRF/跨租户/ETag与前端账号隔离、原请求恢复、有界JSON和原生nonce负向子集；继续全部文件/配对/隐私/资金矩阵、跨端攻击与独立评审。"
+      "remaining_detail": "60项局部Go及双端浏览器回归已覆盖设备篡改/重放/撤销/并发；继续完整原生隔离/内容出口、E2E跨端独立评审、权限/攻击与真机组合验证。"
     },
     {
       "id": "DEV-54",
@@ -5751,6 +5803,1148 @@
             "dev/tests/evidence/R006-frontend-checks.json"
           ],
           "remaining_detail": "已有身份/CSRF/跨租户/ETag与前端账号隔离、原请求恢复、有界JSON和原生nonce负向子集；继续全部文件/配对/隐私/资金矩阵、跨端攻击与独立评审。"
+        },
+        {
+          "id": "DEV-54",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-54.01",
+            "DEV-54.02",
+            "DEV-54.03",
+            "DEV-54.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-55",
+          "implementation_status": "DEFERRED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-55.01",
+            "DEV-55.02"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-56",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-56.01",
+            "DEV-56.02",
+            "DEV-56.03",
+            "DEV-56.04"
+          ],
+          "evidence_refs": []
+        }
+      ]
+    },
+    {
+      "id": "R007",
+      "title": "提供方配对登记、设备签名与共享控制，保留执行与资源安全边界",
+      "verification_status": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+      "implemented": [
+        {
+          "id": "IMP-R007-001",
+          "task_ids": [
+            "DEV-03",
+            "DEV-06"
+          ],
+          "title": "本人一次性配对、独立HMAC秘密、短时/数量/失败次数与当前权限约束",
+          "artifacts": [
+            "dev/src/internal/dispatch/device/service.go",
+            "dev/src/api/internal/http/device.go"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        },
+        {
+          "id": "IMP-R007-002",
+          "task_ids": [
+            "DEV-06",
+            "DEV-07"
+          ],
+          "title": "原子登记与原意图恢复，独立安装公钥唯一、具体型号、默认关闭共享",
+          "artifacts": [
+            "dev/src/internal/dispatch/device/service.go",
+            "dev/src/internal/dispatch/device/types.go"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        },
+        {
+          "id": "IMP-R007-003",
+          "task_ids": [
+            "DEV-01",
+            "DEV-03",
+            "DEV-06"
+          ],
+          "title": "Ed25519逐请求绑定/持久nonce防重放与有限原生HTTP调用库",
+          "artifacts": [
+            "dev/src/client/protocol/devicecontrol/proof.go",
+            "dev/src/client/protocol/devicecontrol/client.go",
+            "dev/src/internal/dispatch/device/auth.go",
+            "dev/src/internal/identity/roles.go"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        },
+        {
+          "id": "IMP-R007-004",
+          "task_ids": [
+            "DEV-06",
+            "DEV-07",
+            "DEV-08",
+            "DEV-09"
+          ],
+          "title": "单调全uint64心跳、当前版本/尝试owner核验及健康/超时准入",
+          "artifacts": [
+            "dev/src/internal/dispatch/device/control.go",
+            "dev/src/internal/market/catalog.go"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        },
+        {
+          "id": "IMP-R007-005",
+          "task_ids": [
+            "DEV-06",
+            "DEV-46"
+          ],
+          "title": "本人资源策略强ETag、并发唯一版本、时段/单槽/手机条件",
+          "artifacts": [
+            "dev/src/internal/dispatch/device/control.go",
+            "dev/src/api/internal/http/device.go"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        },
+        {
+          "id": "IMP-R007-006",
+          "task_ids": [
+            "DEV-05",
+            "DEV-06"
+          ],
+          "title": "drain/revoke关新准入和失效设备证明，保留隔离及在途资源owner/代次",
+          "artifacts": [
+            "dev/src/internal/dispatch/device/control.go",
+            "dev/src/internal/identity/roles.go"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        },
+        {
+          "id": "IMP-R007-007",
+          "task_ids": [
+            "DEV-01",
+            "DEV-02",
+            "DEV-03",
+            "DEV-51"
+          ],
+          "title": "005前向迁移/DATA-065、31实际操作与权威身份/设备契约同步",
+          "artifacts": [
+            "docs/技术开发/database/migrations/005_device_identity_control.sql",
+            "dev/src/internal/persistence/migrations/source-v5.json",
+            "dev/src/api/internal/http/routes.json",
+            "scripts/白皮书契约数据.py",
+            "dev/planning/编号登记-v1.0.json"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        },
+        {
+          "id": "IMP-R007-008",
+          "task_ids": [
+            "DEV-51",
+            "DEV-52",
+            "DEV-53"
+          ],
+          "title": "60项实际局部用例、16并发配对/登记/心跳与12路策略竞态、撤销/恢复边界",
+          "artifacts": [
+            "dev/src/client/protocol/devicecontrol/proof_test.go",
+            "dev/src/api/tests/device_http_test.go",
+            "dev/src/tests/integration/device_test.go",
+            "dev/tests/evidence/R007-验证报告.md"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        },
+        {
+          "id": "IMP-R007-009",
+          "task_ids": [
+            "DEV-01",
+            "DEV-51",
+            "DEV-53"
+          ],
+          "title": "双语方案/使用说明、完整56任务与222待办、当前后台双端浏览器媒体/来源/打包同步",
+          "artifacts": [
+            "README.md",
+            "README.zh-CN.md",
+            "CHANGELOG.md",
+            "CHANGELOG.zh-CN.md",
+            "docs/技术开发/附录-设备配对身份与控制协议实施约束.md",
+            "dev/media/frontend-manifest.json",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "verification": "PASSED_FOR_CONTROL_SERVICES_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ]
+        }
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R007-验证报告.md",
+        "dev/tests/evidence/R007-frontend-checks.json",
+        "dev/tests/evidence/R007-native-source-checks.json",
+        "dev/tests/evidence/R007-native-summary.json",
+        "dev/tests/evidence/R007-repository-check.json",
+        "docs/评审/白皮书契约核验-v3.0.json",
+        "docs/评审/技术开发文档核验-v1.0.json",
+        "dev/评审/开发细则核验-v1.0.json"
+      ],
+      "task_snapshot": [
+        {
+          "id": "DEV-01",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-001",
+            "IMP-R001-002",
+            "IMP-R001-010",
+            "IMP-R004-003",
+            "IMP-R004-004",
+            "IMP-R004-005",
+            "IMP-R004-007",
+            "IMP-R005-006",
+            "IMP-R005-008",
+            "IMP-R006-001",
+            "IMP-R006-007",
+            "IMP-R006-008",
+            "IMP-R007-003",
+            "IMP-R007-007",
+            "IMP-R007-009"
+          ],
+          "remaining_step_ids": [
+            "DEV-01.01",
+            "DEV-01.02",
+            "DEV-01.03",
+            "DEV-01.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "已有Go/React/Taro/Vite原生锁定工程和有限控制入口；继续全客户端/网关/调度组合、跨端构建与整体交付。"
+        },
+        {
+          "id": "DEV-02",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-003",
+            "IMP-R001-008",
+            "IMP-R001-010",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-002",
+            "IMP-R004-006",
+            "IMP-R004-007",
+            "IMP-R005-007",
+            "IMP-R005-008",
+            "IMP-R006-007",
+            "IMP-R006-008",
+            "IMP-R007-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-02.01",
+            "DEV-02.02",
+            "DEV-02.03",
+            "DEV-02.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "现65表，005新增设备身份/nonce/配对恢复和不可变触发器，001—004原字节不改；继续存量升级恢复、最小权限、历史地区/型号/定义回填及租赁小时迁移。"
+        },
+        {
+          "id": "DEV-03",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-004",
+            "IMP-R001-005",
+            "IMP-R001-006",
+            "IMP-R001-008",
+            "IMP-R003-005",
+            "IMP-R003-007",
+            "IMP-R004-001",
+            "IMP-R004-002",
+            "IMP-R004-003",
+            "IMP-R004-004",
+            "IMP-R004-005",
+            "IMP-R004-006",
+            "IMP-R004-007",
+            "IMP-R005-001",
+            "IMP-R005-006",
+            "IMP-R005-008",
+            "IMP-R006-002",
+            "IMP-R006-008",
+            "IMP-R007-001",
+            "IMP-R007-003",
+            "IMP-R007-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-03.01",
+            "DEV-03.02",
+            "DEV-03.03",
+            "DEV-03.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "已有有限会话/API key/一次性配对与设备签名；继续真实支付宝渠道、密钥轮换、系统钥库、账号合并及全部角色审计。"
+        },
+        {
+          "id": "DEV-04",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R005-002",
+            "IMP-R005-006",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-04.01",
+            "DEV-04.02",
+            "DEV-04.03",
+            "DEV-04.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "已有本人版本化接受/撤回及不可变回执；继续实际文档版本发布、按用途授权消费、最小内容披露、删除请求及完整访问审计。"
+        },
+        {
+          "id": "DEV-05",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R005-001",
+            "IMP-R005-005",
+            "IMP-R005-006",
+            "IMP-R005-007",
+            "IMP-R005-008",
+            "IMP-R007-006"
+          ],
+          "remaining_step_ids": [
+            "DEV-05.01",
+            "DEV-05.02",
+            "DEV-05.03",
+            "DEV-05.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "申请/退出已实现，退出/撤销保留在途资源owner；继续真实个人卖家审核、收款主体准入和尾单/结算闭环。"
+        },
+        {
+          "id": "DEV-06",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R007-001",
+            "IMP-R007-002",
+            "IMP-R007-003",
+            "IMP-R007-004",
+            "IMP-R007-005",
+            "IMP-R007-006"
+          ],
+          "remaining_step_ids": [
+            "DEV-06.01",
+            "DEV-06.02",
+            "DEV-06.03",
+            "DEV-06.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "已完成配对/登记恢复、签名/nonce、心跳/策略/drain/revoke控制；继续完整原生daemon/系统钥库、出站重连、持久本地命令/恢复、实际停算清理、真机联调和重新登记流程。"
+        },
+        {
+          "id": "DEV-07",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-007",
+            "IMP-R005-004",
+            "IMP-R005-008",
+            "IMP-R007-002",
+            "IMP-R007-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-07.01",
+            "DEV-07.02",
+            "DEV-07.03",
+            "DEV-07.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "登记自报型号不授资格，心跳/健康不自批；继续能力登记审查、原生环境/许可/探测/基准、版本漂移与物理/真机证据。"
+        },
+        {
+          "id": "DEV-08",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-003",
+            "IMP-R005-004",
+            "IMP-R005-005",
+            "IMP-R005-006",
+            "IMP-R005-007",
+            "IMP-R005-008",
+            "IMP-R006-003",
+            "IMP-R007-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-08.01",
+            "DEV-08.02",
+            "DEV-08.03",
+            "DEV-08.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "已有未来挂牌/市场，新增设备健康/超时停准入；继续设备策略时段与真实容量调度、挂牌审核/发布和存量数据升级。"
+        },
+        {
+          "id": "DEV-09",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-003",
+            "IMP-R003-005",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-004",
+            "IMP-R005-008",
+            "IMP-R006-003",
+            "IMP-R007-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-09.01",
+            "DEV-09.02",
+            "DEV-09.03",
+            "DEV-09.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "已有不可变价费/环境报价与健康重核；继续资金/真实容量/持久预算和全部协议规格组合预检。"
+        },
+        {
+          "id": "DEV-10",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-004",
+            "IMP-R003-005",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-008",
+            "IMP-R006-005"
+          ],
+          "remaining_step_ids": [
+            "DEV-10.01",
+            "DEV-10.02",
+            "DEV-10.03",
+            "DEV-10.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json"
+          ],
+          "remaining_detail": "已有本人建单/查询与丢回执原请求恢复；继续全历史分页、取消/退款/完成、替换链与资金/调度联动，当前止于WAITING_PAYMENT。"
+        },
+        {
+          "id": "DEV-11",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-11.01",
+            "DEV-11.02",
+            "DEV-11.03",
+            "DEV-11.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-12",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-002",
+            "IMP-R001-008",
+            "IMP-R003-001",
+            "IMP-R003-003",
+            "IMP-R003-007",
+            "IMP-R006-003"
+          ],
+          "remaining_step_ids": [
+            "DEV-12.01",
+            "DEV-12.02",
+            "DEV-12.03",
+            "DEV-12.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json"
+          ],
+          "remaining_detail": "前后端精确预览与预算拒绝已实现；继续并发reserve/consume/release、资金UNKNOWN、硬停止与全费用解释，前端不代替资金预留。"
+        },
+        {
+          "id": "DEV-13",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-13.01",
+            "DEV-13.02",
+            "DEV-13.03",
+            "DEV-13.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-14",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-14.01",
+            "DEV-14.02",
+            "DEV-14.03",
+            "DEV-14.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-15",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-15.01",
+            "DEV-15.02",
+            "DEV-15.03",
+            "DEV-15.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-16",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-16.01",
+            "DEV-16.02",
+            "DEV-16.03",
+            "DEV-16.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-17",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-17.01",
+            "DEV-17.02",
+            "DEV-17.03",
+            "DEV-17.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-18",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-18.01",
+            "DEV-18.02",
+            "DEV-18.03",
+            "DEV-18.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-19",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-19.01",
+            "DEV-19.02",
+            "DEV-19.03",
+            "DEV-19.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-20",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-20.01",
+            "DEV-20.02",
+            "DEV-20.03",
+            "DEV-20.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-21",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-21.01",
+            "DEV-21.02",
+            "DEV-21.03",
+            "DEV-21.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-22",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-22.01",
+            "DEV-22.02",
+            "DEV-22.03",
+            "DEV-22.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-23",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-23.01",
+            "DEV-23.02",
+            "DEV-23.03",
+            "DEV-23.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-24",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-24.01",
+            "DEV-24.02",
+            "DEV-24.03",
+            "DEV-24.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-25",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-25.01",
+            "DEV-25.02",
+            "DEV-25.03",
+            "DEV-25.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-26",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-26.01",
+            "DEV-26.02",
+            "DEV-26.03",
+            "DEV-26.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-27",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-27.01",
+            "DEV-27.02",
+            "DEV-27.03",
+            "DEV-27.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-28",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-28.01",
+            "DEV-28.02",
+            "DEV-28.03",
+            "DEV-28.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-29",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-29.01",
+            "DEV-29.02",
+            "DEV-29.03",
+            "DEV-29.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-30",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-30.01",
+            "DEV-30.02",
+            "DEV-30.03",
+            "DEV-30.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-31",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-31.01",
+            "DEV-31.02",
+            "DEV-31.03",
+            "DEV-31.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-32",
+          "implementation_status": "CONDITIONAL",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-32.01",
+            "DEV-32.02",
+            "DEV-32.03",
+            "DEV-32.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-33",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-33.01",
+            "DEV-33.02",
+            "DEV-33.03",
+            "DEV-33.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-34",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-34.01",
+            "DEV-34.02",
+            "DEV-34.03",
+            "DEV-34.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-35",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-35.01",
+            "DEV-35.02",
+            "DEV-35.03",
+            "DEV-35.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-36",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-36.01",
+            "DEV-36.02",
+            "DEV-36.03",
+            "DEV-36.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-37",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-37.01",
+            "DEV-37.02",
+            "DEV-37.03",
+            "DEV-37.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-38",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-001",
+            "IMP-R003-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-38.01",
+            "DEV-38.02",
+            "DEV-38.03",
+            "DEV-38.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md"
+          ],
+          "remaining_detail": "补真实模型/tokenizer/模板usage来源及缓存/推理去重，证据核验、账单版本与水位、缺证退款；目前仅精确价格计算。"
+        },
+        {
+          "id": "DEV-39",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-39.01",
+            "DEV-39.02",
+            "DEV-39.03",
+            "DEV-39.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-40",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-40.01",
+            "DEV-40.02",
+            "DEV-40.03",
+            "DEV-40.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-41",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-41.01",
+            "DEV-41.02",
+            "DEV-41.03",
+            "DEV-41.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-42",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-42.01",
+            "DEV-42.02",
+            "DEV-42.03",
+            "DEV-42.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-43",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-43.01",
+            "DEV-43.02",
+            "DEV-43.03",
+            "DEV-43.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-44",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-44.01",
+            "DEV-44.02",
+            "DEV-44.03",
+            "DEV-44.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-45",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R006-002",
+            "IMP-R006-003",
+            "IMP-R006-004",
+            "IMP-R006-005",
+            "IMP-R006-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-45.01",
+            "DEV-45.02",
+            "DEV-45.03",
+            "DEV-45.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json"
+          ],
+          "remaining_detail": "已有Taro市场/服务/合同确认/本人订单/账号及真实H5联调；继续支付宝原生真机授权、真实付款、运行/停止/退款/账单和完整辅助界面。"
+        },
+        {
+          "id": "DEV-46",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R006-006",
+            "IMP-R006-008",
+            "IMP-R007-005"
+          ],
+          "remaining_step_ids": [
+            "DEV-46.01",
+            "DEV-46.02",
+            "DEV-46.03",
+            "DEV-46.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "已有卖家只读页及后台设备配对/策略控制；继续NB页面配对/共享策略/挂牌编辑/收益的真实端联调、提供方授权安装与状态可见性。"
+        },
+        {
+          "id": "DEV-47",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R006-002",
+            "IMP-R006-003",
+            "IMP-R006-004",
+            "IMP-R006-005",
+            "IMP-R006-006",
+            "IMP-R006-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-47.01",
+            "DEV-47.02",
+            "DEV-47.03",
+            "DEV-47.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json"
+          ],
+          "remaining_detail": "已有React/Vite控制市场/订单/账号与开发者说明、Web S256回调；继续API key管理、实际标准SDK路由、可信程序配对/撤销及完整开发者工作区。"
+        },
+        {
+          "id": "DEV-48",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-48.01",
+            "DEV-48.02",
+            "DEV-48.03",
+            "DEV-48.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-49",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-49.01",
+            "DEV-49.02",
+            "DEV-49.03",
+            "DEV-49.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-50",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-50.01",
+            "DEV-50.02",
+            "DEV-50.03",
+            "DEV-50.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-51",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-006",
+            "IMP-R001-007",
+            "IMP-R001-008",
+            "IMP-R003-004",
+            "IMP-R003-007",
+            "IMP-R004-007",
+            "IMP-R005-008",
+            "IMP-R007-007",
+            "IMP-R007-008",
+            "IMP-R007-009"
+          ],
+          "remaining_step_ids": [
+            "DEV-51.01",
+            "DEV-51.02",
+            "DEV-51.03",
+            "DEV-51.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "已有幂等/inbox/持久任务基础及设备安全事件事务outbox；继续发布/消费worker、重启恢复、设备停止/清理事件消费和完整后台业务联调。"
+        },
+        {
+          "id": "DEV-52",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-007",
+            "IMP-R005-004",
+            "IMP-R005-008",
+            "IMP-R007-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-52.01",
+            "DEV-52.02",
+            "DEV-52.03",
+            "DEV-52.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "资格重核、撤销身份/健康关闭准入已局部覆盖；继续真实证据登记/双人受控审批/撤销广播与组合发布门槛。"
+        },
+        {
+          "id": "DEV-53",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R004-001",
+            "IMP-R004-003",
+            "IMP-R004-007",
+            "IMP-R005-006",
+            "IMP-R005-008",
+            "IMP-R006-002",
+            "IMP-R006-008",
+            "IMP-R007-008",
+            "IMP-R007-009"
+          ],
+          "remaining_step_ids": [
+            "DEV-53.01",
+            "DEV-53.02",
+            "DEV-53.03",
+            "DEV-53.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "60项局部Go及双端浏览器回归已覆盖设备篡改/重放/撤销/并发；继续完整原生隔离/内容出口、E2E跨端独立评审、权限/攻击与真机组合验证。"
         },
         {
           "id": "DEV-54",

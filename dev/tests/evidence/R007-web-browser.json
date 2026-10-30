@@ -1,0 +1,94 @@
+{
+  "round": "R007",
+  "target": "web",
+  "passed": true,
+  "buyer_id": "usr_bfaf9ecc9a93c636e3e01e99ae6ac898",
+  "order_id": "ord_e610f9af9e2c8661829dcd3045c19d0c",
+  "browser_closed": true,
+  "remaining_owned_tabs": 0,
+  "assertions": [
+    "Signed synthetic OAuth -> real HttpOnly session; one-time proof removed from URL/storage",
+    "Concrete phone and independent M token prices; E2E blocked until buyer gateway exists, no prompt collected",
+    "Budget below exact preview sends no quote request; contract consent starts unchecked",
+    "Committed order response lost -> reload -> original exact key/body recovered; no duplicate command",
+    "Order remains WAITING_PAYMENT; confirmed usage absent and final fee pending; no client-side billing clock",
+    "No fabricated seller income/device connection; pairing explicitly unavailable",
+    "Fresh 320px context restores the same cookie session, sharing/account navigation and logout; no horizontal overflow, not native Alipay acceptance"
+  ],
+  "screenshots": [
+    {
+      "path": "dev/media/R007/screenshots/web-market.png",
+      "sha256": "08f00bd6231be6931b88ec6bcb598e9837382ab185f18e94fa08d21ece9dca7c",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/R007/screenshots/web-llm-detail.png",
+      "sha256": "ae7c77cee2204dc6b69aa8dbcdf5f7e7aaab85034c08b0d2f9dcc70a1a83a369",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/R007/screenshots/web-order-pending.png",
+      "sha256": "4af41adf44f0d5fb0016ccd5bbd05a3ec072cd7ba03679c4e2f373baeb9eb6dc",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/R007/screenshots/web-order.png",
+      "sha256": "501ba36a8fb4c8456ffa659d36df90a93ddf3941298abf8f17345ffab95a7591",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/R007/screenshots/web-share.png",
+      "sha256": "bfcf8c9d6753095df8f4633a6162e3921b02412f9a2c27c382a41f5cb790ad1c",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    }
+  ],
+  "recording": {
+    "method": "Native Chromium CDP compositor screencast, real timestamps; silent",
+    "frames": 34,
+    "seconds": 5.154,
+    "mp4": {
+      "path": "dev/media/R007/recordings/web-transaction.mp4",
+      "sha256": "93fd167d10efb54f711bdad8bfda9cf9ff2f46624b0a9656be776a1decc5d1d2"
+    },
+    "gif": {
+      "path": "dev/media/R007/recordings/web-transaction.gif",
+      "sha256": "e5d3df646419c0398e9a08b8430ad2ac31b4c8e09af84ce3f26c42eeb9a295e7"
+    }
+  },
+  "scope": "Actual compiled UI/HTTP/DB with synthetic OAuth/qualification/device heartbeats; H5 is not native Alipay validation; no payment, device or inference execution",
+  "virtualization_used": false,
+  "browser_version": "156.0.4314.50",
+  "narrow_viewport": {
+    "width": 320,
+    "height": 780,
+    "fresh_context": true,
+    "same_cookie_session": true,
+    "navigation_and_logout": true,
+    "recorded": false
+  },
+  "build_receipt_sha256": {
+    "runtime/frontend/check-receipt.json": "4197a07f3ef67c7ccbd433fd3053b97a735bd17858d008eaa07ca2a8c3cb0a37",
+    "runtime/frontend/test-receipt.json": "4c39a774da167e1fe048453d51753a8ce01f9ea56198f6ab931b5046fb7ab556",
+    "runtime/frontend/build-receipt.json": "577bf39161636bb8eb4232368994c84d2931f8ad503e3d6ccf48f34d14a99b88"
+  }
+}

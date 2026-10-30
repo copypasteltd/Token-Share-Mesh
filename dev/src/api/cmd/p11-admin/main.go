@@ -46,7 +46,7 @@ func run() error {
 	if err = db.Pool.QueryRow(ctx, `SELECT count(*) FROM p11_meta.schema_migrations`).Scan(&versions); err != nil {
 		return err
 	}
-	if tables != 64 || versions != 4 {
+	if tables != 65 || versions != 5 {
 		return fmt.Errorf("incomplete schema")
 	}
 	fmt.Printf("Domain tables: %d; applied migrations: %d.\n", tables, versions)

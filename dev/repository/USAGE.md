@@ -174,9 +174,9 @@ acceptance is implied by a successful document build or CLI cross-compilation.
 
 [R001证据](../tests/evidence/R001-验证报告.md)覆盖10项原生基础场景；[实施进度](../progress/README.md)列全部缺口。文档构建或 CLI 交叉编译不代表真实登录/支付、GPU/手机、加密互通或完整平台验收通过。
 
-[R003 evidence](../tests/evidence/R003-验证报告.md) covers 22 native cases, including pricing, qualification, quote/order concurrency and revoked-role replay. Temporary DB approvals are synthetic fixtures and cannot qualify real supply. The scripts default to R003 and retain the historical R001 evidence.
+[R003 evidence](../tests/evidence/R003-验证报告.md) covers 22 native cases, including pricing, qualification, quote/order concurrency and revoked-role replay. Temporary DB approvals are synthetic fixtures and cannot qualify real supply. The current scripts default to R007 and preserve historical evidence.
 
-[R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。工具默认R003，保留R001历史证据。
+[R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。当前工具默认R007，保留历史证据。
 
 
 
@@ -216,12 +216,53 @@ BPS must be 0–10000, owner SELLER/PLATFORM, and submitted Price values must ma
 
 BPS为0—10000，费用承担方SELLER/PLATFORM；Price须精确匹配。未配置则关闭新增挂牌写入，部分或非法配置拒绝启动。前端读取政策的配置流程尚待实现，当前没有公共费率配置接口；不能自行把示例当真实政策。旧订单仍保原费率。
 
-Apply explicit migrations 001–004 before starting the API. Never rewrite 001–003. Migration 004 leaves existing approved_regions empty and model_name nullable, and does not invent historical listing definitions. Approved-region/model backfill and historical definition migration need independent review. The current owner list includes authored definitions only; directly reading an older listing without its definition returns an explicit migration-required failure. New-schema migration tests are not historical-upgrade tests.
+R005 introduced migration 004; the current R007 API requires explicit migrations 001–005 before startup. Never rewrite 001–004. Migration 004 leaves existing approved_regions empty and model_name nullable, and does not invent historical listing definitions. Approved-region/model backfill and historical definition migration need independent review. The current owner list includes authored definitions only; directly reading an older listing without its definition returns an explicit migration-required failure. New-schema migration tests are not historical-upgrade tests.
 
-启动前显式迁移至004，不改001—003。旧地区默认空、型号可空，旧定义不补造；回填及历史升级仍须独立审核。本人列表当前只含有新定义的挂牌，直接GET无定义旧挂牌返回需迁移错误。新库迁移通过不等于存量升级已验证。
+R005引入004；当前R007 API启动前须显式迁移至005，不改001—004。旧地区默认空、型号可空，旧定义不补造；回填及历史升级仍须独立审核。本人列表当前只含有新定义的挂牌，直接GET无定义旧挂牌返回需迁移错误。新库迁移通过不等于存量升级已验证。
 
 ETags represent mutable resource versions, not listing revisions. PATCH requires one quoted numeric strong ETag; weak/list/wildcard/duplicate forms and null fields are rejected. PATCH replay returns the original receipt and ETag; GET again for current state. State changes use ReasonWrite.expected_version. All accepted edits preserve prior immutable versions and order snapshots. Display units remain 小时 or M token; availability gaps and insufficient remaining GPU time cannot be sold.
 
 ETag代表资源version，与revision不同。PATCH不接收弱/列表/星号/重复ETag或null字段；回放是原回执，当前状态须再GET。状态操作带expected_version。历史修订和订单快照不改；小时/M token展示、空档及剩余时长门槛继续适用。
 
 See [full seller/listing constraints](../../docs/技术开发/附录-卖家申请与挂牌版本实施约束.md) and [R005 evidence](../tests/evidence/R005-验证报告.md). The tests use explicitly synthetic approvals; that historical evidence does not establish actual seller review, payment or provider registration. R006 adds real Web/H5 interaction in its separate frontend evidence; native Alipay remains unverified.
+
+
+## R007 provider identity/control / 提供方设备身份控制
+
+Current source: 31/93 operations, 65 tables and 60 actual Go cases. R006 UI remains read-only for providers: pairing/policy buttons are not enabled merely because backend operations now exist. The shared TS/build evidence remains from unchanged frontend source; R007 replays both actual browser journeys against the current HTTP/backend and stores independent media under dev/media/R007.
+
+当前31/93操作、65表、60项实际Go用例。提供方页面仍只读，不能因后台接口完成就启用尚未接通的按钮。共享TS与三目标编译记录对应未改前端源码；R007针对当前后台重跑双端浏览器，媒体独立保存在dev/media/R007，保留R006原证据。
+
+| Step / 步骤 | Input / 输入 | Result / 结果 |
+| --- | --- | --- |
+| Owner pairing / 主人配对 | POST /devices/pairing-intents; platform WINDOWS/LINUX/ANDROID, device_label, owner_confirmed=true; stable Idempotency-Key | 201 pairing_id/expires_at/seller_id; one_time_token only first reply / 只首次返回秘密 |
+| Native registration / 本机登记 | POST /device-enrollments; Bearer pairing token, original Idempotency-Key; EnrollmentWrite | 201 same PAIRED device on original recovery / 原意图恢复同一个设备 |
+| Device read / 设备读取 | GET /devices/{device_id}; P11_DEVICE_ED25519_1 proof | Own state/policy/version, strong ETag / 本设备状态、策略和版本 |
+| Owner device list / 主人列表 | GET /seller/devices?limit=50; account session | Own devices, signed owner-scoped next_cursor / 本人分页 |
+| Heartbeat / 心跳 | POST /devices/{device_id}/heartbeats; device proof and original key | Monotonic sequence, server-time Ack; no qualification / 不授可售资格 |
+| Resource policy / 共享策略 | PATCH /devices/{device_id}/resource-policy; owner session, If-Match, expected_version, explicit conditions | Version+1; PROBING/DRAINING with admission off / 关闭接单，等待资格复核 |
+| Stop/revoke / 停止撤销 | POST /devices/{device_id}/drain or /revoke; owner session, original key, reason_code/expected_version | Close new admission; retain actual lock owner/generation / 不假装已停算清理 |
+
+Paths above use /v1/p11. WEB owner writes require exact Origin, session Cookie and X-CSRF-Token; MINIAPP owner writes use the native session Bearer. Device/enrollment transports reject Cookie/Origin. Never send a pairing or device proof to the inference/content relay.
+
+上表统一前缀/v1/p11。Web主人写操作带Origin/Cookie/CSRF；原生小程序带会话Bearer。设备/登记拒绝浏览器Cookie/Origin。不要把配对秘密或控制证明送入模型/内容转发。
+
+Enable pairing only by setting P11_DEVICE_PAIRING_PEPPER_FILE to an explicitly prepared, private runtime file containing at least 32 random bytes; no sample secret or generator auto-enables it. The optional setting has no fallback to an auth/API-key secret. An invalid configured file rejects startup; missing configuration closes pairing and enrollment. The current command uses pair_v1; lifecycle/rotation tooling is still pending.
+
+配对须显式设置P11_DEVICE_PAIRING_PEPPER_FILE，指向受保护runtime文件（至少32随机字节）。不提供默认秘密或自动启用。未配置关闭配对/登记，配置非法则拒绝启动；不会借用登录/API密钥。当前命令档位pair_v1，轮换工具仍待完成。
+
+Enrollment fields are pairing_id, device_public_key (canonical raw-base64url Ed25519 32-byte public key), key_profile_id=ED25519_DEVICE_1, os_build, client_release_id, device_fingerprint_hash (SHA256), resource_kind and concrete model_name. Android must say its actual model, such as 摩托罗拉 X30 or 努比亚 Z20; these strings do not prove the hardware or model is qualified. No private key is submitted. Registration creates no resource/capability/release and starts with sharing off.
+
+登记字段完整列于上段及权威EnrollmentWrite；型号不能写通用设备名称。公钥不含私钥；安装指纹与型号自报不等于实机资格。登记不创建可售资源/能力/发布，共享默认关闭。
+
+The native Go library at dev/src/client/protocol/devicecontrol implements bounded signing and HTTP only. Load an installation key through a future native credential-store adapter, construct NewClient, freeze a command with Prepare, then Send. On transport UNKNOWN keep the same prepared input/key and explicitly Send again with a fresh proof. Never repeat the old Authorization header or silently replace the enrollment key. Close clears the library copy and idle connections. Durable local journals and Windows/Linux key storage are not yet delivered; do not store a private key in plaintext to make this example look complete.
+
+原生Go库只含有界签名/HTTP。系统凭据存储适配尚待实现，调用方当前仅可在受控测试内存提供钥。Prepare冻结命令；UNKNOWN后保持原字段/键显式Send，库生成新证明；不重复旧Authorization，也不暗换登记意图。Close清理本库副本/连接。完整本地恢复日志、Windows/Linux密钥存储和daemon尚未交付。
+
+Heartbeat sequence is a canonical decimal string 0–18446744073709551615, strictly increasing. A recovered original heartbeat does not refresh last_seen_at. Device policy changes require fetching the new version; neither IDLE nor a fresh timestamp clears a busy/quarantined lock, authorizes execution, acknowledges cleanup or supplies trusted billable usage. Android policies explicitly include battery, temperature and charging limits; actual enforcement awaits LMA integration.
+
+心跳序号为规范十进制字符串，原命令回放不续活；策略变更先读新版本。IDLE/新时间不清锁、不授权执行、不确认清理、不产可信计费。Android须明确电量/温度/充电条件，真实执行仍待LMA接入。
+
+See [complete control constraints](../../docs/技术开发/附录-设备配对身份与控制协议实施约束.md), [R007 evidence](../tests/evidence/R007-验证报告.md) and [all remaining work](../progress/R007-本轮实现与完整待办.md). No real GPU, phone, channel or funds are enabled by these checks.
+
+见以上完整协议、实际局部证据与全部待办；不因此开启真实GPU、手机、渠道或资金操作。

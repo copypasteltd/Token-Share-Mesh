@@ -1435,6 +1435,9 @@
           },
           {
             "BrowserCookie": []
+          },
+          {
+            "DeviceProof": []
           }
         ],
         "x-required-scopes": [
@@ -1508,10 +1511,7 @@
         "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
         "security": [
           {
-            "BearerAuth": []
-          },
-          {
-            "BrowserCookie": []
+            "DeviceProof": []
           }
         ],
         "x-required-scopes": [
@@ -1599,8 +1599,7 @@
               }
             }
           }
-        },
-        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+        }
       }
     },
     "/devices/{device_id}/heartbeats": {
@@ -1613,10 +1612,7 @@
         "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
         "security": [
           {
-            "BearerAuth": []
-          },
-          {
-            "BrowserCookie": []
+            "DeviceProof": []
           }
         ],
         "x-required-scopes": [
@@ -1704,8 +1700,7 @@
               }
             }
           }
-        },
-        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+        }
       }
     },
     "/devices/{device_id}/drain": {
@@ -8762,10 +8757,15 @@
   },
   "components": {
     "securitySchemes": {
+      "DeviceProof": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "仅原生P11_DEVICE_ED25519_1逐请求证明，拒绝Cookie/Origin；不是账户会话。"
+      },
       "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "description": "平台有限scope凭据；区分MINIAPP会话、SDK API key与设备，不是内容密钥或支付宝签名。"
+        "description": "平台有限scope凭据；MINIAPP会话/SDK API key/设备严格分离。设备采用P11_DEVICE_ED25519_1逐请求证明：签入method、authority、精确URI、幂等键、If-Match、Content-Type及原正文SHA256；±60秒、持久化nonce防重放。不是内容密钥、支付宝签名或标准HTTP Message Signatures。"
       },
       "BrowserCookie": {
         "type": "apiKey",
@@ -8776,7 +8776,7 @@
       "PairingToken": {
         "type": "http",
         "scheme": "bearer",
-        "description": "一次性、短时、绑定本人pairing_id的登记凭据，消费后失效。"
+        "description": "5分钟一次性登记凭据，绑定本人pairing_id；消耗后只允许7日内原键/原规范字段恢复原设备，不能重新登记或换身份。"
       }
     },
     "schemas": {
@@ -9741,11 +9741,10 @@
         },
         "required": [
           "pairing_id",
-          "one_time_token",
           "expires_at",
           "seller_id"
         ],
-        "description": "一次性配对凭据只首次返回；日志不得记录。"
+        "description": "R007：凭据仅首次显示；同键恢复只返回配对元数据，不再披露秘密。5分钟有效，最多3个待配对，5次错误关闭。"
       },
       "EnrollmentWrite": {
         "type": "object",
@@ -9758,13 +9757,11 @@
           },
           "device_public_key": {
             "type": "string",
-            "minLength": 32,
-            "maxLength": 8192
+            "pattern": "^[A-Za-z0-9_-]{43}$",
+            "description": "ED25519_DEVICE_1的规范无填充base64url 32字节公钥；不可替代内容加密钥"
           },
           "key_profile_id": {
-            "type": "string",
-            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-            "maxLength": 128
+            "const": "ED25519_DEVICE_1"
           },
           "os_build": {
             "type": "string",
@@ -9779,6 +9776,19 @@
           "device_fingerprint_hash": {
             "type": "string",
             "pattern": "^[a-f0-9]{64}$"
+          },
+          "resource_kind": {
+            "type": "string",
+            "enum": [
+              "GPU_DEVICE",
+              "ANDROID_DEVICE",
+              "AUTHORIZED_RELAY"
+            ]
+          },
+          "model_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
           }
         },
         "required": [
@@ -9787,8 +9797,11 @@
           "key_profile_id",
           "os_build",
           "client_release_id",
-          "device_fingerprint_hash"
-        ]
+          "device_fingerprint_hash",
+          "resource_kind",
+          "model_name"
+        ],
+        "description": "来源为提供方自报，登记不等于硬件/型号/许可/可售已验证；手机必须具体型号。"
       },
       "Device": {
         "type": "object",
@@ -9844,8 +9857,38 @@
             "maximum": 2147483647
           },
           "last_seen_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "heartbeat_sequence": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]{0,19})$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reported_resource_state": {
             "type": "string",
-            "format": "date-time"
+            "enum": [
+              "IDLE",
+              "BUSY",
+              "DRAINING",
+              "HOT",
+              "LOW_BATTERY",
+              "LOW_DISK",
+              "UNKNOWN"
+            ]
           },
           "active_slots": {
             "type": "integer",
@@ -9866,6 +9909,38 @@
             "type": "string",
             "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
             "maxLength": 128
+          },
+          "device_label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "model_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "identity_profile_id": {
+            "type": "string",
+            "enum": [
+              "LEGACY_UNVERIFIED",
+              "ED25519_DEVICE_1"
+            ]
+          },
+          "key_fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "resource_policy": {
+            "type": "object",
+            "description": "本人或本设备只读策略投影；active_slots是实际锁owner计数，能力准入独立"
           }
         },
         "required": [
@@ -9876,9 +9951,16 @@
           "state",
           "version",
           "last_seen_at",
+          "heartbeat_sequence",
+          "reported_resource_state",
           "active_slots",
           "capability_ids",
-          "client_release_id"
+          "client_release_id",
+          "device_label",
+          "model_name",
+          "identity_profile_id",
+          "key_fingerprint",
+          "resource_policy"
         ]
       },
       "KernelBinding": {

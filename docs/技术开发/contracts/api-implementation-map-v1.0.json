@@ -2,7 +2,7 @@
   "version": "1.0-draft",
   "date": "2026-10-29",
   "source": "docs/白皮书/contracts/openapi-control-v3.0.json",
-  "canonical_api_sha256": "d26fe509f72f9d40b1c024b2166717d931d86164a011e892751d6895034864a0",
+  "canonical_api_sha256": "79650c91e74799d56f55d0a870b39f104fb2658b42a513a441e201a01b85d7f7",
   "status": "DESIGN_UNIMPLEMENTED",
   "operations": [
     {
@@ -909,7 +909,13 @@
       "canonical_operation_sha256": "ad98dda4731bd8f77b9213835004926517675e624644419e2450db1eff3363c4",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "ownDevices",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "createPairingIntent",
@@ -974,7 +980,13 @@
       "canonical_operation_sha256": "4e16a7fbdced5c0afe3f27782dd02ba0e131389acd2996f583ad2d9722032020",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createPairing",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "enrollDevice",
@@ -1036,7 +1048,13 @@
       "canonical_operation_sha256": "9816843d84955beed3e0939985f312badb566cafacfed37db2cc30bd53877ecd",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "enrollDevice",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "getDevice",
@@ -1055,6 +1073,9 @@
         },
         {
           "BrowserCookie": []
+        },
+        {
+          "DeviceProof": []
         }
       ],
       "request_schema": null,
@@ -1094,10 +1115,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "8a82f6ed4116e295f98052f02f822ebdf80fbe2cb80ab44c7c14bace8344e72d",
+      "canonical_operation_sha256": "4fef9502c392c5513f58ec1bac28fd5c899490609ffdeba2d0d2b187bc70982b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getDevice",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "registerCapability",
@@ -1112,10 +1139,7 @@
       ],
       "security": [
         {
-          "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
+          "DeviceProof": []
         }
       ],
       "request_schema": {
@@ -1166,7 +1190,7 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
-      "canonical_operation_sha256": "89d7b456379f54f5a99aab8a22ff3c5aa02da67b8bd250b8e6cac4f7c0eaea2e",
+      "canonical_operation_sha256": "81f82b753d3a9702a9e8de90b75ffaff4329bf23d5224eaefc0b64de116f515f",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
       "runtime_registration": null
@@ -1184,10 +1208,7 @@
       ],
       "security": [
         {
-          "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
+          "DeviceProof": []
         }
       ],
       "request_schema": {
@@ -1231,10 +1252,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "2ba200c0a0b000712068e80754380be7b305437600b48814cbbc407ad15a0cc5",
+      "canonical_operation_sha256": "15a6dbf8f9ded9d82f2a631ee21934065d1679b25249903d2a76ef2d839f058c",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "heartbeat",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "drainDevice",
@@ -1299,7 +1326,13 @@
       "canonical_operation_sha256": "f92a75d363cb7df75d116a7d5f292f0d211e0938c8fdb3fd7f292223d5b4fe50",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "deviceState",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "revokeDevice",
@@ -1364,7 +1397,13 @@
       "canonical_operation_sha256": "f5db7407be9081272e269aa0248ca4746ca7bf108b3f4137c2e1a41c016be523",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "deviceState",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "updateResourcePolicy",
@@ -1429,7 +1468,13 @@
       "canonical_operation_sha256": "1871dfab10941674f802544318a7779bf6b1135ff6cc679b0ae8b9396fe5b57c",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "devicePolicy",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "listServices",

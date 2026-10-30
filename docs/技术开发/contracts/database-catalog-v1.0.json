@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 122,
+  "catalog_statements": 128,
   "base_table_count": 60,
   "tables": [
     {
@@ -1200,6 +1200,170 @@
           "type": "text",
           "constraints": [],
           "source": "docs/技术开发/database/migrations/004_seller_listing_records.sql"
+        },
+        {
+          "name": "device_label",
+          "sql": "device_label text NOT NULL DEFAULT '未命名设备' CHECK (char_length(device_label) BETWEEN 1 AND 512)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "device_label"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT '未命名设备'",
+              "columns": [
+                "device_label"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (char_length(device_label) BETWEEN 1 AND 512)",
+              "columns": [
+                "device_label"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "identity_profile",
+          "sql": "identity_profile text NOT NULL DEFAULT 'LEGACY_UNVERIFIED' CHECK (identity_profile IN ('LEGACY_UNVERIFIED', 'ED25519_DEVICE_1'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "identity_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'LEGACY_UNVERIFIED'",
+              "columns": [
+                "identity_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (identity_profile IN ('LEGACY_UNVERIFIED', 'ED25519_DEVICE_1'))",
+              "columns": [
+                "identity_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "device_public_key",
+          "sql": "device_public_key text",
+          "type": "text",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "os_build",
+          "sql": "os_build text CHECK (char_length(os_build) BETWEEN 1 AND 512)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (char_length(os_build) BETWEEN 1 AND 512)",
+              "columns": [
+                "os_build"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "installation_fingerprint",
+          "sql": "installation_fingerprint p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "heartbeat_sequence",
+          "sql": "heartbeat_sequence numeric(20, 0) CHECK (heartbeat_sequence BETWEEN 0 AND 18446744073709551615)",
+          "type": "numeric(20, 0)",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (heartbeat_sequence BETWEEN 0 AND 18446744073709551615)",
+              "columns": [
+                "heartbeat_sequence"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "reported_resource_state",
+          "sql": "reported_resource_state text NOT NULL DEFAULT 'UNKNOWN' CHECK (reported_resource_state IN ('IDLE', 'BUSY', 'DRAINING', 'HOT', 'LOW_BATTERY', 'LOW_DISK', 'UNKNOWN'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "reported_resource_state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'UNKNOWN'",
+              "columns": [
+                "reported_resource_state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (reported_resource_state IN ('IDLE', 'BUSY', 'DRAINING', 'HOT', 'LOW_BATTERY', 'LOW_DISK', 'UNKNOWN'))",
+              "columns": [
+                "reported_resource_state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
         }
       ],
       "constraints": [
@@ -1213,10 +1377,19 @@
           ],
           "deferrable": false,
           "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "device_identity_fields",
+          "sql": "CONSTRAINT device_identity_fields CHECK (identity_profile = 'LEGACY_UNVERIFIED' OR (device_public_key IS NOT NULL AND length(device_public_key) = 43 AND model_name IS NOT NULL AND os_build IS NOT NULL AND installation_fingerprint IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
       ],
       "alter_sources": [
-        "docs/技术开发/database/migrations/004_seller_listing_records.sql"
+        "docs/技术开发/database/migrations/004_seller_listing_records.sql",
+        "docs/技术开发/database/migrations/005_device_identity_control.sql"
       ]
     },
     {
@@ -1369,6 +1542,108 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "platform",
+          "sql": "platform text CHECK (platform IN ('WINDOWS', 'LINUX', 'ANDROID'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (platform IN ('WINDOWS', 'LINUX', 'ANDROID'))",
+              "columns": [
+                "platform"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "device_label",
+          "sql": "device_label text CHECK (char_length(device_label) BETWEEN 1 AND 512)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (char_length(device_label) BETWEEN 1 AND 512)",
+              "columns": [
+                "device_label"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "user_version",
+          "sql": "user_version p11.counter",
+          "type": "p11.counter",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "pepper_version",
+          "sql": "pepper_version text",
+          "type": "text",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "failed_attempts",
+          "sql": "failed_attempts integer NOT NULL DEFAULT 0 CHECK (failed_attempts BETWEEN 0 AND 5)",
+          "type": "integer",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "failed_attempts"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 0",
+              "columns": [
+                "failed_attempts"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (failed_attempts BETWEEN 0 AND 5)",
+              "columns": [
+                "failed_attempts"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "enrollment_key_digest",
+          "sql": "enrollment_key_digest p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
+        },
+        {
+          "name": "enrollment_request_digest",
+          "sql": "enrollment_request_digest p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/005_device_identity_control.sql"
         }
       ],
       "constraints": [
@@ -1379,7 +1654,18 @@
           "columns": [],
           "deferrable": false,
           "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "pairing_recovery_fields",
+          "sql": "CONSTRAINT pairing_recovery_fields CHECK ((enrollment_key_digest IS NULL) = (enrollment_request_digest IS NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/005_device_identity_control.sql"
       ]
     },
     {
@@ -14669,6 +14955,135 @@
           ]
         }
       ]
+    },
+    {
+      "name": "device_request_nonces",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/005_device_identity_control.sql",
+      "columns": [
+        {
+          "name": "device_id",
+          "sql": "device_id p11.entity_id NOT NULL REFERENCES p11.devices (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.devices (id)",
+              "columns": [
+                "device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "devices",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "nonce_digest",
+          "sql": "nonce_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "nonce_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "request_digest",
+          "sql": "request_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "request_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_PRIMARY",
+          "name": null,
+          "sql": "PRIMARY KEY (device_id, nonce_digest)",
+          "columns": [
+            "device_id",
+            "nonce_digest"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -16360,6 +16775,21 @@
         "revision",
         "seller_id"
       ]
+    },
+    {
+      "table": "device_request_nonces",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.devices (id)",
+      "columns": [
+        "device_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "devices",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -16422,6 +16852,12 @@
       "table": "auth_attempts",
       "unique": false,
       "sql": "CREATE INDEX auth_attempts_expiry ON p11.auth_attempts (expires_at)"
+    },
+    {
+      "name": "device_request_nonces_expiry",
+      "table": "device_request_nonces",
+      "unique": false,
+      "sql": "CREATE INDEX device_request_nonces_expiry ON p11.device_request_nonces (expires_at)"
     }
   ],
   "forward_migrations": [
@@ -16461,6 +16897,20 @@
         "CreateStmt",
         "CreateTrigStmt",
         "CreateStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/005_device_identity_control.sql",
+      "source_sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+      "statement_count": 6,
+      "statement_types": [
+        "AlterTableStmt",
+        "AlterTableStmt",
+        "CreateStmt",
+        "IndexStmt",
+        "CreateFunctionStmt",
         "CreateTrigStmt"
       ],
       "runtime_validation_in_this_build": "NOT_EXECUTED"

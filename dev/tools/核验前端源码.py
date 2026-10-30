@@ -1,5 +1,6 @@
 """汇总已实际执行的双端编译、共享用例、浏览器和媒体摘要，不替代原生真机验收。"""
 from __future__ import annotations
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -11,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / 'dev/tests/evidence'
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument("--round",default="R007",choices=["R006","R007"]);round_id=parser.parse_args().round
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     records = []
     for action in ['bootstrap', 'check', 'test', 'build']:
@@ -23,7 +25,7 @@ def main():
             if sha(ROOT / f) != digest: raise ValueError('前端构建输出已变化')
         for i, c in enumerate(r['commands'], 1):
             if c['exit_code'] or sha(ROOT / c['log']) != c['log_sha256']: raise ValueError('实际前端命令/日志不匹配')
-            dest = EVIDENCE / f'R006-frontend-{action}-{i}.log'
+            dest = EVIDENCE / f'{round_id}-frontend-{action}-{i}.log'
             shutil.copyfile(ROOT / c['log'], dest)
             c['evidence_log'] = dest.relative_to(ROOT).as_posix()
         records.append(r)
@@ -33,7 +35,7 @@ def main():
     browsers = []
     assets = []
     for target in ['web', 'miniapp']:
-        f = EVIDENCE / f'R006-{target}-browser.json'
+        f = EVIDENCE / f'{round_id}-{target}-browser.json'
         r = json.loads(f.read_text(encoding='utf-8'))
         if not r['passed'] or not r['browser_closed'] or r['remaining_owned_tabs'] != 0 or r['virtualization_used'] or not r['recording']: raise ValueError('双端浏览器/清理/录制未通过')
         # Captures must use precisely the build receipt being published.
@@ -53,10 +55,10 @@ def main():
     packages = [{'path': name, **{k:v for k,v in value.items() if k in ['version','resolved','integrity','license','link','dev','optional']}} for name,value in sorted(lock['packages'].items())]
     inventory = ROOT / 'dev/licenses/frontend-dependencies.json'
     inventory.write_text(json.dumps({'scope': 'Exact npm lock metadata including optional/build dependencies; declared licenses, not a complete legal approval or full product SBOM', 'lock_sha256': sha(ROOT / 'dev/src/package-lock.json'), 'packages': packages},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    report = {'round':'R006','status':'PASSED_FOR_FRONTEND_CONTROL_SUBSET_ONLY','unit_cases':13,'failed_cases':0,'skipped_cases':0,'build_targets':['alipay','h5','web'],'records':records,'browser_checks':browsers,'dependency_inventory':inventory.relative_to(ROOT).as_posix(),
+    report = {'round':round_id,'status':'PASSED_FOR_FRONTEND_CONTROL_SUBSET_ONLY','unit_cases':13,'failed_cases':0,'skipped_cases':0,'build_targets':['alipay','h5','web'],'records':records,'browser_checks':browsers,'dependency_inventory':inventory.relative_to(ROOT).as_posix(),
         'source_sha256':{p.relative_to(ROOT).as_posix():sha(p) for folder in ['dev/src/frontend','dev/src/miniapp','dev/src/web'] for p in sorted((ROOT / folder).rglob('*')) if p.is_file()},
         'virtualization_used':False,'product_acceptance_status':'NOT_EXECUTED','limitations':['Native Alipay compilation only; H5 uses browser cookies, not native authorization','Synthetic OAuth, qualifications and device heartbeats; no real channel, device, inference or payment','Taro H5 entry-size warnings retained; native package size and performance not accepted','Browser/local history and seller pages are partial; no complete orders, seller editor or gateway pairing']}
-    (EVIDENCE / 'R006-frontend-checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    (ROOT / 'dev/media/frontend-manifest.json').write_text(json.dumps({'round':'R006','kind':'ACTUAL_COMPILED_PRODUCT_UI_WITH_EXPLICIT_SYNTHETIC_FIXTURES','evidence':'dev/tests/evidence/R006-frontend-checks.json','source_sha256':report['source_sha256'],'assets':assets,'browser_closed':True,'remaining_owned_tabs':0,'virtualization_used':False,'notice':'Web and Taro H5 real HTTP/DB UI; not native Alipay, real sellers/authorization, payment or device execution'},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (EVIDENCE / f'{round_id}-frontend-checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (ROOT / 'dev/media/frontend-manifest.json').write_text(json.dumps({'round':round_id,'kind':'ACTUAL_COMPILED_PRODUCT_UI_WITH_EXPLICIT_SYNTHETIC_FIXTURES','evidence':f'dev/tests/evidence/{round_id}-frontend-checks.json','source_sha256':report['source_sha256'],'assets':assets,'browser_closed':True,'remaining_owned_tabs':0,'virtualization_used':False,'notice':'Web and Taro H5 real HTTP/DB UI; not native Alipay, real sellers/authorization, payment or device execution'},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({'passed':True,'unit_cases':13,'browser_targets':2,'assets':len(assets),'scope':report['status']},ensure_ascii=False))
 if __name__ == '__main__': main()

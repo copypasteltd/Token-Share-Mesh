@@ -150,6 +150,7 @@
       "source_document": "docs/技术开发/06-调度资源锁与执行租约.md",
       "authoritative_tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",

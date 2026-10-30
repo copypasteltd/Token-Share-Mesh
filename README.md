@@ -19,35 +19,43 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 17 in progress · 37 not started · 1 conditional · 1 deferred |
-| Latest source round | R006 · PASSED_FOR_CONTROL_SERVICES_ONLY |
-| Native test evidence | 45 passed · control services scope only |
+| Implementation tasks | 18 in progress · 36 not started · 1 conditional · 1 deferred |
+| Latest source round | R007 · PASSED_FOR_CONTROL_SERVICES_ONLY |
+| Native test evidence | 60 passed · control services scope only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
-The source has 64 domain tables and 23 of 93 control operations. R006 adds real dual-client control pages, shared validated DTOs/exact previews/state, an explicit native authorization-proof profile and bounded response reads. Existing seller submissions, consent and future listing revisions/ETags remain. All 45 Go cases and 13 shared TypeScript cases pass; browser subcases connect real HTTP/temporary PostgreSQL, lose committed order replies, recover the exact original command and confirm one order/event per buyer. Native Alipay is compiled only. Real authorization/approval/payment/devices, seller editing and developer pairing remain pending. See [native evidence](dev/tests/evidence/R006-验证报告.md), [frontend evidence](dev/tests/evidence/R006-frontend-checks.json), [implementation constraints](docs/技术开发/附录-双端交易页面与授权恢复实施约束.md) and [all 56 tasks](dev/progress/README.md).
+The source has 65 domain tables and 31 of 93 control operations. R007 adds one-time pairing, original enrollment recovery, device request signing with durable nonce replay protection, monotonic heartbeats, resource policy and drain/revoke. Pairing starts with sharing off; heartbeats grant no qualification; revocation retains in-flight lock owners and generations. All 60 Go cases and 13 shared TypeScript cases pass, including actual Web/H5 HTTP/PostgreSQL recovery with one original order/event. Native Alipay remains compilation only. Real authorization/review/payment, complete provider daemons and native key stores remain pending. See [native evidence](dev/tests/evidence/R007-验证报告.md), [frontend regression](dev/tests/evidence/R007-frontend-checks.json), [device control constraints](docs/技术开发/附录-设备配对身份与控制协议实施约束.md) and [all 56 tasks](dev/progress/README.md).
 
 The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_rate for TOKEN_1M. Each rate has an integer numerator in fen and a positive denominator, together with fee ownership, commission and rounding versions. At 360 fen/hour, 30 minutes costs at most 180 fen; 1M input at 80 fen/M plus 0.25M output at 160 fen/M totals 120 fen. Quotes freeze seller, environment, policy, rates and budget. Creating an order rechecks admission and atomically writes WAITING_PAYMENT, quote consumption, consent audit and outbox. It does not pay, lock a GPU or execute work. A 350 fen/hour rate cannot be rounded into the legacy integer-fen/minute column.
 
 ## Current identity and HTTP flow
 
-The native control command is `p11-api`. Explicitly configure the selected development database, application identity and secret-file paths, then apply migrations; [environment variables and call order](dev/repository/USAGE.md) are documented. It listens on loopback and enables no test login, model or payment shortcut. The [embedded route manifest](dev/src/api/internal/http/routes.json) drives 23 actual operations and is checked against the 93-operation canonical contract; the other operations remain pending.
+The native control command is `p11-api`. Explicitly configure the selected development database, application identity and secret-file paths, then apply migrations; [environment variables and call order](dev/repository/USAGE.md) are documented. It listens on loopback and enables no test login, model or payment shortcut. The [embedded route manifest](dev/src/api/internal/http/routes.json) drives 31 actual operations and is checked against the 93-operation canonical contract; the other operations remain pending.
 
-Seller submissions remain `SUBMITTED` and never grant SELLER or automatically publish an offer. New listing writes require approved regions, owned concrete device models and an explicitly configured platform fee policy; edits create future revisions and preserve sold contracts. Exiting stops new admission and keeps prior money/resource records until their own cleanup. Real seller review, device pairing, controlled publication and seller write pages remain required work.
+Seller submissions remain `SUBMITTED` and never grant SELLER or automatically publish an offer. New listing writes require approved regions, owned concrete device models and an explicitly configured platform fee policy; edits create future revisions and preserve sold contracts. Exiting stops new admission and keeps prior money/resource records until their own cleanup. Device pairing/enrollment control APIs are implemented; real seller/device qualification, provider execution, controlled publication and pairing/seller write pages remain pending.
 
 The native miniapp explicitly selects ALIPAY_NATIVE_NONCE_1: a 32-byte server-generated one-time proof stored only as a digest, then my.getAuthCode and POST exchange. Bearer remains memory-only; restart requires authorization. This is not client-generated PKCE and uses neither Math.random nor timestamps. Command IDs use an independent memory-only HMAC counter seed, never content keys. Web/H5 uses WebCrypto S256, bound Cookie/state and the implemented callback; OAuth URL parameters and temporary proof are consumed immediately. Session transport is HttpOnly/Strict Cookie plus Origin/CSRF for writes. Login is not KYC or seller approval; new accounts receive BUYER only. Unknown exchange requires fresh authorization.
 
 Current UI/HTTP trade stops at qualified market → frozen quote → explicit buyer confirmation → WAITING_PAYMENT. Unknown writes retain an owner-partitioned original key/body and recover that request after reload; the server rechecks current authorization before replay. API keys cannot purchase. Inference endpoints, payment-success processing and the complete frontend remain unfinished.
 
+## Implemented provider control flow
+
+An approved seller explicitly creates a five-minute pairing credential, disclosed once. The native installation generates a fresh Ed25519 identity and submits its public key, OS/release, resource kind and concrete model. Registration produces PAIRED with sharing disabled. The original enrollment key/fields recover the same device; no secret is redisclosed. Reinstallation requires a fresh key and pairing.
+
+Subsequent P11_DEVICE_ED25519_1 proofs bind method, authority, exact URI, raw-body digest, idempotency key, If-Match and Content-Type; timestamps allow ±60 seconds and nonces are durably deduplicated. This custom control profile is separate from content encryption and is not HTTP Message Signatures. The Go library exposes NewClient→Prepare→Send→Close. Unknown writes require explicit recovery of the same prepared command with a fresh proof; there are no automatic retries or replacement command IDs. Owners use their account session and a strong ETag to set sharing windows, one slot, disk and phone battery/temperature/charging conditions. Drain/revoke close admission while actual stopping/cleanup remains the execution endpoint’s responsibility.
+
+Configure the separate P11_DEVICE_PAIRING_PEPPER_FILE to enable pairing; login/API-key secrets are never reused. Complete provider daemons, Windows/Linux native key storage, hardware/license qualification, engines, LMA integration and provider control pages remain pending. The transport library alone cannot rent out hardware. See [bilingual usage](dev/repository/USAGE.md) and [complete control protocol](docs/技术开发/附录-设备配对身份与控制协议实施约束.md).
+
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R007/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R007/screenshots/miniapp-market.png)
 
-![Actual Taro H5 quote and lost-reply recovery recording](dev/media/recordings/miniapp-transaction.gif)
+![Actual Taro H5 quote and lost-reply recovery recording](dev/media/R007/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R007/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R007/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R007/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R007/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 
@@ -165,12 +173,12 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # Disposable loopback PostgreSQL -> real tests -> instance stopped
-python -X utf8 dev/tools/原生数据库验证.py --round R006
-python -X utf8 dev/tools/核验原生源码.py --round R006
-python -X utf8 dev/tools/整理原生验证证据.py --round R006
+python -X utf8 dev/tools/原生数据库验证.py --round R007
+python -X utf8 dev/tools/核验原生源码.py --round R007
+python -X utf8 dev/tools/整理原生验证证据.py --round R007
 ```
 
-The last three commands generate R006 evidence for the current source, preserving historical R001/R003/R004/R005 records. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+The last three commands generate R007 evidence for the current source, preserving historical R001/R003/R004/R005/R006 records. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
 
 ## Intended buyer and seller usage
 

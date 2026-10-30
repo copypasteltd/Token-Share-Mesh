@@ -59,6 +59,36 @@ func RequireCurrentTx(ctx context.Context, tx pgx.Tx, p Principal) error {
 			}
 		}
 	}
+	if p.Kind == Device {
+		if p.DeviceID == "" || p.DeviceFingerprint == "" {
+			return fault.New(fault.Unauthenticated, "Verified device identity required")
+		}
+		var id string
+		// Keep user -> role -> seller -> device order, shared by seller exit and
+		// device management. Take the device write lock directly: concurrent
+		// heartbeats must not both hold SHARE then deadlock upgrading to UPDATE.
+		err = tx.QueryRow(ctx, `SELECT id FROM p11.role_grants WHERE user_id=$1 AND role_code='SELLER' AND scope_ref='self' AND revoked_at IS NULL AND (expires_at IS NULL OR expires_at>clock_timestamp()) ORDER BY id LIMIT 1 FOR SHARE`, p.UserID).Scan(&id)
+		if err == pgx.ErrNoRows {
+			return fault.New(fault.Unauthenticated, "Device seller role no longer valid")
+		}
+		if err != nil {
+			return err
+		}
+		err = tx.QueryRow(ctx, `SELECT id FROM p11.seller_profiles WHERE id=$1 AND state IN ('APPROVED','EXITING') FOR SHARE`, p.UserID).Scan(&id)
+		if err == pgx.ErrNoRows {
+			return fault.New(fault.Unauthenticated, "Device seller identity no longer valid")
+		}
+		if err != nil {
+			return err
+		}
+		err = tx.QueryRow(ctx, `SELECT id FROM p11.devices WHERE id=$1 AND seller_id=$2 AND auth_key_digest=$3 AND identity_profile='ED25519_DEVICE_1' AND state NOT IN ('REVOKED','RETIRED','QUARANTINED') FOR UPDATE`, p.DeviceID, p.UserID, p.DeviceFingerprint).Scan(&id)
+		if err == pgx.ErrNoRows {
+			return fault.New(fault.Unauthenticated, "Device identity no longer valid")
+		}
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 

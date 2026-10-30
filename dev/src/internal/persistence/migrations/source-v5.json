@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/005_device_identity_control.sql",
+  "source_sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+  "migration": "005_device_identity_control.sql",
+  "migration_sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+  "policy": "005 forward-only R007 device identity/control; 001-004 unchanged"
+}

@@ -3,6 +3,7 @@
 package controlhttp
 
 import (
+	"bytes"
 	"context"
 	"crypto/hmac"
 	"crypto/sha256"
@@ -14,6 +15,8 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"p11.local/compute/client/protocol/devicecontrol"
+	"p11.local/compute/internal/dispatch/device"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/seller"
@@ -39,6 +42,7 @@ type Config struct {
 	Market                           market.Catalog
 	Trade                            trade.Service
 	Seller                           seller.Service
+	Devices                          device.Service
 }
 type Server struct {
 	c                          Config
@@ -78,6 +82,9 @@ func New(c Config) (*Server, error) {
 	if s.c.Seller.DB == nil {
 		s.c.Seller.DB = c.Trade.DB
 	}
+	if s.c.Devices.DB == nil {
+		s.c.Devices.DB = c.Trade.DB
+	}
 	if c.RequestsPerMinute <= 0 {
 		s.c.RequestsPerMinute = 120
 	}
@@ -114,7 +121,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		fail(403, "FORBIDDEN", "Request host not allowed")
 		return
 	}
-	if len(r.URL.RequestURI()) > 2048 || r.URL.RawPath != "" || strings.Contains(r.URL.Path, "//") {
+	if len(r.RequestURI) > 2048 || r.URL.IsAbs() || r.URL.Host != "" || r.URL.RawPath != "" || strings.Contains(r.URL.Path, "//") {
 		fail(400, "INVALID_REQUEST", "Invalid control request path")
 		return
 	}
@@ -255,6 +262,24 @@ func (s *Server) authenticate(r *http.Request) (actor, error) {
 	}
 	if strings.HasPrefix(token, "p11k.") && bearer {
 		a.p, err = s.c.Keys.Authenticate(r.Context(), token)
+		return a, err
+	}
+	if strings.HasPrefix(token, "p11d.") && bearer {
+		if len(r.Header.Values("Cookie")) != 0 || len(r.Header.Values("Origin")) != 0 {
+			return a, fault.New(fault.Unauthenticated, "Device proof requires native credential transport")
+		}
+		for _, name := range []string{"Idempotency-Key", "If-Match", "Content-Type", "Content-Encoding"} {
+			if len(r.Header.Values(name)) > 1 {
+				return a, fault.New(fault.Invalid, "Ambiguous signed request header")
+			}
+		}
+		raw, readErr := io.ReadAll(io.LimitReader(r.Body, devicecontrol.MaximumBody+1))
+		if readErr != nil || len(raw) > devicecontrol.MaximumBody {
+			return a, fault.New(fault.Invalid, "Signed control body exceeds limit")
+		}
+		r.Body = io.NopCloser(bytes.NewReader(raw))
+		binding := devicecontrol.Binding{Method: r.Method, Authority: r.Host, URI: r.RequestURI, IdempotencyKey: r.Header.Get("Idempotency-Key"), IfMatch: r.Header.Get("If-Match"), ContentType: r.Header.Get("Content-Type")}
+		a.p, err = s.c.Devices.Authenticate(r.Context(), token, binding, raw)
 		return a, err
 	}
 	credential, err := s.c.Sessions.Authenticate(r.Context(), token)

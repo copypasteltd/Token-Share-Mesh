@@ -100,13 +100,14 @@ def make_schemas() -> dict:
         "definition": ref("ListingWrite"), "updated_at": TIME})
     s["DevicePairingWrite"] = obj({"platform": enum("WINDOWS", "LINUX", "ANDROID"), "device_label": TEXT, "owner_confirmed": {"const": True}})
     s["DevicePairing"] = obj({"pairing_id": ID, "one_time_token": {"type": "string", "minLength": 32, "maxLength": 4096, "readOnly": True},
-        "expires_at": TIME, "seller_id": ID}, description="一次性配对凭据只首次返回；日志不得记录。")
-    s["EnrollmentWrite"] = obj({"pairing_id": ID, "device_public_key": {"type": "string", "minLength": 32, "maxLength": 8192},
-        "key_profile_id": ID, "os_build": TEXT, "client_release_id": ID, "device_fingerprint_hash": HASH})
+        "expires_at": TIME, "seller_id": ID}, ["pairing_id","expires_at","seller_id"], description="R007：凭据仅首次显示；同键恢复只返回配对元数据，不再披露秘密。5分钟有效，最多3个待配对，5次错误关闭。")
+    s["EnrollmentWrite"] = obj({"pairing_id": ID, "device_public_key": {"type": "string", "pattern":"^[A-Za-z0-9_-]{43}$", "description":"ED25519_DEVICE_1的规范无填充base64url 32字节公钥；不可替代内容加密钥"},
+        "key_profile_id": {"const":"ED25519_DEVICE_1"}, "os_build": TEXT, "client_release_id": ID, "device_fingerprint_hash": HASH, "resource_kind":enum("GPU_DEVICE","ANDROID_DEVICE","AUTHORIZED_RELAY"), "model_name":{"type":"string","minLength":1,"maxLength":128}}, description="来源为提供方自报，登记不等于硬件/型号/许可/可售已验证；手机必须具体型号。")
     s["Device"] = obj({"device_id": ID, "seller_id": ID, "platform": enum("WINDOWS", "LINUX", "ANDROID"),
         "resource_kind": enum("GPU_DEVICE", "ANDROID_DEVICE", "AUTHORIZED_RELAY"),
         "state": enum("UNPAIRED", "PAIRED", "PROBING", "NEEDS_COMPONENTS", "BENCHMARKING", "QUALIFIED", "ONLINE", "DRAINING", "OFFLINE", "CLEANING", "QUARANTINED", "REVOKED", "RETIRED"),
-        "version": VERSION, "last_seen_at": TIME, "active_slots": UINT, "capability_ids": arr(ID), "client_release_id": ID})
+        "version": VERSION, "last_seen_at": {"anyOf":[TIME,{"type":"null"}]}, "heartbeat_sequence":{"anyOf":[COUNTER,{"type":"null"}]}, "reported_resource_state":enum("IDLE","BUSY","DRAINING","HOT","LOW_BATTERY","LOW_DISK","UNKNOWN"), "active_slots": UINT, "capability_ids": arr(ID), "client_release_id": ID,
+        "device_label": TEXT, "model_name":{"anyOf":[{"type":"string","minLength":1,"maxLength":128},{"type":"null"}]}, "identity_profile_id":enum("LEGACY_UNVERIFIED","ED25519_DEVICE_1"),"key_fingerprint":HASH,"resource_policy":{"type":"object","description":"本人或本设备只读策略投影；active_slots是实际锁owner计数，能力准入独立"}})
     s["KernelBinding"] = obj({"device_id": ID, "capability_id": ID,
         "kernel_environment_ref": ID, "kernel_environment_digest": HASH},
         description="不可变已批准环境；同卖家重派只能在已确认设备/能力/环境集合中选择。实际文件/许可/签名/当前资格由应用验证。")
@@ -461,8 +462,9 @@ def make_openapi() -> dict:
     add("post", "/devices/pairing-intents", "createPairingIntent", "Device", "建立一次性设备配对", "DevicePairing", "DevicePairingWrite", ("device:pair",))
     add("post", "/device-enrollments", "enrollDevice", "Device", "消耗一次性配对凭据登记设备", "Device", "EnrollmentWrite", ("pairing:consume",), security="PairingToken")
     add("get", "/devices/{device_id}", "getDevice", "Device", "读取本人或本设备状态", "Device", scopes=("device:read",))
-    add("post", "/devices/{device_id}/capabilities", "registerCapability", "Device", "提交本设备待审能力", "Ack", "CapabilityWrite", ("device:capability",))
-    add("post", "/devices/{device_id}/heartbeats", "recordDeviceHeartbeat", "Device", "记录当前身份心跳", "Ack", "HeartbeatWrite", ("device:heartbeat",))
+    paths["/devices/{device_id}"]["get"]["security"].append({"DeviceProof":[]})
+    add("post", "/devices/{device_id}/capabilities", "registerCapability", "Device", "提交本设备待审能力", "Ack", "CapabilityWrite", ("device:capability",), security="DeviceProof")
+    add("post", "/devices/{device_id}/heartbeats", "recordDeviceHeartbeat", "Device", "记录当前身份心跳", "Ack", "HeartbeatWrite", ("device:heartbeat",), security="DeviceProof")
     add("post", "/devices/{device_id}/drain", "drainDevice", "Device", "停止设备新任务准入", "Device", "ReasonWrite", ("device:manage",))
     add("post", "/devices/{device_id}/revoke", "revokeDevice", "Device", "撤销设备执行身份", "Device", "ReasonWrite", ("device:manage",))
     add("patch", "/devices/{device_id}/resource-policy", "updateResourcePolicy", "Device", "设置资源/时段及停止策略", "Ack", "ResourcePolicyWrite", ("device:manage",), versioned=True)
@@ -553,10 +555,11 @@ def make_openapi() -> dict:
         "servers": [{"url": "https://p11.invalid/v1/p11", "description": "仅设计占位，不可调用"}],
         "tags": [{"name": name} for name in sorted({op["tags"][0] for ops in paths.values() for op in ops.values()})],
         "paths": paths, "components": {"securitySchemes": {
-            "BearerAuth": {"type": "http", "scheme": "bearer", "description": "平台有限scope凭据；区分MINIAPP会话、SDK API key与设备，不是内容密钥或支付宝签名。"},
+            "DeviceProof": {"type":"http","scheme":"bearer","description":"仅原生P11_DEVICE_ED25519_1逐请求证明，拒绝Cookie/Origin；不是账户会话。"},
+            "BearerAuth": {"type": "http", "scheme": "bearer", "description": "平台有限scope凭据；MINIAPP会话/SDK API key/设备严格分离。设备采用P11_DEVICE_ED25519_1逐请求证明：签入method、authority、精确URI、幂等键、If-Match、Content-Type及原正文SHA256；±60秒、持久化nonce防重放。不是内容密钥、支付宝签名或标准HTTP Message Signatures。"},
             "BrowserCookie": {"type": "apiKey", "in": "cookie", "name": "__Host-p11_session",
                 "description": "HttpOnly/Secure/SameSite=Strict；浏览器写同时核Origin和CSRF。显式loopback开发使用p11_session_dev。"},
-            "PairingToken": {"type": "http", "scheme": "bearer", "description": "一次性、短时、绑定本人pairing_id的登记凭据，消费后失效。"}},
+            "PairingToken": {"type": "http", "scheme": "bearer", "description": "5分钟一次性登记凭据，绑定本人pairing_id；消耗后只允许7日内原键/原规范字段恢复原设备，不能重新登记或换身份。"}},
             "schemas": schemas, "responses": responses},
         "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE}
 

@@ -110,7 +110,7 @@ func TestMigrationsExecuteAllDomainDDLAndRejectDrift(t *testing.T) {
 		t.Fatal("repeat migration:", err)
 	}
 	var tables int
-	if err := db.Pool.QueryRow(ctx, `SELECT count(*) FROM information_schema.tables WHERE table_schema='p11' AND table_type='BASE TABLE'`).Scan(&tables); err != nil || tables != 64 {
+	if err := db.Pool.QueryRow(ctx, `SELECT count(*) FROM information_schema.tables WHERE table_schema='p11' AND table_type='BASE TABLE'`).Scan(&tables); err != nil || tables != 65 {
 		t.Fatalf("domain tables %d %v", tables, err)
 	}
 	var migration string

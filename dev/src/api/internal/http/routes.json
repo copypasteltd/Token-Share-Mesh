@@ -1,7 +1,7 @@
 {
-  "version": "P11_CONTROL_HTTP_R005",
+  "version": "P11_CONTROL_HTTP_R007",
   "base_path": "/v1/p11",
-  "scope": "23 registered control operations; partial conformance only; no automatic seller/listing approval or execution",
+  "scope": "R007 native provider identity/control plus R004/R005 subset; no qualification, engines or payment execution",
   "operations": [
     {
       "operation_id": "createAuthChallenge",
@@ -162,6 +162,62 @@
       "method": "POST",
       "path": "/seller/listings/{listing_id}/pause",
       "handler": "listingState",
+      "anonymous": false
+    },
+    {
+      "operation_id": "createPairingIntent",
+      "method": "POST",
+      "path": "/devices/pairing-intents",
+      "handler": "createPairing",
+      "anonymous": false
+    },
+    {
+      "operation_id": "enrollDevice",
+      "method": "POST",
+      "path": "/device-enrollments",
+      "handler": "enrollDevice",
+      "anonymous": true
+    },
+    {
+      "operation_id": "getDevice",
+      "method": "GET",
+      "path": "/devices/{device_id}",
+      "handler": "getDevice",
+      "anonymous": false
+    },
+    {
+      "operation_id": "listOwnDevices",
+      "method": "GET",
+      "path": "/seller/devices",
+      "handler": "ownDevices",
+      "anonymous": false
+    },
+    {
+      "operation_id": "recordDeviceHeartbeat",
+      "method": "POST",
+      "path": "/devices/{device_id}/heartbeats",
+      "handler": "heartbeat",
+      "anonymous": false
+    },
+    {
+      "operation_id": "drainDevice",
+      "method": "POST",
+      "path": "/devices/{device_id}/drain",
+      "handler": "deviceState",
+      "anonymous": false
+    },
+    {
+      "operation_id": "revokeDevice",
+      "method": "POST",
+      "path": "/devices/{device_id}/revoke",
+      "handler": "deviceState",
+      "anonymous": false
+    },
+    {
+      "operation_id": "updateResourcePolicy",
+      "method": "PATCH",
+      "path": "/devices/{device_id}/resource-policy",
+      "handler": "devicePolicy",
       "anonymous": false
     }
   ]

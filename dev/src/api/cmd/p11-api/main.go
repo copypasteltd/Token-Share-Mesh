@@ -13,6 +13,7 @@ import (
 	"os"
 	"os/signal"
 	controlhttp "p11.local/compute/api/internal/http"
+	"p11.local/compute/internal/dispatch/device"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/persistence"
@@ -127,6 +128,13 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	var pairPepper []byte
+	if os.Getenv("P11_DEVICE_PAIRING_PEPPER_FILE") != "" {
+		pairPepper, err = readSecret("P11_DEVICE_PAIRING_PEPPER_FILE")
+		if err != nil {
+			return err
+		}
+	}
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	db, err := persistence.Open(ctx, dsn)
 	cancel()
@@ -138,7 +146,7 @@ func run() error {
 	checkCtx, checkCancel := context.WithTimeout(context.Background(), 5*time.Second)
 	err = db.Pool.QueryRow(checkCtx, "SELECT max(version) FROM p11_meta.schema_migrations").Scan(&version)
 	checkCancel()
-	if err != nil || version != 4 {
+	if err != nil || version != 5 {
 		return fmt.Errorf("apply and verify migrations with p11-admin before starting control APIs")
 	}
 	address := os.Getenv("P11_API_ADDR")
@@ -159,7 +167,8 @@ func run() error {
 		BrowserOrigin: os.Getenv("P11_BROWSER_ORIGIN"), InsecureLoopback: os.Getenv("P11_INSECURE_LOOPBACK") == "1", CursorKey: cursorKey,
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
 		Keys:     identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "api_v1", Peppers: map[string][]byte{"api_v1": keyPepper}, MaxTTL: 30 * 24 * time.Hour},
-		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: fees}})
+		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: fees},
+		Devices: device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}}})
 	if err != nil {
 		return err
 	}

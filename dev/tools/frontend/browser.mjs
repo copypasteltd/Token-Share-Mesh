@@ -12,6 +12,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../.
 const require = createRequire(path.join(root, 'runtime/frontend/workspace/package.json'));
 const { chromium } = require('playwright-core');
 const target = process.env.P11_UI_TARGET;
+const roundID = process.env.P11_EVIDENCE_ROUND || 'R006';
+if (!['R006','R007'].includes(roundID)) throw new Error('Explicit evidence round required');
 if (!['web', 'miniapp'].includes(target)) throw new Error('Explicit UI target required');
 const base = new URL(process.env.P11_UI_BASE);
 if (base.protocol !== 'http:' || base.hostname !== '127.0.0.1') throw new Error('Disposable loopback harness required');
@@ -20,12 +22,12 @@ const browserPath = process.env.P11_BROWSER_PATH || [
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
 ].find(existsSync);
 if (!browserPath) throw new Error('Existing native Edge/Chrome required');
-const output = path.join(root, 'dev/media');
+const output = path.join(root, 'dev/media', roundID === 'R006' ? '' : roundID);
 const runtime = path.join(root, 'runtime/frontend/browser', target + '-' + Date.now());
 for (const p of [runtime, path.join(output, 'screenshots'), path.join(output, 'recordings')]) mkdirSync(p, { recursive: true });
 const temporary = path.join(root, 'runtime/tmp/frontend-browser'); mkdirSync(temporary, { recursive: true });
 process.env.TEMP = process.env.TMP = temporary;
-const receipt = { round: 'R006', target, passed: false, buyer_id: '', order_id: '', browser_closed: false, remaining_owned_tabs: null,
+const receipt = { round: roundID, target, passed: false, buyer_id: '', order_id: '', browser_closed: false, remaining_owned_tabs: null,
   assertions: [], screenshots: [], recording: null, scope: 'Actual compiled UI/HTTP/DB with synthetic OAuth/qualification/device heartbeats; H5 is not native Alipay validation; no payment, device or inference execution', virtualization_used: false };
 const record = item => receipt.assertions.push(item);
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -96,7 +98,7 @@ try {
       return Math.abs(box.left) < 1 && Math.abs(box.width - innerWidth) < 1;
     });
     await pause(180);
-    const relative = `dev/media/screenshots/${name}.png`, f = path.join(root, relative);
+    const relative = `dev/media/${roundID === 'R006' ? '' : roundID + '/'}screenshots/${name}.png`, f = path.join(root, relative);
     await page.screenshot({ path: f }); receipt.screenshots.push({ path: relative, sha256: digest(f), viewport: page.viewportSize(), actual_ui: true });
   };
   const choose = async id => {
@@ -214,6 +216,6 @@ if (receipt.passed && frames.length >= 5 && stoppedAt) {
 const buildReceipts = ['check','test','build'].map(name => path.join(root, 'runtime/frontend', name + '-receipt.json')).filter(existsSync);
 receipt.build_receipt_sha256 = Object.fromEntries(buildReceipts.map(f => [path.relative(root,f).replaceAll('\\','/'),digest(f)]));
 writeFileSync(path.join(runtime, 'receipt.json'), JSON.stringify(receipt,null,2)+'\n');
-if (receipt.passed) writeFileSync(path.join(root, 'dev/tests/evidence/R006-' + target + '-browser.json'), JSON.stringify(receipt,null,2)+'\n');
+if (receipt.passed) writeFileSync(path.join(root, 'dev/tests/evidence/' + roundID + '-' + target + '-browser.json'), JSON.stringify(receipt,null,2)+'\n');
 process.stdout.write(JSON.stringify(receipt) + '\n');
 if (!receipt.passed) process.exitCode = 1;

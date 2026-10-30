@@ -26,7 +26,7 @@ func (s *Server) loadRoutes() bool {
 		Scope      string            `json:"scope"`
 		Operations []registeredRoute `json:"operations"`
 	}
-	if json.Unmarshal(routeDocument, &manifest) != nil || manifest.Version != "P11_CONTROL_HTTP_R005" || manifest.BasePath != prefix || len(manifest.Operations) == 0 {
+	if json.Unmarshal(routeDocument, &manifest) != nil || manifest.Version != "P11_CONTROL_HTTP_R007" || manifest.BasePath != prefix || len(manifest.Operations) == 0 {
 		return false
 	}
 	pairs, operations := map[string]bool{}, map[string]bool{}
@@ -43,6 +43,20 @@ func (s *Server) loadRoutes() bool {
 }
 func (s *Server) handlerNamed(name string) handler {
 	switch name {
+	case "createPairing":
+		return s.createPairing
+	case "enrollDevice":
+		return s.enrollDevice
+	case "getDevice":
+		return s.getDevice
+	case "ownDevices":
+		return s.ownDevices
+	case "heartbeat":
+		return s.heartbeat
+	case "deviceState":
+		return s.deviceState
+	case "devicePolicy":
+		return s.devicePolicy
 	case "sellerProfile":
 		return s.sellerProfile
 	case "sellerApplication":

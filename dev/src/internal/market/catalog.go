@@ -269,7 +269,7 @@ func (c Catalog) qualify(ctx context.Context, tx pgx.Tx, s Service, b Binding) (
 	var online, accepting, busy bool
 	err := tx.QueryRow(ctx, `SELECT r.evidence_ids,g.evidence_ids,c.evidence_ids,
 COALESCE(d.state='ONLINE' AND d.last_seen_at>clock_timestamp()-interval '45 seconds',false),
-COALESCE(d.resource_policy->>'accepting_new_jobs'='true',false),
+COALESCE(d.resource_policy->>'accepting_new_jobs'='true' AND (d.reported_resource_state='IDLE' OR d.identity_profile='LEGACY_UNVERIFIED' AND d.reported_resource_state='UNKNOWN'),false),
 EXISTS(SELECT 1 FROM p11.resource_locks lk WHERE lk.resource_id=c.resource_id AND lk.phase<>'FREE')
 FROM p11.capabilities c JOIN p11.devices d ON d.id=c.device_id AND d.seller_id=c.seller_id
 JOIN p11.listing_devices ld ON ld.capability_id=c.id AND ld.device_id=d.id AND ld.seller_id=c.seller_id

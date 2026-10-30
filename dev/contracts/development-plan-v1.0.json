@@ -449,6 +449,7 @@
       "source_document": "docs/技术开发/06-调度资源锁与执行租约.md",
       "authoritative_tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -9767,7 +9768,13 @@
       "canonical_operation_sha256": "4e16a7fbdced5c0afe3f27782dd02ba0e131389acd2996f583ad2d9722032020",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createPairing",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-018"
     },
     {
@@ -10623,7 +10630,13 @@
       "canonical_operation_sha256": "f92a75d363cb7df75d116a7d5f292f0d211e0938c8fdb3fd7f292223d5b4fe50",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "deviceState",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-031"
     },
     {
@@ -10686,7 +10699,13 @@
       "canonical_operation_sha256": "9816843d84955beed3e0939985f312badb566cafacfed37db2cc30bd53877ecd",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "enrollDevice",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-032"
     },
     {
@@ -10837,6 +10856,9 @@
         },
         {
           "BrowserCookie": []
+        },
+        {
+          "DeviceProof": []
         }
       ],
       "request_schema": null,
@@ -10876,10 +10898,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "8a82f6ed4116e295f98052f02f822ebdf80fbe2cb80ab44c7c14bace8344e72d",
+      "canonical_operation_sha256": "4fef9502c392c5513f58ec1bac28fd5c899490609ffdeba2d0d2b187bc70982b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getDevice",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-035"
     },
     {
@@ -12316,7 +12344,13 @@
       "canonical_operation_sha256": "ad98dda4731bd8f77b9213835004926517675e624644419e2450db1eff3363c4",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "ownDevices",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-057"
     },
     {
@@ -13083,10 +13117,7 @@
       ],
       "security": [
         {
-          "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
+          "DeviceProof": []
         }
       ],
       "request_schema": {
@@ -13130,10 +13161,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "2ba200c0a0b000712068e80754380be7b305437600b48814cbbc407ad15a0cc5",
+      "canonical_operation_sha256": "15a6dbf8f9ded9d82f2a631ee21934065d1679b25249903d2a76ef2d839f058c",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "heartbeat",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-069"
     },
     {
@@ -13552,10 +13589,7 @@
       ],
       "security": [
         {
-          "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
+          "DeviceProof": []
         }
       ],
       "request_schema": {
@@ -13606,7 +13640,7 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md"
       ],
-      "canonical_operation_sha256": "89d7b456379f54f5a99aab8a22ff3c5aa02da67b8bd250b8e6cac4f7c0eaea2e",
+      "canonical_operation_sha256": "81f82b753d3a9702a9e8de90b75ffaff4329bf23d5224eaefc0b64de116f515f",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
       "runtime_registration": null,
@@ -14025,7 +14059,13 @@
       "canonical_operation_sha256": "f5db7407be9081272e269aa0248ca4746ca7bf108b3f4137c2e1a41c016be523",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "deviceState",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-082"
     },
     {
@@ -14513,7 +14553,13 @@
       "canonical_operation_sha256": "1871dfab10941674f802544318a7779bf6b1135ff6cc679b0ae8b9396fe5b57c",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "devicePolicy",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-089"
     },
     {
@@ -14963,11 +15009,21 @@
       "runtime_validation": "NOT_EXECUTED"
     },
     {
+      "id": "DATA-065",
+      "name": "device_request_nonces",
+      "schema": "p11",
+      "module_id": "MOD-06",
+      "column_count": 5,
+      "foreign_key_count": 1,
+      "source_document": "docs/技术开发/database/migrations/005_device_identity_control.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
       "id": "DATA-017",
       "name": "devices",
       "schema": "p11",
       "module_id": "MOD-06",
-      "column_count": 12,
+      "column_count": 19,
       "foreign_key_count": 1,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
@@ -15197,7 +15253,7 @@
       "name": "pairing_intents",
       "schema": "p11",
       "module_id": "MOD-01",
-      "column_count": 7,
+      "column_count": 14,
       "foreign_key_count": 2,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
@@ -15546,6 +15602,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -15652,6 +15709,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -15910,6 +15968,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -15959,6 +16018,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -16079,6 +16139,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -16188,6 +16249,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -16254,6 +16316,7 @@
         "refunds",
         "channel_requests",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -16562,6 +16625,7 @@
         "auth_sessions",
         "auth_attempts",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -16748,6 +16812,7 @@
       "operation_ids": [],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -17104,6 +17169,7 @@
         "encryption_intents",
         "envelopes",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -17162,6 +17228,7 @@
         "encryption_intents",
         "envelopes",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -17218,6 +17285,7 @@
         "encryption_intents",
         "envelopes",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -17275,6 +17343,7 @@
         "encryption_intents",
         "envelopes",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -17430,6 +17499,7 @@
         "settlement_batches",
         "batch_items",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -17561,6 +17631,7 @@
         "rental_access_grants",
         "availability_intervals",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -17860,6 +17931,7 @@
         "rental_access_grants",
         "availability_intervals",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -18133,6 +18205,7 @@
         "auth_sessions",
         "auth_attempts",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -18266,6 +18339,7 @@
         "route_contracts",
         "budget_reservations",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -18474,6 +18548,7 @@
         "capabilities",
         "catalog_entries",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -18556,6 +18631,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -18766,6 +18842,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -18822,6 +18899,7 @@
       ],
       "tables": [
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -18887,6 +18965,7 @@
         "auth_sessions",
         "auth_attempts",
         "devices",
+        "device_request_nonces",
         "resources",
         "resource_locks",
         "jobs",
@@ -19879,7 +19958,7 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "3b8bade56e72cc5f546cfe15abb9cd2d4f94c0b280da7e8844ff20409d92e285"
+      "sha256": "80e29e5df7bdcc82df4c895c421015a6c57a77274ca9bec80cadb2637f7da6e3"
     },
     {
       "path": "dev/AGENTS.md",
@@ -19891,15 +19970,15 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "0b3f501f9d371da69a59eb5e57ffd9fd06727c1a68dac85e034c875455324bd5"
+      "sha256": "3434a7525f2104627ab8413870b90303165d7590cfbbdbbe7d830a0d7a6b3494"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "b124c7c77939d44889f3572431bf699565a1b013599ece54a3ea75aece08dd04"
+      "sha256": "d3c4bb041d85158a82f78ac6a6e27ba7093ce7d2d115e0f1e504f106a3e1929e"
     },
     {
       "path": "dev/tools/构建开发细则.py",
-      "sha256": "46273d204c05537ab7bab1f6ccb74e1eeb09ea1c3f07e5b62b149984af82dd7f"
+      "sha256": "b75b8cbccd0eeeb8d484caeacceb0eee95741920a9271968752f42577886f5f7"
     },
     {
       "path": "docs/交易/C2C交易与市场规则.md",
@@ -19987,11 +20066,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "ad6b41de077152b9acf6668edd26ebcba46b4fb46756bb2dac6bcd5c01144e4d"
+      "sha256": "ef64fbc4f2723b96bf1639562e463f85ed89c972ec63fa1608954615e61cc6eb"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "9e55736f5adc43a10622f2faa470a416645f5da981b2a04811cb34a0b625ac98"
+      "sha256": "eed78b39ce6cb239776adfd04419d34dcaa0b612ad2bb5d58f8d224bda85ad6c"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -19999,11 +20078,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "5ba788bb388b9b871e7d043af4c4f05b338e2679e411ef0798fe438f5b3ef920"
+      "sha256": "4744cc5c3b18b72d4825d8b906c61317101c2af8a49ae0b51341c04eb311bfe5"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "d4ca23b4fb9a333ec1ee87ddf14ec9b33ea62701c3840940fc6d5260eeb85057"
+      "sha256": "1797e56f7e3abfc0623b5559a60102a6a7eadee286582819f300b53bbec0089d"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -20016,6 +20095,10 @@
     {
       "path": "docs/技术开发/database/migrations/004_seller_listing_records.sql",
       "sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/005_device_identity_control.sql",
+      "sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06"
     },
     {
       "path": "docs/技术开发/database/schema-draft.sql",
@@ -20059,7 +20142,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "e68a18b4981e4a909a3858c9ad7ad36fc0dc649bcfc639807c69c2f7af4a1bd6"
+      "sha256": "a3ac90ecca50ad74ede6d88e43eca15507658eaaff2ef57572a011eb446cfdae"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -20079,7 +20162,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "6f35fdb8313ae96d72e9cf222ac19a731a075353f8f0fcf6b745a4edc1ad4d22"
+      "sha256": "198b834943ae3a51cb5b365b461a46cb796adc0896cd4688864da81dfd47f71f"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -20092,7 +20175,7 @@
     "steps": 222,
     "constraints": 47,
     "control_operations": 93,
-    "tables": 64,
+    "tables": 65,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

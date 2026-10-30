@@ -5,6 +5,12 @@
 Entries use the same round IDs as the implementation tracker. No entry denotes a
 general-availability platform release unless the full acceptance evidence says so.
 
+## R007 · Provider identity and control
+
+Added one-time pairing, original enrollment recovery, Ed25519 request proofs with durable nonce protection, monotonic heartbeats, strong-ETag resource policies and drain/revoke: 31/93 control operations. Registration starts with sharing off; heartbeats grant no qualification. Revocation preserves in-flight attempt owners/resource generations. Complete provider daemons, native key stores and execution remain pending.
+
+Forward migration 005 adds DATA-065; migrations 001–004 retain their exact bytes. The catalog now has 65 tables. All 60 Go cases pass; 13 TS cases/three build receipts match unchanged frontend source, and both browser journeys were replayed against the current backend with independent captures. Temporary database and owned browsers closed. Bilingual documentation and all 56 tasks/222 remaining steps updated; 80 main and 96 full NB acceptance cases remain unexecuted. Source goal stays ACTIVE.
+
 ## R006 — 2026-10-30
 
 - Implement React/Taro Alipay pages, React/Vite Web and shared TypeScript control logic using NB-1.0 Neubrutalism, concrete personal-device models and hourly/separate input-output M token prices.
