@@ -96,3 +96,15 @@ Existing Web/Taro H5 pages are recaptured against the current native build. Nati
 ## R019 实际媒体 / Actual media
 
 本轮重新捕获当前原生HTTP二进制下既有NB04 React Web/Taro H5页面；manifest/input是原生控制API，用实际签名HTTP/PG用例证明，没有伪造推理页面。dev/media/R019的14 PNG/双端MP4/GIF与阅读器4 PNG/MP4/GIF分别记录来源；原生支付宝另行编译，不冒称真机/支付或E2E。
+
+## R020 实际页面与阅读器媒体 / Actual UI and reader media
+
+本轮以当前原生API/CLI构建重跑NB04 React Web与Taro H5浏览器旅程，来源为实际控制页面与合成授权/设备资格夹具。另录制当前文档阅读器。截图/MP4/GIF收据位于dev/media/R020；宿主库由原生用例证明，没有伪造模型运行画面或支付宝真机截图。
+
+## R020历史媒体保留范围 / Historical retention
+
+历史第4、5次尝试的归档脚本漏拷嵌套媒体目录，分别按原SHA-256恢复8/18及9/18件；全部8份历史MP4/GIF从原始帧重编码后与原回执摘要完全一致，另有19份原始PNG无法恢复并逐项登记。当前最终版14份前端截图、4份前端MP4/GIF及阅读器素材完整；历史缺失不作为当前验证凭证。
+
+The historical attempt 4/5 archiver omitted nested media directories. Exact original SHA-256 matches recovered 8/18 and 9/18 assets; all eight historical MP4/GIF files re-encoded from retained original frames match their original digests. Nineteen original PNG files are unavailable and individually listed. The final 14 frontend screenshots, four frontend MP4/GIF files and reader assets are complete. Missing historical files are not used as current verification evidence.
+
+[逐文件恢复与缺失清单](../tests/evidence/R020-historical-media-recovery.json)。今后归档以回执列出的全部嵌套路径及摘要逐件校验，归档完成后才允许覆盖当前输出。

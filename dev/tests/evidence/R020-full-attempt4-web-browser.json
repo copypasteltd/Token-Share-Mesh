@@ -1,0 +1,242 @@
+{
+  "round": "R020",
+  "target": "web",
+  "passed": true,
+  "buyer_id": "usr_879d841ffcd3e8eac786a8d3c84c6ef6",
+  "order_id": "ord_7617176b527ccab64187e74e0d876d41",
+  "browser_closed": true,
+  "remaining_owned_tabs": 0,
+  "assertions": [
+    "Signed synthetic OAuth -> real HttpOnly session; one-time proof removed from URL/storage",
+    "Concrete phone and independent M token prices; E2E blocked until buyer gateway exists, no prompt collected",
+    "Budget below exact preview sends no quote request; contract consent starts unchecked",
+    "Committed order response lost -> reload -> original exact key/body recovered; no duplicate command",
+    "Order remains WAITING_PAYMENT; confirmed usage absent and final fee pending; no client-side billing clock",
+    "No fabricated seller income or device connection; pairing requires explicit approved-owner confirmation",
+    "Provider page mounted during held original recovery loads owner profile once idle; no manual reload or automatic write retry",
+    "Approved synthetic owner: lost pairing reply reloads the original intent without redisclosing its secret; fresh intent is explicit and credential stays out of storage/HTML/media",
+    "Actual Windows p11-node initializes, enrolls via stdin and reports UNKNOWN; lost policy PATCH recovers exact method/key/body/If-Match once",
+    "Device remains unqualified after policy save; explicit drain/revoke close new admission, and revoked native heartbeat is denied without engine or lock-cleanup claims",
+    "Fresh 320px context restores the same cookie session, sharing/account navigation and logout; no horizontal overflow, not native Alipay acceptance"
+  ],
+  "screenshots": [
+    {
+      "path": "dev/media/R020/screenshots/web-market.png",
+      "sha256": "8008b2e9ac36291ce06eb5b46c180f2df845eed0d7abc79dee156604a25a149e",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R020/screenshots/web-llm-detail.png",
+      "sha256": "8008b2e9ac36291ce06eb5b46c180f2df845eed0d7abc79dee156604a25a149e",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R020/screenshots/web-order-pending.png",
+      "sha256": "fbab5b7ccd9dae6617f70e8ef736f8810b90d1ea9dfed3e3b4bbb621662c9662",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R020/screenshots/web-order.png",
+      "sha256": "4802885ef247c6931fef3f1839ca3aebcd6c7c5742c4faaab7b2a12d98392ea0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R020/screenshots/web-share.png",
+      "sha256": "faed0d75800ba04de899d3deadfa3729b92d889ccd972187286c791eb8d2f0a6",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT"
+    },
+    {
+      "path": "dev/media/R020/screenshots/web-provider-conditions.png",
+      "sha256": "1c6c6275b724646f7d6ca2311711e815f2493f46d97ce7fd67b2f76edf0c894d",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT_AT_DEVICE"
+    },
+    {
+      "path": "dev/media/R020/screenshots/web-provider-revoked.png",
+      "sha256": "5dcc8bcb3716cb1c72146423b6cb38fe750610ceaf9168f9ee957fbf1848a9fd",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true,
+      "capture": "ACTUAL_PAGE_VIEWPORT_AT_DEVICE"
+    }
+  ],
+  "recording": {
+    "method": "Native Chromium CDP compositor screencast, real timestamps; silent",
+    "frames": 90,
+    "seconds": 35.698,
+    "mp4": {
+      "path": "dev/media/R020/recordings/web-transaction.mp4",
+      "sha256": "e53d6ea23ba575fed18d3b18f8002c938f5c56c8275c68f3c6d0ab115847ce94"
+    },
+    "gif": {
+      "path": "dev/media/R020/recordings/web-transaction.gif",
+      "sha256": "3d489ae1fc8bf5f97241390bf80e08af7518647bea577a3adeeedb167846a9bb"
+    }
+  },
+  "scope": "Actual compiled UI/HTTP/DB with synthetic OAuth/qualification/device heartbeats; H5 is not native Alipay validation; no payment, device or inference execution",
+  "virtualization_used": false,
+  "browser_version": "156.0.4314.50",
+  "provider_load_after_recovery": true,
+  "provider_native_binary_sha256": "001312b4a5a4abda17d82bd2444b3a6a53299d293e302d6464e95d32f196a18a",
+  "provider_native_commands": [
+    {
+      "action": "init",
+      "exit_code": 0,
+      "safe_status": {
+        "control_base": "http://127.0.0.1:8195",
+        "device_id": "",
+        "model_name": "RTX 4090 24GB",
+        "platform": "WINDOWS",
+        "resource_kind": "GPU_DEVICE",
+        "key_profile_id": "ED25519_DEVICE_1",
+        "key_fingerprint": "035fe5da36a8e070c7ce38dd023d2a7102eb5807a0c4126ae397a3991f1de521",
+        "device_version": 0,
+        "last_known_remote_state": "",
+        "reserved_sequence": null,
+        "pending_command": "",
+        "last_control_outcome": "LOCAL_ONLY",
+        "execution_enabled": false
+      }
+    },
+    {
+      "action": "enroll",
+      "exit_code": 0,
+      "safe_status": {
+        "control_base": "http://127.0.0.1:8195",
+        "device_id": "dev_37bbfc6adfa51e52407914e8b5c43342",
+        "model_name": "RTX 4090 24GB",
+        "platform": "WINDOWS",
+        "resource_kind": "GPU_DEVICE",
+        "key_profile_id": "ED25519_DEVICE_1",
+        "key_fingerprint": "035fe5da36a8e070c7ce38dd023d2a7102eb5807a0c4126ae397a3991f1de521",
+        "device_version": 1,
+        "last_known_remote_state": "PAIRED",
+        "reserved_sequence": null,
+        "pending_command": "",
+        "last_control_outcome": "REGISTERED_EXECUTION_DISABLED",
+        "execution_enabled": false
+      }
+    },
+    {
+      "action": "execution-init",
+      "exit_code": 0,
+      "safe_status": {
+        "profile": "P11_NATIVE_EXECUTION_STORE_1",
+        "resources": [],
+        "receipt_count": 0,
+        "execution_enabled": false
+      }
+    },
+    {
+      "action": "execution-status",
+      "exit_code": 0,
+      "safe_status": {
+        "profile": "P11_NATIVE_EXECUTION_STORE_1",
+        "resources": [],
+        "receipt_count": 0,
+        "execution_enabled": false
+      }
+    },
+    {
+      "action": "heartbeat",
+      "exit_code": 0,
+      "safe_status": {
+        "control_base": "http://127.0.0.1:8195",
+        "device_id": "dev_37bbfc6adfa51e52407914e8b5c43342",
+        "model_name": "RTX 4090 24GB",
+        "platform": "WINDOWS",
+        "resource_kind": "GPU_DEVICE",
+        "key_profile_id": "ED25519_DEVICE_1",
+        "key_fingerprint": "035fe5da36a8e070c7ce38dd023d2a7102eb5807a0c4126ae397a3991f1de521",
+        "device_version": 1,
+        "last_known_remote_state": "PAIRED",
+        "reserved_sequence": "0",
+        "pending_command": "",
+        "last_control_outcome": "HEARTBEAT_RECORDED",
+        "execution_enabled": false
+      }
+    },
+    {
+      "action": "heartbeat",
+      "exit_code": 1,
+      "safe_status": {
+        "control_base": "http://127.0.0.1:8195",
+        "device_id": "dev_37bbfc6adfa51e52407914e8b5c43342",
+        "model_name": "RTX 4090 24GB",
+        "platform": "WINDOWS",
+        "resource_kind": "GPU_DEVICE",
+        "key_profile_id": "ED25519_DEVICE_1",
+        "key_fingerprint": "035fe5da36a8e070c7ce38dd023d2a7102eb5807a0c4126ae397a3991f1de521",
+        "device_version": 1,
+        "last_known_remote_state": "PAIRED",
+        "reserved_sequence": "0",
+        "pending_command": "",
+        "last_control_outcome": "HEARTBEAT_RECORDED",
+        "execution_enabled": false
+      }
+    }
+  ],
+  "provider_device_id": "dev_37bbfc6adfa51e52407914e8b5c43342",
+  "provider_execution_metadata": {
+    "initialized_once": true,
+    "reopened_same_anchor": true,
+    "native_sqlite": true,
+    "no_resources_qualified": true,
+    "content_received": false
+  },
+  "provider_native_processes_exited": true,
+  "provider_recovery": {
+    "pair_requests": 3,
+    "original_pair_preserved": true,
+    "policy_requests": 2,
+    "original_policy_preserved": true,
+    "policy_if_match": "\"1\"",
+    "credentials_persisted": false,
+    "credential_rendered_or_recorded": false,
+    "native_engine_started": false
+  },
+  "narrow_viewport": {
+    "width": 320,
+    "height": 780,
+    "fresh_context": true,
+    "same_cookie_session": true,
+    "navigation_and_logout": true,
+    "recorded": false
+  },
+  "build_receipt_sha256": {
+    "runtime/frontend/check-receipt.json": "d92c361ea4c0c164b6c029cebbe3c022e6cf495278dc887a3d59a6a749676202",
+    "runtime/frontend/test-receipt.json": "dec326901f686fafe4bf030ae1fcccae586d8292de2724c2a9e05af46e95dae8",
+    "runtime/frontend/build-receipt.json": "8c97ae8a7f35f68f13ee5bbc7b4552dd31e9ed7bee19237e6e5f542d73f22743"
+  }
+}

@@ -1,0 +1,13 @@
+{"Time":"2026-10-31T01:15:06.5676666+08:00","Action":"start","Package":"p11.local/compute/client/supervisor"}
+{"Time":"2026-10-31T01:15:07.2359574+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry"}
+{"Time":"2026-10-31T01:15:07.2364826+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"=== RUN   TestSupervisorRequiresWatchdogAndFrozenRegistry\n","OutputType":"frame"}
+{"Time":"2026-10-31T01:15:10.0393688+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"    supervisor_test.go:257: wrong shutdown shutdown cleanup is unconfirmed; retain resource \u003cnil\u003e\n","OutputType":"error"}
+{"Time":"2026-10-31T01:15:10.4265888+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"--- FAIL: TestSupervisorRequiresWatchdogAndFrozenRegistry (3.19s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T01:15:10.4265888+08:00","Action":"fail","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Elapsed":3.19}
+{"Time":"2026-10-31T01:15:10.4265888+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorOriginalCommandSubmittedOnlyOnce"}
+{"Time":"2026-10-31T01:15:10.4265888+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorOriginalCommandSubmittedOnlyOnce","Output":"=== RUN   TestSupervisorOriginalCommandSubmittedOnlyOnce\n","OutputType":"frame"}
+{"Time":"2026-10-31T01:15:12.0789909+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorOriginalCommandSubmittedOnlyOnce","Output":"--- PASS: TestSupervisorOriginalCommandSubmittedOnlyOnce (1.65s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T01:15:12.0799984+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorOriginalCommandSubmittedOnlyOnce","Elapsed":1.65}
+{"Time":"2026-10-31T01:15:12.0799984+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"FAIL\n","OutputType":"frame"}
+{"Time":"2026-10-31T01:15:12.1963209+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"FAIL\tp11.local/compute/client/supervisor\t5.628s\n","OutputType":"frame"}
+{"Time":"2026-10-31T01:15:12.1968256+08:00","Action":"fail","Package":"p11.local/compute/client/supervisor","Elapsed":5.629}

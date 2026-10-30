@@ -93,7 +93,7 @@ func TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder(t *testing.T
 			phone := testsupport.SeedOffer(t, ctx, db, "E2E", "CN")
 			keepSyntheticDevicesOnline(t, gpu.Device, phone.Device)
 			code := ids.New("SYNTHETIC_BROWSER")
-			providerRound := (os.Getenv("P11_EVIDENCE_ROUND") == "R009" || os.Getenv("P11_EVIDENCE_ROUND") == "R010" || os.Getenv("P11_EVIDENCE_ROUND") == "R011" || os.Getenv("P11_EVIDENCE_ROUND") == "R012" || os.Getenv("P11_EVIDENCE_ROUND") == "R013" || os.Getenv("P11_EVIDENCE_ROUND") == "R014" || os.Getenv("P11_EVIDENCE_ROUND") == "R015" || os.Getenv("P11_EVIDENCE_ROUND") == "R016" || os.Getenv("P11_EVIDENCE_ROUND") == "R017" || os.Getenv("P11_EVIDENCE_ROUND") == "R018" || os.Getenv("P11_EVIDENCE_ROUND") == "R019")
+			providerRound := (os.Getenv("P11_EVIDENCE_ROUND") == "R009" || os.Getenv("P11_EVIDENCE_ROUND") == "R010" || os.Getenv("P11_EVIDENCE_ROUND") == "R011" || os.Getenv("P11_EVIDENCE_ROUND") == "R012" || os.Getenv("P11_EVIDENCE_ROUND") == "R013" || os.Getenv("P11_EVIDENCE_ROUND") == "R014" || os.Getenv("P11_EVIDENCE_ROUND") == "R015" || os.Getenv("P11_EVIDENCE_ROUND") == "R016" || os.Getenv("P11_EVIDENCE_ROUND") == "R017" || os.Getenv("P11_EVIDENCE_ROUND") == "R018" || os.Getenv("P11_EVIDENCE_ROUND") == "R019" || os.Getenv("P11_EVIDENCE_ROUND") == "R020")
 			var origin string
 			h := newHarnessConfigured(t, 10000, 1000, func(c *controlhttp.Config) {
 				origin = "http://" + c.AllowedHosts[0]
@@ -195,8 +195,20 @@ func TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder(t *testing.T
 func keepSyntheticDevicesOnline(t *testing.T, devices ...string) {
 	t.Helper()
 	heartbeatCtx, cancel := context.WithCancel(ctx)
-	query := "UPDATE p11.devices SET last_seen_at=clock_timestamp() WHERE id=ANY($1::text[]) AND client_release='SYNTHETIC_TEST'"
-	if _, err := db.Pool.Exec(heartbeatCtx, query, devices); err != nil {
+	// Real device heartbeats own one device. A synthetic multi-row UPDATE can
+	// lock its rows in heap order while a market transaction locks the same
+	// devices in listing order. Keep each fixture heartbeat in its own commit;
+	// never hold one device row while waiting for a second one.
+	query := "UPDATE p11.devices SET last_seen_at=clock_timestamp() WHERE id=$1 AND client_release='SYNTHETIC_TEST'"
+	heartbeat := func() error {
+		for _, device := range devices {
+			if _, err := db.Pool.Exec(heartbeatCtx, query, device); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	if err := heartbeat(); err != nil {
 		cancel()
 		t.Fatal(err)
 	}
@@ -211,7 +223,7 @@ func keepSyntheticDevicesOnline(t *testing.T, devices ...string) {
 			case <-heartbeatCtx.Done():
 				return
 			case <-ticker.C:
-				if _, err := db.Pool.Exec(heartbeatCtx, query, devices); err != nil {
+				if err := heartbeat(); err != nil {
 					if heartbeatCtx.Err() == nil {
 						errors <- err
 					}

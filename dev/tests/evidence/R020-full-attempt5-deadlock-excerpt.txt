@@ -1,0 +1,18 @@
+2026-10-31 01:31:51.964 CST [15688] ERROR:  deadlock detected
+2026-10-31 01:31:51.964 CST [15688] DETAIL:  Process 15688 waits for ShareLock on transaction 7452; blocked by process 37732.
+	Process 37732 waits for ShareLock on transaction 7453; blocked by process 15688.
+	Process 15688: UPDATE p11.devices SET last_seen_at=clock_timestamp() WHERE id=ANY($1::text[]) AND client_release='SYNTHETIC_TEST'
+	Process 37732: SELECT r.evidence_ids,g.evidence_ids,c.evidence_ids,
+	COALESCE(d.state='ONLINE' AND d.last_seen_at>clock_timestamp()-interval '45 seconds',false),
+	COALESCE(d.resource_policy->>'accepting_new_jobs'='true' AND (d.reported_resource_state='IDLE' OR d.identity_profile='LEGACY_UNVERIFIED' AND d.reported_resource_state='UNKNOWN'),false),
+	EXISTS(SELECT 1 FROM p11.resource_locks lk WHERE lk.resource_id=c.resource_id AND lk.phase<>'FREE')
+	FROM p11.capabilities c JOIN p11.devices d ON d.id=c.device_id AND d.seller_id=c.seller_id
+	JOIN p11.listing_devices ld ON ld.capability_id=c.id AND ld.device_id=d.id AND ld.seller_id=c.seller_id
+	JOIN p11.releases r ON r.capability_id=c.id JOIN p11.feature_gates g ON g.id=r.gate_id
+	WHERE c.id=$1 AND d.id=$2 AND c.seller_id=$3 AND ld.listing_id=$4 AND ld.revision=$5
+	AND c.kernel_environment_ref=$6 AND c.kernel_environment_digest=$7 AND c.state='QUALIFIED'
+	AND c.mode=$8 AND c.privacy=$9 AND c.protocol_profile=$10
+	AND r.state='ACTIVE' AND r.expires_at>clock_timestamp() AND r.approved_by I
+2026-10-31 01:31:51.964 CST [15688] HINT:  See server log for query details.
+2026-10-31 01:31:51.964 CST [15688] CONTEXT:  while locking tuple (0,7) in relation "devices"
+2026-10-31 01:31:51.964 CST [15688] STATEMENT:  UPDATE p11.devices SET last_seen_at=clock_timestamp() WHERE id=ANY($1::text[]) AND client_release='SYNTHETIC_TEST'

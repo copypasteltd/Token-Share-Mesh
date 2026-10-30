@@ -1,0 +1,169 @@
+{
+  "round": "R020",
+  "attempts": [
+    {
+      "attempt": "first",
+      "log": "dev/tests/evidence/R020-host-attempt1-tests.jsonl",
+      "sha256": "13d7c54a4ea231328d1f21aca55c969e8e412c70e43368b9cf139a0530b68f84",
+      "top_level_pass": 9,
+      "top_level_fail": 2,
+      "scope": "targeted host only; final complete run and source checks are authoritative",
+      "notes": "First: ordinary-file content scan encountered Windows exclusive control.lock. Second: active SQLite WAL-index byte lock. Scanner now covers actual payload DB/WAL/state, excluding fixed locks/index; runtime fences/timeouts/assertions are not relaxed. Interim pass predates final frozen-watchdog restriction; final full regression must cover current source."
+    },
+    {
+      "attempt": "second",
+      "log": "dev/tests/evidence/R020-host-attempt2-tests.jsonl",
+      "sha256": "acdf9f49539195b8b2df89d491433b5707b35d4814de7dffb77d7d349cd70dce",
+      "top_level_pass": 14,
+      "top_level_fail": 1,
+      "scope": "targeted host only; final complete run and source checks are authoritative",
+      "notes": "First: ordinary-file content scan encountered Windows exclusive control.lock. Second: active SQLite WAL-index byte lock. Scanner now covers actual payload DB/WAL/state, excluding fixed locks/index; runtime fences/timeouts/assertions are not relaxed. Interim pass predates final frozen-watchdog restriction; final full regression must cover current source."
+    },
+    {
+      "attempt": "interim",
+      "log": "dev/tests/evidence/R020-host-development-tests.jsonl",
+      "sha256": "3ab6dc624fb9cbaac96f97b7587617777f00b1023611df43821b27161bade789",
+      "top_level_pass": 15,
+      "top_level_fail": 0,
+      "scope": "targeted host only; final complete run and source checks are authoritative",
+      "notes": "First: ordinary-file content scan encountered Windows exclusive control.lock. Second: active SQLite WAL-index byte lock. Scanner now covers actual payload DB/WAL/state, excluding fixed locks/index; runtime fences/timeouts/assertions are not relaxed. Interim pass predates final frozen-watchdog restriction; final full regression must cover current source."
+    }
+  ],
+  "earlier_observed_failures": [
+    {
+      "kind": "compile_only",
+      "diagnostic": "devicecontrol/client.go undefined maximum; repaired by explicit sendNativeBounded helper",
+      "actual_tests_passed": 0,
+      "evidence_boundary": "Tool result observed; no complete raw compiler log was saved."
+    },
+    {
+      "kind": "tool_syntax",
+      "diagnostic": "Round selector substitution malformed two Python case dictionaries and a Go OR condition; repaired, Python AST parsed and Go formatted before final checks.",
+      "actual_tests_passed": 0,
+      "evidence_boundary": "Tool result observed; not a native execution or test pass."
+    }
+  ],
+  "retained_prior_risk": "R016/R019 slow-metadata cleanup timing root causes remain unproven; later passing runs do not establish stability. R020 first-full migration statement-timeout/checkpoint latency also remains unproven; subsequent passing results must not erase it.",
+  "virtualization_used": false,
+  "full_runs": [
+    {
+      "id": "full-1",
+      "run_id": "20261030T162845Z-1928d641",
+      "counts": {
+        "pass": 177,
+        "fail": 73,
+        "skip": 0
+      },
+      "archive": "dev/tests/evidence/R020-full-attempt1-archive.json",
+      "bounds_or_sql_relaxed": false,
+      "root_cause_proven": false
+    },
+    {
+      "id": "full-2",
+      "run_id": "20261030T170412Z-5ac256e1",
+      "scope": "Partial native segment and preparation failure; DB/browser not executed",
+      "counts": {
+        "pass": 113,
+        "fail": 2,
+        "skip": 0
+      },
+      "archive": "dev/tests/evidence/R020-full-attempt2-archive.json",
+      "bounds_or_sql_relaxed": false,
+      "root_cause_proven": false
+    },
+    {
+      "id": "full-3",
+      "run_id": "20261030T171717Z-8a2635e0",
+      "scope": "Preparation failure only, 0 tests, no DB or browser",
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "skip": 0
+      },
+      "archive": "dev/tests/evidence/R020-full-attempt3-archive.json",
+      "bounds_or_sql_relaxed": false
+    },
+    {
+      "id": "full-4",
+      "run_id": "20261030T171814Z-b2021970",
+      "counts": {
+        "pass": 245,
+        "fail": 5,
+        "skip": 0
+      },
+      "archive": "dev/tests/evidence/R020-full-attempt4-archive.json",
+      "scope": "Complete run; migration fixture working-directory error",
+      "bounds_or_sql_relaxed": false,
+      "root_cause_proven": "Only the migration fixture path failures; not earlier SQL or cleanup timing"
+    },
+    {
+      "id": "full-5",
+      "run_id": "20261030T172814Z-75be205f",
+      "counts": {
+        "pass": 249,
+        "fail": 1,
+        "skip": 0
+      },
+      "archive": "dev/tests/evidence/R020-full-attempt5-archive.json",
+      "scope": "Complete run; test-only batch heartbeat deadlock after successful page interactions",
+      "bounds_or_sql_relaxed": false,
+      "root_cause_proven": "Observed heartbeat/market lock cycle, not absence of other deadlocks or earlier timing causes"
+    },
+    {
+      "id": "full-6",
+      "run_id": "20261030T173948Z-b8f50ed7",
+      "status": "CURRENT_FULL_PASS_WITH_OPEN_TIMING_RISKS",
+      "counts": {
+        "pass": 250,
+        "fail": 0,
+        "skip": 0
+      },
+      "summary": "dev/tests/evidence/R020-native-summary.json",
+      "raw": "dev/tests/evidence/R020-native-go-tests.jsonl",
+      "bounds_or_sql_relaxed": false,
+      "root_cause_proven": false,
+      "temporary_instance_stopped": true
+    }
+  ],
+  "diagnostics": [
+    {
+      "id": "budget-after-full-1",
+      "run_id": "20261030T165224Z-8461b1c1",
+      "unique_top_level": {
+        "pass": 16,
+        "fail": 0,
+        "skip": 0
+      },
+      "summary": "dev/tests/evidence/R020-budget-native-summary.json",
+      "raw": "dev/tests/evidence/R020-budget-native-go-tests.jsonl",
+      "temporary_instance_stopped": true,
+      "scope": "Limited diagnostic only, not a full-round result or proof of the earlier failure cause"
+    },
+    {
+      "id": "supervisor-after-partial-2",
+      "summary": "dev/tests/evidence/R020-supervisor-cleanup-diagnostic.json",
+      "raw": "dev/tests/evidence/R020-supervisor-cleanup-diagnostic.jsonl",
+      "counts": {
+        "pass": 1,
+        "fail": 1,
+        "skip": 0
+      },
+      "scope": "Two unchanged existing supervisor tests only. No platform DB or browser. Not full-round evidence or proof of failure cause/timing stability."
+    }
+  ],
+  "current_result_scope": "Current complete run only; earlier failures and diagnostics remain. No proof of stable cleanup/storage/browser timing, real GPU/model/phone/payment, content E2E or complete product acceptance.",
+  "tooling_followups": [
+    {
+      "action": "Frontend verifier argument registration",
+      "observed": "R020 argument initially rejected before any verification. Corrected only parser default/choices; then actual current frontend evidence verification passed.",
+      "test_cases_executed_before_correction": 0,
+      "product_source_changed": false
+    }
+  ],
+  "historical_media_preservation": {
+    "report": "dev/tests/evidence/R020-historical-media-recovery.json",
+    "recovered_original_hash_matches": 17,
+    "missing_original_png_files": 19,
+    "current_final_media_complete": true
+  }
+}

@@ -98,7 +98,16 @@ func (c *Client) Prepare(method, uri string, body []byte, key, etag string) (Pre
 	return Prepared{binding: b, body: bytes.Clone(body), owner: c}, nil
 }
 func (c *Client) Send(ctx context.Context, p Prepared) (Reply, error) {
+	return c.SendBounded(ctx, p, 1048576)
+}
+
+// SendBounded lets a native host apply the manifest/input profile limit before
+// allocating a full generic control response. It never changes prepared bytes.
+func (c *Client) SendBounded(ctx context.Context, p Prepared, maximum int) (Reply, error) {
 	var reply Reply
+	if maximum < 1 || maximum > 1048576 {
+		return reply, errors.New("bounded native response limit required")
+	}
 	if p.owner != c {
 		return reply, errors.New("prepared command belongs to another control identity")
 	}
@@ -111,10 +120,14 @@ func (c *Client) Send(ctx context.Context, p Prepared) (Reply, error) {
 	if err != nil {
 		return reply, err
 	}
-	return sendNative(ctx, c.http, c.base, p.binding, p.body, proof)
+	return sendNativeBounded(ctx, c.http, c.base, p.binding, p.body, proof, maximum)
 }
 
 func sendNative(ctx context.Context, client *http.Client, base *url.URL, binding Binding, body []byte, credential string) (Reply, error) {
+	return sendNativeBounded(ctx, client, base, binding, body, credential, 1048576)
+}
+
+func sendNativeBounded(ctx context.Context, client *http.Client, base *url.URL, binding Binding, body []byte, credential string, maximum int) (Reply, error) {
 	var reply Reply
 	r, err := http.NewRequestWithContext(ctx, binding.Method, base.Scheme+"://"+base.Host+binding.URI, bytes.NewReader(body))
 	if err != nil {
@@ -135,12 +148,14 @@ func sendNative(ctx context.Context, client *http.Client, base *url.URL, binding
 	if response.StatusCode >= 300 && response.StatusCode < 400 {
 		return reply, &TransportError{Unknown: unknown}
 	}
-	raw, err := io.ReadAll(io.LimitReader(response.Body, 1048577))
-	if err != nil || len(raw) > 1048576 {
+	raw, err := io.ReadAll(io.LimitReader(response.Body, int64(maximum+1)))
+	if err != nil || len(raw) > maximum {
+		clear(raw)
 		return reply, &TransportError{Unknown: unknown}
 	}
 	media, _, err := mime.ParseMediaType(response.Header.Get("Content-Type"))
 	if err != nil || !strings.EqualFold(media, "application/json") || !json.Valid(raw) {
+		clear(raw)
 		return reply, &TransportError{Unknown: unknown}
 	}
 	return Reply{Status: response.StatusCode, Body: raw, ETag: response.Header.Get("ETag"), Replayed: response.Header.Get("Idempotency-Replayed") == "true"}, nil

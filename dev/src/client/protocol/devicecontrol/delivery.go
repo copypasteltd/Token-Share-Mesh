@@ -14,11 +14,23 @@ import (
 // approved kernel state. NEVER fill it by copying an incoming manifest/lease.
 // This is not a persistent KernelRegistry, installer or production pin store.
 type Approval struct {
-	Order, Route, Seller, Device, Resource, Capability, ContractHash                        string
-	Mode, Privacy                                                                           string
-	EnvironmentRef, EnvironmentDigest, EngineKind, EngineRelease, ModelDigest, RecipeDigest string
-	Spec                                                                                    executionlease.Spec
-	InputTokenLimit                                                                         int64
+	Order             string              `json:"order_id"`
+	Route             string              `json:"route_id"`
+	Seller            string              `json:"seller_id"`
+	Device            string              `json:"device_id"`
+	Resource          string              `json:"resource_id"`
+	Capability        string              `json:"capability_id"`
+	ContractHash      string              `json:"contract_hash"`
+	Mode              string              `json:"mode"`
+	Privacy           string              `json:"privacy"`
+	EnvironmentRef    string              `json:"kernel_environment_ref"`
+	EnvironmentDigest string              `json:"kernel_environment_digest"`
+	EngineKind        string              `json:"engine_kind"`
+	EngineRelease     string              `json:"engine_release"`
+	ModelDigest       string              `json:"model_digest"`
+	RecipeDigest      string              `json:"recipe_digest"`
+	Spec              executionlease.Spec `json:"request_spec"`
+	InputTokenLimit   int64               `json:"input_token_limit"`
 }
 type AcceptedDelivery struct {
 	verified executionlease.Verified

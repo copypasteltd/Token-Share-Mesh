@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime,timezone
 from contextlib import contextmanager
 import ctypes
+import hashlib
 import argparse
 import json
 import os
@@ -46,7 +47,7 @@ def native_path_alias(lease=None):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R019', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019'])
+    parser.add_argument('--round', default='R020', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'])
     parser.add_argument('--suite', default='full', choices=['full','budget','route','invocation','execution','claim','delivery'],
                         help='budget is an explicitly limited financial regression, never full-round evidence')
     options=parser.parse_args()
@@ -72,7 +73,7 @@ def run_suite(alias, lease, round_id, suite='full'):
     env['PGPASSWORD']=password;env['PGUSER']='p11_test';env['PGHOST']='127.0.0.1';env['PGPORT']=str(port)
     dsn=f'postgresql://p11_test:{quote(password,safe="")}@127.0.0.1:{port}/postgres?sslmode=disable'
     env['P11_TEST_DATABASE_URL']=dsn;env['P11_REQUIRE_INTEGRATION']='1'
-    if suite=='full' and round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019'}:
+    if suite=='full' and round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020'}:
         env['P11_FRONTEND_BROWSER']='1';env['P11_PROJECT_ROOT']=str(ROOT);env['P11_EVIDENCE_ROUND']=round_id
     flags=subprocess.CREATE_NO_WINDOW if os.name=='nt' else 0
     def run(args,timeout=60):
@@ -85,11 +86,62 @@ def run_suite(alias, lease, round_id, suite='full'):
         if result.returncode:
             raise RuntimeError(command_log.read_text(encoding='utf-8',errors='replace').replace(password,'[REDACTED]').replace(dsn,'[DATABASE_URL]'))
         return result
-    started=False;test_code=1;stop_ok=False;shutdown_mode='NOT_STARTED'
+    verification_sources={name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in ('dev/tools/原生数据库验证.py','dev/tools/frontend/browser.mjs')}
+    compiled_db_tests={}
+    native_before_postgres = suite=='full' and round_id=='R020'
+    started=False;test_code=0 if native_before_postgres else 1;stop_ok=False;shutdown_mode='NOT_STARTED'
     failure=None;cleanup_failure=None;segments=[]
     log=ROOT/'runtime/logs'/('native-db-'+run_id+'.log')
     log.parent.mkdir(parents=True,exist_ok=True)
+    report=ROOT/f'dev/tests/evidence/{evidence_prefix}-native-go-tests.jsonl'
+    report.parent.mkdir(parents=True,exist_ok=True)
+    report.write_text('',encoding='utf-8')
     try:
+        if native_before_postgres:
+            probe=subprocess.run([str(executable),'tool','test2json','-h'],cwd=ROOT/'dev/src',env=env,capture_output=True,text=True,encoding='utf-8',timeout=60,creationflags=flags)
+            if probe.returncode not in (0,1,2) or 'usage: go tool test2json' not in probe.stdout+probe.stderr:
+                raise RuntimeError('Pinned test event converter unavailable')
+        if native_before_postgres:
+            # Native SQLite/HTTP-fixture tests need no platform DB. Finish them
+            # before starting PG, rather than leaving a server/checkpointer
+            # active during unrelated filesystem-heavy native tests. Preserve
+            # all cases, assertions, concurrent operations and timing bounds.
+            unit_env=env.copy()
+            unit_env.pop('P11_TEST_DATABASE_URL',None)
+            unit_env.pop('P11_FRONTEND_BROWSER',None)
+            listed=subprocess.run([str(executable),'list','./...'],cwd=ROOT/'dev/src',env=unit_env,capture_output=True,text=True,encoding='utf-8',timeout=120,creationflags=flags)
+            if listed.returncode: raise RuntimeError('Native package inventory failed')
+            db_packages={'p11.local/compute/api/tests','p11.local/compute/tests/integration'}
+            all_packages=listed.stdout.splitlines()
+            if not db_packages<=set(all_packages): raise RuntimeError('Database test packages missing')
+            native_packages=[p for p in all_packages if p not in db_packages]
+            args=['test','-json','-count=1','-p=1','-timeout=240s',*native_packages]
+            print('Native verification segment: native (platform DB not started)',flush=True)
+            process=subprocess.Popen([str(executable),*args],cwd=ROOT/'dev/src',env=unit_env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace',creationflags=flags)
+            with report.open('a',encoding='utf-8') as output:
+                for line in process.stdout:
+                    safe=line.replace(dsn,'[DATABASE_URL]').replace(password,'[REDACTED]');output.write(safe)
+                    try:
+                        event=json.loads(safe)
+                        if event.get('Action')=='fail': print('fail',event.get('Package',''),event.get('Test',''),flush=True)
+                    except ValueError: print(safe.strip(),flush=True)
+            code=process.wait()
+            segments.append({'id':'native','arguments':args,'exit_code':code,'database_isolation':'NO_DATABASE_SERVER','temporary_database_removed':None})
+            if code: test_code=1
+            # Build DB test executables before starting the owned server too.
+            # Run each binary in a fresh process through this exact toolchain's
+            # test2json; this preserves all test flags/timeouts and emits the
+            # same real test events without compiling beside a live DB.
+            for package,label in [('./api/tests','api-tests'),('./tests/integration','integration')]:
+                target=directory/(label+'.test.exe')
+                command=[str(executable),'test','-c','-o',str(target),package]
+                print('Precompiling native database tests:',package,flush=True)
+                result=subprocess.run(command,cwd=ROOT/'dev/src',env=unit_env,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=600,creationflags=flags)
+                if result.returncode or not target.is_file(): raise RuntimeError('Native database test compilation failed')
+                compiled_db_tests[package]={'path':target.relative_to(ROOT).as_posix(),'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'command':['go',*command[1:]]}
+            # Tool commands may be bundled into go.exe; do not assume a
+            # standalone executable exists in GOTOOLDIR.
+            test2json=[str(executable),'tool','test2json']
         native_password=alias/password_file.relative_to(ROOT)
         # Only the disposable initial catalog skips the final filesystem-wide
         # sync. The server still uses normal fsync/WAL for every test commit.
@@ -99,8 +151,7 @@ def run_suite(alias, lease, round_id, suite='full'):
         run([binaries/'pg_ctl.exe','-D',data,'-l',alias/log.relative_to(ROOT),'-o',f'-h 127.0.0.1 -p {port} -c max_connections=30 -c shared_buffers=32MB','-w','start'])
         started=True
         print('Running native Go integration tests',flush=True)
-        report=ROOT/f'dev/tests/evidence/{evidence_prefix}-native-go-tests.jsonl';report.parent.mkdir(parents=True,exist_ok=True)
-        with report.open('w',encoding='utf-8') as output:
+        with report.open('a',encoding='utf-8') as output:
             # Keep package-level browser recording and the native DB regression
             # sequential on this Windows host. Each test's real concurrent
             # goroutines/connections and ordinary 3s business locks are retained.
@@ -110,7 +161,7 @@ def run_suite(alias, lease, round_id, suite='full'):
                 selections=[('delivery',['-run','^TestExecutionDelivery|^TestHTTPExecutionDelivery|^TestNativeDelivery|^TestInputDeliveryFile|^TestExecutionClaim|^TestHTTPExecutionClaim','./tests/integration','./api/tests','./client/protocol/devicecontrol','./api/cmd/p11-api'])]
             if suite=='claim':
                 selections=[('claim',['-run','^TestExecutionClaim|^TestHTTPExecutionClaim|^TestNativeLeaseClaim|^TestLeaseVerifierFile','./tests/integration','./api/tests','./client/protocol/devicecontrol','./api/cmd/p11-api'])]
-            if suite=='full' and round_id in {'R014','R015','R016','R017','R018','R019'}:
+            if suite=='full' and round_id in {'R014','R015','R016','R017','R018','R019','R020'}:
                 # API TestMain has one bounded context for its whole process.
                 # Keep each browser journey in a fresh process instead of
                 # letting recording/encoding consume later fixtures' lifetime.
@@ -118,11 +169,14 @@ def run_suite(alias, lease, round_id, suite='full'):
                 selections=[('core',['-skip','^'+browser_case+'$','./...']),
                             ('web',['-run','^'+browser_case+'$/^web$','./api/tests']),
                             ('miniapp',['-run','^'+browser_case+'$/^miniapp$','./api/tests'])]
-            test_code=0
+            if native_before_postgres:
+                selections[0]=('core',['-skip','^'+browser_case+'$','./api/tests','./tests/integration'])
+            else:
+                test_code=0
             for name,packages in selections:
                 args=['test','-json','-count=1','-p=1','-timeout=240s',*packages]
                 segment_env=env.copy();segment_dsn=dsn;database_name=None
-                if suite=='full' and round_id in {'R014','R015','R016','R017','R018','R019'} and name in {'web','miniapp'}:
+                if suite=='full' and round_id in {'R014','R015','R016','R017','R018','R019','R020'} and name in {'web','miniapp'}:
                     # Market fixtures use the real default region and paging.
                     # Other cases must not push this journey's seeded offers
                     # out of its first page. Use a fresh owned native DB, not
@@ -132,6 +186,34 @@ def run_suite(alias, lease, round_id, suite='full'):
                     segment_dsn=f'postgresql://p11_test:{quote(password,safe="")}@127.0.0.1:{port}/{database_name}?sslmode=disable'
                     segment_env['P11_TEST_DATABASE_URL']=segment_dsn
                 print('Native verification segment:',name,flush=True)
+                if native_before_postgres:
+                    invocations=[]
+                    packages_to_run=['./api/tests','./tests/integration'] if name=='core' else ['./api/tests']
+                    for package in packages_to_run:
+                        test_flags=['-test.v=test2json','-test.count=1','-test.timeout=240s']
+                        if name=='core': test_flags.append('-test.skip=^'+browser_case+'$')
+                        else: test_flags.append('-test.run=^'+browser_case+'$/^'+name+'$')
+                        artifact=compiled_db_tests[package]
+                        binary_path=ROOT/artifact['path']
+                        if hashlib.sha256(binary_path.read_bytes()).hexdigest()!=artifact['sha256']: raise RuntimeError('Precompiled test executable changed')
+                        invocations.append([*test2json,'-t','-p','p11.local/compute/'+package[2:],str(binary_path),*test_flags])
+                    code=0
+                    for command, package in zip(invocations, packages_to_run):
+                        # Match go test's per-package working directory. Legacy
+                        # migration fixtures deliberately load the real old SQL.
+                        process=subprocess.Popen(command,cwd=ROOT/'dev/src'/package[2:],env=segment_env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace',creationflags=flags)
+                        for line in process.stdout:
+                            safe=line.replace(segment_dsn,'[DATABASE_URL]').replace(dsn,'[DATABASE_URL]').replace(password,'[REDACTED]');output.write(safe)
+                            try:
+                                event=json.loads(safe)
+                                if event.get('Action')=='fail': print('fail',event.get('Package',''),event.get('Test',''),flush=True)
+                            except ValueError: print(safe.strip(),flush=True)
+                        if process.wait():code=1
+                    segments.append({'id':name,'arguments':invocations,'working_directories':['dev/src/'+p[2:] for p in packages_to_run],'exit_code':code,'database_isolation':'FRESH_NATIVE_CHILD' if database_name else 'CORE','temporary_database_removed':None})
+                    if database_name:
+                        run([binaries/'dropdb.exe','--maintenance-db=postgres',database_name]);segments[-1]['temporary_database_removed']=True
+                    if code:test_code=1
+                    continue
                 process=subprocess.Popen([str(executable),*args],cwd=ROOT/'dev/src',env=segment_env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace',creationflags=flags)
                 for line in process.stdout:
                     safe=line.replace(segment_dsn,'[DATABASE_URL]').replace(dsn,'[DATABASE_URL]').replace(password,'[REDACTED]');output.write(safe)
@@ -181,7 +263,7 @@ def run_suite(alias, lease, round_id, suite='full'):
             # This generated bootstrap credential is within the verified task path.
             password_file.unlink(missing_ok=True)
     summary={'round':round_id,'suite':suite,'run_id':run_id,'postgresql':pg['version'],'test_exit_code':test_code,'temporary_instance_stopped':stop_ok,'virtualization_used':False,
-             'package_parallelism':1,'intra_test_concurrency_retained':True,
+             'package_parallelism':1,'intra_test_concurrency_retained':True,'native_before_postgres':native_before_postgres,'compiled_db_tests':compiled_db_tests,'test_event_converter':['go','tool','test2json'] if native_before_postgres else None,'verification_sources':verification_sources,
              'test_segments':segments,'case_inventory':'Unique top-level test IDs; R014 browser parent runs separately for each selected child',
              'shutdown_mode':shutdown_mode,'runner_error':failure,'cleanup_error':cleanup_failure,
              'evidence':f'dev/tests/evidence/{evidence_prefix}-native-go-tests.jsonl','scope':('Limited '+suite+' tests only; NOT full-round evidence. ' if suite!='full' else '')+'Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test'}

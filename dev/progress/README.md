@@ -2,6 +2,8 @@
 
 目标：按全部开发细则交付成体系源码。当前源码目标 ACTIVE，源码实施进展与需求/设计工作分别记录。
 
+R020按NB04设计推进持久执行宿主：独立issuer公钥/原订单与内核批准、加密原领取命令、内存输入票据、显式InputAdapter一次提交及原清理凭证投影。CLI仅初始化/状态，执行心跳关闭。当前完整250项Go/原生PG及真实Web/H5通过；21项未改TS及三构建按源码摘要复核，Windows/Linux六构建通过，Linux仅交叉编译。21项已发布SQL/原执行DDL字节保留，新增独立宿主SQLite。五次失败/准备中断及监督器诊断1过/1失均归档，当前通过不证明清理/存储/H5时序稳定；工具入口、工作目录与合成保活死锁的修正不等于生产风险收口。真实内核/tokenizer/输出/usage/ACK/续期、E2E/LP/PE、租赁、渠道及完整验收仍待。全56任务/222子项保留，DEV-55延后，目标ACTIVE。 历史第4/5次尝试19份原始PNG缺失已逐项登记，17件媒体按原摘要恢复；当前最终素材完整。 [本轮完整证据](../tests/evidence/R020-验证报告.md)。
+
 | 轮次 | 内容与完整待办 | 验证状态 |
 | --- | --- | --- |
 | R001 | [原生后端基础、数据库与授权核心](R001-本轮实现与完整待办.md) | PASSED_FOR_FOUNDATION_ONLY |
@@ -22,6 +24,7 @@
 | R017 | [实际原生输入加密与首租约原子准入](R017-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R018 | [原设备签名领取与原租约交付](R018-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R019 | [原清单与输入受限交付](R019-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| R020 | [持久原生执行宿主与内容适配接线](R020-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 
 任务现状：CONDITIONAL=1；DEFERRED=1；IN_PROGRESS=28；NOT_STARTED=26。
 

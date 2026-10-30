@@ -2,6 +2,16 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
+## R020 · 原生执行宿主 / Persistent native execution host
+
+R020 adds a persistent native execution host with an independently provisioned issuer public pin and original order/kernel approval. The original claim is encrypted and committed before networking; missing replies and restarts retain that exact command. Bounded manifest/input reads produce an in-memory ticket. An explicit InputAdapter hands original bytes to the existing once-only native supervisor; an old receipt cannot submit content again. Cleanup is projected only from the original execution journal with the same lease and metadata hash. Corrupted selectors cannot hide unfinished commands, and missing or mismatched anchored state is never recreated. Windows reuses actual DPAPI/private ACLs; Linux remains cross-built with protocol fixtures. CLI host-init/host-status do not install or run models; execution_enabled remains false. This covers three PLAINTEXT/STANDARD text profiles. Metadata encryption does not provide content E2E or provider blindness. Real tokenizers/kernels, output/usage/ACK/renewal, payment channels, LP/PE/rental and complete acceptance remain open. The 37/95 control-operation and 65-table/664-column/113-FK counts are unchanged. Previously published SQL001–010 and execution DDL bytes are preserved; a separate native host SQLite schema is new. All 56 tasks/222 development steps and unresolved R016/R019 slow-metadata timing risks remain open; the goal stays ACTIVE.
+
+`Recover control state → Begin → Prepare → trusted HostKernel → node.RunSupervised → ticket.Start → original cleanup projection`.
+
+The embedding must reject pending, revoked or draining control state before new work, couple the watchdog to the existing control loop, and recheck state after termination. A standalone watchdog test is not a complete production daemon.
+
+[EH-001—036](docs/技术开发/附录-原生执行宿主与内容适配接线.md) · [R020 evidence](dev/tests/evidence/R020-验证报告.md) · [All 56 tasks](dev/progress/R020-本轮实现与完整待办.md)。
+
 **A C2C market for user-owned compute, with standard AI APIs and explicit privacy choices.**
 
 [简体中文](README.zh-CN.md) · [Documentation map](dev/repository/README.md) · [Development plan](dev/开发细则总表.md) · [Changelog](CHANGELOG.md)
@@ -9,6 +19,22 @@
 ![Token Share Mesh architecture — design, not a running inference service](dev/media/architecture.svg)
 
 Token Share Mesh connects buyers with people voluntarily offering idle Windows/Linux GPUs, Android devices, or explicitly authorized upstream AI capacity. The seller sets availability and price and remains the seller of record. The platform provides discovery, contracts, routing, scheduling and transaction evidence, and charges a disclosed fee.
+
+<details>
+<summary>Validation attempts and open timing risks</summary>
+
+The first R020 complete run passed 177 / failed 73 / skipped 0. Migration 001 in a legacy-upgrade child DB hit the existing statement timeout; a contemporaneous checkpoint reported 110.501s sync, and later cases exhausted the unchanged 220s package context. The H5 journey separately terminated after 237.63s without a final receipt; its failure screenshot is retained. Underlying storage and browser causes remain unproven. Validation now runs independent native tests before starting PG, explicitly observes enabled/checked Taro consent, and journals failure evidence earlier. Product source, published SQL, existing assertions and time bounds are unchanged. Later passing runs do not establish timing stability or erase these failures. [Full failure archive / 完整失败归档](dev/tests/evidence/R020-full-attempt1-archive.json)。
+
+The second R020 run completed only the native segment: 113 passed / 2 failed / 0 skipped. Two existing supervisor cases returned ErrShutdown within the unchanged cleanup bound; the failed run did not independently observe final disk ownership. Both database test executables compiled, but the runner incorrectly expected test2json to be a standalone executable and stopped during preparation. PostgreSQL and both browser segments never started. The runner now uses the pinned Go tool entry; product Go source, assertions, SQL and runtime deadlines are unchanged. Original events, the runner and build digests are retained. A later pass does not establish cleanup timing stability. [Partial failure archive / 部分失败归档](dev/tests/evidence/R020-full-attempt2-archive.json)。
+
+Five legacy-migration tests in the fourth complete R020 run failed because the precompiled-test runner did not preserve go test package working directories; their fixture could not read the five real pre-006 SQL files. The test-launch cause is identified and corrected by restoring package working directories, without changing fixtures, product source or published SQL. This is separate from the first-run SQL timeout and second-run supervisor cleanup failures, whose underlying causes remain unproven. [Failure archive / 失败归档](dev/tests/evidence/R020-full-attempt4-archive.json)。
+
+The fifth complete R020 run passed 249 / failed 1 / skipped 0. Native 115 cases, database core and Web passed; H5 page interactions also passed and the browser closed, but the test-only multi-device heartbeat UPDATE deadlocked with the market FOR SHARE transaction (40P01), reported by test cleanup. Both waits and the batch statement are retained. Synthetic heartbeats now use independent per-device autocommit statements, preserving the 5s tick, real 45s freshness, every fixture device and all error assertions, without retries or ignored failures. This fixture correction does not prove production deadlocks absent or resolve earlier unproven cleanup/storage/H5 timing causes. [Failure archive / 失败归档](dev/tests/evidence/R020-full-attempt5-archive.json)。
+
+The historical attempt 4/5 archiver omitted nested media directories. Exact original SHA-256 matches recovered 8/18 and 9/18 assets; all eight historical MP4/GIF files re-encoded from retained original frames match their original digests. Nineteen original PNG files are unavailable and individually listed. The final 14 frontend screenshots, four frontend MP4/GIF files and reader assets are complete. Missing historical files are not used as current verification evidence. [Historical media retention inventory](dev/tests/evidence/R020-historical-media-recovery.json)。
+
+</details>
+
 
 ## R019 · 原清单与输入 / Restricted manifest and original input
 
@@ -40,8 +66,8 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
 | Implementation tasks | 28 in progress · 26 not started · 1 conditional · 1 deferred |
-| Latest source round | R019 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 235 passed · control/native/relay source subsets only |
+| Latest source round | R020 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 250 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
@@ -95,17 +121,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R019/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R020/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R019/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R020/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R019/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R020/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R019/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R019/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R020/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R020/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R019/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R020/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R019/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R019/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R019/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R019/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R020/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R020/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R020/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R020/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 

@@ -2,6 +2,16 @@
 
 <!-- Generated from dev/repository/README.zh-CN.md.in; run dev/tools/构建仓库文档.py. -->
 
+## R020 · 原生执行宿主 / Persistent native execution host
+
+R020新增持久原生执行宿主：独立issuer公钥与原订单/本机内核批准，原领取命令在网络前加密保存，丢回执和重启始终恢复原编号。清单/输入有界接收，正文仅在内存，通过显式InputAdapter交给原生一次提交监督器；旧receipt不能重送正文。清理状态只投影原执行账本的同lease/metadata凭证。损坏索引不能隐藏原命令，缺库/错绑定拒绝重建。Windows DPAPI/私有ACL复用，Linux仅交叉构建及既有钥环协议夹具。新增host-init/host-status，不自动安装或运行模型，execution_enabled仍false。只覆盖PLAINTEXT/STANDARD三文本profile，元数据加密不等于E2E或设备所有者不可见。真实tokenizer/内核、输出回传/usage/ACK/续期、支付渠道、LP/PE/租赁和完整验收仍待；37/95控制操作及65表/664列/113外键保持，旧SQL001—010与原执行DDL字节不变，新宿主SQLite独立首发。全部56任务/222子项及R016/R019慢元数据未证明根因风险保留，目标ACTIVE。
+
+`恢复控制状态 → Begin → Prepare → 可信HostKernel → node.RunSupervised → ticket.Start → 原清理凭证投影`。
+
+实际接入须先恢复原待定控制写；撤权/排空状态禁止新工作，监督器与已有控制循环耦合，终止后重核状态。裸监督器用例不代表完整生产守护进程已验收。
+
+[EH-001—036](docs/技术开发/附录-原生执行宿主与内容适配接线.md) · [R020 evidence](dev/tests/evidence/R020-验证报告.md) · [All 56 tasks](dev/progress/R020-本轮实现与完整待办.md)。
+
 **用户自愿共享闲置算力的 C2C 平台，使用标准 AI 接口，明确选择隐私边界。**
 
 [English](README.md) · [文档导航](dev/repository/README.md) · [开发细则](dev/开发细则总表.md) · [更新说明](CHANGELOG.zh-CN.md)
@@ -9,6 +19,22 @@
 ![Token Share Mesh 系统设计示意，当前不是运行中的推理服务](dev/media/architecture.svg)
 
 Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 显卡、Android 手机或获明确授权上游 AI 能力的个人卖家。卖家自主决定价格和开放时段、直接向买家履约；平台提供发现、合同、路由、调度和交易证据，并收取披露的费用。
+
+<details>
+<summary>验证尝试与尚未消除的时序风险</summary>
+
+R020首次完整回归177过/73失/0跳过：旧预算升级子数据库执行001时触发原statement_timeout，同期检查点sync110.501秒，后续多例耗尽原220秒包级上下文；H5旅程另在237.63秒后终止且无最终收据，保留失败画面。存储底层原因与浏览器终止原因仍未证明。验证现将独立原生测试移到PG启动前，明确等待Taro确认控件可用/勾选及提前保存失败收据；未改变产品源码、旧SQL、既有断言或时间上限。后续通过不能证明时序稳定或抹除首轮失败。 [Full failure archive / 完整失败归档](dev/tests/evidence/R020-full-attempt1-archive.json)。
+
+R020第二次运行只完成原生组：113过/2失/0跳过，两项既有监督器测试在原清理期限内返回ErrShutdown；该失败运行未独立观察最终磁盘owner。随后两个数据库测试程序编译成功，但验证脚本错误地假定test2json是独立exe，准备阶段中断；PG及两个浏览器分组均未启动。修正为锁定Go的标准tool入口，不改Go产品源码、既有断言/SQL/运行期限。失败原始事件、当时脚本及构建摘要保留；后续通过不证明清理时序稳定。 [Partial failure archive / 部分失败归档](dev/tests/evidence/R020-full-attempt2-archive.json)。
+
+R020第四次完整运行中的五项旧迁移测试因验证工具未保留go test的包工作目录而失败，fixture未读取到五份真实pre-006 SQL；该测试启动问题已定位，修正工作目录而不改夹具、产品或旧SQL。此问题不同于首轮SQL超时及第二轮监督器清理失败，后两者根因仍未证明。 [Failure archive / 失败归档](dev/tests/evidence/R020-full-attempt4-archive.json)。
+
+R020第五次完整运行249过/1失/0跳过：原生115项、数据库core及Web通过，H5页面操作本身也通过并关闭浏览器，但测试专用合成设备批量保活UPDATE与市场FOR SHARE事务发生40P01死锁，包级清理报告失败。PG日志保留双方等待与批量语句。将合成保活改为逐设备独立自动提交，保持原5秒节拍、45秒在线规则、全部设备及失败断言，不重试/吞掉错误。该测试夹具修正不证明生产死锁不存在，也不修复此前未证明根因的清理/存储/H5时序风险。 [Failure archive / 失败归档](dev/tests/evidence/R020-full-attempt5-archive.json)。
+
+历史第4、5次尝试的归档脚本漏拷嵌套媒体目录，分别按原SHA-256恢复8/18及9/18件；全部8份历史MP4/GIF从原始帧重编码后与原回执摘要完全一致，另有19份原始PNG无法恢复并逐项登记。当前最终版14份前端截图、4份前端MP4/GIF及阅读器素材完整；历史缺失不作为当前验证凭证。 [历史媒体保留清单](dev/tests/evidence/R020-historical-media-recovery.json)。
+
+</details>
+
 
 ## R019 · 原清单与输入 / Restricted manifest and original input
 
@@ -40,8 +66,8 @@ R018新增原设备签名领取原租约：35/93个控制操作、65表/664列/1
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
 | 实施任务 | 28项进行中 · 26项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R019 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| 原生测试证据 | 235项通过，仅控制/原生/转发源码子集 |
+| 最新源码轮次 | R020 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| 原生测试证据 | 250项通过，仅控制/原生/转发源码子集 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
@@ -95,17 +121,17 @@ SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，�
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R019/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R020/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R019/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R020/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R019/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R020/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R019/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R019/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R020/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R020/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R019/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R020/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R019/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R019/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R019/recordings/web-transaction.gif) · [订单待确认](dev/media/R019/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R020/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R020/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R020/recordings/web-transaction.gif) · [订单待确认](dev/media/R020/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 

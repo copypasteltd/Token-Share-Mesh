@@ -1,5 +1,11 @@
 # Native provider control / 原生提供方控制
 
+## R020 宿主库与初始化 / Native host
+
+独立pin/原订单批准和持久claim journal已接到InputAdapter及既有双围栏。CLI仅host-init/host-status，实际引擎仍未提供；先停止监督循环再关闭父Store。Windows DPAPI/ACL原生验证与Linux交叉构建分开登记。
+
+[完整EH约束与准确JSON字段](../../../docs/技术开发/附录-原生执行宿主与内容适配接线.md) · [当前源码证据](../../tests/evidence/R020-验证报告.md)。历史R008—R019命令和边界保留，当前检查使用--round R020。
+
 R011 adds client/supervisor: a running watchdog, frozen exact backend bindings, one-shot submission, original-query recovery, expiry/cancel/cleanup retries and bounded shutdown. node.NewSupervisor/RunSupervised retains the same OS lock and couples control failure/drain to cleanup. The adapters in tests are synthetic metadata components; production engine adapters, process isolation and content handling remain pending.
 
 R011新增执行监督与原生控制联动；仍不开放CLI任务领取/内核/信任配置，不授GPU资格。详见[监督实施细则](../../../docs/技术开发/附录-原生执行监督与后端恢复实施细则.md)，核验当前源码使用--round R011。

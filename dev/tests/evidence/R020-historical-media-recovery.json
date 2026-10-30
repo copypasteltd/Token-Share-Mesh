@@ -1,0 +1,45 @@
+{
+  "round": "R020",
+  "status": "PARTIAL_HISTORICAL_RECOVERY_CURRENT_FINAL_MEDIA_COMPLETE",
+  "archive_helper_error": "Nonrecursive direct-file enumeration omitted screenshot/recording directories before later captures overwrote them.",
+  "recovered_exact_original_bytes": 17,
+  "missing_original_png_files": 19,
+  "all_eight_historical_mp4_gif_exact_hashes_recovered": true,
+  "current_final_media_affected": false,
+  "archives": [
+    {
+      "path": "dev/tests/evidence/R020-full-attempt4-archive.json",
+      "recovered": 8,
+      "missing_originals": 10,
+      "missing": [
+        "dev/media/R020/screenshots/web-market.png",
+        "dev/media/R020/screenshots/web-llm-detail.png",
+        "dev/media/R020/screenshots/web-order-pending.png",
+        "dev/media/R020/screenshots/web-order.png",
+        "dev/media/R020/screenshots/web-provider-conditions.png",
+        "dev/media/R020/screenshots/web-provider-revoked.png",
+        "dev/media/R020/screenshots/miniapp-order-pending.png",
+        "dev/media/R020/screenshots/miniapp-order.png",
+        "dev/media/R020/screenshots/miniapp-provider-conditions.png",
+        "dev/media/R020/screenshots/miniapp-provider-revoked.png"
+      ]
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-archive.json",
+      "recovered": 9,
+      "missing_originals": 9,
+      "missing": [
+        "dev/media/R020/screenshots/web-order-pending.png",
+        "dev/media/R020/screenshots/web-order.png",
+        "dev/media/R020/screenshots/web-share.png",
+        "dev/media/R020/screenshots/web-provider-conditions.png",
+        "dev/media/R020/screenshots/web-provider-revoked.png",
+        "dev/media/R020/screenshots/miniapp-order-pending.png",
+        "dev/media/R020/screenshots/miniapp-order.png",
+        "dev/media/R020/screenshots/miniapp-provider-conditions.png",
+        "dev/media/R020/screenshots/miniapp-provider-revoked.png"
+      ]
+    }
+  ],
+  "scope": "Historical evidence retention only. No product/test pass claim, no new browser or GPU/phone/payment invocation."
+}

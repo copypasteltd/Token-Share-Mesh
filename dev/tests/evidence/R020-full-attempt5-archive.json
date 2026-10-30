@@ -1,0 +1,269 @@
+{
+  "round": "R020",
+  "run_id": "20261030T172814Z-75be205f",
+  "status": "FAILED_RETAINED_NOT_FINAL_PASS",
+  "unique_top_level_counts": {
+    "pass": 249,
+    "fail": 1,
+    "skip": 0
+  },
+  "description": "The fifth complete R020 run passed 249 / failed 1 / skipped 0. Native 115 cases, database core and Web passed; H5 page interactions also passed and the browser closed, but the test-only multi-device heartbeat UPDATE deadlocked with the market FOR SHARE transaction (40P01), reported by test cleanup. Both waits and the batch statement are retained. Synthetic heartbeats now use independent per-device autocommit statements, preserving the 5s tick, real 45s freshness, every fixture device and all error assertions, without retries or ignored failures. This fixture correction does not prove production deadlocks absent or resolve earlier unproven cleanup/storage/H5 timing causes.",
+  "artifacts": [
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-native-summary.json",
+      "sha256": "fb600f4824be07af825fae48f3f758997f42e71093f45cc861552068d4d2c138",
+      "bytes": 6806
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-native-go-tests.jsonl",
+      "sha256": "a45bafc27e4ad62957a8cf92cd56e55fa7c8a0906e7031c882040bf0ec37be10",
+      "bytes": 412532
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-native-source-checks.json",
+      "sha256": "c25546a0c7175f4fedfd65f1907b2827682cc6f439eb2fcafad1edf6574ce9ec",
+      "bytes": 22621
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-web-browser.json",
+      "sha256": "1386338c5a3450806466c6869447aec7b7e1f7b3db61f117a8e9cc55545c4a5c",
+      "bytes": 9038
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-miniapp-browser.json",
+      "sha256": "ccff7771a62e335ab54b31ccfc2832a5a4db74f6eebb293b270814a6466b0cb8",
+      "bytes": 9371
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-runner.py.txt",
+      "sha256": "c8847888d6ef4df7e3e2956e93b62c91a6b46af39814363b42fed825ade38394",
+      "bytes": 20984
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-browser.mjs.txt",
+      "sha256": "f74dd0079a9da34d3d87c63e06bcc82512439f92cd883be2f552cdbb2a3d2169",
+      "bytes": 30256
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-frontend_test.go.txt",
+      "sha256": "8b9204032a3131c4b521e47a90f14e58371581c66e8e7d670a05ddbec53ac1e5",
+      "bytes": 10543
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt5-deadlock-excerpt.txt",
+      "sha256": "2e2903b0b46f5c9a271240a0f89dd7e42e712618311ce7c60bdbb139ca29a725",
+      "bytes": 1803
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/screenshots/web-market.png",
+      "sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9",
+      "bytes": 157886
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/screenshots/web-llm-detail.png",
+      "sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9",
+      "bytes": 157886
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/recordings/web-transaction.mp4",
+      "sha256": "e52c8827020a52acebf6f744112cf03abb45eac3dd9843a5f1da7af289f9ce02",
+      "bytes": 947068
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/recordings/web-transaction.gif",
+      "sha256": "bff86fa8a323b52b8d9e55d812cd4322c92150ba8644948f2c2126259bc94d58",
+      "bytes": 744061
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/screenshots/miniapp-market.png",
+      "sha256": "947375d878a839f54f5896a8a9dd8691ec66d923f7bcfca1e4395786423cf55e",
+      "bytes": 57715
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/screenshots/miniapp-llm-detail.png",
+      "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
+      "bytes": 53102
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/screenshots/miniapp-share.png",
+      "sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411",
+      "bytes": 59222
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/recordings/miniapp-transaction.mp4",
+      "sha256": "63baaf01ac1335082f128e6ab56ade54a68b88b8078b98f6283227c206a79aef",
+      "bytes": 564577
+    },
+    {
+      "path": "dev/media/R020-full-attempt5/recordings/miniapp-transaction.gif",
+      "sha256": "754bd39a41617ee5d260dd0b3b343dfa2935c84ad6968a170b097c6c526b87b3",
+      "bytes": 4780614
+    }
+  ],
+  "temporary_instance_stopped": true,
+  "both_page_journeys_passed_and_browsers_closed": true,
+  "virtualization_used": false,
+  "media_preservation": {
+    "status": "PARTIAL_EXACT_BYTE_RECOVERY_WITH_EXPLICIT_MISSING_ORIGINALS",
+    "root_cause": "The archive helper scanned only direct files; screenshot/recording subdirectories were omitted. Subsequent captures overwrote originals.",
+    "expected_files": 18,
+    "recovered_exact_bytes": 9,
+    "missing_original_bytes": 9,
+    "items": [
+      {
+        "original_path": "dev/media/R020/screenshots/web-market.png",
+        "expected_sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9",
+        "target": "web",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/screenshots/web-market.png",
+        "bytes": 157886,
+        "source": "dev/media/R020/screenshots/web-llm-detail.png",
+        "method": "MATCHED_RETAINED_CAPTURE_BYTES_TO_ORIGINAL_SHA256"
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/web-llm-detail.png",
+        "expected_sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9",
+        "target": "web",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/screenshots/web-llm-detail.png",
+        "bytes": 157886,
+        "source": "dev/media/R020/screenshots/web-llm-detail.png",
+        "method": "MATCHED_RETAINED_CAPTURE_BYTES_TO_ORIGINAL_SHA256"
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/web-order-pending.png",
+        "expected_sha256": "8c72fc6e26205c6698645b67782fc9350307446c4028195efb8321e4a2290b57",
+        "target": "web",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/web-order.png",
+        "expected_sha256": "d1edbcf0042b48bba29c075278e86b2a73ef7bd77d2bff4ef6d9b539ce82e4cc",
+        "target": "web",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/web-share.png",
+        "expected_sha256": "04422119583fc567a1a2b329cf7f2b721f182d7e627e342ad2cd1af4aba77c7c",
+        "target": "web",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/web-provider-conditions.png",
+        "expected_sha256": "cf80afcfd7be92f1cd96c3f9d75cd3266846fb71b4792efbba9de3964a741c48",
+        "target": "web",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/web-provider-revoked.png",
+        "expected_sha256": "91b5449c2b38a31f18188c23a6ec694adf43423b83662db64f7304f4776c8307",
+        "target": "web",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/recordings/web-transaction.mp4",
+        "expected_sha256": "e52c8827020a52acebf6f744112cf03abb45eac3dd9843a5f1da7af289f9ce02",
+        "target": "web",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/recordings/web-transaction.mp4",
+        "bytes": 947068,
+        "source": "runtime/media/recovery-r020/full5-web/transaction.mp4",
+        "method": "REENCODED_ORIGINAL_FRAMES_AND_MATCHED_ORIGINAL_SHA256"
+      },
+      {
+        "original_path": "dev/media/R020/recordings/web-transaction.gif",
+        "expected_sha256": "bff86fa8a323b52b8d9e55d812cd4322c92150ba8644948f2c2126259bc94d58",
+        "target": "web",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/recordings/web-transaction.gif",
+        "bytes": 744061,
+        "source": "runtime/media/recovery-r020/full5-web/transaction.gif",
+        "method": "REENCODED_ORIGINAL_FRAMES_AND_MATCHED_ORIGINAL_SHA256"
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/miniapp-market.png",
+        "expected_sha256": "947375d878a839f54f5896a8a9dd8691ec66d923f7bcfca1e4395786423cf55e",
+        "target": "miniapp",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/screenshots/miniapp-market.png",
+        "bytes": 57715,
+        "source": "dev/media/R016-attempt1/screenshots/miniapp-market.png",
+        "method": "MATCHED_RETAINED_CAPTURE_BYTES_TO_ORIGINAL_SHA256"
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/miniapp-llm-detail.png",
+        "expected_sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
+        "target": "miniapp",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/screenshots/miniapp-llm-detail.png",
+        "bytes": 53102,
+        "source": "dev/media/screenshots/miniapp-llm-detail.png",
+        "method": "MATCHED_RETAINED_CAPTURE_BYTES_TO_ORIGINAL_SHA256"
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/miniapp-order-pending.png",
+        "expected_sha256": "823cf8471378e924554175c48038afab963ce4a520b3e5ada425bf679fe6b55e",
+        "target": "miniapp",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/miniapp-order.png",
+        "expected_sha256": "ff37f5fb176f465b3c906a4595a95a972dc51e3b7ee1a7fc9164dacb41c3595f",
+        "target": "miniapp",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/miniapp-share.png",
+        "expected_sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411",
+        "target": "miniapp",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/screenshots/miniapp-share.png",
+        "bytes": 59222,
+        "source": "dev/media/R020-full-attempt1/screenshots/miniapp-share.png",
+        "method": "MATCHED_RETAINED_CAPTURE_BYTES_TO_ORIGINAL_SHA256"
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/miniapp-provider-conditions.png",
+        "expected_sha256": "49c62401bb63d46ba2a844985c98f7b51ba34c832180929f5bf0cf088e4dbc00",
+        "target": "miniapp",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/screenshots/miniapp-provider-revoked.png",
+        "expected_sha256": "5bda8097c2ee38ce25bce636fc183c7aef36fcf3981cc11774ec15efe30f4dbc",
+        "target": "miniapp",
+        "status": "ORIGINAL_BYTES_UNAVAILABLE",
+        "reason": "Nested directories were omitted by the original archive helper and later captures overwrote these outputs. Retained JPEG frames cannot reproduce original lossless PNG bytes. No substitute is represented as the original."
+      },
+      {
+        "original_path": "dev/media/R020/recordings/miniapp-transaction.mp4",
+        "expected_sha256": "63baaf01ac1335082f128e6ab56ade54a68b88b8078b98f6283227c206a79aef",
+        "target": "miniapp",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/recordings/miniapp-transaction.mp4",
+        "bytes": 564577,
+        "source": "runtime/media/recovery-r020/full5-miniapp/transaction.mp4",
+        "method": "REENCODED_ORIGINAL_FRAMES_AND_MATCHED_ORIGINAL_SHA256"
+      },
+      {
+        "original_path": "dev/media/R020/recordings/miniapp-transaction.gif",
+        "expected_sha256": "754bd39a41617ee5d260dd0b3b343dfa2935c84ad6968a170b097c6c526b87b3",
+        "target": "miniapp",
+        "status": "EXACT_BYTES_RECOVERED",
+        "path": "dev/media/R020-full-attempt5/recordings/miniapp-transaction.gif",
+        "bytes": 4780614,
+        "source": "runtime/media/recovery-r020/full5-miniapp/transaction.gif",
+        "method": "REENCODED_ORIGINAL_FRAMES_AND_MATCHED_ORIGINAL_SHA256"
+      }
+    ],
+    "current_final_R020_media_affected": false
+  }
+}

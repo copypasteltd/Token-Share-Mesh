@@ -1,0 +1,133 @@
+{
+  "round": "R020",
+  "attempt": "first full native/browser run",
+  "run_id": "20261030T162845Z-1928d641",
+  "unique_top_level_counts": {
+    "pass": 177,
+    "fail": 73,
+    "skip": 0
+  },
+  "status": "FAILED_RETAINED_NOT_FINAL_PASS",
+  "artifacts": [
+    {
+      "path": "dev/tests/evidence/R020-full-attempt1-native-summary.json",
+      "sha256": "c3f34d6bb5ad7e2586ef626504c11df354fc391b46a75c88c6a1ea6412385e86",
+      "bytes": 1914
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt1-native-go-tests.jsonl",
+      "sha256": "983eadcd6644f12790153e65376cd5fce134c53a28dfdeebf30e3b9db631f7fb",
+      "bytes": 442087
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt1-native-source-checks.json",
+      "sha256": "c25546a0c7175f4fedfd65f1907b2827682cc6f439eb2fcafad1edf6574ce9ec",
+      "bytes": 22621
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt1-web-browser.json",
+      "sha256": "61d0b2c099a38ef1deeb9038d9af996cb17e29a6d7ff0c2e47b84edd6178d38f",
+      "bytes": 9039
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt1-runner.py.txt",
+      "sha256": "e110ecff47099c4615fa08e8589d0b94eb7af4648b6f13e777baf488522c1fbf",
+      "bytes": 13643
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt1-browser.mjs.txt",
+      "sha256": "de37563d2b2fff8d78131fe7145b9f2cbee84faba82b7b5762a4b45bb65a3bc1",
+      "bytes": 28864
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt1-miniapp-failure.png",
+      "sha256": "d737f3ec098bd3c6b70722955fc124b15fb96849e6be240b6579cf61ac31c4d8",
+      "bytes": 62585
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/recordings/web-transaction.gif",
+      "sha256": "3f6da8a6a32cda9735c8c479b4d663d5847b9fcc03821c2244471a3d3266530c",
+      "bytes": 1137753
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/recordings/web-transaction.mp4",
+      "sha256": "e2e0fcedf4db5b58550013d59b4d699ebe8d9658883c3f883458d0de44fe0ceb",
+      "bytes": 1336053
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/miniapp-llm-detail.png",
+      "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
+      "bytes": 53102
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/miniapp-market.png",
+      "sha256": "ab86d4a243bddd441325a19e1e580641bc45a6eecb0bcbf90d5b6576141ef9d4",
+      "bytes": 60338
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/miniapp-order-pending.png",
+      "sha256": "8ea6abaaed500c9ca9940ce862d1549d6e6307300ff608d3dfa99b99757dccce",
+      "bytes": 64677
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/miniapp-order.png",
+      "sha256": "e69bae9b0129ba7c62d65d7d2590bf30cdd134c6d2a52e788d089a7f05533654",
+      "bytes": 52489
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/miniapp-share.png",
+      "sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411",
+      "bytes": 59222
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/web-llm-detail.png",
+      "sha256": "57e27631fe4b0abf19a7966f6a86d3ae1bf1fe8b68e99a43a33cbb45459b292d",
+      "bytes": 157780
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/web-market.png",
+      "sha256": "39d2fbddf17f2a718a66a19e58e5ebd2f7a490abcdd4a42d0cd9ca8becfa142b",
+      "bytes": 168904
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/web-order-pending.png",
+      "sha256": "3ffbcfd0f2929038554d347da5a7ae48174726569aae83569857aebf855b9dca",
+      "bytes": 117467
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/web-order.png",
+      "sha256": "d7267046c43a179735c0988df8696f9882efc0bcb675709638ef03ad72dc42a7",
+      "bytes": 104958
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/web-provider-conditions.png",
+      "sha256": "2280fb2fb85c91306c7cc4843ac079eb0487da69591c9979b79a62cc2ff9f54d",
+      "bytes": 165992
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/web-provider-revoked.png",
+      "sha256": "a5d03d017db4ff5fbc60aa9e900dcd3c6152c635b6147d76dea408d56dba8057",
+      "bytes": 148695
+    },
+    {
+      "path": "dev/media/R020-full-attempt1/screenshots/web-share.png",
+      "sha256": "3d2b9eb8ee90c940dcf973f09fb586858cb2838ed3e244b8af3c7fc31dcb9888",
+      "bytes": 128326
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt1-checkpoint-excerpt.txt",
+      "sha256": "9be950a061f8c7a47ff0d52f5abd86b2a360896b3a538ecd49c1af7a555e31f0",
+      "bytes": 2368
+    }
+  ],
+  "missing_final_receipts": [
+    "dev/tests/evidence/R020-miniapp-browser.json"
+  ],
+  "observed_failure": "TestBudgetLegacyMigrationRetainsUnknownCapacityAndRejectsOverbooking/conservative_upgrade: migration 001_domain.sql SQLSTATE57014 statement timeout. The enclosing fixture took 148.56s; later integration cases observed the unchanged 220s package context expiry. The miniapp browser child subsequently failed after237.63s without a final receipt. Its failure screenshot shows the provider pairing form with unchecked owner consent; the cause of that browser termination is unproven.",
+  "database_observation": "A concurrent timed checkpoint reported total199.178s/sync110.501s/longest sync30.606s; then the owned child-database cleanup forced another checkpoint. These are observed timings, not proof of the underlying filesystem/storage cause.",
+  "product_source_or_sql_or_timeouts_changed_for_retry": false,
+  "validation_followup": "Preserve this first runner and browser source. Separate no-DB native tests before starting PG, and make browser consent readiness/failure journaling explicit without changing the product, assertions or time budgets.",
+  "published_sql_immutable": true,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false
+}

@@ -1,0 +1,29 @@
+{
+  "round": "R020",
+  "suite": "full",
+  "run_id": "20261030T171717Z-8a2635e0",
+  "postgresql": "17.11-5",
+  "test_exit_code": 0,
+  "temporary_instance_stopped": false,
+  "virtualization_used": false,
+  "package_parallelism": 1,
+  "intra_test_concurrency_retained": true,
+  "native_before_postgres": true,
+  "compiled_db_tests": {},
+  "test_event_converter": [
+    "go",
+    "tool",
+    "test2json"
+  ],
+  "verification_sources": {
+    "dev/tools/原生数据库验证.py": "34f2dc7e9a1a228ad55a5f2da9455151b2e74e7473c9620de6f1e85e1229225b",
+    "dev/tools/frontend/browser.mjs": "f74dd0079a9da34d3d87c63e06bcc82512439f92cd883be2f552cdbb2a3d2169"
+  },
+  "test_segments": [],
+  "case_inventory": "Unique top-level test IDs; R014 browser parent runs separately for each selected child",
+  "shutdown_mode": "NOT_STARTED",
+  "runner_error": "RuntimeError",
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R020-native-go-tests.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test"
+}

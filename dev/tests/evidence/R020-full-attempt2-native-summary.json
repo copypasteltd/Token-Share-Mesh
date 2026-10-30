@@ -1,0 +1,86 @@
+{
+  "round": "R020",
+  "suite": "full",
+  "run_id": "20261030T170412Z-5ac256e1",
+  "postgresql": "17.11-5",
+  "test_exit_code": 1,
+  "temporary_instance_stopped": false,
+  "virtualization_used": false,
+  "package_parallelism": 1,
+  "intra_test_concurrency_retained": true,
+  "native_before_postgres": true,
+  "compiled_db_tests": {
+    "./api/tests": {
+      "path": "runtime/db/integration/20261030T170412Z-5ac256e1/api-tests.test.exe",
+      "sha256": "0e03f1d2afb87e13915423376c71e6dbd0df3e7f938daa34f090e5b34b1b44c1",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\db\\integration\\20261030T170412Z-5ac256e1\\api-tests.test.exe",
+        "./api/tests"
+      ]
+    },
+    "./tests/integration": {
+      "path": "runtime/db/integration/20261030T170412Z-5ac256e1/integration.test.exe",
+      "sha256": "e05b37d20ee2f0079b5f62d17a45e8bf9b83db15a31c89324e1bf5800b0b9939",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\db\\integration\\20261030T170412Z-5ac256e1\\integration.test.exe",
+        "./tests/integration"
+      ]
+    }
+  },
+  "test_segments": [
+    {
+      "id": "native",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "p11.local/compute/api/cmd/p11-admin",
+        "p11.local/compute/api/cmd/p11-api",
+        "p11.local/compute/api/internal/http",
+        "p11.local/compute/client/cmd/p11-node",
+        "p11.local/compute/client/execution",
+        "p11.local/compute/client/node",
+        "p11.local/compute/client/protocol/devicecontrol",
+        "p11.local/compute/client/protocol/executionlease",
+        "p11.local/compute/client/supervisor",
+        "p11.local/compute/gateway/core",
+        "p11.local/compute/internal/budget",
+        "p11.local/compute/internal/dispatch/device",
+        "p11.local/compute/internal/identity",
+        "p11.local/compute/internal/invocation",
+        "p11.local/compute/internal/market",
+        "p11.local/compute/internal/outbox",
+        "p11.local/compute/internal/persistence",
+        "p11.local/compute/internal/pricing",
+        "p11.local/compute/internal/routecontract",
+        "p11.local/compute/internal/seller",
+        "p11.local/compute/internal/testsupport",
+        "p11.local/compute/internal/trade",
+        "p11.local/compute/shared/clock",
+        "p11.local/compute/shared/fault",
+        "p11.local/compute/shared/ids",
+        "p11.local/compute/shared/money",
+        "p11.local/compute/shared/strictjson"
+      ],
+      "exit_code": 1,
+      "database_isolation": "NO_DATABASE_SERVER",
+      "temporary_database_removed": null
+    }
+  ],
+  "case_inventory": "Unique top-level test IDs; R014 browser parent runs separately for each selected child",
+  "shutdown_mode": "NOT_STARTED",
+  "runner_error": "RuntimeError",
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R020-native-go-tests.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test"
+}

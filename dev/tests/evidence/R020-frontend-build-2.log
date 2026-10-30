@@ -1,0 +1,630 @@
+
+> token-share-mesh-frontends@0.6.0 build:h5
+> npm run build:h5 --workspace @tsm/miniapp
+
+
+> @tsm/miniapp@0.6.0 build:h5
+> taro build --type h5
+
+👽 Taro v4.3.1
+
+Tips:
+1. 建议开启持久化缓存功能，能有效提升二次编译速度，详情请参考: https://docs.taro.zone/docs/config-detail#cache。
+
+
+
+⚠️ Warnings: 
+
+AssetsOverSizeLimitWarning: asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  js/app.js (296 KiB)
+
+EntrypointsOverSizeLimitWarning: entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  app (397 KiB)
+      js/493.js
+      css/app.css
+      js/app.js
+
+AssetsOverSizeLimitWarning: asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  js/app.js (296 KiB)
+
+EntrypointsOverSizeLimitWarning: entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  app (397 KiB)
+      js/493.js
+      css/app.css
+      js/app.js
+
+assets by path [1m[32mchunk/*.js[39m[22m 392 KiB
+  asset [1m[32mchunk/697.js[39m[22m 75 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m 1 related asset
+  asset [1m[32mchunk/927.js[39m[22m 67.6 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m 1 related asset
+  asset [1m[32mchunk/730.js[39m[22m 62 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m 1 related asset
+  asset [1m[32mchunk/498.js[39m[22m 61.7 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m 1 related asset
+  asset [1m[32mchunk/369.js[39m[22m 60.9 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m 1 related asset
+  asset [1m[32mchunk/987.js[39m[22m 60.4 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m 1 related asset
+  asset [1m[32mchunk/797.js[39m[22m 4.91 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m 1 related asset
+assets by path [1m[32mjs/*.js[39m[22m 388 KiB
+  asset [1m[33mjs/app.js[39m[22m [1m[33m296 KiB[39m[22m [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m [1m[33m[big][39m[22m (name: app) 1 related asset
+  asset [1m[32mjs/493.js[39m[22m 92.4 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m (id hint: taro) 1 related asset
+asset [1m[32mcss/app.css[39m[22m 8.42 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m (name: app)
+asset [1m[32mindex.html[39m[22m 457 bytes [1m[32m[emitted][39m[22m
+Entrypoint [1mapp[39m[22m [1m[33m[big][39m[22m 397 KiB = [1m[32mjs/493.js[39m[22m 92.4 KiB [1m[32mcss/app.css[39m[22m 8.42 KiB [1m[32mjs/app.js[39m[22m 296 KiB
+
+[1m[33mWARNING[39m[22m in [1masset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  js/app.js (296 KiB)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1mentrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  app (397 KiB)
+      js/493.js
+      css/app.css
+      js/app.js
+[39m[22m
+
+webpack 5.91.0 compiled with [1m[33m2 warnings[39m[22m in 54986 ms
+
+
+● Webpack █████████████████████████  (0%)  
+ 
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 1/1 dependencie
+s 0/0 modules 0 active 
+ 
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%)  
+ import loader ..\node_modules\babel-loader\lib\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%)  
+ import loader ..\node_modules\@tarojs\taro-loader\lib\h5.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 1/2 dependencie
+s 0/1 modules 1 active 
+ babel-loader › src\app.config.ts
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 12/23 dependenc
+ies 0/11 modules 10 active 
+ babel-loader › ..\node_modules\@tarojs\router\dist\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 13/68 dependenc
+ies 0/12 modules 12 active 
+ babel-loader › src\runtime.ts
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 40/74 dependenc
+ies 0/20 modules 19 active 
+ ...babel-loader › ..\node_modules\@tarojs\plugin-platform-h5\dist\runtime\ind
+ex.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 53/74 dependenc
+ies 0/22 modules 21 active 
+ ..\node_modules\react\jsx-runtime.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%)  
+ import loader ..\node_modules\postcss-loader\dist\cjs.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 84/146 dependen
+cies 2/29 modules 22 active 
+ ...ntime\frontend\workspace\node_modules\@babel\runtime\helpers\esm\regenerat
+or.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 90/155 dependen
+cies 2/35 modules 29 active 
+ style-loader › css-loader › ..\node_modules\@tarojs\components\global.css
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 140/170 depende
+ncies 2/81 modules 76 active 
+ css-loader › postcss-loader › ..\frontend\packages\core\src\tokens.css
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 147/171 depende
+ncies 2/87 modules 85 active 
+ ..\node_modules\react-dom\cjs\react-dom.production.min.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 154/196 depende
+ncies 5/89 modules 83 active 
+ ...l-loader › ..\node_modules\@tarojs\plugin-platform-h5\dist\runtime\apis\ta
+ro.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 170/200 depende
+ncies 7/94 modules 82 active 
+ ...oader › ..\node_modules\@tarojs\plugin-platform-h5\dist\runtime\apis\taro-
+h5.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 350/523 depende
+ncies 18/116 modules 71 active 
+ ...oader › ..\node_modules\@tarojs\plugin-platform-h5\dist\runtime\apis\taro-
+h5.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 432/527 depende
+ncies 22/188 modules 68 active 
+ ..\node_modules\style-loader\dist\runtime\injectStylesIntoStyleTag.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 445/527 depende
+ncies 23/190 modules 82 active 
+ ...time\frontend\workspace\node_modules\@babel\runtime\helpers\esm\superPropS
+et.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 448/527 depende
+ncies 23/193 modules 86 active 
+ css-loader › postcss-loader › ..\frontend\packages\core\src\tokens.css
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 460/533 depende
+ncies 23/200 modules 93 active 
+ babel-loader › ..\node_modules\@tarojs\runtime\dist\dom\event-target.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 493/533 depende
+ncies 23/227 modules 124 active 
+ ...dules\@tarojs\components\dist\components\taro-functional-page-navigator-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 514/533 depende
+ncies 23/246 modules 146 active 
+ ...el-loader › ..\node_modules\@tarojs\components\dist\components\taro-map-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 524/573 depende
+ncies 25/246 modules 145 active 
+ ...r › ..\node_modules\@tarojs\components\dist\components\taro-match-media-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 561/700 depende
+ncies 39/247 modules 131 active 
+ ...r › ..\node_modules\@tarojs\components\dist\components\taro-match-media-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 838/907 depende
+ncies 40/265 modules 131 active 
+ ... › ..\node_modules\@tarojs\components\dist\components\taro-movable-view-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 848/907 depende
+ncies 40/271 modules 169 active 
+ ...loader › ..\node_modules\@tarojs\components\dist\components\taro-swiper-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 855/907 depende
+ncies 40/278 modules 176 active 
+ ...l-loader › ..\node_modules\@tarojs\components\dist\components\taro-text-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 869/1000 depend
+encies 40/279 modules 176 active 
+ ...l-loader › ..\node_modules\@tarojs\components\dist\components\taro-text-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 1086/1181 depen
+dencies 44/282 modules 173 active 
+ ...ader › ..\node_modules\@tarojs\components\dist\components\taro-textarea-co
+re.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 1178/1181 depen
+dencies 44/283 modules 218 active 
+ ....js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 1179/1181 depen
+dencies 45/284 modules 239 active 
+ ..\node_modules\hammerjs\hammer.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (10%) 0/1 entries 1180/1200 depen
+dencies 45/284 modules 239 active 
+ ..\node_modules\hammerjs\hammer.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1320/1372 depen
+dencies 108/286 modules 177 active 
+ ...tend\workspace\node_modules\@babel\runtime\helpers\esm\assertThisInitializ
+ed.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1359/1373 depen
+dencies 108/299 modules 184 active 
+ babel-loader › ..\frontend\packages\core\src\money.ts
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1400/1585 depen
+dencies 113/338 modules 186 active 
+ babel-loader › ..\node_modules\@tarojs\router\dist\events\scroll.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1500/1593 depen
+dencies 147/396 modules 152 active 
+ babel-loader › ..\node_modules\@tarojs\router\dist\router\navigation-bar.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1514/1593 depen
+dencies 148/407 modules 170 active 
+ babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\ad\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1515/1593 depen
+dencies 148/408 modules 171 active 
+ babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\device\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1549/1593 depen
+dencies 148/441 modules 205 active 
+ babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\files\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1550/1593 depen
+dencies 148/442 modules 206 active 
+ babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\location\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1551/1593 depen
+dencies 148/443 modules 207 active 
+ ...babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\location\getLocati
+on.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1587/1600 depen
+dencies 152/476 modules 239 active 
+ babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\network\udp.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1594/1700 depen
+dencies 158/477 modules 233 active 
+ babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\network\udp.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1676/1800 depen
+dencies 163/477 modules 228 active 
+ babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\network\udp.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1817/1852 depen
+dencies 163/484 modules 229 active 
+ babel-loader › ..\node_modules\@tarojs\taro-h5\dist\api\network\upload.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1825/1852 depen
+dencies 163/486 modules 298 active 
+ ...共享平台\runtime\frontend\workspace\node_modules\swiper\modules\hash-navig
+ation.mjs
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1828/1852 depen
+dencies 163/487 modules 299 active 
+ ...宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\swiper\modul
+es\autoplay.mjs
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1840/1852 depen
+dencies 163/491 modules 307 active 
+ ...享平台\runtime\frontend\workspace\node_modules\swiper\modules\effect-cover
+flow.mjs
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1843/1900 depen
+dencies 164/493 modules 312 active 
+ ...客松\算力共享平台\runtime\frontend\workspace\node_modules\swiper\shared\sw
+iper-core.mjs
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1921/2000 depen
+dencies 175/493 modules 302 active 
+ ...ndbox\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\hl
+s.js\dist\hls.mjs
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1939/2013 depen
+dencies 177/503 modules 312 active 
+ ...dules\@tarojs\taro-h5\dist\api\media\background-audio\BackgroundAudioManag
+er.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1940/2013 depen
+dencies 177/503 modules 315 active 
+ ...der › ..\node_modules\@tarojs\taro-h5\dist\api\media\audio\InnerAudioConte
+xt.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1941/2013 depen
+dencies 177/504 modules 316 active 
+ ...andbox\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\l
+odash-es\isNil.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 1983/2032 depen
+dencies 177/518 modules 322 active 
+ ...dbox\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\lod
+ash-es\isArray.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 2020/2042 depen
+dencies 178/526 modules 345 active 
+ ...\算力共享平台\runtime\frontend\workspace\node_modules\swiper\shared\create
+-shadow.mjs
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (11%) 0/1 entries 2024/2061 depen
+dencies 181/527 modules 346 active 
+ ...dbox\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\que
+ry-string\base.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (12%) 0/1 entries 2056/2100 depen
+dencies 198/527 modules 329 active 
+ ...dbox\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\que
+ry-string\base.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (12%) 0/1 entries 2086/2129 depen
+dencies 242/533 modules 288 active 
+ ...\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\lodash-
+es\_equalByTag.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (12%) 0/1 entries 2106/2132 depen
+dencies 242/552 modules 310 active 
+ ...x\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\lodash
+-es\isFunction.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (12%) 0/1 entries 2120/2132 depen
+dencies 242/554 modules 312 active 
+ babel-loader › ..\node_modules\@tarojs\api\dist\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (12%) 0/1 entries 2132/2184 depen
+dencies 245/557 modules 312 active 
+ ...\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\lodash-
+es\_getAllKeys.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (12%) 0/1 entries 2152/2184 depen
+dencies 245/573 modules 320 active 
+ ...ox\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\lodas
+h-es\stubFalse.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (12%) 0/1 entries 2177/2186 depen
+dencies 248/593 modules 345 active 
+ ..\node_modules\ics\dist\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (12%) 0/1 entries 2179/2187 depen
+dencies 250/594 modules 344 active 
+ ...宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\@noble\hashe
+s\esm\crypto.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (14%) 0/1 entries 2208/2233 depen
+dencies 387/596 modules 209 active 
+ ...黑客松\算力共享平台\runtime\frontend\workspace\node_modules\lodash-es\_bas
+eGetAllKeys.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (14%) 0/1 entries 2226/2233 depen
+dencies 395/609 modules 214 active 
+ ..\node_modules\whatwg-fetch\fetch.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (14%) 0/1 entries 2230/2233 depen
+dencies 395/613 modules 218 active 
+ ...客松\算力共享平台\runtime\frontend\workspace\node_modules\decode-uri-compo
+nent\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (14%) 0/1 entries 2243/2255 depen
+dencies 421/616 modules 194 active 
+ ...ox\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\lodas
+h-es\_isMasked.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2260/2261 depen
+dencies 581/629 modules 47 active 
+ ...\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\lodash-
+es\_coreJsData.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2268/2271 depen
+dencies 610/631 modules 21 active 
+ css-loader › postcss-loader › src\app.css|0|||}}
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2277/2278 depen
+dencies 615/637 modules 22 active 
+ ..\node_modules\ics\dist\defaults.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2279/2281 depen
+dencies 615/639 modules 24 active 
+ ..\node_modules\ics\dist\utils\encode-new-lines.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2279/2282 depen
+dencies 616/639 modules 23 active 
+ ...x\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\nanoid
+\index.browser.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2283/2293 depen
+dencies 616/643 modules 27 active 
+ ..\node_modules\ics\dist\utils\format-date.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2286/2293 depen
+dencies 616/646 modules 30 active 
+ ..\node_modules\ics\dist\utils\set-description.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2295/2302 depen
+dencies 622/653 modules 31 active 
+ ..\node_modules\ics\dist\utils\set-location.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2303/2307 depen
+dencies 627/654 modules 27 active 
+ ..\node_modules\ics\dist\utils\format-text.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2304/2307 depen
+dencies 631/655 modules 24 active 
+ ..\node_modules\toposort\index.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (16%) 0/1 entries 2307/2309 depen
+dencies 633/656 modules 23 active 
+ ..\node_modules\ics\dist\utils\fold-line.js
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ building (17%) 0/1 entries 2312/2312 depen
+dencies 638/659 modules 21 active 
+ ...box\支付宝黑客松\算力共享平台\runtime\frontend\workspace\node_modules\rune
+s2\dist\index.cjs
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ sealing (71%) dependencies optimization 
+ FlagDependencyUsagePlugin
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ sealing (78%)  
+ chunk modules optimization
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ sealing (88%)  
+ runtime requirements
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ sealing (92%) asset processing 
+ CssMinimizerPlugin
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ sealing (92%) asset processing 
+ HtmlWebpackPlugin
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+● Webpack █████████████████████████ sealing (92%) asset processing 
+ RealContentHashPlugin
+
+- 即将开始启动编译，请稍等~
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+√ Webpack
+  Compiled successfully in 54.97s
+
+- 即将开始启动编译，请稍等~
+⚠️  编译警告. 2026/10/30 13:08:00
+

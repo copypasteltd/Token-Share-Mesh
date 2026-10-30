@@ -1,0 +1,13 @@
+2026-10-31 00:34:06.063 CST [24564] LOG:  checkpoint starting: time
+2026-10-31 00:36:06.576 CST [43764] ERROR:  canceling statement due to statement timeout
+2026-10-31 00:37:25.241 CST [24564] LOG:  checkpoint complete: wrote 668 buffers (16.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=87.257 s, sync=110.501 s, total=199.178 s; sync files=512, longest=30.606 s, average=0.216 s; distance=4460 kB, estimate=4460 kB; lsn=0/200EF68, redo lsn=0/19CFE40
+2026-10-31 00:37:25.454 CST [24564] LOG:  checkpoint starting: immediate force wait
+2026-10-31 00:37:38.457 CST [24564] LOG:  checkpoint complete: wrote 181 buffers (4.4%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.042 s, sync=11.160 s, total=13.004 s; sync files=83, longest=1.561 s, average=0.135 s; distance=6396 kB, estimate=6396 kB; lsn=0/200F070, redo lsn=0/200EFE0
+2026-10-31 00:37:47.465 CST [24564] LOG:  checkpoint starting: immediate force wait
+2026-10-31 00:37:48.533 CST [24564] LOG:  checkpoint complete: wrote 5 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.036 s, sync=0.352 s, total=1.069 s; sync files=4, longest=0.123 s, average=0.088 s; distance=7119 kB, estimate=7119 kB; lsn=0/2702E00, redo lsn=0/2702DA8
+2026-10-31 00:41:33.375 CST [24564] LOG:  checkpoint starting: immediate force wait
+2026-10-31 00:41:43.500 CST [24564] LOG:  checkpoint complete: wrote 493 buffers (12.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.117 s, sync=9.467 s, total=10.125 s; sync files=171, longest=0.163 s, average=0.056 s; distance=10707 kB, estimate=10707 kB; lsn=0/3177DD8, redo lsn=0/3177D80
+2026-10-31 00:45:54.127 CST [24564] LOG:  checkpoint starting: immediate force wait
+2026-10-31 00:45:56.607 CST [24564] LOG:  checkpoint complete: wrote 4 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=1.320 s, total=2.481 s; sync files=4, longest=0.510 s, average=0.330 s; distance=7527 kB, estimate=10389 kB; lsn=0/38D1AB0, redo lsn=0/38D1A20
+2026-10-31 00:45:58.737 CST [24564] LOG:  checkpoint starting: shutdown immediate
+2026-10-31 00:45:59.807 CST [24564] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.180 s, total=1.270 s; sync files=1, longest=0.180 s, average=0.180 s; distance=0 kB, estimate=9350 kB; lsn=0/38D1BB8, redo lsn=0/38D1BB8

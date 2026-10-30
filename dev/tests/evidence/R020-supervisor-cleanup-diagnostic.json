@@ -1,0 +1,29 @@
+{
+  "round": "R020",
+  "recorded_at": "2026-10-30T17:15:12.724550+00:00",
+  "exit_code": 1,
+  "unique_top_level_counts": {
+    "pass": 1,
+    "fail": 1,
+    "skip": 0
+  },
+  "command": [
+    "go",
+    "test",
+    "-json",
+    "-count=1",
+    "-p=1",
+    "-timeout=240s",
+    "./client/supervisor",
+    "-run",
+    "^TestSupervisor(RequiresWatchdogAndFrozenRegistry|OriginalCommandSubmittedOnlyOnce)$"
+  ],
+  "raw": "dev/tests/evidence/R020-supervisor-cleanup-diagnostic.jsonl",
+  "failures": [
+    "supervisor_test.go:257: wrong shutdown shutdown cleanup is unconfirmed; retain resource <nil>",
+    "--- FAIL: TestSupervisorRequiresWatchdogAndFrozenRegistry (3.19s)"
+  ],
+  "scope": "Two unchanged existing supervisor tests only. No platform DB or browser. Not full-round evidence or proof of failure cause/timing stability.",
+  "assertions_or_runtime_bounds_changed": false,
+  "virtualization_used": false
+}

@@ -20177,11 +20177,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "67824242af41637b0fd1d814b86ee3118f70315d80204860cda77c217fb8273a"
+      "sha256": "8e1351a2d8714a7bf428ac8a8493b78aa4f482e95e2d4993183ccc9d26aa1b24"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "c63af5c6e00f8b68164814b43e5a84202e5066abdb4fea7b262c8d7b3c24274e"
+      "sha256": "b48e62d1bf2b45db31b5e0f13c5751904137adcf8337ce607cb8dac91ff35d43"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20197,7 +20197,7 @@
     },
     {
       "path": "dev/tools/构建开发细则.py",
-      "sha256": "b75b8cbccd0eeeb8d484caeacceb0eee95741920a9271968752f42577886f5f7"
+      "sha256": "286dca0d914cca6c2137ad595ad5287135ab446dc2ba324f811901d24392e2d6"
     },
     {
       "path": "docs/交易/C2C交易与市场规则.md",
@@ -20205,7 +20205,7 @@
     },
     {
       "path": "docs/协议/统一API与本地加密网关需求.md",
-      "sha256": "495721e5f6e55546d78bac7835fb72f31c33dc58fec67f3807df59e73111f36e"
+      "sha256": "bef2c930c1228cd50d0e4b461f0ff43da8dc6629987af7e37c515ca9a408fe75"
     },
     {
       "path": "docs/技术开发/02-工程结构开发环境与编码规范.md",
@@ -20233,7 +20233,7 @@
     },
     {
       "path": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
-      "sha256": "d38a4878ea2f2fc40efc3b89db30efcb5a6aba6b4559fb5943c414057ae71d7d"
+      "sha256": "f3ab1c02567701ccddc986862ccc109331fc3d9cdc72c2d89b00fa5e212c88ec"
     },
     {
       "path": "docs/技术开发/10-Android与LMA工程设计.md",
@@ -20365,7 +20365,7 @@
     },
     {
       "path": "docs/技术开发/附录-原生提供方控制代理与本地恢复.md",
-      "sha256": "d32ed284bac66f851e6410b2419984d293ec871e3161bab893fe4a153ad564df"
+      "sha256": "4c7b397375038c076cf9cd7236db7ba799b61cbbca1d62cfcaf8cbb64d7cbf34"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",

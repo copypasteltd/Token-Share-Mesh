@@ -1,0 +1,27 @@
+{
+  "round": "R020",
+  "run_id": "20261030T171717Z-8a2635e0",
+  "status": "PREPARATION_FAILED_ZERO_TESTS_NO_DATABASE_NO_BROWSER",
+  "unique_top_level_counts": {
+    "pass": 0,
+    "fail": 0,
+    "skip": 0
+  },
+  "test_cases_executed": 0,
+  "description": "Pinned Go test2json -h returned usage with exit status 2; harness incorrectly accepted only 0/1. Observed directly after failure. Converter preflight guard corrected to accept the verified usage status; no actual test, assertion, SQL or runtime deadline changed.",
+  "artifacts": [
+    {
+      "path": "dev/tests/evidence/R020-full-attempt3-native-summary.json",
+      "sha256": "e404a26d2c6941bbed8c460226a1c869edddadd16cc0e0be4f4dfb59c70df2be"
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt3-native-go-tests.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "dev/tests/evidence/R020-full-attempt3-runner.py.txt",
+      "sha256": "34f2dc7e9a1a228ad55a5f2da9455151b2e74e7473c9620de6f1e85e1229225b"
+    }
+  ],
+  "virtualization_used": false
+}

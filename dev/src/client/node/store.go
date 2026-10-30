@@ -80,6 +80,7 @@ type state struct {
 	Pending      *command     `json:"pending_command"`
 	LastOutcome  string       `json:"last_control_outcome"`
 	ExecutionID  string       `json:"execution_store_id,omitempty"`
+	HostID       string       `json:"execution_host_id,omitempty"`
 }
 
 // Store holds an OS-level single-writer lock until Close, including during
@@ -92,6 +93,7 @@ type Store struct {
 	s         state
 	poisoned  bool
 	execution *execution.Store
+	host      *Host
 }
 
 func randomHex(n int) (string, error) {
@@ -322,6 +324,9 @@ func (s *Store) validate() error {
 	if v.ExecutionID != "" && (!executionlease.Hash(v.ExecutionID) || v.DeviceID == "") {
 		return ErrState
 	}
+	if v.HostID != "" && (!executionlease.Hash(v.HostID) || v.ExecutionID == "") {
+		return ErrState
+	}
 	if v.Profile != stateProfile || len(v.Seed) != 32 || v.Platform != strings.ToUpper(runtime.GOOS) || !validConfig(v.Config) || len(v.Installation) != 64 || (v.DeviceID != "" && (!ids.Valid(v.DeviceID) || !ids.Valid(v.SellerID) || v.Version < 1)) {
 		return ErrState
 	}
@@ -411,6 +416,10 @@ func counter(value string) (uint64, error) {
 	return v, nil
 }
 func (s *Store) Close() {
+	if s.host != nil {
+		s.host.Close()
+		s.host = nil
+	}
 	if s.execution != nil {
 		s.execution.Close()
 		s.execution = nil

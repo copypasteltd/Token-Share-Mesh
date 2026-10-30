@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"p11.local/compute/client/execution"
+	"p11.local/compute/client/protocol/devicecontrol"
 	"p11.local/compute/client/protocol/executionlease"
 	"p11.local/compute/shared/ids"
 	"sync"
@@ -45,6 +46,20 @@ type Adapter interface {
 	Cleanup(context.Context, Work, Observation) (Cleaned, error)
 }
 
+// InputAdapter receives content only inside the once-reserved original Submit
+// call. It must enforce its model tokenizer and private content lifecycle.
+// The byte slice is valid only until return and is cleared by the supervisor;
+// recovery calls use the metadata-only Adapter methods and never replay input.
+type InputAdapter interface {
+	Adapter
+	SubmitInput(context.Context, Work, executionlease.Manifest, []byte) (Observation, error)
+}
+
+type inputSubmission struct {
+	manifest executionlease.Manifest
+	body     []byte
+}
+
 type Registration struct {
 	Environment, Capability, ManifestHash string
 	Backend                               Adapter
@@ -67,6 +82,7 @@ type Supervisor struct {
 	slots      map[string]*slot
 	runContext context.Context
 	ready      chan struct{}
+	done       chan struct{}
 	completed  chan struct{}
 	used       atomic.Bool
 	closed     atomic.Bool
@@ -93,7 +109,7 @@ func New(store *execution.Store, registrations []Registration, o Options) (*Supe
 	if o.Poll < 10*time.Millisecond || o.Poll > time.Second || o.CallTimeout < 20*time.Millisecond || o.CallTimeout > 5*time.Second || o.MetadataTimeout < 20*time.Millisecond || o.MetadataTimeout > 5*time.Second || o.ShutdownTimeout < o.CallTimeout || o.ShutdownTimeout > 30*time.Second {
 		return nil, ErrAdapter
 	}
-	s := &Supervisor{store: store, registry: map[registryKey]Adapter{}, options: o, slots: map[string]*slot{}, ready: make(chan struct{}), completed: make(chan struct{}, 1)}
+	s := &Supervisor{store: store, registry: map[registryKey]Adapter{}, options: o, slots: map[string]*slot{}, ready: make(chan struct{}), done: make(chan struct{}), completed: make(chan struct{}, 1)}
 	for _, r := range registrations {
 		key := registryKey{r.Environment, r.Capability, r.ManifestHash}
 		if !executionlease.Hash(r.Environment) || !executionlease.Hash(r.ManifestHash) || !ids.Valid(r.Capability) || r.Backend == nil || s.registry[key] != nil {
@@ -104,6 +120,7 @@ func New(store *execution.Store, registrations []Registration, o Options) (*Supe
 	return s, nil
 }
 func (s *Supervisor) Ready() <-chan struct{} { return s.ready }
+func (s *Supervisor) Done() <-chan struct{}  { return s.done }
 
 // BoundTo lets the enclosing node retain one OS lock for this exact ledger.
 // It is an ownership check only, not a platform/device authorization grant.
@@ -174,6 +191,21 @@ func (s *Supervisor) runningContext() (context.Context, bool) {
 // external side effect once before the adapter receives the original key.
 // Duplicates and unknown outcomes return query-only; no caller can retry Submit.
 func (s *Supervisor) Submit(ctx context.Context, command string, v executionlease.Verified) (execution.Hold, error) {
+	return s.submit(ctx, command, v, nil)
+}
+
+// SubmitInput preserves the original inbox/BeginSubmit fencing. A legacy
+// metadata adapter cannot silently accept content via Adapter.Submit.
+func (s *Supervisor) SubmitInput(ctx context.Context, command string, accepted devicecontrol.AcceptedDelivery, body []byte) (execution.Hold, error) {
+	copy, e := accepted.AcceptInput(devicecontrol.Reply{Status: 200, Body: body}, time.Now())
+	if e != nil {
+		return execution.Hold{}, ErrAdapter
+	}
+	defer clear(copy)
+	return s.submit(ctx, command, accepted.Verified(), &inputSubmission{accepted.Manifest(), copy})
+}
+
+func (s *Supervisor) submit(ctx context.Context, command string, v executionlease.Verified, input *inputSubmission) (execution.Hold, error) {
 	parent, ok := s.runningContext()
 	if !ok {
 		return execution.Hold{}, ErrClosed
@@ -182,6 +214,11 @@ func (s *Supervisor) Submit(ctx context.Context, command string, v executionleas
 	b := s.registry[registryKey{l.Environment, l.Capability, l.ManifestHash}]
 	if b == nil {
 		return execution.Hold{}, ErrAdapter
+	}
+	if input != nil {
+		if _, ok := b.(InputAdapter); !ok {
+			return execution.Hold{}, ErrAdapter
+		}
 	}
 	if ctx.Err() != nil {
 		return execution.Hold{}, ErrClosed
@@ -231,7 +268,12 @@ func (s *Supervisor) Submit(ctx context.Context, command string, v executionleas
 	if bounded.Err() != nil || ctx.Err() != nil || key != h.Owner() {
 		return h, ErrUnknown
 	}
-	o, e := b.Submit(bounded, work(a))
+	var o Observation
+	if input != nil {
+		o, e = b.(InputAdapter).SubmitInput(bounded, work(a), input.manifest, input.body)
+	} else {
+		o, e = b.Submit(bounded, work(a))
+	}
 	if e != nil || !valid(a, o) || (o.State != "RUNNING" && o.State != "STOPPED") {
 		s.quarantine(h)
 		return h, ErrUnknown
@@ -505,6 +547,7 @@ func (s *Supervisor) Run(ctx context.Context) error {
 	if !s.used.CompareAndSwap(false, true) {
 		return ErrClosed
 	}
+	defer close(s.done)
 	s.mu.Lock()
 	s.runContext = ctx
 	s.mu.Unlock()

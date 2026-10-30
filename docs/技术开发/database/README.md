@@ -49,3 +49,7 @@ evidence_ids/asset_ids等数组须服务层逐项验证引用和权限；需要�
 ## R019 无新迁移
 
 本轮复用原领取绑定和原AEAD/HMAC，不新增表/列或迁移。65表/664列/113外键保持，SQL001—010和端侧DDL共21个文件对R018原字节核验，见[证明](../../../dev/tests/evidence/R019-migration-immutability.json)。
+
+## R020 独立本机宿主元数据库
+
+平台模型仍65表/664列/113外键，无新PG迁移。原SQL和执行SQLite DDL与R019原字节一致；另新增client/node/host-schema.sql三表作为本机元数据账本，不混入平台65表。[字节证明](../../../dev/tests/evidence/R020-migration-immutability.json)；[EH细则](../附录-原生执行宿主与内容适配接线.md)。
