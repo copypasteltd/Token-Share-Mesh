@@ -1,5 +1,11 @@
 # Repository documentation / 仓库文档
 
+## Current R019 / 当前源码轮次
+
+原设备签名领取后受限读取manifest与原始输入，端侧独立信任/批准接收；37/95控制操作。PLAINTEXT/STANDARD交付子集已验证，真实模型、渠道、E2E和完整验收仍待。最新[系统方案](SYSTEM_DESIGN.md)、[使用指南](USAGE.md)、[DG细则](../../docs/技术开发/附录-原设备清单与输入受限交付.md)和[56项待办](../progress/R019-本轮实现与完整待办.md)置于当前轮次；下方保留历史阶段。
+
+R019 verifies original-device restricted manifest/input delivery and independent native approval, with 37/95 control operations. This trusted PLAINTEXT/STANDARD subset is separate from real inference, channel settlement, E2E and full acceptance. See the current system, usage, DG and task links above.
+
 Latest R017: [native input and initial lease](../../docs/技术开发/附录-原生输入加密与首租约原子准入.md), [current evidence](../tests/evidence/R017-验证报告.md), [all 56 tasks/222 open steps](../progress/R017-本轮实现与完整待办.md). 原生正文实际校验、明文域AES-GCM与首租约原子接线已实现；真实领取/输入传输、独立信任、实际内核/支付/E2E仍待。
 
 Historical R016: [original-call preparation](../../docs/技术开发/附录-原调用准备与次数预算原子接线.md), [current evidence](../tests/evidence/R016-验证报告.md), [all 56 tasks/222 open steps](../progress/R016-本轮实现与完整待办.md). 原调用/预算/次数原子准备已接通；完整输入/租约/引擎/支付/E2E仍待。

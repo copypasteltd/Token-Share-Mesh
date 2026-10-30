@@ -2092,9 +2092,9 @@
         "MOD-18",
         "MOD-20"
       ],
-      "rule": "62表各有唯一权威模块；API/数据库变更先改规范源再生成映射，不复制第二OpenAPI",
+      "rule": "65表各有唯一权威模块；API/数据库变更先改规范源再生成映射，不复制第二OpenAPI",
       "failure_action": "缺归属/破坏引用/重复operation或编号拒合入",
-      "required_evidence": "93操作/62表/80需求全覆盖与hash核验",
+      "required_evidence": "95操作/65表/80需求全覆盖与hash核验",
       "source_document": "docs/技术开发/03-领域模块与应用服务设计.md"
     },
     {
@@ -4139,6 +4139,8 @@
       ],
       "operation_ids": [
         "claimLease",
+        "getExecutionManifest",
+        "getExecutionInput",
         "recordAttemptProgress"
       ],
       "conditional_branch": false,
@@ -8465,7 +8467,7 @@
         {
           "id": "DEV-56.01",
           "title": "追踪核对",
-          "detail": "80 F/T、20模块、56任务、93操作/62表覆盖，部分/延后不丢号",
+          "detail": "80 F/T、20模块、56任务、95操作/65表覆盖，部分/延后不丢号",
           "required_evidence": "编号/依赖/范围核验结果",
           "development_status": "DESIGN",
           "test_status": "NOT_EXECUTED",
@@ -14894,6 +14896,144 @@
         "evidence_authority": "dev/progress/implementation-status.json"
       },
       "id": "INT-093"
+    },
+    {
+      "operation_id": "getExecutionManifest",
+      "method": "GET",
+      "path": "/runner/leases/{lease_id}/manifest",
+      "summary": "原签名设备读取原租约执行清单",
+      "module_id": "MOD-06",
+      "task_id": "DEV-18",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getExecutionManifest.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F05",
+        "P11-F10",
+        "P11-F11",
+        "P11-F41",
+        "P11-F64"
+      ],
+      "acceptance_ids": [
+        "P11-T05",
+        "P11-T10",
+        "P11-T11",
+        "P11-T41",
+        "P11-T64"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "57bba3f187301a42cede209055c93ab2a4117ee0824e0e6cc643c4da0afdbf24",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getExecutionManifest",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-094"
+    },
+    {
+      "operation_id": "getExecutionInput",
+      "method": "GET",
+      "path": "/runner/leases/{lease_id}/input",
+      "summary": "原签名设备读取原始有界文本输入",
+      "module_id": "MOD-06",
+      "task_id": "DEV-18",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getExecutionInput.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F05",
+        "P11-F10",
+        "P11-F11",
+        "P11-F41",
+        "P11-F64"
+      ],
+      "acceptance_ids": [
+        "P11-T05",
+        "P11-T10",
+        "P11-T11",
+        "P11-T41",
+        "P11-T64"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md",
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
+      ],
+      "canonical_operation_sha256": "45080473b9094555e00a716bc9c0de4fc5a10123e8eea2eab7d5b04a5b346ac0",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getExecutionInput",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-095"
     }
   ],
   "tables": [
@@ -15773,6 +15913,8 @@
         "listServices",
         "cancelJob",
         "claimLease",
+        "getExecutionManifest",
+        "getExecutionInput",
         "recordAttemptProgress",
         "recordAttemptCleanup"
       ],
@@ -16033,6 +16175,8 @@
         "createJob",
         "getJob",
         "claimLease",
+        "getExecutionManifest",
+        "getExecutionInput",
         "recordAttemptProgress"
       ],
       "tables": [
@@ -16083,6 +16227,8 @@
         "createJob",
         "getJob",
         "claimLease",
+        "getExecutionManifest",
+        "getExecutionInput",
         "recordAttemptProgress"
       ],
       "tables": [
@@ -17692,6 +17838,8 @@
         "recordRentalDeviceReady",
         "createRentalAccessGrant",
         "claimLease",
+        "getExecutionManifest",
+        "getExecutionInput",
         "recordAttemptProgress"
       ],
       "tables": [
@@ -18907,6 +19055,8 @@
       ],
       "operation_ids": [
         "claimLease",
+        "getExecutionManifest",
+        "getExecutionInput",
         "recordAttemptProgress"
       ],
       "tables": [
@@ -20027,23 +20177,23 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "c3b9bb97fa90d9717b325841152998265c0bed79c3cad2f51481974e301ac477"
+      "sha256": "67824242af41637b0fd1d814b86ee3118f70315d80204860cda77c217fb8273a"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "54d6632367efcdd67dab4870959fe99607cf5b1b2d7cc20cc775a4d4a7567487"
+      "sha256": "c63af5c6e00f8b68164814b43e5a84202e5066abdb4fea7b262c8d7b3c24274e"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
-      "sha256": "bba91e7904769b8d8c5eeb9f265be6f7648ca8673257b86ff8fad732aef12596"
+      "sha256": "eda26710f32f34f699f5be2724d610cef20042bb14d201a4ded46d5bf1d7d2a9"
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "3434a7525f2104627ab8413870b90303165d7590cfbbdbbe7d830a0d7a6b3494"
+      "sha256": "ed31e1bd36466029107b88f61748d85437f69253fc2ec65941ce7fa535c95543"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "e3378a329d750f929bdf600b90659cb09fcd4892c494ccb316353a4781d1c5a8"
+      "sha256": "38cf900d4ae4ef79088418a322106272dfa738e0592f32940a884e1210dd3dbc"
     },
     {
       "path": "dev/tools/构建开发细则.py",
@@ -20055,7 +20205,7 @@
     },
     {
       "path": "docs/协议/统一API与本地加密网关需求.md",
-      "sha256": "aa4a856733da3e98e4c1c1173848552a6fda8084f7d2157bfde87036537e7c49"
+      "sha256": "495721e5f6e55546d78bac7835fb72f31c33dc58fec67f3807df59e73111f36e"
     },
     {
       "path": "docs/技术开发/02-工程结构开发环境与编码规范.md",
@@ -20083,7 +20233,7 @@
     },
     {
       "path": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
-      "sha256": "74f1a3ceb918a767e9348b08168727d6bc046ada6b117197bdbac72cf544f302"
+      "sha256": "d38a4878ea2f2fc40efc3b89db30efcb5a6aba6b4559fb5943c414057ae71d7d"
     },
     {
       "path": "docs/技术开发/10-Android与LMA工程设计.md",
@@ -20135,7 +20285,7 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "580b5da08f43a143656b65d4b55b714f7e04f367843a3afa41e2493bce9923ca"
+      "sha256": "1259bc9d673d4699e9f09b5e7761a153c1d762c9e5aac8e069346200b18b1c55"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
@@ -20147,7 +20297,7 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "4744cc5c3b18b72d4825d8b906c61317101c2af8a49ae0b51341c04eb311bfe5"
+      "sha256": "509685676baaeefa420686f6f22e2e7cbfd439570544b6e6e5c0b687897e7074"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
@@ -20215,7 +20365,7 @@
     },
     {
       "path": "docs/技术开发/附录-原生提供方控制代理与本地恢复.md",
-      "sha256": "a6cf459a53f44ba4c72dd17f4493bc0fd74718bfad9dfee5da5e4580c6832a09"
+      "sha256": "d32ed284bac66f851e6410b2419984d293ec871e3161bab893fe4a153ad564df"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
@@ -20239,7 +20389,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "457e385aed06ba39835df9d33a9ef9cf9a3015ecbb41ea32eb6783c5925c8507"
+      "sha256": "80b030d8824cc1f545bce5640f3a8c49cc6742b9f515187c053d2df9a8b94dbb"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -20259,7 +20409,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "b5c60b4e8b298d2bbaf5b51d77aa3fb1ed5ee8863eaf24456fb80da9e12acbde"
+      "sha256": "60beddd8df6040fbc6a77e0c458f1a5a35feef025205e146c9ba218330eaf104"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -20271,7 +20421,7 @@
     "tasks": 56,
     "steps": 222,
     "constraints": 47,
-    "control_operations": 93,
+    "control_operations": 95,
     "tables": 65,
     "requirements": 80,
     "acceptance_cases": 80,

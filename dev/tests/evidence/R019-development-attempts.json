@@ -1,0 +1,136 @@
+{
+  "round": "R019",
+  "status": "DEVELOPMENT_HISTORY_NOT_FULL_ACCEPTANCE",
+  "compile_attempts": [
+    {
+      "id": "compile-1",
+      "result": "FAILED",
+      "diagnostic": "issuer.go retained an unused outbox import after extracting the shared Manifest type",
+      "correction": "Removed that unused import; no behavior or published SQL was relaxed."
+    },
+    {
+      "id": "compile-2",
+      "result": "FAILED",
+      "diagnostic": "A new test referenced trade.Order.Hash, but the original hash is in the frozen Contract",
+      "correction": "Read the independently frozen original Contract.Hash in the test fixture."
+    },
+    {
+      "id": "compile-3",
+      "result": "FAILED",
+      "diagnostic": "A new HTTP test treated the existing buffered response helper as net/http.Response",
+      "correction": "Use the existing harness status/header/body fields; the actual response is already read and closed by that helper."
+    }
+  ],
+  "limited_runs": [
+    {
+      "id": "delivery-before-final-approval-hardening",
+      "top_level_passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "summary": "R019-delivery-native-summary.json",
+      "raw": "R019-delivery-native-go-tests.jsonl",
+      "subsequent_change": "The native Approval was strengthened to require the independent original route plus explicit mode/privacy; negative approval cases were extended. This limited run is not evidence for the final revision or the whole platform.",
+      "temporary_instance_stopped": true
+    }
+  ],
+  "source_check_attempts": [
+    {
+      "id": "source-1",
+      "result": "FAILED_VET",
+      "evidence": "R019-native-source-checks-attempt1.json",
+      "diagnostic": "After the shared protocol Spec became an alias from another package, vet required keyed field initialization at three existing call sites.",
+      "correction": "Use explicit field names at all three sites; serialization order and business behavior remain unchanged. The failed receipt is retained."
+    }
+  ],
+  "documentation_attempts": [
+    {
+      "result": "FAILED_OLD_EXACT_COUNT",
+      "archive": "dev/tests/evidence/R019-technical-document-check-attempt1.json",
+      "correction": "Exact expected count 37 plus R019 version and both added operation IDs; authoritative mapping/method/path/security checks retained."
+    },
+    {
+      "result": "STALE_GENERATED_FILES_AFTER_METADATA_REFRESH",
+      "archive": "dev/tests/evidence/R019-development-document-check-before-rebuild.json",
+      "correction": "Regenerate from the updated routes.json authority hash before final exact-byte and document checks."
+    }
+  ],
+  "diagnostic_provenance": "Compile diagnostics summarized from actual command outputs in this conversation; they are not separately preserved raw compiler logs.",
+  "inherited_open_risk": {
+    "id": "R016-cleanup-timing-root-cause-unproven",
+    "references": [
+      "R016-full-attempt1-archive.json",
+      "R016-supervisor-renewal-diagnostic.json",
+      "R018-development-attempts.json"
+    ],
+    "closure": "OPEN_DEV_53; subsequent passes do not prove timing stability"
+  },
+  "virtualization_used": false,
+  "real_gpu_phone_payment_executed": false,
+  "product_acceptance_status": "NOT_EXECUTED",
+  "full_runs": [
+    {
+      "id": "full-1",
+      "passed": 233,
+      "failed": 1,
+      "failed_test": "TestSupervisorMetadataStepsHaveIndependentBudgets",
+      "archive": "R019-full-attempt1-archive.json",
+      "root_cause_proven": false,
+      "timeouts_or_assertions_relaxed": false,
+      "virtualization_used": false,
+      "cleanup_status": "UNCONFIRMED; NO_RELEASE_AUTHORIZATION; FAILED_RUN_DID_NOT_INDEPENDENTLY_READ_DISK_OWNER",
+      "cleanup_not_confirmed_release_not_authorized": true,
+      "final_disk_owner_independently_observed": false
+    },
+    {
+      "id": "full-2",
+      "passed": 233,
+      "failed": 1,
+      "failed_test": "TestSupervisorUnknownRegistryQuarantinesWithoutFallback",
+      "archive": "R019-full-attempt2-archive.json",
+      "source_changed_since_full_1": false,
+      "observation": "Expected occupied snapshot was unavailable; no independent physical release was established.",
+      "subsequent_correction": "Avoid redundant writes for safe occupied phases with an unavailable frozen adapter; visit all owners before incomplete shutdown and retain original-owner cancellation.",
+      "regression": "TestSupervisorUnavailableRegistryStillCancelsOtherOriginalOwners",
+      "timeouts_or_assertions_relaxed": false,
+      "virtualization_used": false
+    },
+    {
+      "id": "full-3",
+      "run_id": "20261030T150413Z-ec5ba8f4",
+      "passed": 235,
+      "failed": 0,
+      "summary": "R019-native-summary.json",
+      "source_checks": "R019-native-source-checks.json",
+      "source_changed_since_full_2": "Only targeted frozen-registry shutdown correction and one mixed-owner regression; 12 delivery cases unchanged.",
+      "timeouts_or_assertions_relaxed": false,
+      "slow_metadata_root_cause_proven": false,
+      "temporary_instance_stopped": true,
+      "virtualization_used": false,
+      "artifact_subset_archive": "R019-interim-full3-archive.json"
+    },
+    {
+      "id": "full-4",
+      "run_id": "20261030T151248Z-6a0e43b8",
+      "passed": 235,
+      "failed": 0,
+      "summary": "R019-native-summary.json",
+      "source_checks": "R019-native-source-checks.json",
+      "source_changed_since_full_3": "Only routes.json description corrected to 37 operations and explicit restricted input/manifest delivery; full source checks and complete native/browser suite rerun.",
+      "timeouts_or_assertions_relaxed": false,
+      "slow_metadata_root_cause_proven": false,
+      "temporary_instance_stopped": true,
+      "virtualization_used": false
+    }
+  ],
+  "diagnostic": "R019-metadata-budgets-diagnostic.json",
+  "registry_diagnostic": "R019-registry-diagnostic.json",
+  "metadata_followup": {
+    "path": "dev/src/api/internal/http/routes.json",
+    "before_sha256": "ff6b6215b02c0db64ffc533fcc1cb5d2f99b5266b7c8debe2ee45c0f2ba448f1",
+    "after_sha256": "38cf900d4ae4ef79088418a322106272dfa738e0592f32940a884e1210dd3dbc",
+    "change": "Description-only scope changed from 35 operations/no input delivery to 37 operations/explicit restricted original manifest-input delivery. Routes, handlers and credentials unchanged.",
+    "technical_document_check": "Old exact 35 registration assertion failed; corrected to exact 37 plus R019 version and both required IDs, without weakening validation.",
+    "subsequent_source_and_full_verification": "PASSED_WITH_LIMITED_SCOPE_FINAL_FULL_4",
+    "virtualization_used": false
+  }
+}

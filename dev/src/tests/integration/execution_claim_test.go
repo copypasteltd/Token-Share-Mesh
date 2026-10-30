@@ -33,8 +33,11 @@ type claimFixture struct {
 }
 
 func newClaimFixture(t *testing.T) claimFixture {
+	return newClaimFixtureProtocol(t, relay.ChatText)
+}
+func newClaimFixtureProtocol(t *testing.T, protocol relay.Profile) claimFixture {
 	t.Helper()
-	f, p, r, body := executionFixture(t, relay.ChatText)
+	f, p, r, body := executionFixture(t, protocol)
 	c := executionConfig(t)
 	s := configuredExecution(t, c)
 	readyExecution(t, s, p, r, body)

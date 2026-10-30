@@ -45,3 +45,7 @@ evidence_ids/asset_ids等数组须服务层逐项验证引用和权限；需要�
 ## R018 前向010
 
 六个领取字段、一外键、一唯一索引和结构/原子守卫追加到原execution_leases；仍65表，累计664列/113外键。原设备/原键永久绑定原lease，原命令恢复仍复核当前权威；不把领取当执行ACK。001—009及端侧SQLite原字节保留。详见[CL细则](../附录-原设备签名领取与原租约交付.md)和[原字节证明](../../../dev/tests/evidence/R018-migration-immutability.json)。
+
+## R019 无新迁移
+
+本轮复用原领取绑定和原AEAD/HMAC，不新增表/列或迁移。65表/664列/113外键保持，SQL001—010和端侧DDL共21个文件对R018原字节核验，见[证明](../../../dev/tests/evidence/R019-migration-immutability.json)。

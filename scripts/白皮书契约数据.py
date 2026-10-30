@@ -256,6 +256,9 @@ def make_schemas() -> dict:
         ["dispute_id", "order_id", "version", "state", "reason_code", "evidence_refs", "updated_at"])
     s["AppealWrite"] = obj({"expected_version": VERSION, "reason_code": ID,
         "statement": {"type": "string", "minLength": 1, "maxLength": 4000}, "new_evidence_refs": arr(ID, 20)})
+    s["NativeRequestSpec"] = obj({"protocol_profile_id":enum("P11_CHAT_TEXT_NATIVE_1","P11_RESPONSES_TEXT_NATIVE_1","P11_MESSAGES_TEXT_NATIVE_1"),"public_model":TEXT,"max_output_tokens":{"type":"integer","minimum":1,"maximum":1048576},"stream":BOOL})
+    s["NativeExecutionManifest"] = obj({"profile_id":enum("P11_NATIVE_TEXT_MANIFEST_1"),"execution_manifest_ref":ID,"job_id":ID,"attempt_id":ID,"order_id":ID,"route_id":ID,"seller_id":ID,"device_id":ID,"resource_id":ID,"capability_id":ID,"resource_lock_generation":COUNTER,"fencing_token":COUNTER,"contract_hash":HASH,"kernel_environment_ref":ID,"kernel_environment_digest":HASH,"engine_kind":TEXT,"engine_release":TEXT,"model_digest":HASH,"recipe_digest":HASH,"request_spec":ref("NativeRequestSpec"),"input_token_limit":{"type":"integer","minimum":1,"maximum":9007199254740991},"input_asset_ref":ID,"input_ciphertext_digest":HASH,"input_bytes":{"type":"integer","minimum":1,"maximum":262144},"mode":enum("PLAINTEXT"),"privacy":enum("STANDARD"),"hard_deadline":TIME})
+    s["NativeTextInput"] = {"type":"object","description":"原始OpenAI Chat/Responses或Anthropic Messages文本JSON字节，最大262144字节；不封装、不重写、不加入平台字段。三种档位沿gateway协议验证，不是任意JSON许可。"}
     s["LeaseClaimWrite"] = obj({"device_id": ID, "capability_id": ID, "claim_key": {**ID, "minLength":8, "description":"先持久保存的原领取命令ID；必须与Idempotency-Key完全一致；丢回执复用原值，不作lease ID或新轮询键。"}, "expected_device_version": {**VERSION,"maximum":2147483646}})
     s["Lease"] = obj({"lease_id": ID, "job_id": ID, "attempt_id": ID, "order_id": ID, "seller_id": ID, "device_id": ID,
         "resource_id": ID, "resource_lock_generation": COUNTER,
@@ -532,6 +535,10 @@ def make_openapi() -> dict:
     paths["/runner/leases/claim"]["post"]["description"] = "仅原生ED25519_DEVICE_1签名证明，不接受本人会话或SDK key代领。claim_key与Idempotency-Key相同；同原键固定原租约，撤权/过期/owner变化后拒绝交付。领取只记录投递意图，不等于设备ACK、模型执行或计费。"
     paths["/runner/leases/claim"]["post"]["security"] = [{"BearerAuth": []}]
     paths["/runner/leases/claim"]["post"].pop("x-browser-csrf", None)
+    add("get", "/runner/leases/{lease_id}/manifest", "getExecutionManifest", "Runner", "原签名设备读取原租约执行清单", "NativeExecutionManifest", scopes=("device:execute",), statuses=(409,), description="仅已经领取的原设备；每次读取复核原订单/买方key/资金/资格/预算、物理owner/双围栏及原有效期。只有元数据，不能据此自动信任平台公钥或批准本机内核。")
+    add("get", "/runner/leases/{lease_id}/input", "getExecutionInput", "Runner", "原签名设备读取原始有界文本输入", "NativeTextInput", scopes=("device:execute",), statuses=(409,), description="仅PLAINTEXT/STANDARD已领取租约；显式输入解密钥和独立指纹验证钥均可用，AES-GCM/AAD、原始HMAC与同档位Preflight通过后返回原字节。no-store；不接受Range、查询、下载地址或会话代领。此为平台可信明文域经认证连接交付，不是E2E、卖方不可见或原正文的独立签名。")
+    for route in ("/runner/leases/{lease_id}/manifest","/runner/leases/{lease_id}/input"):
+        paths[route]["get"]["security"]=[{"BearerAuth":[]}]
     for suffix, operation, request in [("progress", "recordAttemptProgress", "ProgressWrite"),
         ("deliveries", "registerAttemptDelivery", "DeliveryWrite"), ("usage", "recordAttemptUsage", "TokenUsageWrite"),
         ("cleanup", "recordAttemptCleanup", "CleanupWrite")]:

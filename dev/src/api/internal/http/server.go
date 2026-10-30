@@ -46,6 +46,7 @@ type Config struct {
 	Seller                           seller.Service
 	Devices                          device.Service
 	Claims                           *invocation.Claims
+	Delivery                         *invocation.Delivery
 	Routes                           routecontract.Service
 }
 type Server struct {

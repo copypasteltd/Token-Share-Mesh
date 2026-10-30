@@ -1,0 +1,41 @@
+{
+  "round": "R019",
+  "run_id": "20261030T150413Z-ec5ba8f4",
+  "passed_cases": 235,
+  "failed_cases": 0,
+  "files": [
+    {
+      "original": "dev/tests/evidence/R019-native-summary.json",
+      "archive": "dev/tests/evidence/R019-interim-full3-native-summary.json",
+      "sha256": "285854424f69e1170fc85fc8d30d4948b698c3f180d1b506228489a2aba10d01"
+    },
+    {
+      "original": "dev/tests/evidence/R019-native-go-tests.jsonl",
+      "archive": "dev/tests/evidence/R019-interim-full3-native-go-tests.jsonl",
+      "sha256": "9788642e68944fc137c62cd86dc1beb92166c2a92630ef1341f1831b2902a0e6"
+    },
+    {
+      "original": "dev/tests/evidence/R019-native-source-checks.json",
+      "archive": "dev/tests/evidence/R019-interim-full3-native-source-checks.json",
+      "sha256": "5fda7022b3601f232c773e31d73f7cdd7954a1e74cc733bfb89f85104197b0e7"
+    },
+    {
+      "original": "dev/tests/evidence/R019-frontend-checks.json",
+      "archive": "dev/tests/evidence/R019-interim-full3-frontend-checks.json",
+      "sha256": "821fc19c2d7d9057813653906e493b7b25307ba2d4ac5f5e5d7de46d1d7a7a77"
+    },
+    {
+      "original": "dev/tests/evidence/R019-验证报告.json",
+      "archive": "dev/tests/evidence/R019-interim-full3-验证报告.json",
+      "sha256": "b66966b1ab7c48d0c699ed8e14b943a74af4afc5ad6e20391e3a8fdc612a2b25"
+    },
+    {
+      "original": "dev/tests/evidence/R019-验证报告.md",
+      "archive": "dev/tests/evidence/R019-interim-full3-验证报告.md",
+      "sha256": "292fcb8d84857dfc4dcbca12300a50ec4344013aa09e861db6c38d307275d9e7"
+    }
+  ],
+  "scope": "Passing interim source/test/report receipts before a description-only routes.json update. Browser media are not separately archived for this passing interim run; the final complete run refreshes browser receipts and media together. Failed complete attempts retain all original media separately.",
+  "temporary_instance_stopped": true,
+  "virtualization_used": false
+}

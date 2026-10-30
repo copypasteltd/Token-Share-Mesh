@@ -1,0 +1,16 @@
+{
+  "round": "R019",
+  "status": "NO_TEST_RESULT_COMPILATION_TIMEOUT",
+  "outer_command_timeout_seconds": 120,
+  "go_test_execution_timeout_seconds": 90,
+  "requested_repetitions": 3,
+  "passed": 0,
+  "failed": null,
+  "test_events_emitted": 0,
+  "raw": "R019-metadata-budgets-diagnostic.jsonl",
+  "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_changed": false,
+  "timeouts_or_assertions_relaxed": false,
+  "root_cause_proven": false,
+  "note": "The standalone command emitted no test events before its outer build/process deadline. This is not a passing diagnostic or evidence of an execution-test timeout. Owned compiler processes were checked and none remained. The original complete failure and all media are archived; repeat the complete native/browser run using unchanged source and runtime/test bounds."
+}

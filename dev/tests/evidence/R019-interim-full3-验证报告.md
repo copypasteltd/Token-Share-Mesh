@@ -1,0 +1,256 @@
+# R019 原生源码验证报告
+
+仅已列明的控制应用、端侧元数据、监督与协议转发源码子集通过：235项用例通过，实际用例无失败/跳过；临时原生数据库已停止。完整平台80项主验收仍为 NOT_EXECUTED。
+
+| 用例编号 | 验证内容 | 结果 |
+| --- | --- | --- |
+| R019-TEST-001 | 累计有理计价；分块不反复向上舍入 | PASSED |
+| R019-TEST-002 | 金额上限、溢出、负数和回退读数拒绝 | PASSED |
+| R019-TEST-003 | 空/不平账本拒绝；平账可提交；追加修改及普通角色绕过拒绝 | PASSED |
+| R019-TEST-004 | 资源复合外键拒绝其他卖家的设备 | PASSED |
+| R019-TEST-005 | 订单卖家不可暗改；已消费报价不可复原 | PASSED |
+| R019-TEST-006 | 65张领域表真实迁移、重复执行与摘要漂移拒绝 | PASSED |
+| R019-TEST-007 | 密钥只显一次、归属隔离、有限权限、HMAC存储与撤销 | PASSED |
+| R019-TEST-008 | 20个并发同意图只提交一次；用户版本变化拒绝旧回放 | PASSED |
+| R019-TEST-009 | inbox与副作用同事务回滚；重复去重；异载荷拒绝 | PASSED |
+| R019-TEST-010 | 认领代次递增、旧ACK拒绝、有限重试和错误码/任务白名单；通用队列不认领或耗尽改写执行投递类型 | PASSED |
+| R019-TEST-011 | 小时与输入/输出M token精确累计、合并一次进位 | PASSED |
+| R019-TEST-012 | 未知用量不当零；价率/费用缺失、负数与溢出拒绝 | PASSED |
+| R019-TEST-013 | 佣金退款目标重算；350分每小时拒绝有损分钟转换 | PASSED |
+| R019-TEST-014 | 未支持收费组件、重复键、缺少费率及多余JSON拒绝 | PASSED |
+| R019-TEST-015 | 控制JSON大小、深度、UTF8、未知字段及嵌套重复键边界 | PASSED |
+| R019-TEST-016 | 具体卖家/型号、安全字段投影、分页及组合资格/撤销/资源忙 | PASSED |
+| R019-TEST-017 | 报价冻结双价/预算/卖家；无默降、API购单和自购；证据TTL | PASSED |
+| R019-TEST-018 | 16并发同键一个订单/outbox/同意；归属隔离和角色撤销回放 | PASSED |
+| R019-TEST-019 | 数据库费率漂移拒绝并回滚报价消费；12异键同报价仅一单 | PASSED |
+| R019-TEST-020 | 新挂牌价版不覆旧合同；旧确认拒绝；350分小时精确报价 | PASSED |
+| R019-TEST-021 | 停新单/撤证/错误意图拒绝，不消费原报价 | PASSED |
+| R019-TEST-022 | 历史订单原始价格及扩展完整保留；不静默改写旧报价 | PASSED |
+| R019-TEST-023 | 精确字段大小写、别名、嵌套键及非对象DTO拒绝 | PASSED |
+| R019-TEST-024 | RSA2应用请求与原始响应字节验签；身份字段显式选择 | PASSED |
+| R019-TEST-025 | 未签名/篡改/重复/错身份/超界响应拒绝，禁止身份字段回退 | PASSED |
+| R019-TEST-026 | 缺配置关闭身份；授权兑换不跟随HTTP重定向 | PASSED |
+| R019-TEST-027 | 16并发同挑战仅兑换/签发一次，原始码/凭据不落库 | PASSED |
+| R019-TEST-028 | 浏览器挑战/state绑定及授权UNKNOWN不发会话、不盲重试 | PASSED |
+| R019-TEST-029 | 用户版本/会话到期/撤销在业务回放前再次生效 | PASSED |
+| R019-TEST-030 | 撤销角色阻断密钥回放；重登不恢复撤权/封禁账户 | PASSED |
+| R019-TEST-031 | 原生HTTP登录/市场/报价/订单同键回放和跨买家隔离 | PASSED |
+| R019-TEST-032 | Web HttpOnly Strict Cookie、CSRF、跨域、双端凭据混用及注销 | PASSED |
+| R019-TEST-033 | 真实HTTP拒绝Host/方法/查询/JSON歧义、超限及未实现路由 | PASSED |
+| R019-TEST-034 | 密钥只显一次、签名游标用户隔离、撤销、预检和授权限流 | PASSED |
+| R019-TEST-035 | 16并发申请仅留一份材料/事件、无自动SELLER；同意/撤回追加与数据库不可变 | PASSED |
+| R019-TEST-036 | 草稿/提交不自动开售；撤证阻断且事务回滚；版本化原因留痕 | PASSED |
+| R019-TEST-037 | 新价创建未来修订；已售数据库合同不变；过期ETag拒绝及旧版不可删改 | PASSED |
+| R019-TEST-038 | 12异键竞争同版本只提交一个修订；角色撤销阻断旧回放 | PASSED |
+| R019-TEST-039 | 跨卖家设备/证据、佣金篡改、未批准地区、通用型号及环境漂移拒绝 | PASSED |
+| R019-TEST-040 | 真实跨排期边界/空档拒售；剩余可用时间限制deadline和GPU时长 | PASSED |
+| R019-TEST-041 | 独立SELLER可退出；停新售但保留订单合同、隔离状态和资源代次 | PASSED |
+| R019-TEST-042 | 小程序本人申请/读待审/同意/退出HTTP；申请不授予挂牌权限 | PASSED |
+| R019-TEST-043 | 实际Web Cookie/CSRF挂牌链、强ETag回放/竞争、空补丁值拒绝、租户分页及PATCH预检 | PASSED |
+| R019-TEST-044 | 显式MINIAPP服务端随机证明：仅存摘要、错证明/重放拒绝；不可冒充Web PKCE | PASSED |
+| R019-TEST-045 | 实际Web/Taro H5及Windows控制CLI：原建单/配对/PATCH丢回执恢复，登记/心跳、停止撤销与数据库唯一事件 | PASSED |
+| R019-TEST-046 | RFC8032独立金向量与项目控制签名字节格式 | PASSED |
+| R019-TEST-047 | 正文/方法/Host/路径/查询/幂等键/ETag/媒体类型/身份/时间/nonce逐字段篡改拒绝 | PASSED |
+| R019-TEST-048 | 过期、非规范编码、公钥、控制字符、URI与正文上限拒绝 | PASSED |
+| R019-TEST-049 | 实际HTTP丢写回执标UNKNOWN，不自动重试；原字段/键配新证明显式恢复 | PASSED |
+| R019-TEST-050 | 不跟随重定向泄露证明、拒绝非安全base与关闭后调用 | PASSED |
+| R019-TEST-051 | 16并发配对/登记各仅一份、秘密只显一次、原意图恢复、公钥唯一/不可变 | PASSED |
+| R019-TEST-052 | 待配对上限、过期/错误5次提交关闭、具体型号和当前SELLER/审批校验 | PASSED |
+| R019-TEST-053 | 持久nonce跨服务实例防重放、逐字段篡改、过期/跨设备/停权拒绝 | PASSED |
+| R019-TEST-054 | 16并发心跳同键一次、uint64完整范围/溢出、时钟/版本/假尝试拒绝，不自授资格 | PASSED |
+| R019-TEST-055 | 12异键同ETag仅一次，时段/单槽/手机条件/他人设备隔离；更新不自动ONLINE | PASSED |
+| R019-TEST-056 | 停止保留隔离与在途attempt owner/77代次；撤销证明及旧业务回放立即失效、终态不可恢复 | PASSED |
+| R019-TEST-057 | 设备热/低电/低盘/忙/排空和45秒超时关闭市场新准入 | PASSED |
+| R019-TEST-058 | 实际Web CSRF配对、原生配对消费/恢复、签名客户端读/心跳，不混用浏览器凭据 | PASSED |
+| R019-TEST-059 | HTTP nonce重放/URI篡改/跨设备跨卖家拒绝，签名游标隔离、停止与撤销 | PASSED |
+| R019-TEST-060 | HTTP强ETag/原键恢复、签名绑定幂等键、重复头/Origin/重复JSON/超界拒绝 | PASSED |
+| R019-TEST-061 | 真实本地加密状态重开、独占锁、篡改/缺失拒绝与不重建身份 | PASSED |
+| R019-TEST-062 | 登记丢回执跨重启保持公钥/原正文/原命令，成功后移除配对凭据 | PASSED |
+| R019-TEST-063 | 心跳丢回执跨重启保持原序号/键/正文，恢复签新nonce且不自动报空闲 | PASSED |
+| R019-TEST-064 | 已知版本冲突经当前读取恢复，保留高水位后以新序号继续 | PASSED |
+| R019-TEST-065 | 错设备回执不清命令，撤销即停出站循环并保留原状态 | PASSED |
+| R019-TEST-066 | 持久化失败前不发送、不换身份；uint64耗尽关闭不回绕 | PASSED |
+| R019-TEST-067 | 实际出站HTTP取消及时关闭，不隐式后台执行 | PASSED |
+| R019-TEST-068 | Secret Service线协议夹具：唯一查找/创建、锁定/缺钥/重复/提示拒绝及会话关闭 | PASSED |
+| R019-TEST-069 | 实际Windows DPAPI及本人/SYSTEM ACL，损坏保护钥不重建 | PASSED |
+| R019-TEST-070 | 实际原生子进程强制退出后释放OS锁，原身份/待登记命令恢复 | PASSED |
+| R019-TEST-071 | 原生命令拒绝凭据参数/回显及超界标准输入 | PASSED |
+| R019-TEST-072 | 实际原生代理/DPAPI/HTTP/临时PG：丢登记/心跳回执后原命令恢复，数据库唯一事件及撤销停止 | PASSED |
+| R019-TEST-073 | 独立固定字节签名向量、全uint64和验后数据不可变 | PASSED |
+| R019-TEST-074 | 逐项计划绑定、重复/别名/未知/空值字段和签名篡改拒绝 | PASSED |
+| R019-TEST-075 | 无信任钥、零值、未生效及到期租约关闭 | PASSED |
+| R019-TEST-076 | 原命令去重、异载荷拒绝、一次提交与原backend映射 | PASSED |
+| R019-TEST-077 | 同物理摘要不建别名；本地/任务/维护同门闩；不造租赁权 | PASSED |
+| R019-TEST-078 | 任务/资源双高水位、跨任务拒旧与本地代次耗尽不回绕 | PASSED |
+| R019-TEST-079 | 完整新签名递增revision；环境/截止不暗改，旧版和迟到续约拒绝 | PASSED |
+| R019-TEST-080 | 绝对/单调双截止和回拨隔离，清理可继续但不自动FREE | PASSED |
+| R019-TEST-081 | 重开一律撤销内存执行权；保留原backend，先查停清 | PASSED |
+| R019-TEST-082 | 未知停算/部分清理拒绝；旧owner清理不能释放下一代 | PASSED |
+| R019-TEST-083 | 事务中途真实SQLite故障原子回滚，门闩中毒关闭 | PASSED |
+| R019-TEST-084 | SQLite缺失/损坏/错误锚定/DDL及版本漂移拒绝，不重建 | PASSED |
+| R019-TEST-085 | 20并发只接纳一个owner；20并发只保留一次提交权 | PASSED |
+| R019-TEST-086 | 实际子进程异常退出保留WAL中的SUBMITTING，恢复只查不重提 | PASSED |
+| R019-TEST-087 | 停止期间迟到原backend可用于取消，不恢复执行或替换映射 | PASSED |
+| R019-TEST-088 | 4096收据容量、SQLite缓存/映射/页数上限和安全投影 | PASSED |
+| R019-TEST-089 | 节点加密锚定与一次初始化，共OS锁，重开本地owner隔离 | PASSED |
+| R019-TEST-090 | 丢执行库不重建、不换原控制身份或执行锚定 | PASSED |
+| R019-TEST-091 | 先锚后库中断、既有无锚文件、错误绑定均关闭 | PASSED |
+| R019-TEST-092 | 实际Windows DPAPI/本人SYSTEM ACL覆盖SQLite/WAL/SHM及重开 | PASSED |
+| R019-TEST-093 | 监督循环未运行拒绝提交、注册绑定复制且单次运行 | PASSED |
+| R019-TEST-094 | 原命令重复12次只提交一次，退出先停算清理 | PASSED |
+| R019-TEST-095 | 租约到期自动取消/查询/清理，不由轮询续租 | PASSED |
+| R019-TEST-096 | 提交丢回执查询原backend后停止，不重新提交 | PASSED |
+| R019-TEST-097 | 显式停止打断进行中的提交并继续清理 | PASSED |
+| R019-TEST-098 | 调用方取消不放弃原owner恢复清理 | PASSED |
+| R019-TEST-099 | 取消ACK不冒充已停，关闭超时保留占用 | PASSED |
+| R019-TEST-100 | 查询失败仍先取消，缺停止证据保留占用 | PASSED |
+| R019-TEST-101 | 跨owner回执及不完整清理都不释放 | PASSED |
+| R019-TEST-102 | SQLite重开只查停原任务，不重授执行或提交 | PASSED |
+| R019-TEST-103 | 环境未注册隔离，禁止换内核兜底 | PASSED |
+| R019-TEST-104 | 数据库故障关闭准入并尽力取消原任务 | PASSED |
+| R019-TEST-105 | CLEANING重试不重提或反复取消后端 | PASSED |
+| R019-TEST-106 | 受阻查询不阻塞截止检查及取消 | PASSED |
+| R019-TEST-107 | 完整签名续约保持原backend，不重启任务 | PASSED |
+| R019-TEST-108 | 150ms签名短租约：零提交安全拒绝或单次后端截止中止，禁止到期后迟交 | PASSED |
+| R019-TEST-109 | 已知backend消失不作为STOPPED证据 | PASSED |
+| R019-TEST-110 | 一资源查询受阻不阻塞另一资源到期清理 | PASSED |
+| R019-TEST-111 | 时钟回拨触发实际取消/查询/清理流程 | PASSED |
+| R019-TEST-112 | 显式初始化执行库，监督器不可越过原节点OS锁 | PASSED |
+| R019-TEST-113 | 实际原生HTTP控制读到DRAINING/拒绝心跳，关闭监督器并等待原owner清理 | PASSED |
+| R019-TEST-114 | 三种文本JSON原生直通、固定模型别名及协议usage候选 | PASSED |
+| R019-TEST-115 | 重复键/大小写/Unicode/长度/未知字段在准入前拒绝 | PASSED |
+| R019-TEST-116 | 工具/状态/beta与冲突身份拒绝，Responses显式store=false | PASSED |
+| R019-TEST-117 | 买方凭据代理头不进后端，响应Cookie/调试地址不出域 | PASSED |
+| R019-TEST-118 | 准入拒绝及错误卖家/合同/围栏/期限不联系后端 | PASSED |
+| R019-TEST-119 | 冻结固定路由、HTTP环回显式配置，平台明文拒绝E2E域 | PASSED |
+| R019-TEST-120 | 307/401/429/500均不轮换重试，不泄露上游正文 | PASSED |
+| R019-TEST-121 | 原POST提交丢响应仅一次，结果保留未知 | PASSED |
+| R019-TEST-122 | 三方言实际HTTP逐字节UTF8/CRLF及原生流终态 | PASSED |
+| R019-TEST-123 | Chat真实finish/按需usage之后才能传DONE | PASSED |
+| R019-TEST-124 | Messages内容块闭合，thinking/错误/缺终态拒绝 | PASSED |
+| R019-TEST-125 | Responses项索引/序号/文本摘要/完成事件一致性 | PASSED |
+| R019-TEST-126 | usage缺失不补零、错误累计/包含关系拒绝、截断保留 | PASSED |
+| R019-TEST-127 | 请求/事件/响应字节上限、坏UTF8/重复键/未闭合SSE拒绝 | PASSED |
+| R019-TEST-128 | SSE注释/多行data/LF-CRLF-CR及EOF不补事件 | PASSED |
+| R019-TEST-129 | 调用取消/授权撤销/硬截止关闭实际上游HTTP | PASSED |
+| R019-TEST-130 | 注释不续事件空闲期，合法ping不续绝对截止 | PASSED |
+| R019-TEST-131 | 有界并发与原键准入端口；重复不得绕过门槛 | PASSED |
+| R019-TEST-132 | 下游断写及受阻写有界截止，不继续读取/补成功 | PASSED |
+| R019-TEST-133 | 真实HTTP入口完成与慢请求正文读截止，关闭自建服务 | PASSED |
+| R019-TEST-134 | 清理后旧快照不误判退出失败，资源已释放或下一owner不受影响 | PASSED |
+| R019-TEST-135 | SQL开始前取消不毒化健康元数据库或释放原owner | PASSED |
+| R019-TEST-136 | 取消排队可在原事务结束前返回，原事务与资源保留 | PASSED |
+| R019-TEST-137 | 事务延迟不能续执行权，原owner保留待清理 | PASSED |
+| R019-TEST-138 | 真实原生后端context截止不晚于签名expiry | PASSED |
+| R019-TEST-139 | 各元数据步骤独立I/O预算，后端调用上限不放宽 | PASSED |
+| R019-TEST-140 | 清理完成后唤醒退出重读，轮询间隔不制造假超时 | PASSED |
+| R019-TEST-141 | 20并发预留不超过原订单上限 | PASSED |
+| R019-TEST-142 | 同原purpose并发只预留一次，异金额冲突 | PASSED |
+| R019-TEST-143 | 可信资格实际额消耗，已确认零费用释放，未用上限返回 | PASSED |
+| R019-TEST-144 | 未知/未验证usage与订单关闭不释放预留 | PASSED |
+| R019-TEST-145 | 原买家/卖家/合同/用途绑定，跨单拒绝 | PASSED |
+| R019-TEST-146 | 待付款/关闭/复核/到期停止新预留 | PASSED |
+| R019-TEST-147 | 预算与调用方任务写同事务回滚 | PASSED |
+| R019-TEST-148 | 并发同来源完成只消耗一次，终态不可重开 | PASSED |
+| R019-TEST-149 | 资格来源/原用途/实际额与预留上限匹配 | PASSED |
+| R019-TEST-150 | 直接SQL不能改计数、删历史、伪零或改资格 | PASSED |
+| R019-TEST-151 | 重复读旧快照因父行更新中止，不超分配 | PASSED |
+| R019-TEST-152 | 金额边界及零上限不伪造实际费用 | PASSED |
+| R019-TEST-153 | 直接SQL并发仍受父订单原子容量约束 | PASSED |
+| R019-TEST-154 | 只接受原租赁会话的最终计量资格 | PASSED |
+| R019-TEST-155 | 接受来源须为原买家验收且关联原任务VALID已接受交付 | PASSED |
+| R019-TEST-156 | 001—005升级保守保留旧行，历史超额整体回滚006 | PASSED |
+| R019-TEST-157 | 原订单合同固定与12并发同键只建一份路由/事件 | PASSED |
+| R019-TEST-158 | 跨买家、卖家、商品版本和策略改写拒绝 | PASSED |
+| R019-TEST-159 | 同单原付款、已结算、环境和退款门槛 | PASSED |
+| R019-TEST-160 | 预算/次数/有效期边界及未实现模式拒绝 | PASSED |
+| R019-TEST-161 | 当前撤销/关闭投影且旧键不恢复ACTIVE | PASSED |
+| R019-TEST-162 | 标准SDK仅精确匹配key绑定模型和原协议 | PASSED |
+| R019-TEST-163 | 同名歧义包含失效路由，禁止换卖家兜底 | PASSED |
+| R019-TEST-164 | 事务内重查key、角色、卖家和原订单 | PASSED |
+| R019-TEST-165 | SQL固定路由/订单/支付绑定，空壳ACTIVE拒绝 | PASSED |
+| R019-TEST-166 | 本人有界分页和原订单共享预算保留 | PASSED |
+| R019-TEST-167 | 007升级旧路由隔离，不推测确认/付款 | PASSED |
+| R019-TEST-168 | API只读启动迁移校验拒绝缺失/漂移/未知版本 | PASSED |
+| R019-TEST-169 | 真实HTTP原订单路由、scoped key和安全重放 | PASSED |
+| R019-TEST-170 | 真实HTTP严格输入、认证/CSRF及游标签名边界 | PASSED |
+| R019-TEST-171 | 三种原生文本方言：原调用/整笔预算/次数/安全事件同事务 | PASSED |
+| R019-TEST-172 | 12并发原键重试只生成一任务一预留一事件 | PASSED |
+| R019-TEST-173 | 独立请求竞争次数上限，取消不恢复已占次数 | PASSED |
+| R019-TEST-174 | 不同调用共享原订单容量，不超额 | PASSED |
+| R019-TEST-175 | 改正文/参数/绑定key不能替换原调用 | PASSED |
+| R019-TEST-176 | 原路由/资金/设备失效或取消后只恢复原记录和原占用 | PASSED |
+| R019-TEST-177 | 当前key/角色/用户/路由范围撤销均阻止新请求和重放 | PASSED |
+| R019-TEST-178 | 无效输入/会话冒用/资金未知/单次上限不足均零副作用 | PASSED |
+| R019-TEST-179 | HMAC独立密钥复制轮换，缺旧钥或关闭服务拒绝重发 | PASSED |
+| R019-TEST-180 | 业务回滚与延迟约束拒绝缺安全事件的半成品 | PASSED |
+| R019-TEST-181 | 数据库固定原调用绑定，禁止覆盖/删除/降档 | PASSED |
+| R019-TEST-182 | 直接SQL也不能越过次数或缺预算/事件提交 | PASSED |
+| R019-TEST-183 | 准备截止取当前资金/资格证据/API key最短值 | PASSED |
+| R019-TEST-184 | 008保留历史未绑定任务，不补造同意/预算/调用资格 | PASSED |
+| R019-TEST-185 | 三种原生请求实际校验/加密入库/签发 | PASSED |
+| R019-TEST-186 | 八并发就绪仅一份原始密文 | PASSED |
+| R019-TEST-187 | 不信任正文摘要/参数并拒绝不支持字段 | PASSED |
+| R019-TEST-188 | 输入钥复制轮换/缺旧钥关闭 | PASSED |
+| R019-TEST-189 | 显式密钥配置/用途隔离和关闭 | PASSED |
+| R019-TEST-190 | 末次调用使用自己的预算，不再索取新额度 | PASSED |
+| R019-TEST-191 | 八并发签发只有原租约/owner/投递意图 | PASSED |
+| R019-TEST-192 | 不同买家订单竞争同一物理资源 | PASSED |
+| R019-TEST-193 | 准备和排队均不提前占设备 | PASSED |
+| R019-TEST-194 | 需原生身份和明确FREE，过期不释放 | PASSED |
+| R019-TEST-195 | 当前身份/角色/资金/资格/原路由/输入重核 | PASSED |
+| R019-TEST-196 | 原键恢复不得续租/替换已撤销授权 | PASSED |
+| R019-TEST-197 | 真实短截止后预算和物理占用保留 | PASSED |
+| R019-TEST-198 | 平台signed-bigint围栏上限不回绕 | PASSED |
+| R019-TEST-199 | 就绪回滚/缺事件不提交半成品 | PASSED |
+| R019-TEST-200 | 签发回滚/缺事件/投递/owner/预算拒绝 | PASSED |
+| R019-TEST-201 | SQL不允许重写输入/租约/原owner | PASSED |
+| R019-TEST-202 | 数据库READY形状不代替密文AEAD认证 | PASSED |
+| R019-TEST-203 | 009保留真实历史资产/租约UNBOUND | PASSED |
+| R019-TEST-204 | 签名租约对独立原计划验证并进入真实SQLite收件箱 | PASSED |
+| R019-TEST-205 | 原设备领取完全相同的原签名租约，无需内容解密器 | PASSED |
+| R019-TEST-206 | 八路并发恢复仅一份原领取绑定/安全事件 | PASSED |
+| R019-TEST-207 | 原键异正文/另一领取/不同header均不能改领 | PASSED |
+| R019-TEST-208 | 会话/SDK key/其他设备/缺execute scope拒绝 | PASSED |
+| R019-TEST-209 | 首次与重放均复核撤权、版本、角色、原key、资金/缩短期限、资格及输入 | PASSED |
+| R019-TEST-210 | 物理owner/代次变化不可借用，原预算保留 | PASSED |
+| R019-TEST-211 | 公钥复制/原issuer保留及缺钥/关闭拒绝 | PASSED |
+| R019-TEST-212 | 无当前候选不创建尝试、不释放占用 | PASSED |
+| R019-TEST-213 | SQL缺事件回滚，原领取元数据不可重写/删除 | PASSED |
+| R019-TEST-214 | 真实到期后不返回旧租约且原预算/资源保留 | PASSED |
+| R019-TEST-215 | 返回字节仍需独立公钥与原批准计划验证 | PASSED |
+| R019-TEST-216 | 实际PG订单/设备锁顺序和原命令advisory等待后重核版本 | PASSED |
+| R019-TEST-217 | 新调用容量耗尽仍使用原调用整笔已占预算 | PASSED |
+| R019-TEST-218 | 实际HTTP与原生签名客户端重复领取同原租约 | PASSED |
+| R019-TEST-219 | HTTP设备证明重放/非设备身份/原键异正文拒绝 | PASSED |
+| R019-TEST-220 | 未显式配置领取服务时503关闭 | PASSED |
+| R019-TEST-221 | 原生命令冻结正文，恢复使用新证明和同原键 | PASSED |
+| R019-TEST-222 | 公钥文件显式/有界/严格字段和缺环境关闭 | PASSED |
+| R019-TEST-223 | 三种文本profile重复交付原字节；签发器关闭不影响独立交付 | PASSED |
+| R019-TEST-224 | 必须先原设备领取，拒绝会话/key/其他设备/缺scope及外来lease | PASSED |
+| R019-TEST-225 | 每次manifest/input读取重新检查版本/key/资金/资格/输入/资源及双围栏 | PASSED |
+| R019-TEST-226 | 缺/错/关闭的input或fingerprint目的钥不返回内容；原HMAC核对 | PASSED |
+| R019-TEST-227 | 交付持有独立key副本，调用方清零不破坏；非法/复用目的配置拒绝 | PASSED |
+| R019-TEST-228 | 独立原订单/路由/模式及本机内核批准、独立pin和原清单hash验证 | PASSED |
+| R019-TEST-229 | 端侧拒绝过期/模糊协议/模型变化/超限及未验证的空接收器 | PASSED |
+| R019-TEST-230 | 实际签名原生HTTP清单/原文往返且不ACK/计费或释放 | PASSED |
+| R019-TEST-231 | HTTP拒绝未领取/会话代领/证明重放/部分读取，保留no-store和原空白 | PASSED |
+| R019-TEST-232 | 未显式配置内容服务保持503，不因存在设备身份开放 | PASSED |
+| R019-TEST-233 | 原生GET绑定预配置origin/URI及空正文，重复Send使用新nonce | PASSED |
+| R019-TEST-234 | 内容密钥文件需显式claims/环境、原版本独立目的钥；超限/重复/未知字段拒绝 | PASSED |
+| R019-TEST-235 | 未知内核原owner持续隔离；仍取消其他已匹配原owner、不重提或无证释放 | PASSED |
+
+原生 PostgreSQL 实例：`20261030T150413Z-ec5ba8f4`；关闭方式：`FAST`。实例与工具均在项目 runtime，无本地虚拟化。
+
+Go 依赖校验、格式检查、vet及 Windows/Linux amd64 admin/API/node命令构建均通过；Linux仅交叉编译。依赖版本/许可清单只覆盖当前Go模块，不是全平台SBOM。
+
+- [Go/数据库实际事件](R019-native-go-tests.jsonl)
+- [实例退出与范围](R019-native-summary.json)
+- [构建、源码摘要与依赖校验](R019-native-source-checks.json)
+- [Go依赖与许可证](../../licenses/go-dependencies.json)
+
+本轮实际覆盖原生HTTP/会话/CSRF，但仅通过签名合成渠道响应；未覆盖真实支付宝授权、GPU、Android、资金渠道、密码互通、独立评审、性能和完整产品主验收；不声称Go race detector或断电恢复通过。测试资格均为显式写入临时数据库的合成夹具，不能作为真实开售证据。
+
+第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有21项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查](R019-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。
+
+R019：37/95显式操作；65表/664列/113外键。原设备受限获取已领取原manifest与原始文本输入；平台明文域AES-GCM/AAD及原HMAC复核、客户端独立公钥和原订单/内核批准。无签发钥交付，不等于E2E、实际执行或计费。SQL001—010/端侧DDL原字节保留；R016时序风险和全56/222子项仍开放。

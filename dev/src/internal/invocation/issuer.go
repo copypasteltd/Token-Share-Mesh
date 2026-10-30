@@ -12,7 +12,6 @@ import (
 	"github.com/jackc/pgx/v5"
 	"p11.local/compute/client/protocol/executionlease"
 	"p11.local/compute/internal/identity"
-	"p11.local/compute/internal/outbox"
 	"p11.local/compute/internal/routecontract"
 	"p11.local/compute/internal/trade"
 	"p11.local/compute/shared/fault"
@@ -20,52 +19,9 @@ import (
 	"p11.local/compute/shared/strictjson"
 )
 
-const ManifestProfile = "P11_NATIVE_TEXT_MANIFEST_1"
+const ManifestProfile = executionlease.ManifestProfile
 
-// Manifest projects frozen consent and currently qualified kernel facts. It is
-// metadata only, not a downloadable command or a KernelRegistry approval. The
-// receiver still needs independently provisioned pins, plan and local approval.
-type Manifest struct {
-	Profile           string `json:"profile_id"`
-	ID                string `json:"execution_manifest_ref"`
-	Job               string `json:"job_id"`
-	Attempt           string `json:"attempt_id"`
-	Order             string `json:"order_id"`
-	Route             string `json:"route_id"`
-	Seller            string `json:"seller_id"`
-	Device            string `json:"device_id"`
-	Resource          string `json:"resource_id"`
-	Capability        string `json:"capability_id"`
-	Generation        string `json:"resource_lock_generation"`
-	Fence             string `json:"fencing_token"`
-	ContractHash      string `json:"contract_hash"`
-	EnvironmentRef    string `json:"kernel_environment_ref"`
-	EnvironmentDigest string `json:"kernel_environment_digest"`
-	EngineKind        string `json:"engine_kind"`
-	EngineRelease     string `json:"engine_release"`
-	ModelDigest       string `json:"model_digest"`
-	RecipeDigest      string `json:"recipe_digest"`
-	Spec              Spec   `json:"request_spec"`
-	InputTokenLimit   int64  `json:"input_token_limit"`
-	InputAsset        string `json:"input_asset_ref"`
-	InputDigest       string `json:"input_ciphertext_digest"`
-	InputBytes        int64  `json:"input_bytes"`
-	Mode              string `json:"mode"`
-	Privacy           string `json:"privacy"`
-	HardDeadline      string `json:"hard_deadline"`
-}
-
-func (m Manifest) Digest() string { b, _ := json.Marshal(m); return outbox.Digest(b) }
-
-// ApprovedPlan must be used ONLY with this manifest obtained through an
-// independently authenticated order/manifest channel and approved locally.
-// Never invoke it on an untrusted companion manifest bundled with a lease.
-func (m Manifest) ApprovedPlan() executionlease.Plan {
-	h, _ := time.Parse(time.RFC3339Nano, m.HardDeadline)
-	return executionlease.Plan{Job: m.Job, Attempt: m.Attempt, Order: m.Order, Seller: m.Seller, Device: m.Device,
-		Resource: m.Resource, Generation: m.Generation, Capability: m.Capability, Manifest: m.ID, ManifestHash: m.Digest(),
-		Environment: m.EnvironmentDigest, Fence: m.Fence, ContractHash: m.ContractHash, HardDeadline: h}
-}
+type Manifest = executionlease.Manifest
 
 type Issuance struct {
 	Preparation                Preparation
@@ -256,7 +212,7 @@ func (e *Execution) IssueTx(ctx context.Context, tx pgx.Tx, p identity.Principal
 	attemptID, leaseID := ids.New("att"), ids.New("lease")
 	m := Manifest{Profile: ManifestProfile, ID: ids.New("manifest"), Job: prepared.JobID, Attempt: attemptID, Order: prepared.OrderID, Route: c.ID, Seller: prepared.SellerID,
 		Device: v.device, Resource: v.resource, Capability: v.capability, Generation: generation, Fence: "1", ContractHash: c.ContractHash, EnvironmentRef: v.env, EnvironmentDigest: v.environment,
-		EngineKind: v.engine, EngineRelease: v.release, ModelDigest: v.model, RecipeDigest: v.recipe, Spec: Spec{in.Protocol, in.Model, in.MaxOutputTokens, in.Stream},
+		EngineKind: v.engine, EngineRelease: v.release, ModelDigest: v.model, RecipeDigest: v.recipe, Spec: Spec{Protocol: in.Protocol, Model: in.Model, MaxOutputTokens: in.MaxOutputTokens, Stream: in.Stream},
 		InputTokenLimit: original.Spec.InputTokenLimit, InputAsset: a.id, InputDigest: a.digest, InputBytes: a.bytes, Mode: "PLAINTEXT", Privacy: "STANDARD", HardDeadline: hard.UTC().Format(time.RFC3339Nano)}
 	l := executionlease.Lease{ID: leaseID, Job: m.Job, Attempt: attemptID, Order: m.Order, Seller: m.Seller, Device: m.Device, Resource: m.Resource, Generation: generation, Capability: m.Capability,
 		Manifest: m.ID, ManifestHash: m.Digest(), Environment: m.EnvironmentDigest, Revision: 1, Issued: now.UTC().Format(time.RFC3339Nano), NotBefore: now.UTC().Format(time.RFC3339Nano),

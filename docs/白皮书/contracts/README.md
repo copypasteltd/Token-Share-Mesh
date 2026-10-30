@@ -93,6 +93,8 @@ P11｜v3.0｜2026-10-29｜设计草案；没有已部署服务。仅检查结构
 | GET | `/disputes/{dispute_id}` | 限权读取本人争议进度 | `getDispute` |
 | POST | `/disputes/{dispute_id}/appeals` | 按资格申请争议复核 | `createAppeal` |
 | POST | `/runner/leases/claim` | 本设备领取当前签名执行租约 | `claimLease` |
+| GET | `/runner/leases/{lease_id}/manifest` | 原签名设备读取原租约执行清单 | `getExecutionManifest` |
+| GET | `/runner/leases/{lease_id}/input` | 原签名设备读取原始有界文本输入 | `getExecutionInput` |
 | POST | `/runner/attempts/{attempt_id}/progress` | 提交当前attempt的progress证据 | `recordAttemptProgress` |
 | POST | `/runner/attempts/{attempt_id}/deliveries` | 提交当前attempt的deliveries证据 | `registerAttemptDelivery` |
 | POST | `/runner/attempts/{attempt_id}/usage` | 提交当前attempt的usage证据 | `recordAttemptUsage` |

@@ -139,8 +139,43 @@ ORDER BY l.id LIMIT 2`, p.DeviceID, p.UserID, in.Capability, AdmissionProfile)
 		return out, err
 	}
 
+	v, err := s.authorizeTx(ctx, tx, p, leaseID, in.Capability, in.Version)
+	if err != nil {
+		return out, err
+	}
+	if v.state != "UNBOUND_CLAIM" && (v.command != command || v.digest != digest) {
+		return out, fault.New(fault.Conflict, "Original lease is bound to another claim or body")
+	}
+	out = v.ClaimResult
+	if v.state == ClaimProfile {
+		out.Replayed = true
+		return out, nil
+	}
+	_, err = tx.Exec(ctx, `UPDATE p11.execution_leases SET claim_profile=$2,claim_device_id=$3,claim_key_digest=$4,claim_request_digest=$5,claim_device_version=$6,claimed_at=clock_timestamp() WHERE id=$1`, leaseID, ClaimProfile, p.DeviceID, command, digest, in.Version)
+	if err != nil {
+		return ClaimResult{}, err
+	}
+	safe, _ := json.Marshal(map[string]string{"lease_id": leaseID, "attempt_id": v.manifest.Attempt, "job_id": v.manifest.Job, "device_id": p.DeviceID, "resource_id": v.manifest.Resource, "resource_lock_generation": v.manifest.Generation})
+	_, err = tx.Exec(ctx, `INSERT INTO p11.outbox_events(id,aggregate_type,aggregate_id,aggregate_version,event_type,schema_version,safe_payload,state) VALUES($1,'EXECUTION_LEASE',$2,1,'ExecutionLeaseClaimed','3.0',$3,'PENDING')`, ids.New("evt"), leaseID, safe)
+	if err != nil {
+		return ClaimResult{}, err
+	}
+	return out, nil
+}
+
+// claimAuthority is internal, transaction-scoped current authority. It carries
+// no content or keys and is shared by claim and both authenticated reads.
+type claimAuthority struct {
+	ClaimResult
+	manifest               Manifest
+	buyer                  identity.Principal
+	state, command, digest string
+}
+
+func (s *Claims) authorizeTx(ctx context.Context, tx pgx.Tx, p identity.Principal, leaseID, capID string, version int64) (claimAuthority, error) {
+	var out claimAuthority
 	var buyer, originalKey, routeID, orderID, jobID string
-	err = tx.QueryRow(ctx, `SELECT o.buyer_id,j.invoker_key_id,j.route_contract_id,j.order_id,j.id
+	err := tx.QueryRow(ctx, `SELECT o.buyer_id,j.invoker_key_id,j.route_contract_id,j.order_id,j.id
 FROM p11.execution_leases l JOIN p11.attempts a ON a.id=l.attempt_id JOIN p11.jobs j ON j.id=a.job_id JOIN p11.orders o ON o.id=j.order_id
 WHERE l.id=$1 AND a.device_id=$2 AND a.seller_id=$3`, leaseID, p.DeviceID, p.UserID).Scan(&buyer, &originalKey, &routeID, &orderID, &jobID)
 	if err == pgx.ErrNoRows {
@@ -195,7 +230,7 @@ ast.id,ast.storage_digest,ast.bytes,ast.input_profile,ast.state,ast.expires_at,a
 FROM p11.execution_leases l JOIN p11.attempts a ON a.id=l.attempt_id JOIN p11.jobs j ON j.id=a.job_id JOIN p11.orders o ON o.id=j.order_id
 JOIN p11.devices d ON d.id=a.device_id JOIN p11.capabilities c ON c.id=a.capability_id
 JOIN p11.resource_locks rl ON rl.resource_id=a.resource_id JOIN p11.assets ast ON ast.id=j.input_asset_id
-WHERE l.id=$1 FOR UPDATE OF l FOR SHARE OF j,a,rl,ast`, leaseID, p.DeviceID, p.UserID, AdmissionProfile, Profile, routeID, originalKey, in.Capability).
+WHERE l.id=$1 FOR UPDATE OF l FOR SHARE OF j,a,rl,ast`, leaseID, p.DeviceID, p.UserID, AdmissionProfile, Profile, routeID, originalKey, capID).
 		Scan(&payload, &manifest, &signer, &resource, &generation, &fence, &capability, &environment, &manifestID, &manifestHash, &contractHash, &hard, &expires, &jobDeadline, &spec, &deviceVersion,
 			&asset, &assetDigest, &inputBytes, &inputProfile, &assetState, &assetExpiry, &ciphertext, &state, &originalCommand, &originalDigest, &now, &current)
 	defer clear(ciphertext)
@@ -205,10 +240,7 @@ WHERE l.id=$1 FOR UPDATE OF l FOR SHARE OF j,a,rl,ast`, leaseID, p.DeviceID, p.U
 	if err != nil {
 		return out, err
 	}
-	if state != "UNBOUND_CLAIM" && (originalCommand != command || originalDigest != digest) {
-		return out, fault.New(fault.Conflict, "Original lease is bound to another claim or body")
-	}
-	if !current || deviceVersion != in.Version || !now.Before(expires) || !now.Before(hard) || !now.Before(jobDeadline) || !now.Before(assetExpiry) || !now.Before(c.CurrentDeadline) || expires.After(c.CurrentDeadline) {
+	if !current || deviceVersion != version || !now.Before(expires) || !now.Before(hard) || !now.Before(jobDeadline) || !now.Before(assetExpiry) || !now.Before(c.CurrentDeadline) || expires.After(c.CurrentDeadline) {
 		return out, fault.New(fault.Conflict, "Original claim authority, owner, version or deadline changed")
 	}
 	if inputProfile != InputProfile || assetState != "READY" || inputBytes < 1 || inputBytes > 256<<10 || len(ciphertext) != int(inputBytes)+28 || outbox.Digest(ciphertext) != assetDigest {
@@ -245,20 +277,10 @@ WHERE l.id=$1 FOR UPDATE OF l FOR SHARE OF j,a,rl,ast`, leaseID, p.DeviceID, p.U
 	}
 	out.Lease = verified.Details()
 	if out.Lease.ID != leaseID {
-		return ClaimResult{}, fault.New(fault.Conflict, "Original signed lease ID mismatch")
+		return claimAuthority{}, fault.New(fault.Conflict, "Original signed lease ID mismatch")
 	}
-	if state == ClaimProfile {
-		out.Replayed = true
-		return out, nil
-	}
-	_, err = tx.Exec(ctx, `UPDATE p11.execution_leases SET claim_profile=$2,claim_device_id=$3,claim_key_digest=$4,claim_request_digest=$5,claim_device_version=$6,claimed_at=clock_timestamp() WHERE id=$1`, leaseID, ClaimProfile, p.DeviceID, command, digest, in.Version)
-	if err != nil {
-		return ClaimResult{}, err
-	}
-	safe, _ := json.Marshal(map[string]string{"lease_id": leaseID, "attempt_id": plan.Attempt, "job_id": jobID, "device_id": p.DeviceID, "resource_id": resource, "resource_lock_generation": generation})
-	_, err = tx.Exec(ctx, `INSERT INTO p11.outbox_events(id,aggregate_type,aggregate_id,aggregate_version,event_type,schema_version,safe_payload,state) VALUES($1,'EXECUTION_LEASE',$2,1,'ExecutionLeaseClaimed','3.0',$3,'PENDING')`, ids.New("evt"), leaseID, safe)
-	if err != nil {
-		return ClaimResult{}, err
-	}
+	out.manifest = m
+	out.buyer = bp
+	out.state, out.command, out.digest = state, originalCommand, originalDigest
 	return out, nil
 }

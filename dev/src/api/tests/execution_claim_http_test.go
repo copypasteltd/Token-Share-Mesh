@@ -20,6 +20,8 @@ import (
 	"p11.local/compute/shared/ids"
 )
 
+const claimHTTPBody = "{\n  \"model\":\"model_nb1\",\"messages\":[{\"role\":\"user\",\"content\":\"R018_SYNTHETIC_ONLY\"}],\"max_completion_tokens\":16,\"stream\":false\n}\n"
+
 func claimHTTPFixture(t *testing.T) (*harness, testsupport.Offer, invocation.Issuance, identity.SessionView) {
 	t.Helper()
 	pub, key, e := ed25519.GenerateKey(rand.Reader)
@@ -31,24 +33,6 @@ func claimHTTPFixture(t *testing.T) (*harness, testsupport.Offer, invocation.Iss
 		t.Fatal(e)
 	}
 	t.Cleanup(claims.Close)
-	var keys identity.KeyService
-	h := newHarnessConfigured(t, 1000, 1000, func(c *controlhttp.Config) {
-		c.Claims = claims
-		c.Routes = routecontract.Service{DB: db, PaymentEnvironment: "SANDBOX"}
-		keys = c.Keys
-	}, nil)
-	s, _ := h.login(t, "MINIAPP")
-	f := testsupport.SeedNativeOfferForProtocol(t, ctx, db, ids.New("region"), string(relay.ChatText))
-	w := httpRouteOrderOffer(t, h, s, nil, f)
-	headers := bearer(s.AccessToken)
-	headers.Set("Idempotency-Key", ids.New("route"))
-	route := decode[routecontract.Contract](t, h.request(t, "POST", "/route-contracts", w, headers), 201)
-	headers.Set("Idempotency-Key", ids.New("sdk_key"))
-	k := decode[identity.CreatedKey](t, h.request(t, "POST", "/api-keys", identity.KeyInput{Label: "Original claim fixture", Scopes: []string{"ROUTE_INVOKE"}, RouteIDs: []string{route.ID}, ExpiresAt: time.Now().Add(time.Minute)}, headers), 201)
-	p, e := keys.Authenticate(ctx, k.SecretOnce)
-	if e != nil {
-		t.Fatal(e)
-	}
 	fp, content := make([]byte, 32), make([]byte, 32)
 	if _, e = rand.Read(fp); e != nil {
 		t.Fatal(e)
@@ -66,7 +50,32 @@ func claimHTTPFixture(t *testing.T) (*harness, testsupport.Offer, invocation.Iss
 		t.Fatal(e)
 	}
 	t.Cleanup(issuer.Close)
-	body := []byte(`{"model":"model_nb1","messages":[{"role":"user","content":"R018_SYNTHETIC_ONLY"}],"max_completion_tokens":16,"stream":false}`)
+
+	delivery, e := invocation.NewDelivery(invocation.DeliveryConfig{Claims: claims, Invocations: inv, InputKeys: map[string][]byte{"input_http": content}})
+	if e != nil {
+		t.Fatal(e)
+	}
+	t.Cleanup(delivery.Close)
+	var keys identity.KeyService
+	h := newHarnessConfigured(t, 1000, 1000, func(c *controlhttp.Config) {
+		c.Claims = claims
+		c.Delivery = delivery
+		c.Routes = routecontract.Service{DB: db, PaymentEnvironment: "SANDBOX"}
+		keys = c.Keys
+	}, nil)
+	s, _ := h.login(t, "MINIAPP")
+	f := testsupport.SeedNativeOfferForProtocol(t, ctx, db, ids.New("region"), string(relay.ChatText))
+	w := httpRouteOrderOffer(t, h, s, nil, f)
+	headers := bearer(s.AccessToken)
+	headers.Set("Idempotency-Key", ids.New("route"))
+	route := decode[routecontract.Contract](t, h.request(t, "POST", "/route-contracts", w, headers), 201)
+	headers.Set("Idempotency-Key", ids.New("sdk_key"))
+	k := decode[identity.CreatedKey](t, h.request(t, "POST", "/api-keys", identity.KeyInput{Label: "Original claim fixture", Scopes: []string{"ROUTE_INVOKE"}, RouteIDs: []string{route.ID}, ExpiresAt: time.Now().Add(time.Minute)}, headers), 201)
+	p, e := keys.Authenticate(ctx, k.SecretOnce)
+	if e != nil {
+		t.Fatal(e)
+	}
+	body := []byte(claimHTTPBody)
 	meta, e := relay.Preflight(relay.ChatText, "model_nb1", body)
 	if e != nil {
 		t.Fatal(e)

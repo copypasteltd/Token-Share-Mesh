@@ -42,6 +42,8 @@ P11｜开发细则 v1.0｜MOD-06｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | INT-075 | registerAttemptDelivery | POST /runner/attempts/{attempt_id}/deliveries | [DEV-19](../开发细则总表.md#DEV-19) | device:execute | TX-06 / 必需稳定键 |
 | INT-082 | revokeDevice | POST /devices/{device_id}/revoke | [DEV-06](../开发细则总表.md#DEV-06) | device:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
 | INT-089 | updateResourcePolicy | PATCH /devices/{device_id}/resource-policy | [DEV-06](../开发细则总表.md#DEV-06) | device:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-094 | getExecutionManifest | GET /runner/leases/{lease_id}/manifest | [DEV-18](../开发细则总表.md#DEV-18) | device:execute | READ_PROJECTION / 见权威契约 |
+| INT-095 | getExecutionInput | GET /runner/leases/{lease_id}/input | [DEV-18](../开发细则总表.md#DEV-18) | device:execute | READ_PROJECTION / 见权威契约 |
 
 [完整控制面、数据表与需求追踪](../docs/04-接口数据与需求追踪.md)；请求/响应 Schema 和响应码沿用既有 OpenAPI。
 
@@ -117,7 +119,7 @@ NB-R1需求增量：NB-R001、NB-R019、NB-R020、NB-R022；[正反向验收及�
 | 实施目标 | 实现每物理资源全模式/引擎锁、job token、跨job lock_generation、签名租约与版本化续约。输入准备/结果密文交付不额外持GPU锁，编码仍用GPU则继续持锁；控制通道独立。 |
 | 原完成证据 | 并发买卖角色/引擎/自用/租赁争同卡唯一；旧资源代次/旧续约重放拒绝，失联不延硬截止。旧attempt回调不能清下一资源owner，租赁子任务不释放会话锁。 |
 | 门槛 | POC-05 |
-| 控制操作 | claimLease、recordAttemptProgress |
+| 控制操作 | claimLease、getExecutionManifest、getExecutionInput、recordAttemptProgress |
 | 需求约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-002](../docs/02-表格化需求约束.md#CON-002)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-016](../docs/02-表格化需求约束.md#CON-016)、[CON-018](../docs/02-表格化需求约束.md#CON-018)、[CON-019](../docs/02-表格化需求约束.md#CON-019)、[CON-020](../docs/02-表格化需求约束.md#CON-020)、[CON-021](../docs/02-表格化需求约束.md#CON-021)、[CON-022](../docs/02-表格化需求约束.md#CON-022)、[CON-032](../docs/02-表格化需求约束.md#CON-032)、[CON-033](../docs/02-表格化需求约束.md#CON-033)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-044](../docs/02-表格化需求约束.md#CON-044)、[CON-046](../docs/02-表格化需求约束.md#CON-046) |
 | 统一交付 | 适用 CHK-01—08；不适用项注明理由；证据规则见 DOC-06 |
 

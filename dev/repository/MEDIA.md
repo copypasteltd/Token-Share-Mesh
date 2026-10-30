@@ -1,10 +1,10 @@
 # Media provenance / 演示媒体来源
 
-R016 captures rerun the current React/Vite Web and Taro H5 control journeys against the current Windows control/metadata CLI and native HTTP/temporary PostgreSQL. Frontend source, 21 TS cases and three-target build receipts are unchanged and reused only after exact source/output/log hash checks. The held-pairing-recovery navigation regression remains active. No screenshot depicts a real model inference, GPU stop, payment or content E2E result.
+R019 captures rerun the current React/Vite Web and Taro H5 control journeys against the current Windows control/metadata CLI and native HTTP/temporary PostgreSQL. Frontend source, 21 TS cases and three-target build receipts are unchanged and reused only after exact source/output/log hash checks. The held-pairing-recovery navigation regression remains active. No screenshot depicts a real model inference, GPU stop, payment or content E2E result.
 
-本轮实际产品媒体在dev/media/R016，页面设计保持NB04。原调用准备通过原生数据库合成资格/资金测试，转发核通过loopback合成后端测试，没有在页面伪造模型输出；所有自建浏览器结束关闭，文档阅读器录制与产品媒体来源分开。
+本轮实际产品媒体在dev/media/R019，页面设计保持NB04。原调用准备通过原生数据库合成资格/资金测试，转发核通过loopback合成后端测试，没有在页面伪造模型输出；所有自建浏览器结束关闭，文档阅读器录制与产品媒体来源分开。
 
-Current UI/media checks and full native results are recorded separately in the [R016 source report](../tests/evidence/R016-验证报告.md). Earlier R012/R013 failures remain historical evidence. / 当前页面媒体与原生完整结果分别登记，旧R012失败不抹除。
+Current UI/media checks and full native results are recorded separately in the [R019 source report](../tests/evidence/R019-验证报告.md). Earlier R012/R013 failures remain historical evidence. / 当前页面媒体与原生完整结果分别登记，旧R012失败不抹除。
 
 The historical reader screenshots and recordings show real generated specification readers.
 They are captured from a native, locally installed Chromium browser against a
@@ -92,3 +92,7 @@ The unchanged NB04 UI is recaptured against the current native binary. Product a
 本轮按当前二进制重新记录既有NB04页面；14 PNG、双端MP4/GIF记录于dev/media/R018和frontend-manifest.json。领取是控制API能力，没有伪造UI；新增链路由实际原生PG/签名HTTP测试证明。阅读器4 PNG/MP4/GIF单独记录，不冒称推理或E2E演示。
 
 Existing Web/Taro H5 pages are recaptured against the current native build. Native Alipay is compiled separately. No recording claims actual phone/GPU/kernel/payment execution.
+
+## R019 实际媒体 / Actual media
+
+本轮重新捕获当前原生HTTP二进制下既有NB04 React Web/Taro H5页面；manifest/input是原生控制API，用实际签名HTTP/PG用例证明，没有伪造推理页面。dev/media/R019的14 PNG/双端MP4/GIF与阅读器4 PNG/MP4/GIF分别记录来源；原生支付宝另行编译，不冒称真机/支付或E2E。

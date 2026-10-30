@@ -1,0 +1,133 @@
+{
+  "round": "R019",
+  "attempt": "full-2",
+  "run_id": "20261030T144029Z-f7c7aba7",
+  "top_level_passed": 233,
+  "top_level_failed": 1,
+  "failed_tests": [
+    "TestSupervisorUnknownRegistryQuarantinesWithoutFallback"
+  ],
+  "temporary_instance_stopped": true,
+  "browser_children_passed": true,
+  "artifact_policy": "Original bytes and receipt paths retained; originals map to archived copies below.",
+  "files": [
+    {
+      "original": "dev/tests/evidence/R019-native-summary.json",
+      "archive": "dev/tests/evidence/R019-full-attempt2-native-summary.json",
+      "sha256": "35337a5aedb346d54837443c546a806abe94a5e5559e5b5c65973e12aa43f360"
+    },
+    {
+      "original": "dev/tests/evidence/R019-native-go-tests.jsonl",
+      "archive": "dev/tests/evidence/R019-full-attempt2-native-go-tests.jsonl",
+      "sha256": "7883627624100238abfa27384fcf613615b21ed4b431c77ae35fa088ea53c558"
+    },
+    {
+      "original": "dev/tests/evidence/R019-native-source-checks.json",
+      "archive": "dev/tests/evidence/R019-full-attempt2-native-source-checks.json",
+      "sha256": "fe99e36fd4110fedfb54073a25424a724eca4fb63ce76a49769fda557b98168d"
+    },
+    {
+      "original": "dev/tests/evidence/R019-web-browser.json",
+      "archive": "dev/tests/evidence/R019-full-attempt2-web-browser.json",
+      "sha256": "81f213ed77d1007cd60a892f71efa21f3bf48124c1fd82ea2dfc3250f169c6f1"
+    },
+    {
+      "original": "dev/tests/evidence/R019-miniapp-browser.json",
+      "archive": "dev/tests/evidence/R019-full-attempt2-miniapp-browser.json",
+      "sha256": "3e169b0dafbf9342e2707a2d5464ba9d75ba162521c49287912a417550c329f1"
+    },
+    {
+      "original": "dev/media/R019/recordings/miniapp-transaction.gif",
+      "archive": "dev/media/R019-full-attempt2/recordings/miniapp-transaction.gif",
+      "sha256": "67dc5ecce35d1a01535201502afb6d1f3f8da94197a12fbd4d9d722a78a186bb"
+    },
+    {
+      "original": "dev/media/R019/recordings/miniapp-transaction.mp4",
+      "archive": "dev/media/R019-full-attempt2/recordings/miniapp-transaction.mp4",
+      "sha256": "e23e6f3c41bfedf580335116f97fa7cfef0a354d76508e28609dd55be05be2e8"
+    },
+    {
+      "original": "dev/media/R019/recordings/web-transaction.gif",
+      "archive": "dev/media/R019-full-attempt2/recordings/web-transaction.gif",
+      "sha256": "1d1475f5b06b611b5e2143dc25706fa09a561a13c80b79414fa126831b2897ec"
+    },
+    {
+      "original": "dev/media/R019/recordings/web-transaction.mp4",
+      "archive": "dev/media/R019-full-attempt2/recordings/web-transaction.mp4",
+      "sha256": "6fc5d5dedd1d77082218f6cfa92439e31252491e065ab44d5edd0c9b20a2bab2"
+    },
+    {
+      "original": "dev/media/R019/screenshots/miniapp-llm-detail.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/miniapp-llm-detail.png",
+      "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19"
+    },
+    {
+      "original": "dev/media/R019/screenshots/miniapp-market.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/miniapp-market.png",
+      "sha256": "b630f6d0dd5f4de5e198ceaefed11432b053ffafcd52e17e7870225abaf405d5"
+    },
+    {
+      "original": "dev/media/R019/screenshots/miniapp-order-pending.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/miniapp-order-pending.png",
+      "sha256": "da5696eb62b7790d5e78838a22524362ea5c31a02cf90d93520209ebe8d3d131"
+    },
+    {
+      "original": "dev/media/R019/screenshots/miniapp-order.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/miniapp-order.png",
+      "sha256": "2e8349d19302bc1d65a63b5484d0ded93d572ac08bde6eb0b2d4c469e4644b4c"
+    },
+    {
+      "original": "dev/media/R019/screenshots/miniapp-provider-conditions.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/miniapp-provider-conditions.png",
+      "sha256": "218913d1beb92ce48d538acf47ae97d91ea1c54caa29ebcf9c36cb28a49bd415"
+    },
+    {
+      "original": "dev/media/R019/screenshots/miniapp-provider-revoked.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/miniapp-provider-revoked.png",
+      "sha256": "60632e255b9e9595dd26c2c36f2fd2bb4319b0625fb23a0ef413b4273bb70875"
+    },
+    {
+      "original": "dev/media/R019/screenshots/miniapp-share.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/miniapp-share.png",
+      "sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411"
+    },
+    {
+      "original": "dev/media/R019/screenshots/web-llm-detail.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/web-llm-detail.png",
+      "sha256": "57e27631fe4b0abf19a7966f6a86d3ae1bf1fe8b68e99a43a33cbb45459b292d"
+    },
+    {
+      "original": "dev/media/R019/screenshots/web-market.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/web-market.png",
+      "sha256": "39d2fbddf17f2a718a66a19e58e5ebd2f7a490abcdd4a42d0cd9ca8becfa142b"
+    },
+    {
+      "original": "dev/media/R019/screenshots/web-order-pending.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/web-order-pending.png",
+      "sha256": "58cce95c6abb547c569b2e235cfc543551b42df4496bdaddea1428bd01e24c42"
+    },
+    {
+      "original": "dev/media/R019/screenshots/web-order.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/web-order.png",
+      "sha256": "ada7dc2fa4a0e00987a71312cb8448158b1137b44f5f5cf7a67781deabaf6385"
+    },
+    {
+      "original": "dev/media/R019/screenshots/web-provider-conditions.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/web-provider-conditions.png",
+      "sha256": "91c1553831612b051fd1d24c81bbbdb006664c406c85b9b9edca30aa33994b97"
+    },
+    {
+      "original": "dev/media/R019/screenshots/web-provider-revoked.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/web-provider-revoked.png",
+      "sha256": "1c03abfeeed68d943503e2c4eb3e81fc5dfa716376f2712a842ef47a0294bc77"
+    },
+    {
+      "original": "dev/media/R019/screenshots/web-share.png",
+      "archive": "dev/media/R019-full-attempt2/screenshots/web-share.png",
+      "sha256": "954989f1f1048a4cdb62ff28df16625ec394b7dee0973257037c2fa912702385"
+    }
+  ],
+  "observation": "The unchanged unknown-registry shutdown case reported lost unknown owner through an unavailable metadata snapshot. This does not independently prove physical resource release. A frozen unavailable adapter cannot make cleanup progress, and repeated shutdown metadata attempts can reach their deadline. A targeted runtime correction and regression remain required. The separate R016 and R019 slow-metadata causes remain unproven.",
+  "timeouts_or_assertions_relaxed": false,
+  "virtualization_used": false
+}

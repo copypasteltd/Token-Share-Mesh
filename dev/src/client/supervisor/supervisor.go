@@ -432,6 +432,7 @@ func (s *Supervisor) sweep(ctx context.Context, shutdown bool) (bool, error) {
 }
 
 func (s *Supervisor) sweepActivities(ctx context.Context, activities []execution.Activity, shutdown bool) error {
+	unavailable := false
 	for _, a := range activities {
 		if (shutdown || s.closed.Load()) && a.Authorized {
 			meta, done := s.metadataContext(ctx)
@@ -455,7 +456,13 @@ func (s *Supervisor) sweepActivities(ctx context.Context, activities []execution
 		}
 		b := s.adapter(a)
 		if b == nil {
-			s.quarantine(a.Hold)
+			// An absent frozen binding cannot recover during this supervisor's
+			// lifetime. Preserve an already safe occupied state without repeatedly
+			// rewriting it until the shutdown metadata deadline is exhausted.
+			if a.Phase != "QUARANTINED" && a.Phase != "STOPPING" && a.Phase != "CLEANING" {
+				s.quarantine(a.Hold)
+			}
+			unavailable = true
 			continue
 		}
 		// A freshly RECEIVED command may still be entering Submit. A recovery
@@ -481,6 +488,12 @@ func (s *Supervisor) sweepActivities(ctx context.Context, activities []execution
 				completed = s.reconcile(run, a, b)
 			}()
 		}
+	}
+	// Visit every owner first so a missing binding cannot prevent cancellation
+	// of another resource with a matching original backend. Run then performs
+	// owner-scoped emergency cancellation and reports incomplete shutdown.
+	if shutdown && unavailable {
+		return ErrAdapter
 	}
 	return nil
 }

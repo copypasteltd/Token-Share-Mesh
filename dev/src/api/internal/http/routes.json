@@ -1,7 +1,7 @@
 {
-  "version": "P11_CONTROL_HTTP_R018",
+  "version": "P11_CONTROL_HTTP_R019",
   "base_path": "/v1/p11",
-  "scope": "35 explicit control operations including signed native original-lease claims; no public inference listener, execution ACK, input download, usage or payment execution",
+  "scope": "37 explicit control operations including signed native original-lease claims and restricted original manifest/input delivery; no public inference listener, execution ACK, usage or payment execution",
   "operations": [
     {
       "operation_id": "createAuthChallenge",
@@ -246,6 +246,20 @@
       "method": "POST",
       "path": "/runner/leases/claim",
       "handler": "claimLease",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getExecutionManifest",
+      "method": "GET",
+      "path": "/runner/leases/{lease_id}/manifest",
+      "handler": "getExecutionManifest",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getExecutionInput",
+      "method": "GET",
+      "path": "/runner/leases/{lease_id}/input",
+      "handler": "getExecutionInput",
       "anonymous": false
     }
   ]

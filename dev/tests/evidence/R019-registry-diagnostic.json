@@ -1,0 +1,20 @@
+{
+  "round": "R019",
+  "scope": "Targeted frozen-registry correction and unchanged timing cases only; not full-round proof or timing stability",
+  "exit_code": 0,
+  "passed": [
+    "TestSupervisorMetadataStepsHaveIndependentBudgets",
+    "TestSupervisorUnavailableRegistryStillCancelsOtherOriginalOwners",
+    "TestSupervisorUnknownRegistryQuarantinesWithoutFallback",
+    "TestSupervisorSignedRenewalKeepsOriginalBackend"
+  ],
+  "failed": [],
+  "timeouts_or_assertions_relaxed": false,
+  "raw": "dev/tests/evidence/R019-registry-diagnostic.jsonl",
+  "failed_full_archives": [
+    "R019-full-attempt1-archive.json",
+    "R019-full-attempt2-archive.json"
+  ],
+  "independent_slow_metadata_root_cause_proven": false,
+  "virtualization_used": false
+}

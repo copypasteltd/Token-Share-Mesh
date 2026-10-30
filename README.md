@@ -10,6 +10,18 @@
 
 Token Share Mesh connects buyers with people voluntarily offering idle Windows/Linux GPUs, Android devices, or explicitly authorized upstream AI capacity. The seller sets availability and price and remains the seller of record. The platform provides discovery, contracts, routing, scheduling and transaction evidence, and charges a disclosed fee.
 
+## R019 · 原清单与输入 / Restricted manifest and original input
+
+R019 adds restricted manifest and exact original input delivery for an already claimed lease: 37/95 explicitly registered control operations, 65 tables / 664 columns / 113 foreign keys. INT-094/095 are added to the authoritative contract and permanent registry first. Both GETs require the original signed device and recheck its original buyer key/route/order, same-payment funds, qualification, full existing hold, device version, input, physical owner, both fences and unchanged expiry using the shared order-first lock sequence. The delivery service has no issuer private key. Input requires original AES-GCM/AAD, separately keyed versioned HMAC and same-profile Preflight, then returns the original bytes. The native receiver requires an independent issuer pin and original order/route/mode plus locally approved kernel facts; it neither approves nor starts a kernel. This is a trusted PLAINTEXT/STANDARD authenticated transport hop: a ciphertext digest is not a signed plaintext commitment, E2E or provider blindness. Reads never ACK execution, renew, reassign, complete delivery jobs, bill or release a resource. Published 001–010 and client SQLite bytes remain unchanged. Durable host commands, real tokenizer/kernels/usage/channel, E2E/LP/PE/rental and complete acceptance remain open.
+
+The first R019 complete run passed 233 / failed 1: the existing TestSupervisorMetadataStepsHaveIndependentBudgets returned ErrShutdown under injected slow metadata. That failure did not authorize release; final disk ownership was not independently observed in that failed run. Exact original logs and 18 media files are archived. The standalone diagnostic emitted no test events before its outer build/process timeout, so it has no passing result. The second complete native/browser attempt repeated unchanged source, assertions and runtime bounds; the subsequent frozen-registry correction is documented separately. A later pass does not establish the cause or timing stability; DEV-53 remains open.
+
+The second R019 complete run also passed 233 / failed 1: the slow-metadata case passed, while the existing unknown-registry case could not read its expected occupied snapshot after shutdown. Exact logs, source evidence and 18 media files are separately archived. A subsequent correction preserves already quarantined/stopping/cleaning owners without repeated writes when a frozen kernel binding is absent, visits every resource before reporting incomplete shutdown, and retains bounded cancellation for other matching original owners. A mixed-resource regression was added without relaxing existing assertions or bounds. This does not establish the cause of the R016 or first R019 slow-metadata failure; DEV-53 remains open.
+
+[DG-001—030](docs/技术开发/附录-原设备清单与输入受限交付.md) · [R019 evidence](dev/tests/evidence/R019-验证报告.md) · [All 56 tasks](dev/progress/R019-本轮实现与完整待办.md)。
+
+`PrepareLeaseClaim → PrepareManifest → independent pin + Approval → AcceptDelivery → PrepareInput → AcceptInput`; `P11_INPUT_DELIVERY_KEYS_FILE` explicitly enables the separately keyed content service. CLI inference stays disabled.
+
 ## R018 · 原设备签名领取 / Native original-lease claim
 
 R018 adds authenticated native delivery of the original signed lease: 35/93 registered control operations and 65 tables / 664 columns / 113 foreign keys. Only the original device proof can claim; its original command ID equals Idempotency-Key and is permanently bound to the same lease by forward migration 010 with one atomic safe event. Every recovery rechecks the original scoped buyer key/route, order and same-payment funds, eligibility, full existing hold, encrypted input metadata, physical owner, both fences and unchanged expiry. The delivery service has explicit public verifiers only: it cannot decrypt, issue, renew, reassign, ACK execution, complete delivery tasks or bill. Generic metadata workers can claim or exhaust only their supported kinds, leaving execution-delivery intents untouched. Independent device pins/approved plans, input/manifest transport, durable host execution commands, real kernels/usage/channel, E2E/LP/PE and rental remain open. Published 001–009 and client SQLite bytes are unchanged; history stays UNBOUND_CLAIM.
@@ -28,8 +40,8 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
 | Implementation tasks | 28 in progress · 26 not started · 1 conditional · 1 deferred |
-| Latest source round | R018 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 222 passed · control/native/relay source subsets only |
+| Latest source round | R019 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 235 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
@@ -83,17 +95,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R017/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R019/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R017/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R019/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R017/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R019/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R017/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R017/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R019/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R019/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R017/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R019/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R017/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R017/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R017/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R017/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R019/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R019/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R019/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R019/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 

@@ -6,7 +6,7 @@
   "tasks": 56,
   "steps": 222,
   "constraints": 47,
-  "control_operations": 93,
+  "control_operations": 95,
   "tables": 65,
   "requirements": 80,
   "acceptance_cases": 80,
@@ -15,8 +15,8 @@
   "checks": 49,
   "markdown_files": 30,
   "generated_files": 30,
-  "local_links": 6821,
-  "product_source_files": 178,
+  "local_links": 6825,
+  "product_source_files": 188,
   "product_tests": "NOT_EXECUTED",
   "source_hashes_checked": 60,
   "errors": [],
@@ -191,7 +191,7 @@
     },
     {
       "id": "VFY-029",
-      "title": "93 控制接口连续唯一",
+      "title": "95 控制接口连续唯一",
       "status": "PASSED",
       "details": ""
     },

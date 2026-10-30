@@ -7183,6 +7183,160 @@
         }
       }
     },
+    "/runner/leases/{lease_id}/manifest": {
+      "get": {
+        "operationId": "getExecutionManifest",
+        "tags": [
+          "Runner"
+        ],
+        "summary": "原签名设备读取原租约执行清单",
+        "description": "仅已经领取的原设备；每次读取复核原订单/买方key/资金/资格/预算、物理owner/双围栏及原有效期。只有元数据，不能据此自动信任平台公钥或批准本机内核。",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-scopes": [
+          "device:execute"
+        ],
+        "parameters": [
+          {
+            "name": "lease_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NativeExecutionManifest"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      }
+    },
+    "/runner/leases/{lease_id}/input": {
+      "get": {
+        "operationId": "getExecutionInput",
+        "tags": [
+          "Runner"
+        ],
+        "summary": "原签名设备读取原始有界文本输入",
+        "description": "仅PLAINTEXT/STANDARD已领取租约；显式输入解密钥和独立指纹验证钥均可用，AES-GCM/AAD、原始HMAC与同档位Preflight通过后返回原字节。no-store；不接受Range、查询、下载地址或会话代领。此为平台可信明文域经认证连接交付，不是E2E、卖方不可见或原正文的独立签名。",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-scopes": [
+          "device:execute"
+        ],
+        "parameters": [
+          {
+            "name": "lease_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NativeTextInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      }
+    },
     "/runner/attempts/{attempt_id}/progress": {
       "post": {
         "operationId": "recordAttemptProgress",
@@ -12469,6 +12623,206 @@
           "statement",
           "new_evidence_refs"
         ]
+      },
+      "NativeRequestSpec": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "protocol_profile_id": {
+            "type": "string",
+            "enum": [
+              "P11_CHAT_TEXT_NATIVE_1",
+              "P11_RESPONSES_TEXT_NATIVE_1",
+              "P11_MESSAGES_TEXT_NATIVE_1"
+            ]
+          },
+          "public_model": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "max_output_tokens": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1048576
+          },
+          "stream": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "protocol_profile_id",
+          "public_model",
+          "max_output_tokens",
+          "stream"
+        ]
+      },
+      "NativeExecutionManifest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "type": "string",
+            "enum": [
+              "P11_NATIVE_TEXT_MANIFEST_1"
+            ]
+          },
+          "execution_manifest_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "job_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "attempt_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "order_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "route_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "seller_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "device_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "resource_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "capability_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "resource_lock_generation": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,19})$"
+          },
+          "fencing_token": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,19})$"
+          },
+          "contract_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "kernel_environment_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "kernel_environment_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "engine_kind": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "engine_release": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "model_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "recipe_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "request_spec": {
+            "$ref": "#/components/schemas/NativeRequestSpec"
+          },
+          "input_token_limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "input_asset_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "input_ciphertext_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "input_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 262144
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "PLAINTEXT"
+            ]
+          },
+          "privacy": {
+            "type": "string",
+            "enum": [
+              "STANDARD"
+            ]
+          },
+          "hard_deadline": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "profile_id",
+          "execution_manifest_ref",
+          "job_id",
+          "attempt_id",
+          "order_id",
+          "route_id",
+          "seller_id",
+          "device_id",
+          "resource_id",
+          "capability_id",
+          "resource_lock_generation",
+          "fencing_token",
+          "contract_hash",
+          "kernel_environment_ref",
+          "kernel_environment_digest",
+          "engine_kind",
+          "engine_release",
+          "model_digest",
+          "recipe_digest",
+          "request_spec",
+          "input_token_limit",
+          "input_asset_ref",
+          "input_ciphertext_digest",
+          "input_bytes",
+          "mode",
+          "privacy",
+          "hard_deadline"
+        ]
+      },
+      "NativeTextInput": {
+        "type": "object",
+        "description": "原始OpenAI Chat/Responses或Anthropic Messages文本JSON字节，最大262144字节；不封装、不重写、不加入平台字段。三种档位沿gateway协议验证，不是任意JSON许可。"
       },
       "LeaseClaimWrite": {
         "type": "object",

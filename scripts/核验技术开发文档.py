@@ -69,12 +69,14 @@ def main() -> int:
     check(len(tasks)==len(tids)==56,'DEV任务应唯一56项')
     check(len(trace)==80 and {r['requirement_id'] for r in trace}==fids,'需求追踪未完整覆盖80项')
     check(mapping['canonical_api_sha256']==digest(baseline),'权威API整体hash漂移，需重新构建')
-    check(len(mapping['operations'])==len(api)==93,'控制操作数量不匹配93')
+    check(len(mapping['operations'])==len(api)==95,'控制操作数量不匹配95')
     check({r['operation_id'] for r in mapping['operations']}==set(api),'控制操作集合漂移')
     runtime=load(ROOT/'dev/src/api/internal/http/routes.json')
     registrations={r['operation_id']:r for r in runtime['operations']}
-    check(len(registrations)==len(runtime['operations'])==35,'实际HTTP子集应为35个唯一操作')
+    check(len(registrations)==len(runtime['operations'])==37,'实际HTTP子集应为37个唯一操作')
     check(set(registrations)<=set(api),'实际HTTP子集超出权威API')
+    check(runtime['version']=='P11_CONTROL_HTTP_R019','实际HTTP版本应为R019')
+    check({'getExecutionManifest','getExecutionInput'}<=set(registrations),'R019原设备受限交付接口登记缺失')
     mod_by_id={m['id']:m for m in mod}
     task_by_id={t['id']:t for t in tasks}
     covered=set()
@@ -434,7 +436,7 @@ def main() -> int:
       'ddl_statements_parsed':catalog['ddl_statements'],'query_statements_parsed':len(query_ast),
       'sql_parser':'pglast '+pglast.__version__,'sql_runtime_migrations_in_this_check':'NOT_EXECUTED',
       'plpgsql_runtime_validation_in_this_check':'NOT_EXECUTED',
-      'separate_native_evidence':[p for p in ['dev/tests/evidence/R001-验证报告.md','dev/tests/evidence/R003-验证报告.md','dev/tests/evidence/R004-验证报告.md','dev/tests/evidence/R005-验证报告.md','dev/tests/evidence/R006-验证报告.md','dev/tests/evidence/R007-验证报告.md','dev/tests/evidence/R008-验证报告.md','dev/tests/evidence/R009-验证报告.md','dev/tests/evidence/R010-验证报告.md','dev/tests/evidence/R011-验证报告.md','dev/tests/evidence/R012-验证报告.md','dev/tests/evidence/R013-验证报告.md','dev/tests/evidence/R014-验证报告.md','dev/tests/evidence/R015-验证报告.md','dev/tests/evidence/R016-验证报告.md','dev/tests/evidence/R017-验证报告.md','dev/tests/evidence/R018-验证报告.md'] if (ROOT/p).is_file()],
+      'separate_native_evidence':[p for p in ['dev/tests/evidence/R001-验证报告.md','dev/tests/evidence/R003-验证报告.md','dev/tests/evidence/R004-验证报告.md','dev/tests/evidence/R005-验证报告.md','dev/tests/evidence/R006-验证报告.md','dev/tests/evidence/R007-验证报告.md','dev/tests/evidence/R008-验证报告.md','dev/tests/evidence/R009-验证报告.md','dev/tests/evidence/R010-验证报告.md','dev/tests/evidence/R011-验证报告.md','dev/tests/evidence/R012-验证报告.md','dev/tests/evidence/R013-验证报告.md','dev/tests/evidence/R014-验证报告.md','dev/tests/evidence/R015-验证报告.md','dev/tests/evidence/R016-验证报告.md','dev/tests/evidence/R017-验证报告.md','dev/tests/evidence/R018-验证报告.md','dev/tests/evidence/R019-验证报告.md'] if (ROOT/p).is_file()],
       'schema_positive_fixtures':sum(x[3] for x in cases),
       'schema_negative_fixtures':sum(not x[3] for x in cases),'fixture_results':fixture_results,
       'compatibility_combinations':len(compat),'reader_sections':len(parser.search_json or []),
@@ -446,7 +448,7 @@ def main() -> int:
     report_json.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     lines=['# 技术开发文档专项核验','','P11｜技术v1.0｜需求v3.0｜2026-10-29。','',
       f"结果：{'通过' if not errors else '未通过'}。范围仅为设计一致性、SQL语法树与离线阅读器。",'',
-      f"实际：24章源详规、{len(mod)}模块、{len(tasks)}开发任务、80项F/T追踪、93控制操作；{len(catalog['tables'])}表/{result['sql_columns']}列/{len(catalog['foreign_keys'])}外键/{len(catalog['indexes'])}显式索引。",'',
+      f"实际：24章源详规、{len(mod)}模块、{len(tasks)}开发任务、80项F/T追踪、95控制操作；{len(catalog['tables'])}表/{result['sql_columns']}列/{len(catalog['foreign_keys'])}外键/{len(catalog['indexes'])}显式索引。",'',
       f"SQL：pglast {pglast.__version__}解析{catalog['ddl_statements']}条基础DDL/控制语句、{len(catalog['forward_migrations'])}个前向迁移和{len(query_ast)}条查询片段；静态检查列、主键/唯一键、外键目标。**本脚本不运行PostgreSQL、迁移、触发器或PL/pgSQL体。**源码实施另有[当前源码验证进度](../../dev/progress/README.md)，不由本报告判定运行结果。",'',
       f"内部命令/结果Schema：{result['schema_positive_fixtures']}正向/{result['schema_negative_fixtures']}负向夹具；只证明设计外壳的接受/拒绝，不证明真实引擎或密码。",'',
       f"E2E设计：{len(e2e_cases)}项细化场景均未执行；核对二进制长度/限额、END语义、旧JSON边界、源文档/任务引用和计算/交付分权。没有运行密码或性能实验。",'',

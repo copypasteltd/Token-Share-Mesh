@@ -1,0 +1,287 @@
+{
+  "version": "1.0-draft",
+  "date": "2026-10-29",
+  "passed": false,
+  "verification_scope": "Design consistency, SQL AST and offline reader only; NO runtime acceptance",
+  "source_chapters": 24,
+  "technical_markdown_files": 63,
+  "modules": 20,
+  "development_tasks": 56,
+  "requirements": 80,
+  "acceptance_cases": 80,
+  "control_operations": 95,
+  "sql_tables": 65,
+  "sql_columns": 664,
+  "sql_foreign_keys": 113,
+  "sql_indexes": 18,
+  "ddl_statements_parsed": 106,
+  "query_statements_parsed": 18,
+  "sql_parser": "pglast v8.7",
+  "sql_runtime_migrations_in_this_check": "NOT_EXECUTED",
+  "plpgsql_runtime_validation_in_this_check": "NOT_EXECUTED",
+  "separate_native_evidence": [
+    "dev/tests/evidence/R001-验证报告.md",
+    "dev/tests/evidence/R003-验证报告.md",
+    "dev/tests/evidence/R004-验证报告.md",
+    "dev/tests/evidence/R005-验证报告.md",
+    "dev/tests/evidence/R006-验证报告.md",
+    "dev/tests/evidence/R007-验证报告.md",
+    "dev/tests/evidence/R008-验证报告.md",
+    "dev/tests/evidence/R009-验证报告.md",
+    "dev/tests/evidence/R010-验证报告.md",
+    "dev/tests/evidence/R011-验证报告.md",
+    "dev/tests/evidence/R012-验证报告.md",
+    "dev/tests/evidence/R013-验证报告.md",
+    "dev/tests/evidence/R014-验证报告.md",
+    "dev/tests/evidence/R015-验证报告.md",
+    "dev/tests/evidence/R016-验证报告.md",
+    "dev/tests/evidence/R017-验证报告.md",
+    "dev/tests/evidence/R018-验证报告.md"
+  ],
+  "schema_positive_fixtures": 12,
+  "schema_negative_fixtures": 20,
+  "fixture_results": [
+    {
+      "name": "describe",
+      "schema": "command",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "execute",
+      "schema": "command",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "query_original",
+      "schema": "command",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "unknown_result",
+      "schema": "result",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "rental_invocation_shell",
+      "schema": "command",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "mixed_execution_authorities",
+      "schema": "command",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "signed_renewal_shell",
+      "schema": "progress",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "stop_without_renewal",
+      "schema": "progress",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "continue_missing_signed_lease",
+      "schema": "progress",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "stop_cannot_extend_lease",
+      "schema": "progress",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "missing_resource_generation",
+      "schema": "command",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "arbitrary_shell",
+      "schema": "command",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "platform_plain_body",
+      "schema": "command",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "wrong_operation",
+      "schema": "command",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "invalid_hash",
+      "schema": "command",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "unsafe_unknown_retry",
+      "schema": "result",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "raw_result_body",
+      "schema": "result",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "missing_execution_environment",
+      "schema": "command",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "lm_three_component_environment",
+      "schema": "environment",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "missing_lm_runtime",
+      "schema": "environment",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "unfrozen_latest_component",
+      "schema": "environment",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "comfy_complete_environment",
+      "schema": "environment",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "comfy_missing_allowlist",
+      "schema": "environment",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "lma_derived_environment",
+      "schema": "environment",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "lma_missing_platform_bridge",
+      "schema": "environment",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "native_private_llm_environment",
+      "schema": "environment",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "native_private_llm_missing_backend",
+      "schema": "environment",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "desktop_native_llm_mislabeled_android",
+      "schema": "environment",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "finite_node_allowlist",
+      "schema": "allowlist",
+      "expected_valid": true,
+      "actual_valid": true,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "buyer_node_install",
+      "schema": "allowlist",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "node_runtime_package_install",
+      "schema": "allowlist",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    },
+    {
+      "name": "node_undeclared_network",
+      "schema": "allowlist",
+      "expected_valid": false,
+      "actual_valid": false,
+      "scope": "schema shell only, not runtime engine/crypto execution"
+    }
+  ],
+  "compatibility_combinations": 28,
+  "reader_sections": 542,
+  "e2e_design_cases_not_executed": 20,
+  "reader_local_links": 136,
+  "reader_external_assets": 0,
+  "reader_javascript": "PASSED_SYNTAX_ONLY",
+  "product_source_files": 188,
+  "product_acceptance": "ALL_NOT_EXECUTED",
+  "priorities": {
+    "P0": 72,
+    "P1": 3,
+    "P1-AUTH": 3,
+    "P2": 1,
+    "P2-AUTH": 1
+  },
+  "errors": [
+    "实际HTTP子集应为35个唯一操作"
+  ]
+}

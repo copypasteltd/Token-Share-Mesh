@@ -170,14 +170,20 @@ func run() error {
 	if claims != nil {
 		defer claims.Close()
 	}
+	delivery, closeDelivery, err := configuredDelivery(db, claims)
+	if err != nil {
+		return err
+	}
+	defer closeDelivery()
 	handler, err := controlhttp.New(controlhttp.Config{AllowedHosts: []string{listener.Addr().String(), "localhost:" + port},
 		BrowserOrigin: os.Getenv("P11_BROWSER_ORIGIN"), InsecureLoopback: os.Getenv("P11_INSECURE_LOOPBACK") == "1", CursorKey: cursorKey,
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
 		Keys:     identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "api_v1", Peppers: map[string][]byte{"api_v1": keyPepper}, MaxTTL: 30 * 24 * time.Hour},
 		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: fees},
-		Devices: device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
-		Claims:  claims,
-		Routes:  routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
+		Devices:  device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
+		Claims:   claims,
+		Delivery: delivery,
+		Routes:   routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
 	if err != nil {
 		return err
 	}

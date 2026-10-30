@@ -21,6 +21,7 @@
 | R016 | [原调用准备、次数与订单预算原子接线](R016-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R017 | [实际原生输入加密与首租约原子准入](R017-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R018 | [原设备签名领取与原租约交付](R018-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| R019 | [原清单与输入受限交付](R019-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 
 任务现状：CONDITIONAL=1；DEFERRED=1；IN_PROGRESS=28；NOT_STARTED=26。
 

@@ -161,6 +161,10 @@ func verifyBody(in Request, body []byte) error {
 }
 
 func (e *Execution) loadInput(ctx context.Context, tx pgx.Tx, p Preparation) (storedInput, error) {
+	return loadStoredInput(ctx, tx, p)
+}
+
+func loadStoredInput(ctx context.Context, tx pgx.Tx, p Preparation) (storedInput, error) {
 	var a storedInput
 	err := tx.QueryRow(ctx, `SELECT a.id,a.owner_id,a.order_id,a.job_id,a.input_key_version,a.storage_digest,a.state,a.expires_at,a.bytes,a.input_ciphertext
 FROM p11.jobs j JOIN p11.assets a ON a.id=j.input_asset_id AND a.job_id=j.id AND a.order_id=j.order_id
@@ -175,19 +179,29 @@ WHERE j.id=$1 AND a.input_profile=$2 AND a.visibility='PLAINTEXT' AND a.media_ty
 
 func (e *Execution) open(a storedInput, in Request) error {
 	defer clear(a.ciphertext)
-	if a.state != "READY" || a.bytes < 1 || a.bytes > 256<<10 || len(a.ciphertext) != int(a.bytes)+28 || outbox.Digest(a.ciphertext) != a.digest {
-		return fault.New(fault.Conflict, "Original input requires recovery")
-	}
 	gcm, err := e.aead(a.version)
 	if err != nil {
 		return err
 	}
-	plain, err := gcm.Open(nil, a.ciphertext[:gcm.NonceSize()], a.ciphertext[gcm.NonceSize():], a.aad())
+	plain, err := openStoredInput(a, gcm)
 	if err != nil {
-		return fault.New(fault.Conflict, "Original input authentication failed")
+		return err
 	}
 	defer clear(plain)
 	return verifyBody(in, plain)
+}
+
+// openStoredInput authenticates the same bounded stored bytes for issuance
+// and delivery. The caller owns and clears both ciphertext and returned bytes.
+func openStoredInput(a storedInput, gcm cipher.AEAD) ([]byte, error) {
+	if a.state != "READY" || a.bytes < 1 || a.bytes > 256<<10 || len(a.ciphertext) != int(a.bytes)+28 || outbox.Digest(a.ciphertext) != a.digest {
+		return nil, fault.New(fault.Conflict, "Original input requires recovery")
+	}
+	plain, err := gcm.Open(nil, a.ciphertext[:gcm.NonceSize()], a.ciphertext[gcm.NonceSize():], a.aad())
+	if err != nil {
+		return nil, fault.New(fault.Conflict, "Original input authentication failed")
+	}
+	return plain, nil
 }
 
 func (e *Execution) Ready(ctx context.Context, p identity.Principal, in Request, body []byte) (InputReady, error) {

@@ -1,0 +1,155 @@
+{
+  "round": "R019",
+  "checked_at": "2026-10-30T15:28:54.254430+00:00",
+  "scope": "Repository documentation, packaging, media provenance and local preview only; no model/GPU/payment/product acceptance",
+  "passed": true,
+  "checks": [
+    {
+      "id": "R019-CHECK-001",
+      "title": "Both READMEs match the same maintained sources and actual progress",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-002",
+      "title": "Both READMEs reference current-round product screenshots and recordings",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-003",
+      "title": "All 56 outstanding task entries are retained",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-004",
+      "title": "English/Chinese changelogs share the current round IDs",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-005",
+      "title": "Public Markdown files are valid with resolvable local links",
+      "passed": true,
+      "detail": {
+        "links": 298,
+        "broken": []
+      }
+    },
+    {
+      "id": "R019-CHECK-006",
+      "title": "Media and actual source HTML match their capture hashes",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "id": "R019-CHECK-007",
+      "title": "Capture closed its owned browser/pages and preview without page errors",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-008",
+      "title": "Recording contains actual browser frames and a probed H.264 video",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-009",
+      "title": "Four real screenshots, MP4 and GIF are present",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-010",
+      "title": "Current native evidence matches the Go/migration source",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "id": "R019-CHECK-011",
+      "title": "Current frontend evidence includes 21 unit cases, all builds and both native browser journeys",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "id": "R019-CHECK-012",
+      "title": "Current frontend build and unit logs are public evidence with matching recorded hashes",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "id": "R019-CHECK-013",
+      "title": "14 actual product screenshots and four recording files match their independent provenance",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "id": "R019-CHECK-014",
+      "title": "Product captures closed their owned browsers and do not claim native Alipay or device/payment acceptance",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-015",
+      "title": "Both current UIs pair a real Windows control binary, recover original writes and reject a revoked heartbeat without execution",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-016",
+      "title": "Public file set excludes runtime/dependencies/credentials/binaries and oversized assets",
+      "passed": true,
+      "detail": {
+        "files": 1434,
+        "forbidden": [],
+        "oversize": []
+      }
+    },
+    {
+      "id": "R019-CHECK-017",
+      "title": "No high-confidence private keys or service tokens in the public file set",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "id": "R019-CHECK-018",
+      "title": "Runtime data is excluded by Git rules",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-019",
+      "title": "Expected SSH remote and main branch are configured",
+      "passed": true
+    },
+    {
+      "id": "R019-CHECK-020",
+      "title": "Actual loopback preview serves readers and rejects private/traversal/listing requests",
+      "passed": true,
+      "detail": {
+        "/docs/%E7%99%BD%E7%9A%AE%E4%B9%A6/%E7%AE%97%E5%8A%9B%E5%85%B1%E4%BA%AB%E5%B9%B3%E5%8F%B0%E5%AE%8C%E6%95%B4%E9%98%85%E8%AF%BB%E7%89%88-v3.0.html": {
+          "actual": 200,
+          "expected": 200
+        },
+        "/.git/config": {
+          "actual": 403,
+          "expected": 403
+        },
+        "/runtime/private-probe.txt": {
+          "actual": 403,
+          "expected": 403
+        },
+        "/docs/": {
+          "actual": 403,
+          "expected": 403
+        },
+        "/docs/%2e%2e/runtime/private-probe.txt": {
+          "actual": 403,
+          "expected": 403
+        },
+        "/%2e%2e/AGENTS.md": {
+          "actual": 403,
+          "expected": 403
+        }
+      }
+    },
+    {
+      "id": "R019-CHECK-021",
+      "title": "Repository verification stopped its own HTTP server thread",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

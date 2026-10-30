@@ -10,6 +10,18 @@
 
 Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 显卡、Android 手机或获明确授权上游 AI 能力的个人卖家。卖家自主决定价格和开放时段、直接向买家履约；平台提供发现、合同、路由、调度和交易证据，并收取披露的费用。
 
+## R019 · 原清单与输入 / Restricted manifest and original input
+
+R019接通已领取原租约的执行清单和原始输入受限交付，当前37/95显式控制操作、65表/664列/113外键。INT-094/095先登记权威契约与固定编号；两个GET仅接受原签名设备，不隐式领取。每次读取沿同一原订单优先锁序复核原买方key/路由/同单资金/资格、完整已占预算、原设备版本、输入、物理owner/双围栏和原期限。独立交付服务无签发私钥，输入必须通过原AES-GCM/AAD、独立版本化HMAC和同档位Preflight，按原始字节返回。客户端用独立公钥、原订单/路由/模式及本机内核批准核验清单和租约，有界接收输入；不自动批准内核或提交模型。此为PLAINTEXT/STANDARD可信平台经认证连接交付，密文摘要不能当原文明文签名，不是E2E或卖方不可见。领取/读取均不ACK、不续期、不重派、不完成DELIVER任务、不计费/清锁。001—010及端侧DDL原字节保持；真实宿主持久命令、tokenizer/内核/usage/渠道、E2E/LP/PE/租赁和完整验收仍待。
+
+R019首次完整回归为233项通过/1项失败：既有TestSupervisorMetadataStepsHaveIndependentBudgets在注入慢元数据后返回ErrShutdown；失败未作为清锁依据，该次运行未独立确认最终磁盘owner。原始日志和18个页面媒体已按原字节归档；单独诊断命令在产生测试事件前遇到构建/进程等待时限，没有有效通过结果。源代码、测试断言及运行时限保持原样后重新全量执行；后续通过也不证明该时序根因或稳定性，DEV-53继续开放。
+
+R019第二次完整回归仍为233过/1失：慢元数据用例通过，但既有未知内核登记用例在关停后无法读取期望的占用快照。失败日志、源码证据和18个媒体另行原字节归档。随后修正冻结内核登记缺失时的关停路径：已隔离/停止/清理中的资源保留原占用，避免重复隔离写入；完成所有资源的本轮访问后报告关停未完成，并对匹配原内核的其他owner执行有界取消。新增混合资源回归，所有既有时限和断言不变。此修正不证明R016或第一次R019慢元数据问题的根因，DEV-53仍开放。
+
+[DG-001—030](docs/技术开发/附录-原设备清单与输入受限交付.md) · [R019验证证据](dev/tests/evidence/R019-验证报告.md) · [全部56项待办](dev/progress/R019-本轮实现与完整待办.md)。
+
+调用顺序：`PrepareLeaseClaim → PrepareManifest → 独立公钥和Approval → AcceptDelivery → PrepareInput → AcceptInput`。只有显式配置`P11_INPUT_DELIVERY_KEYS_FILE`才启用独立内容密钥服务；CLI模型执行入口继续关闭。
+
 ## R018 · 原设备签名领取 / Native original-lease claim
 
 R018新增原设备签名领取原租约：35/93个控制操作、65表/664列/113外键。仅原设备ED25519证明可领取；原命令编号与header相同，010将其固定绑定原lease并和安全事件原子提交。每次包括重试都重新核原买方scoped key/route、原订单与同单资金、资格、完整已占预算、加密输入元数据、原owner/双围栏和原期限；不换单、不重签/续租。领取服务只有显式公钥，不解密输入、不确认实际执行或计费；DELIVER任务、预算和资源保持原状。通用元数据队列仅认领/耗尽标记自身白名单类型，不能处理独立的执行投递意图。设备独立公钥/批准计划、输入/manifest交付、宿主持久执行命令、真实内核/usage/渠道及E2E/LP/PE/租赁仍待。001—009及端侧DDL保持原字节，历史UNBOUND_CLAIM。
@@ -28,8 +40,8 @@ R018新增原设备签名领取原租约：35/93个控制操作、65表/664列/1
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
 | 实施任务 | 28项进行中 · 26项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R018 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| 原生测试证据 | 222项通过，仅控制/原生/转发源码子集 |
+| 最新源码轮次 | R019 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| 原生测试证据 | 235项通过，仅控制/原生/转发源码子集 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
@@ -83,17 +95,17 @@ SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，�
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R017/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R019/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R017/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R019/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R017/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R019/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R017/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R017/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R019/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R019/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R017/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R019/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R017/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R017/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R017/recordings/web-transaction.gif) · [订单待确认](dev/media/R017/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R019/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R019/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R019/recordings/web-transaction.gif) · [订单待确认](dev/media/R019/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 

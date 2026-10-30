@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"p11.local/compute/client/protocol/executionlease"
 	relay "p11.local/compute/gateway/core"
 	"p11.local/compute/internal/budget"
 	"p11.local/compute/internal/identity"
@@ -57,12 +58,7 @@ type Request struct {
 	Stream                               bool
 }
 
-type Spec struct {
-	Protocol        relay.Profile `json:"protocol_profile_id"`
-	Model           string        `json:"public_model"`
-	MaxOutputTokens int           `json:"max_output_tokens"`
-	Stream          bool          `json:"stream"`
-}
+type Spec = executionlease.Spec
 
 // Preparation is safe recovery metadata, deliberately not relay.Grant or an
 // executionlease. Unknown, expired and canceled work keeps its original hold.
@@ -130,7 +126,7 @@ func (s *Service) fingerprint(version string, p identity.Principal, route string
 	data, err := json.Marshal(struct {
 		Domain, Buyer, Route, Key, BodyDigest string
 		Spec                                  Spec
-	}{"P11_INVOCATION_FINGERPRINT_1", p.UserID, route, p.KeyID, in.RequestDigest, Spec{in.Protocol, in.Model, in.MaxOutputTokens, in.Stream}})
+	}{"P11_INVOCATION_FINGERPRINT_1", p.UserID, route, p.KeyID, in.RequestDigest, Spec{Protocol: in.Protocol, Model: in.Model, MaxOutputTokens: in.MaxOutputTokens, Stream: in.Stream}})
 	if err != nil {
 		return "", err
 	}
@@ -236,7 +232,7 @@ WHERE order_id=$1 AND caller_key=$2 AND invocation_profile=$3 AND route_contract
 		return result, err
 	}
 	job, reservation := ids.New("job"), ids.New("bgt")
-	spec, _ := json.Marshal(Spec{in.Protocol, in.Model, in.MaxOutputTokens, in.Stream})
+	spec, _ := json.Marshal(Spec{Protocol: in.Protocol, Model: in.Model, MaxOutputTokens: in.MaxOutputTokens, Stream: in.Stream})
 	_, err = tx.Exec(ctx, `INSERT INTO p11.jobs(id,order_id,seller_id,caller_key,request_digest,state,deadline,
 invocation_profile,route_contract_id,invoker_key_id,fingerprint_version,invocation_spec,reservation_id)
 VALUES($1,$2,$3,$4,$5,'INPUT_PENDING',$6,$7,$8,$9,$10,$11,$12)`, job, c.Definition.OrderID, c.Definition.SellerID, caller, digest, deadline, Profile, c.ID, p.KeyID, s.version, spec, reservation)
