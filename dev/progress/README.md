@@ -2,7 +2,7 @@
 
 目标：按全部开发细则交付成体系源码。当前源码目标 ACTIVE，源码实施进展与需求/设计工作分别记录。
 
-R021推进可替换原生LLM：本机固定包/模型/模板与完整库白名单，C++ llama.cpp C API worker、Go InputAdapter、类型化P11_LLAMA_PIPE_1、三文本请求映射与真实tokenizer调用、独立取消、两个64KiB输出缓冲和同步后原owner清理；Windows实进程＋合成ABI与真实模型/GPU/LP/E2E资格分开。当前调用账户不是独立低权限服务，CLI执行关闭。所有56任务/222子项、80/96完整产品验收和历史风险继续开放，最终目标ACTIVE。 [本轮完整证据](../tests/evidence/R021-验证报告.md)。
+R022实现原生文本结果的加密保管和三协议交付：原 Work/manifest 绑定、独立密钥与有界AES-GCM分帧、固定配额/保留期/撤权、原显卡清理与结果读取分离；Chat/Responses/Messages JSON/SSE、UTF-8拼接、停止原因/原停止词及有限写期限。PIPE_2补实际输入计数与停止序号。只覆盖PLAINTEXT/STANDARD源码子集，不等于E2E/LP、可信usage、最终ACK、正式SDK/真实模型GPU或资金验收；CLI执行仍关闭。所有56任务/222子项、80/96未执行及历史时序/媒体缺失限制保留，最终目标ACTIVE。 [本轮完整证据](../tests/evidence/R022-验证报告.md)。
 
 | 轮次 | 内容与完整待办 | 验证状态 |
 | --- | --- | --- |
@@ -26,7 +26,8 @@ R021推进可替换原生LLM：本机固定包/模型/模板与完整库白名�
 | R019 | [原清单与输入受限交付](R019-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R020 | [持久原生执行宿主与内容适配接线](R020-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R021 | [原生LLM可替换worker与受限管道](R021-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| R022 | [原生文本结果加密保管与三协议交付](R022-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 
-任务现状：CONDITIONAL=1；DEFERRED=1；IN_PROGRESS=30；NOT_STARTED=24。
+任务现状：CONDITIONAL=1；DEFERRED=1；IN_PROGRESS=31；NOT_STARTED=23。
 
 [人工维护的机器进度](implementation-status.json)；[完整开发规范](../开发细则总表.md)。

@@ -1,0 +1,25 @@
+{
+  "round": "R022",
+  "scope": "second tagged native run; 6 pass; preserved before documentation-only source receipt refresh",
+  "original_source_recovered_from_first_exact_archive": [
+    "dev/src/client/kernels/llama-worker/README.md"
+  ],
+  "assets": [
+    {
+      "path": "dev/tests/evidence/archive/R022-capi-attempt2/R022-native-capi-fixture-summary.json",
+      "sha256": "a0fcab0f8dbffbfcbead9df3b75dde60e81b96995884bf0192a3a9b4e887d587"
+    },
+    {
+      "path": "dev/tests/evidence/archive/R022-capi-attempt2/R022-native-capi-fixture-tests.jsonl",
+      "sha256": "e1b57e91b3614f8e155452d28af0c66dd6cea32f584260698f3b1fe5a4136a29"
+    },
+    {
+      "path": "dev/tests/evidence/archive/R022-capi-attempt2/R022-native-worker-build.json",
+      "sha256": "c416e1b0fe2de522be3981bb7c73ea20f46ad0283acf1d33acd4a81c3da5a5ad"
+    },
+    {
+      "path": "dev/tests/evidence/archive/R022-capi-attempt2/sources.zip",
+      "sha256": "a731a975f2fe2180c9f33ee11168697a4e902906b6d88e7508acacaf2119dc16"
+    }
+  ]
+}

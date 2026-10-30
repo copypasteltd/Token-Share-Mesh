@@ -1,0 +1,9 @@
+ok  	p11.local/compute/client/adapters/llamaworker	2.719s
+?   	p11.local/compute/client/results	[no test files]
+ok  	p11.local/compute/client/node	42.004s
+--- FAIL: TestSupervisorRequiresWatchdogAndFrozenRegistry (3.91s)
+    supervisor_test.go:257: wrong shutdown shutdown cleanup is unconfirmed; retain resource <nil>
+FAIL
+FAIL	p11.local/compute/client/supervisor	40.365s
+ok  	p11.local/compute/client/execution	31.565s
+FAIL

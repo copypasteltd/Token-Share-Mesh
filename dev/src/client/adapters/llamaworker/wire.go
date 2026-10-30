@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	Profile             = "P11_LLAMA_PIPE_1"
+	Profile             = "P11_LLAMA_PIPE_2"
 	UpstreamCommit      = "8642541b255bfb5dc39cd351a178be09013a55d6"
 	EngineRelease       = "llama.cpp-v0.8.0-8642541b"
 	maxFrame            = 65536 // includes the type byte, excludes the four-byte prefix

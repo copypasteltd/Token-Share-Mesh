@@ -1,0 +1,32 @@
+{"Time":"2026-10-31T05:32:26.4959223+08:00","Action":"start","Package":"p11.local/compute/client/node"}
+{"Time":"2026-10-31T05:32:26.8666378+08:00","Action":"run","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner"}
+{"Time":"2026-10-31T05:32:26.8671803+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"=== RUN   TestNodeControlDrainStopsSupervisedOriginalOwner\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:27.0332189+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"--- PASS: TestNodeControlDrainStopsSupervisedOriginalOwner (0.17s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:27.0337238+08:00","Action":"pass","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Elapsed":0.17}
+{"Time":"2026-10-31T05:32:27.0337238+08:00","Action":"run","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner"}
+{"Time":"2026-10-31T05:32:27.0337238+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"=== RUN   TestNodeControlDrainStopsSupervisedOriginalOwner\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:27.1989364+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"--- PASS: TestNodeControlDrainStopsSupervisedOriginalOwner (0.17s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:27.1989364+08:00","Action":"pass","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Elapsed":0.17}
+{"Time":"2026-10-31T05:32:27.1989364+08:00","Action":"run","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner"}
+{"Time":"2026-10-31T05:32:27.1989364+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"=== RUN   TestNodeControlDrainStopsSupervisedOriginalOwner\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:27.4216793+08:00","Action":"output","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Output":"--- PASS: TestNodeControlDrainStopsSupervisedOriginalOwner (0.22s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:27.4216793+08:00","Action":"pass","Package":"p11.local/compute/client/node","Test":"TestNodeControlDrainStopsSupervisedOriginalOwner","Elapsed":0.22}
+{"Time":"2026-10-31T05:32:27.4216793+08:00","Action":"output","Package":"p11.local/compute/client/node","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:27.4685566+08:00","Action":"output","Package":"p11.local/compute/client/node","Output":"ok  \tp11.local/compute/client/node\t0.973s\n"}
+{"Time":"2026-10-31T05:32:27.4688676+08:00","Action":"pass","Package":"p11.local/compute/client/node","Elapsed":0.973}
+{"Time":"2026-10-31T05:32:28.6778221+08:00","Action":"start","Package":"p11.local/compute/client/supervisor"}
+{"Time":"2026-10-31T05:32:30.1642971+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry"}
+{"Time":"2026-10-31T05:32:30.1642971+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"=== RUN   TestSupervisorRequiresWatchdogAndFrozenRegistry\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:30.2278734+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"--- PASS: TestSupervisorRequiresWatchdogAndFrozenRegistry (0.06s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:30.2278734+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Elapsed":0.06}
+{"Time":"2026-10-31T05:32:30.2278734+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry"}
+{"Time":"2026-10-31T05:32:30.2278734+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"=== RUN   TestSupervisorRequiresWatchdogAndFrozenRegistry\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:30.2701032+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"--- PASS: TestSupervisorRequiresWatchdogAndFrozenRegistry (0.04s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:30.2701032+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Elapsed":0.04}
+{"Time":"2026-10-31T05:32:30.2701032+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry"}
+{"Time":"2026-10-31T05:32:30.2701032+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"=== RUN   TestSupervisorRequiresWatchdogAndFrozenRegistry\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:30.3091343+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Output":"--- PASS: TestSupervisorRequiresWatchdogAndFrozenRegistry (0.04s)\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:30.3091343+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorRequiresWatchdogAndFrozenRegistry","Elapsed":0.04}
+{"Time":"2026-10-31T05:32:30.3091343+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-31T05:32:30.3496068+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"ok  \tp11.local/compute/client/supervisor\t1.671s\n"}
+{"Time":"2026-10-31T05:32:30.3496068+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Elapsed":1.6720000000000002}

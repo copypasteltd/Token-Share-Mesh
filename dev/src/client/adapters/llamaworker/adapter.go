@@ -36,14 +36,15 @@ type entry struct {
 	outputErr                  error
 	timer                      *time.Timer
 	result                     Result
+	started                    bool
+	start                      supervisor.TextStart
+	startNotify                chan struct{}
+	stopCount                  uint32
 }
 
 // Result is local kernel measurement, NOT trusted platform usage, a billable
 // event, payment evidence or a successful final response acknowledgement.
-type Result struct {
-	InputTokens, OutputTokens uint32
-	Reason                    string
-}
+type Result = supervisor.TextResult
 
 type Adapter struct {
 	mu             sync.Mutex
@@ -64,6 +65,13 @@ type Adapter struct {
 }
 
 var _ supervisor.InputAdapter = (*Adapter)(nil)
+var _ supervisor.TextAdapter = (*Adapter)(nil)
+
+func (a *Adapter) CheckInput(w supervisor.Work, m executionlease.Manifest, body []byte) error {
+	normal, _, err := normalize(w, m, body, a.c)
+	clear(normal)
+	return err
+}
 
 // Open verifies a locally approved pack, starts its owned process and waits for
 // model warm-up. It is an explicit owner action outside a task submit budget.
@@ -192,7 +200,10 @@ func (a *Adapter) SubmitInput(ctx context.Context, w supervisor.Work, m executio
 	var id encoder
 	id.str(a.session)
 	id.u64(a.sequence)
-	e := &entry{work: w, id: hex.EncodeToString(id.Bytes()), manifest: m.Digest(), state: "RUNNING", inputLimit: uint32(m.InputTokenLimit), outputLimit: uint32(m.Spec.MaxOutputTokens), outputNotify: make(chan struct{}, 1), done: make(chan struct{})}
+	e := &entry{work: w, id: hex.EncodeToString(id.Bytes()), manifest: m.Digest(), state: "RUNNING", inputLimit: uint32(m.InputTokenLimit), outputLimit: uint32(m.Spec.MaxOutputTokens), outputNotify: make(chan struct{}, 1), done: make(chan struct{}), startNotify: make(chan struct{})}
+	// normalize validated this bounded binary request. Remember only the stop
+	// count, never an additional copy of request text or stop strings.
+	e.stopCount = uint32(normal[24])<<24 | uint32(normal[25])<<16 | uint32(normal[26])<<8 | uint32(normal[27])
 	a.jobs[w.RequestID] = e
 	a.active = e
 	e.timer = time.AfterFunc(time.Until(deadline), func() { _ = a.Cancel(context.Background(), w) })
@@ -355,6 +366,41 @@ func (a *Adapter) Result(w supervisor.Work) (Result, error) {
 	return e.result, e.outputErr
 }
 
+func (a *Adapter) Started(ctx context.Context, w supervisor.Work) (supervisor.TextStart, error) {
+	for {
+		if ctx.Err() != nil {
+			return supervisor.TextStart{}, ctx.Err()
+		}
+		a.mu.Lock()
+		e := a.jobs[w.RequestID]
+		if e == nil || e.work != w {
+			a.mu.Unlock()
+			return supervisor.TextStart{}, ErrWork
+		}
+		if e.started {
+			v := e.start
+			a.mu.Unlock()
+			return v, nil
+		}
+		if e.terminal {
+			err := e.outputErr
+			if err == nil {
+				err = ErrUnknown
+			}
+			a.mu.Unlock()
+			return supervisor.TextStart{}, err
+		}
+		notify, done := e.startNotify, e.done
+		a.mu.Unlock()
+		select {
+		case <-notify:
+		case <-done:
+		case <-ctx.Done():
+			return supervisor.TextStart{}, ctx.Err()
+		}
+	}
+}
+
 // Close kills only this adapter's owned worker after waiting for its original
 // work. Killing/exit without a native receipt leaves UNKNOWN and is no proof of
 // GPU stop or resource release. There is no restart/re-submit fallback.
@@ -495,11 +541,17 @@ func (a *Adapter) readLoop() {
 		if valid {
 			switch kind {
 			case kStarted:
-				valid = d.end()
+				n := d.u32()
+				valid = d.end() && !e.started && n > 0 && n <= e.inputLimit
+				if valid {
+					e.started = true
+					e.start = supervisor.TextStart{InputTokens: n}
+					close(e.startNotify)
+				}
 			case kOutput:
 				sequence := d.u32()
 				data := d.take(len(d.raw) - d.at)
-				valid = d.end() && sequence == e.next && len(data) > 0 && len(data) <= 16384
+				valid = d.end() && e.started && sequence == e.next && len(data) > 0 && len(data) <= 16384
 				if valid {
 					e.next++
 					if e.outputErr == nil {
@@ -510,11 +562,11 @@ func (a *Adapter) readLoop() {
 					}
 				}
 			case kDone:
-				in, out, reason, clean := d.u32(), d.u32(), d.u32(), d.u32()
-				valid = d.end() && clean == 1 && in <= a.c.ContextTokens && out <= e.outputLimit && reason >= 1 && reason <= 6 && (reason > 3 || in > 0 && in <= e.inputLimit) && (reason != 5 || out == 0)
+				in, out, reason, clean, stopIndex := d.u32(), d.u32(), d.u32(), d.u32(), d.u32()
+				valid = d.end() && clean == 1 && in <= a.c.ContextTokens && out <= e.outputLimit && reason >= 1 && reason <= 6 && (reason > 3 || e.started && in > 0 && in <= e.inputLimit) && (reason != 5 || out == 0) && (!e.started || e.start.InputTokens == in) && (reason == 3 && stopIndex < e.stopCount || reason != 3 && stopIndex == supervisor.NoStopIndex)
 				if valid {
 					names := []string{"", "eog", "limit", "stop", "cancelled", "rejected", "kernel_error"}
-					e.result = Result{in, out, names[reason]}
+					e.result = Result{InputTokens: in, OutputTokens: out, Reason: names[reason], StopIndex: stopIndex}
 					// A completed native decode cannot undo an earlier parent-side
 					// revocation that arrived while synchronization was pending.
 					if e.revoked && e.outputErr == nil {

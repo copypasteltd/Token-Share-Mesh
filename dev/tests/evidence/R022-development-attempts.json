@@ -1,0 +1,56 @@
+{
+  "round": "R022",
+  "recorded_at": "2026-10-30T21:20:41.108336+00:00",
+  "status": "DEVELOPMENT_HISTORY_NOT_FULL_ACCEPTANCE",
+  "virtualization_used": false,
+  "attempts": [
+    {
+      "scope": "Early local command before final result tests were added; package parallelism default; no JSON case manifest",
+      "command": [
+        "python",
+        "dev/tools/原生开发.py",
+        "test",
+        "./client/adapters/llamaworker",
+        "./client/results",
+        "./client/node",
+        "./client/supervisor",
+        "./client/execution"
+      ],
+      "returncode": 1,
+      "raw": "dev/tests/evidence/R022-early-local-output.txt",
+      "raw_sha256": "d16298357595ae76b8b55847a4a575fe2193fac7b1a9e09b0bd675b11fb41ae0",
+      "failure": "Existing TestSupervisorRequiresWatchdogAndFrozenRegistry returned ErrShutdown. Root cause unproven; no production/test timeout, assertion or SQL was relaxed. Later success cannot prove timing stability."
+    },
+    {
+      "scope": "First tagged actual Windows worker plus synthetic ABI run",
+      "result": "5 pass / 1 fail",
+      "archive": "dev/tests/evidence/R022-capi-attempt1-archive.json",
+      "failure": "Test searched raw SSE bytes for contiguous hello, but valid token delta events separate characters. Corrected to parse original JSON/SSE and assert exact reconstructed text and nonzero counts; following full tagged run passed 6/6. Original raw/source archive retained."
+    },
+    {
+      "scope": "First full R022 native/core/Web/H5 run",
+      "run_id": "20261030T212521Z-fe30f1d4",
+      "unique_regular_cases": 275,
+      "unique_passed": 274,
+      "unique_failed": 1,
+      "failure": "TestNodeControlDrainStopsSupervisedOriginalOwner: control failure lost shutdown cleanup is unconfirmed; retain resource",
+      "archive": "dev/tests/evidence/R022-full-attempt1-archive.json",
+      "archive_missing_assets": 0,
+      "note": "New 17 regular cases and both browser journeys passed. Two unchanged shutdown paths then passed three isolated repetitions each; original source hashes are identical to R021. This does not prove timing stability.",
+      "diagnostic": "dev/tests/evidence/R022-native-timing-replay.json"
+    },
+    {
+      "scope": "Second full R022 native/core/Web/H5 run, unchanged Go source and original deadlines/assertions",
+      "run_id": "20261030T213246Z-d135560f",
+      "test_exit_code": 0,
+      "temporary_instance_stopped": true,
+      "native_source_check": "dev/tests/evidence/R022-native-source-checks.json",
+      "note": "All 275 unique registered regular cases passed. Separate tagged native ABI run passed 6/6. No timing stability, real model/GPU, official SDK, LP/E2E, ACK or funds acceptance claimed."
+    }
+  ],
+  "historical_limitations": [
+    "R016/R019/R020/R021 timing/storage/browser latency root causes remain unproven.",
+    "R020 permanently missing 19 original PNGs remain disclosed; no replacement media invented.",
+    "Synthetic ABI is not real model/GPU/LP/E2E/SDK/trusted usage/ACK/payment qualification."
+  ]
+}

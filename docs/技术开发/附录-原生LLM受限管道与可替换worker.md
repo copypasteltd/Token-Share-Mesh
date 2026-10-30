@@ -29,7 +29,7 @@
 | NK-014 | Linux | 源码使用 stdin/stdout、显式控制 fd 3 与父进程死亡信号；当前只有 Go 交叉编译资格，尚无原生 C++ Linux 运行验收。Linux 原生依赖搜索、权限隔离、GPU 和设备适配必须另验。 |
 | NK-015 | 权限等级 | 当前原生进程仍使用调用程序账户。Job Object、匿名管道与文件摘要不替代独立低权限服务账户、服务 SID/ACL、安装授权或 LP 攻击验证。提供方对安装/版本/占用/收益/停止有控制权；生产 UI 不提供 prompt、输出正文、调试终端或解密接口。 |
 
-## 3. 内部二进制协议 P11_LLAMA_PIPE_1
+## 3. 内部二进制协议 P11_LLAMA_PIPE_2
 
 这是本机父子进程的固定字段二进制档位，不是公共 API，也不是网络端 `BINARY_STREAM_1`。此前内部“小 JSON 元数据＋DATA”的通用设计仍可供其他内核使用；本 worker 冻结为下面的类型化字段，减少原生 JSON 解析器与依赖。所有整数为大端；`str` 为 uint32 字节长度＋UTF-8 字节；浮点为 IEEE754 binary64 的大端位表示。帧为 `uint32 frame_length + uint8 type + payload`；长度包括 type、不包括前缀，范围 1—65536。
 
@@ -41,9 +41,9 @@
 | NK-019 | DATA=3 / END=4 | DATA 为不超过 65535 字节的原始块，累计必须等于 BEGIN 长度；END 必须空载。内部请求正文是固定字段，不能再嵌入本机路径或命令。 |
 | NK-020 | 类型化正文 | input_token_limit、max_output_tokens 两个 uint32；temperature、top_p 两个 binary64；uint32 stop_count＋stop 字符串；uint32 message_count＋每项 role/content 字符串。stop≤4 项、每项 1—256 字节，message 1—130 项；文本拒绝 NUL；整体继续受 512KiB 限制。 |
 | NK-021 | CANCEL=5，独立控制管道 | 只含原 backend_id，帧载荷≤260 字节。先于 BEGIN 抵达也记录撤销；不能由后续同 ID 启动。取消不排队在正文 DATA 或输出流后面。 |
-| NK-022 | STARTED=130 | 原 backend_id；完成输入分词校验与 prompt decode 后发送，仅供本地状态使用，不是计费或平台 ACK。 |
-| NK-023 | OUTPUT=131 | 原 backend_id、从 0 连续的 uint32 sequence、1—16384 字节原始 token piece。允许跨 UTF-8 字符边界；未来对外 JSON/SSE 适配必须做合法 UTF-8 拼接，不能直接逐 piece 编码字符串。 |
-| NK-024 | DONE=132 | 原 backend_id、uint32 input_count/output_count/reason/clear_marker。marker 必须为 1；reason：1=eog，2=limit，3=stop，4=cancelled，5=rejected，6=kernel_error。成功类输入数必须在批准 input_token_limit 内；全部输出数受批准上限约束。 |
+| NK-022 | STARTED=130 | 原 backend_id、uint32 实际输入计数；完成输入分词校验与 prompt decode 后发送，仅供本地状态使用，不是计费或平台 ACK。 |
+| NK-023 | OUTPUT=131 | 原 backend_id、从 0 连续的 uint32 sequence、1—16384 字节原始 token piece。允许跨 UTF-8 字符边界；对外 JSON/SSE 适配必须做合法 UTF-8 拼接，不能直接逐 piece 编码字符串。 |
+| NK-024 | DONE=132 | 原 backend_id、uint32 input_count/output_count/reason/clear_marker/stop_index。marker 必须为 1；reason：1=eog，2=limit，3=stop，4=cancelled，5=rejected，6=kernel_error。成功类输入数必须在批准 input_token_limit 内；全部输出数受批准上限约束。 |
 | NK-025 | 协议错误 | 超长、截断、错类型、错 ID/sequence、重复原 ID、无效字段及不完整流失败关闭；进程退出/失联保持 UNKNOWN，不能伪造 DONE、自动重启重提或释放资源。保留类型 133 不承载任意错误正文，本版未将其用作释放凭据。 |
 
 ## 4. 标准请求到原生推理
@@ -74,3 +74,7 @@
 | NK-042 | 产品验收 | 真机需要覆盖单/多显卡映射、撤销/硬截止与长 GPU kernel、模型替换、进程异常、低权限服务、抓包/普通提权工具、占用/显存/吞吐及 Windows/Linux 边界；手机 LMA 和 ComfyUI 仍按各自白名单完整内核实施。80/96 产品验收和全部56任务/222子项不得用本模块测试清空。 |
 
 源代码入口：`dev/src/client/adapters/llamaworker/`、`dev/src/client/kernels/llama-worker/`。证据入口：`dev/tests/evidence/R021-native-worker-build.json`、`R021-native-capi-fixture-summary.json`、`R021-验证报告.md`。当前是受限原生执行链源码推进，最终交付目标保持 ACTIVE。
+
+## R022 管道修订与结果保管
+
+R022 新增 [RC-001—060](附录-原生文本结果加密保管与标准协议交付.md)：原生输出先独立加密保管，计算清理与原结果读取分别授权；三文本 JSON/SSE 仅属 PLAINTEXT/STANDARD 局部源码，不授予 E2E/LP、可信用量、最终 ACK 或资金资格。CLI 执行继续关闭，全部未收口验收保留。 PIPE_2 的 DONE stop_index 命中原停止词数组，否则 UINT32_MAX；STARTED/DONE 输入计数须一致。旧 PIPE_1 READY 不再兼容。原 NK-001—042 的停止与资格边界继续适用。

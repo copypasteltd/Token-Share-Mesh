@@ -1,0 +1,22 @@
+{
+  "round": "R022",
+  "scope": "first tagged actual Windows worker/synthetic C ABI run; 5 pass, 1 fail; raw protocol substring assertion requires diagnosis; binaries remain ignored and only their original hashes retained",
+  "assets": [
+    {
+      "path": "dev/tests/evidence/archive/R022-capi-attempt1/R022-native-capi-fixture-summary.json",
+      "sha256": "2c8022c6b078185634d4430a7a057df6a2830cb01b16497dbafc938c3a009be3"
+    },
+    {
+      "path": "dev/tests/evidence/archive/R022-capi-attempt1/R022-native-capi-fixture-tests.jsonl",
+      "sha256": "a109488d895d1b2dcc6fa599b19b52830a359312fad4f60e2f466ba96c95b877"
+    },
+    {
+      "path": "dev/tests/evidence/archive/R022-capi-attempt1/R022-native-worker-build.json",
+      "sha256": "c416e1b0fe2de522be3981bb7c73ea20f46ad0283acf1d33acd4a81c3da5a5ad"
+    },
+    {
+      "path": "dev/tests/evidence/archive/R022-capi-attempt1/sources.zip",
+      "sha256": "7b841e8918a73349651fe5889f6854ee25fa6fb57a4de4542cf682c46721fb39"
+    }
+  ]
+}

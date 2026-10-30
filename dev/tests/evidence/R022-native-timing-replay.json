@@ -1,0 +1,100 @@
+{
+  "round": "R022",
+  "recorded_at": "2026-10-30T21:32:24.087359+00:00",
+  "returncode": 0,
+  "passed": true,
+  "virtualization_used": false,
+  "scope": "two unchanged original shutdown cases, three repetitions each, not full-round or timing-stability acceptance",
+  "command": [
+    "go",
+    "test",
+    "-p",
+    "1",
+    "-count=3",
+    "-timeout=90s",
+    "-run=^(TestNodeControlDrainStopsSupervisedOriginalOwner|TestSupervisorRequiresWatchdogAndFrozenRegistry)$",
+    "-json",
+    "./client/node",
+    "./client/supervisor"
+  ],
+  "raw": "dev/tests/evidence/R022-native-timing-replay.jsonl",
+  "raw_sha256": "effdb1aca43c849710eff2dd46a942a0b0a74743acf9e51663292ddc6cdd9c6f",
+  "terminals": [
+    {
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeControlDrainStopsSupervisedOriginalOwner",
+      "action": "pass"
+    },
+    {
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeControlDrainStopsSupervisedOriginalOwner",
+      "action": "pass"
+    },
+    {
+      "package": "p11.local/compute/client/node",
+      "test": "TestNodeControlDrainStopsSupervisedOriginalOwner",
+      "action": "pass"
+    },
+    {
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorRequiresWatchdogAndFrozenRegistry",
+      "action": "pass"
+    },
+    {
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorRequiresWatchdogAndFrozenRegistry",
+      "action": "pass"
+    },
+    {
+      "package": "p11.local/compute/client/supervisor",
+      "test": "TestSupervisorRequiresWatchdogAndFrozenRegistry",
+      "action": "pass"
+    }
+  ],
+  "original_paths": [
+    {
+      "path": "dev/src/client/node/supervisor_test.go",
+      "sha256": "7599e310b95fbda73c09323fab25f8efc0db0d539ab9fcae99554df544390ec5",
+      "base_sha256": "7599e310b95fbda73c09323fab25f8efc0db0d539ab9fcae99554df544390ec5",
+      "unchanged_from_R021": true
+    },
+    {
+      "path": "dev/src/client/node/supervisor.go",
+      "sha256": "c1702777d1cda13149e8793c1922e86a3604bf4c53df6c0a89776b67a9360a9b",
+      "base_sha256": "c1702777d1cda13149e8793c1922e86a3604bf4c53df6c0a89776b67a9360a9b",
+      "unchanged_from_R021": true
+    },
+    {
+      "path": "dev/src/client/node/control.go",
+      "sha256": "330fb28a858b2a647f552014e6ee5d4113a24d2f2a595f977af8062fbf6948da",
+      "base_sha256": "330fb28a858b2a647f552014e6ee5d4113a24d2f2a595f977af8062fbf6948da",
+      "unchanged_from_R021": true
+    },
+    {
+      "path": "dev/src/client/supervisor/supervisor.go",
+      "sha256": "02f2e917055ff2a35621e80b8cfa45cab1d5d9e174056aefa0bff6f60eb613b3",
+      "base_sha256": "02f2e917055ff2a35621e80b8cfa45cab1d5d9e174056aefa0bff6f60eb613b3",
+      "unchanged_from_R021": true
+    },
+    {
+      "path": "dev/src/client/supervisor/supervisor_test.go",
+      "sha256": "6a7f4c0bffa18900b98b6ed1ed40ce70ee019bf2b8052777c24b8440309d8831",
+      "base_sha256": "6a7f4c0bffa18900b98b6ed1ed40ce70ee019bf2b8052777c24b8440309d8831",
+      "unchanged_from_R021": true
+    },
+    {
+      "path": "dev/src/client/execution/gate.go",
+      "sha256": "df492f0599b8f6bdfca496289dd06a7258b96294cc371a439c9c6d15137b2b39",
+      "base_sha256": "df492f0599b8f6bdfca496289dd06a7258b96294cc371a439c9c6d15137b2b39",
+      "unchanged_from_R021": true
+    },
+    {
+      "path": "dev/src/client/execution/store.go",
+      "sha256": "4214defb085b70d53b4ae78e71a20d887be32d9b6eb91a6646eb46fde79f2e74",
+      "base_sha256": "4214defb085b70d53b4ae78e71a20d887be32d9b6eb91a6646eb46fde79f2e74",
+      "unchanged_from_R021": true
+    }
+  ],
+  "tool_sha256": "a3c5df73405d48a52d3888749b28139896cc4f6ab997383cc54c5f37b09dc040",
+  "limitation": "ErrShutdown cause remains unproven. No original timeout, assertion, SQLite durability or cleanup gate was relaxed; a later pass cannot erase the original failure."
+}

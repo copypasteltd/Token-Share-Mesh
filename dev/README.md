@@ -4,9 +4,9 @@ P11｜开发细则 v1.0｜DEV-ROOT｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 
 > 由 dev/planning/开发细则源数据.py 与既有技术契约生成；修改源后重建，不手改本文件。本套为冻结设计拆解：55 任务 DESIGN、DEV-55 DEFERRED；真实源码进展见 dev/progress/README.md，完整产品/设备/支付/密码/性能验收不能据此记为通过。
 
-## 当前源码阶段：R021
+## 当前源码阶段：R022
 
-R021推进可替换原生LLM：本机固定包/模型/模板与完整库白名单，C++ llama.cpp C API worker、Go InputAdapter、类型化P11_LLAMA_PIPE_1、三文本请求映射与真实tokenizer调用、独立取消、两个64KiB输出缓冲和同步后原owner清理；Windows实进程＋合成ABI与真实模型/GPU/LP/E2E资格分开。当前调用账户不是独立低权限服务，CLI执行关闭。所有56任务/222子项、80/96完整产品验收和历史风险继续开放，最终目标ACTIVE。
+R022实现原生文本结果的加密保管和三协议交付：原 Work/manifest 绑定、独立密钥与有界AES-GCM分帧、固定配额/保留期/撤权、原显卡清理与结果读取分离；Chat/Responses/Messages JSON/SSE、UTF-8拼接、停止原因/原停止词及有限写期限。PIPE_2补实际输入计数与停止序号。只覆盖PLAINTEXT/STANDARD源码子集，不等于E2E/LP、可信usage、最终ACK、正式SDK/真实模型GPU或资金验收；CLI执行仍关闭。所有56任务/222子项、80/96未执行及历史时序/媒体缺失限制保留，最终目标ACTIVE。
 
 [全部56任务与每轮证据](progress/README.md)；[本机使用与恢复](repository/USAGE.md)。
 

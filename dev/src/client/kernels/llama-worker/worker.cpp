@@ -1,4 +1,4 @@
-// P11_LLAMA_PIPE_1: native C API only; no HTTP/WebSocket server, shell, task
+// P11_LLAMA_PIPE_2: native C API only; no HTTP/WebSocket server, shell, task
 // paths, installation or model download. See the numbered kernel IPC appendix.
 #include "llama.h"
 #include <algorithm>
@@ -25,7 +25,7 @@
 #endif
 
 namespace {
-constexpr const char * profile = "P11_LLAMA_PIPE_1";
+constexpr const char * profile = "P11_LLAMA_PIPE_2";
 constexpr const char * commit = "8642541b255bfb5dc39cd351a178be09013a55d6";
 constexpr size_t max_frame = 65536, max_body = 512 * 1024;
 using bytes = std::vector<uint8_t>;
@@ -202,9 +202,12 @@ void emit(const std::string & id, uint32_t & seq, const char * data, size_t len)
 }
 // Retain only a possible stop-prefix suffix, so a stop string is never emitted
 // and there is no full-output accumulator. UTF-8 may span token byte chunks.
-bool emit_pending(const std::string & id, uint32_t & seq, std::string & pending, const std::vector<std::string> & stops) {
+bool emit_pending(const std::string & id, uint32_t & seq, std::string & pending, const std::vector<std::string> & stops, uint32_t & matched) {
     size_t found = std::string::npos;
-    for (const auto & stop : stops) found = std::min(found, pending.find(stop));
+    for (size_t i = 0; i < stops.size(); ++i) {
+        auto at = pending.find(stops[i]);
+        if (at < found) {found = at;matched = static_cast<uint32_t>(i);}
+    }
     if (found != std::string::npos) { emit(id, seq, pending.data(), found);wipe(pending);return true; }
     size_t keep = 0;
     for (const auto & stop : stops) {
@@ -219,7 +222,7 @@ bool emit_pending(const std::string & id, uint32_t & seq, std::string & pending,
 void run(api & a, llama_model * model, const config & c, const std::string & id, bytes & body) {
     request r;std::string prompt, pending;std::vector<llama_token> tokens;
     llama_context * ctx = nullptr;llama_sampler * sampler = nullptr;
-    uint32_t input_count = 0, output_count = 0, reason = 5, sequence = 0;
+    uint32_t input_count = 0, output_count = 0, reason = 5, sequence = 0, stop_index = UINT32_MAX;
     try {
         parse_request(body, r, c);
         if (aborted(nullptr)) {reason = 4;throw fault{};}
@@ -239,7 +242,7 @@ void run(api & a, llama_model * model, const config & c, const std::string & id,
         for (auto & s : r.roles) wipe(s);for (auto & s : r.texts) wipe(s);
     } catch (...) {
         wipe(body);wipe(prompt);wipe(tokens);r.clear();
-        bytes b;putstr(b, id);put32(b, input_count);put32(b, 0);put32(b, reason);put32(b, 1);send(132, b);return;
+        bytes b;putstr(b, id);put32(b, input_count);put32(b, 0);put32(b, reason);put32(b, 1);put32(b, UINT32_MAX);send(132, b);return;
     }
     // Roles/texts are wiped; only bounded stop strings remain for filtering.
     reason = 6;
@@ -271,7 +274,7 @@ void run(api & a, llama_model * model, const config & c, const std::string & id,
         }
         wipe(tokens);
         if (!aborted(nullptr)) {
-            bytes started;putstr(started, id);send(130, started);reason = 2;
+            bytes started;putstr(started, id);put32(started, input_count);send(130, started);reason = 2;
             for (uint32_t i = 0; i < r.max_output; ++i) {
                 if (aborted(nullptr)) {reason = 4;break;}
                 auto token = a.llama_sampler_sample(sampler, ctx, -1);
@@ -280,7 +283,7 @@ void run(api & a, llama_model * model, const config & c, const std::string & id,
                 int n = a.llama_token_to_piece(a.llama_model_get_vocab(model), token, piece, sizeof(piece), 0, true);
                 if (n < 0 || n > static_cast<int>(sizeof(piece))) throw fault{};
                 pending.append(piece, n);volatile char * clear_piece = piece;for (size_t j = 0; j < sizeof(piece); ++j) clear_piece[j] = 0;
-                if (emit_pending(id, sequence, pending, r.stops)) {reason = 3;break;}
+                if (emit_pending(id, sequence, pending, r.stops, stop_index)) {reason = 3;break;}
                 if (i + 1 < r.max_output) {
                     if (aborted(nullptr)) {reason = 4;break;}
                     auto batch = a.llama_batch_get_one(&token, 1);
@@ -298,7 +301,7 @@ void run(api & a, llama_model * model, const config & c, const std::string & id,
     if (ctx) {auto memory = a.llama_get_memory(ctx);if (memory) a.llama_memory_clear(memory, true);a.llama_free(ctx);}
     wipe(body);wipe(tokens);wipe(prompt);wipe(pending);r.clear();
     if (aborted(nullptr)) reason = 4;
-    bytes b;putstr(b, id);put32(b, input_count);put32(b, output_count);put32(b, reason);put32(b, 1);send(132, b);
+    bytes b;putstr(b, id);put32(b, input_count);put32(b, output_count);put32(b, reason);put32(b, 1);put32(b, reason == 3 ? stop_index : UINT32_MAX);send(132, b);
 }
 
 int main_impl(int argc, char ** argv) {

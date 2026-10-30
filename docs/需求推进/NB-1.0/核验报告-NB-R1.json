@@ -10,7 +10,7 @@
   "contract_gaps": 6,
   "referenced_original_requirements": 66,
   "referenced_development_tasks": 48,
-  "local_links_checked": 25,
+  "local_links_checked": 26,
   "broken_links": [],
   "examples_fen": {
     "gpu_half_hour_fen": 180,
@@ -53,7 +53,7 @@
     },
     {
       "path": "docs/需求推进/NB-1.0/06-需求追踪与验收矩阵.md",
-      "sha256": "fca930073e2e33182b9f80e323480c9cc0b97c49a66a318197aa7c345fb82f72"
+      "sha256": "98b0846ed20c2e53dead8dd311e9b2042fcbcd5dbcadee251f47904111ab5781"
     }
   ]
 }

@@ -3,11 +3,15 @@
 package llamaworker
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"io"
 	"os"
+	"p11.local/compute/client/protocol/textoutput"
+	"p11.local/compute/client/results"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -157,7 +161,7 @@ func TestNativeCAPISyntheticRoundTripStopAndModelReuse(t *testing.T) {
 		}
 		o := capiState(t, a, w, "STOPPED")
 		r, e := a.Result(w)
-		if e != nil || r.Reason != "stop" || r.InputTokens == 0 || r.OutputTokens != 10 {
+		if e != nil || r.Reason != "stop" || r.StopIndex != 0 || r.InputTokens == 0 || r.OutputTokens != 10 {
 			t.Fatal("synthetic tokenizer/sample counters mismatch")
 		}
 		if _, e = a.Cleanup(context.Background(), w, o); e != nil {
@@ -167,6 +171,150 @@ func TestNativeCAPISyntheticRoundTripStopAndModelReuse(t *testing.T) {
 	audit := capiAudit(t, c, "FREE_SYNTHETIC")
 	if strings.Count(audit, "MODEL_LOAD_SYNTHETIC") != 1 || strings.Count(audit, "FREE_SYNTHETIC") != 2 || strings.Contains(audit, "sensitive") {
 		t.Fatal("model reloaded or content logged")
+	}
+}
+
+type capiResultSink struct{ bytes.Buffer }
+
+func (s *capiResultSink) Write(ctx context.Context, b []byte) error {
+	if ctx.Err() != nil {
+		return ctx.Err()
+	}
+	_, e := s.Buffer.Write(b)
+	return e
+}
+
+func capiProtocolText(t *testing.T, p relay.Profile, stream bool, raw string) string {
+	t.Helper()
+	var text strings.Builder
+	decode := func(raw string) map[string]any {
+		var v map[string]any
+		if json.Unmarshal([]byte(raw), &v) != nil {
+			t.Fatal("invalid native protocol JSON")
+		}
+		return v
+	}
+	if stream {
+		for _, line := range strings.Split(raw, "\n") {
+			if !strings.HasPrefix(line, "data: ") || line == "data: [DONE]" {
+				continue
+			}
+			v := decode(strings.TrimPrefix(line, "data: "))
+			if p == relay.ChatText {
+				if choices, ok := v["choices"].([]any); ok && len(choices) == 1 {
+					choice, _ := choices[0].(map[string]any)
+					delta, _ := choice["delta"].(map[string]any)
+					if s, ok := delta["content"].(string); ok {
+						text.WriteString(s)
+					}
+				}
+			}
+			if p == relay.ResponsesText && v["type"] == "response.output_text.delta" {
+				s, _ := v["delta"].(string)
+				text.WriteString(s)
+			}
+			if p == relay.MessagesText && v["type"] == "content_block_delta" {
+				delta, _ := v["delta"].(map[string]any)
+				s, _ := delta["text"].(string)
+				text.WriteString(s)
+			}
+		}
+		return text.String()
+	}
+	v := decode(raw)
+	switch p {
+	case relay.ChatText:
+		choices, _ := v["choices"].([]any)
+		if len(choices) != 1 {
+			t.Fatal("missing native choice")
+		}
+		choice, _ := choices[0].(map[string]any)
+		message, _ := choice["message"].(map[string]any)
+		s, _ := message["content"].(string)
+		return s
+	case relay.ResponsesText:
+		items, _ := v["output"].([]any)
+		if len(items) != 1 {
+			t.Fatal("missing native item")
+		}
+		v, _ = items[0].(map[string]any)
+	}
+	content, _ := v["content"].([]any)
+	if len(content) != 1 {
+		t.Fatal("missing native text content")
+	}
+	part, _ := content[0].(map[string]any)
+	s, _ := part["text"].(string)
+	return s
+}
+
+func TestNativeCAPIEncryptedCustodyAndThreeProtocolDelivery(t *testing.T) {
+	c := capiPack(t)
+	a := capiOpen(t, c)
+	spool, e := results.Open(results.DefaultConfig(t.TempDir()))
+	if e != nil {
+		t.Fatal(e)
+	}
+	defer func() {
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+		if e := spool.Close(ctx); e != nil {
+			t.Error(e)
+		}
+	}()
+	custodian, e := results.New(a, spool)
+	if e != nil {
+		t.Fatal(e)
+	}
+	for _, p := range []relay.Profile{relay.ChatText, relay.ResponsesText, relay.MessagesText} {
+		for _, stream := range []bool{false, true} {
+			raw := `{"model":"public_model","messages":[{"role":"user","content":"synthetic input"}],"max_tokens":32,"stop":["unused","<END>"],"stream":STREAM}`
+			if p == relay.ResponsesText {
+				raw = `{"model":"public_model","input":"synthetic input","max_output_tokens":32,"store":false,"stream":STREAM}`
+			}
+			if p == relay.MessagesText {
+				raw = `{"model":"public_model","messages":[{"role":"user","content":"synthetic input"}],"max_tokens":32,"stop_sequences":["unused","<END>"],"stream":STREAM}`
+			}
+			flag := "false"
+			if stream {
+				flag = "true"
+			}
+			raw = strings.Replace(raw, "STREAM", flag, 1)
+			w, m, b := capiInput(c, raw)
+			w.RequestID = "custody_" + string(p) + "_" + flag
+			w.LocalGeneration = w.RequestID
+			m.Spec.Protocol = p
+			m.Spec.Stream = stream
+			ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+			if _, e = custodian.SubmitInput(ctx, w, m, b); e != nil {
+				cancel()
+				t.Fatal(e)
+			}
+			o := capiState(t, a, w, "STOPPED")
+			if _, e = custodian.Cleanup(ctx, w, o); e != nil {
+				cancel()
+				t.Fatal(e)
+			}
+			out, e := custodian.Output(ctx, w)
+			if e != nil {
+				cancel()
+				t.Fatal(e)
+			}
+			sink := &capiResultSink{}
+			receipt, e := textoutput.Render(ctx, sink, out, textoutput.DefaultLimits())
+			cancel()
+			want := "hello"
+			if p == relay.ResponsesText {
+				want = "hello<END>hidden"
+			}
+			if e != nil || receipt.Terminal != "COMPLETED" || capiProtocolText(t, p, stream, sink.String()) != want || receipt.InputTokens == 0 || receipt.OutputTokens == 0 {
+				t.Fatal("actual native -> ciphertext -> protocol failed", e)
+			}
+			if p == relay.MessagesText && (!strings.Contains(sink.String(), "stop_sequence") || !strings.Contains(sink.String(), "<END>") && !strings.Contains(sink.String(), `\u003cEND\u003e`)) {
+				t.Fatal("matched original second stop string lost")
+			}
+			clear(b)
+		}
 	}
 }
 

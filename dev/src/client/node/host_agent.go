@@ -14,6 +14,8 @@ import (
 )
 
 type PreparedExecution struct {
+	resultHold   execution.Hold
+	resultWatch  *supervisor.Supervisor
 	host         *Host
 	id           string
 	accepted     devicecontrol.AcceptedDelivery
@@ -235,6 +237,10 @@ func (p *PreparedExecution) Start(ctx context.Context, watch *supervisor.Supervi
 		return execution.Hold{}, e
 	}
 	hold, e := watch.SubmitInput(owned, p.id, p.accepted, p.body)
+	if hold.Owner() != "" {
+		p.resultHold = hold
+		p.resultWatch = watch
+	}
 	if e != nil {
 		return hold, e
 	}
@@ -247,4 +253,21 @@ func (p *PreparedExecution) Start(ctx context.Context, watch *supervisor.Supervi
 		return hold, e
 	}
 	return hold, nil
+}
+
+// Output reopens the same original result; it never calls Submit, renews a
+// lease or uses the next owner of the physical device. Host shutdown closes
+// admission; the caller must close the separate result store it owns as well.
+func (p *PreparedExecution) Output(ctx context.Context) (supervisor.TextOutput, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.closed || !p.used || p.resultWatch == nil {
+		return nil, ErrHostPolicy
+	}
+	owned, finish, e := p.host.beginWork(ctx, p.id)
+	if e != nil {
+		return nil, e
+	}
+	defer finish()
+	return p.resultWatch.Output(owned, p.resultHold, p.accepted)
 }

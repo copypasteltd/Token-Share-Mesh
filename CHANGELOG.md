@@ -1,5 +1,16 @@
 # Changelog
 
+## R022 native result custody and protocol output
+
+Original native output now moves into a separate AES-256-GCM result store before compute cleanup. Defaults reserve 16 × 8 MiB for five minutes. Synchronized original compute can release its GPU while its exact order/local-generation result remains readable. Process-only keys, one reader, reserved quotas and expiration bound custody; key loss or ambiguous submission never reruns inference. PIPE_2 adds actual input counts and the matched original stop index.
+
+An authorized original result renders OpenAI Chat, Responses or Anthropic Messages as JSON/SSE with UTF-8, usage options, stop semantics and bounded writes. Defaults are 512 KiB JSON and 64 KiB per event. Responses repeats final text and needs explicit capability budgeting before public activation; overflow cannot emit a false success tail. A local write Receipt is not buyer ACK, trusted usage or payment evidence.
+
+This is a PLAINTEXT/STANDARD source subset, not E2E/LP. Node CLI execution stays disabled. Seventeen new regular Go cases bring the manifest to 275; six separately tagged actual Windows worker/synthetic C ABI cases include encrypted custody and all three protocol outputs. Real models/GPUs, a separate execution identity, independent official SDK certification, public result transport, funds and full acceptance remain pending. The early supervisor shutdown timeout and first tagged failure are preserved; later passing runs do not resolve historical timing risks.
+
+[RC-001—060](docs/技术开发/附录-原生文本结果加密保管与标准协议交付.md) · [R022 evidence](dev/tests/evidence/R022-验证报告.md) · [All 56 tasks](dev/progress/R022-本轮实现与完整待办.md).
+
+
 ## R021 — Replaceable native LLM worker and bounded pipes
 
 - Add a frozen v0.8.0 llama.cpp C API worker and Go InputAdapter with independently approved pack/model/template/physical-resource hashes. Tasks cannot select local paths, shells or download URLs.

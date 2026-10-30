@@ -189,6 +189,10 @@ func (p *syntheticPipe) request(t *testing.T) (string, []byte) {
 	if e != nil || kind != kEnd || len(b) != 0 {
 		t.Fatal("missing body end")
 	}
+	var started encoder
+	started.str(id)
+	started.u32(12)
+	p.frame(kStarted, started.Bytes())
 	return id, body
 }
 func (p *syntheticPipe) done(id string, reason uint32) {
@@ -198,6 +202,7 @@ func (p *syntheticPipe) done(id string, reason uint32) {
 	b.u32(1)
 	b.u32(reason)
 	b.u32(1)
+	b.u32(supervisor.NoStopIndex)
 	p.frame(kDone, b.Bytes())
 }
 func awaitState(t *testing.T, a *Adapter, w supervisor.Work, state string) supervisor.Observation {
@@ -361,6 +366,42 @@ func TestNativePipeStaleCallbackCannotReleaseNextOwner(t *testing.T) {
 	o = awaitState(t, a, w, "UNKNOWN")
 	if _, e := a.Cleanup(context.Background(), w, o); e == nil {
 		t.Fatal("old native receipt released new owner")
+	}
+}
+
+func TestNativePipeRejectsMismatchedStartAndStopMetadata(t *testing.T) {
+	for _, attack := range []string{"input_count", "unknown_stop", "unexpected_stop"} {
+		t.Run(attack, func(t *testing.T) {
+			c, w, m, raw := textCase(relay.ChatText, chatRequest)
+			a, p := synthetic(t, c)
+			if _, e := a.SubmitInput(context.Background(), w, m, raw); e != nil {
+				t.Fatal(e)
+			}
+			id, body := p.request(t)
+			clear(body)
+			var end encoder
+			end.str(id)
+			input, reason, index := uint32(12), uint32(1), supervisor.NoStopIndex
+			switch attack {
+			case "input_count":
+				input++
+			case "unknown_stop":
+				reason = 3
+				index = 0
+			case "unexpected_stop":
+				index = 0
+			}
+			end.u32(input)
+			end.u32(1)
+			end.u32(reason)
+			end.u32(1)
+			end.u32(index)
+			p.frame(kDone, end.Bytes())
+			o := awaitState(t, a, w, "UNKNOWN")
+			if _, e := a.Cleanup(context.Background(), w, o); e == nil {
+				t.Fatal("inconsistent native metadata released original")
+			}
+		})
 	}
 }
 

@@ -17,7 +17,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R021', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021'])
+    parser.add_argument('--round', default='R022', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022'])
     round_id = parser.parse_args().round
     binary, env = environment()
     # Dependencies were fetched by the explicit toolchain/bootstrap step.
@@ -85,9 +85,9 @@ def main() -> int:
                 run(['build', '-trimpath', '-o', str(output), package], localenv)
                 report['artifacts'].append({'target': target + '-amd64', 'path': output.relative_to(ROOT).as_posix(), 'sha256': sha256(output), 'runtime_test': 'NOT_EXECUTED'})
 
-        if round_id == 'R021':
+        if round_id in {'R021','R022'}:
             cross = env.copy();cross['GOOS'] = 'linux'
-            run(['build','./client/adapters/llamaworker'],cross)
+            run(['build','./client/adapters/llamaworker','./client/results','./client/protocol/textoutput'],cross)
             report['native_adapter_linux_compile_only'] = True
 
         # Inspect packages actually compiled by this module and its tests.

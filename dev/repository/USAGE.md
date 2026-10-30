@@ -469,3 +469,15 @@ R016 adds original-call preparation: current scoped-key, original order and same
 Library sequence: create invocation.Service with an explicit database, payment environment, fingerprint version and key copies; call Prepare with the currently authenticated API-key principal, original request key and trusted native preflight fields; retain the original receipt or recover the exact request. Close clears the service-owned key copies. PrepareTx is SQL composition only, with caller-owned commit. Do not use its result as execution permission. No public endpoint or production fingerprint-secret loader is supplied yet.
 
 专项检查：`python -B -X utf8 dev/tools/原生数据库验证.py --round R016 --suite invocation`；完整回归移除`--suite invocation`。两者均使用本项目临时原生数据库并在结束关闭。
+
+## R022 源码使用顺序 / Source integration
+
+本轮把原生结果保管与显卡执行清理分开：一次原提交的输出先写入独立 AES-256-GCM 密文仓，默认 16 × 8 MiB、保留 5 分钟；原计算同步停止并清理后可释放显卡，旧结果仍按原订单/本地围栏读取。密钥只在进程中，单读者、定额预留、到期撤权；丢密钥或未知提交不重跑。管道升级 PIPE_2，补实际输入计数与原停止词序号。
+
+原结果可输出 OpenAI Chat、Responses、Anthropic Messages 的 JSON/SSE，保留 UTF-8、流式用量选项、停止原因和有界写入。默认 JSON 512 KiB、单事件 64 KiB；Responses 最终重复全文需要显式能力预算，超限拒绝成功尾，生产准入尚待接通。写出 Receipt 不是买家 ACK、可信 usage 或付款凭证。
+
+仅 PLAINTEXT/STANDARD 源码子集；本地密文不等于 E2E/LP。CLI 执行仍关闭。17 项新增常规 Go 用例，累计 275 项；另 6 项带标签的实际 Windows worker＋合成 C ABI 用例，包含密文保管到三协议的串联。真实模型/GPU/隔离身份、独立官方 SDK、外网结果通道、资金与完整验收仍待。早期监督器关闭超时和首轮 ABI 测试失败均留档；后续通过不能证明历史时序风险消除。
+
+[RC-001—060](../../docs/技术开发/附录-原生文本结果加密保管与标准协议交付.md) · [R022 证据](../tests/evidence/R022-验证报告.md) · [完整56任务](../progress/R022-本轮实现与完整待办.md)。
+
+`results.Open(new empty runtime directory) → results.New(approved native adapter, store) → trusted HostKernel → ticket.Start once → ticket.Output → textoutput.Render → close reader → Discard/retention → close owned store and native adapter`。这是可信源码嵌入顺序，不是已开放的 CLI/HTTP 推理入口；不得复制入站清单自批环境或权限。

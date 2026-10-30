@@ -1,0 +1,350 @@
+{
+  "round": "R022",
+  "recorded_at": "2026-10-30T21:20:45.237321+00:00",
+  "scope": "Go source/dependencies and native admin/API/node builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance",
+  "virtualization_used": false,
+  "checks": [
+    {
+      "command": [
+        "go",
+        "version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "mod",
+        "verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "vet",
+        "./..."
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "gofmt",
+        "-l",
+        "."
+      ],
+      "exit_code": 0,
+      "unformatted_files": []
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\bin\\p11-admin.exe",
+        "./api/cmd/p11-admin"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\bin\\p11-admin-linux-amd64",
+        "./api/cmd/p11-admin"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\bin\\p11-api.exe",
+        "./api/cmd/p11-api"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\bin\\p11-api-linux-amd64",
+        "./api/cmd/p11-api"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\bin\\p11-node.exe",
+        "./client/cmd/p11-node"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\bin\\p11-node-linux-amd64",
+        "./client/cmd/p11-node"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "build",
+        "./client/adapters/llamaworker",
+        "./client/results",
+        "./client/protocol/textoutput"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "go",
+        "list",
+        "-deps",
+        "-test",
+        "-json",
+        "./..."
+      ],
+      "exit_code": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "target": "windows-amd64",
+      "path": "runtime/bin/p11-admin.exe",
+      "sha256": "b1272daa2b2c45aeeea2ed03d40448b6145f052cc561397c0a4b123ee65ad93d",
+      "runtime_test": "NOT_EXECUTED"
+    },
+    {
+      "target": "linux-amd64",
+      "path": "runtime/bin/p11-admin-linux-amd64",
+      "sha256": "e0130bf0fee94f26c8008135f0b0457ea65ea6c3ea576c2290b74caa39ecffd2",
+      "runtime_test": "NOT_EXECUTED"
+    },
+    {
+      "target": "windows-amd64",
+      "path": "runtime/bin/p11-api.exe",
+      "sha256": "90d420c873d2581bfdb7330c09e780df47504df9c6134790a9c278feb078a658",
+      "runtime_test": "NOT_EXECUTED"
+    },
+    {
+      "target": "linux-amd64",
+      "path": "runtime/bin/p11-api-linux-amd64",
+      "sha256": "e9d5dc7f4beac98ebc9784d251222d5036470cc762e99c50285c2abbd2374829",
+      "runtime_test": "NOT_EXECUTED"
+    },
+    {
+      "target": "windows-amd64",
+      "path": "runtime/bin/p11-node.exe",
+      "sha256": "4b0ac437ea1f0ed1ca23548309182b7d3a124b82fe5451e954a25966a1332aae",
+      "runtime_test": "NOT_EXECUTED"
+    },
+    {
+      "target": "linux-amd64",
+      "path": "runtime/bin/p11-node-linux-amd64",
+      "sha256": "b032ccf5f0c9b7531c825a7c5505bfb616e4cb4f7d7c85ed775b3e52887f41ca",
+      "runtime_test": "NOT_EXECUTED"
+    }
+  ],
+  "go": "go version go1.27.3 windows/amd64",
+  "native_adapter_linux_compile_only": true,
+  "dependency_inventory": "dev/licenses/go-dependencies.json",
+  "source_sha256": {
+    "dev/src/api/cmd/p11-admin/main.go": "8d9bd431648f0b5a5ee5f00fe8f9c2f41f960df82f1a3248903ad2b00344fb52",
+    "dev/src/api/cmd/p11-api/claims.go": "1a8245b0e4432620a1afc01e1429ffcc5c0e425c57c07a76db3a590cd5b5ab19",
+    "dev/src/api/cmd/p11-api/claims_test.go": "b0d46aa56c0a966fb3735fe067024d607d142b0f5b1112b1947e17352a3311cd",
+    "dev/src/api/cmd/p11-api/delivery.go": "f15b24c254dcbc5d7b0211e18067eaecc6f3a4e1d3915d429c895959d78cc30b",
+    "dev/src/api/cmd/p11-api/delivery_test.go": "48593922329de8af78c7df8cdb821ad2129cc0a395b86f9b28932a794ea08554",
+    "dev/src/api/cmd/p11-api/main.go": "b6da9c6aeefd45615ec5705ddaa982d06a9762e634408fa5c9663cb84575afc5",
+    "dev/src/api/internal/http/claim.go": "b19d5c968d8373aa15d7e72f979229b1b7bc4b19da1dbeec241158172c4533bd",
+    "dev/src/api/internal/http/delivery.go": "1cb146d361e4a1394bb64146ffeaa8c6352654295dc2bd8be98ec07c0df38382",
+    "dev/src/api/internal/http/device.go": "66de6ebe5e8d94e38cec67f82e1e2cbc84fc6dea1364273329ab191b55935a67",
+    "dev/src/api/internal/http/limits.go": "a4c4bca1d8a79e2c15bc688b2cab9f7babdc8165f27f8cebbc99e62361eb4c1b",
+    "dev/src/api/internal/http/route_contracts.go": "70237547a0bb0857ea87090f15a283a7e43f1173fb5c0b9644c6f4a6c8ad1217",
+    "dev/src/api/internal/http/routes.go": "b66f04c4543424d82e51514fb6d52e3415631fe9fcea9b25d912858dafcd1333",
+    "dev/src/api/internal/http/routes.json": "38cf900d4ae4ef79088418a322106272dfa738e0592f32940a884e1210dd3dbc",
+    "dev/src/api/internal/http/seller.go": "19de5a045f59a397f1dcac5e0e63105951b6db7d99208bc9911575c991c9e0c9",
+    "dev/src/api/internal/http/server.go": "6e9939e7475faf843269ad638e040120e193247de4e37d0f21afb64c42a08526",
+    "dev/src/api/tests/device_http_test.go": "430f7174b78fd78dbd09a49ab24fc39ccc678a64795f0f95f8a7204af065fd21",
+    "dev/src/api/tests/execution_claim_http_test.go": "2e0ed77478177a0cdf0391476bf1713ff87d9e28fbf77d6d78a4cc6977f67db8",
+    "dev/src/api/tests/execution_delivery_http_test.go": "0c8d1b10d8e07bce6fdb36b561a45a3a605fc0583dd3d6d2acc357b7793a32a4",
+    "dev/src/api/tests/frontend_test.go": "5016782ae9a29caa31c1e138f3683962671b582799346fe89e782489706c8104",
+    "dev/src/api/tests/http_test.go": "134a351812e728576aba4e6a0e5f50d6526622d7643aa7c65a73a8e91e0251fb",
+    "dev/src/api/tests/native_node_windows_test.go": "f21e829baf626f4bb707c38f3577edd01fc03f13ec4e8dac00711b022706a0a0",
+    "dev/src/api/tests/route_contract_http_test.go": "c52398c481bb06b9b1fe15f54dc332954d55c1867a103d8f5a33a28ce5275ac9",
+    "dev/src/api/tests/seller_http_test.go": "c47e0c253b912c76725ccc3996a59914a37a31ae6be7ad1ae990f441993c7431",
+    "dev/src/client/adapters/llamaworker/adapter.go": "2eb492d8caf8340ed7368286c96f073baf646b7ab86f31703038d6b22d626c3c",
+    "dev/src/client/adapters/llamaworker/adapter_test.go": "3a0eb5f40b6760d2cba3d34cbb07f12da1e975997fa393de1bd8b463a7a86b31",
+    "dev/src/client/adapters/llamaworker/capi_fixture_test.go": "e5ef616ff19972ad9cbed0572c6e42c6b635480cb06d23d772baf3ab4eacbbb6",
+    "dev/src/client/adapters/llamaworker/config.go": "e7f6e553badbe852653945364e4ab4c4130940079ca9244e3a517124d52755ee",
+    "dev/src/client/adapters/llamaworker/input.go": "4daa5760f1bf2426553bf9bd0f881fb44eaa60278bf36e4c2c684326a048763d",
+    "dev/src/client/adapters/llamaworker/process.go": "45629fd32d7a8d2020db0d4a76bf60d4da25d4e753585c62a3b7e49df2bc5fae",
+    "dev/src/client/adapters/llamaworker/process_linux.go": "98ee8108f2469fe1ac3bde3f2599c302c51b8c263c736b725da06e7f14326ee2",
+    "dev/src/client/adapters/llamaworker/process_windows.go": "a11ddd5239ee94fa767237c0d9b4d3574349b71a4ffdf386be8268302a4d0198",
+    "dev/src/client/adapters/llamaworker/wire.go": "d15cf71d72f18c599fcdfae39839959fd65cfca3c8cf21e7b3d7cf3a4ad5aee0",
+    "dev/src/client/cmd/p11-node/main.go": "b7a7f44c786d81ab67d9345621f64653119d43de52ba97bea523ff60c1e49130",
+    "dev/src/client/cmd/p11-node/main_test.go": "51ef84a836dd995012c9699e5bfa6af8273215e4649b93268b47369aa8da9aab",
+    "dev/src/client/execution/activity.go": "24639925d26b633abcbdf2e11d9acd26207f04bc90d69a10f63060bb20c6c1df",
+    "dev/src/client/execution/command.go": "1bb94c1f200bb8f86e03df3b61ccdf56ecc66631ddacce2197f87206d1224fa4",
+    "dev/src/client/execution/deadline_test.go": "3a06104a7e55c979131b6be570fb80d888812cc651b3373381699d556f034a1a",
+    "dev/src/client/execution/gate.go": "df492f0599b8f6bdfca496289dd06a7258b96294cc371a439c9c6d15137b2b39",
+    "dev/src/client/execution/result_binding.go": "8957ac4cdecb23630a69b8f92d93bda5c01bc9e0539f0c8a7bfbeb924a5e1fc2",
+    "dev/src/client/execution/result_binding_test.go": "ccc65ffb641f5652a29602dc83bc4b130f9f3e63319564752b4579d1a8552b5e",
+    "dev/src/client/execution/schema.sql": "5fd81de895db1ab3c19ea49debadb93d644a721f0f755e89443f59777f396e87",
+    "dev/src/client/execution/store.go": "4214defb085b70d53b4ae78e71a20d887be32d9b6eb91a6646eb46fde79f2e74",
+    "dev/src/client/execution/store_test.go": "2b4a8962a13b6792fcadeaaf5dcca402b6f8a1b97aacee6e8b54cc245ebcd099",
+    "dev/src/client/kernels/llama-worker/dependencies.lock.json": "c3b66d0d10d1afd4a2b08259395afb8be1a211174c5ac3cb89ff0359e329ae7a",
+    "dev/src/client/node/control.go": "330fb28a858b2a647f552014e6ee5d4113a24d2f2a595f977af8062fbf6948da",
+    "dev/src/client/node/execution.go": "75850f6f2c3d0e71d84cb53cb6047e3f1d112a6a0e60b438872b23aa379da4a5",
+    "dev/src/client/node/execution_test.go": "a91ce3647e925dc3a0fa7f794cc4ae053bb5830866e47c7c16a9382f592d4f70",
+    "dev/src/client/node/host-schema.sql": "e5aacf3c66b5055834feee3b163ee13f1529074b449e2aeff136a541fb37248a",
+    "dev/src/client/node/host_agent.go": "661cb3ca5cd1fc4473e14cc4fa415a80e64de6e746ecb2ec39b0d04c069dc632",
+    "dev/src/client/node/host_commands.go": "04c1f254ef07de5db1a222fc87ca11df43f50a19fe1d7eae5d610a726f87b966",
+    "dev/src/client/node/host_kernels.go": "a4620298949fee60a22af8e263e4fba6faf1c3250f832c35ff429a15f20b03f2",
+    "dev/src/client/node/host_native_windows_test.go": "b4e350c5e7185645b9e4eb1adaf46fee9de2ea488285506a9eb913d246bf0c44",
+    "dev/src/client/node/host_policy.go": "a89c7665f28a85b08919ba07d72b04242c2ea68635f0eba649e4a3116dc0463a",
+    "dev/src/client/node/host_result_test.go": "f8bbb4bd663cc0ec21677edc82c6cfb9c7b4a5c63795ae7935ea73955a26e629",
+    "dev/src/client/node/host_store.go": "9b98b3aae352191d05dcccb675795349f573e393a9d33d5e0eb2ef8ec32c05df",
+    "dev/src/client/node/host_test.go": "de868f0a09deb1092f61cf7e35600cedea4fbd17d5129ce392655937127c55ce",
+    "dev/src/client/node/native_linux.go": "2c2ca11ea33475dd8f255244d1ce01890f9c4be91097954c2099403df17abecf",
+    "dev/src/client/node/native_windows.go": "80b548c16850a1d1ca358883beb04bccda064d3eb5d447d134df118d94805425",
+    "dev/src/client/node/native_windows_test.go": "4d0104cf70510f908473c9a0d0fbb0c8494ddba9f51d85ef247b77dd451a82b4",
+    "dev/src/client/node/node_test.go": "447ad2eb65ddaa864383e92fe9f7bc3e5cecc7b815f9bc9bcc3370ed4865378c",
+    "dev/src/client/node/secretservice.go": "762334ea0257127859438b21e58c52b5e57258502c56ce44452b54442d0b044e",
+    "dev/src/client/node/secretservice_test.go": "2d79a08469761d4cb21f94851b0f36ed5e2625f948470fc256389d8e2855c158",
+    "dev/src/client/node/store.go": "e870282096d16531acdc32cb7df0532af9504b7eef3e99f12861ccb3b539219f",
+    "dev/src/client/node/supervisor.go": "c1702777d1cda13149e8793c1922e86a3604bf4c53df6c0a89776b67a9360a9b",
+    "dev/src/client/node/supervisor_test.go": "7599e310b95fbda73c09323fab25f8efc0db0d539ab9fcae99554df544390ec5",
+    "dev/src/client/protocol/devicecontrol/claim.go": "d4bcb00459c83b783122cfe6ea95bd5d206cb43d2092f396df89d21a9d3a4df2",
+    "dev/src/client/protocol/devicecontrol/claim_test.go": "5c7ba3bd88048e47dfe7678c911f67487a4b0cda48103c738e0bbb4eff054314",
+    "dev/src/client/protocol/devicecontrol/client.go": "ebc34c9f90e865a53abfd694df960ebf2460e92c9bd122ce5da8f7692a870e2f",
+    "dev/src/client/protocol/devicecontrol/delivery.go": "7ca793f0df6b0fd5277460eae1fd668d043e6bb23205c31bd413bb5b7091f3ba",
+    "dev/src/client/protocol/devicecontrol/delivery_test.go": "93dc538d06548357debfbf9b9be480d39f3a018e0295057b036e8a0ac5e71e0c",
+    "dev/src/client/protocol/devicecontrol/enrollment.go": "4638e18d34d87f617ff7973b05afad6301270bfabea4788376695d3244ecf6b9",
+    "dev/src/client/protocol/devicecontrol/proof.go": "cd60cd9e3f91956ffc2af5482fc974a681bce4775ce63f6430847ec81765fe95",
+    "dev/src/client/protocol/devicecontrol/proof_test.go": "faf1de3eeedad62322f5e95033220400cd05ae1e219f6386f9ae749c76dc60cb",
+    "dev/src/client/protocol/devicecontrol/types.go": "a915bbe2a40de4d69a5bf0fbf642d042d80861f279833a9126e486f8c7e89354",
+    "dev/src/client/protocol/executionlease/lease.go": "a190f0b545e78ab1058b0a9f42996e81f21f3aa6c07962746c0757daafc274d0",
+    "dev/src/client/protocol/executionlease/lease_test.go": "8f4f2393a4a4a3e242d145fdb9b44685c962de826d7038fc2de94dc51250ad07",
+    "dev/src/client/protocol/executionlease/manifest.go": "66174d058eda052430ee6a13a7d2f692f3d6cb6f52f5f5f278dd9d8bae233d13",
+    "dev/src/client/protocol/textoutput/http_sink.go": "ddcb15982e8ac0a2e924e2d3d6376086e7b961fde34bab900f7dba065cda4aed",
+    "dev/src/client/protocol/textoutput/render.go": "ee36e7820ecf958bae475ff80780a5c5fc8b23c3ec3563dbbe4707c8d2d1fdac",
+    "dev/src/client/protocol/textoutput/render_test.go": "4dec80005e5a69c697f2c7d259cf122a576da135ff901fe5f7953e757b83bb84",
+    "dev/src/client/results/adapter.go": "6a5d07a37b95ebc893c32de338cfc568b272f5119974808f1aef3fbf360863ea",
+    "dev/src/client/results/results_test.go": "240346fc7db946292b42bcb301faa2ee1d0a760a95f69c9db5b284f06d0efc03",
+    "dev/src/client/results/store.go": "3d3137327ddbdc2977b4413f43384ec3dedee543035657f97a747d71fa245e7e",
+    "dev/src/client/results/view.go": "f257478da597b670400b1b6eda377003b74ae8051fc44568e14026bb20bfbb69",
+    "dev/src/client/supervisor/deadline_test.go": "e94ff949fff494b87a27ba3f193d20c9a9ae6a806078e4362bf4085a1740594b",
+    "dev/src/client/supervisor/registry_shutdown_test.go": "1fcdd5f1add7825c980d3f28982efd8b6f85d79f12d0a40ec7318366c3723ca8",
+    "dev/src/client/supervisor/snapshot_test.go": "8e964f54cadb369e452b33eb36f8dce8c6f2841f07237c44b80e716e116726af",
+    "dev/src/client/supervisor/supervisor.go": "02f2e917055ff2a35621e80b8cfa45cab1d5d9e174056aefa0bff6f60eb613b3",
+    "dev/src/client/supervisor/supervisor_test.go": "6a7f4c0bffa18900b98b6ed1ed40ce70ee019bf2b8052777c24b8440309d8831",
+    "dev/src/client/supervisor/text_output.go": "d9305ba71aacbe72fcc38f211b2dabba27448baefb6a5abed570a9c00439706b",
+    "dev/src/frontend/packages/core/package.json": "8ce61ff2e658a19fcf16344a8ad73a44ac1047eec291a3878ed16a20160f86b0",
+    "dev/src/frontend/packages/core/tsconfig.json": "f749beefcbf9e69f812c864c1d241e4881a95e2acb5c8da7456f141af6769c78",
+    "dev/src/gateway/core/core_test.go": "51c9314439f2f5643876687a1912276330de9a025aefdfbaafa57deb995fdae0",
+    "dev/src/gateway/core/http.go": "8b00e3628ecae827b6e7caa77ad18509a648f31f60a9858b7469c24a70226d94",
+    "dev/src/gateway/core/json.go": "788438a2eec39f9dd80bd4332183ade9e0bbb18dc7933d04143f3ded3859ae5f",
+    "dev/src/gateway/core/preflight.go": "3c7304d1d0b0d3dabdf362676867425bf678094bc4aebb0a2da43071e7b30053",
+    "dev/src/gateway/core/response.go": "69b5304be803e27b535e4e5d092d0346f0a7a15268a00a0769b4039715130261",
+    "dev/src/gateway/core/sse.go": "953e51b05824557b412ef2801672f07852d4e688a9406ffdd40c315321f6bde7",
+    "dev/src/gateway/core/types.go": "3e9de81bcd5f6a14baa53d9a6d64e9ce2616f2fe029ed8da8cd8e876c2f0d127",
+    "dev/src/go.mod": "c4207cdb5197d4da7a3461744cab0242017d0b7cc2ee5162818519479f9391c9",
+    "dev/src/go.sum": "fa598dfcfa69bbd0708d7e141b67a234fd34e53d9ade223987208a640bb28530",
+    "dev/src/internal/budget/budget.go": "8e823de6530ab2e6a0e7d5c33be34c6a2c9644fb3696edbfb08d535c787d1aa4",
+    "dev/src/internal/dispatch/device/auth.go": "b2392c5173e8eb2f9ebc4fa51ff4931542e36c8201e24feb6483cc61a0f579bb",
+    "dev/src/internal/dispatch/device/control.go": "a90d6118db021bb18b135ff759af9658defab3413d784dcb051256f29f2429a2",
+    "dev/src/internal/dispatch/device/service.go": "bb705bdf43fd78e2a1f01adf8a1e53a45ff831e6fdf4479a6690bf72ead3e004",
+    "dev/src/internal/dispatch/device/types.go": "c31b183b0b3603658eb51fa44e7d4f866325ce3dcec1e93f4f231cfbf57ae16a",
+    "dev/src/internal/identity/alipay.go": "13334df1b3fe008b724f5e7cc6143d6a61baf8b37ed225ca300fe3fd41dbb569",
+    "dev/src/internal/identity/alipay_test.go": "946d8713886569fd699d6a897e6e81ae4c40042400a2b033a59c6c22f39ab01b",
+    "dev/src/internal/identity/keys.go": "a659a23ff4a06dcf1ef24276c280d4493747e52ff9c3624afecf3f500879d809",
+    "dev/src/internal/identity/principal.go": "ff17594240afd18c5b7249cbf29d7947799cb5ad996995a528ca7e726b55128a",
+    "dev/src/internal/identity/roles.go": "b26d39046f645602bb3f6d19c2355c05d5ec2969ac83641c4bfc49819bd37eb7",
+    "dev/src/internal/identity/sessions.go": "f79d7761e237e5ef4050712dcc15bc525d8394ed2489fc428c2e66f418246f54",
+    "dev/src/internal/invocation/claim.go": "d25c63f5a7403dae83f8a262cd61dcfe69d76130596e0f3ea7f87ac7b93c40cd",
+    "dev/src/internal/invocation/delivery.go": "cab3f70c8ab0b40f2b95bcaf173bc4cf034d78ab90ae7fd8f395e3fd2e161df2",
+    "dev/src/internal/invocation/input.go": "580ce5476c1e15aa2b328385cf1c2ba7def0ef7776ab126a409f1a3ac6e1be11",
+    "dev/src/internal/invocation/issuer.go": "5d106fafab03c6c959c557f2f527a86dbcd1ea91a2b139aaa5beeaec6904c0c8",
+    "dev/src/internal/invocation/preparation.go": "6fd89a226c8fa28be342b9bb6dadc100d30c22086a0ab2052d7122140bcde439",
+    "dev/src/internal/market/catalog.go": "bac84b530887115645b2a77223fa6322b5546384704bd6e4287bb145f40c50ce",
+    "dev/src/internal/outbox/idempotency.go": "d93da2340bb2e2fe62a9774acd7a5371a7d154eda3fff780df1b7a841e20960f",
+    "dev/src/internal/outbox/jobs.go": "68ec8ceae5473e07ac85898f44e80a3b47bfe010e1c44283b3c10b6c90750a3d",
+    "dev/src/internal/persistence/database.go": "01fa79e0365c627a11be086a1b28330be944a9e5512c3f189c0a2b095b865f90",
+    "dev/src/internal/persistence/migrate.go": "9168bc5a188079e65c9cd03e7f376405c5c2f5b4800e8a21fbb6d4cbe741f372",
+    "dev/src/internal/persistence/migrations/001_domain.sql": "85da1d9b2d4948cca6f60c3a15bb3bdb03e4d2eb1ff1af6b14005588077faec5",
+    "dev/src/internal/persistence/migrations/002_nb_contract_guards.sql": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc",
+    "dev/src/internal/persistence/migrations/003_auth_sessions.sql": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+    "dev/src/internal/persistence/migrations/004_seller_listing_records.sql": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+    "dev/src/internal/persistence/migrations/005_device_identity_control.sql": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+    "dev/src/internal/persistence/migrations/006_order_budget_capacity.sql": "c4293dcaafbf9f4fe397d25cf593742621972b1b05cd4e08f58fd3cb7bfe24b1",
+    "dev/src/internal/persistence/migrations/007_confirmed_route_contracts.sql": "2b3406b5678ba6db23ae5c2845eb3b4bf76e36a259546ec673d99d8d1b0fede9",
+    "dev/src/internal/persistence/migrations/008_route_invocation_preparation.sql": "c63e4849bc23279f3fd0eca5ae866c2663482b1bf33a01165c6e0512b02fa375",
+    "dev/src/internal/persistence/migrations/009_native_input_execution_admission.sql": "5deaac9ff209ee108c379ce749e15b4666a3606b2f9bed6178241292060da871",
+    "dev/src/internal/persistence/migrations/010_native_lease_claim.sql": "6ca9ad4f6ef116975ab92015197330efde6f546ca33d4cb8527b419be7adc979",
+    "dev/src/internal/persistence/migrations/source-v1.json": "e4397e06bbd4e8b11e9236e90ef73ad8f9a21c5af5814203605c29956db2ee5f",
+    "dev/src/internal/persistence/migrations/source-v10.json": "48447ea361206dd346187686692f45209f5a74be49e3d89d13210b32de533f14",
+    "dev/src/internal/persistence/migrations/source-v2.json": "46d0775d8220bd5b2e46dc02dfbd5db54a8bce530d793063de208ddca4920b8a",
+    "dev/src/internal/persistence/migrations/source-v3.json": "fc0e57bc1e6418cd36253ce74f3a906a748a368857f503f8ebee24fe0df4e843",
+    "dev/src/internal/persistence/migrations/source-v4.json": "72a4468499135b28daa24cf4871fef0b8dd6ca01a253e64dd0a40a58e92f157b",
+    "dev/src/internal/persistence/migrations/source-v5.json": "3af95e6b7611acca3062007c769a1144e96a1e1322d446008ed8a6c14d57a791",
+    "dev/src/internal/persistence/migrations/source-v6.json": "405f743d322385230055a55744e718d15995c00f4440026f8c986893dc72fdd2",
+    "dev/src/internal/persistence/migrations/source-v7.json": "4071b5c3d8bd8dace016eb21b988e2ee54d5279d65fe1e328c8293d91ad73ca5",
+    "dev/src/internal/persistence/migrations/source-v8.json": "348e58e232b4b10e0f0972d4b78d9ef42a3e2c650d683da985b559af17a98468",
+    "dev/src/internal/persistence/migrations/source-v9.json": "59ad7afa68ef1ee8065c3d47d1693bf96de7a5551eac1d356dcd749f3dcfa71d",
+    "dev/src/internal/persistence/verify.go": "b82f5d48f750f4bf2581a82109ff7e8a0c0b230c31d2a24e62b076166b6906e4",
+    "dev/src/internal/pricing/price.go": "dbc41fda5d4264122a83cccc7e1541ae67659bca1cd6a56a2c30bfeaf01d7ddc",
+    "dev/src/internal/pricing/price_test.go": "3b55a39d42c84078a03cab4de39d019c0b333d1368fb8ff5eb66f326c23e4c9c",
+    "dev/src/internal/routecontract/service.go": "a60383628be7b46b124f162389773211548fe8cbc31c6ddd45f78f9e4c5f3162",
+    "dev/src/internal/seller/listings.go": "a92dc8d1f4261d9803e7f5176fdbaf14cca5250339b91ced3de81c2912214254",
+    "dev/src/internal/seller/service.go": "c584d60e47ceef31a7e1d90eca331942f9429dda8caa19060d0c994ff08c8a37",
+    "dev/src/internal/testsupport/market.go": "226aac7ba203029ae2f914c5257f3a8e99f426c3235e7e42bfb5b51087cc61d2",
+    "dev/src/internal/trade/service.go": "5e713f96e762b2030a71c66818af43de7f30faa9d7d6f83288c30d8d6597a703",
+    "dev/src/miniapp/package.json": "7d216d38c47b440bbd5d6d35004f031622d65de1c0c6119af73c864ca193de6c",
+    "dev/src/miniapp/tsconfig.json": "48ae8d82b53f2f8456f806db747c15438a48068dae6175bb5d3252cb437a8513",
+    "dev/src/package-lock.json": "a6f17613a51b1c937e3695a1435aa13074561d87b82abc9f95eec1fcdc9b469c",
+    "dev/src/package.json": "4132cba2024d27a822ce1708c4fba60b719d0472ca9cd816659c21f1974d60f0",
+    "dev/src/shared/clock/clock.go": "bf7e92ce34bb9ec185e24dc70e879758196b61b681ffd7d1c4240c141e029920",
+    "dev/src/shared/fault/fault.go": "ee6149dfece59b77425358db279f697576729d1ff042ff6a054292a1e192d862",
+    "dev/src/shared/ids/ids.go": "8fdabf0f57630a8290f8af4ea1fcd3566c6f963d9fd97b1d481807e97133ee45",
+    "dev/src/shared/money/money.go": "4af59f0f4fb60eb6f1c902239696937fe2ad7dd385b4519f2e7ebe8322b3669a",
+    "dev/src/shared/money/money_test.go": "4517182f43be1d1c2264b6da5666dcdab31cd2b48be7d57236bea3b1008ffc1a",
+    "dev/src/shared/strictjson/decode.go": "8acff8a90ff4f14950654e86c9b2f2e621cdfab1007207abf7859330972ab7cd",
+    "dev/src/shared/strictjson/decode_test.go": "43bd8d88e950f64bc07d4c82ff8544d93df5d48806a974492b5d1d929827d3f4",
+    "dev/src/shared/strictjson/exact_test.go": "b434d6fd7e622637d768e162614bc6744194585b6ba25cd10637a6ef2d5cceed",
+    "dev/src/tests/integration/budget_test.go": "6ce817715188f7f449bb2251100d7906cd61545ca0723d285b5faa6bacf1e6b4",
+    "dev/src/tests/integration/budget_upgrade_test.go": "3174920201e39cc36625480501d3fd9ebc277f4488d7d3c2d2407132702f74f8",
+    "dev/src/tests/integration/constraints_test.go": "cf0f6c3dd08940f7dfc665ccd3b5a8738d1ac74ad5bab684683c7ff79b661e6e",
+    "dev/src/tests/integration/core_test.go": "dd30fcfab0cf9a110a97ff19eed7735f04eb005c8273569651e17b1cd7fc8e05",
+    "dev/src/tests/integration/device_test.go": "88a68408a128e39e5d55ccdd57a68441b15e44cab986e1b3e535ecf1db2141db",
+    "dev/src/tests/integration/execution_admission_test.go": "6cee976ccc4891797a8be46a0d4f4638b93df098dd4311fdffa43137d4bfd97a",
+    "dev/src/tests/integration/execution_claim_test.go": "e625122956aba128c7847914de72de1ac83fe41edf1b6bd85c0135e182e66266",
+    "dev/src/tests/integration/execution_delivery_test.go": "31d6c8a19b81b51728cc24e6b316374db6ce83bed93415a374dabb48399670c2",
+    "dev/src/tests/integration/invocation_test.go": "ea7231bae33ce41ba285b74472e0ecafb095201dacf22577125d36cf8bd14a7f",
+    "dev/src/tests/integration/route_contract_test.go": "cdd6e680a6d47741c252e22543c7b802d287599303a83c459eb6631c8a2d380a",
+    "dev/src/tests/integration/route_upgrade_test.go": "d85b6f56941b291ab09f0e37f3c1ae521e9c7a427669b32f13726d7fa629848d",
+    "dev/src/tests/integration/seller_test.go": "c0425cbce89cdbcadbcafc3fd5265e53b517a6217595080232be9564b1d9aafa",
+    "dev/src/tests/integration/sessions_test.go": "6765857ee50c7211d01b53793a923bfd59be50ac9f5fbe25bc592582015fe152",
+    "dev/src/tests/integration/trade_test.go": "f861b6edbf99f1125c3d295adaa37de6c33eae786ee49d1bd34d3dc870d1f552",
+    "dev/src/tsconfig.base.json": "b3d536f8acd06d110b8d2b65d0c3508c40a9d83a255267783a3d83798e333e16",
+    "dev/src/web/package.json": "7f2b5495853e49eb2617a0f2f1eec2bad9a1643621b9d1d12fd99d6abcd541d3",
+    "dev/src/web/tsconfig.json": "3257a55885d326196dba74759ab1b0844b98ff9387ad102a731e1b3525bbc6ea"
+  },
+  "status": "PASSED_WITH_LIMITED_SCOPE"
+}

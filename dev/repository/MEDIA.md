@@ -108,3 +108,7 @@ Existing Web/Taro H5 pages are recaptured against the current native build. Nati
 The historical attempt 4/5 archiver omitted nested media directories. Exact original SHA-256 matches recovered 8/18 and 9/18 assets; all eight historical MP4/GIF files re-encoded from retained original frames match their original digests. Nineteen original PNG files are unavailable and individually listed. The final 14 frontend screenshots, four frontend MP4/GIF files and reader assets are complete. Missing historical files are not used as current verification evidence.
 
 [逐文件恢复与缺失清单](../tests/evidence/R020-historical-media-recovery.json)。今后归档以回执列出的全部嵌套路径及摘要逐件校验，归档完成后才允许覆盖当前输出。
+
+## R022 evidence scope
+
+当前双端产品截图/录屏/GIF与真实阅读页分别维护。它们展示 NB04 控制路径和本轮源码文档，不证明真实模型/GPU或完整推理/付款成功。结果安全/三协议交付见 [独立原生证据](../tests/evidence/R022-验证报告.md)，首轮 ABI 失败和源快照见 [留档](../tests/evidence/R022-capi-attempt1-archive.json)。

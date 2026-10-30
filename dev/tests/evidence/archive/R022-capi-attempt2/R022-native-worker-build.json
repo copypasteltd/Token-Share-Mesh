@@ -1,0 +1,27 @@
+{
+  "round": "R022",
+  "recorded_at": "2026-10-30T21:15:50.102977+00:00",
+  "virtualization_used": false,
+  "scope": "Windows native C API worker compilation; optional synthetic ABI fixture, not model/GPU/privacy acceptance",
+  "dependency_lock_sha256": "c3b66d0d10d1afd4a2b08259395afb8be1a211174c5ac3cb89ff0359e329ae7a",
+  "compiler_sha256": "f6599825884bd087a81ef01e7a662025a9553de01dc501c824b6c568aa4e5ec9",
+  "targets": [
+    {
+      "source": "dev/src/client/kernels/llama-worker/worker.cpp",
+      "source_sha256": "d00d848c1537bb55a01722dc8a771b72c2280d2a8ad8c8847b5b582e3389785a",
+      "output": "runtime/native-worker/build/p11-llama-worker.exe",
+      "returncode": 0,
+      "diagnostic": "",
+      "sha256": "0e35da25cbd7768d35e875b86e4a605c1c5218564f16b775e7daa8b3484d9410"
+    },
+    {
+      "source": "dev/tests/native-worker/fixture.cpp",
+      "source_sha256": "b04d37495138d27835764ae192dd9d7ee13722559d4f461704eaf1cba18d5070",
+      "output": "runtime/native-worker/build/fixture/llama-fixture.dll",
+      "returncode": 0,
+      "diagnostic": "",
+      "sha256": "9f6a86309d0dc71e04043753704b083c9dce606f281d972c023efa050bc95300"
+    }
+  ],
+  "passed": true
+}

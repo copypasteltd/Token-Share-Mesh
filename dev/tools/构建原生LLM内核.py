@@ -78,7 +78,7 @@ def main():
     targets = [(SOURCE / 'worker.cpp', out / 'p11-llama-worker.exe', [])]
     if args.fixture:
         targets.append((ROOT / 'dev/tests/native-worker/fixture.cpp', out / 'fixture/llama-fixture.dll', ['-shared']))
-    receipt = {'round': 'R021', 'recorded_at': datetime.now(timezone.utc).isoformat(), 'virtualization_used': False,
+    receipt = {'round': 'R022', 'recorded_at': datetime.now(timezone.utc).isoformat(), 'virtualization_used': False,
                'scope': 'Windows native C API worker compilation; optional synthetic ABI fixture, not model/GPU/privacy acceptance',
                'dependency_lock_sha256': sha(LOCK), 'compiler_sha256': sha(compiler), 'targets': []}
     for src, output, options in targets:
@@ -90,7 +90,7 @@ def main():
         else:
             break
     receipt['passed'] = all(t['returncode'] == 0 for t in receipt['targets'])
-    target = ROOT / 'dev/tests/evidence/R021-native-worker-build.json'
+    target = ROOT / 'dev/tests/evidence/R022-native-worker-build.json'
     target.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'passed': receipt['passed'], 'targets': len(receipt['targets']), 'receipt': str(target.relative_to(ROOT))}))
     return 0 if receipt['passed'] else 1

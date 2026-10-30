@@ -1,6 +1,6 @@
 # Native llama.cpp worker / 原生 LLM 内核
 
-`worker.cpp` implements the private `P11_LLAMA_PIPE_1` protocol over directed inherited pipes. It dynamically calls the frozen llama.cpp C API; it starts no content listener and executes no task-supplied command. The Go owner is [`adapters/llamaworker`](../../adapters/llamaworker/). The [42 numbered constraints](../../../../../docs/技术开发/附录-原生LLM受限管道与可替换worker.md) define authority, IPC, tokenizer, cancellation and acceptance boundaries.
+`worker.cpp` implements the private `P11_LLAMA_PIPE_2` protocol over directed inherited pipes. It dynamically calls the frozen llama.cpp C API; it starts no content listener and executes no task-supplied command. The Go owner is [`adapters/llamaworker`](../../adapters/llamaworker/). The [42 numbered constraints](../../../../../docs/技术开发/附录-原生LLM受限管道与可替换worker.md) define authority, IPC, tokenizer, cancellation and acceptance boundaries.
 
 本目录是原生内核源码，不供应真实 llama 动态库或模型。`dependencies.lock.json` 固定头文件和 Windows 原生编译器；构建缓存、第三方头文件、编译器、模型和临时文件都在忽略的 `runtime/`。第三方 MIT 文本见 [许可](../../../../licenses/llama.cpp-LICENSE)。
 
@@ -18,3 +18,5 @@ The first command explicitly prepares pinned native build inputs and compiles th
 Cancellation uses its own pipe. The worker waits for `llama_synchronize`, clears KV and frees per-task context before DONE. A process exit, timeout or kill leaves ambiguous work UNKNOWN. Cleanup additionally wipes the adapter-owned output and returns only the original request/backend/generation/manifest binding. Model weights may remain loaded; context/KV are not shared across buyers.
 
 当前进程使用调用者账户；Windows Job Object/匿名管道并不构成独立低权限服务或硬件保密。真实上游运行库/模型许可与ABI、具体GPU映射、显存/性能、三SDK输出/SSE/ACK、可信usage及长期宿主执行入口仍需实施与验收。更新任何原生内核必须重新锁定版本、包摘要和资格，不得热换DLL后继承旧批准。
+
+R022 adds actual input count to STARTED and the matched original stop index to DONE (UINT32_MAX otherwise). The result custodian drains into local encrypted storage before compute cleanup; [RC-001—060](../../../../../docs/技术开发/附录-原生文本结果加密保管与标准协议交付.md) covers its separate lifetime and three protocol renderers. This remains caller-account STANDARD code, not LP/E2E or real GPU qualification.
