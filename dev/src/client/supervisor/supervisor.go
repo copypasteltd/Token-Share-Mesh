@@ -405,11 +405,22 @@ func (s *Supervisor) sweep(ctx context.Context, shutdown bool) (bool, error) {
 		s.storageFailure(e)
 		return false, e
 	}
+	return len(activities) == 0, s.sweepActivities(ctx, meta, activities, shutdown)
+}
+
+func (s *Supervisor) sweepActivities(ctx, meta context.Context, activities []execution.Activity, shutdown bool) error {
 	for _, a := range activities {
 		if shutdown || s.closed.Load() {
-			if e = s.store.RequestStop(meta, a.Hold); e != nil {
+			if e := s.store.RequestStop(meta, a.Hold); e != nil {
+				// Cleanup may finish after Activities took this snapshot. Its
+				// owner CAS correctly refuses the stale hold; a later sweep
+				// reads current state. Never stop a replacement owner or turn
+				// this expected race into a failed shutdown/storage fault.
+				if errors.Is(e, execution.ErrFence) {
+					continue
+				}
 				s.storageFailure(e)
-				return false, e
+				return e
 			}
 			a.Authorized = false
 		}
@@ -431,7 +442,7 @@ func (s *Supervisor) sweep(ctx context.Context, shutdown bool) (bool, error) {
 			go func() { defer release(); s.reconcile(run, a, b) }()
 		}
 	}
-	return len(activities) == 0, nil
+	return nil
 }
 
 // Run is single-use. Polling never renews a lease. Shutdown closes admission,

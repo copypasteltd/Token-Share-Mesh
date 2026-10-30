@@ -1,5 +1,20 @@
 # Usage / 使用指南
 
+## R012 relay embedding / 转发核使用
+
+Run the native protocol tests from the clone root:
+
+```powershell
+python -B -X utf8 dev/tools/原生开发.py test -count=1 ./gateway/core
+```
+
+Production embedding supplies an independently resolved immutable Binding, a durable current-route/funding/owner Authorizer and seller-scoped SecretSource to core.New. Forward returns submission/protocol facts; ServeHTTP is available only to that trusted host. The writer must support read/write deadlines and flush. Close the owned core/server after use. No inference command/listener or permissive admission is installed by the current CLI.
+
+先完成路由确认/预算及执行授权，再让可信生产端口授予原调用一次提交权；SDK只用标准model/正文与本站认证，不填卖家或后端私有字段。未知网络结果查原调用，不能再次Admit重跑。当前只有明确合成夹具可运行测试，不是付费服务启动说明。
+
+三档都是同方言受限文本，Responses必须store=false、Messages固定2026-10-21；未支持字段先拒绝。STANDARD平台明文与未来E2E_BASIC卖方解密域分开配置；没有内容加密接线。详见[完整字段、流状态与时限](../../docs/技术开发/附录-固定路由协议转发核心实施细则.md)。
+
+
 ## R011 supervisor integration / 执行监督接入
 
 Use the trusted Go embedding API only: explicitly initialize the registered node execution ledger, construct node.NewSupervisor with exact environment/capability/manifest adapters, start node.RunSupervised and wait for Ready before Submit. Keep the original OS lock until RunSupervised returns. Pending control commands and DRAINING/REVOKED state latch new admission closed while original-owner query/stop/cleanup remains available. No CLI task input, trust-key installation or engine configuration is enabled.

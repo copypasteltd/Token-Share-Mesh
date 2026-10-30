@@ -20006,11 +20006,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "6a224e3b80294ee2f8b586a746218c7578663393c3ef7ab340caa2aa22624841"
+      "sha256": "fd0942433f96541852629b38056de7c5101ac63c48bd78539367c153a81e1910"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "75f220c8b13af39b9caabd54f48750e29ea678759054a91ecd607b5449744911"
+      "sha256": "17fb2f030890b17ed11bc2347f00b5334f8dd85463c221ec082845b1aee03f37"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20054,7 +20054,7 @@
     },
     {
       "path": "docs/技术开发/07-统一协议网关与Sub2API改造.md",
-      "sha256": "f2943a1f7ca34b36e705fa3ac96547d0104760b0f86b1b2c0159e2c28567f86e"
+      "sha256": "fa62d783f3c08635c612e4e20cbde96c77a5f82fcc6f97c2e7d2ca3acb184293"
     },
     {
       "path": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",

@@ -19,13 +19,13 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 22 in progress · 32 not started · 1 conditional · 1 deferred |
-| Latest source round | R011 · PASSED_FOR_CONTROL_SERVICES_ONLY |
-| Native test evidence | 113 passed · control services scope only |
+| Implementation tasks | 25 in progress · 29 not started · 1 conditional · 1 deferred |
+| Latest source round | R012 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 134 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
-R011 adds a running native supervisor: exact frozen adapter bindings, one-shot submit, original-request query recovery, expiry/rollback cancellation, stopped-backend cleanup retries and bounded shutdown. node.NewSupervisor/RunSupervised binds the same OS lock and couples control drain/revocation to recovery. There are 113 local Go cases, including 21 new supervisor/control cases; adapters remain explicit synthetic metadata fixtures, not real GPU engines or file/key cleanup. Both current browser/native-CLI journeys are rerun, and 21 TS cases/three frontend builds are rerun after fixing provider-profile loading during original-request recovery. The API stays 31/93 operations and 65 platform tables; migrations 001–005 are unchanged. See [native evidence](dev/tests/evidence/R011-验证报告.md), [frontend evidence](dev/tests/evidence/R011-frontend-checks.json), [supervisor constraints](docs/技术开发/附录-原生执行监督与后端恢复实施细则.md) and [all 56 tasks/222 pending steps](dev/progress/README.md).
+R012 adds a fixed-seller/contract/route native text relay for Chat Completions, stateless Responses and Messages JSON/SSE subsets. It validates exact fields, separate stream terminals, scoped headers/secrets, no retry and bounded cancellation/deadlines/backpressure. Twenty-one new Go cases (20 relay and one supervisor regression) bring the total to 134, using owned loopback synthetic backends and explicit admission/secret fixtures. No paid inference listener, production route/funding gate, SDK certification, real engine stop, billable usage or content E2E is claimed. Unchanged 21-case TS/three-target build receipts are reused only after source/output/log hash checks; both browser journeys rerun against the current Windows node binary. A deterministic regression fixes stale post-cleanup snapshots being reported as failed shutdowns, without touching replacement owners. The API remains 31/93 operations, 65 platform tables and byte-identical migrations 001–005. See [source evidence](dev/tests/evidence/R012-验证报告.md), [frontend evidence](dev/tests/evidence/R012-frontend-checks.json), [BRC-001–024](docs/技术开发/附录-固定路由协议转发核心实施细则.md) and [all 56 tasks/222 pending steps](dev/progress/README.md).
 
 The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_rate for TOKEN_1M. Each rate has an integer numerator in fen and a positive denominator, together with fee ownership, commission and rounding versions. At 360 fen/hour, 30 minutes costs at most 180 fen; 1M input at 80 fen/M plus 0.25M output at 160 fen/M totals 120 fen. Quotes freeze seller, environment, policy, rates and budget. Creating an order rechecks admission and atomically writes WAITING_PAYMENT, quote consumption, consent audit and outbox. It does not pay, lock a GPU or execute work. A 350 fen/hour rate cannot be rounded into the legacy integer-fen/minute column.
 
@@ -61,17 +61,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R011/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R012/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R011/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R012/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R011/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R012/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R011/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R011/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R012/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R012/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R011/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R012/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R011/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R011/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R011/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R011/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R012/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R012/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R012/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R012/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 

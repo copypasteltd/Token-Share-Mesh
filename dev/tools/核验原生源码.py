@@ -17,7 +17,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R011', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011'])
+    parser.add_argument('--round', default='R011', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012'])
     round_id = parser.parse_args().round
     binary, env = environment()
     # Dependencies were fetched by the explicit toolchain/bootstrap step.
@@ -41,7 +41,9 @@ def main() -> int:
         result = subprocess.run(
             [str(binary), *args], cwd=source, env=variables or env,
             capture_output=True, text=True, encoding='utf-8', errors='replace',
-            timeout=180,
+            # SQLite's locked source module is large; verify hashes locally
+            # without network resolution, allowing a busy Windows disk to finish.
+            timeout=600 if args[:2] == ['mod','verify'] else 180,
             creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
         )
         report['checks'].append({'command': ['go', *args], 'exit_code': result.returncode})

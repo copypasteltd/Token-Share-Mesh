@@ -24,3 +24,5 @@ links resolve from the repository root after generation. Run
 `python -X utf8 dev/tools/构建仓库文档.py` to refresh both public READMEs together.
 
 两份 `.md.in` 为人工维护源，链接以生成后的仓库根为基准。不要只改单语输出；通过生成器同时刷新两种语言及真实进度统计。
+
+[R012 fixed-route relay / 固定路由协议核](../../docs/技术开发/附录-固定路由协议转发核心实施细则.md) · [source / 源码](../src/gateway/core/README.md)：三种原生文本子集及生产端口/SDK/硬件/E2E剩余门槛。

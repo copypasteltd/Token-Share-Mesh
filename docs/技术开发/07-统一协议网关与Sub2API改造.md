@@ -141,3 +141,7 @@ BuyerGateway与SellerGateway使用相同协议语义和受限转换规则，平�
 JSON_COMPAT、BINARY_STREAM_1和LOCAL_SEGMENTED_1分层，由[技术08](08-端到端加密协议与密钥实现设计.md)定义；新增二进制channel协商/Schema未完成不能在现有帧通道偷换。请求HEADERS、响应status/允许头、DATA、USAGE、ERROR、END/CANCEL的内容都在认证密文内；跨DATA的SSE/UTF-8/工具增量保持原语义，不逐token签名。END使用库TAG_FINAL并核标准终态，起流后认证失败不能伪造成功事件。
 
 重连只补传持久原密文；接收可从头认证但不得重复交已输出前缀。SDK HTTP断开如实报错，不再次购买/推理。计算资源清理释放后原结果按原attempt/token和交付scope继续，不能因新resource_generation丢失合法交付，也不能用交付scope提交新模型任务。
+
+## R012源码边界更新
+
+已实现dev/src/gateway/core独立Sub2API类转发库，无复制Sub2API源码/新Go依赖；固定同卖家合同及精确后端，三个原生文本JSON/SSE子集，生产Authorizer/SecretSource必须显式实现。详见[BRC-001—024](附录-固定路由协议转发核心实施细则.md)。尚未挂载模型路由，支付/预算/Lease原子准入、原backend持久恢复、跨方言、工具、媒体及E2E接线仍待；原11市场profile及FW01—FW22不因此转为发布/完整验收通过。

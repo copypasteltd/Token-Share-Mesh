@@ -1,5 +1,16 @@
 # Changelog
 
+## R012 — Bound native protocol relay
+
+- Fix a cleanup/sweep race: an already-completed owner snapshot is skipped on its rejected owner CAS, preserving replacement owners and real cleanup gates.
+
+- Add immutable seller/contract/route bindings and three native text JSON/SSE profiles with exact field, Unicode and header validation.
+- Validate independent Chat, Responses and Messages lifecycles, including Responses text integrity; never invent completion or usage.
+- Require explicit trusted admission/secret ports, separate plaintext domains, disable proxies/redirects/rotation/POST replay and bound cancellation, deadlines and backpressure.
+- Add 21 Go cases (20 relay and one supervisor regression; 134 total) with owned native loopback backends and explicit authority fixtures; no production funding, SDK certification, physical engine stop or content E2E claim.
+- Rerun both browser/current Windows-node journeys; reuse unchanged 21-case TS/three-target builds only after source/output/log hash checks. Update BRC-001–024, bilingual READMEs, actual media and all 56 tasks/222 pending steps.
+- Keep 31/93 operations, 65 platform tables, byte-identical migrations 001–005 and deferred deployment/observability; no local virtualization.
+
 ## R011 — Native execution supervisor and original-backend recovery
 
 - Add a running, bounded metadata supervisor with frozen environment/capability/manifest bindings, original one-shot submit/query, deadline/cancellation handling, stopped-backend cleanup retries and conservative shutdown.

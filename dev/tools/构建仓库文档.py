@@ -5,7 +5,7 @@ import argparse
 from collections import Counter
 import json
 from pathlib import Path
-from 整理原生验证证据 import R003_CASES, R004_CASES, R005_CASES, R006_CASES, R007_CASES, R008_CASES, R009_CASES, R010_CASES, R011_CASES
+from 整理原生验证证据 import R003_CASES, R004_CASES, R005_CASES, R006_CASES, R007_CASES, R008_CASES, R009_CASES, R010_CASES, R011_CASES, R012_CASES
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -18,21 +18,21 @@ def outputs():
     latest = progress['rounds'][-1]
     if len(progress['tasks']) != 56 or len({t['id'] for t in progress['tasks']}) != 56:
         raise ValueError('完整56任务登记缺失')
-    expected={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES,'R011':R011_CASES}[progress['round']]
-    if native['status'] != 'PASSED_FOR_CONTROL_SERVICES_ONLY' or native['passed_cases'] != len(expected) or native['round']!=progress['round']:
+    expected={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES,'R011':R011_CASES,'R012':R012_CASES}[progress['round']]
+    if native['status'] != ('PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY' if progress['round']=='R012' else 'PASSED_FOR_CONTROL_SERVICES_ONLY') or native['passed_cases'] != len(expected) or native['round']!=progress['round']:
         raise ValueError('当前实际用例登记与README声明不一致')
     common = [
         f"{len(plan['modules'])} modules / {len(plan['tasks'])} tasks / {sum(len(t['steps']) for t in plan['tasks'])} steps / {len(plan['constraints'])} constraints",
         f"{counts['IN_PROGRESS']} in progress · {counts['NOT_STARTED']} not started · {counts['CONDITIONAL']} conditional · {counts['DEFERRED']} deferred",
         latest['id'] + ' · ' + latest['verification_status'],
-        str(native['passed_cases']) + ' passed · control services scope only',
+        str(native['passed_cases']) + (' passed · control/native/relay source subsets only' if progress['round']=='R012' else ' passed · control services scope only'),
         '80 NOT_EXECUTED',
         progress['goal_status'],
     ]
     chinese = [
         f"{len(plan['modules'])}模块 / {len(plan['tasks'])}任务 / {sum(len(t['steps']) for t in plan['tasks'])}子项 / {len(plan['constraints'])}约束",
         f"{counts['IN_PROGRESS']}项进行中 · {counts['NOT_STARTED']}项待开发 · {counts['CONDITIONAL']}项条件能力 · {counts['DEFERRED']}项延后",
-        common[2], str(native['passed_cases'])+'项通过，仅控制应用服务范围', '80项全部未执行', progress['goal_status'],
+        common[2], str(native['passed_cases'])+('项通过，仅控制/原生/转发源码子集' if progress['round']=='R012' else '项通过，仅控制应用服务范围'), '80项全部未执行', progress['goal_status'],
     ]
     files = {}
     for language, filename, values, labels in [

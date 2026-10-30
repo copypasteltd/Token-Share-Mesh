@@ -19,13 +19,13 @@ Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 
 | 项目 | 证据/状态 |
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
-| 实施任务 | 22项进行中 · 32项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R011 · PASSED_FOR_CONTROL_SERVICES_ONLY |
-| 原生测试证据 | 113项通过，仅控制应用服务范围 |
+| 实施任务 | 25项进行中 · 29项待开发 · 1项条件能力 · 1项延后 |
+| 最新源码轮次 | R012 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| 原生测试证据 | 134项通过，仅控制/原生/转发源码子集 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
-R011新增运行中的原生执行监督：精确后端绑定、一次提交、原请求查询恢复、到期/回拨取消、停算确认后的清理重试与有界退出。node.NewSupervisor/RunSupervised保持同一OS锁，将控制停止/撤销与旧任务恢复联动。当前113项Go局部用例，新增21项监督/控制用例；后端仍是明确合成元数据适配器，不冒充真实GPU停算或客户文件/密钥清理。双端浏览器/Windows命令本轮重跑，恢复请求期间进入提供方页面的加载时序已修复，21项TS/三目标构建本轮重跑。平台仍31/93操作、65表，001—005原字节不变。见[原生证据](dev/tests/evidence/R011-验证报告.md)、[前端证据](dev/tests/evidence/R011-frontend-checks.json)、[监督细则](docs/技术开发/附录-原生执行监督与后端恢复实施细则.md)和[全部56任务/222子项](dev/progress/README.md)。
+R012新增固定卖家/合同/路由的原生文本转发核：Chat Completions、无状态Responses和Messages三种JSON/SSE子集，精确字段校验、独立流终态、受限头/凭据、无重试和有界取消/截止/背压。新增21项Go用例（20项转发与1项监督竞态），累计134项；只用原生loopback合成后端与显式准入/凭据夹具，不发布付费模型入口，不代表真实SDK/内核停算/计费或内容E2E通过。前端21项TS/三目标构建按原字节摘要复核复用，双端浏览器和当前Windows节点命令重新运行。另修复清理后旧快照误判退出失败的竞态，原owner围栏与下一使用者不受影响。平台31/93操作、65表及001—005字节保持。见[本轮源码证据](dev/tests/evidence/R012-验证报告.md)、[双端证据](dev/tests/evidence/R012-frontend-checks.json)、[BRC-001—024细则](docs/技术开发/附录-固定路由协议转发核心实施细则.md)和[全部56任务/222子项](dev/progress/README.md)。
 
 新价合同把AVAILABLE_HOUR的hour_rate，或TOKEN_1M的input_rate/output_rate明确分开；每项均含整数分子/正整数分母、费用承担、佣金和取整版。360分/小时的30分钟最坏180分；80分/M输入加160分/M输出，1M输入与0.25M输出共120分。报价冻结卖家、环境、政策、价格及预算，建单复核后只进入WAITING_PAYMENT；订单、报价消费、同意审计和outbox同事务。它不代表已支付、已锁GPU或已执行。350分/小时不能舍入写进旧整数分/分钟列。
 
@@ -61,17 +61,17 @@ SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，�
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R011/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R012/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R011/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R012/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R011/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R012/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R011/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R011/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R012/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R012/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R011/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R012/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R011/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R011/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R011/recordings/web-transaction.gif) · [订单待确认](dev/media/R011/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R012/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R012/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R012/recordings/web-transaction.gif) · [订单待确认](dev/media/R012/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 

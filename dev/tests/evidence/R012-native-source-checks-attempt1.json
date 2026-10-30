@@ -1,0 +1,19 @@
+{
+  "round": "R012",
+  "recorded_at": "2026-10-30T05:50:05.550957+00:00",
+  "scope": "Go source/dependencies and native admin/API/node builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance",
+  "virtualization_used": false,
+  "checks": [
+    {
+      "command": [
+        "go",
+        "version"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "artifacts": [],
+  "go": "go version go1.27.3 windows/amd64",
+  "status": "FAILED",
+  "error_type": "TimeoutExpired"
+}

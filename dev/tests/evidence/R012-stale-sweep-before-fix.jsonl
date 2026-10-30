@@ -1,0 +1,9 @@
+{"Time":"2026-10-30T14:08:51.9687212+08:00","Action":"start","Package":"p11.local/compute/client/supervisor"}
+{"Time":"2026-10-30T14:08:53.8363883+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner"}
+{"Time":"2026-10-30T14:08:53.8369065+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner","Output":"=== RUN   TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:08:53.8720709+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner","Output":"    snapshot_test.go:46: completed owner treated as a shutdown/storage failure execution owner, generation or command does not match\n","OutputType":"error"}
+{"Time":"2026-10-30T14:08:53.8953924+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner","Output":"--- FAIL: TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner (0.06s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:08:53.8953924+08:00","Action":"fail","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorStaleSweepAfterCleanupDoesNotFailOrTouchNextOwner","Elapsed":0.06}
+{"Time":"2026-10-30T14:08:53.8953924+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"FAIL\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:08:53.9431201+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"FAIL\tp11.local/compute/client/supervisor\t1.974s\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:08:53.9436286+08:00","Action":"fail","Package":"p11.local/compute/client/supervisor","Elapsed":1.975}

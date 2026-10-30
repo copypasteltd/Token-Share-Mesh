@@ -1,0 +1,80 @@
+{
+  "round": "R012",
+  "kind": "OBSERVED_SUMMARIES_WITH_HASH_BOUND_NATIVE_FAILURE_LOGS",
+  "recorded_at": "2026-10-30T05:56:31.434258+00:00",
+  "attempts": [
+    {
+      "id": "R012-ATTEMPT-001",
+      "tool_session": 60650,
+      "exit_code": 1,
+      "result": "TEST_TIMEOUT",
+      "scope": "targeted gateway/core test, 60s suite timeout",
+      "test": "TestRelayCancellationRevocationAndHardDeadlineReachUpstream/caller",
+      "observed": "httptest.Server blocked in Close after 5 seconds; test timed out after 1m0s",
+      "cause": "Synthetic upstream waited on request cancellation without first consuming its POST body; the connection reader did not observe peer close.",
+      "correction": "Consume the fixture request body before waiting, keep the one-second cancellation assertion, and add a two-second fixture exit guard.",
+      "classification": "test fixture; does not claim a GPU cancellation result"
+    },
+    {
+      "id": "R012-ATTEMPT-002",
+      "tool_session": 13534,
+      "exit_code": 1,
+      "result": "TEST_TIMEOUT",
+      "scope": "targeted gateway/core test, 30s suite timeout",
+      "test": "TestRelayActualHTTPIngressAndOwnedServerClosure",
+      "observed": "Client transport awaited its deliberately unfinished io.Pipe writer during error return.",
+      "correction": "Use an actual owned TCP client with an incomplete Content-Length body and a one-second socket deadline; assert that the server itself exits before that bound without submitting.",
+      "classification": "test client fixture; inbound server read deadline remains required"
+    },
+    {
+      "id": "R012-ATTEMPT-003",
+      "tool_session": 99890,
+      "exit_code": 1,
+      "result": "VERIFICATION_TOOL_TIMEOUT",
+      "scope": "go mod verify, 180s wrapper limit",
+      "observed": "TimeoutExpired before a dependency verification conclusion.",
+      "correction": "Keep GOPROXY=off and full module verification, allow 600s for this specific large local hash scan.",
+      "evidence": "dev/tests/evidence/R012-native-source-checks-attempt1.json",
+      "sha256": "d3b5e9b0c660c1aafcee16da660a377e8e3e47ec0fd10278ad0fbf6bcf033952"
+    },
+    {
+      "id": "R012-ATTEMPT-004",
+      "result": "FULL_SUITE_FAILED",
+      "test": "TestNodeControlDrainStopsSupervisedOriginalOwner",
+      "database_run": "20261030T060139Z-14fbb732",
+      "scope": "First complete suite; both browser journeys and all 20 new relay cases passed, original control-stop case failed. Native PostgreSQL stopped.",
+      "cause": "Activities snapshot can outlive a concurrently successful FinishCleanup. RequestStop correctly returns ErrFence for the old owner, but sweep propagated it as a failed shutdown.",
+      "proof": "Deterministic test reproduces ErrFence before the fix without changing timing limits.",
+      "correction": "Skip only stale owner ErrFence during snapshot processing; later sweep reads current owner. Other storage errors still fail closed and no replacement owner is stopped.",
+      "evidence": [
+        {
+          "path": "dev/tests/evidence/R012-native-go-tests-attempt1.jsonl",
+          "sha256": "edbb460e3efaaa8b94020bd5294eb44bccdf86862c3e877989e19005b4e20719"
+        },
+        {
+          "path": "dev/tests/evidence/R012-native-summary-attempt1.json",
+          "sha256": "af69dbdb06add0cb4af9f69138f8298bb8c89d5f0f34c1738eadc8b0733fb55b"
+        },
+        {
+          "path": "dev/tests/evidence/R012-native-source-checks-before-supervisor-fix.json",
+          "sha256": "61140c6cc791780d2cf630759b6100e362edb4dcd1292b5644a312f37a8fd52f"
+        },
+        {
+          "path": "dev/tests/evidence/R012-stale-sweep-before-fix.jsonl",
+          "sha256": "8bd039f2a88cdd53afe68fa26a68db9091b78c25ddf3ed26d05518e87e34454c"
+        }
+      ]
+    },
+    {
+      "id": "R012-ATTEMPT-005",
+      "result": "TARGETED_PARALLEL_PACKAGE_FAILURE",
+      "test": "TestSupervisorRealDeadlineInterruptsPendingSubmission",
+      "cause": "The ad hoc targeted command omitted the full harness package serialization (-p=1). Its signed 150ms live lease expired before submission under concurrent package work; the newly added stale-snapshot regression passed.",
+      "correction": "Run these native metadata/real-deadline tests with the existing full-harness -p=1 package isolation. Keep the actual 150ms signed deadline and all resource safety checks unchanged.",
+      "evidence": "dev/tests/evidence/R012-targeted-after-fix-attempt1.jsonl",
+      "sha256": "3f59d4becb9deabed98b19946ec0cc076185902ebb869a57815163b0f38a7a8c"
+    }
+  ],
+  "limits": "Summaries preserve observed failed tool outputs; no raw JSONL was captured for these targeted runs. No failure is presented as a passed run. Full final suite evidence is separate.",
+  "virtualization_used": false
+}
