@@ -47,19 +47,27 @@ func (q Queue) Enqueue(ctx context.Context, tx pgx.Tx, kind, target, dedupe stri
 	}
 	return id, err
 }
+
+// Claim handles only this queue's allowlisted metadata kinds. Initial lease
+// delivery intents use their own authenticated consumer and must not be claimed,
+// completed or marked DEAD by a generic metadata worker.
 func (q Queue) Claim(ctx context.Context, limit int, ttl time.Duration) ([]Job, error) {
+	claimKinds := make([]string, 0, len(kinds))
+	for kind := range kinds {
+		claimKinds = append(claimKinds, kind)
+	}
 	jobs := []Job{}
 	if q.DB == nil || q.MaxTries < 1 || q.MaxTries > 20 || limit < 1 || limit > 100 || ttl < time.Second || ttl > 5*time.Minute {
 		return nil, fault.New(fault.Invalid, "Invalid job claim policy")
 	}
 	err := q.DB.Transaction(ctx, pgx.ReadCommitted, func(tx pgx.Tx) error {
-		_, err := tx.Exec(ctx, `UPDATE p11.durable_jobs SET state='DEAD',claimed_until=NULL,last_safe_error='CLAIM_EXHAUSTED' WHERE tries>=$1 AND (state='PENDING' OR (state='CLAIMED' AND claimed_until<=clock_timestamp()))`, q.MaxTries)
+		_, err := tx.Exec(ctx, `UPDATE p11.durable_jobs SET state='DEAD',claimed_until=NULL,last_safe_error='CLAIM_EXHAUSTED' WHERE kind=ANY($2::text[]) AND tries>=$1 AND (state='PENDING' OR (state='CLAIMED' AND claimed_until<=clock_timestamp()))`, q.MaxTries, claimKinds)
 		if err != nil {
 			return err
 		}
 		rows, err := tx.Query(ctx, `WITH candidates AS (
-SELECT id FROM p11.durable_jobs WHERE tries<$1 AND ((state='PENDING' AND run_at<=clock_timestamp()) OR (state='CLAIMED' AND claimed_until<=clock_timestamp())) ORDER BY run_at,id LIMIT $2 FOR UPDATE SKIP LOCKED)
-UPDATE p11.durable_jobs j SET state='CLAIMED',claim_generation=claim_generation+1,claimed_until=clock_timestamp()+$3::interval,tries=tries+1 FROM candidates c WHERE j.id=c.id RETURNING j.id,j.kind,j.target_ref,j.claim_generation,j.tries,j.claimed_until`, q.MaxTries, limit, fmt.Sprintf("%f seconds", ttl.Seconds()))
+SELECT id FROM p11.durable_jobs WHERE kind=ANY($4::text[]) AND tries<$1 AND ((state='PENDING' AND run_at<=clock_timestamp()) OR (state='CLAIMED' AND claimed_until<=clock_timestamp())) ORDER BY run_at,id LIMIT $2 FOR UPDATE SKIP LOCKED)
+UPDATE p11.durable_jobs j SET state='CLAIMED',claim_generation=claim_generation+1,claimed_until=clock_timestamp()+$3::interval,tries=tries+1 FROM candidates c WHERE j.id=c.id RETURNING j.id,j.kind,j.target_ref,j.claim_generation,j.tries,j.claimed_until`, q.MaxTries, limit, fmt.Sprintf("%f seconds", ttl.Seconds()), claimKinds)
 		if err != nil {
 			return err
 		}

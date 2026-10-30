@@ -1,7 +1,7 @@
 {
-  "version": "P11_CONTROL_HTTP_R015",
+  "version": "P11_CONTROL_HTTP_R018",
   "base_path": "/v1/p11",
-  "scope": "34 explicit control operations including confirmed original-order route configuration; no public inference listener, payment execution or execution grant",
+  "scope": "35 explicit control operations including signed native original-lease claims; no public inference listener, execution ACK, input download, usage or payment execution",
   "operations": [
     {
       "operation_id": "createAuthChallenge",
@@ -239,6 +239,13 @@
       "method": "GET",
       "path": "/route-contracts/{route_id}",
       "handler": "getRouteContract",
+      "anonymous": false
+    },
+    {
+      "operation_id": "claimLease",
+      "method": "POST",
+      "path": "/runner/leases/claim",
+      "handler": "claimLease",
       "anonymous": false
     }
   ]

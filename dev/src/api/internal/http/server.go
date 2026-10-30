@@ -18,6 +18,7 @@ import (
 	"p11.local/compute/client/protocol/devicecontrol"
 	"p11.local/compute/internal/dispatch/device"
 	"p11.local/compute/internal/identity"
+	"p11.local/compute/internal/invocation"
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/routecontract"
 	"p11.local/compute/internal/seller"
@@ -44,6 +45,7 @@ type Config struct {
 	Trade                            trade.Service
 	Seller                           seller.Service
 	Devices                          device.Service
+	Claims                           *invocation.Claims
 	Routes                           routecontract.Service
 }
 type Server struct {

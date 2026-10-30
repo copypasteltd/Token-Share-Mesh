@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 170,
+  "catalog_statements": 176,
   "base_table_count": 60,
   "tables": [
     {
@@ -6998,6 +6998,84 @@
           "type": "jsonb",
           "constraints": [],
           "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
+        },
+        {
+          "name": "claim_profile",
+          "sql": "claim_profile p11.entity_id NOT NULL DEFAULT 'UNBOUND_CLAIM'",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "claim_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'UNBOUND_CLAIM'",
+              "columns": [
+                "claim_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/010_native_lease_claim.sql"
+        },
+        {
+          "name": "claim_device_id",
+          "sql": "claim_device_id p11.entity_id REFERENCES p11.devices (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.devices (id)",
+              "columns": [
+                "claim_device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "devices",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/010_native_lease_claim.sql"
+        },
+        {
+          "name": "claim_key_digest",
+          "sql": "claim_key_digest p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/010_native_lease_claim.sql"
+        },
+        {
+          "name": "claim_request_digest",
+          "sql": "claim_request_digest p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/010_native_lease_claim.sql"
+        },
+        {
+          "name": "claim_device_version",
+          "sql": "claim_device_version integer",
+          "type": "integer",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/010_native_lease_claim.sql"
+        },
+        {
+          "name": "claimed_at",
+          "sql": "claimed_at timestamptz",
+          "type": "timestamptz",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/010_native_lease_claim.sql"
         }
       ],
       "constraints": [
@@ -7052,10 +7130,19 @@
           "columns": [],
           "deferrable": false,
           "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "native_claim_shape",
+          "sql": "CONSTRAINT native_claim_shape CHECK ((claim_profile = 'UNBOUND_CLAIM' AND claim_device_id IS NULL AND claim_key_digest IS NULL AND claim_request_digest IS NULL AND claim_device_version IS NULL AND claimed_at IS NULL) OR (claim_profile = 'P11_NATIVE_LEASE_CLAIM_1' AND admission_profile = 'P11_NATIVE_TEXT_ADMISSION_1' AND claim_device_id IS NOT NULL AND claim_key_digest IS NOT NULL AND claim_request_digest IS NOT NULL AND claim_device_version IS NOT NULL AND claim_device_version > 0 AND claim_device_version < 2147483647 AND claimed_at IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
       ],
       "alter_sources": [
-        "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
+        "docs/技术开发/database/migrations/009_native_input_execution_admission.sql",
+        "docs/技术开发/database/migrations/010_native_lease_claim.sql"
       ]
     },
     {
@@ -17481,6 +17568,21 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "execution_leases",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.devices (id)",
+      "columns": [
+        "claim_device_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "devices",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -17585,6 +17687,12 @@
       "table": "jobs",
       "unique": true,
       "sql": "CREATE UNIQUE INDEX native_input_bound_once ON p11.jobs (input_asset_id) WHERE input_asset_id IS NOT NULL"
+    },
+    {
+      "name": "native_claim_original_key",
+      "table": "execution_leases",
+      "unique": true,
+      "sql": "CREATE UNIQUE INDEX native_claim_original_key ON p11.execution_leases (claim_device_id, claim_key_digest) WHERE claim_profile = 'P11_NATIVE_LEASE_CLAIM_1'"
     }
   ],
   "forward_migrations": [
@@ -17712,6 +17820,20 @@
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateTrigStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/010_native_lease_claim.sql",
+      "source_sha256": "6ca9ad4f6ef116975ab92015197330efde6f546ca33d4cb8527b419be7adc979",
+      "statement_count": 6,
+      "statement_types": [
+        "AlterTableStmt",
+        "IndexStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
         "CreateTrigStmt"
       ],
       "runtime_validation_in_this_build": "NOT_EXECUTED"

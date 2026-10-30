@@ -711,7 +711,7 @@ VALUES($1,$2,$3,1,$4,1,clock_timestamp()-interval '1 minute',clock_timestamp()-i
 	}
 	var profile, signature string
 	var absent bool
-	if err = local.Pool.QueryRow(ctx, `SELECT a.input_profile,l.admission_profile='UNBOUND_LEASE' AND l.issuer_key_id IS NULL AND l.execution_manifest IS NULL AND a.input_ciphertext IS NULL AND a.input_key_version IS NULL AND j.input_asset_id IS NULL,l.signature
+	if err = local.Pool.QueryRow(ctx, `SELECT a.input_profile,l.admission_profile='UNBOUND_LEASE' AND l.claim_profile='UNBOUND_CLAIM' AND l.claim_device_id IS NULL AND l.claim_key_digest IS NULL AND l.claim_request_digest IS NULL AND l.claim_device_version IS NULL AND l.claimed_at IS NULL AND l.issuer_key_id IS NULL AND l.execution_manifest IS NULL AND a.input_ciphertext IS NULL AND a.input_key_version IS NULL AND j.input_asset_id IS NULL,l.signature
 FROM p11.assets a JOIN p11.jobs j ON j.id=a.job_id JOIN p11.execution_leases l ON l.job_id=j.id WHERE a.id=$1`, asset).Scan(&profile, &absent, &signature); err != nil || profile != "UNBOUND_ASSET" || !absent || signature != "RETAINED_ORIGINAL_SIGNATURE" {
 		t.Fatal(profile, absent, signature, err)
 	}

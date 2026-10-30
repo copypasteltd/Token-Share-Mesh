@@ -7,7 +7,7 @@
   "requirements": 80,
   "control_operations": 93,
   "sql_tables": 65,
-  "reader_sources": 52,
-  "reader_sections": 513,
-  "reader_bytes": 1380688
+  "reader_sources": 53,
+  "reader_sections": 528,
+  "reader_bytes": 1430701
 }

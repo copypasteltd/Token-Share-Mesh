@@ -1,0 +1,167 @@
+{
+  "round": "R018",
+  "scope": "development attempts; never replace full current-source evidence",
+  "attempts": [
+    {
+      "id": "claim-attempt1",
+      "result": "16_TOP_LEVEL_CASES_PASSED_LIMITED_SCOPE",
+      "reason": "Initial claim subset passed; subsequent source review moved device SHARE acquisition after the original order and catalog locks to prevent queued-writer lock inversion. Final full run must include explicit lock-order regression.",
+      "files": [
+        {
+          "path": "dev/tests/evidence/R018-claim-attempt1-native-go-tests.jsonl",
+          "sha256": "35bdec923fa319be845651e36c33a06dcd640408f872dbf65ee15ee375618052"
+        },
+        {
+          "path": "dev/tests/evidence/R018-claim-attempt1-native-summary.json",
+          "sha256": "7d73f09f604190629fb413a0c00d5e9f8b5a3bc548589c45c6acd30fb3609611"
+        }
+      ]
+    },
+    {
+      "id": "full-attempt1",
+      "result": "221_PASSED_1_FAILED",
+      "failed_case": "TestDurableJobsFenceStaleClaimsAndBoundRetries",
+      "proven_cause": "The generic metadata queue claimed an earlier DELIVER_EXECUTION_LEASE task created by API fixtures instead of its own QUERY_PAYMENT task. Queue.Claim did not restrict kinds even though Queue.Enqueue did. The correction confines claim and exhausted-job updates to supported metadata kinds, with an additional no-mutation assertion for unsupported delivery tasks. No task is erased or falsely completed to make tests pass.",
+      "additional_review_fix": "Serialize the same device/original claim key before candidate lookup so simultaneous requests across capabilities cannot race the durable unique binding. Add an actual advisory-lock/current-version test branch.",
+      "files": [
+        {
+          "path": "dev/tests/evidence/R018-full-attempt1-claim-native-go-tests.jsonl",
+          "sha256": "35bdec923fa319be845651e36c33a06dcd640408f872dbf65ee15ee375618052"
+        },
+        {
+          "path": "dev/tests/evidence/R018-full-attempt1-claim-native-summary.json",
+          "sha256": "7d73f09f604190629fb413a0c00d5e9f8b5a3bc548589c45c6acd30fb3609611"
+        },
+        {
+          "path": "dev/tests/evidence/R018-full-attempt1-miniapp-browser.json",
+          "sha256": "8434dcc8e27c511ffe116f8ce8dd5c272535c3587e3069cb4f2ba4893cfdcf8f"
+        },
+        {
+          "path": "dev/tests/evidence/R018-full-attempt1-native-go-tests.jsonl",
+          "sha256": "a0079d3e984b83a667aecc864095e8eec0fca006ffb72ca8026611731e9acd70"
+        },
+        {
+          "path": "dev/tests/evidence/R018-full-attempt1-native-source-checks.json",
+          "sha256": "ba5fd3796f3db83b40e2cf2f9886962d132e6c677ece5ab6fa3c02f941474663"
+        },
+        {
+          "path": "dev/tests/evidence/R018-full-attempt1-native-summary.json",
+          "sha256": "16ca20ee524211a236ad0f2e99613759ed642a121dc103aabdfaf9ab8e6a71e5"
+        },
+        {
+          "path": "dev/tests/evidence/R018-full-attempt1-web-browser.json",
+          "sha256": "c72bf116ad8e1567b59084c8d0130a3478649e6b12a31d74d6d5e9cdfa57ec19"
+        },
+        {
+          "original_path": "dev/media/R018/recordings/miniapp-transaction.gif",
+          "path": "dev/media/R018-full-attempt1/recordings/miniapp-transaction.gif",
+          "sha256": "47005011eb9d5dcbb9c34e7bfb623b272e5c9b77b0f6dfcf5854a24b14f7c7a3"
+        },
+        {
+          "original_path": "dev/media/R018/recordings/miniapp-transaction.mp4",
+          "path": "dev/media/R018-full-attempt1/recordings/miniapp-transaction.mp4",
+          "sha256": "32122be8f98219948c9259668919be1f390bc5ce1dc2ac560b5afd55f10e2bbc"
+        },
+        {
+          "original_path": "dev/media/R018/recordings/web-transaction.gif",
+          "path": "dev/media/R018-full-attempt1/recordings/web-transaction.gif",
+          "sha256": "98800fb9b87271df150258b918270336977eff83ffb58c8222ed011ed1a7ccbf"
+        },
+        {
+          "original_path": "dev/media/R018/recordings/web-transaction.mp4",
+          "path": "dev/media/R018-full-attempt1/recordings/web-transaction.mp4",
+          "sha256": "db5a032a9a53393bbc43018b065fda1ae8970a9368468d6155e981250b8f5bd3"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/miniapp-llm-detail.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/miniapp-llm-detail.png",
+          "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/miniapp-market.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/miniapp-market.png",
+          "sha256": "ab86d4a243bddd441325a19e1e580641bc45a6eecb0bcbf90d5b6576141ef9d4"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/miniapp-order-pending.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/miniapp-order-pending.png",
+          "sha256": "9e5fa49e98d2c3ba08b59c4045742f2fcc90f8b10e32dc883144bf536d869843"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/miniapp-order.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/miniapp-order.png",
+          "sha256": "180a4c0e695640cc1268ad5ed383dfe45c78d167c9813fe1e765fb9b8065dc39"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/miniapp-provider-conditions.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/miniapp-provider-conditions.png",
+          "sha256": "0c3fba4e775219820dce22d91b5732f917777db756da376356576e4b6d9bc60a"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/miniapp-provider-revoked.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/miniapp-provider-revoked.png",
+          "sha256": "c1f2f8ba54b2130e060f7ec2b6d9f819d0a129ec1f6d38d1ed947fe2d8f02f3b"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/miniapp-share.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/miniapp-share.png",
+          "sha256": "3ea3483d974ebb3a96afe92cc243651688349c4ac219a1552d6973e549057411"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/web-llm-detail.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/web-llm-detail.png",
+          "sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/web-market.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/web-market.png",
+          "sha256": "5750e504e6e8b3cf0c5f95068abaccc573e0a159ebd45336151ea4ac830912e9"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/web-order-pending.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/web-order-pending.png",
+          "sha256": "21b6466060dac1578a4e12b54d1068e1d464a74fb124cb5a2797b2a846ce99d1"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/web-order.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/web-order.png",
+          "sha256": "6b64ab390c2ee1c57d52325943363f241f86921a1e610896538a1b30a4ee490c"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/web-provider-conditions.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/web-provider-conditions.png",
+          "sha256": "edec89384f2bdfbda53baa321baa276772bedce172f158ecae95512338cf9c85"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/web-provider-revoked.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/web-provider-revoked.png",
+          "sha256": "216e52be5f5b3388e5c6e148c9a253243831999638bfa4a2d58b0750ffef5ce5"
+        },
+        {
+          "original_path": "dev/media/R018/screenshots/web-share.png",
+          "path": "dev/media/R018-full-attempt1/screenshots/web-share.png",
+          "sha256": "bdd8411947077e4e162fc35b830580560664da0776037195c51208c2eb39e1c9"
+        }
+      ]
+    }
+  ],
+  "inherited_open_risk": "R016 first full run shutdown timing failure has no proven root cause; later passes do not close it.",
+  "documentation_draft_check": {
+    "result": "FAILED_MISSING_ROUND_OUTPUT_LINKS",
+    "reason": "Document check was run before actual round report and progress attachments existed; final check must run after generating those outputs. This is not an application runtime result.",
+    "missing": [
+      "dev/tests/evidence/R018-验证报告.md",
+      "dev/progress/R018-本轮实现与完整待办.md"
+    ]
+  },
+  "current_full_run": {
+    "result": "222_PASSED_0_FAILED",
+    "run_id": "20261030T132833Z-b7ca9565",
+    "evidence": [
+      "dev/tests/evidence/R018-native-go-tests.jsonl",
+      "dev/tests/evidence/R018-native-summary.json",
+      "dev/tests/evidence/R018-native-source-checks.json"
+    ],
+    "prior_failure_retained": true
+  }
+}

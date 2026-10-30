@@ -256,7 +256,7 @@ def make_schemas() -> dict:
         ["dispute_id", "order_id", "version", "state", "reason_code", "evidence_refs", "updated_at"])
     s["AppealWrite"] = obj({"expected_version": VERSION, "reason_code": ID,
         "statement": {"type": "string", "minLength": 1, "maxLength": 4000}, "new_evidence_refs": arr(ID, 20)})
-    s["LeaseClaimWrite"] = obj({"device_id": ID, "capability_id": ID, "claim_key": ID, "expected_device_version": VERSION})
+    s["LeaseClaimWrite"] = obj({"device_id": ID, "capability_id": ID, "claim_key": {**ID, "minLength":8, "description":"先持久保存的原领取命令ID；必须与Idempotency-Key完全一致；丢回执复用原值，不作lease ID或新轮询键。"}, "expected_device_version": {**VERSION,"maximum":2147483646}})
     s["Lease"] = obj({"lease_id": ID, "job_id": ID, "attempt_id": ID, "order_id": ID, "seller_id": ID, "device_id": ID,
         "resource_id": ID, "resource_lock_generation": COUNTER,
         "capability_id": ID, "execution_manifest_ref": ID, "execution_manifest_hash": HASH,
@@ -529,6 +529,9 @@ def make_openapi() -> dict:
     add("get", "/disputes/{dispute_id}", "getDispute", "AfterSales", "限权读取本人争议进度", "Dispute", scopes=("dispute:read",))
     add("post", "/disputes/{dispute_id}/appeals", "createAppeal", "AfterSales", "按资格申请争议复核", "Dispute", "AppealWrite", ("dispute:appeal",))
     add("post", "/runner/leases/claim", "claimLease", "Runner", "本设备领取当前签名执行租约", "Lease", "LeaseClaimWrite", ("device:execute",))
+    paths["/runner/leases/claim"]["post"]["description"] = "仅原生ED25519_DEVICE_1签名证明，不接受本人会话或SDK key代领。claim_key与Idempotency-Key相同；同原键固定原租约，撤权/过期/owner变化后拒绝交付。领取只记录投递意图，不等于设备ACK、模型执行或计费。"
+    paths["/runner/leases/claim"]["post"]["security"] = [{"BearerAuth": []}]
+    paths["/runner/leases/claim"]["post"].pop("x-browser-csrf", None)
     for suffix, operation, request in [("progress", "recordAttemptProgress", "ProgressWrite"),
         ("deliveries", "registerAttemptDelivery", "DeliveryWrite"), ("usage", "recordAttemptUsage", "TokenUsageWrite"),
         ("cleanup", "recordAttemptCleanup", "CleanupWrite")]:

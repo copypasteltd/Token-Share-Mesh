@@ -8,6 +8,14 @@
 
 Token Share Mesh connects buyers with people voluntarily offering idle Windows/Linux GPUs, Android devices, or explicitly authorized upstream AI capacity. The seller sets availability and price and remains the seller of record. The platform provides discovery, contracts, routing, scheduling and transaction evidence, and charges a disclosed fee.
 
+## R018 · 原设备签名领取 / Native original-lease claim
+
+R018 adds authenticated native delivery of the original signed lease: 35/93 registered control operations and 65 tables / 664 columns / 113 foreign keys. Only the original device proof can claim; its original command ID equals Idempotency-Key and is permanently bound to the same lease by forward migration 010 with one atomic safe event. Every recovery rechecks the original scoped buyer key/route, order and same-payment funds, eligibility, full existing hold, encrypted input metadata, physical owner, both fences and unchanged expiry. The delivery service has explicit public verifiers only: it cannot decrypt, issue, renew, reassign, ACK execution, complete delivery tasks or bill. Generic metadata workers can claim or exhaust only their supported kinds, leaving execution-delivery intents untouched. Independent device pins/approved plans, input/manifest transport, durable host execution commands, real kernels/usage/channel, E2E/LP/PE and rental remain open. Published 001–009 and client SQLite bytes are unchanged; history stays UNBOUND_CLAIM.
+
+[CL-001—028](docs/技术开发/附录-原设备签名领取与原租约交付.md) · [R018 evidence](dev/tests/evidence/R018-验证报告.md) · [All 56 tasks](dev/progress/R018-本轮实现与完整待办.md)。
+
+`P11_LEASE_VERIFIERS_FILE` → `P11_LEASE_VERIFIERS_1` public verifier configuration; `P11_PAYMENT_ENVIRONMENT` must be explicit. Without the file, claim stays 503. Native `PrepareLeaseClaim → Send → UnverifiedClaim` returns metadata requiring independent `executionlease.Verify`; CLI inference remains disabled.
+
 ## Current implementation
 
 This repository contains **React/Taro Alipay pages, React/Vite Web, shared control logic and a runnable Go/PostgreSQL service subset**, alongside full specifications. The frozen Neubrutalism UI covers marketplace, authoritative quotes, owner orders awaiting payment, and provider pairing/policy/drain/revocation controls. Inference, full device execution, customer E2E content encryption, real payments and the complete platform remain unfinished. Captures label synthetic authorization/qualification; Taro captures show H5, not native Alipay. Provider controls also exercise a real Windows CLI, without GPU execution.

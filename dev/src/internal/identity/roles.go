@@ -10,6 +10,23 @@ import (
 // Internal trusted principals may omit a credential reference; HTTP adapters
 // always bind a verified SessionID or KeyID and cannot accept either from JSON.
 func RequireCurrentTx(ctx context.Context, tx pgx.Tx, p Principal) error {
+	return requireCurrentTx(ctx, tx, p, false)
+}
+
+// RequireDeviceReadTx authorizes read-only device delivery with a SHARE lock.
+// It must never be used by a command that updates the device row. Heartbeats
+// and policy/lifecycle writes keep RequireCurrentTx's direct WRITE lock.
+func RequireDeviceReadTx(ctx context.Context, tx pgx.Tx, p Principal, scope string) error {
+	if p.Kind != Device {
+		return fault.New(fault.Forbidden, "Signed device identity required")
+	}
+	if err := p.Require(scope, ""); err != nil {
+		return err
+	}
+	return requireCurrentTx(ctx, tx, p, true)
+}
+
+func requireCurrentTx(ctx context.Context, tx pgx.Tx, p Principal, deviceRead bool) error {
 	var state string
 	var version int64
 	err := tx.QueryRow(ctx, `SELECT state,version FROM p11.users WHERE id=$1 FOR SHARE`, p.UserID).Scan(&state, &version)
@@ -81,7 +98,11 @@ func RequireCurrentTx(ctx context.Context, tx pgx.Tx, p Principal) error {
 		if err != nil {
 			return err
 		}
-		err = tx.QueryRow(ctx, `SELECT id FROM p11.devices WHERE id=$1 AND seller_id=$2 AND auth_key_digest=$3 AND identity_profile='ED25519_DEVICE_1' AND state NOT IN ('REVOKED','RETIRED','QUARANTINED') FOR UPDATE`, p.DeviceID, p.UserID, p.DeviceFingerprint).Scan(&id)
+		deviceLock := "FOR UPDATE"
+		if deviceRead {
+			deviceLock = "FOR SHARE"
+		}
+		err = tx.QueryRow(ctx, `SELECT id FROM p11.devices WHERE id=$1 AND seller_id=$2 AND auth_key_digest=$3 AND identity_profile='ED25519_DEVICE_1' AND state NOT IN ('REVOKED','RETIRED','QUARANTINED') `+deviceLock, p.DeviceID, p.UserID, p.DeviceFingerprint).Scan(&id)
 		if err == pgx.ErrNoRows {
 			return fault.New(fault.Unauthenticated, "Device identity no longer valid")
 		}

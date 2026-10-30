@@ -1,0 +1,103 @@
+{
+  "round": "R018",
+  "baseline_commit": "1323760500bb60276007ee2d9a926ce5c38a9b79",
+  "old_sql_bytes_unchanged": true,
+  "files": [
+    {
+      "path": "dev/src/internal/persistence/migrations/001_domain.sql",
+      "sha256": "85da1d9b2d4948cca6f60c3a15bb3bdb03e4d2eb1ff1af6b14005588077faec5",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/002_nb_contract_guards.sql",
+      "sha256": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/003_auth_sessions.sql",
+      "sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/004_seller_listing_records.sql",
+      "sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/005_device_identity_control.sql",
+      "sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/006_order_budget_capacity.sql",
+      "sha256": "c4293dcaafbf9f4fe397d25cf593742621972b1b05cd4e08f58fd3cb7bfe24b1",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/007_confirmed_route_contracts.sql",
+      "sha256": "2b3406b5678ba6db23ae5c2845eb3b4bf76e36a259546ec673d99d8d1b0fede9",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
+      "sha256": "88f1ab71a2bebb7f6633ea12e39dd0edbccfbf01d5f05cfd532fdebec9306cdc",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/migrations/003_auth_sessions.sql",
+      "sha256": "6b07d53900d4e65ef374221107eb44c1ce988ea8db6b195dbb6df45a7e3259c9",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/migrations/004_seller_listing_records.sql",
+      "sha256": "c0b99d7460974bea47798ff0d0539fa0855bb5eebb80a56a80db92b2e32cac3e",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/migrations/005_device_identity_control.sql",
+      "sha256": "d17221d8d4ab62c9af3c2db33fd44f37f78e69b3868dd2ebf9ea87507fe35d06",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/migrations/006_order_budget_capacity.sql",
+      "sha256": "c4293dcaafbf9f4fe397d25cf593742621972b1b05cd4e08f58fd3cb7bfe24b1",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql",
+      "sha256": "2b3406b5678ba6db23ae5c2845eb3b4bf76e36a259546ec673d99d8d1b0fede9",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/client/execution/schema.sql",
+      "sha256": "5fd81de895db1ab3c19ea49debadb93d644a721f0f755e89443f59777f396e87",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/schema-draft.sql",
+      "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql",
+      "sha256": "c63e4849bc23279f3fd0eca5ae866c2663482b1bf33a01165c6e0512b02fa375",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/008_route_invocation_preparation.sql",
+      "sha256": "c63e4849bc23279f3fd0eca5ae866c2663482b1bf33a01165c6e0512b02fa375",
+      "matches_baseline": true
+    },
+    {
+      "path": "dev/src/internal/persistence/migrations/009_native_input_execution_admission.sql",
+      "sha256": "5deaac9ff209ee108c379ce749e15b4666a3606b2f9bed6178241292060da871",
+      "matches_baseline": true
+    },
+    {
+      "path": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql",
+      "sha256": "5deaac9ff209ee108c379ce749e15b4666a3606b2f9bed6178241292060da871",
+      "matches_baseline": true
+    }
+  ],
+  "forward_migration": "010_native_lease_claim.sql"
+}

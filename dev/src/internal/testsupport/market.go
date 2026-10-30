@@ -20,6 +20,7 @@ import (
 )
 
 type Offer struct {
+	DeviceKey                                       ed25519.PrivateKey `json:"-"` // Synthetic test-only; never a runtime identity store.
 	Seller                                          identity.Principal
 	ID, Device, Resource, Capability, Gate, Release string
 	Evidence                                        []string
@@ -99,7 +100,8 @@ func seedOfferProfile(t *testing.T, ctx context.Context, db *persistence.DB, mod
 		if err != nil {
 			t.Fatal(err)
 		}
-		clear(key)
+		f.DeviceKey = key
+		t.Cleanup(func() { clear(key) })
 		execDB(t, ctx, db, `INSERT INTO p11.devices(id,seller_id,platform,resource_kind,state,auth_key_digest,client_release,resource_policy,last_seen_at,model_name,
 identity_profile,device_public_key,installation_fingerprint,os_build,heartbeat_sequence,reported_resource_state)
 VALUES($1,$2,$3,$4,'ONLINE',$5,'SYNTHETIC_TEST','{"accepting_new_jobs":true}',clock_timestamp(),$6,'ED25519_DEVICE_1',$7,$8,'SYNTHETIC_NOT_HARDWARE',1,'IDLE')`, f.Device, f.Seller.UserID, platform, kind, outbox.Digest(pub), f.Terms.Devices[0].ModelName, base64.RawURLEncoding.EncodeToString(pub), outbox.Digest([]byte(f.Device)))

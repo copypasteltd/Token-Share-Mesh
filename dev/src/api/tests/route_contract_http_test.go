@@ -22,6 +22,10 @@ func routeHarness(t *testing.T) *harness {
 func httpRouteOrder(t *testing.T, h *harness, s identity.SessionView, cookie *http.Cookie) routecontract.Write {
 	t.Helper()
 	f := testsupport.SeedOfferForProtocol(t, ctx, db, "PLAINTEXT", ids.New("region"), string(relay.ChatText))
+	return httpRouteOrderOffer(t, h, s, cookie, f)
+}
+func httpRouteOrderOffer(t *testing.T, h *harness, s identity.SessionView, cookie *http.Cookie, f testsupport.Offer) routecontract.Write {
+	t.Helper()
 	headers := bearer(s.AccessToken)
 	if cookie != nil {
 		headers = http.Header{"Origin": []string{h.origin}, "X-CSRF-Token": []string{s.CSRF}}

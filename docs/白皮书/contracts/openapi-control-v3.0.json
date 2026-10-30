@@ -7099,13 +7099,10 @@
           "Runner"
         ],
         "summary": "本设备领取当前签名执行租约",
-        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "description": "仅原生ED25519_DEVICE_1签名证明，不接受本人会话或SDK key代领。claim_key与Idempotency-Key相同；同原键固定原租约，撤权/过期/owner变化后拒绝交付。领取只记录投递意图，不等于设备ACK、模型执行或计费。",
         "security": [
           {
             "BearerAuth": []
-          },
-          {
-            "BrowserCookie": []
           }
         ],
         "x-required-scopes": [
@@ -7183,8 +7180,7 @@
               }
             }
           }
-        },
-        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+        }
       }
     },
     "/runner/attempts/{attempt_id}/progress": {
@@ -12491,12 +12487,14 @@
           "claim_key": {
             "type": "string",
             "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-            "maxLength": 128
+            "maxLength": 128,
+            "minLength": 8,
+            "description": "先持久保存的原领取命令ID；必须与Idempotency-Key完全一致；丢回执复用原值，不作lease ID或新轮询键。"
           },
           "expected_device_version": {
             "type": "integer",
             "minimum": 1,
-            "maximum": 2147483647
+            "maximum": 2147483646
           }
         },
         "required": [

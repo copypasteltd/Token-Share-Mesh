@@ -438,3 +438,16 @@ WHERE r.id=$1 AND r.buyer_id=$2 FOR UPDATE OF o`, candidates[0], p.UserID).Scan(
 	}
 	return c, err
 }
+
+// ReadAdmittedTx rechecks the EXACT stored job route. The caller must already
+// hold its original order WRITE lock and authenticate the original key. This
+// bypasses only NEW-call capacity selection, never current funding/qualification.
+func (s Service) ReadAdmittedTx(ctx context.Context, tx pgx.Tx, p identity.Principal, id string) (Contract, error) {
+	if p.Kind != identity.APIKey || p.KeyID == "" || len(p.RouteIDs) != 1 || p.RouteIDs[0] != id || !ids.Valid(id) {
+		return Contract{}, fault.New(fault.Forbidden, "Original job-bound SDK key and route required")
+	}
+	if err := identity.RequireRoleTx(ctx, tx, p, "route:invoke", "BUYER", false); err != nil {
+		return Contract{}, err
+	}
+	return s.readTx(ctx, tx, p.UserID, id)
+}

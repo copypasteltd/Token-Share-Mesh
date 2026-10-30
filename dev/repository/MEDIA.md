@@ -86,3 +86,9 @@ R016 preserves the same frozen NB04 interface and independently recaptures both 
 产品页面按当前原生后端和合成资格/支付事实重新录制：14 PNG、双端MP4/GIF；`dev/media/R017/`及`frontend-manifest.json`记录来源。阅读器4 PNG/MP4/GIF单列，不能视作推理或E2E演示。当前UI没有新增输入/租约操作，新增内部模块以原生PG/Go/SQLite测试为证，不伪造交互截图。
 
 The unchanged NB04 UI is recaptured against the current native binary. Product and reader recordings retain separate provenance. They do not show a GPU, phone, model, E2E or payment execution.
+
+## R018 实际媒体 / Actual media
+
+本轮按当前二进制重新记录既有NB04页面；14 PNG、双端MP4/GIF记录于dev/media/R018和frontend-manifest.json。领取是控制API能力，没有伪造UI；新增链路由实际原生PG/签名HTTP测试证明。阅读器4 PNG/MP4/GIF单独记录，不冒称推理或E2E演示。
+
+Existing Web/Taro H5 pages are recaptured against the current native build. Native Alipay is compiled separately. No recording claims actual phone/GPU/kernel/payment execution.

@@ -1,9 +1,9 @@
 {
   "version": "1.0",
   "goal_status": "ACTIVE",
-  "current_activity": "SOURCE_IMPLEMENTATION_R017",
-  "activity_source": "R017接通原生文本输入和首租约内部服务：实际校验正文后以AES-256-GCM加密保存；重新核对原订单、当前scoped key/资格/同单资金和已占整笔预算，再原子取得明确FREE的原生设备资源，签发最多45秒且受原硬截止约束的首租约，连同双围栏、元数据manifest、安全事件和持久投递意图提交。原键恢复不换输入/owner、不续租；到期/撤销/未知保留原预算与资源。该加密仅保护PLAINTEXT模式落盘，不是客户E2E或提供方不可见；尚未挂载模型入口、接通实际领取/内容交付、生产密钥/独立信任、真实内核/usage/支付或LP/PE。009仅追加7列/1外键，001—008及端侧DDL原字节保留；仍34/93操作、65表。平台围栏受signed-bigint上限约束，达到上限关闭。",
-  "round": "R017",
+  "current_activity": "SOURCE_IMPLEMENTATION_R018",
+  "activity_source": "R018新增原设备签名领取原租约：35/93个控制操作、65表/664列/113外键。仅原设备ED25519证明可领取；原命令编号与header相同，010将其固定绑定原lease并和安全事件原子提交。每次包括重试都重新核原买方scoped key/route、原订单与同单资金、资格、完整已占预算、加密输入元数据、原owner/双围栏和原期限；不换单、不重签/续租。领取服务只有显式公钥，不解密输入、不确认实际执行或计费；DELIVER任务、预算和资源保持原状。通用元数据队列仅认领/耗尽标记自身白名单类型，不能处理独立的执行投递意图。设备独立公钥/批准计划、输入/manifest交付、宿主持久执行命令、真实内核/usage/渠道及E2E/LP/PE/租赁仍待。001—009及端侧DDL保持原字节，历史UNBOUND_CLAIM。",
+  "round": "R018",
   "tasks": [
     {
       "id": "DEV-01",
@@ -43,7 +43,9 @@
         "IMP-R016-007",
         "IMP-R016-008",
         "IMP-R017-007",
-        "IMP-R017-008"
+        "IMP-R017-008",
+        "IMP-R018-007",
+        "IMP-R018-008"
       ],
       "remaining_step_ids": [
         "DEV-01.01",
@@ -94,9 +96,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "已有Go/React/Taro/Vite、控制/执行元数据及运行监督基座；继续完整网关/调度/真实引擎、多端发行、许可安全和全部组合验收。"
+      "remaining_detail": "当前222项Go/双端浏览器及六目标构建须与当前源码摘要一致；继续可交付打包/原生Linux实机、Android和完整组合验收，全部子项未收口。"
     },
     {
       "id": "DEV-02",
@@ -121,7 +129,8 @@
         "IMP-R015-001",
         "IMP-R015-006",
         "IMP-R016-001",
-        "IMP-R017-001"
+        "IMP-R017-001",
+        "IMP-R018-001"
       ],
       "remaining_step_ids": [
         "DEV-02.01",
@@ -159,9 +168,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "009追加输入/首租约7列与结构/原子守卫，001—008及端侧DDL保留；继续生产最小权限、恢复及完整物理/并发验证；平台代次signed-bigint扩容需另案。"
+      "remaining_detail": "010前向追加六个原领取字段、唯一绑定/原子事件与历史隔离；累计65表/664列/113外键；001—009和端侧DDL原字节保留。继续真实恢复、备份/迁移故障与后续生命周期。"
     },
     {
       "id": "DEV-03",
@@ -195,7 +210,8 @@
         "IMP-R015-004",
         "IMP-R016-004",
         "IMP-R016-005",
-        "IMP-R017-003"
+        "IMP-R017-003",
+        "IMP-R018-005"
       ],
       "remaining_step_ids": [
         "DEV-03.01",
@@ -233,9 +249,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "本轮输入AES-GCM/HMAC/issuer钥用途隔离、复制/轮换和缺旧钥关闭已局部实现；继续生产秘密存储、独立信任分发/撤销、内容钥全生命周期与授权恢复。"
+      "remaining_detail": "当前会话/key/设备证明及领取服务公钥配置已接入；仍待生产凭据轮换、设备独立pin/批准计划、密钥库实机与完整权限矩阵。"
     },
     {
       "id": "DEV-04",
@@ -301,7 +323,9 @@
         "IMP-R009-005",
         "IMP-R009-006",
         "IMP-R010-008",
-        "IMP-R011-007"
+        "IMP-R011-007",
+        "IMP-R018-002",
+        "IMP-R018-005"
       ],
       "remaining_step_ids": [
         "DEV-06.01",
@@ -319,9 +343,15 @@
         "dev/tests/evidence/R010-验证报告.md",
         "dev/tests/evidence/R010-frontend-checks.json",
         "dev/tests/evidence/R011-验证报告.md",
-        "dev/tests/evidence/R011-frontend-checks.json"
+        "dev/tests/evidence/R011-frontend-checks.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "已有双端配对/控制、Windows元数据库及控制停止联动监督；继续真实设备探测、资格/发行、Linux钥库实机和Android执行控制。"
+      "remaining_detail": "签名原设备可领取原租约，nonce重放关闭；设备独立信任/当前cap注册及宿主持久执行命令、真实平台/真机生命周期仍待。"
     },
     {
       "id": "DEV-07",
@@ -503,7 +533,8 @@
         "IMP-R016-004",
         "IMP-R016-006",
         "IMP-R016-008",
-        "IMP-R017-004"
+        "IMP-R017-004",
+        "IMP-R018-003"
       ],
       "remaining_step_ids": [
         "DEV-11.01",
@@ -529,9 +560,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "原路由/原调用次数与预算、输入和首租约已内部串联；继续公开SDK Authorizer/Grant、原键入口、真实领取/后端恢复、路由UI与E2E/租赁。"
+      "remaining_detail": "原已准入调用按不可变job/key/route复核；无新调用容量不误撤原整笔占用。仍待SDK模型监听/Grant、生产资金和加密/租赁分支。"
     },
     {
       "id": "DEV-12",
@@ -649,7 +686,8 @@
         "IMP-R017-002",
         "IMP-R017-003",
         "IMP-R017-004",
-        "IMP-R017-005"
+        "IMP-R017-005",
+        "IMP-R018-003"
       ],
       "remaining_step_ids": [
         "DEV-17.01",
@@ -669,9 +707,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "已完成有界native文本实际校验、AES-GCM入库、QUEUED和首签租约；继续认证领取/输入交付、E2E PREPARED recipient/重封装、对象删除与钥生命周期。"
+      "remaining_detail": "原生输入已校验并AES-GCM落盘；领取仅核原密文元数据、不返回正文。输入/manifest受限交付、tokenizer实际约束、内容生命周期和E2E仍待。"
     },
     {
       "id": "DEV-18",
@@ -691,7 +735,14 @@
         "IMP-R013-007",
         "IMP-R017-001",
         "IMP-R017-005",
-        "IMP-R017-006"
+        "IMP-R017-006",
+        "IMP-R018-001",
+        "IMP-R018-002",
+        "IMP-R018-003",
+        "IMP-R018-004",
+        "IMP-R018-005",
+        "IMP-R018-006",
+        "IMP-R018-007"
       ],
       "remaining_step_ids": [
         "DEV-18.01",
@@ -712,9 +763,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "已接原合同原生设备明确FREE锁、初job围栏/物理代次与原子首lease，独立计划验签/真实SQLite入箱覆盖；继续生产claim/ACK、续期/撤销、跨端实际执行和停止清理组合验证。"
+      "remaining_detail": "首租约原子签发与原设备认证领取已实现；原命令固定、双围栏及原owner复核，不ACK/续期/重派。独立计划/内核批准、实际接收进度、宿主收件箱/监督器接线和真实执行仍待。"
     },
     {
       "id": "DEV-19",
@@ -746,7 +803,8 @@
         "IMP-R013-006",
         "IMP-R013-007",
         "IMP-R013-008",
-        "IMP-R017-006"
+        "IMP-R017-006",
+        "IMP-R018-004"
       ],
       "remaining_step_ids": [
         "DEV-20.01",
@@ -769,9 +827,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "原租约撤销/过期回查保持原owner/预算不重发；继续平台到实际引擎的停止、物理停算/清理回执、失联恢复与组合故障验证。"
+      "remaining_detail": "领取不写清理或释放，撤权/到期保留原占用。仍待平台取消/停止/真实停算清理确认和完整跨端时序。"
     },
     {
       "id": "DEV-21",
@@ -801,7 +865,8 @@
         "IMP-R013-006",
         "IMP-R013-007",
         "IMP-R013-008",
-        "IMP-R017-005"
+        "IMP-R017-005",
+        "IMP-R018-006"
       ],
       "remaining_step_ids": [
         "DEV-21.01",
@@ -826,9 +891,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "原生监督已有元数据适配器，平台初lease与真实SQLite元数据验签接线；继续独立内核批准、生产信任/命令领取、真实可替换内核与进程隔离。"
+      "remaining_detail": "原生监督器和领取协议库分别存在；CLI执行仍关闭。实际持久宿主命令、独立pin/批准计划、原input/manifest和真实backend组合待接。"
     },
     {
       "id": "DEV-22",
@@ -869,7 +940,8 @@
         "IMP-R011-002",
         "IMP-R011-005",
         "IMP-R013-001",
-        "IMP-R013-002"
+        "IMP-R013-002",
+        "IMP-R018-006"
       ],
       "remaining_step_ids": [
         "DEV-24.01",
@@ -888,9 +960,15 @@
         "dev/tests/evidence/R011-frontend-checks.json",
         "dev/tests/evidence/R013-验证报告.md",
         "dev/tests/evidence/R013-frontend-checks.json",
-        "dev/tests/evidence/R013-development-attempts.json"
+        "dev/tests/evidence/R013-development-attempts.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "已有受管共门闩、原owner代次清理和不同资源独立监督；继续真实资源发现/调度、RENTAL父owner、受控IPC/LAN、Android与实机全路径。"
+      "remaining_detail": "本机SQLite门闩/控制身份与typed领取协议已实现；尚无实际任务领取守护进程、合格物理GPU/内核批准或受控内容输入路径。"
     },
     {
       "id": "DEV-25",
@@ -1229,7 +1307,8 @@
         "IMP-R006-005",
         "IMP-R006-008",
         "IMP-R011-008",
-        "IMP-R017-008"
+        "IMP-R017-008",
+        "IMP-R018-008"
       ],
       "remaining_step_ids": [
         "DEV-45.01",
@@ -1247,7 +1326,13 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
       "remaining_detail": "已有Taro市场/合同/订单/账号/提供方控制和恢复加载修复；继续支付宝原生真机授权、真实付款、执行/停止/退款/账单及完整辅助界面。"
     },
@@ -1266,7 +1351,8 @@
         "IMP-R009-007",
         "IMP-R010-008",
         "IMP-R011-008",
-        "IMP-R017-008"
+        "IMP-R017-008",
+        "IMP-R018-008"
       ],
       "remaining_step_ids": [
         "DEV-46.01",
@@ -1290,7 +1376,13 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
       "remaining_detail": "双端提供方配对/共享条件/停止/撤销及忙状态恢复加载已接通；继续真实审核、挂牌编辑、收益结算、安装授权和原生真机/实际引擎联调。"
     },
@@ -1304,7 +1396,8 @@
         "IMP-R006-005",
         "IMP-R006-006",
         "IMP-R006-008",
-        "IMP-R017-008"
+        "IMP-R017-008",
+        "IMP-R018-008"
       ],
       "remaining_step_ids": [
         "DEV-47.01",
@@ -1320,7 +1413,13 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
       "remaining_detail": "已有React/Vite控制市场/订单/账号与开发者说明、Web S256回调；继续API key管理、实际标准SDK路由、可信程序配对/撤销及完整开发者工作区。"
     },
@@ -1390,7 +1489,9 @@
         "IMP-R012-008",
         "IMP-R016-002",
         "IMP-R016-007",
-        "IMP-R017-006"
+        "IMP-R017-006",
+        "IMP-R018-001",
+        "IMP-R018-004"
       ],
       "remaining_step_ids": [
         "DEV-51.01",
@@ -1426,9 +1527,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "首签lease安全outbox与DELIVER_EXECUTION_LEASE意图已同事务持久化；继续真正worker认领/认证投递、幂等消费/失败重投和完整领域事件工作流。"
+      "remaining_detail": "通用元数据队列认领/耗尽仅限自身白名单，不误领执行投递意图；首签发投递意图与领取安全事件各自原子持久；领取不完成DELIVER任务。仍待认证投递worker、实际ACK、幂等消费/失败重投和领域工作流。"
     },
     {
       "id": "DEV-52",
@@ -1439,7 +1546,8 @@
         "IMP-R005-004",
         "IMP-R005-008",
         "IMP-R007-008",
-        "IMP-R017-008"
+        "IMP-R017-008",
+        "IMP-R018-008"
       ],
       "remaining_step_ids": [
         "DEV-52.01",
@@ -1457,7 +1565,13 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
       "remaining_detail": "资格重核、撤销身份/健康关闭准入已局部覆盖；继续真实证据登记/双人受控审批/撤销广播与组合发布门槛。"
     },
@@ -1527,7 +1641,11 @@
         "IMP-R017-002",
         "IMP-R017-003",
         "IMP-R017-007",
-        "IMP-R017-008"
+        "IMP-R017-008",
+        "IMP-R018-001",
+        "IMP-R018-002",
+        "IMP-R018-007",
+        "IMP-R018-008"
       ],
       "remaining_step_ids": [
         "DEV-53.01",
@@ -1579,9 +1697,15 @@
         "dev/tests/evidence/R017-native-source-checks.json",
         "dev/tests/evidence/R017-frontend-checks.json",
         "dev/tests/evidence/R017-development-attempts.json",
-        "dev/tests/evidence/R017-migration-immutability.json"
+        "dev/tests/evidence/R017-migration-immutability.json",
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
       ],
-      "remaining_detail": "当前完整204项Go及双端浏览器、6目标构建；合成资金/资格/内核不构成真实通过。继续R016未证明根因的时序稳定性、真实E2E/LP/PE、硬件性能、独立安全评审和完整故障矩阵。"
+      "remaining_detail": "当前222项Go、双端浏览器、六目标构建分层记录；18项新增覆盖原领取/真实PG锁顺序等。R016清理时序根因未证明；真实设备/支付、E2E/LP/PE、独立安全/性能和完整故障矩阵仍开放。"
     },
     {
       "id": "DEV-54",
@@ -21805,6 +21929,1943 @@
             "dev/tests/evidence/R017-migration-immutability.json"
           ],
           "remaining_detail": "当前完整204项Go及双端浏览器、6目标构建；合成资金/资格/内核不构成真实通过。继续R016未证明根因的时序稳定性、真实E2E/LP/PE、硬件性能、独立安全评审和完整故障矩阵。"
+        },
+        {
+          "id": "DEV-54",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-54.01",
+            "DEV-54.02",
+            "DEV-54.03",
+            "DEV-54.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-55",
+          "implementation_status": "DEFERRED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-55.01",
+            "DEV-55.02"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-56",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-56.01",
+            "DEV-56.02",
+            "DEV-56.03",
+            "DEV-56.04"
+          ],
+          "evidence_refs": []
+        }
+      ]
+    },
+    {
+      "id": "R018",
+      "title": "原设备签名领取与原租约交付",
+      "verification_status": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+      "implemented": [
+        {
+          "id": "IMP-R018-001",
+          "task_ids": [
+            "DEV-02",
+            "DEV-18",
+            "DEV-51",
+            "DEV-53"
+          ],
+          "title": "010原领取不可变绑定/安全事件原子性与历史隔离",
+          "artifacts": [
+            "docs/技术开发/database/migrations/010_native_lease_claim.sql",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "verification": "PASSED_NATIVE_SOURCE_SUBSET_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ]
+        },
+        {
+          "id": "IMP-R018-002",
+          "task_ids": [
+            "DEV-06",
+            "DEV-18",
+            "DEV-53"
+          ],
+          "title": "原设备只读身份核验与原订单优先锁顺序",
+          "artifacts": [
+            "dev/src/internal/identity/roles.go",
+            "dev/src/internal/dispatch/device/auth.go"
+          ],
+          "verification": "PASSED_NATIVE_SOURCE_SUBSET_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ]
+        },
+        {
+          "id": "IMP-R018-003",
+          "task_ids": [
+            "DEV-11",
+            "DEV-17",
+            "DEV-18"
+          ],
+          "title": "当前原订单/SDK key/同单资金/资格/预算/输入/双围栏核对",
+          "artifacts": [
+            "dev/src/internal/invocation/claim.go",
+            "dev/src/internal/routecontract/service.go"
+          ],
+          "verification": "PASSED_NATIVE_SOURCE_SUBSET_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ]
+        },
+        {
+          "id": "IMP-R018-004",
+          "task_ids": [
+            "DEV-18",
+            "DEV-20",
+            "DEV-51"
+          ],
+          "title": "原命令恢复只交付原签名，不ACK/续租/清占用",
+          "artifacts": [
+            "dev/src/internal/invocation/claim.go",
+            "dev/src/internal/persistence/migrations/010_native_lease_claim.sql"
+          ],
+          "verification": "PASSED_NATIVE_SOURCE_SUBSET_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ]
+        },
+        {
+          "id": "IMP-R018-005",
+          "task_ids": [
+            "DEV-03",
+            "DEV-06",
+            "DEV-18"
+          ],
+          "title": "第35项签名控制操作及显式仅公钥配置",
+          "artifacts": [
+            "dev/src/api/internal/http/claim.go",
+            "dev/src/api/cmd/p11-api/claims.go",
+            "dev/src/api/internal/http/routes.json"
+          ],
+          "verification": "PASSED_NATIVE_SOURCE_SUBSET_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ]
+        },
+        {
+          "id": "IMP-R018-006",
+          "task_ids": [
+            "DEV-18",
+            "DEV-21",
+            "DEV-24"
+          ],
+          "title": "原生领取命令冻结/新证明恢复与未验证响应边界",
+          "artifacts": [
+            "dev/src/client/protocol/devicecontrol/claim.go"
+          ],
+          "verification": "PASSED_NATIVE_SOURCE_SUBSET_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ]
+        },
+        {
+          "id": "IMP-R018-007",
+          "task_ids": [
+            "DEV-01",
+            "DEV-18",
+            "DEV-53"
+          ],
+          "title": "18项新增/完整222项回归、通用队列类型隔离与实际锁竞争",
+          "artifacts": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/src/internal/outbox/jobs.go"
+          ],
+          "verification": "PASSED_NATIVE_SOURCE_SUBSET_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ]
+        },
+        {
+          "id": "IMP-R018-008",
+          "task_ids": [
+            "DEV-01",
+            "DEV-45",
+            "DEV-46",
+            "DEV-47",
+            "DEV-52",
+            "DEV-53"
+          ],
+          "title": "CL28条、双语文档/全56待办及当前页面和阅读器媒体",
+          "artifacts": [
+            "docs/技术开发/附录-原设备签名领取与原租约交付.md",
+            "dev/repository/README.en.md.in",
+            "dev/repository/README.zh-CN.md.in",
+            "dev/tests/evidence/R018-frontend-checks.json"
+          ],
+          "verification": "DOCUMENTED_SCOPE_WITH_SEPARATE_REPOSITORY_AND_MEDIA_CHECKS",
+          "evidence_refs": [
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ]
+        }
+      ],
+      "evidence_refs": [
+        "dev/tests/evidence/R018-验证报告.md",
+        "dev/tests/evidence/R018-验证报告.json",
+        "dev/tests/evidence/R018-native-source-checks.json",
+        "dev/tests/evidence/R018-frontend-checks.json",
+        "dev/tests/evidence/R018-development-attempts.json",
+        "dev/tests/evidence/R018-migration-immutability.json"
+      ],
+      "task_snapshot": [
+        {
+          "id": "DEV-01",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-001",
+            "IMP-R001-002",
+            "IMP-R001-010",
+            "IMP-R004-003",
+            "IMP-R004-004",
+            "IMP-R004-005",
+            "IMP-R004-007",
+            "IMP-R005-006",
+            "IMP-R005-008",
+            "IMP-R006-001",
+            "IMP-R006-007",
+            "IMP-R006-008",
+            "IMP-R007-003",
+            "IMP-R007-007",
+            "IMP-R007-009",
+            "IMP-R008-001",
+            "IMP-R008-008",
+            "IMP-R009-007",
+            "IMP-R009-008",
+            "IMP-R010-002",
+            "IMP-R010-007",
+            "IMP-R010-009",
+            "IMP-R011-009",
+            "IMP-R012-009",
+            "IMP-R013-006",
+            "IMP-R013-007",
+            "IMP-R014-007",
+            "IMP-R014-008",
+            "IMP-R015-006",
+            "IMP-R015-007",
+            "IMP-R015-008",
+            "IMP-R016-007",
+            "IMP-R016-008",
+            "IMP-R017-007",
+            "IMP-R017-008",
+            "IMP-R018-007",
+            "IMP-R018-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-01.01",
+            "DEV-01.02",
+            "DEV-01.03",
+            "DEV-01.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R008-验证报告.md",
+            "dev/tests/evidence/R008-frontend-checks.json",
+            "dev/tests/evidence/R009-验证报告.md",
+            "dev/tests/evidence/R009-frontend-checks.json",
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R013-验证报告.md",
+            "dev/tests/evidence/R013-frontend-checks.json",
+            "dev/tests/evidence/R013-development-attempts.json",
+            "dev/tests/evidence/R014-验证报告.md",
+            "dev/tests/evidence/R014-验证报告.json",
+            "dev/tests/evidence/R014-native-source-checks.json",
+            "dev/tests/evidence/R014-frontend-checks.json",
+            "dev/tests/evidence/R014-repository-check.json",
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "当前222项Go/双端浏览器及六目标构建须与当前源码摘要一致；继续可交付打包/原生Linux实机、Android和完整组合验收，全部子项未收口。"
+        },
+        {
+          "id": "DEV-02",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-003",
+            "IMP-R001-008",
+            "IMP-R001-010",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-002",
+            "IMP-R004-006",
+            "IMP-R004-007",
+            "IMP-R005-007",
+            "IMP-R005-008",
+            "IMP-R006-007",
+            "IMP-R006-008",
+            "IMP-R007-007",
+            "IMP-R014-001",
+            "IMP-R014-005",
+            "IMP-R014-007",
+            "IMP-R015-001",
+            "IMP-R015-006",
+            "IMP-R016-001",
+            "IMP-R017-001",
+            "IMP-R018-001"
+          ],
+          "remaining_step_ids": [
+            "DEV-02.01",
+            "DEV-02.02",
+            "DEV-02.03",
+            "DEV-02.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R014-验证报告.md",
+            "dev/tests/evidence/R014-验证报告.json",
+            "dev/tests/evidence/R014-native-source-checks.json",
+            "dev/tests/evidence/R014-frontend-checks.json",
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "010前向追加六个原领取字段、唯一绑定/原子事件与历史隔离；累计65表/664列/113外键；001—009和端侧DDL原字节保留。继续真实恢复、备份/迁移故障与后续生命周期。"
+        },
+        {
+          "id": "DEV-03",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-004",
+            "IMP-R001-005",
+            "IMP-R001-006",
+            "IMP-R001-008",
+            "IMP-R003-005",
+            "IMP-R003-007",
+            "IMP-R004-001",
+            "IMP-R004-002",
+            "IMP-R004-003",
+            "IMP-R004-004",
+            "IMP-R004-005",
+            "IMP-R004-006",
+            "IMP-R004-007",
+            "IMP-R005-001",
+            "IMP-R005-006",
+            "IMP-R005-008",
+            "IMP-R006-002",
+            "IMP-R006-008",
+            "IMP-R007-001",
+            "IMP-R007-003",
+            "IMP-R007-007",
+            "IMP-R008-002",
+            "IMP-R008-004",
+            "IMP-R009-002",
+            "IMP-R015-003",
+            "IMP-R015-004",
+            "IMP-R016-004",
+            "IMP-R016-005",
+            "IMP-R017-003",
+            "IMP-R018-005"
+          ],
+          "remaining_step_ids": [
+            "DEV-03.01",
+            "DEV-03.02",
+            "DEV-03.03",
+            "DEV-03.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R008-验证报告.md",
+            "dev/tests/evidence/R008-frontend-checks.json",
+            "dev/tests/evidence/R009-验证报告.md",
+            "dev/tests/evidence/R009-frontend-checks.json",
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "当前会话/key/设备证明及领取服务公钥配置已接入；仍待生产凭据轮换、设备独立pin/批准计划、密钥库实机与完整权限矩阵。"
+        },
+        {
+          "id": "DEV-04",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R005-002",
+            "IMP-R005-006",
+            "IMP-R005-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-04.01",
+            "DEV-04.02",
+            "DEV-04.03",
+            "DEV-04.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md"
+          ],
+          "remaining_detail": "已有本人版本化接受/撤回及不可变回执；继续实际文档版本发布、按用途授权消费、最小内容披露、删除请求及完整访问审计。"
+        },
+        {
+          "id": "DEV-05",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R005-001",
+            "IMP-R005-005",
+            "IMP-R005-006",
+            "IMP-R005-007",
+            "IMP-R005-008",
+            "IMP-R007-006"
+          ],
+          "remaining_step_ids": [
+            "DEV-05.01",
+            "DEV-05.02",
+            "DEV-05.03",
+            "DEV-05.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "申请/退出已实现，退出/撤销保留在途资源owner；继续真实个人卖家审核、收款主体准入和尾单/结算闭环。"
+        },
+        {
+          "id": "DEV-06",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R007-001",
+            "IMP-R007-002",
+            "IMP-R007-003",
+            "IMP-R007-004",
+            "IMP-R007-005",
+            "IMP-R007-006",
+            "IMP-R008-001",
+            "IMP-R008-002",
+            "IMP-R008-003",
+            "IMP-R008-004",
+            "IMP-R008-005",
+            "IMP-R008-007",
+            "IMP-R009-001",
+            "IMP-R009-003",
+            "IMP-R009-005",
+            "IMP-R009-006",
+            "IMP-R010-008",
+            "IMP-R011-007",
+            "IMP-R018-002",
+            "IMP-R018-005"
+          ],
+          "remaining_step_ids": [
+            "DEV-06.01",
+            "DEV-06.02",
+            "DEV-06.03",
+            "DEV-06.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R008-验证报告.md",
+            "dev/tests/evidence/R008-frontend-checks.json",
+            "dev/tests/evidence/R009-验证报告.md",
+            "dev/tests/evidence/R009-frontend-checks.json",
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "签名原设备可领取原租约，nonce重放关闭；设备独立信任/当前cap注册及宿主持久执行命令、真实平台/真机生命周期仍待。"
+        },
+        {
+          "id": "DEV-07",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-007",
+            "IMP-R005-004",
+            "IMP-R005-008",
+            "IMP-R007-002",
+            "IMP-R007-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-07.01",
+            "DEV-07.02",
+            "DEV-07.03",
+            "DEV-07.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json"
+          ],
+          "remaining_detail": "登记自报型号不授资格，心跳/健康不自批；继续能力登记审查、原生环境/许可/探测/基准、版本漂移与物理/真机证据。"
+        },
+        {
+          "id": "DEV-08",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-003",
+            "IMP-R005-004",
+            "IMP-R005-005",
+            "IMP-R005-006",
+            "IMP-R005-007",
+            "IMP-R005-008",
+            "IMP-R006-003",
+            "IMP-R007-004",
+            "IMP-R015-005"
+          ],
+          "remaining_step_ids": [
+            "DEV-08.01",
+            "DEV-08.02",
+            "DEV-08.03",
+            "DEV-08.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json"
+          ],
+          "remaining_detail": "已售合同版本可独立读取，新发布不改原模型/价格；当前卖家/设备/资格仍复核。继续商品审核发布、全时段/容量与许可闭环。"
+        },
+        {
+          "id": "DEV-09",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-003",
+            "IMP-R003-005",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-004",
+            "IMP-R005-008",
+            "IMP-R006-003",
+            "IMP-R007-004",
+            "IMP-R015-002",
+            "IMP-R015-005",
+            "IMP-R016-002",
+            "IMP-R016-006",
+            "IMP-R017-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-09.01",
+            "DEV-09.02",
+            "DEV-09.03",
+            "DEV-09.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json"
+          ],
+          "remaining_detail": "内部首发准入已同事务核对原已预留预算/当前资格资金/原输入/物理owner并签名；继续生产资金确认、预检完整资格与公开SDK端统一接线。"
+        },
+        {
+          "id": "DEV-10",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-004",
+            "IMP-R003-005",
+            "IMP-R003-006",
+            "IMP-R003-007",
+            "IMP-R004-004",
+            "IMP-R004-007",
+            "IMP-R005-008",
+            "IMP-R006-005",
+            "IMP-R014-001",
+            "IMP-R014-002",
+            "IMP-R014-006",
+            "IMP-R015-002"
+          ],
+          "remaining_step_ids": [
+            "DEV-10.01",
+            "DEV-10.02",
+            "DEV-10.03",
+            "DEV-10.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R014-验证报告.md",
+            "dev/tests/evidence/R014-验证报告.json",
+            "dev/tests/evidence/R014-native-source-checks.json",
+            "dev/tests/evidence/R014-frontend-checks.json",
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json"
+          ],
+          "remaining_detail": "已有确认合同/原订单与同单付款引用的路由；真实渠道验付、取消/退款/完成闭环仍待。"
+        },
+        {
+          "id": "DEV-11",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R015-001",
+            "IMP-R015-002",
+            "IMP-R015-003",
+            "IMP-R015-004",
+            "IMP-R015-005",
+            "IMP-R015-007",
+            "IMP-R015-008",
+            "IMP-R016-001",
+            "IMP-R016-002",
+            "IMP-R016-003",
+            "IMP-R016-004",
+            "IMP-R016-006",
+            "IMP-R016-008",
+            "IMP-R017-004",
+            "IMP-R018-003"
+          ],
+          "remaining_step_ids": [
+            "DEV-11.01",
+            "DEV-11.02",
+            "DEV-11.03",
+            "DEV-11.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "原已准入调用按不可变job/key/route复核；无新调用容量不误撤原整笔占用。仍待SDK模型监听/Grant、生产资金和加密/租赁分支。"
+        },
+        {
+          "id": "DEV-12",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-002",
+            "IMP-R001-008",
+            "IMP-R003-001",
+            "IMP-R003-003",
+            "IMP-R003-007",
+            "IMP-R006-003",
+            "IMP-R014-001",
+            "IMP-R014-002",
+            "IMP-R014-003",
+            "IMP-R014-004",
+            "IMP-R014-005",
+            "IMP-R014-006",
+            "IMP-R014-007",
+            "IMP-R014-008",
+            "IMP-R016-002",
+            "IMP-R016-003",
+            "IMP-R016-006",
+            "IMP-R017-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-12.01",
+            "DEV-12.02",
+            "DEV-12.03",
+            "DEV-12.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R014-验证报告.md",
+            "dev/tests/evidence/R014-验证报告.json",
+            "dev/tests/evidence/R014-native-source-checks.json",
+            "dev/tests/evidence/R014-frontend-checks.json",
+            "dev/tests/evidence/R014-repository-check.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json"
+          ],
+          "remaining_detail": "首发只使用原RESERVED整笔预算，不重占/不因新调用容量耗尽误撤；继续真实资金/可信usage/成交资格、退款/长任务/小时租赁组合接线。"
+        },
+        {
+          "id": "DEV-13",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-13.01",
+            "DEV-13.02",
+            "DEV-13.03",
+            "DEV-13.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-14",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-14.01",
+            "DEV-14.02",
+            "DEV-14.03",
+            "DEV-14.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-15",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-15.01",
+            "DEV-15.02",
+            "DEV-15.03",
+            "DEV-15.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-16",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-16.01",
+            "DEV-16.02",
+            "DEV-16.03",
+            "DEV-16.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-17",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R016-001",
+            "IMP-R016-002",
+            "IMP-R016-004",
+            "IMP-R016-005",
+            "IMP-R016-006",
+            "IMP-R016-008",
+            "IMP-R017-001",
+            "IMP-R017-002",
+            "IMP-R017-003",
+            "IMP-R017-004",
+            "IMP-R017-005",
+            "IMP-R018-003"
+          ],
+          "remaining_step_ids": [
+            "DEV-17.01",
+            "DEV-17.02",
+            "DEV-17.03",
+            "DEV-17.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "原生输入已校验并AES-GCM落盘；领取仅核原密文元数据、不返回正文。输入/manifest受限交付、tokenizer实际约束、内容生命周期和E2E仍待。"
+        },
+        {
+          "id": "DEV-18",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R010-001",
+            "IMP-R010-003",
+            "IMP-R010-005",
+            "IMP-R010-006",
+            "IMP-R010-007",
+            "IMP-R011-001",
+            "IMP-R011-003",
+            "IMP-R011-004",
+            "IMP-R013-001",
+            "IMP-R013-002",
+            "IMP-R013-006",
+            "IMP-R013-007",
+            "IMP-R017-001",
+            "IMP-R017-005",
+            "IMP-R017-006",
+            "IMP-R018-001",
+            "IMP-R018-002",
+            "IMP-R018-003",
+            "IMP-R018-004",
+            "IMP-R018-005",
+            "IMP-R018-006",
+            "IMP-R018-007"
+          ],
+          "remaining_step_ids": [
+            "DEV-18.01",
+            "DEV-18.02",
+            "DEV-18.03",
+            "DEV-18.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R013-验证报告.md",
+            "dev/tests/evidence/R013-frontend-checks.json",
+            "dev/tests/evidence/R013-development-attempts.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "首租约原子签发与原设备认证领取已实现；原命令固定、双围栏及原owner复核，不ACK/续期/重派。独立计划/内核批准、实际接收进度、宿主收件箱/监督器接线和真实执行仍待。"
+        },
+        {
+          "id": "DEV-19",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-19.01",
+            "DEV-19.02",
+            "DEV-19.03",
+            "DEV-19.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-20",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R010-005",
+            "IMP-R010-006",
+            "IMP-R010-007",
+            "IMP-R011-004",
+            "IMP-R011-005",
+            "IMP-R011-006",
+            "IMP-R012-010",
+            "IMP-R013-001",
+            "IMP-R013-003",
+            "IMP-R013-004",
+            "IMP-R013-005",
+            "IMP-R013-006",
+            "IMP-R013-007",
+            "IMP-R013-008",
+            "IMP-R017-006",
+            "IMP-R018-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-20.01",
+            "DEV-20.02",
+            "DEV-20.03",
+            "DEV-20.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R013-验证报告.md",
+            "dev/tests/evidence/R013-frontend-checks.json",
+            "dev/tests/evidence/R013-development-attempts.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "领取不写清理或释放，撤权/到期保留原占用。仍待平台取消/停止/真实停算清理确认和完整跨端时序。"
+        },
+        {
+          "id": "DEV-21",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R008-001",
+            "IMP-R008-002",
+            "IMP-R008-003",
+            "IMP-R008-007",
+            "IMP-R010-002",
+            "IMP-R010-004",
+            "IMP-R010-005",
+            "IMP-R010-007",
+            "IMP-R010-008",
+            "IMP-R011-001",
+            "IMP-R011-002",
+            "IMP-R011-003",
+            "IMP-R011-004",
+            "IMP-R011-006",
+            "IMP-R011-007",
+            "IMP-R011-008",
+            "IMP-R012-010",
+            "IMP-R013-002",
+            "IMP-R013-003",
+            "IMP-R013-004",
+            "IMP-R013-005",
+            "IMP-R013-006",
+            "IMP-R013-007",
+            "IMP-R013-008",
+            "IMP-R017-005",
+            "IMP-R018-006"
+          ],
+          "remaining_step_ids": [
+            "DEV-21.01",
+            "DEV-21.02",
+            "DEV-21.03",
+            "DEV-21.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R008-验证报告.md",
+            "dev/tests/evidence/R008-frontend-checks.json",
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R013-验证报告.md",
+            "dev/tests/evidence/R013-frontend-checks.json",
+            "dev/tests/evidence/R013-development-attempts.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "原生监督器和领取协议库分别存在；CLI执行仍关闭。实际持久宿主命令、独立pin/批准计划、原input/manifest和真实backend组合待接。"
+        },
+        {
+          "id": "DEV-22",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-22.01",
+            "DEV-22.02",
+            "DEV-22.03",
+            "DEV-22.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-23",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-23.01",
+            "DEV-23.02",
+            "DEV-23.03",
+            "DEV-23.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-24",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R008-005",
+            "IMP-R008-006",
+            "IMP-R009-003",
+            "IMP-R009-004",
+            "IMP-R009-005",
+            "IMP-R010-003",
+            "IMP-R010-006",
+            "IMP-R010-007",
+            "IMP-R011-002",
+            "IMP-R011-005",
+            "IMP-R013-001",
+            "IMP-R013-002",
+            "IMP-R018-006"
+          ],
+          "remaining_step_ids": [
+            "DEV-24.01",
+            "DEV-24.02",
+            "DEV-24.03",
+            "DEV-24.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R008-验证报告.md",
+            "dev/tests/evidence/R008-frontend-checks.json",
+            "dev/tests/evidence/R009-验证报告.md",
+            "dev/tests/evidence/R009-frontend-checks.json",
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R013-验证报告.md",
+            "dev/tests/evidence/R013-frontend-checks.json",
+            "dev/tests/evidence/R013-development-attempts.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "本机SQLite门闩/控制身份与typed领取协议已实现；尚无实际任务领取守护进程、合格物理GPU/内核批准或受控内容输入路径。"
+        },
+        {
+          "id": "DEV-25",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R012-001",
+            "IMP-R012-002",
+            "IMP-R012-004",
+            "IMP-R012-006",
+            "IMP-R012-007",
+            "IMP-R012-008",
+            "IMP-R012-009",
+            "IMP-R015-004",
+            "IMP-R015-005",
+            "IMP-R016-002",
+            "IMP-R016-004",
+            "IMP-R017-002"
+          ],
+          "remaining_step_ids": [
+            "DEV-25.01",
+            "DEV-25.02",
+            "DEV-25.03",
+            "DEV-25.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json"
+          ],
+          "remaining_detail": "严格preflight/原输入和首租约库已接，Core不自动获得Grant；继续公开模型监听、生产Authorizer/SecretSource、原owner/后端恢复和授权上游准入。"
+        },
+        {
+          "id": "DEV-26",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R012-002",
+            "IMP-R012-003",
+            "IMP-R012-005",
+            "IMP-R012-008",
+            "IMP-R012-009",
+            "IMP-R012-011",
+            "IMP-R017-002"
+          ],
+          "remaining_step_ids": [
+            "DEV-26.01",
+            "DEV-26.02",
+            "DEV-26.03",
+            "DEV-26.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-native-go-tests-attempt2.jsonl",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json"
+          ],
+          "remaining_detail": "三native文本profile与实际输入同解析器覆盖；继续生产SDK/版本互操作、独立协议认证与原生端到端兼容验收。"
+        },
+        {
+          "id": "DEV-27",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R012-005",
+            "IMP-R012-007",
+            "IMP-R012-008",
+            "IMP-R012-009"
+          ],
+          "remaining_step_ids": [
+            "DEV-27.01",
+            "DEV-27.02",
+            "DEV-27.03",
+            "DEV-27.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json"
+          ],
+          "remaining_detail": "已有有界增量SSE/终态/背压/取消；媒体/音频/资产输入输出、受权对象/标准异步流程及真实端到端流仍待完成。"
+        },
+        {
+          "id": "DEV-28",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-28.01",
+            "DEV-28.02",
+            "DEV-28.03",
+            "DEV-28.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-29",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-29.01",
+            "DEV-29.02",
+            "DEV-29.03",
+            "DEV-29.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-30",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-30.01",
+            "DEV-30.02",
+            "DEV-30.03",
+            "DEV-30.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-31",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-31.01",
+            "DEV-31.02",
+            "DEV-31.03",
+            "DEV-31.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-32",
+          "implementation_status": "CONDITIONAL",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-32.01",
+            "DEV-32.02",
+            "DEV-32.03",
+            "DEV-32.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-33",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-33.01",
+            "DEV-33.02",
+            "DEV-33.03",
+            "DEV-33.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-34",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-34.01",
+            "DEV-34.02",
+            "DEV-34.03",
+            "DEV-34.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-35",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-35.01",
+            "DEV-35.02",
+            "DEV-35.03",
+            "DEV-35.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-36",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-36.01",
+            "DEV-36.02",
+            "DEV-36.03",
+            "DEV-36.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-37",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-37.01",
+            "DEV-37.02",
+            "DEV-37.03",
+            "DEV-37.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-38",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-001",
+            "IMP-R003-007",
+            "IMP-R012-003",
+            "IMP-R014-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-38.01",
+            "DEV-38.02",
+            "DEV-38.03",
+            "DEV-38.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R014-验证报告.md",
+            "dev/tests/evidence/R014-验证报告.json",
+            "dev/tests/evidence/R014-native-source-checks.json",
+            "dev/tests/evidence/R014-frontend-checks.json"
+          ],
+          "remaining_detail": "补真实模型/tokenizer/模板usage来源及缓存/推理去重，证据核验、账单版本与水位、缺证退款；目前仅精确价格计算。"
+        },
+        {
+          "id": "DEV-39",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R014-004",
+            "IMP-R014-006"
+          ],
+          "remaining_step_ids": [
+            "DEV-39.01",
+            "DEV-39.02",
+            "DEV-39.03",
+            "DEV-39.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R014-验证报告.md",
+            "dev/tests/evidence/R014-验证报告.json",
+            "dev/tests/evidence/R014-native-source-checks.json",
+            "dev/tests/evidence/R014-frontend-checks.json"
+          ],
+          "remaining_detail": "R014加入trade_qualifications追加不可变与预算唯一资格引用；真实成交资格生产、可信来源最终性、追加镜像账和退款冲正仍待。"
+        },
+        {
+          "id": "DEV-40",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-40.01",
+            "DEV-40.02",
+            "DEV-40.03",
+            "DEV-40.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-41",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-41.01",
+            "DEV-41.02",
+            "DEV-41.03",
+            "DEV-41.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-42",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-42.01",
+            "DEV-42.02",
+            "DEV-42.03",
+            "DEV-42.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-43",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-43.01",
+            "DEV-43.02",
+            "DEV-43.03",
+            "DEV-43.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-44",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-44.01",
+            "DEV-44.02",
+            "DEV-44.03",
+            "DEV-44.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-45",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R006-002",
+            "IMP-R006-003",
+            "IMP-R006-004",
+            "IMP-R006-005",
+            "IMP-R006-008",
+            "IMP-R011-008",
+            "IMP-R017-008",
+            "IMP-R018-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-45.01",
+            "DEV-45.02",
+            "DEV-45.03",
+            "DEV-45.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "已有Taro市场/合同/订单/账号/提供方控制和恢复加载修复；继续支付宝原生真机授权、真实付款、执行/停止/退款/账单及完整辅助界面。"
+        },
+        {
+          "id": "DEV-46",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R006-006",
+            "IMP-R006-008",
+            "IMP-R007-005",
+            "IMP-R009-001",
+            "IMP-R009-002",
+            "IMP-R009-004",
+            "IMP-R009-005",
+            "IMP-R009-006",
+            "IMP-R009-007",
+            "IMP-R010-008",
+            "IMP-R011-008",
+            "IMP-R017-008",
+            "IMP-R018-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-46.01",
+            "DEV-46.02",
+            "DEV-46.03",
+            "DEV-46.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R009-验证报告.md",
+            "dev/tests/evidence/R009-frontend-checks.json",
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "双端提供方配对/共享条件/停止/撤销及忙状态恢复加载已接通；继续真实审核、挂牌编辑、收益结算、安装授权和原生真机/实际引擎联调。"
+        },
+        {
+          "id": "DEV-47",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R006-002",
+            "IMP-R006-003",
+            "IMP-R006-004",
+            "IMP-R006-005",
+            "IMP-R006-006",
+            "IMP-R006-008",
+            "IMP-R017-008",
+            "IMP-R018-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-47.01",
+            "DEV-47.02",
+            "DEV-47.03",
+            "DEV-47.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "已有React/Vite控制市场/订单/账号与开发者说明、Web S256回调；继续API key管理、实际标准SDK路由、可信程序配对/撤销及完整开发者工作区。"
+        },
+        {
+          "id": "DEV-48",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-48.01",
+            "DEV-48.02",
+            "DEV-48.03",
+            "DEV-48.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-49",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-49.01",
+            "DEV-49.02",
+            "DEV-49.03",
+            "DEV-49.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-50",
+          "implementation_status": "NOT_STARTED",
+          "completed_components": [],
+          "remaining_step_ids": [
+            "DEV-50.01",
+            "DEV-50.02",
+            "DEV-50.03",
+            "DEV-50.04"
+          ],
+          "evidence_refs": []
+        },
+        {
+          "id": "DEV-51",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R001-006",
+            "IMP-R001-007",
+            "IMP-R001-008",
+            "IMP-R003-004",
+            "IMP-R003-007",
+            "IMP-R004-007",
+            "IMP-R005-008",
+            "IMP-R007-007",
+            "IMP-R007-008",
+            "IMP-R007-009",
+            "IMP-R008-003",
+            "IMP-R008-007",
+            "IMP-R008-008",
+            "IMP-R009-003",
+            "IMP-R009-008",
+            "IMP-R010-004",
+            "IMP-R010-007",
+            "IMP-R010-009",
+            "IMP-R011-003",
+            "IMP-R011-006",
+            "IMP-R011-008",
+            "IMP-R011-009",
+            "IMP-R012-006",
+            "IMP-R012-008",
+            "IMP-R016-002",
+            "IMP-R016-007",
+            "IMP-R017-006",
+            "IMP-R018-001",
+            "IMP-R018-004"
+          ],
+          "remaining_step_ids": [
+            "DEV-51.01",
+            "DEV-51.02",
+            "DEV-51.03",
+            "DEV-51.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R001-验证报告.md",
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R008-验证报告.md",
+            "dev/tests/evidence/R008-frontend-checks.json",
+            "dev/tests/evidence/R009-验证报告.md",
+            "dev/tests/evidence/R009-frontend-checks.json",
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "通用元数据队列认领/耗尽仅限自身白名单，不误领执行投递意图；首签发投递意图与领取安全事件各自原子持久；领取不完成DELIVER任务。仍待认证投递worker、实际ACK、幂等消费/失败重投和领域工作流。"
+        },
+        {
+          "id": "DEV-52",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R003-002",
+            "IMP-R003-007",
+            "IMP-R005-004",
+            "IMP-R005-008",
+            "IMP-R007-008",
+            "IMP-R017-008",
+            "IMP-R018-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-52.01",
+            "DEV-52.02",
+            "DEV-52.03",
+            "DEV-52.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R003-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "资格重核、撤销身份/健康关闭准入已局部覆盖；继续真实证据登记/双人受控审批/撤销广播与组合发布门槛。"
+        },
+        {
+          "id": "DEV-53",
+          "implementation_status": "IN_PROGRESS",
+          "completed_components": [
+            "IMP-R004-001",
+            "IMP-R004-003",
+            "IMP-R004-007",
+            "IMP-R005-006",
+            "IMP-R005-008",
+            "IMP-R006-002",
+            "IMP-R006-008",
+            "IMP-R007-008",
+            "IMP-R007-009",
+            "IMP-R008-002",
+            "IMP-R008-006",
+            "IMP-R008-007",
+            "IMP-R008-008",
+            "IMP-R009-002",
+            "IMP-R009-006",
+            "IMP-R009-007",
+            "IMP-R009-008",
+            "IMP-R010-001",
+            "IMP-R010-002",
+            "IMP-R010-007",
+            "IMP-R010-009",
+            "IMP-R011-001",
+            "IMP-R011-006",
+            "IMP-R011-007",
+            "IMP-R011-008",
+            "IMP-R011-009",
+            "IMP-R012-001",
+            "IMP-R012-004",
+            "IMP-R012-006",
+            "IMP-R012-007",
+            "IMP-R012-008",
+            "IMP-R012-009",
+            "IMP-R012-010",
+            "IMP-R012-011",
+            "IMP-R013-001",
+            "IMP-R013-002",
+            "IMP-R013-003",
+            "IMP-R013-004",
+            "IMP-R013-005",
+            "IMP-R013-006",
+            "IMP-R013-007",
+            "IMP-R013-008",
+            "IMP-R014-001",
+            "IMP-R014-002",
+            "IMP-R014-003",
+            "IMP-R014-004",
+            "IMP-R014-005",
+            "IMP-R014-006",
+            "IMP-R014-007",
+            "IMP-R014-008",
+            "IMP-R015-001",
+            "IMP-R015-005",
+            "IMP-R015-007",
+            "IMP-R015-008",
+            "IMP-R016-001",
+            "IMP-R016-005",
+            "IMP-R016-007",
+            "IMP-R016-008",
+            "IMP-R017-001",
+            "IMP-R017-002",
+            "IMP-R017-003",
+            "IMP-R017-007",
+            "IMP-R017-008",
+            "IMP-R018-001",
+            "IMP-R018-002",
+            "IMP-R018-007",
+            "IMP-R018-008"
+          ],
+          "remaining_step_ids": [
+            "DEV-53.01",
+            "DEV-53.02",
+            "DEV-53.03",
+            "DEV-53.04"
+          ],
+          "evidence_refs": [
+            "dev/tests/evidence/R004-验证报告.md",
+            "dev/tests/evidence/R005-验证报告.md",
+            "dev/tests/evidence/R006-验证报告.md",
+            "dev/tests/evidence/R006-frontend-checks.json",
+            "dev/tests/evidence/R007-验证报告.md",
+            "dev/tests/evidence/R007-frontend-checks.json",
+            "dev/tests/evidence/R008-验证报告.md",
+            "dev/tests/evidence/R008-frontend-checks.json",
+            "dev/tests/evidence/R009-验证报告.md",
+            "dev/tests/evidence/R009-frontend-checks.json",
+            "dev/tests/evidence/R010-验证报告.md",
+            "dev/tests/evidence/R010-frontend-checks.json",
+            "dev/tests/evidence/R011-验证报告.md",
+            "dev/tests/evidence/R011-frontend-checks.json",
+            "dev/tests/evidence/R012-验证报告.md",
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-native-go-tests-attempt2.jsonl",
+            "dev/tests/evidence/R013-验证报告.md",
+            "dev/tests/evidence/R013-frontend-checks.json",
+            "dev/tests/evidence/R013-development-attempts.json",
+            "dev/tests/evidence/R014-验证报告.md",
+            "dev/tests/evidence/R014-验证报告.json",
+            "dev/tests/evidence/R014-native-source-checks.json",
+            "dev/tests/evidence/R014-frontend-checks.json",
+            "dev/tests/evidence/R014-repository-check.json",
+            "dev/tests/evidence/R015-验证报告.md",
+            "dev/tests/evidence/R015-验证报告.json",
+            "dev/tests/evidence/R015-native-source-checks.json",
+            "dev/tests/evidence/R015-frontend-checks.json",
+            "dev/tests/evidence/R015-development-attempts.json",
+            "dev/tests/evidence/R015-migration-immutability.json",
+            "dev/tests/evidence/R016-验证报告.md",
+            "dev/tests/evidence/R016-验证报告.json",
+            "dev/tests/evidence/R016-native-source-checks.json",
+            "dev/tests/evidence/R016-frontend-checks.json",
+            "dev/tests/evidence/R016-development-attempts.json",
+            "dev/tests/evidence/R016-migration-immutability.json",
+            "dev/tests/evidence/R017-验证报告.md",
+            "dev/tests/evidence/R017-验证报告.json",
+            "dev/tests/evidence/R017-native-source-checks.json",
+            "dev/tests/evidence/R017-frontend-checks.json",
+            "dev/tests/evidence/R017-development-attempts.json",
+            "dev/tests/evidence/R017-migration-immutability.json",
+            "dev/tests/evidence/R018-验证报告.md",
+            "dev/tests/evidence/R018-验证报告.json",
+            "dev/tests/evidence/R018-native-source-checks.json",
+            "dev/tests/evidence/R018-frontend-checks.json",
+            "dev/tests/evidence/R018-development-attempts.json",
+            "dev/tests/evidence/R018-migration-immutability.json"
+          ],
+          "remaining_detail": "当前222项Go、双端浏览器、六目标构建分层记录；18项新增覆盖原领取/真实PG锁顺序等。R016清理时序根因未证明；真实设备/支付、E2E/LP/PE、独立安全/性能和完整故障矩阵仍开放。"
         },
         {
           "id": "DEV-54",

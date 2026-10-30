@@ -6,7 +6,8 @@ import (
 )
 
 // These control DTOs are shared by the API and native providers. They contain
-// no customer prompts, execution leases, billable usage or content keys.
+// no customer prompts, billable usage or content keys. Signed lease delivery
+// is separate metadata and never enables an execution backend automatically.
 type Enrollment struct {
 	PairingID     string `json:"pairing_id"`
 	PublicKey     string `json:"device_public_key"`

@@ -8,6 +8,14 @@
 
 Token Share Mesh 连接需要算力的买家与自愿提供闲置 Windows/Linux 显卡、Android 手机或获明确授权上游 AI 能力的个人卖家。卖家自主决定价格和开放时段、直接向买家履约；平台提供发现、合同、路由、调度和交易证据，并收取披露的费用。
 
+## R018 · 原设备签名领取 / Native original-lease claim
+
+R018新增原设备签名领取原租约：35/93个控制操作、65表/664列/113外键。仅原设备ED25519证明可领取；原命令编号与header相同，010将其固定绑定原lease并和安全事件原子提交。每次包括重试都重新核原买方scoped key/route、原订单与同单资金、资格、完整已占预算、加密输入元数据、原owner/双围栏和原期限；不换单、不重签/续租。领取服务只有显式公钥，不解密输入、不确认实际执行或计费；DELIVER任务、预算和资源保持原状。通用元数据队列仅认领/耗尽标记自身白名单类型，不能处理独立的执行投递意图。设备独立公钥/批准计划、输入/manifest交付、宿主持久执行命令、真实内核/usage/渠道及E2E/LP/PE/租赁仍待。001—009及端侧DDL保持原字节，历史UNBOUND_CLAIM。
+
+[CL-001—028](docs/技术开发/附录-原设备签名领取与原租约交付.md) · [R018 evidence](dev/tests/evidence/R018-验证报告.md) · [All 56 tasks](dev/progress/R018-本轮实现与完整待办.md)。
+
+`P11_LEASE_VERIFIERS_FILE` → `P11_LEASE_VERIFIERS_1` public verifier configuration; `P11_PAYMENT_ENVIRONMENT` must be explicit. Without the file, claim stays 503. Native `PrepareLeaseClaim → Send → UnverifiedClaim` returns metadata requiring independent `executionlease.Verify`; CLI inference remains disabled.
+
 ## 当前实现状态
 
 仓库包含可运行的 **React/Taro支付宝小程序页面、React/Vite Web、共享控制逻辑及Go/PostgreSQL后端子集**，配有完整需求和技术细则。沿选定的新粗野主义，已实现市场、正式报价、本人待付款订单和提供方设备控制：配对、共享条件、停止与撤销。模型服务、完整设备执行端、内容端到端加密、真实支付和完整平台仍待完成。产品截图明确使用合成授权/卖家资格，Taro画面为H5预览；提供方控制另联调真实Windows命令程序，不代表GPU执行。

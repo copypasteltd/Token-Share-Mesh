@@ -8673,9 +8673,6 @@
       "security": [
         {
           "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
         }
       ],
       "request_schema": {
@@ -8722,10 +8719,16 @@
         "docs/技术开发/附录-低开销隐私执行完整方案.md",
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md"
       ],
-      "canonical_operation_sha256": "9005b0532e5deb4655724f8ef74bdfbdce128a48d2aad763104fe5d5cbccb766",
+      "canonical_operation_sha256": "07d4a04461c5b9ebf89f2ae5112ab3ba66bd998d4ddcd9d2d8e45da1c0168720",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "claimLease",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-003"
     },
     {
@@ -15159,8 +15162,8 @@
       "name": "execution_leases",
       "schema": "p11",
       "module_id": "MOD-06",
-      "column_count": 22,
-      "foreign_key_count": 2,
+      "column_count": 28,
+      "foreign_key_count": 3,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
@@ -20024,11 +20027,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "e843d49ce026e3828390005ebe99d252e5b8cdd378cc1e4cbe2e918da41d342f"
+      "sha256": "c3b9bb97fa90d9717b325841152998265c0bed79c3cad2f51481974e301ac477"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "d22f18b4b1b144dc9390be73565ea50277c71304438ececd346fc5295a410799"
+      "sha256": "54d6632367efcdd67dab4870959fe99607cf5b1b2d7cc20cc775a4d4a7567487"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20040,7 +20043,7 @@
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "8921f6c72ec1357857ec1c58d5de05ff9d69b4c9a88188dd60f987aa78a3ad73"
+      "sha256": "e3378a329d750f929bdf600b90659cb09fcd4892c494ccb316353a4781d1c5a8"
     },
     {
       "path": "dev/tools/构建开发细则.py",
@@ -20080,7 +20083,7 @@
     },
     {
       "path": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
-      "sha256": "a60a640d2769a09d6a06ebea4c7f0c68cda22a36cec12359f2dadab378255648"
+      "sha256": "74f1a3ceb918a767e9348b08168727d6bc046ada6b117197bdbac72cf544f302"
     },
     {
       "path": "docs/技术开发/10-Android与LMA工程设计.md",
@@ -20132,11 +20135,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "ad9a921a69db797e07ad9d870b8d727cfac7c3dac87ba95c8239816a8779f330"
+      "sha256": "580b5da08f43a143656b65d4b55b714f7e04f367843a3afa41e2493bce9923ca"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "5274829527e5a2a07cc538eb113edcc8d55980841c6602ae5818e19d48b841c9"
+      "sha256": "8e9eb7880384ed535d2ec76d379cffe599acd700aa61448e821e1242444fddf5"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20183,6 +20186,10 @@
       "sha256": "5deaac9ff209ee108c379ce749e15b4666a3606b2f9bed6178241292060da871"
     },
     {
+      "path": "docs/技术开发/database/migrations/010_native_lease_claim.sql",
+      "sha256": "6ca9ad4f6ef116975ab92015197330efde6f546ca33d4cb8527b419be7adc979"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -20208,7 +20215,7 @@
     },
     {
       "path": "docs/技术开发/附录-原生提供方控制代理与本地恢复.md",
-      "sha256": "d65d28bb9cca7c6904905a326e4c5d14b708644c5ce14a2e34c23c141035c523"
+      "sha256": "a6cf459a53f44ba4c72dd17f4493bc0fd74718bfad9dfee5da5e4580c6832a09"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
@@ -20232,7 +20239,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "f72a7f8357798ff6a5903ea06da4761db18464bbaca239ad87e66fa887268972"
+      "sha256": "457e385aed06ba39835df9d33a9ef9cf9a3015ecbb41ea32eb6783c5925c8507"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",

@@ -261,6 +261,12 @@ func TestInboxReceiptRollsBackWithSideEffectAndDeduplicates(t *testing.T) {
 func TestDurableJobsFenceStaleClaimsAndBoundRetries(t *testing.T) {
 	requireDB(t)
 	q := outbox.Queue{DB: db, MaxTries: 2}
+	// Delivery intents are intentionally outside the generic metadata queue.
+	// They must stay untouched even when old/exhausted and earlier in the queue.
+	foreign, exhausted := ids.New("task"), ids.New("task")
+	exec(t, `INSERT INTO p11.durable_jobs(id,kind,dedupe_key,target_ref,state,run_at,tries)
+VALUES($1::text,'DELIVER_EXECUTION_LEASE',$1::text,$3,'PENDING',clock_timestamp()-interval '1 day',0),
+($2::text,'DELIVER_EXECUTION_LEASE',$2::text,$3,'PENDING',clock_timestamp()-interval '1 day',2)`, foreign, exhausted, ids.New("lease"))
 	target := ids.New("pay")
 	var id string
 	err := db.Transaction(ctx, pgx.ReadCommitted, func(tx pgx.Tx) error {
@@ -295,4 +301,8 @@ func TestDurableJobsFenceStaleClaimsAndBoundRetries(t *testing.T) {
 		return err
 	})
 	assertCode(t, err, fault.Invalid)
+	var intact bool
+	if err = db.Pool.QueryRow(ctx, `SELECT count(*)=2 AND bool_and(state='PENDING') AND sum(tries)=2 FROM p11.durable_jobs WHERE id=ANY($1::text[])`, []string{foreign, exhausted}).Scan(&intact); err != nil || !intact {
+		t.Fatal("generic queue mutated unsupported delivery", intact, err)
+	}
 }

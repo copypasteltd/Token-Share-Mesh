@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/010_native_lease_claim.sql",
+  "source_sha256": "6ca9ad4f6ef116975ab92015197330efde6f546ca33d4cb8527b419be7adc979",
+  "migration": "010_native_lease_claim.sql",
+  "migration_sha256": "6ca9ad4f6ef116975ab92015197330efde6f546ca33d4cb8527b419be7adc979",
+  "policy": "010 forward-only immutable native delivery claim; 001-009/client SQLite unchanged; historical UNBOUND_CLAIM; no ACK/content/usage inferred"
+}
