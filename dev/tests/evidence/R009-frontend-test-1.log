@@ -1,0 +1,119 @@
+
+> token-share-mesh-frontends@0.6.0 test
+> node --import tsx --test frontend/packages/core/tests/*.test.ts
+
+TAP version 13
+# Subtest: UI-UNIT-001 decimal currency never accepts exponent, truncation or an unsafe integer
+ok 1 - UI-UNIT-001 decimal currency never accepts exponent, truncation or an unsafe integer
+  ---
+  duration_ms: 1.0658
+  ...
+# Subtest: UI-UNIT-002 rational hourly and dual-token previews round only once after summation
+ok 2 - UI-UNIT-002 rational hourly and dual-token previews round only once after summation
+  ---
+  duration_ms: 0.8514
+  ...
+# Subtest: UI-UNIT-003 rate labels preserve fractions and never turn a small positive rate into free
+ok 3 - UI-UNIT-003 rate labels preserve fractions and never turn a small positive rate into free
+  ---
+  duration_ms: 0.2787
+  ...
+# Subtest: UI-UNIT-004 unqualified price, unit, privacy and generic phone data fail closed
+ok 4 - UI-UNIT-004 unqualified price, unit, privacy and generic phone data fail closed
+  ---
+  duration_ms: 0.6821
+  ...
+# Subtest: UI-UNIT-005 PKCE uses the RFC 7636 SHA-256 vector and refuses a failed random source
+ok 5 - UI-UNIT-005 PKCE uses the RFC 7636 SHA-256 vector and refuses a failed random source
+  ---
+  duration_ms: 1.2636
+  ...
+# Subtest: UI-UNIT-006 WEB mutations use CSRF and native sessions only use the bearer transport
+ok 6 - UI-UNIT-006 WEB mutations use CSRF and native sessions only use the bearer transport
+  ---
+  duration_ms: 0.3013
+  ...
+# Subtest: UI-UNIT-007 a lost mutation receipt survives reload and retries the identical command
+ok 7 - UI-UNIT-007 a lost mutation receipt survives reload and retries the identical command
+  ---
+  duration_ms: 0.7282
+  ...
+# Subtest: UI-UNIT-008 unknown results block changed parameters, unavailable storage and simultaneous writes
+ok 8 - UI-UNIT-008 unknown results block changed parameters, unavailable storage and simultaneous writes
+  ---
+  duration_ms: 4.1821
+  ...
+# Subtest: UI-UNIT-009 role revocation and a malformed success preserve pending evidence
+ok 9 - UI-UNIT-009 role revocation and a malformed success preserve pending evidence
+  ---
+  duration_ms: 0.5859
+  ...
+# Subtest: UI-UNIT-010 changing authenticated owner while preparing a command cannot send it under a new account
+ok 10 - UI-UNIT-010 changing authenticated owner while preparing a command cannot send it under a new account
+  ---
+  duration_ms: 1.8218
+  ...
+# Subtest: UI-UNIT-011 stale market responses cannot overwrite a newer mode or refill data after logout
+ok 11 - UI-UNIT-011 stale market responses cannot overwrite a newer mode or refill data after logout
+  ---
+  duration_ms: 1.2305
+  ...
+# Subtest: UI-UNIT-012 E2E stays gated without a verified local gateway and has no Prompt transport
+ok 12 - UI-UNIT-012 E2E stays gated without a verified local gateway and has no Prompt transport
+  ---
+  duration_ms: 0.526
+  ...
+# Subtest: UI-UNIT-013 native nonce is an explicit profile and command IDs use a separate memory-only PRF
+ok 13 - UI-UNIT-013 native nonce is an explicit profile and command IDs use a separate memory-only PRF
+  ---
+  duration_ms: 1.2799
+  ...
+# Subtest: UI-UNIT-014 provider projections reject cross-protocol secrets, generic phones and unsafe sequence values
+ok 14 - UI-UNIT-014 provider projections reject cross-protocol secrets, generic phones and unsafe sequence values
+  ---
+  duration_ms: 0.7808
+  ...
+# Subtest: UI-UNIT-015 original PATCH method, ETag and body survive reload without containing a credential
+ok 15 - UI-UNIT-015 original PATCH method, ETag and body survive reload without containing a credential
+  ---
+  duration_ms: 0.6783
+  ...
+# Subtest: UI-UNIT-016 provider journal refuses token-bearing payloads, wrong methods, weak ETags and arbitrary routes before saving or sending
+ok 16 - UI-UNIT-016 provider journal refuses token-bearing payloads, wrong methods, weak ETags and arbitrary routes before saving or sending
+  ---
+  duration_ms: 0.313
+  ...
+# Subtest: UI-UNIT-017 lost pairing reply restores the same intent without redisclosing or persisting its one-time token
+ok 17 - UI-UNIT-017 lost pairing reply restores the same intent without redisclosing or persisting its one-time token
+  ---
+  duration_ms: 1.3454
+  ...
+# Subtest: UI-UNIT-018 clearing or hiding during an in-flight pairing also suppresses a late secret; expired receipts stay hidden
+ok 18 - UI-UNIT-018 clearing or hiding during an in-flight pairing also suppresses a late secret; expired receipts stay hidden
+  ---
+  duration_ms: 2.1245
+  ...
+# Subtest: UI-UNIT-019 shared time form preserves Beijing timezone, rejects invalid dates/overlaps and requires explicit phone conditions
+ok 19 - UI-UNIT-019 shared time form preserves Beijing timezone, rejects invalid dates/overlaps and requires explicit phone conditions
+  ---
+  duration_ms: 1.8136
+  ...
+# Subtest: UI-UNIT-020 policy acknowledgement does not claim device execution; stale versions require a fresh owner read
+ok 20 - UI-UNIT-020 policy acknowledgement does not claim device execution; stale versions require a fresh owner read
+  ---
+  duration_ms: 1.1379
+  ...
+# Subtest: UI-UNIT-021 unconfirmed/foreign device actions never send; permission revocation clears the ephemeral pairing secret
+ok 21 - UI-UNIT-021 unconfirmed/foreign device actions never send; permission revocation clears the ephemeral pairing secret
+  ---
+  duration_ms: 1.2323
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 343.0552

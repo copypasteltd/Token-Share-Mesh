@@ -90,6 +90,16 @@ def main():
         changed_front = [name for name,digest in front['source_sha256'].items() if hashlib.sha256((ROOT/name).read_bytes()).hexdigest() != digest]
         units = 21 if round_id == 'R009' else 13
         check(front['status']=='PASSED_FOR_FRONTEND_CONTROL_SUBSET_ONLY' and front['unit_cases']==units and len(front['browser_checks'])==2 and not changed_front, f'Current frontend evidence includes {units} unit cases, all builds and both native browser journeys', changed_front)
+        missing_logs = []
+        for record in front['records']:
+            for command in record['commands']:
+                name = command.get('evidence_log', '')
+                path = (ROOT / name).resolve()
+                if (not name or not path.is_relative_to(ROOT / 'dev/tests/evidence') or not path.is_file() or
+                    hashlib.sha256(path.read_bytes()).hexdigest() != command['log_sha256'] or
+                    subprocess.run(['git','check-ignore','-q',name],cwd=ROOT).returncode == 0):
+                    missing_logs.append(name)
+        check(not missing_logs, 'Current frontend build and unit logs are public evidence with matching recorded hashes', missing_logs)
         product_media = json.loads((ROOT / 'dev/media/frontend-manifest.json').read_text(encoding='utf-8'))
         stale = [item['path'] for item in product_media['assets'] if not (ROOT/item['path']).is_file() or hashlib.sha256((ROOT/item['path']).read_bytes()).hexdigest()!=item['sha256']]
         screenshots = 14 if round_id == 'R009' else 10

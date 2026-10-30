@@ -1,6 +1,6 @@
 {
   "round": "R009",
-  "checked_at": "2026-10-30T03:38:02.462030+00:00",
+  "checked_at": "2026-10-30T03:41:06.728463+00:00",
   "scope": "Repository documentation, packaging, media provenance and local preview only; no model/GPU/payment/product acceptance",
   "passed": true,
   "checks": [
@@ -63,48 +63,54 @@
     },
     {
       "id": "R009-CHECK-011",
-      "title": "14 actual product screenshots and four recording files match their independent provenance",
+      "title": "Current frontend build and unit logs are public evidence with matching recorded hashes",
       "passed": true,
       "detail": []
     },
     {
       "id": "R009-CHECK-012",
+      "title": "14 actual product screenshots and four recording files match their independent provenance",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "id": "R009-CHECK-013",
       "title": "Product captures closed their owned browsers and do not claim native Alipay or device/payment acceptance",
       "passed": true
     },
     {
-      "id": "R009-CHECK-013",
+      "id": "R009-CHECK-014",
       "title": "Both current UIs pair a real Windows control binary, recover original writes and reject a revoked heartbeat without execution",
       "passed": true
     },
     {
-      "id": "R009-CHECK-014",
+      "id": "R009-CHECK-015",
       "title": "Public file set excludes runtime/dependencies/credentials/binaries and oversized assets",
       "passed": true,
       "detail": {
-        "files": 764,
+        "files": 789,
         "forbidden": [],
         "oversize": []
       }
     },
     {
-      "id": "R009-CHECK-015",
+      "id": "R009-CHECK-016",
       "title": "No high-confidence private keys or service tokens in the public file set",
       "passed": true,
       "detail": []
     },
     {
-      "id": "R009-CHECK-016",
+      "id": "R009-CHECK-017",
       "title": "Runtime data is excluded by Git rules",
       "passed": true
     },
     {
-      "id": "R009-CHECK-017",
+      "id": "R009-CHECK-018",
       "title": "Expected SSH remote and main branch are configured",
       "passed": true
     },
     {
-      "id": "R009-CHECK-018",
+      "id": "R009-CHECK-019",
       "title": "Actual loopback preview serves readers and rejects private/traversal/listing requests",
       "passed": true,
       "detail": {
@@ -135,7 +141,7 @@
       }
     },
     {
-      "id": "R009-CHECK-019",
+      "id": "R009-CHECK-020",
       "title": "Repository verification stopped its own HTTP server thread",
       "passed": true
     }

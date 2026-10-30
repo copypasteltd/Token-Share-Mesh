@@ -1,0 +1,18 @@
+
+> token-share-mesh-frontends@0.6.0 build:web
+> npm run build --workspace @tsm/web
+
+
+> @tsm/web@0.6.0 build
+> vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+computing gzip size...
+../../builds/web/index.html                   0.43 kB │ gzip:  0.32 kB
+../../builds/web/assets/index-CaXCDsVJ.css   12.79 kB │ gzip:  3.28 kB
+../../builds/web/assets/index-gyCakcj-.js   191.77 kB │ gzip: 62.86 kB
+
+✓ built in 128ms

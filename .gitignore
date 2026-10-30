@@ -21,6 +21,7 @@
 *.test
 *.prof
 *.log
+!/dev/tests/evidence/R*-frontend-*.log
 .DS_Store
 Thumbs.db
 
