@@ -232,7 +232,7 @@ def main() -> None:
     if round_id == 'R012':
         report['limitations'][-1] = 'Native forwarding uses only loopback synthetic HTTP backends and explicit admission/secret fixtures. No production route/funding/lease gate, SDK compatibility certification, real engine stop, content E2E, paid model or billable usage evidence.'
         report['limitations'].append('Three native text profiles only; no cross-dialect conversion, tools, media or Sub2API code extraction. Prior frontend TS/build receipts are reused after exact source/output/log hash checks; both current browser journeys rerun with the current native binary.')
-        report['development_attempts'] = ['dev/tests/evidence/R012-development-attempts.json','dev/tests/evidence/R012-native-go-tests-attempt1.jsonl','dev/tests/evidence/R012-native-summary-attempt1.json','dev/tests/evidence/R012-stale-sweep-before-fix.jsonl','dev/tests/evidence/R012-targeted-after-fix.jsonl']
+        report['development_attempts'] = ['dev/tests/evidence/R012-development-attempts.json','dev/tests/evidence/R012-native-go-tests-attempt1.jsonl','dev/tests/evidence/R012-native-summary-attempt1.json','dev/tests/evidence/R012-stale-sweep-before-fix.jsonl','dev/tests/evidence/R012-targeted-after-fix.jsonl','dev/tests/evidence/R012-field-whitelist-before-fix.jsonl','dev/tests/evidence/R012-field-whitelist-after-fix.jsonl']
     (EVIDENCE / f'{round_id}-验证报告.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     text = f'# {round_id} 原生源码验证报告\n\n仅已列明的控制应用、端侧元数据、监督与协议转发源码子集通过：{len(cases)}项用例通过，实际用例无失败/跳过；临时原生数据库已停止。完整平台80项主验收仍为 NOT_EXECUTED。\n\n'
     text += '| 用例编号 | 验证内容 | 结果 |\n| --- | --- | --- |\n'
@@ -255,7 +255,7 @@ def main() -> None:
     if round_id == 'R011':
         text += '第93—113项实际运行监督循环、SQLite原命令及原生控制联动，覆盖到期/回拨、调用取消、未知提交、原backend查询、停止/清理重试、不同资源并行和数据库失败关闭。后端为明确合成元数据适配器，没有运行真实模型/GPU或删除真实任务文件/密钥；不得将其作为LP/PE/E2E或完整RuntimeSupervisor验收。前端与原生命令证据沿本轮重跑；所有临时实例/浏览器结束关闭。完整开发仍保留全部56项与222子项。首次失败为恢复中挂载页面错过本人资料加载，事件/已停止实例/关闭浏览器及截图见[开发失败留档](R011-development-attempts.json)，修复后通过冻结恢复回执的双端回归验证，不抹除失败记录。\n\n'
     if round_id == 'R012':
-        text += '新增第114—133项为实际原生HTTP与合成后端的转发用例：固定卖家/合同、三种文本方言、严格输入、流终态、取消/截止/受阻写入与无重试。准入/凭据均为显式夹具，不发布模型入口，不证明GPU停算、计费、SDK认证或E2E。前端21项TS及三目标构建只经摘要复核复用，双端浏览器与当前Windows节点命令重新运行。第134项确定性复现并修复清理完成后旧快照ErrFence误判退出失败，未放宽清理证据/CAS或时限。开发夹具超时、原完整失败和修正见[R012失败留档](R012-development-attempts.json)。\n\n'
+        text += '新增第114—133项为实际原生HTTP与合成后端的转发用例：固定卖家/合同、三种文本方言、严格输入、流终态、取消/截止/受阻写入与无重试。准入/凭据均为显式夹具，不发布模型入口，不证明GPU停算、计费、SDK认证或E2E。前端21项TS及三目标构建只经摘要复核复用，双端浏览器与当前Windows节点命令重新运行。第134项确定性复现并修复清理完成后旧快照ErrFence误判退出失败，未放宽清理证据/CAS或时限。既有115/126项中的请求/响应负向用例补充含分隔符伪字段，白名单逐完整名称相等比较，不使用子串近似。开发夹具超时、原完整失败和修正见[R012失败留档](R012-development-attempts.json)。\n\n'
     attempts=sorted(EVIDENCE.glob(round_id+'-native-summary-attempt*.json'))
     for path in attempts:
         old=json.loads(path.read_text(encoding='utf-8'))

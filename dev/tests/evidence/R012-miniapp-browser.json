@@ -2,8 +2,8 @@
   "round": "R012",
   "target": "miniapp",
   "passed": true,
-  "buyer_id": "usr_191599b3a74113c650cfdb735eaf9923",
-  "order_id": "ord_5b76e19ab9db55ce0e8654dab7fa7bf0",
+  "buyer_id": "usr_a7e4ab2c2b2278b7a011ce71129b623e",
+  "order_id": "ord_ca81dfae18bde28db965bb644dc5b92d",
   "browser_closed": true,
   "remaining_owned_tabs": 0,
   "assertions": [
@@ -23,7 +23,7 @@
   "screenshots": [
     {
       "path": "dev/media/R012/screenshots/miniapp-market.png",
-      "sha256": "947375d878a839f54f5896a8a9dd8691ec66d923f7bcfca1e4395786423cf55e",
+      "sha256": "ab86d4a243bddd441325a19e1e580641bc45a6eecb0bcbf90d5b6576141ef9d4",
       "viewport": {
         "width": 390,
         "height": 844
@@ -43,7 +43,7 @@
     },
     {
       "path": "dev/media/R012/screenshots/miniapp-order-pending.png",
-      "sha256": "c243ca366fe36d263628073eee218427138415195e32eb7c89155e30a9eef01e",
+      "sha256": "f68c3087fc206c40499962361d0078e7936b26f7e2ff69f5b36be86c01eb65a2",
       "viewport": {
         "width": 390,
         "height": 844
@@ -53,7 +53,7 @@
     },
     {
       "path": "dev/media/R012/screenshots/miniapp-order.png",
-      "sha256": "dd46cbbb15c4c24a8e047cb6377e5ac5a09bab9ca5d8cfb66408e49bb9c0f4b9",
+      "sha256": "9d70b000afc834ec70bfe43aa137320bf711f7438fc63e4d052641b80bcaa05e",
       "viewport": {
         "width": 390,
         "height": 844
@@ -73,7 +73,7 @@
     },
     {
       "path": "dev/media/R012/screenshots/miniapp-provider-conditions.png",
-      "sha256": "12d5134090ddfaf47572f122299d521aeb105e32f2d2f8a93028bb65fc74b4e6",
+      "sha256": "406c0220f6e9339988291fa55eedb0902eb2050954cc986beacd2a19199c6538",
       "viewport": {
         "width": 390,
         "height": 844
@@ -83,7 +83,7 @@
     },
     {
       "path": "dev/media/R012/screenshots/miniapp-provider-revoked.png",
-      "sha256": "6996d4a352f120d953e86a91ef9bd3f4a0ee7dfa433878523e302002426a4908",
+      "sha256": "b32b708509623047bd14b9fd3ec5a1b1c207efff20a0912e70cd5854657db955",
       "viewport": {
         "width": 390,
         "height": 844
@@ -94,34 +94,34 @@
   ],
   "recording": {
     "method": "Native Chromium CDP compositor screencast, real timestamps; silent",
-    "frames": 268,
-    "seconds": 9.504,
+    "frames": 191,
+    "seconds": 28.661,
     "mp4": {
       "path": "dev/media/R012/recordings/miniapp-transaction.mp4",
-      "sha256": "87fd8ed70455f7df993e2d8a988fd4cdec5e6a5a4b4a793cda931e6705ae56f6"
+      "sha256": "f58173df6320702dd7bf135cc97365f1aaef347fd930615470d3377a1a81eb44"
     },
     "gif": {
       "path": "dev/media/R012/recordings/miniapp-transaction.gif",
-      "sha256": "12700d1775302ae258f64a5a381a43b2f637ef766c8429f7d46e0f3502b2d0de"
+      "sha256": "63c339dd13aabf15af6255e40d65b48ecbfc24e6b9fd81ea9cc80c29b04f129d"
     }
   },
   "scope": "Actual compiled UI/HTTP/DB with synthetic OAuth/qualification/device heartbeats; H5 is not native Alipay validation; no payment, device or inference execution",
   "virtualization_used": false,
   "browser_version": "156.0.4314.50",
   "provider_load_after_recovery": true,
-  "provider_native_binary_sha256": "9e0f49690ce12b9674c7002ec7eeda63d9d606e855fa2f26e84f78aee44eec5b",
+  "provider_native_binary_sha256": "f69b04b50480184b65b4eb2bb1b4bedb10b0f02542b325b6ea224c33d9502429",
   "provider_native_commands": [
     {
       "action": "init",
       "exit_code": 0,
       "safe_status": {
-        "control_base": "http://127.0.0.1:1920",
+        "control_base": "http://127.0.0.1:4713",
         "device_id": "",
         "model_name": "RTX 4090 24GB",
         "platform": "WINDOWS",
         "resource_kind": "GPU_DEVICE",
         "key_profile_id": "ED25519_DEVICE_1",
-        "key_fingerprint": "f1eaddd70580f0d222b73d9d9ba5abe1348d6b726b1c6c846f5900ebbc282141",
+        "key_fingerprint": "04c3bdc43e930cdcaa1e737bdd0febff0294167d07dad789dc8d98f1cf9c9ddf",
         "device_version": 0,
         "last_known_remote_state": "",
         "reserved_sequence": null,
@@ -134,13 +134,13 @@
       "action": "enroll",
       "exit_code": 0,
       "safe_status": {
-        "control_base": "http://127.0.0.1:1920",
-        "device_id": "dev_5983d555b18f1b8a0193a4786ebffab9",
+        "control_base": "http://127.0.0.1:4713",
+        "device_id": "dev_c427a39d22f407287e129a5a3d955557",
         "model_name": "RTX 4090 24GB",
         "platform": "WINDOWS",
         "resource_kind": "GPU_DEVICE",
         "key_profile_id": "ED25519_DEVICE_1",
-        "key_fingerprint": "f1eaddd70580f0d222b73d9d9ba5abe1348d6b726b1c6c846f5900ebbc282141",
+        "key_fingerprint": "04c3bdc43e930cdcaa1e737bdd0febff0294167d07dad789dc8d98f1cf9c9ddf",
         "device_version": 1,
         "last_known_remote_state": "PAIRED",
         "reserved_sequence": null,
@@ -173,13 +173,13 @@
       "action": "heartbeat",
       "exit_code": 0,
       "safe_status": {
-        "control_base": "http://127.0.0.1:1920",
-        "device_id": "dev_5983d555b18f1b8a0193a4786ebffab9",
+        "control_base": "http://127.0.0.1:4713",
+        "device_id": "dev_c427a39d22f407287e129a5a3d955557",
         "model_name": "RTX 4090 24GB",
         "platform": "WINDOWS",
         "resource_kind": "GPU_DEVICE",
         "key_profile_id": "ED25519_DEVICE_1",
-        "key_fingerprint": "f1eaddd70580f0d222b73d9d9ba5abe1348d6b726b1c6c846f5900ebbc282141",
+        "key_fingerprint": "04c3bdc43e930cdcaa1e737bdd0febff0294167d07dad789dc8d98f1cf9c9ddf",
         "device_version": 1,
         "last_known_remote_state": "PAIRED",
         "reserved_sequence": "0",
@@ -192,13 +192,13 @@
       "action": "heartbeat",
       "exit_code": 1,
       "safe_status": {
-        "control_base": "http://127.0.0.1:1920",
-        "device_id": "dev_5983d555b18f1b8a0193a4786ebffab9",
+        "control_base": "http://127.0.0.1:4713",
+        "device_id": "dev_c427a39d22f407287e129a5a3d955557",
         "model_name": "RTX 4090 24GB",
         "platform": "WINDOWS",
         "resource_kind": "GPU_DEVICE",
         "key_profile_id": "ED25519_DEVICE_1",
-        "key_fingerprint": "f1eaddd70580f0d222b73d9d9ba5abe1348d6b726b1c6c846f5900ebbc282141",
+        "key_fingerprint": "04c3bdc43e930cdcaa1e737bdd0febff0294167d07dad789dc8d98f1cf9c9ddf",
         "device_version": 1,
         "last_known_remote_state": "PAIRED",
         "reserved_sequence": "0",
@@ -208,7 +208,7 @@
       }
     }
   ],
-  "provider_device_id": "dev_5983d555b18f1b8a0193a4786ebffab9",
+  "provider_device_id": "dev_c427a39d22f407287e129a5a3d955557",
   "provider_execution_metadata": {
     "initialized_once": true,
     "reopened_same_anchor": true,

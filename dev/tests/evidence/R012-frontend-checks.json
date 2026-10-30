@@ -366,7 +366,7 @@
     {
       "target": "web",
       "evidence": "dev/tests/evidence/R012-web-browser.json",
-      "sha256": "22b8841c21dc03a4c4fcdca2b685485b2ba789a4e6a07e818617ac3fb5805eeb",
+      "sha256": "3d6557663f70521f8a0b2b0368b28bb2ec85500ef7d977a1df9f137928596aa5",
       "video_probe": {
         "streams": [
           {
@@ -399,11 +399,11 @@
             "time_base": "1/12288",
             "start_pts": 0,
             "start_time": "0.000000",
-            "duration_ts": 111616,
-            "duration": "9.083333",
-            "bit_rate": "1070659",
+            "duration_ts": 360444,
+            "duration": "29.333008",
+            "bit_rate": "449106",
             "bits_per_raw_sample": "8",
-            "nb_frames": "109",
+            "nb_frames": "352",
             "extradata_size": 49,
             "disposition": {
               "default": 1,
@@ -441,9 +441,9 @@
           "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
           "format_long_name": "QuickTime / MOV",
           "start_time": "0.000000",
-          "duration": "9.083333",
-          "size": "1217743",
-          "bit_rate": "1072507",
+          "duration": "29.333008",
+          "size": "1651739",
+          "bit_rate": "450479",
           "probe_score": 100,
           "tags": {
             "major_brand": "isom",
@@ -457,7 +457,7 @@
     {
       "target": "miniapp",
       "evidence": "dev/tests/evidence/R012-miniapp-browser.json",
-      "sha256": "9d97d1bee0cb3ec657acaa09df4188593c72dae9d967c50dad2a8557fef0edfd",
+      "sha256": "e2e41814a9776e0528dd50ec13397f24689e7c64cea534a1f5a87ff4be6c7913",
       "video_probe": {
         "streams": [
           {
@@ -490,11 +490,11 @@
             "time_base": "1/12288",
             "start_pts": 0,
             "start_time": "0.000000",
-            "duration_ts": 117760,
-            "duration": "9.583333",
-            "bit_rate": "463156",
+            "duration_ts": 353280,
+            "duration": "28.750000",
+            "bit_rate": "205026",
             "bits_per_raw_sample": "8",
-            "nb_frames": "115",
+            "nb_frames": "345",
             "extradata_size": 50,
             "disposition": {
               "default": 1,
@@ -532,9 +532,9 @@
           "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
           "format_long_name": "QuickTime / MOV",
           "start_time": "0.000000",
-          "duration": "9.583333",
-          "size": "556878",
-          "bit_rate": "464872",
+          "duration": "28.750000",
+          "size": "741638",
+          "bit_rate": "206368",
           "probe_score": 100,
           "tags": {
             "major_brand": "isom",

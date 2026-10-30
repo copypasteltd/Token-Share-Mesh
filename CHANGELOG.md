@@ -2,6 +2,8 @@
 
 ## R012 — Bound native protocol relay
 
+- Follow-up: replace delimiter-based substring checks with exact field-name equality in request/response allowlists; preserve pre-fix failures. The 20 changed relay cases pass. Reuse 114 identical-source cases from the initial published full pass only after exact source/module/input and independent-package checks. The latest full rerun FAILED seven existing short-deadline cases; a serialized diagnostic FAILED six. Preserve both failures; host contention is an observation, not a proven cause. No deadline or cleanup rule was relaxed, and no current 134-case full pass is claimed.
+
 - Fix a cleanup/sweep race: an already-completed owner snapshot is skipped on its rejected owner CAS, preserving replacement owners and real cleanup gates.
 
 - Add immutable seller/contract/route bindings and three native text JSON/SSE profiles with exact field, Unicode and header validation.

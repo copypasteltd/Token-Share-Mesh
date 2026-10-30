@@ -248,6 +248,7 @@ func TestRelayRejectsRequestAmbiguityBeforeAdmission(t *testing.T) {
 	})
 	base := requestBody(ChatText, false)
 	cases := []string{
+		strings.Replace(base, `"stream":false`, `"stream":false,"model|messages":true`, 1),
 		strings.Replace(base, `"model":`, `"model":"mesh-local-text","model":`, 1),
 		strings.Replace(base, `"role":"user"`, `"role":"user","role":"assistant"`, 1),
 		strings.Replace(base, `"model"`, `"Model"`, 1), base + `{}`,
@@ -564,6 +565,11 @@ func TestRelayResponsesMaintainsItemsSequenceAndTextIntegrity(t *testing.T) {
 
 func TestRelayUsageAbsentInvalidAndIncompleteRemainHonest(t *testing.T) {
 	for _, p := range []Profile{ChatText, ResponsesText, MessagesText} {
+		forged := child([]byte(jsonResponse(p)))
+		forged["id|object"] = encode("unsupported")
+		if _, _, _, e := responseJSON(encode(forged), testBinding(p, "http://127.0.0.1"), 512<<10); e == nil {
+			t.Fatal("separator field bypassed exact response whitelist", p)
+		}
 		o := child([]byte(jsonResponse(p)))
 		delete(o, "usage")
 		body, kind, u, e := responseJSON(encode(o), testBinding(p, "http://127.0.0.1"), 512<<10)

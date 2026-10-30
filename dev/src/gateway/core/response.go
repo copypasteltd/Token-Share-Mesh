@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"hash"
-	"strings"
 )
 
 func alias(o object, b Binding) bool {
@@ -109,7 +108,7 @@ func responseJSON(raw []byte, b Binding, max int) ([]byte, string, *Usage, error
 // Response metadata has documented nullable members. Request fields are stricter.
 func fieldsNullable(o object, allowed string) bool {
 	for k := range o {
-		if !strings.Contains("|"+allowed+"|", "|"+k+"|") {
+		if !allowedField(k, allowed) {
 			return false
 		}
 	}

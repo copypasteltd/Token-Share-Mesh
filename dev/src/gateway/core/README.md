@@ -16,4 +16,6 @@ python -B -X utf8 dev/tools/原生开发.py test -count=1 ./gateway/core
 
 Tests use explicit synthetic admission/secret ports and owned native loopback HTTP servers. They do not call paid models or qualify SDKs, GPUs, Android, payments, privacy performance or E2E interoperability.
 
+The exact-field follow-up passes all 20 relay cases. The latest full rerun failed seven existing short-deadline cases; 114 unchanged-package cases retain only byte-verified evidence from the initial published full pass. A serialized diagnostic also failed six cases. See the [current limited evidence](../../../tests/evidence/R012-验证报告.md); this is not a current full-suite pass. / 字段修复后转发20项通过，末次全量7项失败，114项仅复用初次完整通过的相同源码对照；未放宽时限/清理规则。
+
 [完整字段/事件/限制/编号与接线细则](../../../../docs/技术开发/附录-固定路由协议转发核心实施细则.md)。生产准入、低权限引擎、SDK兼容矩阵、跨方言、工具、媒体、Sub2API抽取和内容加密仍待完成。

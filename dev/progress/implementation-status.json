@@ -646,7 +646,8 @@
         "IMP-R012-003",
         "IMP-R012-005",
         "IMP-R012-008",
-        "IMP-R012-009"
+        "IMP-R012-009",
+        "IMP-R012-011"
       ],
       "remaining_step_ids": [
         "DEV-26.01",
@@ -656,7 +657,9 @@
       ],
       "evidence_refs": [
         "dev/tests/evidence/R012-验证报告.md",
-        "dev/tests/evidence/R012-frontend-checks.json"
+        "dev/tests/evidence/R012-frontend-checks.json",
+        "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+        "dev/tests/evidence/R012-native-go-tests-attempt2.jsonl"
       ],
       "remaining_detail": "已有Chat/无状态Responses/Messages原生文本JSON与独立SSE子集；仍须固定SDK/真实模型矩阵、工具/多模态/受限转换、完整字段和市场档位发布证据。"
     },
@@ -1129,7 +1132,8 @@
         "IMP-R012-007",
         "IMP-R012-008",
         "IMP-R012-009",
-        "IMP-R012-010"
+        "IMP-R012-010",
+        "IMP-R012-011"
       ],
       "remaining_step_ids": [
         "DEV-53.01",
@@ -1153,9 +1157,11 @@
         "dev/tests/evidence/R011-验证报告.md",
         "dev/tests/evidence/R011-frontend-checks.json",
         "dev/tests/evidence/R012-验证报告.md",
-        "dev/tests/evidence/R012-frontend-checks.json"
+        "dev/tests/evidence/R012-frontend-checks.json",
+        "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+        "dev/tests/evidence/R012-native-go-tests-attempt2.jsonl"
       ],
-      "remaining_detail": "已有租约/元数据/权限基础、监督故障关闭与固定错误；继续内容E2E、低权限真实内核/进程隔离、钥轮换撤销、依赖与独立安全/LP/PE实机验收。"
+      "remaining_detail": "已有租约/元数据/权限基础、监督故障关闭与固定错误；继续内容E2E、低权限真实内核/进程隔离、钥轮换撤销、依赖与独立安全/LP/PE实机验收。 末次全量7项及串行6项短时限失败已留档，仍须逐项定位与复核存储/监督截止的稳定性，不以主机繁忙推定根因。"
     },
     {
       "id": "DEV-54",
@@ -12191,7 +12197,7 @@
     {
       "id": "R012",
       "title": "固定路由原生文本转发、独立流终态与有界I/O",
-      "verification_status": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+      "verification_status": "VERIFIED_CHANGED_RELAY_WITH_UNCHANGED_BASELINE_FULL_RERUN_FAILED",
       "implemented": [
         {
           "id": "IMP-R012-001",
@@ -12203,10 +12209,10 @@
           "artifacts": [
             "dev/src/gateway/core/types.go"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "PASSED_FOR_CURRENT_RELAY_SUBSET_ONLY",
           "evidence_refs": [
-            "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
           ]
         },
         {
@@ -12219,10 +12225,10 @@
           "artifacts": [
             "dev/src/gateway/core/json.go"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "PASSED_FOR_CURRENT_RELAY_SUBSET_ONLY",
           "evidence_refs": [
-            "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
           ]
         },
         {
@@ -12236,10 +12242,10 @@
             "dev/src/gateway/core/response.go",
             "dev/src/gateway/core/json.go"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "PASSED_FOR_CURRENT_RELAY_SUBSET_ONLY",
           "evidence_refs": [
-            "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
           ]
         },
         {
@@ -12253,10 +12259,10 @@
             "dev/src/gateway/core/types.go",
             "dev/src/gateway/core/http.go"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "PASSED_FOR_CURRENT_RELAY_SUBSET_ONLY",
           "evidence_refs": [
-            "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
           ]
         },
         {
@@ -12270,10 +12276,10 @@
             "dev/src/gateway/core/sse.go",
             "dev/src/gateway/core/response.go"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "PASSED_FOR_CURRENT_RELAY_SUBSET_ONLY",
           "evidence_refs": [
-            "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
           ]
         },
         {
@@ -12287,10 +12293,10 @@
           "artifacts": [
             "dev/src/gateway/core/http.go"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "PASSED_FOR_CURRENT_RELAY_SUBSET_ONLY",
           "evidence_refs": [
-            "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
           ]
         },
         {
@@ -12305,10 +12311,10 @@
             "dev/src/gateway/core/http.go",
             "dev/src/gateway/core/types.go"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "PASSED_FOR_CURRENT_RELAY_SUBSET_ONLY",
           "evidence_refs": [
-            "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
           ]
         },
         {
@@ -12320,13 +12326,13 @@
             "DEV-51",
             "DEV-53"
           ],
-          "title": "新增21项Go用例（20转发/1监督竞态），134项局部回归与双端控制验证",
+          "title": "20项当前转发测试、114项相同源码对照、双端回归与末次全量失败留档",
           "artifacts": [
             "dev/src/gateway/core/core_test.go",
             "dev/tools/整理原生验证证据.py",
             "dev/tools/frontend/browser.mjs"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "VERIFIED_CHANGED_RELAY_WITH_UNCHANGED_BASELINE_FULL_RERUN_FAILED",
           "evidence_refs": [
             "dev/tests/evidence/R012-验证报告.md",
             "dev/tests/evidence/R012-frontend-checks.json"
@@ -12349,7 +12355,7 @@
             "CHANGELOG.md",
             "CHANGELOG.zh-CN.md"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "DOCUMENTED_WITH_CURRENT_FULL_RERUN_FAILURES",
           "evidence_refs": [
             "dev/tests/evidence/R012-验证报告.md",
             "dev/tests/evidence/R012-frontend-checks.json"
@@ -12367,10 +12373,31 @@
             "dev/src/client/supervisor/supervisor.go",
             "dev/src/client/supervisor/snapshot_test.go"
           ],
-          "verification": "PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY",
+          "verification": "PASSED_INITIAL_BASELINE_ONLY_CURRENT_FULL_RERUN_FAILED",
           "evidence_refs": [
-            "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-unchanged-baseline-native-go-tests.jsonl",
+            "dev/tests/evidence/R012-stale-sweep-before-fix.jsonl",
+            "dev/tests/evidence/R012-targeted-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
+          ]
+        },
+        {
+          "id": "IMP-R012-011",
+          "task_ids": [
+            "DEV-26",
+            "DEV-53"
+          ],
+          "title": "请求/响应白名单按完整字段名精确相等，拒绝分隔符伪字段并保留负向复现",
+          "artifacts": [
+            "dev/src/gateway/core/json.go",
+            "dev/src/gateway/core/response.go",
+            "dev/src/gateway/core/core_test.go",
+            "dev/tools/汇总转发补充修复证据.py"
+          ],
+          "verification": "PASSED_FOR_CURRENT_RELAY_SUBSET_ONLY",
+          "evidence_refs": [
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-验证报告.md"
           ]
         }
       ],
@@ -12390,7 +12417,17 @@
         "docs/评审/白皮书契约核验-v3.0.json",
         "docs/评审/技术开发文档核验-v1.0.json",
         "dev/评审/开发细则核验-v1.0.json",
-        "dev/tests/evidence/R012-repository-check.json"
+        "dev/tests/evidence/R012-repository-check.json",
+        "dev/tests/evidence/R012-field-whitelist-before-fix.jsonl",
+        "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+        "dev/tests/evidence/R012-native-go-tests-attempt2.jsonl",
+        "dev/tests/evidence/R012-native-summary-attempt2.json",
+        "dev/tests/evidence/R012-native-contention-diagnostic.jsonl",
+        "dev/tests/evidence/R012-unchanged-baseline-native-go-tests.jsonl",
+        "dev/tests/evidence/R012-unchanged-baseline-native-source-checks.json",
+        "dev/tests/evidence/R012-unchanged-baseline-native-summary.json",
+        "dev/tests/evidence/R012-unchanged-baseline-验证报告.json",
+        "dev/tools/汇总转发补充修复证据.py"
       ],
       "task_snapshot": [
         {
@@ -13034,7 +13071,8 @@
             "IMP-R012-003",
             "IMP-R012-005",
             "IMP-R012-008",
-            "IMP-R012-009"
+            "IMP-R012-009",
+            "IMP-R012-011"
           ],
           "remaining_step_ids": [
             "DEV-26.01",
@@ -13044,7 +13082,9 @@
           ],
           "evidence_refs": [
             "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-native-go-tests-attempt2.jsonl"
           ],
           "remaining_detail": "已有Chat/无状态Responses/Messages原生文本JSON与独立SSE子集；仍须固定SDK/真实模型矩阵、工具/多模态/受限转换、完整字段和市场档位发布证据。"
         },
@@ -13517,7 +13557,8 @@
             "IMP-R012-007",
             "IMP-R012-008",
             "IMP-R012-009",
-            "IMP-R012-010"
+            "IMP-R012-010",
+            "IMP-R012-011"
           ],
           "remaining_step_ids": [
             "DEV-53.01",
@@ -13541,9 +13582,11 @@
             "dev/tests/evidence/R011-验证报告.md",
             "dev/tests/evidence/R011-frontend-checks.json",
             "dev/tests/evidence/R012-验证报告.md",
-            "dev/tests/evidence/R012-frontend-checks.json"
+            "dev/tests/evidence/R012-frontend-checks.json",
+            "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+            "dev/tests/evidence/R012-native-go-tests-attempt2.jsonl"
           ],
-          "remaining_detail": "已有租约/元数据/权限基础、监督故障关闭与固定错误；继续内容E2E、低权限真实内核/进程隔离、钥轮换撤销、依赖与独立安全/LP/PE实机验收。"
+          "remaining_detail": "已有租约/元数据/权限基础、监督故障关闭与固定错误；继续内容E2E、低权限真实内核/进程隔离、钥轮换撤销、依赖与独立安全/LP/PE实机验收。 末次全量7项及串行6项短时限失败已留档，仍须逐项定位与复核存储/监督截止的稳定性，不以主机繁忙推定根因。"
         },
         {
           "id": "DEV-54",

@@ -62,11 +62,20 @@ func parseObject(raw []byte, max int) (object, error) {
 }
 func fields(o object, allowed string) bool {
 	for k, v := range o {
-		if !strings.Contains("|"+allowed+"|", "|"+k+"|") || bytes.Equal(bytes.TrimSpace(v), []byte("null")) {
+		if !allowedField(k, allowed) || bytes.Equal(bytes.TrimSpace(v), []byte("null")) {
 			return false
 		}
 	}
 	return true
+}
+
+func allowedField(key, allowed string) bool {
+	for field := range strings.SplitSeq(allowed, "|") {
+		if key == field {
+			return true
+		}
+	}
+	return false
 }
 func text(v json.RawMessage) (string, bool) {
 	var s string

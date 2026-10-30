@@ -14,6 +14,8 @@ Production embedding supplies an independently resolved immutable Binding, a dur
 
 三档都是同方言受限文本，Responses必须store=false、Messages固定2026-10-21；未支持字段先拒绝。STANDARD平台明文与未来E2E_BASIC卖方解密域分开配置；没有内容加密接线。详见[完整字段、流状态与时限](../../docs/技术开发/附录-固定路由协议转发核心实施细则.md)。
 
+Current follow-up validation is limited: 20 relay cases pass; 114 other cases reuse byte-identical source evidence from the initial published full pass. The latest full rerun failed seven existing short-deadline cases, and the serialized diagnostic failed six. Do not interpret source/build or browser checks as a full-suite pass. / 当前20项转发通过、114项相同源码对照复用；末次全量7失败及串行6失败见[完整记录](../tests/evidence/R012-验证报告.md)，未放宽时限或清理规则。
+
 
 ## R011 supervisor integration / 执行监督接入
 
@@ -33,7 +35,7 @@ SQLite is metadata-only and not encrypted content storage. It accepts no prompt/
 
 当前真实浏览器联调每端运行init/enroll/execution-init/execution-status/heartbeat/撤权后heartbeat共六个Windows进程；元数据库始终0资源/0任务、execution_enabled=false。Go局部用例另外验证合成任务的并发、异常退出、双截止和owner清理状态机；不能替代真实GPU或内容隐私验收。源码改动后先完成依赖整理，再运行 `核验原生源码.py --round R010`、`原生数据库验证.py --round R010`、`核验前端源码.py --round R010`、`整理原生验证证据.py --round R010`。真实数据库/自建浏览器/子进程全部结束关闭。
 
-See [complete implementation constraints](../../docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md), [R010 evidence](../tests/evidence/R010-验证报告.md) and [all 56 tasks/222 outstanding steps](../progress/R010-本轮实现与完整待办.md). Historical flows below retain their round labels; current scripts default to R010.
+See [complete implementation constraints](../../docs/技术开发/附录-原生执行收件箱与资源门闩实施细则.md), [R010 evidence](../tests/evidence/R010-验证报告.md) and [all 56 tasks/222 outstanding steps](../progress/R010-本轮实现与完整待办.md). Historical flows below retain their round labels; explicitly select the intended --round rather than relying on a script default.
 
 ## R009 provider page flow / 提供方页面操作
 
@@ -230,9 +232,9 @@ acceptance is implied by a successful document build or CLI cross-compilation.
 
 [R001证据](../tests/evidence/R001-验证报告.md)覆盖10项原生基础场景；[实施进度](../progress/README.md)列全部缺口。文档构建或 CLI 交叉编译不代表真实登录/支付、GPU/手机、加密互通或完整平台验收通过。
 
-[R003 evidence](../tests/evidence/R003-验证报告.md) covers 22 native cases, including pricing, qualification, quote/order concurrency and revoked-role replay. Temporary DB approvals are synthetic fixtures and cannot qualify real supply. The current scripts default to R009 and preserve historical evidence.
+[R003 evidence](../tests/evidence/R003-验证报告.md) covers 22 native cases, including pricing, qualification, quote/order concurrency and revoked-role replay. Temporary DB approvals are synthetic fixtures and cannot qualify real supply. Explicitly select the intended --round; preserve these historical results.
 
-[R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。当前工具默认R009，保留历史证据。
+[R003证据](../tests/evidence/R003-验证报告.md)覆盖22项原生场景，含计价、资格、报价/订单并发和撤销角色回放。临时库审批是合成夹具，不解锁真实供给。显式指定目标--round，保留这些历史证据。
 
 
 

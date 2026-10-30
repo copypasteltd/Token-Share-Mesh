@@ -1,6 +1,6 @@
 {
   "round": "R012",
-  "recorded_at": "2026-10-30T06:12:22.447672+00:00",
+  "recorded_at": "2026-10-30T06:28:12.284924+00:00",
   "scope": "Go source/dependencies and native admin/API/node builds only; not full product, native Linux runtime, GPU, Android, crypto or payment acceptance",
   "virtualization_used": false,
   "checks": [
@@ -118,37 +118,37 @@
     {
       "target": "windows-amd64",
       "path": "runtime/bin/p11-admin.exe",
-      "sha256": "da540504a7744f798f0631d0eff3f865ef7689e1a89cad827457e07a216995d1",
+      "sha256": "cb064b7931eb884fe5393911baf279cc354fbfc03c76477b2a742fc38a8cb057",
       "runtime_test": "NOT_EXECUTED"
     },
     {
       "target": "linux-amd64",
       "path": "runtime/bin/p11-admin-linux-amd64",
-      "sha256": "a85f958991b95b4f581ccf66c55aae41a9e40eaca4a40e1d5772075b63ce043d",
+      "sha256": "7043d1d0d3c58841830ad0ced9a83a8c6beedcf57533a077eb3268dd1138c3a6",
       "runtime_test": "NOT_EXECUTED"
     },
     {
       "target": "windows-amd64",
       "path": "runtime/bin/p11-api.exe",
-      "sha256": "0d233c9b50f9c9cb85d8f7688cade2939a4c842db337aebbbda6f72b5dc22b83",
+      "sha256": "fdf74eeea464ce9ebf1b4d03310e3695a9b4a56cdbb9a93916362ddc2c2e47a3",
       "runtime_test": "NOT_EXECUTED"
     },
     {
       "target": "linux-amd64",
       "path": "runtime/bin/p11-api-linux-amd64",
-      "sha256": "1c71da0dd41b8bc3fea6c373fbf5f8bd02e2ae10a55ce0401d47edd248f68cf1",
+      "sha256": "e66f69dcf6b9ce947bd554785a1076436fb540cbbbc7439c3602f0631cf6bf5e",
       "runtime_test": "NOT_EXECUTED"
     },
     {
       "target": "windows-amd64",
       "path": "runtime/bin/p11-node.exe",
-      "sha256": "9e0f49690ce12b9674c7002ec7eeda63d9d606e855fa2f26e84f78aee44eec5b",
+      "sha256": "f69b04b50480184b65b4eb2bb1b4bedb10b0f02542b325b6ea224c33d9502429",
       "runtime_test": "NOT_EXECUTED"
     },
     {
       "target": "linux-amd64",
       "path": "runtime/bin/p11-node-linux-amd64",
-      "sha256": "6b917ff4a2036f0ea4c72508c38626a57392be4b2094cbc0c172903a1db2f959",
+      "sha256": "53552576a8a4f2fcb17826b7b28cebc4c4f8def071d5902b361ca40f29dbf08f",
       "runtime_test": "NOT_EXECUTED"
     }
   ],
@@ -199,10 +199,10 @@
     "dev/src/client/supervisor/supervisor_test.go": "4baa7c537002977f72e6dddf6c05b89aea01517bf329654231581d42668dc9be",
     "dev/src/frontend/packages/core/package.json": "8ce61ff2e658a19fcf16344a8ad73a44ac1047eec291a3878ed16a20160f86b0",
     "dev/src/frontend/packages/core/tsconfig.json": "f749beefcbf9e69f812c864c1d241e4881a95e2acb5c8da7456f141af6769c78",
-    "dev/src/gateway/core/core_test.go": "b1925f9bd740e196f6df6c2fd071ed688657f9ca39349d10abdde68091c2577c",
+    "dev/src/gateway/core/core_test.go": "51c9314439f2f5643876687a1912276330de9a025aefdfbaafa57deb995fdae0",
     "dev/src/gateway/core/http.go": "8b00e3628ecae827b6e7caa77ad18509a648f31f60a9858b7469c24a70226d94",
-    "dev/src/gateway/core/json.go": "9215450f32e245738836213b94c217299c194e33aa5c79ecbb260984cb2becb4",
-    "dev/src/gateway/core/response.go": "62d8cca4c1213fa8c50c1f231b8759c3d03f9eb65b12791ece7a278ccfa80ee3",
+    "dev/src/gateway/core/json.go": "788438a2eec39f9dd80bd4332183ade9e0bbb18dc7933d04143f3ded3859ae5f",
+    "dev/src/gateway/core/response.go": "69b5304be803e27b535e4e5d092d0346f0a7a15268a00a0769b4039715130261",
     "dev/src/gateway/core/sse.go": "953e51b05824557b412ef2801672f07852d4e688a9406ffdd40c315321f6bde7",
     "dev/src/gateway/core/types.go": "3e9de81bcd5f6a14baa53d9a6d64e9ce2616f2fe029ed8da8cd8e876c2f0d127",
     "dev/src/go.mod": "c4207cdb5197d4da7a3461744cab0242017d0b7cc2ee5162818519479f9391c9",

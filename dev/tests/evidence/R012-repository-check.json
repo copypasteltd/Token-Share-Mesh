@@ -1,6 +1,6 @@
 {
   "round": "R012",
-  "checked_at": "2026-10-30T06:24:41.233325+00:00",
+  "checked_at": "2026-10-30T07:09:21.633885+00:00",
   "scope": "Repository documentation, packaging, media provenance and local preview only; no model/GPU/payment/product acceptance",
   "passed": true,
   "checks": [
@@ -24,7 +24,7 @@
       "title": "Public Markdown files are valid with resolvable local links",
       "passed": true,
       "detail": {
-        "links": 210,
+        "links": 213,
         "broken": []
       }
     },
@@ -88,7 +88,7 @@
       "title": "Public file set excludes runtime/dependencies/credentials/binaries and oversized assets",
       "passed": true,
       "detail": {
-        "files": 945,
+        "files": 956,
         "forbidden": [],
         "oversize": []
       }

@@ -73,6 +73,60 @@
       "correction": "Run these native metadata/real-deadline tests with the existing full-harness -p=1 package isolation. Keep the actual 150ms signed deadline and all resource safety checks unchanged.",
       "evidence": "dev/tests/evidence/R012-targeted-after-fix-attempt1.jsonl",
       "sha256": "3f59d4becb9deabed98b19946ec0cc076185902ebb869a57815163b0f38a7a8c"
+    },
+    {
+      "id": "R012-ATTEMPT-006",
+      "result": "DETERMINISTIC_FIELD_POLICY_FAILURE",
+      "test": "TestRelayRejectsRequestAmbiguityBeforeAdmission / TestRelayUsageAbsentInvalidAndIncompleteRemainHonest",
+      "cause": "Delimiter-wrapped substring search accepted synthetic keys containing adjacent allowed names, such as model|messages or id|object.",
+      "correction": "Compare each complete allowed field for equality in both request and response policies; add delimiter-key negative cases to the existing stable tests.",
+      "publication": "Normal follow-up after initial R012 publication 694f9be4bd370ac349b90295b3153fd2e18fdf88; no history rewrite.",
+      "evidence": [
+        {
+          "path": "dev/tests/evidence/R012-field-whitelist-before-fix-attempt1.jsonl",
+          "sha256": "154a95ef6c6a4e8bf8632b739954110cf6dab8941b042ad7f6ab81cb390a99fc"
+        },
+        {
+          "path": "dev/tests/evidence/R012-field-whitelist-before-fix.jsonl",
+          "sha256": "8fa7ceb2fdd5e761a32311404f34ebc2b84eaa94ac150beb1b77c802cc599121"
+        },
+        {
+          "path": "dev/tests/evidence/R012-field-whitelist-after-fix.jsonl",
+          "sha256": "936d19897271d342de023d2a27645593882b3bebe6e4917765c88ff7172385e7"
+        }
+      ]
+    },
+    {
+      "id": "R012-ATTEMPT-007",
+      "result": "FULL_SUITE_FAILED_UNDER_HOST_LOAD",
+      "database_run": "20261030T063226Z-95d23638",
+      "observed": "All 20 relay cases and both browser journeys passed. Seven existing native node/supervisor cases failed with 150ms metadata unavailable/400ms shutdown unconfirmed/150ms real lease expired before submit. No admission or resource-release condition was bypassed. Temporary PostgreSQL stopped.",
+      "post_run_host_snapshot": {
+        "cpu_load_percent": 87,
+        "E_disk_average_queue_length": 9,
+        "E_disk_percent_disk_time_raw": 905,
+        "interpretation": "One native Windows performance counter snapshot, not a benchmark or proof of the cause of each failure; PercentDiskTime can exceed 100."
+      },
+      "action": "Preserve failed events and rerun without modifying signed deadlines, storage safety or assertion limits after host contention reduces. No pass claimed for this run.",
+      "evidence": [
+        {
+          "path": "dev/tests/evidence/R012-native-go-tests-attempt2.jsonl",
+          "sha256": "2880d9fac6145ef9630694eadb3de0ab261790ea519daee1d7d4d7c8d76e9d2e"
+        },
+        {
+          "path": "dev/tests/evidence/R012-native-summary-attempt2.json",
+          "sha256": "5f5bf858b0048225fcd0dc1d559b90bfdccd942b1b41be851e8975c12e32c606"
+        }
+      ]
+    },
+    {
+      "id": "R012-ATTEMPT-008",
+      "result": "TARGETED_DIAGNOSTIC_FAILED_UNDER_HOST_LOAD",
+      "scope": "client/node, client/supervisor, gateway/core; packages serialized, GOMAXPROCS=2, unchanged assertions/deadlines",
+      "observed": "50 top-level cases passed and six supervisor cases failed with short metadata/shutdown deadlines; no runtime option or signed lease was widened. All 20 current relay cases passed.",
+      "evidence": "dev/tests/evidence/R012-native-contention-diagnostic.jsonl",
+      "sha256": "c483f66d9ceaa0584016e328ae8f8aaba94c9a31947085fb54b2211659a2bedd",
+      "decision": "Only changed gateway/core files will use fresh passing relay evidence. Other packages may reuse immutable previously passed evidence only after all their source/module/input hashes match and no other source imports gateway/core. Full and diagnostic failures remain explicitly reported, not relabeled as passes."
     }
   ],
   "limits": "Summaries preserve observed failed tool outputs; no raw JSONL was captured for these targeted runs. No failure is presented as a passed run. Full final suite evidence is separate.",

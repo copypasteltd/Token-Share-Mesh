@@ -4,6 +4,8 @@ R012 captures rerun the current React/Vite Web and Taro H5 control journeys agai
 
 本轮实际产品媒体在dev/media/R012，页面设计保持NB04。新增转发核通过原生loopback合成后端测试，没有在页面伪造模型输出；所有自建浏览器结束关闭，文档阅读器录制与产品媒体来源分开。
 
+The latest browser journeys passed and generated the current product media, while seven native short-deadline cases failed in that full run. Media provenance proves those UI actions only; it does not override the [failed full-run result](../tests/evidence/R012-验证报告.md). / 当前双端页面通过并留媒体，同次原生全量7项失败；界面证据不能替代失败的全量结果。
+
 The historical reader screenshots and recordings show real generated specification readers.
 They are captured from a native, locally installed Chromium browser against a
 loopback-only document preview. There are no fabricated marketplace transactions,

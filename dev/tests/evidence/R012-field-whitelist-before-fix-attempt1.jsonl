@@ -1,0 +1,13 @@
+{"Time":"2026-10-30T14:26:14.9151115+08:00","Action":"start","Package":"p11.local/compute/gateway/core"}
+{"Time":"2026-10-30T14:26:16.9810628+08:00","Action":"run","Package":"p11.local/compute/gateway/core","Test":"TestRelayRejectsRequestAmbiguityBeforeAdmission"}
+{"Time":"2026-10-30T14:26:16.9815821+08:00","Action":"output","Package":"p11.local/compute/gateway/core","Test":"TestRelayRejectsRequestAmbiguityBeforeAdmission","Output":"=== RUN   TestRelayRejectsRequestAmbiguityBeforeAdmission\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:26:16.9909027+08:00","Action":"output","Package":"p11.local/compute/gateway/core","Test":"TestRelayRejectsRequestAmbiguityBeforeAdmission","Output":"--- PASS: TestRelayRejectsRequestAmbiguityBeforeAdmission (0.01s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:26:16.9909027+08:00","Action":"pass","Package":"p11.local/compute/gateway/core","Test":"TestRelayRejectsRequestAmbiguityBeforeAdmission","Elapsed":0.01}
+{"Time":"2026-10-30T14:26:16.9914795+08:00","Action":"run","Package":"p11.local/compute/gateway/core","Test":"TestRelayUsageAbsentInvalidAndIncompleteRemainHonest"}
+{"Time":"2026-10-30T14:26:16.9914795+08:00","Action":"output","Package":"p11.local/compute/gateway/core","Test":"TestRelayUsageAbsentInvalidAndIncompleteRemainHonest","Output":"=== RUN   TestRelayUsageAbsentInvalidAndIncompleteRemainHonest\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:26:16.9914795+08:00","Action":"output","Package":"p11.local/compute/gateway/core","Test":"TestRelayUsageAbsentInvalidAndIncompleteRemainHonest","Output":"    core_test.go:571: separator field bypassed exact response whitelist P11_CHAT_TEXT_NATIVE_1\n","OutputType":"error"}
+{"Time":"2026-10-30T14:26:16.9914795+08:00","Action":"output","Package":"p11.local/compute/gateway/core","Test":"TestRelayUsageAbsentInvalidAndIncompleteRemainHonest","Output":"--- FAIL: TestRelayUsageAbsentInvalidAndIncompleteRemainHonest (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:26:16.9914795+08:00","Action":"fail","Package":"p11.local/compute/gateway/core","Test":"TestRelayUsageAbsentInvalidAndIncompleteRemainHonest","Elapsed":0}
+{"Time":"2026-10-30T14:26:16.9920074+08:00","Action":"output","Package":"p11.local/compute/gateway/core","Output":"FAIL\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:26:17.029751+08:00","Action":"output","Package":"p11.local/compute/gateway/core","Output":"FAIL\tp11.local/compute/gateway/core\t2.114s\n","OutputType":"frame"}
+{"Time":"2026-10-30T14:26:17.029751+08:00","Action":"fail","Package":"p11.local/compute/gateway/core","Elapsed":2.115}

@@ -1,8 +1,8 @@
 {
   "round": "R012",
-  "run_id": "20261030T061331Z-4ba6753a",
+  "run_id": "20261030T063226Z-95d23638",
   "postgresql": "17.11-5",
-  "test_exit_code": 0,
+  "test_exit_code": 1,
   "temporary_instance_stopped": true,
   "virtualization_used": false,
   "package_parallelism": 1,

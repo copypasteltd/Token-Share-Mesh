@@ -19,20 +19,40 @@ def outputs():
     if len(progress['tasks']) != 56 or len({t['id'] for t in progress['tasks']}) != 56:
         raise ValueError('完整56任务登记缺失')
     expected={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES,'R011':R011_CASES,'R012':R012_CASES}[progress['round']]
-    if native['status'] != ('PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY' if progress['round']=='R012' else 'PASSED_FOR_CONTROL_SERVICES_ONLY') or native['passed_cases'] != len(expected) or native['round']!=progress['round']:
-        raise ValueError('当前实际用例登记与README声明不一致')
+    limited = progress['round'] == 'R012' and native['status'] == 'VERIFIED_CHANGED_RELAY_WITH_UNCHANGED_BASELINE_FULL_RERUN_FAILED'
+    if limited:
+        expected_ids = {item[0] for item in expected}
+        tests = native.get('tests', [])
+        if (native['round'] != progress['round'] or latest['verification_status'] != native['status'] or
+                native['passed_cases'] != 20 or native.get('reused_identical_source_cases') != 114 or
+                native.get('evidence_covered_cases') != len(expected) or native.get('failed_cases') != 7 or
+                native.get('current_full_rerun_status') != 'FAILED' or
+                native.get('current_full_rerun_passed_cases') != 127 or native.get('current_full_rerun_total_cases') != 134 or
+                len(native.get('current_full_rerun_failures', [])) != 7 or
+                len(native.get('current_diagnostic_failures', [])) != 6 or
+                native.get('baseline_commit') != '694f9be4bd370ac349b90295b3153fd2e18fdf88' or
+                len(tests) != len(expected_ids) or {item['id'] for item in tests} != expected_ids or
+                Counter(item['result'] for item in tests) != Counter(PASSED_CURRENT_RELAY=20, REUSED_IDENTICAL_SOURCE_BASELINE=114)):
+            raise ValueError('受限补充证据必须保留当前全量失败及精确复用边界')
+        native_en = '20 targeted relay cases passed; latest full rerun: 127 passed / 7 FAILED; 114 baseline cases are historical only'
+        native_zh = '当前转发20项通过；末次全量127通过/7失败；114项对照仅为历史依据'
+    else:
+        if native['status'] != ('PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY' if progress['round']=='R012' else 'PASSED_FOR_CONTROL_SERVICES_ONLY') or native['passed_cases'] != len(expected) or native['round']!=progress['round']:
+            raise ValueError('当前实际用例登记与README声明不一致')
+        native_en = str(native['passed_cases']) + (' passed · control/native/relay source subsets only' if progress['round']=='R012' else ' passed · control services scope only')
+        native_zh = str(native['passed_cases'])+('项通过，仅控制/原生/转发源码子集' if progress['round']=='R012' else '项通过，仅控制应用服务范围')
     common = [
         f"{len(plan['modules'])} modules / {len(plan['tasks'])} tasks / {sum(len(t['steps']) for t in plan['tasks'])} steps / {len(plan['constraints'])} constraints",
         f"{counts['IN_PROGRESS']} in progress · {counts['NOT_STARTED']} not started · {counts['CONDITIONAL']} conditional · {counts['DEFERRED']} deferred",
         latest['id'] + ' · ' + latest['verification_status'],
-        str(native['passed_cases']) + (' passed · control/native/relay source subsets only' if progress['round']=='R012' else ' passed · control services scope only'),
+        native_en,
         '80 NOT_EXECUTED',
         progress['goal_status'],
     ]
     chinese = [
         f"{len(plan['modules'])}模块 / {len(plan['tasks'])}任务 / {sum(len(t['steps']) for t in plan['tasks'])}子项 / {len(plan['constraints'])}约束",
         f"{counts['IN_PROGRESS']}项进行中 · {counts['NOT_STARTED']}项待开发 · {counts['CONDITIONAL']}项条件能力 · {counts['DEFERRED']}项延后",
-        common[2], str(native['passed_cases'])+('项通过，仅控制/原生/转发源码子集' if progress['round']=='R012' else '项通过，仅控制应用服务范围'), '80项全部未执行', progress['goal_status'],
+        common[2], native_zh, '80项全部未执行', progress['goal_status'],
     ]
     files = {}
     for language, filename, values, labels in [
