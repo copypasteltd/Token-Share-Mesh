@@ -1,5 +1,11 @@
 # Changelog
 
+## R017 · 2026-10-30 · Native input and initial lease / 原生输入与首租约
+
+R017 connects internal native-text input and initial lease admission: the actual body is strictly validated and stored with AES-256-GCM. The original order, current scoped key/qualification, same-order funding and existing full per-call hold are rechecked before an explicitly FREE native-device resource, dual fences, metadata manifest, signed first lease (at most 45 seconds within the original hard deadline), safe event and durable delivery intent commit atomically. Original-key recovery never replaces input/owner or renews authority; expiry, revocation and unknown outcomes retain budget and ownership. This protects PLAINTEXT storage only, not customer E2E or provider blindness. Model listeners, actual claim/content delivery, production secrets/independent trust, real engines/usage/payments and LP/PE remain pending. Forward009 adds seven columns/one FK; 001–008 and native SQLite DDL retain their bytes. The scope remains 34/93 operations and 65 tables. Platform generations stop at the persisted signed-bigint limit.
+
+20 new top-level cases; current 204-case full native/browser run and six builds are reported separately. Earlier failed attempts are retained. 56 tasks / 222 open steps remain; no full product acceptance.
+
 ## R016 — Original-call preparation, call slots and atomic order capacity
 
 - Add the internal ROUTE_PREPARE_1 service. Under the original order write lock, recheck the current scoped key, route, same-order funding and qualification, then commit INPUT_PENDING, the full per-call hold, a durable call slot and a four-field safe event together.

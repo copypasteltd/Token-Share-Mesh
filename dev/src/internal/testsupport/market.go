@@ -4,6 +4,9 @@ package testsupport
 
 import (
 	"context"
+	"crypto/ed25519"
+	"crypto/rand"
+	"encoding/base64"
 	"encoding/json"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
@@ -44,16 +47,23 @@ func SeedOffer(t *testing.T, ctx context.Context, db *persistence.DB, mode, regi
 // SeedOfferForSeller attaches synthetic approvals to an actual test login.
 // It is fixture-only and is never imported by a runtime command.
 func SeedOfferForSeller(t *testing.T, ctx context.Context, db *persistence.DB, mode, region string, p identity.Principal) Offer {
-	return seedOfferProfile(t, ctx, db, mode, region, p, "openai_nb1")
+	return seedOfferProfile(t, ctx, db, mode, region, p, "openai_nb1", false)
 }
 
 // SeedOfferForProtocol binds one explicit synthetic protocol across the listing,
 // capability, evidence and release. It never upgrades an existing qualification.
 func SeedOfferForProtocol(t *testing.T, ctx context.Context, db *persistence.DB, mode, region, protocol string) Offer {
-	return seedOfferProfile(t, ctx, db, mode, region, newBuyer(t, ctx, db), protocol)
+	return seedOfferProfile(t, ctx, db, mode, region, newBuyer(t, ctx, db), protocol, false)
 }
 
-func seedOfferProfile(t *testing.T, ctx context.Context, db *persistence.DB, mode, region string, p identity.Principal, protocol string) Offer {
+// SeedNativeOfferForProtocol inserts synthetic ED25519-shaped identity and an
+// explicitly FREE resource. It proves no physical phone/kernel qualification.
+// Immutable legacy identities are never upgraded by fixture updates.
+func SeedNativeOfferForProtocol(t *testing.T, ctx context.Context, db *persistence.DB, region, protocol string) Offer {
+	return seedOfferProfile(t, ctx, db, "PLAINTEXT", region, newBuyer(t, ctx, db), protocol, true)
+}
+
+func seedOfferProfile(t *testing.T, ctx context.Context, db *persistence.DB, mode, region string, p identity.Principal, protocol string, native bool) Offer {
 	t.Helper()
 	f := Offer{Seller: p, ID: ids.New("lst"), Device: ids.New("dev"), Resource: ids.New("res"), Capability: ids.New("cap"), Gate: ids.New("gate"), Release: ids.New("rel")}
 	execDB(t, ctx, db, `INSERT INTO p11.role_grants(id,user_id,role_code,scope_ref,granted_by) VALUES($1,$2,'SELLER','self',$2)`, ids.New("grant"), f.Seller.UserID)
@@ -84,8 +94,22 @@ func seedOfferProfile(t *testing.T, ctx context.Context, db *persistence.DB, mod
 			kinds = append(kinds, "CRYPTO")
 		}
 	}
-	execDB(t, ctx, db, `INSERT INTO p11.devices(id,seller_id,platform,resource_kind,state,auth_key_digest,client_release,resource_policy,last_seen_at,model_name) VALUES($1,$2,$3,$4,'ONLINE',$5,'SYNTHETIC_TEST','{"accepting_new_jobs":true}',clock_timestamp(),$6)`, f.Device, f.Seller.UserID, platform, kind, outbox.Digest([]byte(f.Device)), f.Terms.Devices[0].ModelName)
+	if native {
+		pub, key, err := ed25519.GenerateKey(rand.Reader)
+		if err != nil {
+			t.Fatal(err)
+		}
+		clear(key)
+		execDB(t, ctx, db, `INSERT INTO p11.devices(id,seller_id,platform,resource_kind,state,auth_key_digest,client_release,resource_policy,last_seen_at,model_name,
+identity_profile,device_public_key,installation_fingerprint,os_build,heartbeat_sequence,reported_resource_state)
+VALUES($1,$2,$3,$4,'ONLINE',$5,'SYNTHETIC_TEST','{"accepting_new_jobs":true}',clock_timestamp(),$6,'ED25519_DEVICE_1',$7,$8,'SYNTHETIC_NOT_HARDWARE',1,'IDLE')`, f.Device, f.Seller.UserID, platform, kind, outbox.Digest(pub), f.Terms.Devices[0].ModelName, base64.RawURLEncoding.EncodeToString(pub), outbox.Digest([]byte(f.Device)))
+	} else {
+		execDB(t, ctx, db, `INSERT INTO p11.devices(id,seller_id,platform,resource_kind,state,auth_key_digest,client_release,resource_policy,last_seen_at,model_name) VALUES($1,$2,$3,$4,'ONLINE',$5,'SYNTHETIC_TEST','{"accepting_new_jobs":true}',clock_timestamp(),$6)`, f.Device, f.Seller.UserID, platform, kind, outbox.Digest([]byte(f.Device)), f.Terms.Devices[0].ModelName)
+	}
 	execDB(t, ctx, db, `INSERT INTO p11.resources(id,device_id,seller_id,local_resource_key,kind) VALUES($1,$2,$3,'resource0',$4)`, f.Resource, f.Device, f.Seller.UserID, kind)
+	if native {
+		execDB(t, ctx, db, `INSERT INTO p11.resource_locks(resource_id,phase) VALUES($1,'FREE')`, f.Resource)
+	}
 	b := f.Terms.Bindings[0]
 	scope, err := json.Marshal(map[string]string{"seller_id": f.Seller.UserID, "device_id": f.Device, "capability_id": f.Capability, "kernel_environment_ref": b.EnvironmentRef, "kernel_environment_digest": b.EnvironmentDigest, "mode": mode, "privacy": f.Terms.Policy.Privacy, "region": region, "protocol_profile_id": f.Terms.Policy.Protocol, "price_contract_version": pricing.Version, "sku_id": f.Terms.SKU})
 	if err != nil {

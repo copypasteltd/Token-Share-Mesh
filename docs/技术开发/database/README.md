@@ -37,3 +37,7 @@ evidence_ids/asset_ids等数组须服务层逐项验证引用和权限；需要�
 ## R016原调用前向008
 
 [008_route_invocation_preparation.sql](migrations/008_route_invocation_preparation.sql)追加jobs六列、三外键、两个索引，冻结原调用和整笔预算绑定；延迟约束拒绝缺预算/安全事件提交。历史任务保留UNBOUND_JOB，不补造同意。001—007及端侧DDL原字节保持，source-v8.json绑定嵌入副本，仍65表。完整[RI-001—024](../附录-原调用准备与次数预算原子接线.md)及[当前证据](../../../dev/tests/evidence/R016-验证报告.md)说明元数据准备与执行授权的区别。
+
+## R017 前向009
+
+新增assets三列、jobs一列、execution_leases三列，共7列、1外键、2索引。输入/首租约/安全事件/持久投递意图的结构与原子性守卫在临时原生PG执行验证；001—008和端侧DDL不修改。旧asset/lease保持UNBOUND、新列为空，禁止回填成已同意执行。数据库不验证密码、当前用户或真实收单/设备资格。详见[EI细则](../附录-原生输入加密与首租约原子准入.md)。

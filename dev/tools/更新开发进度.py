@@ -96,6 +96,8 @@ def main():
         text+='R015实现已确认原订单路由、本人创建/列表/详情三项HTTP、scoped API key内的精确模型/协议解析及007前向升级；34/93操作、65表。购买时模型/价格版本固定，当前身份、支付事实、资格与容量持续检查，失效不换卖家或静默恢复。新增14项原生用例；170项完整原生结果、150ms短租约实际零提交/有界提交分支、21项前端/三构建摘要及双端浏览器/Windows命令以本轮证据分别登记。早期失败留档，001—006及端侧DDL原字节保持。路由配置不签发调用/执行权；资金/预算/次数/租约原子准入、真实渠道/内核/E2E/路由UI待完成。全部56任务222未收口子项、80/96未执行与DEV-55延后保留。\n\n'
     if progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R016':
         text+='R016新增原调用准备库：当前scoped key/原订单/同单资金事实重新核对后，将INPUT_PENDING、整笔单次预算、次数占用及安全事件在同一事务提交。原键恢复不重复占用；改参数/key冲突；取消/过期/未知保留原记录和占用。请求摘要只以版本化HMAC持久保存。前向008追加六列，001—007和端侧DDL原字节不改；仍34/93操作、65表。仅三个原生文本档位的PLAINTEXT/STANDARD；没有挂载模型入口、签发Lease/Grant或运行模型。输入就绪/资源原子准入、可信usage、真实支付、E2E和路由UI仍待。新增14项，当前完整184项原生与双端浏览器/Windows命令结果见本轮证据；未改21项TS/三目标构建按精确摘要复核。全56任务/222未收口子项和80/96未执行状态保持，目标ACTIVE。\n\n'
+    if progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R017':
+        text+=progress['activity_source']+' 新增20项，当前完整204项Go回归与双端浏览器实际通过；未改21项TS/三目标构建按精确源码/输出/日志摘要复核，当前Windows命令另跑。全56任务/222未收口子项保留，R016时序风险未证明消除；80/96完整产品验收仍未执行，目标ACTIVE。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'

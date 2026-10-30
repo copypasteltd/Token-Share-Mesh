@@ -17,7 +17,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R016', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016'])
+    parser.add_argument('--round', default='R017', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017'])
     round_id = parser.parse_args().round
     binary, env = environment()
     # Dependencies were fetched by the explicit toolchain/bootstrap step.

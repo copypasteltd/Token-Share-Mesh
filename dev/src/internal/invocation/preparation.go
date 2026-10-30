@@ -1,6 +1,7 @@
-// Package invocation durably prepares an original routed call and its order
-// capacity. INPUT_PENDING is metadata only; no input, lease or relay grant is
-// issued here. External I/O must wait for later qualified execution admission.
+// Package invocation persists original routed calls, bounded encrypted native
+// input and qualified initial lease admission. Service prepares metadata only;
+// Execution needs separately provisioned input/issuer keys. Neither mounts a
+// model endpoint, issues a relay Grant or delivers input to an actual engine.
 package invocation
 
 import (

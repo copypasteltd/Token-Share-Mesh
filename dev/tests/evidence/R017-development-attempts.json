@@ -1,0 +1,119 @@
+{
+  "round": "R017",
+  "scope": "Internal PLAINTEXT input encryption and initial metadata lease admission only; synthetic channel/qualification/adapter facts. No device transport, inference, real payment, customer E2E or whole-product acceptance.",
+  "attempts": [
+    {
+      "id": "execution-attempt1",
+      "outcome": "BUILD_FAILED",
+      "reason": "New test incorrectly read json.RawMessage as Contract.Hash; fixed to read authoritative SQL hash. No application test ran. Owned native PostgreSQL stopped.",
+      "artifacts": [
+        {
+          "path": "dev/tests/evidence/R017-execution-attempt1-native-go-tests.jsonl",
+          "sha256": "1addea4026fd45b8a9167aee18443dc5233fcde88f3151354f22d1721fbfd206"
+        },
+        {
+          "path": "dev/tests/evidence/R017-execution-attempt1-native-summary.json",
+          "sha256": "ec56606926eba38a246ab73c3d10a50609c6465532efd329b03156fc10ed4dbe"
+        }
+      ]
+    },
+    {
+      "id": "execution-attempt2",
+      "outcome": "FAILED",
+      "reason": "PostgreSQL found ambiguous domain/text parameter reuse in new asset/storage and delivery inserts. Constraints stayed enabled; fix adds explicit text casts. 3 top-level passed,17 failed; native cluster stopped.",
+      "artifacts": [
+        {
+          "path": "dev/tests/evidence/R017-execution-attempt2-native-go-tests.jsonl",
+          "sha256": "fea2d82550c83dd55772a62315ff84708ca52a70593b6e428822235f0fca98d0"
+        },
+        {
+          "path": "dev/tests/evidence/R017-execution-attempt2-native-summary.json",
+          "sha256": "bd303aa243c41f525ff24cdda19e14395b65fdd346163f671ae6a2f95d31d7c6"
+        }
+      ]
+    },
+    {
+      "id": "execution-attempt3",
+      "outcome": "18_PASSED_2_FAILED",
+      "reason": "Two new test expectations were wrong: the existing safe-event counter filters order_id (not in issue event); route state change requires version+1. Corrected fixtures/assertions, without changing guards or timeouts. Also strengthened rollback assertions to prove the tested transaction reached the injected failure. Owned native cluster stopped.",
+      "artifacts": [
+        {
+          "path": "dev/tests/evidence/R017-execution-attempt3-native-go-tests.jsonl",
+          "sha256": "7af8fca8ce6c7a613f30545ec994c22c34fcf8e314e7a42ef0511889b6fd8f77"
+        },
+        {
+          "path": "dev/tests/evidence/R017-execution-attempt3-native-summary.json",
+          "sha256": "c4c2951fb260cbf4740b4cfaf680fc74375fe17e85d2ae20de5192423f787515"
+        }
+      ]
+    }
+  ],
+  "baseline_commit": "9af07a3186be9236bede4e5ed919f0d87667aa68",
+  "virtualization_used": false,
+  "unchanged_sql_evidence": "dev/tests/evidence/R017-migration-immutability.json",
+  "stability_risk": "R016 first full run returned ErrShutdown in unchanged 400ms cleanup bound; resources retained. Root cause remains unproven; current passes do not establish timing stability.",
+  "limited_runner_scope_note": "Earlier execution-only summary used a historical Budget-only boilerplate label. Its recorded arguments actually run ^TestExecution. Future runner labels name the selected suite; no test result or scope is promoted.",
+  "successful_runs": [
+    {
+      "path": "dev/tests/evidence/R017-execution-native-summary.json",
+      "sha256": "b344181a1f97e89ba0c59914bcf61ac83933c1e1e54008f42c9b4aa588776f27",
+      "suite": "execution",
+      "run_id": "20261030T123216Z-2ad15f5e",
+      "test_exit_code": 0,
+      "temporary_instance_stopped": true,
+      "arguments": [
+        [
+          "test",
+          "-json",
+          "-count=1",
+          "-p=1",
+          "-timeout=240s",
+          "-run",
+          "^TestExecution",
+          "./tests/integration",
+          "./api/tests"
+        ]
+      ]
+    },
+    {
+      "path": "dev/tests/evidence/R017-native-summary.json",
+      "sha256": "f75de628dc58be87e3e4e6c1a38b8bffcb60b2f2b89b60275b7a668d0dc9fd42",
+      "suite": "full",
+      "run_id": "20261030T124001Z-18340911",
+      "test_exit_code": 0,
+      "temporary_instance_stopped": true,
+      "arguments": [
+        [
+          "test",
+          "-json",
+          "-count=1",
+          "-p=1",
+          "-timeout=240s",
+          "-skip",
+          "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$",
+          "./..."
+        ],
+        [
+          "test",
+          "-json",
+          "-count=1",
+          "-p=1",
+          "-timeout=240s",
+          "-run",
+          "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^web$",
+          "./api/tests"
+        ],
+        [
+          "test",
+          "-json",
+          "-count=1",
+          "-p=1",
+          "-timeout=240s",
+          "-run",
+          "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^miniapp$",
+          "./api/tests"
+        ]
+      ]
+    }
+  ]
+}

@@ -14929,7 +14929,7 @@
       "name": "assets",
       "schema": "p11",
       "module_id": "MOD-13",
-      "column_count": 15,
+      "column_count": 18,
       "foreign_key_count": 4,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
@@ -15159,7 +15159,7 @@
       "name": "execution_leases",
       "schema": "p11",
       "module_id": "MOD-06",
-      "column_count": 19,
+      "column_count": 22,
       "foreign_key_count": 2,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
@@ -15199,8 +15199,8 @@
       "name": "jobs",
       "schema": "p11",
       "module_id": "MOD-06",
-      "column_count": 18,
-      "foreign_key_count": 6,
+      "column_count": 19,
+      "foreign_key_count": 7,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
@@ -20024,11 +20024,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "c72b0212fd91d48ddccdea6ff119f99551f091cdab12a123f625aa8d22ef5e58"
+      "sha256": "e843d49ce026e3828390005ebe99d252e5b8cdd378cc1e4cbe2e918da41d342f"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "8ae4588449e92c16b974f1b35a713f0c71fbc85655e38faf48b99b5371cf4c34"
+      "sha256": "d22f18b4b1b144dc9390be73565ea50277c71304438ececd346fc5295a410799"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20052,7 +20052,7 @@
     },
     {
       "path": "docs/协议/统一API与本地加密网关需求.md",
-      "sha256": "557985719273e99cace9019dfda04c46470d9ddf897f159dbb52da4482486513"
+      "sha256": "aa4a856733da3e98e4c1c1173848552a6fda8084f7d2157bfde87036537e7c49"
     },
     {
       "path": "docs/技术开发/02-工程结构开发环境与编码规范.md",
@@ -20068,11 +20068,11 @@
     },
     {
       "path": "docs/技术开发/06-调度资源锁与执行租约.md",
-      "sha256": "4688dec1c63e12c188404accf6dd48d4a5349e1926e6d4ff141edb9d66f28824"
+      "sha256": "ad050ebf219c8e8d334b3fad39015113354d4ac4e6d4c154767a933b58604182"
     },
     {
       "path": "docs/技术开发/07-统一协议网关与Sub2API改造.md",
-      "sha256": "86572c232ef804e0e5d6e33e060cb70e58aa6d1f63a6797bd7fa74c5af2c7603"
+      "sha256": "7693f33a4905ed7790cfb871242c097de5dca1cc15d72200996aecf5f1076914"
     },
     {
       "path": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -20104,19 +20104,19 @@
     },
     {
       "path": "docs/技术开发/15-文件媒体与对象存储.md",
-      "sha256": "204cdc1b30c91c379741604a2e3528fea3aa2b1dd1c90a916c09d2fe05b7ef97"
+      "sha256": "77b576e6ab45084d9df3c2a570288dd2315d93c052524034db8afc282b168831"
     },
     {
       "path": "docs/技术开发/16-身份授权与安全工程.md",
-      "sha256": "cc678e51d7a3e7e2b83f921ef95ab80c2aa718e3233e0eae768991da1f43f779"
+      "sha256": "43fc2d9b23f45f2259e7ef9018d59f86a3c17886179cdba7fa3b45f7352db2ce"
     },
     {
       "path": "docs/技术开发/17-事件事务发件箱与后台任务.md",
-      "sha256": "f6e31f9459afbda655326e671150723c236a004722064981b0ef8f3265947a03"
+      "sha256": "f413a180f9f78e5be0aa4defeecfae6e722ba9817723df53e5fd3e990bda0082"
     },
     {
       "path": "docs/技术开发/18-测试工程与故障验证.md",
-      "sha256": "972108fe81eaf56707c2b9a8dbca597719e7d6ead6ae42516e10377fecbfbe36"
+      "sha256": "0a284fccaa31298d8cc6f05e1c50e4e39ac4dca299517ac325649d0df6273e0d"
     },
     {
       "path": "docs/技术开发/20-性能容量与可观测性.md",
@@ -20136,7 +20136,7 @@
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "3c732d22316d002add26ef2b4c76fb886bc9865d11ac9d3f719e1d866357333a"
+      "sha256": "5274829527e5a2a07cc538eb113edcc8d55980841c6602ae5818e19d48b841c9"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20177,6 +20177,10 @@
     {
       "path": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql",
       "sha256": "c63e4849bc23279f3fd0eca5ae866c2663482b1bf33a01165c6e0512b02fa375"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql",
+      "sha256": "5deaac9ff209ee108c379ce749e15b4666a3606b2f9bed6178241292060da871"
     },
     {
       "path": "docs/技术开发/database/schema-draft.sql",

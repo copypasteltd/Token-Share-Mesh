@@ -163,7 +163,7 @@ def main() -> int:
     check(all_owned==set(table_by_name),'模块权威表集合与DDL不一致')
     for r in trace: check(set(r['tables'])<=set(table_by_name),f"{r['requirement_id']}无效表引用")
     sql=(TECH/'database/schema-draft.sql').read_text(encoding='utf-8')
-    check(len(catalog['forward_migrations'])==7,'前向002/003/004/005/006/007/008迁移登记缺失')
+    check(len(catalog['forward_migrations'])==8,'前向002—009迁移登记缺失')
     for migration in catalog['forward_migrations']:
         path=ROOT/migration['source']
         embedded=ROOT/'dev/src/internal/persistence/migrations'/path.name
@@ -434,7 +434,7 @@ def main() -> int:
       'ddl_statements_parsed':catalog['ddl_statements'],'query_statements_parsed':len(query_ast),
       'sql_parser':'pglast '+pglast.__version__,'sql_runtime_migrations_in_this_check':'NOT_EXECUTED',
       'plpgsql_runtime_validation_in_this_check':'NOT_EXECUTED',
-      'separate_native_evidence':[p for p in ['dev/tests/evidence/R001-验证报告.md','dev/tests/evidence/R003-验证报告.md','dev/tests/evidence/R004-验证报告.md','dev/tests/evidence/R005-验证报告.md','dev/tests/evidence/R006-验证报告.md','dev/tests/evidence/R007-验证报告.md','dev/tests/evidence/R008-验证报告.md','dev/tests/evidence/R009-验证报告.md','dev/tests/evidence/R010-验证报告.md','dev/tests/evidence/R011-验证报告.md','dev/tests/evidence/R012-验证报告.md','dev/tests/evidence/R013-验证报告.md','dev/tests/evidence/R014-验证报告.md','dev/tests/evidence/R015-验证报告.md','dev/tests/evidence/R016-验证报告.md'] if (ROOT/p).is_file()],
+      'separate_native_evidence':[p for p in ['dev/tests/evidence/R001-验证报告.md','dev/tests/evidence/R003-验证报告.md','dev/tests/evidence/R004-验证报告.md','dev/tests/evidence/R005-验证报告.md','dev/tests/evidence/R006-验证报告.md','dev/tests/evidence/R007-验证报告.md','dev/tests/evidence/R008-验证报告.md','dev/tests/evidence/R009-验证报告.md','dev/tests/evidence/R010-验证报告.md','dev/tests/evidence/R011-验证报告.md','dev/tests/evidence/R012-验证报告.md','dev/tests/evidence/R013-验证报告.md','dev/tests/evidence/R014-验证报告.md','dev/tests/evidence/R015-验证报告.md','dev/tests/evidence/R016-验证报告.md','dev/tests/evidence/R017-验证报告.md'] if (ROOT/p).is_file()],
       'schema_positive_fixtures':sum(x[3] for x in cases),
       'schema_negative_fixtures':sum(not x[3] for x in cases),'fixture_results':fixture_results,
       'compatibility_combinations':len(compat),'reader_sections':len(parser.search_json or []),

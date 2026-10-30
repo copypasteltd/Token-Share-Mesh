@@ -1,0 +1,11 @@
+{"ImportPath":"p11.local/compute/tests/integration_test [p11.local/compute/tests/integration.test]","Action":"build-output","Output":"# p11.local/compute/tests/integration_test [p11.local/compute/tests/integration.test]\n"}
+{"ImportPath":"p11.local/compute/tests/integration_test [p11.local/compute/tests/integration.test]","Action":"build-output","Output":"tests\\integration\\execution_admission_test.go:633:148: f.order.Contract.Hash undefined (type \"encoding/json\".RawMessage has no field or method Hash)\n"}
+{"ImportPath":"p11.local/compute/tests/integration_test [p11.local/compute/tests/integration.test]","Action":"build-fail"}
+{"Time":"2026-10-30T20:28:38.3458402+08:00","Action":"start","Package":"p11.local/compute/tests/integration"}
+{"Time":"2026-10-30T20:28:38.3458402+08:00","Action":"output","Package":"p11.local/compute/tests/integration","Output":"FAIL\tp11.local/compute/tests/integration [build failed]\n","OutputType":"frame"}
+{"Time":"2026-10-30T20:28:38.3458402+08:00","Action":"fail","Package":"p11.local/compute/tests/integration","Elapsed":0,"FailedBuild":"p11.local/compute/tests/integration_test [p11.local/compute/tests/integration.test]"}
+{"Time":"2026-10-30T20:28:43.8594404+08:00","Action":"start","Package":"p11.local/compute/api/tests"}
+{"Time":"2026-10-30T20:28:45.6086988+08:00","Action":"output","Package":"p11.local/compute/api/tests","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-10-30T20:28:45.6086988+08:00","Action":"output","Package":"p11.local/compute/api/tests","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T20:28:45.6343474+08:00","Action":"output","Package":"p11.local/compute/api/tests","Output":"ok  \tp11.local/compute/api/tests\t1.775s [no tests to run]\n"}
+{"Time":"2026-10-30T20:28:45.6343474+08:00","Action":"pass","Package":"p11.local/compute/api/tests","Elapsed":1.776}

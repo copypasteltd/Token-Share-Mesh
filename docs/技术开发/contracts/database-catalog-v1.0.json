@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 153,
+  "catalog_statements": 170,
   "base_table_count": 60,
   "tables": [
     {
@@ -5630,6 +5630,28 @@
             }
           ],
           "source": "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
+        },
+        {
+          "name": "input_asset_id",
+          "sql": "input_asset_id p11.entity_id REFERENCES p11.assets (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.assets (id)",
+              "columns": [
+                "input_asset_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "assets",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
         }
       ],
       "constraints": [
@@ -5718,7 +5740,8 @@
         }
       ],
       "alter_sources": [
-        "docs/技术开发/database/migrations/008_route_invocation_preparation.sql"
+        "docs/技术开发/database/migrations/008_route_invocation_preparation.sql",
+        "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
       ]
     },
     {
@@ -6923,6 +6946,58 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "admission_profile",
+          "sql": "admission_profile text NOT NULL DEFAULT 'UNBOUND_LEASE' CHECK (admission_profile IN ('UNBOUND_LEASE', 'P11_NATIVE_TEXT_ADMISSION_1'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "admission_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'UNBOUND_LEASE'",
+              "columns": [
+                "admission_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (admission_profile IN ('UNBOUND_LEASE', 'P11_NATIVE_TEXT_ADMISSION_1'))",
+              "columns": [
+                "admission_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
+        },
+        {
+          "name": "issuer_key_id",
+          "sql": "issuer_key_id text",
+          "type": "text",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
+        },
+        {
+          "name": "execution_manifest",
+          "sql": "execution_manifest jsonb",
+          "type": "jsonb",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
         }
       ],
       "constraints": [
@@ -6969,7 +7044,18 @@
             "resource_id",
             "resource_lock_generation"
           ]
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "native_admission_shape",
+          "sql": "CONSTRAINT native_admission_shape CHECK ((admission_profile = 'UNBOUND_LEASE' AND issuer_key_id IS NULL AND execution_manifest IS NULL) OR (admission_profile = 'P11_NATIVE_TEXT_ADMISSION_1' AND issuer_key_id IS NOT NULL AND issuer_key_id ~ '^[A-Za-z][A-Za-z0-9_-]{2,127}$' AND execution_manifest IS NOT NULL AND jsonb_typeof(execution_manifest) = 'object' AND signature_profile_id = 'P11_EXECUTION_LEASE_ED25519_1'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
       ]
     },
     {
@@ -7305,6 +7391,58 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "input_profile",
+          "sql": "input_profile text NOT NULL DEFAULT 'UNBOUND_ASSET' CHECK (input_profile IN ('UNBOUND_ASSET', 'P11_NATIVE_TEXT_INPUT_AESGCM_1'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "input_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'UNBOUND_ASSET'",
+              "columns": [
+                "input_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (input_profile IN ('UNBOUND_ASSET', 'P11_NATIVE_TEXT_INPUT_AESGCM_1'))",
+              "columns": [
+                "input_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
+        },
+        {
+          "name": "input_key_version",
+          "sql": "input_key_version text",
+          "type": "text",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
+        },
+        {
+          "name": "input_ciphertext",
+          "sql": "input_ciphertext bytea",
+          "type": "bytea",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
         }
       ],
       "constraints": [
@@ -7318,7 +7456,18 @@
           ],
           "deferrable": false,
           "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "native_input_shape",
+          "sql": "CONSTRAINT native_input_shape CHECK ((input_profile = 'UNBOUND_ASSET' AND input_key_version IS NULL AND input_ciphertext IS NULL) OR (input_profile = 'P11_NATIVE_TEXT_INPUT_AESGCM_1' AND job_id IS NOT NULL AND attempt_id IS NULL AND visibility = 'PLAINTEXT' AND state IN ('READY', 'QUARANTINED') AND deleted_at IS NULL AND media_type = 'application/json' AND storage_digest IS NOT NULL AND bytes BETWEEN 1 AND 262144 AND octet_length(input_ciphertext) = bytes + 28 AND input_key_version IS NOT NULL AND input_key_version ~ '^[A-Za-z][A-Za-z0-9_-]{2,127}$' AND input_ciphertext IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/009_native_input_execution_admission.sql"
       ]
     },
     {
@@ -17317,6 +17466,21 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "jobs",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.assets (id)",
+      "columns": [
+        "input_asset_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "assets",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -17409,6 +17573,18 @@
       "table": "jobs",
       "unique": true,
       "sql": "CREATE UNIQUE INDEX invocation_reservation_once ON p11.jobs (reservation_id) WHERE reservation_id IS NOT NULL"
+    },
+    {
+      "name": "native_input_one_per_job",
+      "table": "assets",
+      "unique": true,
+      "sql": "CREATE UNIQUE INDEX native_input_one_per_job ON p11.assets (job_id) WHERE input_profile = 'P11_NATIVE_TEXT_INPUT_AESGCM_1'"
+    },
+    {
+      "name": "native_input_bound_once",
+      "table": "jobs",
+      "unique": true,
+      "sql": "CREATE UNIQUE INDEX native_input_bound_once ON p11.jobs (input_asset_id) WHERE input_asset_id IS NOT NULL"
     }
   ],
   "forward_migrations": [
@@ -17511,6 +17687,31 @@
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql",
+      "source_sha256": "5deaac9ff209ee108c379ce749e15b4666a3606b2f9bed6178241292060da871",
+      "statement_count": 17,
+      "statement_types": [
+        "AlterTableStmt",
+        "IndexStmt",
+        "AlterTableStmt",
+        "IndexStmt",
+        "AlterTableStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateTrigStmt",
         "CreateTrigStmt"
       ],
       "runtime_validation_in_this_build": "NOT_EXECUTED"

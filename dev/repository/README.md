@@ -1,6 +1,8 @@
 # Repository documentation / 仓库文档
 
-Latest R016: [original-call preparation](../../docs/技术开发/附录-原调用准备与次数预算原子接线.md), [current evidence](../tests/evidence/R016-验证报告.md), [all 56 tasks/222 open steps](../progress/R016-本轮实现与完整待办.md). 原调用/预算/次数原子准备已接通；完整输入/租约/引擎/支付/E2E仍待。
+Latest R017: [native input and initial lease](../../docs/技术开发/附录-原生输入加密与首租约原子准入.md), [current evidence](../tests/evidence/R017-验证报告.md), [all 56 tasks/222 open steps](../progress/R017-本轮实现与完整待办.md). 原生正文实际校验、明文域AES-GCM与首租约原子接线已实现；真实领取/输入传输、独立信任、实际内核/支付/E2E仍待。
+
+Historical R016: [original-call preparation](../../docs/技术开发/附录-原调用准备与次数预算原子接线.md), [current evidence](../tests/evidence/R016-验证报告.md), [all 56 tasks/222 open steps](../progress/R016-本轮实现与完整待办.md). 原调用/预算/次数原子准备已接通；完整输入/租约/引擎/支付/E2E仍待。
 
 Historical R011: [supervisor specification](../../docs/技术开发/附录-原生执行监督与后端恢复实施细则.md), [native evidence](../tests/evidence/R011-验证报告.md) and [all 56 tasks/222 steps](../progress/R011-本轮实现与完整待办.md). 原生监督、控制停止联动和双端恢复加载修复已纳入本轮；真实引擎/内容加密/支付仍待。
 

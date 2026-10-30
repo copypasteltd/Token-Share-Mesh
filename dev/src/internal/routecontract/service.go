@@ -54,6 +54,9 @@ type Contract struct {
 	OrderContract   json.RawMessage `json:"order_contract"`
 	Replayed        bool            `json:"-"`
 	CurrentDeadline time.Time       `json:"-"`
+	// ExistingAdmission checks current original eligibility before NEW-call
+	// capacity limits. It is not an execution grant or reservation validation.
+	ExistingAdmission bool `json:"-"`
 }
 
 type Page struct {
@@ -268,7 +271,7 @@ FROM p11.route_contracts WHERE id=$1 AND buyer_id=$2 AND binding_profile=$3 FOR 
 		c.State = "EXPIRED"
 	}
 	if c.State == "ACTIVE" {
-		if !f.paymentCurrent || (f.state != "READY" && f.state != "FULFILLING") || f.remaining < c.Definition.PerCallFen || c.UsedCalls >= c.Definition.MaxCalls {
+		if !f.paymentCurrent || (f.state != "READY" && f.state != "FULFILLING") {
 			c.State = "SUSPENDED"
 		} else {
 			offer, e := (market.Catalog{DB: s.DB}).LoadConfirmedTx(ctx, tx, c.Definition.ListingID, c.Definition.Revision)
@@ -289,6 +292,14 @@ FROM p11.route_contracts WHERE id=$1 AND buyer_id=$2 AND binding_profile=$3 FOR 
 					}
 				}
 			}
+		}
+	}
+	// Exhausted NEW-call capacity must not revoke a prepared call's own hold.
+	// Its issuer still rechecks that exact reservation, input and resource owner.
+	if c.State == "ACTIVE" {
+		c.ExistingAdmission = true
+		if f.remaining < c.Definition.PerCallFen || c.UsedCalls >= c.Definition.MaxCalls {
+			c.State = "SUSPENDED"
 		}
 	}
 	if c.State == "ACTIVE" {

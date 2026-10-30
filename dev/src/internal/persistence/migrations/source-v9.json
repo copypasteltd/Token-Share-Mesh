@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/009_native_input_execution_admission.sql",
+  "source_sha256": "5deaac9ff209ee108c379ce749e15b4666a3606b2f9bed6178241292060da871",
+  "migration": "009_native_input_execution_admission.sql",
+  "migration_sha256": "5deaac9ff209ee108c379ce749e15b4666a3606b2f9bed6178241292060da871",
+  "policy": "009 forward-only R017 encrypted native input and first execution issuance; 001-008 and client SQLite unchanged; no historical consent, keys or device approval inferred"
+}

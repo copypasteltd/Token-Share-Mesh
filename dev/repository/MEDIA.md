@@ -80,3 +80,9 @@ R008 adds a native foreground control agent with separate [actual Windows CLI ev
 R009 rebuilds all three current frontend targets and adds real Windows control CLI init/enroll/heartbeat/revoked-heartbeat to each browser journey; device policy/pairing reply loss uses the original command. The 14 viewport screenshots and four MP4/GIF files never render the once-only pairing secret. Device captures start at the concrete model; the recording scrolls the full conditions form without resizing the H5 viewport. Market hardware/OAuth/seller review stay synthetic; the native control process does not run GPU work. R006–R008 media and evidence remain historical, independent records. / R009新增双端实际控制流程，所有自建浏览器/进程结束关闭；真实GPU、原生支付宝和资金未验收。
 
 R016 preserves the same frozen NB04 interface and independently recaptures both browser journeys against the current backend/native binary. Each owner CLI journey also initializes and reopens its empty native SQLite store; this is control metadata evidence, never inference or GPU qualification. Fourteen viewport screenshots and four MP4/GIF files retain separate hashes. The unchanged 21 TS cases/three builds are reused only after source/output/log digest verification. / R016沿用冻结设计，当前后台/二进制重新联调并独立截图录制；新增元数据库初始化/重开，不伪装模型、资源资格或原生支付宝验收。
+
+## R017 实际媒体 / Actual media
+
+产品页面按当前原生后端和合成资格/支付事实重新录制：14 PNG、双端MP4/GIF；`dev/media/R017/`及`frontend-manifest.json`记录来源。阅读器4 PNG/MP4/GIF单列，不能视作推理或E2E演示。当前UI没有新增输入/租约操作，新增内部模块以原生PG/Go/SQLite测试为证，不伪造交互截图。
+
+The unchanged NB04 UI is recaptured against the current native binary. Product and reader recordings retain separate provenance. They do not show a GPU, phone, model, E2E or payment execution.

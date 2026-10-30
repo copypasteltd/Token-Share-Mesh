@@ -34,6 +34,12 @@ func routeOrder(t *testing.T, p identity.Principal, protocol relay.Profile) rout
 	t.Helper()
 	p.Scopes = append(p.Scopes, "route:create", "route:read")
 	f := testsupport.SeedOfferForProtocol(t, ctx, db, "PLAINTEXT", ids.New("region"), string(protocol))
+	return routeOrderOffer(t, p, f)
+}
+
+func routeOrderOffer(t *testing.T, p identity.Principal, f testsupport.Offer) routeFixture {
+	t.Helper()
+	p.Scopes = append(p.Scopes, "route:create", "route:read")
 	s := trade.Service{DB: db}
 	q, err := s.CreateQuote(ctx, p, f.Input(), ids.New("quote"))
 	if err != nil {

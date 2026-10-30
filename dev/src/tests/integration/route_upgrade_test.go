@@ -107,7 +107,7 @@ func TestReadOnlyStartupMigrationVerificationRejectsMetadataDrift(t *testing.T) 
 			t.Fatal(e)
 		}
 	}
-	if _, e := local.Pool.Exec(ctx, `INSERT INTO p11_meta.schema_migrations(version,name,sha256) VALUES(9,'009_unknown.sql',repeat('a',64))`); e != nil {
+	if _, e := local.Pool.Exec(ctx, `INSERT INTO p11_meta.schema_migrations(version,name,sha256) VALUES(10,'010_unknown.sql',repeat('a',64))`); e != nil {
 		t.Fatal(e)
 	}
 	if e := local.VerifyMigrations(ctx); e == nil {
