@@ -46,7 +46,7 @@ def native_path_alias(lease=None):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round', default='R005', choices=['R003','R004','R005'])
+    parser.add_argument('--round', default='R006', choices=['R003','R004','R005','R006'])
     options=parser.parse_args()
     lease = {'safe_to_release': True}
     with native_path_alias(lease) as alias:
@@ -69,6 +69,8 @@ def run_suite(alias, lease, round_id):
     env['PGPASSWORD']=password;env['PGUSER']='p11_test';env['PGHOST']='127.0.0.1';env['PGPORT']=str(port)
     dsn=f'postgresql://p11_test:{quote(password,safe="")}@127.0.0.1:{port}/postgres?sslmode=disable'
     env['P11_TEST_DATABASE_URL']=dsn;env['P11_REQUIRE_INTEGRATION']='1'
+    if round_id == 'R006':
+        env['P11_FRONTEND_BROWSER']='1';env['P11_PROJECT_ROOT']=str(ROOT)
     flags=subprocess.CREATE_NO_WINDOW if os.name=='nt' else 0
     def run(args,timeout=60):
         # A native PostgreSQL daemon can inherit stdout handles from pg_ctl.
@@ -96,7 +98,10 @@ def run_suite(alias, lease, round_id):
         print('Running native Go integration tests',flush=True)
         report=ROOT/f'dev/tests/evidence/{round_id}-native-go-tests.jsonl';report.parent.mkdir(parents=True,exist_ok=True)
         with report.open('w',encoding='utf-8') as output:
-            process=subprocess.Popen([str(executable),'test','-json','-count=1','-timeout=120s','./...'],cwd=ROOT/'dev/src',env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace',creationflags=flags)
+            # Keep package-level browser recording and the native DB regression
+            # sequential on this Windows host. Each test's real concurrent
+            # goroutines/connections and ordinary 3s business locks are retained.
+            process=subprocess.Popen([str(executable),'test','-json','-count=1','-p=1','-timeout=240s','./...'],cwd=ROOT/'dev/src',env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace',creationflags=flags)
             for line in process.stdout:
                 safe=line.replace(password,'[REDACTED]').replace(dsn,'[DATABASE_URL]');output.write(safe)
                 try:
@@ -137,6 +142,7 @@ def run_suite(alias, lease, round_id):
             # This generated bootstrap credential is within the verified task path.
             password_file.unlink(missing_ok=True)
     summary={'round':round_id,'run_id':run_id,'postgresql':pg['version'],'test_exit_code':test_code,'temporary_instance_stopped':stop_ok,'virtualization_used':False,
+             'package_parallelism':1,'intra_test_concurrency_retained':True,
              'shutdown_mode':shutdown_mode,'runner_error':failure,'cleanup_error':cleanup_failure,
              'evidence':f'dev/tests/evidence/{round_id}-native-go-tests.jsonl','scope':'Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test'}
     (ROOT/f'dev/tests/evidence/{round_id}-native-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

@@ -1,0 +1,159 @@
+{
+  "round": "R006",
+  "kind": "ACTUAL_COMPILED_PRODUCT_UI_WITH_EXPLICIT_SYNTHETIC_FIXTURES",
+  "evidence": "dev/tests/evidence/R006-frontend-checks.json",
+  "source_sha256": {
+    "dev/src/frontend/packages/core/assets/gpu.svg": "6206721a2e6ded4ce8aff6453aae7a82554eda2a5ba1e099c37826611d6a24e7",
+    "dev/src/frontend/packages/core/assets/mesh.svg": "a64c2376d646d803806de9d4c3870febd568a7aba8254ad5f8746f2018ea4d6e",
+    "dev/src/frontend/packages/core/assets/phone.svg": "3ad1c799aae322f09067a447ec8089c4e607b6d478c3d9b558148c7aa7df9fb6",
+    "dev/src/frontend/packages/core/package.json": "8ce61ff2e658a19fcf16344a8ad73a44ac1047eec291a3878ed16a20160f86b0",
+    "dev/src/frontend/packages/core/src/auth.ts": "0e22932561607891421580beb9ac0f1be113d9ab8057e48796c630b2f74f61b6",
+    "dev/src/frontend/packages/core/src/browser.ts": "8c572a9ad124cb8fa0ac81545f816e4eed0ec688ee10c8375e090d94343795dd",
+    "dev/src/frontend/packages/core/src/client.ts": "66b2e98686a35eb3b45bb9deff90ac4fcdcf1836ce7472d81d5ccf674659c583",
+    "dev/src/frontend/packages/core/src/contracts.ts": "57f9562dc469ec2ced08f9febdbe508bcc38bc832ec054369fc1898cb9038682",
+    "dev/src/frontend/packages/core/src/index.ts": "ca82edcd765b46f0d68b259cf189919d06a4a95c92c5155ce98aaab1113a9788",
+    "dev/src/frontend/packages/core/src/journal.ts": "dd19b27564d00308338b93653757c8e6e2c9b6344f99d60ab584fe6af3539e4b",
+    "dev/src/frontend/packages/core/src/model.ts": "5ef8880e72f2956af0b9250986d53df54999a798434409115451cb853521efd1",
+    "dev/src/frontend/packages/core/src/money.ts": "a104402cf2ac87886b5f4423742decc790a922a690df04d3d62ed3437f9c2c64",
+    "dev/src/frontend/packages/core/src/tokens.css": "a9a9813329e56709a7d52e597e0e2f8adea37fb39e4e6318b693187ae83184a9",
+    "dev/src/frontend/packages/core/tests/core.test.ts": "a1e713114916ceaa377cb30c9c825c4e2181743093f530c47c586a1ddfa261a3",
+    "dev/src/frontend/packages/core/tsconfig.json": "f749beefcbf9e69f812c864c1d241e4881a95e2acb5c8da7456f141af6769c78",
+    "dev/src/frontend/README.md": "e319e4978aa8f9d448f7a3e93d7008781b50bf018079aafc0f53e160f5750547",
+    "dev/src/miniapp/babel.config.cjs": "2ff23e6be5a01a8a0c310eb727b37599692f1b8d3c7f9af3d830e5e1eae3be59",
+    "dev/src/miniapp/config/index.ts": "3f2dc8e2b81c73fdaa1bc54054eed6f6d23d981fb47c2b58c49b988b770cd35c",
+    "dev/src/miniapp/package.json": "7d216d38c47b440bbd5d6d35004f031622d65de1c0c6119af73c864ca193de6c",
+    "dev/src/miniapp/src/app.config.ts": "df539e943da26f1c8170b0c5559ee13fce5d2e62d78a7debf76231694a360f72",
+    "dev/src/miniapp/src/app.css": "6ef7dfa3a7da68d558c2a44934d77f840bb55782881b695ba9f3af548fc394a2",
+    "dev/src/miniapp/src/app.tsx": "4e8d33cc8dbf1b85ff0d058db73a98169a8912613c47d5dfeec7a4e5671aa553",
+    "dev/src/miniapp/src/components.tsx": "c41fd3e7c59ec80fd1baa72f35d0a4f93a46e94ecbc07b759316266a1549dc4f",
+    "dev/src/miniapp/src/index.html": "a1d6eb7bc5cb086addb96aa313e131d6b579c3bf15f3c626e98257ddf944a25d",
+    "dev/src/miniapp/src/pages/account/index.tsx": "ccfd0a641694bdac2ad42119a681a2d617c87b311dd7bcd1d07f37f80c405b4e",
+    "dev/src/miniapp/src/pages/market/index.tsx": "c7ccd2690b7ba19a7e5e85ece98c2a65b7e011eada79559f6be3905e28da4ec7",
+    "dev/src/miniapp/src/pages/order/index.tsx": "a90bc1f6ef0b31ca390dea111e3b79c72fe7c47ac306b65fc7f76c2f996209ae",
+    "dev/src/miniapp/src/pages/orders/index.tsx": "62f3e7c8a86b461cb20832b612592c47e3157ed2fd2e8b369407728126968501",
+    "dev/src/miniapp/src/pages/service/index.tsx": "d781df5249046a623013f0f9bb9e077a5df31346ca5448870d9e08175bc61724",
+    "dev/src/miniapp/src/pages/share/index.tsx": "7d4fb283015df8679aa8e82878aaf71ebd48d0598b9f589deb762eb586cfe041",
+    "dev/src/miniapp/src/runtime.ts": "24a0b9b3b13bddfcd04113b5a960744e409c4599e9dd772f391f37ac3bf2ffbd",
+    "dev/src/miniapp/tsconfig.json": "48ae8d82b53f2f8456f806db747c15438a48068dae6175bb5d3252cb437a8513",
+    "dev/src/miniapp/types/global.d.ts": "677ab2cdb855152b5177ea608a74783fe568c628b717826f878fe5721f2b2494",
+    "dev/src/web/index.html": "fe0faf57376539daa96bb241b67201b8c00c177fe3cc25c661084a841415d51f",
+    "dev/src/web/package.json": "7f2b5495853e49eb2617a0f2f1eec2bad9a1643621b9d1d12fd99d6abcd541d3",
+    "dev/src/web/src/env.d.ts": "3ea1f81306f7c4947e84b347d14f80b868d2a40188068f4a45be432e0f34bb9f",
+    "dev/src/web/src/main.tsx": "6a861d048a374887bce1c8c40b4681ee65e8d56d590483cc5b929065fd74bdc7",
+    "dev/src/web/src/styles.css": "2d33e2a8f7af9241ca2a5e774bf98a8ab54ab6536d57c622ce0c7360ae7051e9",
+    "dev/src/web/tsconfig.json": "3257a55885d326196dba74759ab1b0844b98ff9387ad102a731e1b3525bbc6ea",
+    "dev/src/web/vite.config.ts": "74c610cc9e4f8d42e924d33736c649d4aa4947a243bf8cbbd9e0cb97667370da"
+  },
+  "assets": [
+    {
+      "path": "dev/media/screenshots/web-market.png",
+      "sha256": "bee34a973d01c8edeb29dec5bfeef0751fe403c925b58af83c194637ca6aac19",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/screenshots/web-llm-detail.png",
+      "sha256": "bee34a973d01c8edeb29dec5bfeef0751fe403c925b58af83c194637ca6aac19",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/screenshots/web-order-pending.png",
+      "sha256": "4569d8538c749e232a1ba7f9f920d1e24ba1e4c73df0a26af939609a7a78e770",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/screenshots/web-order.png",
+      "sha256": "9379767dab6a3554ff123fcf9c548da3efa1bf006f57a7e971dd52286e35a7a6",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/screenshots/web-share.png",
+      "sha256": "bfcf8c9d6753095df8f4633a6162e3921b02412f9a2c27c382a41f5cb790ad1c",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/recordings/web-transaction.mp4",
+      "sha256": "8b24335b568cedb8c07c9d745377d66451213550922ff647259f26115a532a7b"
+    },
+    {
+      "path": "dev/media/recordings/web-transaction.gif",
+      "sha256": "41e3e21817644d1cdb7b0ed8ea9a1acff48d2f6f649867d067c61d5a4a6901c5"
+    },
+    {
+      "path": "dev/media/screenshots/miniapp-market.png",
+      "sha256": "a27ca65e31e27292782f6e265f3ecdfcd4cff7ca884e1444c72af51a17ccc147",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/screenshots/miniapp-llm-detail.png",
+      "sha256": "a5f21fccb60f325d60994595ca1f30f9ab2f6ae5e00ec3271b594f2cc8188f19",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/screenshots/miniapp-order-pending.png",
+      "sha256": "4a20fb7586481316ee9bb26d7560d45b379b0e817fce03bdeecdd7d796668558",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/screenshots/miniapp-order.png",
+      "sha256": "5663f3d7dc3fb9c0ddc0f4ec146737d90b2cd98b68680b7142b0497eeb376141",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/screenshots/miniapp-share.png",
+      "sha256": "d636afe315d1f0f6b607894a81f996a81bede43bbd7d46cee582b644c99b34b3",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actual_ui": true
+    },
+    {
+      "path": "dev/media/recordings/miniapp-transaction.mp4",
+      "sha256": "5b04da53fd0190928e9e19fbab1c21eaa32bcd6e35480e33adb6ce8534580c9a"
+    },
+    {
+      "path": "dev/media/recordings/miniapp-transaction.gif",
+      "sha256": "a6f64b55a2a2e918bba0444602ba733790ca383afaed1a0ca72f584eb99e74d7"
+    }
+  ],
+  "browser_closed": true,
+  "remaining_owned_tabs": 0,
+  "virtualization_used": false,
+  "notice": "Web and Taro H5 real HTTP/DB UI; not native Alipay, real sellers/authorization, payment or device execution"
+}

@@ -125,6 +125,8 @@ def make_examples() -> dict:
         "quote_request": quote, "route_contract": route, "cipher_frame": frame, "event_envelope": event, "buyer_receipt": receipt,
         "nb_hour_price":hour_price,"nb_token_price":token_price,"legacy_price":legacy_price,
         "auth_challenge_request":{"client_type":"MINIAPP","code_challenge":"A"*43},
+        "native_nonce_request":{"client_type":"MINIAPP","proof_profile":"ALIPAY_NATIVE_NONCE_1"},
+        "native_nonce_challenge":{"challenge_id":"ach_native_schema_only","client_type":"MINIAPP","expires_at":"2026-10-30T12:00:00Z","proof_profile":"ALIPAY_NATIVE_NONCE_1","native_code_verifier":"n"*43},
         "miniapp_session_request":{"challenge_id":"ach_schema_only","auth_code":"SYNTHETIC_NOT_A_CHANNEL_CODE","code_verifier":"v"*43},
         "web_session":{"session_id":"ses_schema_only","client_type":"WEB","expires_at":"2026-10-30T12:00:00Z",
             "csrf_token":"a"*64,"profile":{"user_id":"usr_schema_only","roles":["BUYER"],

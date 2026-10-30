@@ -23,7 +23,15 @@ func (d *DB) Migrate(ctx context.Context) error {
 }
 func (d *DB) MigrateFS(ctx context.Context, source fs.FS) error {
 	return d.Transaction(ctx, pgx.ReadCommitted, func(tx pgx.Tx) error {
+		// Native first-run DDL can outlive the ordinary 3s business lock budget.
+		// Only migration admission gets a bounded 30s wait, still limited by ctx.
+		if _, err := tx.Exec(ctx, `SELECT set_config('lock_timeout','30000',true),set_config('statement_timeout','45000',true)`); err != nil {
+			return err
+		}
 		if _, err := tx.Exec(ctx, `SELECT pg_advisory_xact_lock(7410112026)`); err != nil {
+			return err
+		}
+		if _, err := tx.Exec(ctx, `SELECT set_config('lock_timeout','3000',true),set_config('statement_timeout','15000',true)`); err != nil {
 			return err
 		}
 		var server int

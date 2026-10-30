@@ -2,7 +2,7 @@
   "version": "1.0-draft",
   "date": "2026-10-29",
   "source": "docs/白皮书/contracts/openapi-control-v3.0.json",
-  "canonical_api_sha256": "11ff1ef3dba769c9f3107340dfd1a1b6258d01a22a3a702b37c2889df16c028a",
+  "canonical_api_sha256": "d26fe509f72f9d40b1c024b2166717d931d86164a011e892751d6895034864a0",
   "status": "DESIGN_UNIMPLEMENTED",
   "operations": [
     {

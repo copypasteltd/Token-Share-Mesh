@@ -1,11 +1,32 @@
 # Media provenance / 演示媒体来源
 
-All screenshots and recordings show the real generated specification readers.
+The historical reader screenshots and recordings show real generated specification readers.
 They are captured from a native, locally installed Chromium browser against a
 loopback-only document preview. There are no fabricated marketplace transactions,
 model responses or payment results in these assets.
 
-全部截图和录制来自真实生成的规范阅读器，使用本机已安装原生 Chromium 和 loopback 文档入口。画面中没有伪造交易、模型结果或支付成功。
+历史阅读器截图和录制来自真实生成的规范阅读器，使用本机原生 Chromium 和 loopback 文档入口。R006另增实际产品页面媒体，详见下一节；两类来源独立登记，均没有真实设备/资金执行。
+
+## R006 actual product UI / 实际产品页面
+
+React/Vite Web and React/Taro H5 are captured from their compiled source, served by the native Go test harness alongside the real control HTTP handlers and disposable PostgreSQL. OAuth authorization, qualification and device heartbeats are synthetic and visibly labelled. RSA2 exchange verification, quote/order persistence and original-command recovery are real test operations. Native Alipay is compiled but not rendered or authorized in these captures.
+
+Web与Taro H5截图/录屏为真正编译页面，实际连接HTTP/临时原生数据库；授权/卖家资格/设备心跳为带标识的合成夹具，仅在测试二进制启用，不在产品中加入假登录。心跳只刷新本用例的合成设备，不代表设备客户端已经实现。H5不冒称支付宝原生容器；没有支付成功、模型结果或GPU/手机任务。
+
+| Product asset / 产品媒体 | Content / 内容 |
+| --- | --- |
+| [Web market](../media/screenshots/web-market.png) / [Taro H5 market](../media/screenshots/miniapp-market.png) | Concrete model/seller, dual prices and privacy / 具体型号、卖家、单位与隐私 |
+| [Web E2E detail](../media/screenshots/web-llm-detail.png) / [Taro H5 detail](../media/screenshots/miniapp-llm-detail.png) | Buyer gateway unavailable; no prompt collection / 买方可信网关尚未连接，不收Prompt |
+| [Web unknown reply](../media/screenshots/web-order-pending.png) / [Taro H5 unknown reply](../media/screenshots/miniapp-order-pending.png) | A committed order reply is deliberately lost; original key/body retained / 后台已提交，故意丢回执，保留原键/参数 |
+| [Web order](../media/screenshots/web-order.png) / [Taro H5 order](../media/screenshots/miniapp-order.png) | Recovered WAITING_PAYMENT; no active billing / 恢复原单，未付款未计时 |
+| [Web sharing](../media/screenshots/web-share.png) / [Taro H5 sharing](../media/screenshots/miniapp-share.png) | Real account projection, no fabricated income or device connection / 本人投影，不虚构收入或已配对设备 |
+| [Web MP4](../media/recordings/web-transaction.mp4) / [GIF](../media/recordings/web-transaction.gif) | Actual browser compositor frames and original timing, silent / 实际浏览器帧与原时间，无声 |
+| [Taro H5 MP4](../media/recordings/miniapp-transaction.mp4) / [GIF](../media/recordings/miniapp-transaction.gif) | Real H5 actions, not a sequence of design PNGs / 实际页面操作，不是设计图轮播 |
+| [Product manifest](../media/frontend-manifest.json) / [Web evidence](../tests/evidence/R006-web-browser.json) / [H5 evidence](../tests/evidence/R006-miniapp-browser.json) | Source/output hashes, frame provenance and browser closure / 源码/产物摘要、逐帧来源和浏览器关闭 |
+
+After `前端开发.py bootstrap` and `build`, run `原生数据库验证.py --round R006`, then `核验前端源码.py`. Existing native Edge/Chrome and FFmpeg/FFprobe are required. The test automatically closes its owned browser; the Go harness and database runner close their own HTTP/DB resources. Keep failed attempts rather than relabeling them as passes. Regenerating assets requires refreshing their manifests and the README together.
+
+先构建再实际联调/录制；所有依赖/临时配置/原始帧在runtime。媒体来源不等于真机/真实渠道或完整产品验收；历史阅读器媒体继续按下列独立清单维护。
 
 | Asset / 产物 | Content / 内容 |
 | --- | --- |
@@ -22,7 +43,7 @@ model responses or payment results in these assets.
 
 Install Node.js22+, a native Chromium/Edge/Chrome browser, and FFmpeg/FFprobe on
 PATH. Media dependencies are pinned in `dev/tools/media/package-lock.json`.
-Downloads, browser profiles and intermediate frames stay in ignored `runtime/`.
+Reader dependencies stay in `runtime/media/workspace`; browser profiles and intermediate frames also stay in ignored `runtime/`.
 
 先准备 Node.js22+、原生 Chromium/Edge/Chrome、PATH 中的 FFmpeg/FFprobe。依赖由锁文件固定，缓存、浏览器配置和原帧均在忽略的 runtime 内。
 

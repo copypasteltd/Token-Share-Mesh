@@ -1,0 +1,14 @@
+{
+  "round": "R006",
+  "run_id": "20261030T001037Z-b51a2624",
+  "postgresql": "17.11-5",
+  "test_exit_code": 1,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "shutdown_mode": "IMMEDIATE_DISPOSABLE_ONLY",
+  "runner_error": null,
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R006-native-go-tests-attempt5.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test",
+  "attempt_note": "Failed: a concurrent seller application hit the unchanged 3s business lock timeout while packages competed for native I/O; browser fixture device heartbeat aged beyond the unchanged 45s catalog window. Next run serializes packages (retains intra-test concurrency) and refreshes only explicitly synthetic fixture devices. Both browsers and temporary database stopped; this attempt remains failed."
+}

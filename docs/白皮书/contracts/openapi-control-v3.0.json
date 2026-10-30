@@ -14222,25 +14222,52 @@
         "description": "旧钥签新钥或明确重新身份核验；买方仍需独立认可轮换，不静默改在途收件端。"
       },
       "AuthChallengeWrite": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "client_type": {
-            "type": "string",
-            "enum": [
-              "WEB",
-              "MINIAPP"
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "client_type": {
+                "type": "string",
+                "enum": [
+                  "WEB",
+                  "MINIAPP"
+                ]
+              },
+              "code_challenge": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{43}$"
+              },
+              "proof_profile": {
+                "const": ""
+              }
+            },
+            "required": [
+              "client_type",
+              "code_challenge"
             ]
           },
-          "code_challenge": {
-            "type": "string",
-            "pattern": "^[A-Za-z0-9_-]{43}$"
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "client_type": {
+                "const": "MINIAPP"
+              },
+              "proof_profile": {
+                "const": "ALIPAY_NATIVE_NONCE_1"
+              },
+              "code_challenge": {
+                "const": ""
+              }
+            },
+            "required": [
+              "client_type",
+              "proof_profile"
+            ]
           }
-        },
-        "required": [
-          "client_type",
-          "code_challenge"
-        ]
+        ],
+        "description": "WEB及原有MINIAPP使用客户端PKCE；ALIPAY_NATIVE_NONCE_1仅原生MINIAPP显式选择服务端一次性证明，不冒称客户端PKCE。"
       },
       "AuthChallenge": {
         "type": "object",
@@ -14266,12 +14293,56 @@
             "type": "string",
             "format": "uri",
             "maxLength": 2048
+          },
+          "proof_profile": {
+            "const": "ALIPAY_NATIVE_NONCE_1"
+          },
+          "native_code_verifier": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$",
+            "readOnly": true
           }
         },
         "required": [
           "challenge_id",
           "client_type",
           "expires_at"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "proof_profile"
+              ]
+            },
+            "then": {
+              "properties": {
+                "client_type": {
+                  "const": "MINIAPP"
+                }
+              },
+              "required": [
+                "native_code_verifier"
+              ],
+              "not": {
+                "required": [
+                  "authorization_url"
+                ]
+              }
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "native_code_verifier"
+              ]
+            },
+            "then": {
+              "required": [
+                "proof_profile"
+              ]
+            }
+          }
         ]
       },
       "SessionWrite": {

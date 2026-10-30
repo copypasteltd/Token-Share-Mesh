@@ -1,5 +1,22 @@
 # Usage / 使用指南
 
+## R006 frontends / 双端页面
+
+Native Node22.14.0/npm10.9.2 is pinned by the frontend manifests. Run from the clone root. The wrapper copies tracked sources and keeps dependencies, npm cache and build output under runtime/frontend; install scripts are disabled. No Docker/WSL/emulator is used.
+
+```powershell
+python -X utf8 dev/tools/前端开发.py bootstrap
+python -X utf8 dev/tools/前端开发.py check
+python -X utf8 dev/tools/前端开发.py test
+python -X utf8 dev/tools/前端开发.py build
+```
+
+Builds produce miniapp-alipay, miniapp-h5 and web under runtime/frontend/builds. Native login requires an explicit P11_FRONTEND_API_BASE compiled in and actual registered Alipay identity; an empty address disables it. Web/H5 use the same-origin control API by default. These outputs are application sources/builds, not a deployment plan. See [frontend details](../src/frontend/README.md).
+
+使用顺序为授权→发现个人设备→选实际卖家/模式→填时长或双向token上限/预算→正式报价→主动勾选披露→建单等待付款。E2E可信程序未配对则关闭继续；页面不收Prompt。原生显式nonce档与Web/H5 S256档分开，参见[完整约束](../../docs/技术开发/附录-双端交易页面与授权恢复实施约束.md)。未知写刷新后核对原请求，保留相同键和参数；本机历史仅订单号，不能当全历史。共享页仅本人资格和挂牌只读，配对、编辑、收益结算及付款未交付。
+
+After building, `python -X utf8 dev/tools/原生数据库验证.py --round R006` exercises actual compiled Web/Taro H5 with native HTTP/PostgreSQL, synthetic OAuth, qualification and fixture-device heartbeats only. It captures genuine screenshots and recordings and checks one order/event after lost-reply recovery. It closes its browser/database. Run `python -X utf8 dev/tools/核验前端源码.py` to consolidate current evidence. Native Alipay rendering, real authorization, devices and payments remain unverified.
+
 ## Existing runnable software / 当前可运行内容
 
 Use a native Windows amd64 development machine, Python 3.13 and Node.js 22+.
@@ -25,9 +42,9 @@ be avoided with `--port 0`, which prints the chosen loopback port.
 ```powershell
 python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
-python -X utf8 dev/tools/原生数据库验证.py --round R005
-python -X utf8 dev/tools/核验原生源码.py --round R005
-python -X utf8 dev/tools/整理原生验证证据.py --round R005
+python -X utf8 dev/tools/原生数据库验证.py --round R006
+python -X utf8 dev/tools/核验原生源码.py --round R006
+python -X utf8 dev/tools/整理原生验证证据.py --round R006
 ```
 
 The database command creates its own random-credential, loopback-only PostgreSQL17
@@ -87,26 +104,26 @@ Configure these values explicitly in your local environment. All *_FILE values p
 python -X utf8 dev/tools/原生开发.py run ./api/cmd/p11-api
 ```
 
-The command requires migration version 3 and listens only on loopback. It does not migrate, create test identities or execute models/payments. No server deployment, TLS setup or observability work is introduced. For local HTTP development use an exact loopback browser origin and explicit insecure-loopback flag; development cookies have separate names. Default Cookie policy remains Secure/HttpOnly/Strict.
+The command requires migration version 4 and listens only on loopback. It does not migrate, create test identities or execute models/payments. No server deployment, TLS setup or observability work is introduced. For local HTTP development use an exact loopback browser origin and explicit insecure-loopback flag; development cookies have separate names. Default Cookie policy remains Secure/HttpOnly/Strict.
 
-命令要求迁移版本3，只监听loopback，不自动迁移、造测试身份或执行模型/支付。不增加部署/TLS/可观测性工作。本机HTTP使用精确loopback浏览器源和显式开发标志，Cookie名称独立；默认策略仍为Secure/HttpOnly/Strict。
+命令要求迁移版本4，只监听loopback，不自动迁移、造测试身份或执行模型/支付。不增加部署/TLS/可观测性工作。本机HTTP使用精确loopback浏览器源和显式开发标志，Cookie名称独立；默认策略仍为Secure/HttpOnly/Strict。
 
 | Step / 步骤 | Miniapp / 小程序 | Web / 浏览器 |
 | --- | --- | --- |
-| Bind / 绑定 | In-memory verifier, POST /auth/challenges with MINIAPP and base64url SHA-256 / 内存verifier与挑战 | Same with WEB; HttpOnly login binding and state-bound authorization URL / WEB挑战及只读绑定Cookie |
+| Bind / 绑定 | Explicit MINIAPP/ALIPAY_NATIVE_NONCE_1; server CSPRNG proof, digest only / 显式服务端一次性证明，原S256仍兼容 | WebCrypto S256, temporary per-tab sessionStorage proof and HttpOnly binding Cookie / 短时标签证明与绑定Cookie |
 | Authorize / 授权 | my.getAuthCode returns a fresh auth code / 取得新授权码 | Authorized callback checks state; scrub temporary code from address / 回调核state并清临时地址 |
 | Exchange / 兑换 | POST /auth/sessions with challenge_id/auth_code/code_verifier / POST兑换 | Same plus web_state, exact Origin and binding Cookie / 另带state、Origin和Cookie |
 | Use / 使用 | In-memory once-returned access_token, Bearer / 仅内存持有会话令牌 | HttpOnly Cookie; csrf_token only in memory; Origin and X-CSRF-Token on writes / 只读Cookie及内存CSRF |
 | Read / 查询 | GET /auth/session never redisplays token / 不重发令牌 | GET /auth/session restores current CSRF / 可读取本会话CSRF |
 | Exit / 退出 | DELETE /auth/session and clear memory / 注销清内存 | DELETE with CSRF then expired Cookie / 带CSRF注销并清Cookie |
 
-These are backend contracts; Taro/Web frontends and the callback window remain to be built. A full-page redirect would lose an in-memory verifier, so WEB integration must keep the initiating SPA alive and receive an origin-checked same-origin callback result rather than persist session secrets in localStorage. These bindings are our own flow, not a claim that Alipay accepts PKCE parameters.
+R006 implements the full-page Web/H5 callback using a five-minute, single-use verifier temporarily in this tab's sessionStorage; it is consumed and deleted before exchange. Normal startup without callback parameters clears abandoned proof. Session tokens never enter browser storage. Native MINIAPP uses the explicit server-nonce profile because Alipay random-byte support is not assumed. These are platform bindings, not Alipay PKCE parameters; native device/channel validation remains pending.
 
-以上为后端合同；Taro/Web前端及授权回调窗口尚待构建。整页跳转会丢失内存verifier，Web须保留原SPA并接收核源的同源回调窗口结果，不把会话秘密写入localStorage。这是本项目绑定流程，不宣称支付宝提供PKCE参数。
+R006已实现Web/H5整页回调，5分钟一次性证明仅暂存当前标签sessionStorage，返回先删地址参数与本地证明，再核state并POST兑换；无回调普通启动清遗留证明。会话令牌不入浏览器存储。原生MINIAPP显式服务端nonce，不假设支付宝WebCrypto；原生真机及真实渠道仍待核验。详见双端实施细则，这不是内容加密。
 
-All paths above have /v1/p11 prefix. Current routes cover 13 of 93 control operations: auth challenge/session create/read/revoke; profile; key list/create/revoke; services; quote create/read; order create/read. A valid account session is required for purchase; API keys never authorize it. Unknown authorization outcomes require fresh authorization. Signed synthetic OAuth and native HTTP tests passed; real application/channel integration has not.
+All paths above have /v1/p11 prefix. The original identity/trade subset covers 13 operations within the current 23 of 93; seller/consent/listing operations below add ten. The subset includes: auth challenge/session create/read/revoke; profile; key list/create/revoke; services; quote create/read; order create/read. A valid account session is required for purchase; API keys never authorize it. Unknown authorization outcomes require fresh authorization. Signed synthetic OAuth and native HTTP tests passed; real application/channel integration has not.
 
-上述路径前缀均为/v1/p11。当前13/93操作涵盖挑战/会话、本人、密钥、市场、报价和订单；买单必须本人会话，API key不能代购。授权UNKNOWN重新发起授权，不重复兑原码。签名合成渠道响应及本机HTTP已验证，真实应用/渠道联调尚未执行。详见[实际源码路由](../src/api/internal/http/routes.json)和[实施约束](../../docs/技术开发/附录-身份登录与HTTP交易实施约束.md)。
+上述路径前缀均为/v1/p11。当前23/93操作中的原13项身份交易子集涵盖挑战/会话、本人、密钥、市场、报价和订单；买单必须本人会话，API key不能代购。授权UNKNOWN重新发起授权，不重复兑原码。签名合成渠道响应及本机HTTP已验证，真实应用/渠道联调尚未执行。详见[实际源码路由](../src/api/internal/http/routes.json)和[实施约束](../../docs/技术开发/附录-身份登录与HTTP交易实施约束.md)。
 
 ## Intended buyer journey / 规划买方流程
 
@@ -165,9 +182,9 @@ acceptance is implied by a successful document build or CLI cross-compilation.
 
 ## R005 seller and future-listing control / 卖家与未来挂牌
 
-The source now registers 23/93 control operations, with 64 domain tables and 43 limited native tests. Real seller/channel/device review and frontend clients remain pending. All writes below require an account session, current authority and a stable Idempotency-Key; WEB additionally sends the exact Origin and session CSRF token. API keys cannot perform these account mutations.
+R005 introduced the ten seller/listing operations below; R006 retains 23/93 operations and 64 tables, with 45 Go cases plus 13 shared TS cases. Real seller/channel/device review and seller write UI remain pending. All writes below require an account session, current authority and a stable Idempotency-Key; WEB additionally sends the exact Origin and session CSRF token. API keys cannot perform these account mutations.
 
-当前23/93操作、64表、43项局部测试。真实卖家/渠道/设备审核和前端仍待实现。以下写操作要求当前账户会话及稳定Idempotency-Key；Web另带精确Origin和会话CSRF。API密钥不能代理这些账户操作。
+R005新增以下十项卖家挂牌操作；R006仍23/93操作、64表，45项Go和13项TS用例。真实卖家/渠道/设备审核和卖家写流程页面仍待完成。以下写操作要求当前账户会话及稳定Idempotency-Key；Web另带精确Origin和会话CSRF。API密钥不能代理这些账户操作。
 
 | Step / 步骤 | Request / 请求 | Result / 结果 |
 | --- | --- | --- |
@@ -207,4 +224,4 @@ ETags represent mutable resource versions, not listing revisions. PATCH requires
 
 ETag代表资源version，与revision不同。PATCH不接收弱/列表/星号/重复ETag或null字段；回放是原回执，当前状态须再GET。状态操作带expected_version。历史修订和订单快照不改；小时/M token展示、空档及剩余时长门槛继续适用。
 
-See [full seller/listing constraints](../../docs/技术开发/附录-卖家申请与挂牌版本实施约束.md) and [R005 evidence](../tests/evidence/R005-验证报告.md). The tests use explicitly synthetic approvals; actual seller review, payment, provider registration and Taro/React interaction are not claimed.
+See [full seller/listing constraints](../../docs/技术开发/附录-卖家申请与挂牌版本实施约束.md) and [R005 evidence](../tests/evidence/R005-验证报告.md). The tests use explicitly synthetic approvals; that historical evidence does not establish actual seller review, payment or provider registration. R006 adds real Web/H5 interaction in its separate frontend evidence; native Alipay remains unverified.

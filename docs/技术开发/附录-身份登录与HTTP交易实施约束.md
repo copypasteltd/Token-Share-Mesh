@@ -15,7 +15,7 @@ R004｜沿需求v3.0、NB-R1和完整源码目标实施。本文追加控制面�
 
 ## 2. 授权与会话
 
-先创建限时挑战，客户端在内存持有随机verifier，发送其SHA-256挑战值。此为本项目登录绑定，不宣称支付宝支持PKCE参数。WEB另绑定HttpOnly一次性Cookie；MINIAPP不依赖浏览器Cookie。网页授权state必须等于本次challenge_id，回调后由前端将授权码通过POST交给本服务，并清除回调地址中的临时授权码，不将会话凭据放入URL。
+R004客户端S256挑战继续兼容；现行R006原生MINIAPP增加显式ALIPAY_NATIVE_NONCE_1档，Web使用S256与短时标签级sessionStorage跨整页授权返回，具体取代旧内存弹窗建议的依据见[双端实施约束](附录-双端交易页面与授权恢复实施约束.md)。这是本项目登录绑定，不宣称支付宝提供PKCE参数。WEB另绑定HttpOnly一次性Cookie，MINIAPP不依赖Cookie；state等于原challenge_id，回调通过POST交授权码并清地址，令牌不得放URL或浏览器存储。
 
 兑换先事务认领挑战和授权码HMAC摘要，再在事务外调用固定支付宝HTTPS网关。请求RSA2签名；响应必须对原始response节点字节进行RSA2验签，验证成功后才读取配置指定的OPEN_ID或USER_ID，不在两者间自动回退。身份命名空间绑定应用ID与字段类型；变更身份摘要密钥或字段须显式迁移，不把同一人静默映射到另一账号。
 
@@ -49,9 +49,9 @@ WEB会话只放HttpOnly、SameSite=Strict的主机Cookie，默认Secure；明确
 
 ## 5. 客户端衔接顺序
 
-小程序先在内存生成足够随机的verifier→POST /auth/challenges（MINIAPP与SHA-256 challenge）→my.getAuthCode取得新授权码→POST /auth/sessions→仅在内存保存首次access_token。后续请求使用Bearer；读取/auth/session不会重新返回令牌。登出DELETE /auth/session后清内存；丢令牌或进程重启重新授权，不把授权码当登录凭据重放。
+当前原生小程序显式请求MINIAPP/ALIPAY_NATIVE_NONCE_1，服务端32字节CSPRNG证明只在本机内存和本次响应，数据库只存SHA256；再my.getAuthCode→POST兑换→仅内存保存首次Bearer。现有具备可靠随机源的原MINIAPP S256请求仍可使用，但不从失败自动切档。GET会话不重发令牌；注销/重启重新授权，不重放授权码。该nonce不是客户端PKCE或内容加密；原生接口/存储仍须真机核验。
 
-Web先生成verifier并创建WEB挑战，保留内存中的challenge_id/verifier并允许本机绑定Cookie；在同一SPA流程接收官方授权回调，核state后立即从地址移除临时码，再POST兑换。当前未实现前端弹窗/回调，因此不把整页跳转后丢失内存verifier视为可用流程；后续优先用受源限制的同源回调窗口向原页面传一次性结果，不用localStorage落会话秘密。兑换后只读Cookie由浏览器管理，前端只保CSRF值，每次写请求带X-CSRF-Token并保留Cookie，GET会话可恢复CSRF值。跨应用嵌入、第三方Cookie和跨设备登录不在本轮自动兼容范围。
+当前Web/H5以WebCrypto生成verifier并创建WEB挑战；为支持标准整页授权返回，将5分钟一次性challenge/verifier暂存当前标签sessionStorage。它不是会话/内容密钥存储，不使用localStorage，也不承诺抵御同源脚本接管。返回先清地址中的auth_code/state、消费并删除本地证明，再核原state与服务端绑定Cookie后POST兑换；无回调参数的普通启动清理遗留证明，取消或到期重新授权。此已替代R004未实现的同源弹窗建议，减少弹窗依赖但保留同源/一次性/期限校验。会话仅HttpOnly Cookie，CSRF只在内存；所有写操作带Origin/X-CSRF-Token。跨应用嵌入、第三方Cookie与跨设备登录不自动兼容。
 
 交易接入顺序为本人会话→GET /services→POST /quotes→明确展示合同并确认→POST /orders→GET原订单。每个写意图保留稳定Idempotency-Key；不得由客户端传user_id/role或复用API key代购。新建订单仅WAITING_PAYMENT，下一阶段接支付，不显示“已付款”“已接单”或“已开机”。
 

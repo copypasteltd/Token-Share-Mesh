@@ -19879,11 +19879,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "ef5d111dde1d3041eb5498887f137e846f4772c170d4e84f01f9ff87f3c01b4f"
+      "sha256": "3b8bade56e72cc5f546cfe15abb9cd2d4f94c0b280da7e8844ff20409d92e285"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "5c90c877498955bad667732789c27991017119682f11a76f02cd8a3188a8e9b2"
+      "sha256": "34b34e120db357cb3fd7459c0af161087929cab917a45ea904b92659d7b25112"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -19987,7 +19987,7 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "b0981a846869847be0746ed6ac6e4ebbbba05636c722c3042f496cc125ddc8e8"
+      "sha256": "ad6b41de077152b9acf6668edd26ebcba46b4fb46756bb2dac6bcd5c01144e4d"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
@@ -20051,7 +20051,7 @@
     },
     {
       "path": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md",
-      "sha256": "8fa41daf2637c8ed793718122c27c4246f91588a77f1bd9833267bcdf0b7d439"
+      "sha256": "6f7d9043d283c5595f1cc4b4568c87d187b32830b6dbd146975edeed85471546"
     },
     {
       "path": "docs/白皮书/06-端对端加密与密钥生命周期.md",
@@ -20059,7 +20059,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "4cc6c953c078c5addd2d44ae55bcf8afbe3bc463c116b43097d92d89b1774a09"
+      "sha256": "e68a18b4981e4a909a3858c9ad7ad36fc0dc649bcfc639807c69c2f7af4a1bd6"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",

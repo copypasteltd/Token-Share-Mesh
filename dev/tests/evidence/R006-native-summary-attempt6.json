@@ -1,0 +1,16 @@
+{
+  "round": "R006",
+  "run_id": "20261030T001744Z-7fde32e5",
+  "postgresql": "17.11-5",
+  "test_exit_code": 1,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "package_parallelism": 1,
+  "intra_test_concurrency_retained": true,
+  "shutdown_mode": "FAST",
+  "runner_error": null,
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R006-native-go-tests-attempt6.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test",
+  "attempt_note": "All non-browser regressions passed with packages sequential and intra-test concurrency retained. Miniapp reached original-order recovery and seller view but failed interaction after a mobile viewport resize. The 320px step is an overflow-only check; subsequent actions now restore the capture size, with no native/320px-touch claim. H5 paper background was also corrected after visual review. Browser/database closed; this attempt remains failed."
+}

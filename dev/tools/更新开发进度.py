@@ -72,6 +72,8 @@ def main():
         text+='R004已实现支付宝RSA2授权适配、一次性挑战/会话和13操作原生HTTP子集；34项实际局部测试通过，临时数据库已停止。渠道响应为明确合成签名测试，真实支付宝授权/收款、GPU/Android、前端页面及完整转发仍待完成；93操作、62表沿固定编号继续开发。全部56项/222未收口子项保留，六项NB缺口开放，80项主验收及96完整场景仍未执行。\n\n'
     elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R005':
         text+='R005已实现本人卖家申请、同意与未来挂牌控制：23/93操作、64表；43项实际局部测试通过，临时数据库已停止。申请/提交不自批或自动开售，真实审核/渠道/设备/前端和完整执行链仍待完成；全部56任务/222未收口子项保留，80主验收及96完整场景未执行。\n\n'
+    elif progress.get('current_activity')=='SOURCE_IMPLEMENTATION_R006':
+        text+='R006已实现React/Taro支付宝编译页面、React/Vite Web和共享控制逻辑，实际交易到等待付款，卖家页面只读、配对/付款关闭。45项Go用例（含Web/Taro H5浏览器子场景）及13项TS用例通过，原请求恢复后各一单一事件；浏览器与临时数据库已停止。支付宝原生只编译，真实授权/设备/资金/密码和完整平台仍未验收；23/93操作、64表，全部56任务/222未收口子项、六项NB缺口和80/96未执行状态保留。\n\n'
     text+=table(['轮次','内容与完整待办','验证状态'],[[r['id'],relative('dev/progress/'+r['id']+'-本轮实现与完整待办.md',path,r['title']),r['verification_status']] for r in progress['rounds']])+'\n'
     counts=Counter(t['implementation_status'] for t in progress['tasks'])
     text+='任务现状：'+ '；'.join(k+'='+str(v) for k,v in sorted(counts.items()))+'。\n\n'

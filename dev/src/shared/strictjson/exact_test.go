@@ -13,6 +13,8 @@ func TestControlJSONRequiresExactDeclaredKeys(t *testing.T) {
 		`{"Listing_ID":"changed"}`,
 		`{"listing_id":"first","Listing_ID":"second"}`,
 		`{"policy":{"Budget_Fen":42}}`,
+		`{"listing_id":null}`,
+		`{"policy":{"budget_fen":null}}`,
 		"null",
 		"[]",
 	} {

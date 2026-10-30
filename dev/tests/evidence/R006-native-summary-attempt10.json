@@ -1,0 +1,17 @@
+{
+  "round": "R006",
+  "run_id": "20261030T005703Z-91437a8f",
+  "postgresql": "17.11-5",
+  "test_exit_code": 0,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "package_parallelism": 1,
+  "intra_test_concurrency_retained": true,
+  "shutdown_mode": "FAST",
+  "runner_error": null,
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R006-native-go-tests-attempt10.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test",
+  "attempt_outcome": "PASSED_CONTROL_TESTS_VISUAL_REVIEW_FAILED",
+  "visual_review_note": "Diagnostic run confirmed Taro H5 vendor [disabled] selector matched disabled=false and produced white translucent labels; a false-attribute override and 4.5:1 contrast regression were added afterwards."
+}

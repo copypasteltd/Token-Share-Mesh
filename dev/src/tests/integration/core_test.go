@@ -34,7 +34,7 @@ func TestMain(m *testing.M) {
 		os.Exit(m.Run())
 	}
 	var cancel context.CancelFunc
-	ctx, cancel = context.WithTimeout(context.Background(), 110*time.Second)
+	ctx, cancel = context.WithTimeout(context.Background(), 220*time.Second)
 	var err error
 	db, err = persistence.Open(ctx, dsn)
 	if err != nil {
@@ -79,6 +79,33 @@ func assertCode(t *testing.T, err error, code fault.Code) {
 
 func TestMigrationsExecuteAllDomainDDLAndRejectDrift(t *testing.T) {
 	requireDB(t)
+	// Two migrators must wait behind a real held advisory lock longer than the
+	// normal business lock timeout, then serialize without changing DDL bytes.
+	holder, err := db.Pool.Begin(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer holder.Rollback(ctx)
+	if _, err = holder.Exec(ctx, `SELECT pg_advisory_xact_lock(7410112026)`); err != nil {
+		t.Fatal(err)
+	}
+	ready, results := make(chan struct{}, 2), make(chan error, 2)
+	for i := 0; i < 2; i++ {
+		go func() { ready <- struct{}{}; results <- db.Migrate(ctx) }()
+	}
+	<-ready
+	<-ready
+	if _, err = holder.Exec(ctx, `SELECT pg_sleep(3.5)`); err != nil {
+		t.Fatal(err)
+	}
+	if err = holder.Commit(ctx); err != nil {
+		t.Fatal(err)
+	}
+	for i := 0; i < 2; i++ {
+		if err = <-results; err != nil {
+			t.Fatal("bounded migration admission:", err)
+		}
+	}
 	if err := db.Migrate(ctx); err != nil {
 		t.Fatal("repeat migration:", err)
 	}
@@ -90,7 +117,7 @@ func TestMigrationsExecuteAllDomainDDLAndRejectDrift(t *testing.T) {
 	if err := db.Pool.QueryRow(ctx, `SELECT name FROM p11_meta.schema_migrations WHERE version=1`).Scan(&migration); err != nil {
 		t.Fatal(err)
 	}
-	err := db.MigrateFS(ctx, fstest.MapFS{"migrations/" + migration: &fstest.MapFile{Data: []byte("SELECT 1;")}})
+	err = db.MigrateFS(ctx, fstest.MapFS{"migrations/" + migration: &fstest.MapFile{Data: []byte("SELECT 1;")}})
 	if err == nil || !strings.Contains(err.Error(), "checksum drift") {
 		t.Fatal("modified migration was not rejected", err)
 	}

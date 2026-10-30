@@ -10,6 +10,8 @@
 | [Synchronization / 更新同步](SYNCHRONIZATION.md) | Validate, update bilingual material, commit and push / 核验、双语更新、提交和推送 |
 | [Contributing / 贡献约定](../../CONTRIBUTING.md) | Development scope, immutable contracts and evidence / 开发边界、不可变契约及证据 |
 | [Changelog](../../CHANGELOG.md) / [更新说明](../../CHANGELOG.zh-CN.md) | Same release entries in both languages / 中英文同编号版本记录 |
+| [Frontend source guide / 前端源码](../src/frontend/README.md) | Native build commands, dual-client control flow, authorization and lost-reply recovery / 双端构建、授权及原请求恢复 |
+| [R006 frontend constraints / 双端实施细则](../../docs/技术开发/附录-双端交易页面与授权恢复实施约束.md) | NB-1.0 UI, native nonce vs Web PKCE and bounded current scope / 视觉、授权档位和真实边界 |
 
 `README.en.md.in` and `README.zh-CN.md.in` are the maintained templates. Their
 links resolve from the repository root after generation. Run

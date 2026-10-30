@@ -76,6 +76,18 @@ def main():
     native = json.loads((ROOT / f'dev/tests/evidence/{round_id}-native-source-checks.json').read_text(encoding='utf-8'))
     changed = [name for name, digest in native['source_sha256'].items() if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest]
     check(native['status'] == 'PASSED_WITH_LIMITED_SCOPE' and native['round']==round_id and not changed, 'Current native evidence matches the Go/migration source', changed)
+    if round_id == 'R006':
+        front = json.loads((ROOT / 'dev/tests/evidence/R006-frontend-checks.json').read_text(encoding='utf-8'))
+        changed_front = [name for name,digest in front['source_sha256'].items() if hashlib.sha256((ROOT/name).read_bytes()).hexdigest() != digest]
+        check(front['status']=='PASSED_FOR_FRONTEND_CONTROL_SUBSET_ONLY' and front['unit_cases']==13 and len(front['browser_checks'])==2 and not changed_front, 'Current frontend evidence includes 13 unit cases, all builds and both native browser journeys', changed_front)
+        product_media = json.loads((ROOT / 'dev/media/frontend-manifest.json').read_text(encoding='utf-8'))
+        stale = [item['path'] for item in product_media['assets'] if not (ROOT/item['path']).is_file() or hashlib.sha256((ROOT/item['path']).read_bytes()).hexdigest()!=item['sha256']]
+        check(not stale and len(product_media['assets'])==14, 'Ten actual product screenshots and four recording files match their independent provenance', stale)
+        closed = []
+        for target in ['web','miniapp']:
+            item = json.loads((ROOT / f'dev/tests/evidence/R006-{target}-browser.json').read_text(encoding='utf-8'))
+            closed.append(item['passed'] and item['browser_closed'] and item['remaining_owned_tabs']==0 and bool(item['recording']))
+        check(all(closed) and not product_media['virtualization_used'], 'Product captures closed their owned browsers and do not claim native Alipay or device/payment acceptance')
 
     names = set(git('ls-files', '--cached', '--others', '--exclude-standard', '-z').decode('utf-8').split('\0')) - {''}
     forbidden, oversize, secret_hits = [], [], []

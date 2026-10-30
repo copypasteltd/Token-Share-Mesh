@@ -1,0 +1,14 @@
+{
+  "round": "R006",
+  "run_id": "20261029T232831Z-fa716bbf",
+  "postgresql": "17.11-5",
+  "test_exit_code": 1,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "shutdown_mode": "FAST",
+  "runner_error": null,
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R006-native-go-tests-attempt1.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test",
+  "attempt_note": "Taro H5 retains hidden pages; test locator incorrectly selected a hidden matching text. Visible-page selectors corrected; Web journey passed; no hidden failure relabelled."
+}

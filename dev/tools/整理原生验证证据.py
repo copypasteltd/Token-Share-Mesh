@@ -66,11 +66,16 @@ R005_CASES = [(f'R005-TEST-{i:03d}', p, n, d.replace('62张领域表','64张领�
 ]
 
 
+R006_CASES = [(f'R006-TEST-{i:03d}', p, n, d) for i, (_, p, n, d) in enumerate(R005_CASES, 1)] + [
+ ('R006-TEST-044','api/tests','TestNativeNonceAuthorizationIsExplicitSingleUseAndNotWebPKCE','显式MINIAPP服务端随机证明：仅存摘要、错证明/重放拒绝；不可冒充Web PKCE'),
+ ('R006-TEST-045','api/tests','TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder','实际Web/Taro H5浏览器经HTTP/原生数据库：报价、显式同意、丢建单回执后原键恢复各一单/事件；浏览器关闭'),
+]
+
 def main() -> None:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round',default='R005',choices=['R003','R004','R005'])
+    parser.add_argument('--round',default='R006',choices=['R003','R004','R005','R006'])
     round_id=parser.parse_args().round
-    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES}[round_id]
+    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES}[round_id]
     summary = json.loads((EVIDENCE / f'{round_id}-native-summary.json').read_text(encoding='utf-8'))
     checks = json.loads((EVIDENCE / f'{round_id}-native-source-checks.json').read_text(encoding='utf-8'))
     if summary['test_exit_code'] or not summary['temporary_instance_stopped'] or summary['runner_error'] or summary['cleanup_error'] or checks['status'] != 'PASSED_WITH_LIMITED_SCOPE':
@@ -82,8 +87,13 @@ def main() -> None:
         if event.get('Test') and event['Action'] in {'pass', 'fail', 'skip'}:
             results[(event['Package'], event['Test'])] = event
     expected = {('p11.local/compute/' + package, name) for _, package, name, _ in cases}
-    if set(results) != expected or any(event['Action'] != 'pass' for event in results.values()):
+    top = {k: v for k, v in results.items() if '/' not in k[1]}
+    if set(top) != expected or any(event['Action'] != 'pass' for event in results.values()):
         raise ValueError(f'本轮{len(cases)}项实际用例必须齐全且无跳过/失败')
+    if round_id == 'R006':
+        for target in ['web', 'miniapp']:
+            key = ('p11.local/compute/api/tests', 'TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder/' + target)
+            if key not in results or results[key]['Action'] != 'pass': raise ValueError('双端实际浏览器子场景不可跳过')
     # These hashes were collected by the source check after testing. Require
     # them to still match before publishing the consolidated report.
     for name, digest in checks['source_sha256'].items():
@@ -96,7 +106,7 @@ def main() -> None:
         'product_acceptance_status': 'NOT_EXECUTED',
         'tests': [{'id': code, 'package': 'p11.local/compute/' + package, 'test': name, 'description': description, 'result': 'PASSED'} for code, package, name, description in cases],
         'source_evidence': [f'dev/tests/evidence/{round_id}-native-summary.json', f'dev/tests/evidence/{round_id}-native-go-tests.jsonl', f'dev/tests/evidence/{round_id}-native-source-checks.json'],
-        'limitations': ['OAuth uses independently signed synthetic responses; no real Alipay channel or seller/device integration', 'No GPU, Android, real payment, crypto interoperability, independent review or whole-product acceptance', 'Linux admin/API commands cross-compiled only, no Linux runtime validation', 'Not a crash or power-loss durability test; no Go race-detector claim', 'Seller/listing approval fixtures are synthetic, no runtime self-approval; device pairing and real provider clients remain pending'],
+        'limitations': ['OAuth uses independently signed synthetic responses; no real Alipay channel or seller/device integration', 'No GPU, Android, real payment, crypto interoperability, independent review or whole-product acceptance', 'Linux admin/API commands cross-compiled only, no Linux runtime validation', 'Not a crash or power-loss durability test; no Go race-detector claim', 'Seller/listing approvals and browser device heartbeats are synthetic, no runtime self-approval; device pairing and real provider clients remain pending'],
     }
     (EVIDENCE / f'{round_id}-验证报告.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     text = f'# {round_id} 原生源码验证报告\n\n仅控制应用服务/原生HTTP身份子集及既有基础通过：{len(cases)}项用例通过，实际用例无失败/跳过；临时原生数据库已停止。完整平台80项主验收仍为 NOT_EXECUTED。\n\n'
@@ -107,6 +117,8 @@ def main() -> None:
     text += 'Go 依赖校验、格式检查、vet及 Windows/Linux amd64 admin/API命令构建均通过；Linux仅交叉编译。依赖版本/许可清单只覆盖当前Go模块，不是全平台SBOM。\n\n'
     text += f'- [Go/数据库实际事件]({round_id}-native-go-tests.jsonl)\n- [实例退出与范围]({round_id}-native-summary.json)\n- [构建、源码摘要与依赖校验]({round_id}-native-source-checks.json)\n- [Go依赖与许可证](../../licenses/go-dependencies.json)\n\n'
     text += '本轮实际覆盖原生HTTP/会话/CSRF，但仅通过签名合成渠道响应；未覆盖真实支付宝授权、GPU、Android、资金渠道、密码互通、独立评审、性能和完整产品主验收；不声称Go race detector或断电恢复通过。测试资格均为显式写入临时数据库的合成夹具，不能作为真实开售证据。\n\n'
+    if round_id == 'R006':
+        text += '第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有13项共享TS用例、三目标编译与真实媒体证据，见[R006前端检查](R006-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
     attempts=sorted(EVIDENCE.glob(round_id+'-native-summary-attempt*.json'))
     for path in attempts:
         old=json.loads(path.read_text(encoding='utf-8'))

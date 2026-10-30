@@ -9,6 +9,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MEDIA = ROOT / 'dev/tools/media'
+WORKSPACE = ROOT / 'runtime/media/workspace'
 
 
 def main():
@@ -26,13 +27,16 @@ def main():
         npm = shutil.which('npm.cmd' if os.name == 'nt' else 'npm')
         if not npm:
             parser.error('Node.js/npm required on PATH')
-        # Use the package directory as npm cwd: npm 10 on Windows can resolve
-        # relative --prefix user requests against the caller rather than prefix.
-        command = 'ci' if (MEDIA / 'package-lock.json').is_file() else 'install'
-        return subprocess.call([npm, command, '--ignore-scripts', '--no-audit', '--no-fund'], cwd=MEDIA, env=env)
+        WORKSPACE.mkdir(parents=True, exist_ok=True)
+        for name in ['package.json', 'package-lock.json']:
+            shutil.copyfile(MEDIA / name, WORKSPACE / name)
+        # Use the explicit project runtime cwd; dependencies never belong in dev.
+        return subprocess.call([npm, 'ci', '--ignore-scripts', '--no-audit', '--no-fund'], cwd=WORKSPACE, env=env)
     node = shutil.which('node')
     if not node:
         parser.error('Node.js required on PATH')
+    if not (WORKSPACE / 'node_modules/playwright-core/package.json').is_file():
+        parser.error('Run bootstrap first; reader dependencies belong in runtime/media/workspace.')
     env['P11_PYTHON'] = os.sys.executable
     return subprocess.call([node, str(MEDIA / 'capture.mjs')], cwd=ROOT, env=env)
 

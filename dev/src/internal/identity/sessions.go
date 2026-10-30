@@ -28,13 +28,16 @@ type Profile struct {
 }
 type ChallengeInput struct {
 	ClientType    string `json:"client_type"`
-	CodeChallenge string `json:"code_challenge"`
+	CodeChallenge string `json:"code_challenge,omitempty"`
+	ProofProfile  string `json:"proof_profile,omitempty"`
 }
 type Challenge struct {
 	ID               string    `json:"challenge_id"`
 	ClientType       string    `json:"client_type"`
 	ExpiresAt        time.Time `json:"expires_at"`
 	AuthorizationURL string    `json:"authorization_url,omitempty"`
+	ProofProfile     string    `json:"proof_profile,omitempty"`
+	NativeVerifier   string    `json:"native_code_verifier,omitempty"`
 	BrowserSecret    string    `json:"-"`
 }
 type SessionInput struct {
@@ -103,7 +106,19 @@ func (s Sessions) CreateChallenge(ctx context.Context, in ChallengeInput) (Chall
 		return c, err
 	}
 	decoded, err := base64.RawURLEncoding.DecodeString(in.CodeChallenge)
-	if !clientTypeValid(in.ClientType) || err != nil || len(decoded) != 32 ||
+	nativeNonce := in.ClientType == "MINIAPP" && in.ProofProfile == "ALIPAY_NATIVE_NONCE_1" && in.CodeChallenge == ""
+	if nativeNonce {
+		// Native Alipay has no qualified client CSPRNG API in this Taro baseline.
+		// A distinct server-issued, single-use proof is returned over the authenticated
+		// transport boundary. This is not advertised as client-generated PKCE.
+		c.NativeVerifier, err = randomSecret()
+		if err != nil {
+			return Challenge{}, err
+		}
+		proof := sha256.Sum256([]byte(c.NativeVerifier))
+		decoded = proof[:]
+		c.ProofProfile = "ALIPAY_NATIVE_NONCE_1"
+	} else if !clientTypeValid(in.ClientType) || in.ProofProfile != "" || err != nil || len(decoded) != 32 ||
 		base64.RawURLEncoding.EncodeToString(decoded) != in.CodeChallenge {
 		return c, fault.New(fault.Invalid, "Invalid authorization challenge")
 	}

@@ -192,6 +192,7 @@ def main() -> int:
         "quote_request": api_validator("QuoteWrite"), "buyer_receipt": api_validator("ReceiptWrite"),
         "nb_hour_price":api_validator("Price"),"nb_token_price":api_validator("Price"),"legacy_price":api_validator("Price"),
         "auth_challenge_request":api_validator("AuthChallengeWrite"),
+        "native_nonce_request":api_validator("AuthChallengeWrite"),"native_nonce_challenge":api_validator("AuthChallenge"),
         "miniapp_session_request":api_validator("SessionWrite"),"web_session":api_validator("SessionView"),
         "route_contract": Draft202012Validator(documents["route-contract-v3.0.schema.json"], format_checker=FormatChecker()),
         "cipher_frame": Draft202012Validator(documents["cipher-frame-v3.0.schema.json"], format_checker=FormatChecker()),
@@ -206,6 +207,12 @@ def main() -> int:
         negative_count += 1
         if validator.is_valid(value):
             errors.append(label + "错误结构未拒绝")
+    bad = copy.deepcopy(examples["native_nonce_request"])
+    bad["client_type"] = "WEB"
+    expect_invalid("Web不得选原生服务端nonce档", validators["native_nonce_request"], bad)
+    bad = copy.deepcopy(examples["native_nonce_challenge"])
+    bad["authorization_url"] = "https://openauth.alipay.com/"
+    expect_invalid("原生nonce不得混浏览器授权URL", validators["native_nonce_challenge"], bad)
     bad = copy.deepcopy(examples["quote_request"])
     bad["policy"]["privacy_profile"] = "PLATFORM_BLIND"
     expect_invalid("普通租赁错隐私", validators["quote_request"], bad)

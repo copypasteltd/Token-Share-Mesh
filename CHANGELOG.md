@@ -5,6 +5,16 @@
 Entries use the same round IDs as the implementation tracker. No entry denotes a
 general-availability platform release unless the full acceptance evidence says so.
 
+## R006 — 2026-10-30
+
+- Implement React/Taro Alipay pages, React/Vite Web and shared TypeScript control logic using NB-1.0 Neubrutalism, concrete personal-device models and hourly/separate input-output M token prices.
+- Add authoritative quotes, unchecked-by-default confirmation, owner WAITING_PAYMENT orders and read-only sharing. Preserve exact pending command keys/bodies through reload; discard stale owner/filter responses. Pairing/payment/settlement stay closed; no prompts are collected.
+- Separate explicit native ALIPAY_NATIVE_NONCE_1 (server CSPRNG, digest-only, one-time) from Web S256 with temporary per-tab proof. Revise authoritative auth guidance; server nonce is not client-generated PKCE.
+- Give migration admission a bounded 30s advisory-lock wait, then restore normal transaction limits; regress two migrators behind a real held lock. Preserve SQL001–004 bytes and reject scalar null aliases in strict control JSON.
+- Pass 45 Go cases (including Web/Taro H5 browser subcases), 13 shared TS cases and Alipay/H5/Web builds. Retain failed attempts and their explanations. Each lost committed-order response recovers with its original command and leaves one order/event in PostgreSQL.
+- Add ten actual product screenshots, two MP4s and corresponding GIFs with independent provenance. Close owned browsers and native temporary databases; use no local virtualization.
+- Synchronize bilingual READMEs, constraints, lock metadata/declared licenses, evidence and all 56 tasks/222 pending steps. Seventeen in progress, 37 not started, one conditional, one deferred, zero fully complete; 80 main tests/96 full scenarios and real authorization/devices/money/crypto/performance remain unexecuted.
+
 ## R005 — 2026-10-30 — Seller submissions and immutable listing revisions
 
 - Add account-owned seller applications and consent/withdrawal receipts; submitted claims never grant SELLER or current channel/device qualification.

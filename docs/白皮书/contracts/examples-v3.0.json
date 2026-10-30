@@ -154,6 +154,17 @@
     "client_type": "MINIAPP",
     "code_challenge": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
   },
+  "native_nonce_request": {
+    "client_type": "MINIAPP",
+    "proof_profile": "ALIPAY_NATIVE_NONCE_1"
+  },
+  "native_nonce_challenge": {
+    "challenge_id": "ach_native_schema_only",
+    "client_type": "MINIAPP",
+    "expires_at": "2026-10-30T12:00:00Z",
+    "proof_profile": "ALIPAY_NATIVE_NONCE_1",
+    "native_code_verifier": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+  },
   "miniapp_session_request": {
     "challenge_id": "ach_schema_only",
     "auth_code": "SYNTHETIC_NOT_A_CHANNEL_CODE",

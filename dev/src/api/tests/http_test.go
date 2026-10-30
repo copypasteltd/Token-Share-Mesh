@@ -50,7 +50,7 @@ func TestMain(m *testing.M) {
 		os.Exit(m.Run())
 	}
 	var cancel context.CancelFunc
-	ctx, cancel = context.WithTimeout(context.Background(), 110*time.Second)
+	ctx, cancel = context.WithTimeout(context.Background(), 220*time.Second)
 	var err error
 	db, err = persistence.Open(ctx, dsn)
 	if err != nil {
@@ -81,6 +81,10 @@ type harness struct {
 }
 
 func newHarness(t *testing.T, limit, authLimit int) *harness {
+	return newHarnessConfigured(t, limit, authLimit, nil, nil)
+}
+
+func newHarnessConfigured(t *testing.T, limit, authLimit int, configure func(*controlhttp.Config), wrap func(http.Handler) http.Handler) *harness {
 	t.Helper()
 	if db == nil {
 		t.Skip("native PostgreSQL required; use dev/tools/原生数据库验证.py")
@@ -141,12 +145,19 @@ func newHarness(t *testing.T, limit, authLimit int) *harness {
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "http_test_v1", Peppers: map[string][]byte{"http_test_v1": []byte(strings.Repeat("s", 32))}, IdentityPepper: []byte(strings.Repeat("i", 32)), TTL: time.Hour},
 		Keys:     identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "http_test_v1", Peppers: map[string][]byte{"http_test_v1": []byte(strings.Repeat("k", 32))}, MaxTTL: 24 * time.Hour},
 		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: &seller.FeePolicy{BPS: 500, Version: "fee_nb1", ChannelCostOwner: "SELLER"}}}
+	if configure != nil {
+		configure(&config)
+		h.origin = config.BrowserOrigin
+	}
 	handler, err := controlhttp.New(config)
 	if err != nil {
 		h.server.Close()
 		t.Fatal(err)
 	}
 	h.server.Config = handler.NativeHTTPServer("")
+	if wrap != nil {
+		h.server.Config.Handler = wrap(h.server.Config.Handler)
+	}
 	h.server.Start()
 	h.client = h.server.Client()
 	h.client.Timeout = 5 * time.Second

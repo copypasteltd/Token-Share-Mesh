@@ -364,11 +364,17 @@ def make_schemas() -> dict:
         description="旧钥签新钥或明确重新身份核验；买方仍需独立认可轮换，不静默改在途收件端。")
     # R004: authentication is a distinct, single-use control flow, not an API key.
     s["SelfProfile"]["properties"]["roles"]["minItems"] = 0
-    s["AuthChallengeWrite"] = obj({"client_type": enum("WEB", "MINIAPP"),
-        "code_challenge": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"}})
+    s["AuthChallengeWrite"] = {"oneOf": [
+        obj({"client_type": enum("WEB", "MINIAPP"), "code_challenge": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"}, "proof_profile": {"const": ""}}, ["client_type", "code_challenge"]),
+        obj({"client_type": {"const": "MINIAPP"}, "proof_profile": {"const": "ALIPAY_NATIVE_NONCE_1"}, "code_challenge": {"const": ""}}, ["client_type", "proof_profile"])],
+        "description": "WEB及原有MINIAPP使用客户端PKCE；ALIPAY_NATIVE_NONCE_1仅原生MINIAPP显式选择服务端一次性证明，不冒称客户端PKCE。"}
     s["AuthChallenge"] = obj({"challenge_id": ID, "client_type": enum("WEB", "MINIAPP"),
-        "expires_at": TIME, "authorization_url": {"type": "string", "format": "uri", "maxLength": 2048}},
-        ["challenge_id", "client_type", "expires_at"])
+        "expires_at": TIME, "authorization_url": {"type": "string", "format": "uri", "maxLength": 2048},
+        "proof_profile": {"const": "ALIPAY_NATIVE_NONCE_1"},
+        "native_code_verifier": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$", "readOnly": True}},
+        ["challenge_id", "client_type", "expires_at"], allOf=[
+            {"if": {"required": ["proof_profile"]}, "then": {"properties": {"client_type": {"const": "MINIAPP"}}, "required": ["native_code_verifier"], "not": {"required": ["authorization_url"]}}},
+            {"if": {"required": ["native_code_verifier"]}, "then": {"required": ["proof_profile"]}}])
     s["SessionWrite"] = obj({"challenge_id": ID,
         "auth_code": {"type": "string", "minLength": 1, "maxLength": 512, "writeOnly": True},
         "code_verifier": {"type": "string", "pattern": "^[A-Za-z0-9._~-]{43,128}$", "writeOnly": True},

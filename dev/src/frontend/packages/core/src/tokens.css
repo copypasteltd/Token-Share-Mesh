@@ -1,0 +1,7 @@
+/* NB-1.0: dev/design/新粗野主义-v1.0/design-tokens.json. No remote fonts or UI library overrides. */
+:root, page, .nb-page {
+  --nb-canvas: #FFF5C5; --nb-surface: #FFFFFF; --nb-ink: #000000;
+  --nb-primary: #F26749; --nb-selected: #F5B53B; --nb-muted: #3A3A3A;
+  --nb-success: #276846; --nb-danger: #A32722; --nb-disabled: #E5E2D8;
+  --nb-font: 'Noto Sans SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif;
+}

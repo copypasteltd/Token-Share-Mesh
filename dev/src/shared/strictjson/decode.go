@@ -60,6 +60,11 @@ func exactFields(value any, t reflect.Type) bool {
 		}
 		t = t.Elem()
 	}
+	// encoding/json silently turns null into a scalar's zero value. Control
+	// schemas do not permit that alias for an omitted string/number/boolean.
+	if value == nil && t.Kind() != reflect.Interface && t.Kind() != reflect.Map && t.Kind() != reflect.Slice {
+		return false
+	}
 	switch t.Kind() {
 	case reflect.Struct:
 		object, ok := value.(map[string]any)

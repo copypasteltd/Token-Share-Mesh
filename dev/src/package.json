@@ -1,0 +1,23 @@
+{
+  "name": "token-share-mesh-frontends",
+  "version": "0.6.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.14.0 <23", "npm": ">=10.9.2 <11" },
+  "workspaces": ["frontend/packages/core", "miniapp", "web"],
+  "scripts": {
+    "check": "tsc -p frontend/packages/core/tsconfig.json && tsc -p miniapp/tsconfig.json && tsc -p web/tsconfig.json",
+    "test": "node --import tsx --test frontend/packages/core/tests/*.test.ts",
+    "build:alipay": "npm run build:alipay --workspace @tsm/miniapp",
+    "build:h5": "npm run build:h5 --workspace @tsm/miniapp",
+    "build:web": "npm run build --workspace @tsm/web"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.3",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "playwright-core": "1.59.1",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,4 +1,4 @@
-import { chromium } from 'playwright-core';
+import { createRequire } from 'node:module';
 import { spawn, spawnSync } from 'node:child_process';
 import { once } from 'node:events';
 import { createHash } from 'node:crypto';
@@ -8,6 +8,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
+const require = createRequire(path.join(root, 'runtime/media/workspace/package.json'));
+const { chromium } = require('playwright-core');
 const output = path.join(root, 'dev/media');
 const capture = path.join(root, 'runtime/capture/readers-' + Date.now());
 const framesDir = path.join(capture, 'frames');
