@@ -25,11 +25,13 @@
 #endif
 
 namespace {
-constexpr const char * profile = "P11_LLAMA_PIPE_2";
+constexpr const char * profile = "P11_LLAMA_PIPE_3";
 constexpr const char * commit = "8642541b255bfb5dc39cd351a178be09013a55d6";
 constexpr size_t max_frame = 65536, max_body = 512 * 1024;
 using bytes = std::vector<uint8_t>;
 struct fault {};
+uint32_t startup_stage = 0, startup_native_code = 0;
+bool startup_complete = false;
 template<class T> void wipe(T & v) {
     volatile unsigned char * p = reinterpret_cast<volatile unsigned char *>(v.data());
     for (size_t i = 0; i < v.size() * sizeof(typename T::value_type); ++i) p[i] = 0;
@@ -59,10 +61,10 @@ std::wstring wide(const std::string & s) {
 using library_handle = HMODULE;
 library_handle load(const std::string & path) {
     auto h = LoadLibraryExW(wide(path).c_str(), nullptr, LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32);
-    if (!h) throw fault{}; return h;
+    if (!h) {startup_native_code = GetLastError();throw fault{};} return h;
 }
 template<class T> T symbol(library_handle h, const char * name) {
-    auto p = GetProcAddress(h, name); if (!p) throw fault{}; return reinterpret_cast<T>(p);
+    auto p = GetProcAddress(h, name); if (!p) {startup_native_code = GetLastError();throw fault{};} return reinterpret_cast<T>(p);
 }
 #else
 using pipe_handle = int;
@@ -133,12 +135,12 @@ struct api {
     decltype(&ggml_backend_dev_by_name) device_by_name;
     decltype(&ggml_backend_dev_type) device_type;
     decltype(&ggml_log_set) log_set;
-    void open(library_handle lib, library_handle base) {
+    void open(library_handle lib, library_handle registry, library_handle base) {
 #define RESOLVE(name) name = symbol<decltype(name)>(lib, #name);
         LLAMA_FUNCTIONS(RESOLVE)
 #undef RESOLVE
-        load_backends = symbol<decltype(load_backends)>(base, "ggml_backend_load_all_from_path");
-        device_by_name = symbol<decltype(device_by_name)>(base, "ggml_backend_dev_by_name");
+        load_backends = symbol<decltype(load_backends)>(registry, "ggml_backend_load_all_from_path");
+        device_by_name = symbol<decltype(device_by_name)>(registry, "ggml_backend_dev_by_name");
         device_type = symbol<decltype(device_type)>(base, "ggml_backend_dev_type");
         log_set = symbol<decltype(log_set)>(base, "ggml_log_set");
     }
@@ -165,13 +167,13 @@ void control_loop() {
 }
 
 struct config {
-    std::string library, registry, model, chat_template, device;
+    std::string library, registry, core, model, chat_template, device;
     uint32_t context, batch, threads, gpu_layers;
 };
 config initialize() {
     frame f; if (!receive(input_handle, f) || f.kind != 1) throw fault{};
     parser p{f.data};if (p.str(64) != profile || p.str(64) != commit) throw fault{};
-    config c{p.str(16384), p.str(16384), p.str(16384), p.str(64), p.str(128), p.u32(), p.u32(), p.u32(), p.u32()};p.end();wipe(f.data);
+    config c{p.str(16384), p.str(16384), p.str(16384), p.str(16384), p.str(64), p.str(128), p.u32(), p.u32(), p.u32(), p.u32()};p.end();wipe(f.data);
     if (c.context < 32 || c.context > 131072 || c.batch < 1 || c.batch > 2048 || c.batch > c.context || c.threads < 1 || c.threads > 64 || c.gpu_layers > 999 || (c.gpu_layers > 0) != !c.device.empty()) throw fault{};
     return c;
 }
@@ -322,15 +324,16 @@ int main_impl(int argc, char ** argv) {
 #ifdef _WIN32
     if (!AddDllDirectory(wide(dir).c_str())) return 2;
 #endif
-    api a;a.open(load(c.library), load(c.registry));a.log_set(discard_log, nullptr);a.llama_log_set(discard_log, nullptr);
-    a.load_backends(dir.c_str());a.llama_backend_init();
+    startup_stage = 1;auto lib = load(c.library);startup_stage = 2;auto registry = load(c.registry);startup_stage = 3;auto core = load(c.core);
+    startup_stage = 4;api a;a.open(lib, registry, core);a.log_set(discard_log, nullptr);a.llama_log_set(discard_log, nullptr);
+    startup_stage = 5;a.load_backends(dir.c_str());a.llama_backend_init();
     ggml_backend_dev_t devices[2] = {nullptr, nullptr};
-    if (c.gpu_layers) {devices[0] = a.device_by_name(c.device.c_str());if (!devices[0] || a.device_type(devices[0]) != GGML_BACKEND_DEVICE_TYPE_GPU) return 2;}
+    startup_stage = 6;if (c.gpu_layers) {devices[0] = a.device_by_name(c.device.c_str());if (!devices[0] || a.device_type(devices[0]) != GGML_BACKEND_DEVICE_TYPE_GPU) throw fault{};}
     auto params = a.llama_model_default_params();params.devices = devices;params.n_gpu_layers = static_cast<int>(c.gpu_layers);
     params.split_mode = LLAMA_SPLIT_MODE_NONE;params.main_gpu = 0;params.load_mode = LLAMA_LOAD_MODE_MMAP;
-    auto * model = a.llama_model_load_from_file(c.model.c_str(), params);
-    if (!model || a.llama_model_has_encoder(model)) return 2;
-    std::thread(control_loop).detach();bytes ready;putstr(ready, profile);putstr(ready, commit);send(129, ready);
+    startup_stage = 7;auto * model = a.llama_model_load_from_file(c.model.c_str(), params);
+    if (!model || a.llama_model_has_encoder(model)) throw fault{};
+    std::thread(control_loop).detach();bytes ready;putstr(ready, profile);putstr(ready, commit);send(129, ready);startup_complete = true;
     std::unordered_set<std::string> seen;
     frame f;
     while (receive(input_handle, f)) {
@@ -354,5 +357,8 @@ int main_impl(int argc, char ** argv) {
 } // namespace
 int main(int argc, char ** argv) {
     std::set_terminate(fatal);
-    try {int result = main_impl(argc, argv);std::_Exit(result);} catch (...) {fatal();}
+    try {int result = main_impl(argc, argv);std::_Exit(result);} catch (...) {
+        if (startup_stage && !startup_complete) {try {bytes error;putstr(error, profile);put32(error, startup_stage);put32(error, startup_native_code);send(134, error);} catch (...) {}}
+        fatal();
+    }
 }

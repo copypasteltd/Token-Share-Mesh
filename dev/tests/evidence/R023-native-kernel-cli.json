@@ -1,0 +1,63 @@
+{
+  "round": "R023",
+  "passed": true,
+  "binary": "runtime/bin/p11-node.exe",
+  "binary_sha256": "6b558b4643c884cd7f74a11f3d318f9e8c4738011627bf61c2afe7a33c773bcf",
+  "cases": [
+    {
+      "case": "valid",
+      "exit_code": 0,
+      "passed": true,
+      "safe_view": {
+        "profile": "P11_LLAMA_PIPE_3",
+        "engine_release": "llama.cpp-v0.8.0-8642541b",
+        "package_sha256": "919731ae3af34c8079a0dc09a70099ad2604520b52c144f3b2c8ebb0785f070c",
+        "environment": "fef10b52978ccd7f2d074d56d48f0b1d567b0ecfa41439a60368c54c200c7bf5",
+        "model_sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db",
+        "template_sha256": "1e53ec5bf20c1dc9cea38577f9081373e97694037ff51ab6efb47721d8ea76b0",
+        "selection": {
+          "capability": "cap_local_inspection_only",
+          "resource": "physical_gpu_0",
+          "gpu_device": "CUDA0",
+          "context_tokens": 2048,
+          "batch_tokens": 128,
+          "threads": 2,
+          "gpu_layers": 999
+        },
+        "execution_enabled": false,
+        "qualification": "NOT_GRANTED"
+      },
+      "diagnostic": ""
+    },
+    {
+      "case": "environment_mismatch",
+      "exit_code": 2,
+      "passed": true,
+      "safe_view": null,
+      "diagnostic": "local kernel inspection rejected"
+    },
+    {
+      "case": "unknown_input",
+      "exit_code": 2,
+      "passed": true,
+      "safe_view": null,
+      "diagnostic": "local kernel inspection rejected"
+    },
+    {
+      "case": "oversize",
+      "exit_code": 2,
+      "passed": true,
+      "safe_view": null,
+      "diagnostic": "local kernel inspection rejected"
+    }
+  ],
+  "package_sha256": "919731ae3af34c8079a0dc09a70099ad2604520b52c144f3b2c8ebb0785f070c",
+  "proposal_is_approval": false,
+  "inference_executed": false,
+  "execution_enabled": false,
+  "virtualization_used": false,
+  "sources": {
+    "dev/tools/核验本机LLM检查入口.py": "40b70054f667077bdf927b189d4eefaae383d3e15d223ef221d13746e4cb2f04",
+    "dev/src/client/cmd/p11-node/kernel.go": "d05b3f6d94eb917cb3e520ca2f7a82786586204dd52cb0725e76a872ffc4afe6"
+  }
+}

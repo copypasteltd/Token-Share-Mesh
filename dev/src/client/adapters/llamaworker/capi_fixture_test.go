@@ -69,6 +69,7 @@ func capiPack(t *testing.T) Config {
 	c.Libraries = []FilePin{lib}
 	c.Library = copyDLL
 	c.BackendRegistry = copyDLL
+	c.BackendCore = copyDLL
 	return c
 }
 func capiOpen(t *testing.T, c Config) *Adapter {

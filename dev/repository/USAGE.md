@@ -481,3 +481,9 @@ Library sequence: create invocation.Service with an explicit database, payment e
 [RC-001—060](../../docs/技术开发/附录-原生文本结果加密保管与标准协议交付.md) · [R022 证据](../tests/evidence/R022-验证报告.md) · [完整56任务](../progress/R022-本轮实现与完整待办.md)。
 
 `results.Open(new empty runtime directory) → results.New(approved native adapter, store) → trusted HostKernel → ticket.Start once → ticket.Output → textoutput.Render → close reader → Discard/retention → close owned store and native adapter`。这是可信源码嵌入顺序，不是已开放的 CLI/HTTP 推理入口；不得复制入站清单自批环境或权限。
+
+## R023 / Pinned native package and explicit CUDA verification
+
+R023实现固定真实LLM包的本机校验、独立环境摘要、只读检查与提供方安全元数据；PIPE_3分开主库/注册库/基础库，并提供不含正文的固定启动阶段错误。固定官方b11960/CUDA12.4与Qwen0.5B实际验证通过三协议JSON/SSE六组合、模型复用、token上限、取消、硬截止和缺失显卡不降档；只覆盖本机小模型的PLAINTEXT/STANDARD路径，不授予物理资源映射、全层卸载/性能、LP/E2E、SDK、可信usage、ACK或资金资格。CLI内容执行继续关闭，全56任务222子项和80/96完整验收保持开放。
+
+See [NF constraints](../../docs/技术开发/附录-真实原生LLM包校验与本机接入.md), [real result](../tests/evidence/R023-native-real-summary.json), [CLI checks](../tests/evidence/R023-native-kernel-cli.json) and [complete task ledger](../progress/R023-本轮实现与完整待办.md). Package inspection starts no worker, returns execution_enabled=false and qualification=NOT_GRANTED. Inputs remain ignored downloads; old failures retain their exact archives.

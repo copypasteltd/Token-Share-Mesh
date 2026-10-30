@@ -1,0 +1,9 @@
+{
+  "round": "R023",
+  "attempt": 1,
+  "archive": "dev/tests/evidence/archive/R023-native-real-attempt1.zip",
+  "sha256": "b5bdce1d67b5df5e1948f1bdbff00b49d7c6f81853d64973ff0fbb7f7cf1c3c5",
+  "files": 38,
+  "source_hashes_exact": true,
+  "scope": "failed actual CUDA startup; source/worker/package metadata retained; official libraries and weights are reproducible pinned ignored inputs, not redistributed"
+}

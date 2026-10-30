@@ -126,7 +126,7 @@ func synthetic(t *testing.T, c Config) (*Adapter, *syntheticPipe) {
 		})
 	}
 	p := &syntheticPipe{input: ir, output: ow, control: make(chan string, 4), quit: quit}
-	a := newAdapter(c, child{iw, cw, or, quit, wait})
+	a := newAdapter(c, child{input: iw, control: cw, output: or, kill: quit, wait: wait})
 	go func() {
 		for {
 			kind, b, e := readFrame(cr)
@@ -428,6 +428,7 @@ func TestNativePackPinsPathsAndCompleteLibraryAllowlist(t *testing.T) {
 	c.Libraries = []FilePin{lib}
 	c.Library = lib.Path
 	c.BackendRegistry = lib.Path
+	c.BackendCore = lib.Path
 	if _, e := c.validate(context.Background()); e != nil {
 		t.Fatal(e)
 	}

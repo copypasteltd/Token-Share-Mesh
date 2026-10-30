@@ -18,8 +18,11 @@ import (
 
 func main() { os.Exit(run()) }
 func run() int {
+	if len(os.Args) > 1 && os.Args[1] == "kernel-inspect" {
+		return inspectKernel(os.Args[2:], os.Stdin, os.Stdout, os.Stderr)
+	}
 	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "usage: p11-node init|enroll|recover|status|heartbeat|run|execution-init|execution-status|host-init|host-status --state <absolute-private-directory>")
+		fmt.Fprintln(os.Stderr, "usage: p11-node kernel-inspect --runtime-root <absolute-private-directory>, or init|enroll|recover|status|heartbeat|run|execution-init|execution-status|host-init|host-status --state <absolute-private-directory>")
 		return 2
 	}
 	action := os.Args[1]

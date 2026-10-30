@@ -2,7 +2,7 @@
 
 目标：按全部开发细则交付成体系源码。当前源码目标 ACTIVE，源码实施进展与需求/设计工作分别记录。
 
-R022实现原生文本结果的加密保管和三协议交付：原 Work/manifest 绑定、独立密钥与有界AES-GCM分帧、固定配额/保留期/撤权、原显卡清理与结果读取分离；Chat/Responses/Messages JSON/SSE、UTF-8拼接、停止原因/原停止词及有限写期限。PIPE_2补实际输入计数与停止序号。只覆盖PLAINTEXT/STANDARD源码子集，不等于E2E/LP、可信usage、最终ACK、正式SDK/真实模型GPU或资金验收；CLI执行仍关闭。所有56任务/222子项、80/96未执行及历史时序/媒体缺失限制保留，最终目标ACTIVE。 [本轮完整证据](../tests/evidence/R022-验证报告.md)。
+R023实现固定真实LLM包的本机校验、独立环境摘要、只读检查与提供方安全元数据；PIPE_3分开主库/注册库/基础库，并提供不含正文的固定启动阶段错误。固定官方b11960/CUDA12.4与Qwen0.5B实际验证通过三协议JSON/SSE六组合、模型复用、token上限、取消、硬截止和缺失显卡不降档；只覆盖本机小模型的PLAINTEXT/STANDARD路径，不授予物理资源映射、全层卸载/性能、LP/E2E、SDK、可信usage、ACK或资金资格。CLI内容执行继续关闭，全56任务222子项和80/96完整验收保持开放。 [本轮完整证据](../tests/evidence/R023-验证报告.md)。
 
 | 轮次 | 内容与完整待办 | 验证状态 |
 | --- | --- | --- |
@@ -27,6 +27,7 @@ R022实现原生文本结果的加密保管和三协议交付：原 Work/manifes
 | R020 | [持久原生执行宿主与内容适配接线](R020-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R021 | [原生LLM可替换worker与受限管道](R021-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R022 | [原生文本结果加密保管与三协议交付](R022-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| R023 | [真实原生LLM包校验、本机检查与CUDA验证](R023-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 
 任务现状：CONDITIONAL=1；DEFERRED=1；IN_PROGRESS=31；NOT_STARTED=23。
 

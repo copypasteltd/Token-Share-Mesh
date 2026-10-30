@@ -1,5 +1,7 @@
 # Token Share Mesh
 
+R023: pinned real LLM packages, PIPE_3 split libraries, safe local inspection and explicit RTX 3060/Qwen 0.5B tests. Six JSON/SSE combinations, cancel/deadline and unavailable-device rejection passed. The 281 regular, six synthetic ABI and three actual model cases are reported separately; production execution, LP/E2E, performance, trusted usage/ACK and funds remain open. See [round ledger](dev/progress/R023-本轮实现与完整待办.md) and [NF constraints](docs/技术开发/附录-真实原生LLM包校验与本机接入.md).
+
 ## R022 · Encrypted native result custody and three protocol outputs
 
 Original native output now moves into a separate AES-256-GCM result store before compute cleanup. Defaults reserve 16 × 8 MiB for five minutes. Synchronized original compute can release its GPU while its exact order/local-generation result remains readable. Process-only keys, one reader, reserved quotas and expiration bound custody; key loss or ambiguous submission never reruns inference. PIPE_2 adds actual input counts and the matched original stop index.

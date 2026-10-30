@@ -2,6 +2,8 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
+R023: pinned real LLM packages, PIPE_3 split libraries, safe local inspection and explicit RTX 3060/Qwen 0.5B tests. Six JSON/SSE combinations, cancel/deadline and unavailable-device rejection passed. The 281 regular, six synthetic ABI and three actual model cases are reported separately; production execution, LP/E2E, performance, trusted usage/ACK and funds remain open. See [round ledger](dev/progress/R023-本轮实现与完整待办.md) and [NF constraints](docs/技术开发/附录-真实原生LLM包校验与本机接入.md).
+
 ## R022 · Encrypted native result custody and three protocol outputs
 
 Original native output now moves into a separate AES-256-GCM result store before compute cleanup. Defaults reserve 16 × 8 MiB for five minutes. Synchronized original compute can release its GPU while its exact order/local-generation result remains readable. Process-only keys, one reader, reserved quotas and expiration bound custody; key loss or ambiguous submission never reruns inference. PIPE_2 adds actual input counts and the matched original stop index.
@@ -84,8 +86,8 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
 | Implementation tasks | 31 in progress · 23 not started · 1 conditional · 1 deferred |
-| Latest source round | R022 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 275 passed · control/native/relay source subsets only |
+| Latest source round | R023 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 281 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
@@ -139,17 +141,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R022/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R023/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R022/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R023/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R022/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R023/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R022/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R022/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R023/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R023/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R022/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R023/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R022/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R022/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R022/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R022/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R023/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R023/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R023/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R023/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 

@@ -56,5 +56,5 @@ func launch(c Config) (child, error) {
 	_ = cr.Close()
 	wait := make(chan error, 1)
 	go func() { err := cmd.Wait(); owner(); wait <- err }()
-	return child{iw, cw, or, func() { _ = cmd.Process.Kill() }, wait}, nil
+	return child{input: iw, control: cw, output: or, kill: func() { _ = cmd.Process.Kill() }, wait: wait, pid: cmd.Process.Pid}, nil
 }

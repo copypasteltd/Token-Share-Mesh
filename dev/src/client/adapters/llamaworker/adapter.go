@@ -17,6 +17,7 @@ type child struct {
 	output         io.ReadCloser
 	kill           func()
 	wait           <-chan error
+	pid            int
 }
 type submission struct {
 	entry    *entry
@@ -90,7 +91,7 @@ func Open(ctx context.Context, c Config) (*Adapter, error) {
 	}
 	a := newAdapter(c, p)
 	var init encoder
-	for _, s := range []string{Profile, UpstreamCommit, c.Library, c.BackendRegistry, c.Model.Path, template, c.GPUDevice} {
+	for _, s := range []string{Profile, UpstreamCommit, c.Library, c.BackendRegistry, c.BackendCore, c.Model.Path, template, c.GPUDevice} {
 		init.str(s)
 	}
 	for _, v := range []uint32{c.ContextTokens, c.BatchTokens, c.Threads, c.GPULayers} {
@@ -111,7 +112,7 @@ func Open(ctx context.Context, c Config) (*Adapter, error) {
 		}
 	}
 	a.mu.Lock()
-	if a.failed || ctx.Err() != nil {
+	if a.failed && e == nil || ctx.Err() != nil {
 		e = ErrUnknown
 	}
 	a.mu.Unlock()
@@ -121,7 +122,7 @@ func Open(ctx context.Context, c Config) (*Adapter, error) {
 		case <-a.exited:
 		case <-ctx.Done():
 		}
-		return nil, ErrUnknown
+		return nil, e
 	}
 	return a, nil
 }
@@ -524,6 +525,16 @@ func (a *Adapter) readLoop() {
 		}
 		d := decoder{raw: b}
 		if !ready {
+			if kind == kInitError {
+				profile, stage, code := d.str(64), d.u32(), d.u32()
+				valid := profile == Profile && stage > 0 && stage < uint32(len(startupStages)) && d.end()
+				clear(b)
+				if valid {
+					a.readyOnce.Do(func() { a.ready <- StartupError{Stage: startupStages[stage], NativeCode: code} })
+				}
+				a.failure()
+				return
+			}
 			valid := kind == kReady && d.str(64) == Profile && d.str(64) == UpstreamCommit && d.end()
 			clear(b)
 			if !valid {

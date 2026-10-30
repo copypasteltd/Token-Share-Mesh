@@ -1,5 +1,12 @@
 # Changelog
 
+## R023 — Pinned native packages, local inspection and real CUDA verification
+
+Pinned official b11960/CUDA12.4 and Qwen 0.5B inputs now load through independent package/environment pins. PIPE_3 separates main/registry/core libraries and returns bounded startup errors. The local inspection command exposes safe selected metadata while execution stays disabled. Explicit native tests cover six JSON/SSE combinations, reuse, token rejection, cancellation, hard deadline and missing-device rejection.
+
+Six new regular boundary cases bring the current inventory to 281; six synthetic ABI and three real-model top-level cases remain separately recorded. Four failed actual attempts retain exact archives. No marketplace, LP/E2E, physical mapping, performance, SDK, trusted usage, ACK or funds approval is implied. All 56 tasks/222 steps and full 80/96 acceptance sets remain open; historical risks remain.
+
+
 ## R022 native result custody and protocol output
 
 Original native output now moves into a separate AES-256-GCM result store before compute cleanup. Defaults reserve 16 × 8 MiB for five minutes. Synchronized original compute can release its GPU while its exact order/local-generation result remains readable. Process-only keys, one reader, reserved quotas and expiration bound custody; key loss or ambiguous submission never reruns inference. PIPE_2 adds actual input counts and the matched original stop index.

@@ -8,11 +8,12 @@ import (
 	"errors"
 	"io"
 	"math"
+	"strconv"
 	"unicode/utf8"
 )
 
 const (
-	Profile             = "P11_LLAMA_PIPE_2"
+	Profile             = "P11_LLAMA_PIPE_3"
 	UpstreamCommit      = "8642541b255bfb5dc39cd351a178be09013a55d6"
 	EngineRelease       = "llama.cpp-v0.8.0-8642541b"
 	maxFrame            = 65536 // includes the type byte, excludes the four-byte prefix
@@ -28,7 +29,22 @@ const (
 	kOutput        byte = 131
 	kDone          byte = 132
 	kError         byte = 133
+	kInitError     byte = 134
 )
+
+// StartupError reports only a fixed stage and numeric native error. It contains
+// no library path, prompt or upstream diagnostic. It is not cleanup proof.
+type StartupError struct {
+	Stage      string
+	NativeCode uint32
+}
+
+func (e StartupError) Error() string {
+	return "native kernel startup rejected at " + e.Stage + " (native=" + strconv.FormatUint(uint64(e.NativeCode), 10) + ")"
+}
+func (e StartupError) Unwrap() error { return ErrUnknown }
+
+var startupStages = [...]string{"", "LOAD_MAIN", "LOAD_REGISTRY", "LOAD_CORE", "RESOLVE_API", "LOAD_BACKENDS", "SELECT_DEVICE", "LOAD_MODEL"}
 
 var (
 	ErrConfig   = errors.New("native kernel configuration rejected")

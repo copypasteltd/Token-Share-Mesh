@@ -264,3 +264,9 @@ An authorized original result renders OpenAI Chat, Responses or Anthropic Messag
 This is a PLAINTEXT/STANDARD source subset, not E2E/LP. Node CLI execution stays disabled. Seventeen new regular Go cases bring the manifest to 275; six separately tagged actual Windows worker/synthetic C ABI cases include encrypted custody and all three protocol outputs. Real models/GPUs, a separate execution identity, independent official SDK certification, public result transport, funds and full acceptance remain pending. The early supervisor shutdown timeout and first tagged failure are preserved; later passing runs do not resolve historical timing risks.
 
 [RC-001—060](../../docs/技术开发/附录-原生文本结果加密保管与标准协议交付.md) · [R022 evidence](../tests/evidence/R022-验证报告.md) · [All 56 tasks](../progress/R022-本轮实现与完整待办.md).
+
+## R023 / Pinned native package and explicit CUDA verification
+
+R023实现固定真实LLM包的本机校验、独立环境摘要、只读检查与提供方安全元数据；PIPE_3分开主库/注册库/基础库，并提供不含正文的固定启动阶段错误。固定官方b11960/CUDA12.4与Qwen0.5B实际验证通过三协议JSON/SSE六组合、模型复用、token上限、取消、硬截止和缺失显卡不降档；只覆盖本机小模型的PLAINTEXT/STANDARD路径，不授予物理资源映射、全层卸载/性能、LP/E2E、SDK、可信usage、ACK或资金资格。CLI内容执行继续关闭，全56任务222子项和80/96完整验收保持开放。
+
+See [NF constraints](../../docs/技术开发/附录-真实原生LLM包校验与本机接入.md), [real result](../tests/evidence/R023-native-real-summary.json), [CLI checks](../tests/evidence/R023-native-kernel-cli.json) and [complete task ledger](../progress/R023-本轮实现与完整待办.md). Package inspection starts no worker, returns execution_enabled=false and qualification=NOT_GRANTED. Inputs remain ignored downloads; old failures retain their exact archives.

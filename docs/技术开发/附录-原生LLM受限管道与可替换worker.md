@@ -29,13 +29,13 @@
 | NK-014 | Linux | 源码使用 stdin/stdout、显式控制 fd 3 与父进程死亡信号；当前只有 Go 交叉编译资格，尚无原生 C++ Linux 运行验收。Linux 原生依赖搜索、权限隔离、GPU 和设备适配必须另验。 |
 | NK-015 | 权限等级 | 当前原生进程仍使用调用程序账户。Job Object、匿名管道与文件摘要不替代独立低权限服务账户、服务 SID/ACL、安装授权或 LP 攻击验证。提供方对安装/版本/占用/收益/停止有控制权；生产 UI 不提供 prompt、输出正文、调试终端或解密接口。 |
 
-## 3. 内部二进制协议 P11_LLAMA_PIPE_2
+## 3. 内部二进制协议 P11_LLAMA_PIPE_3
 
 这是本机父子进程的固定字段二进制档位，不是公共 API，也不是网络端 `BINARY_STREAM_1`。此前内部“小 JSON 元数据＋DATA”的通用设计仍可供其他内核使用；本 worker 冻结为下面的类型化字段，减少原生 JSON 解析器与依赖。所有整数为大端；`str` 为 uint32 字节长度＋UTF-8 字节；浮点为 IEEE754 binary64 的大端位表示。帧为 `uint32 frame_length + uint8 type + payload`；长度包括 type、不包括前缀，范围 1—65536。
 
 | 编号 | 类型/方向 | 载荷与顺序 |
 | --- | --- | --- |
-| NK-016 | INIT=1，父→工作进程 | profile、固定 commit、批准主库绝对路径、注册库绝对路径、模型绝对路径、模板名、设备名，随后 context/batch/threads/gpu_layers 四个 uint32。仅启动时一次，不包含订单正文或密钥。 |
+| NK-016 | INIT=1，父→工作进程 | profile、固定 commit、批准主库绝对路径、注册库绝对路径、基础库绝对路径、模型绝对路径、模板名、设备名，随后 context/batch/threads/gpu_layers 四个 uint32。仅启动时一次，不包含订单正文或密钥。 |
 | NK-017 | READY=129，工作进程→父 | profile、固定 commit；加载与 API 解析完成后发送。READY 只表明本机启动过程完成，不是平台资源准入或硬件资格。 |
 | NK-018 | BEGIN=2，父→工作进程 | 原本地 backend_id、uint64 硬截止 Unix 毫秒、uint32 正文总字节。总正文 1—524288 字节。接下来必须是 DATA、最后 END；禁止重放同 backend_id。 |
 | NK-019 | DATA=3 / END=4 | DATA 为不超过 65535 字节的原始块，累计必须等于 BEGIN 长度；END 必须空载。内部请求正文是固定字段，不能再嵌入本机路径或命令。 |
@@ -78,3 +78,5 @@
 ## R022 管道修订与结果保管
 
 R022 新增 [RC-001—060](附录-原生文本结果加密保管与标准协议交付.md)：原生输出先独立加密保管，计算清理与原结果读取分别授权；三文本 JSON/SSE 仅属 PLAINTEXT/STANDARD 局部源码，不授予 E2E/LP、可信用量、最终 ACK 或资金资格。CLI 执行继续关闭，全部未收口验收保留。 PIPE_2 的 DONE stop_index 命中原停止词数组，否则 UINT32_MAX；STARTED/DONE 输入计数须一致。旧 PIPE_1 READY 不再兼容。原 NK-001—042 的停止与资格边界继续适用。
+
+R023 当前接入补充：[NF 约束](附录-真实原生LLM包校验与本机接入.md)。主库、注册库、基础库均须在同一批准白名单中；官方 Windows 分别为 llama.dll、ggml.dll、ggml-base.dll。PIPE_3 拒绝旧 INIT；R021/R022 原证据与旧档位记录保留，不作兼容回落。

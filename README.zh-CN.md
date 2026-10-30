@@ -2,6 +2,8 @@
 
 <!-- Generated from dev/repository/README.zh-CN.md.in; run dev/tools/构建仓库文档.py. -->
 
+R023 当前推进：固定真实LLM包、PIPE_3三库、本机只读检查及RTX 3060/Qwen 0.5B显式测试。三协议JSON/SSE、取消/截止及缺失设备拒绝已通过；常规281项、合成ABI6项、真实模型3项分别登记。生产执行、LP/E2E、性能、可信usage/ACK/支付仍待。见[本轮详情](dev/progress/R023-本轮实现与完整待办.md)及[NF规范](docs/技术开发/附录-真实原生LLM包校验与本机接入.md)。
+
 ## R022 · 原生文本结果加密保管与三协议交付
 
 本轮把原生结果保管与显卡执行清理分开：一次原提交的输出先写入独立 AES-256-GCM 密文仓，默认 16 × 8 MiB、保留 5 分钟；原计算同步停止并清理后可释放显卡，旧结果仍按原订单/本地围栏读取。密钥只在进程中，单读者、定额预留、到期撤权；丢密钥或未知提交不重跑。管道升级 PIPE_2，补实际输入计数与原停止词序号。
@@ -85,8 +87,8 @@ R018新增原设备签名领取原租约：35/93个控制操作、65表/664列/1
 | --- | --- |
 | 开发基线 | 20模块 / 56任务 / 222子项 / 47约束 |
 | 实施任务 | 31项进行中 · 23项待开发 · 1项条件能力 · 1项延后 |
-| 最新源码轮次 | R022 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| 原生测试证据 | 275项通过，仅控制/原生/转发源码子集 |
+| 最新源码轮次 | R023 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| 原生测试证据 | 281项通过，仅控制/原生/转发源码子集 |
 | 完整产品验收 | 80项全部未执行 |
 | 源码目标 | ACTIVE |
 
@@ -140,17 +142,17 @@ SQLite只保存有限控制元数据，不含prompt/输出/媒体/内容钥，�
 
 ## 页面截图、录屏与 GIF
 
-![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R022/screenshots/web-market.png)
+![实际React Web市场与合同：明确合成授权/卖家资格/设备心跳，无真实支付或设备](dev/media/R023/screenshots/web-market.png)
 
-![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R022/screenshots/miniapp-market.png)
+![实际Taro H5发现页：不是支付宝原生容器截图](dev/media/R023/screenshots/miniapp-market.png)
 
-![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R022/screenshots/miniapp-provider-conditions.png)
+![实际Taro H5提供方共享条件：具体型号、时段、磁盘和责任确认](dev/media/R023/screenshots/miniapp-provider-conditions.png)
 
-[Web共享条件](dev/media/R022/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R022/screenshots/miniapp-provider-revoked.png)
+[Web共享条件](dev/media/R023/screenshots/web-provider-conditions.png) · [撤销后状态](dev/media/R023/screenshots/miniapp-provider-revoked.png)
 
-![实际Taro H5交易与提供方设备控制录制](dev/media/R022/recordings/miniapp-transaction.gif)
+![实际Taro H5交易与提供方设备控制录制](dev/media/R023/recordings/miniapp-transaction.gif)
 
-[Web操作MP4](dev/media/R022/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R022/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R022/recordings/web-transaction.gif) · [订单待确认](dev/media/R022/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
+[Web操作MP4](dev/media/R023/recordings/web-transaction.mp4) · [Taro H5操作MP4](dev/media/R023/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R023/recordings/web-transaction.gif) · [订单待确认](dev/media/R023/screenshots/web-order-pending.png) · [产品媒体来源](dev/media/frontend-manifest.json)
 
 以上为编译源码连接真实本地HTTP/数据库的页面；合成OAuth、资格和设备心跳仅存在于测试二进制中，无真实支付宝授权、付款或设备执行。以下文档阅读器媒体单独保留来源。
 

@@ -24,7 +24,7 @@ type Config struct {
 	RuntimeRoot                                    string
 	Executable                                     FilePin
 	Libraries                                      []FilePin
-	Library, BackendRegistry                       string
+	Library, BackendRegistry, BackendCore          string
 	Model, Template                                FilePin
 	Environment, Capability, Resource              string
 	GPUDevice                                      string // owner-approved native device name; physical mapping needs qualification
@@ -108,7 +108,7 @@ func (c Config) validate(ctx context.Context) (string, error) {
 		}
 		seen[strings.ToLower(filepath.Base(p.Path))] = true
 	}
-	if !seen[strings.ToLower(filepath.Base(c.Library))] || filepath.Dir(c.BackendRegistry) != dir || !seen[strings.ToLower(filepath.Base(c.BackendRegistry))] {
+	if !seen[strings.ToLower(filepath.Base(c.Library))] || filepath.Dir(c.BackendRegistry) != dir || !seen[strings.ToLower(filepath.Base(c.BackendRegistry))] || filepath.Dir(c.BackendCore) != dir || !seen[strings.ToLower(filepath.Base(c.BackendCore))] {
 		return "", ErrConfig
 	}
 	items, e := os.ReadDir(dir)

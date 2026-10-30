@@ -1,0 +1,9 @@
+{
+  "round": "R023",
+  "attempt": 2,
+  "archive": "dev/tests/evidence/archive/R023-native-real-attempt2.zip",
+  "sha256": "3527981fa6c71ee5781c86dbd566726edcc4763917b2ed471c2f65a57f380a38",
+  "files": 39,
+  "source_hashes_exact": true,
+  "scope": "Exact original source/worker/package metadata; pinned official runtime libraries and model remain private reproducible downloads, not redistributed"
+}

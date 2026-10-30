@@ -1,0 +1,177 @@
+{
+  "round": "R023",
+  "attempt": 3,
+  "recorded_at": "2026-10-30T22:48:12.131892+00:00",
+  "finished_at": "2026-10-30T22:48:26.369679+00:00",
+  "passed": false,
+  "returncode": 1,
+  "scope": "Explicit Windows native CUDA0/Qwen 0.5B test on this machine; original owned process, pinned CUDA modules, six JSON/SSE render combinations, native stop/cancel/deadline. Not marketplace, physical identity mapping, LP, E2E, SDK, trusted usage, funds or 30-run performance qualification.",
+  "gpu_before": "NVIDIA GeForce RTX 3060, 595.95, 12288, 9963, 2",
+  "gpu_after": "NVIDIA GeForce RTX 3060, 595.95, 12288, 9963, 2",
+  "cases": {
+    "TestNativeRealCUDAThreeProfilesEncryptedCustodyAndModelReuse": "fail",
+    "TestNativeRealCUDATokenLimitCancelAndHardDeadline": "fail",
+    "TestNativeRealCUDAUnavailableDeviceNeverFallsBack": "pass"
+  },
+  "preparation": {
+    "schema": "P11_NATIVE_INPUT_PREPARATION_1",
+    "lock_sha256": "70345717d0af2b1cc9ee5c7835e92e100bce632c56e066bf14c5b4bab7f5fd0d",
+    "model_transport": "hf-mirror.com",
+    "package": "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\native-llama\\qwen-0.5b-cuda12\\package.json",
+    "package_sha256": "143a7493464fdf6bff37421d5c665576d16644936509b74ce6984163dbf62fb4",
+    "libraries": 21,
+    "licenses": [
+      "licenses/llama-b11960-bin-win-cuda-12.4-x64/LICENSE-LLVM-OpenMP",
+      "licenses/Qwen-APACHE-2.0.txt"
+    ],
+    "inference_executed": false,
+    "marketplace_approved": false,
+    "virtualization_used": false
+  },
+  "package_manifest": {
+    "schema": "P11_LLAMA_PACK_1",
+    "profile": "P11_LLAMA_PIPE_3",
+    "engine_release": "llama.cpp-v0.8.0-8642541b",
+    "executable": {
+      "path": "p11-llama-worker.exe",
+      "sha256": "51d62ae385dde2058659e6dfba51a345420b00a332128604b81a58be8a4d768b"
+    },
+    "libraries": [
+      {
+        "path": "lib/cublas64_12.dll",
+        "sha256": "e40202fe4223c1cd2d2dce7beec59e1ed61c7801bd827309183be9b50e358f4c"
+      },
+      {
+        "path": "lib/cublasLt64_12.dll",
+        "sha256": "2a896460bef60ed57ef32b0875812f355a6984e671d638bb632f5e8c1d7a831f"
+      },
+      {
+        "path": "lib/cudart64_12.dll",
+        "sha256": "d28e42265da7462162a54da6b7a99ea4fa2caf8139d862bb500db875d0b32dfc"
+      },
+      {
+        "path": "lib/ggml-base.dll",
+        "sha256": "200cd9b6f0a7934c2e1c85e55289d5498332713321b03e83eb2ae3da5eeb6137"
+      },
+      {
+        "path": "lib/ggml-cpu-alderlake.dll",
+        "sha256": "8ae4c14de9eeb5528e42cff69ed8485e6cd0e3f8601837add873a9d12199ca95"
+      },
+      {
+        "path": "lib/ggml-cpu-cannonlake.dll",
+        "sha256": "779a9d0ede6215fba8a00fb680c1295dd62836f9d8a124437d48f9c086fc1f07"
+      },
+      {
+        "path": "lib/ggml-cpu-cascadelake.dll",
+        "sha256": "71f6275d8aa7df86545975e02510e10280abfcc274ae419dee898746a5b2ce1b"
+      },
+      {
+        "path": "lib/ggml-cpu-cooperlake.dll",
+        "sha256": "c0b3f9445cbd4490504c13d06e89b25bdbe9dea73784fc62c0c10ae7069de6cb"
+      },
+      {
+        "path": "lib/ggml-cpu-haswell.dll",
+        "sha256": "0bc8209ebe520b43d8549db7d45ca87382df88c3a8b238f3dda42d96e2af178e"
+      },
+      {
+        "path": "lib/ggml-cpu-icelake.dll",
+        "sha256": "81f86f655c82dfe330f9ee269b97a2b21352e5e876bd385d48bc61d9a6ca230b"
+      },
+      {
+        "path": "lib/ggml-cpu-ivybridge.dll",
+        "sha256": "52f262a610ac189d0375472c66c46b7b366d618916ed67a2b119e69023c3f943"
+      },
+      {
+        "path": "lib/ggml-cpu-piledriver.dll",
+        "sha256": "340c9dc4c5618fa4f89e6311c31f2f472d3277a87858c79b3c44890b0e92d1e7"
+      },
+      {
+        "path": "lib/ggml-cpu-sandybridge.dll",
+        "sha256": "6251d2dc50745bad1d0f16ea95a4484ef5d8c7cb49b5a4a33af85d199c08be61"
+      },
+      {
+        "path": "lib/ggml-cpu-sapphirerapids.dll",
+        "sha256": "cdfdc20cb7f953f87e61ab90e234c864df4e2c2615f5651bd83a4cf27fdc4e3d"
+      },
+      {
+        "path": "lib/ggml-cpu-skylakex.dll",
+        "sha256": "da5c7c86df8409c08fb748ed5596eba65285ead7747581daa124a7fff2f65704"
+      },
+      {
+        "path": "lib/ggml-cpu-sse42.dll",
+        "sha256": "00efeb321bb728616cde5719bab06ea575679f7ca4967367faa70fd5ca1c8ba6"
+      },
+      {
+        "path": "lib/ggml-cpu-x64.dll",
+        "sha256": "af7233344eec5587d531b4e875ec5bf2b1aa62c2be57b657f69cca503f0db918"
+      },
+      {
+        "path": "lib/ggml-cpu-zen4.dll",
+        "sha256": "4ebbee0eb0c5a4e9e3c3b437d7a2876ede8f1d3e00526dad33db50f39f46e831"
+      },
+      {
+        "path": "lib/ggml-cuda.dll",
+        "sha256": "85f2cb5707e6dc50c30cdcdc5c23c5e438149bb48638421d0a705866b8e31f94"
+      },
+      {
+        "path": "lib/ggml.dll",
+        "sha256": "d2e63157b90c0fd15f010fb2952d032d9f3296b8406b78ff0950211cc144705b"
+      },
+      {
+        "path": "lib/llama.dll",
+        "sha256": "af13ed8cb1454a80689dbd390310995b6c4b23333e096152453fe6d0fef17356"
+      }
+    ],
+    "library": "lib/llama.dll",
+    "backend_registry": "lib/ggml.dll",
+    "backend_core": "lib/ggml-base.dll",
+    "model": {
+      "path": "qwen2.5-0.5b-instruct-q4_k_m.gguf",
+      "sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db"
+    },
+    "template": {
+      "path": "template.txt",
+      "sha256": "1e53ec5bf20c1dc9cea38577f9081373e97694037ff51ab6efb47721d8ea76b0"
+    }
+  },
+  "raw": "dev/tests/evidence/R023-native-real-attempt3-tests.jsonl",
+  "raw_sha256": "b474a9b20b0816490c26709413ba47139bbcfa4135f3fd25a4a4b629d5dfa00e",
+  "sources": {
+    "dev/src/client/adapters/llamaworker/adapter.go": "b94628df788e35ea41ff63a4feff70cbd625b4c29dfe8a46be181b0971fe7eac",
+    "dev/src/client/adapters/llamaworker/adapter_test.go": "8d4d54a6d7fdf6bef56bee2d1380ace89a706b1c68ecad3751f5e49612390a59",
+    "dev/src/client/adapters/llamaworker/capi_fixture_test.go": "a806ea5dd524810d86dfd9d4bf49b7ccfabb126ac100c30e1ecf27d48b914b0d",
+    "dev/src/client/adapters/llamaworker/config.go": "d87da27ba89465bee47a0a5676ea9aeead091bfe84808111700e1024ee013834",
+    "dev/src/client/adapters/llamaworker/info.go": "7cc4ba6641cac986c5c5f90e236e94049f0d3ce82a267f77bc7ae04dd400f7e2",
+    "dev/src/client/adapters/llamaworker/input.go": "4daa5760f1bf2426553bf9bd0f881fb44eaa60278bf36e4c2c684326a048763d",
+    "dev/src/client/adapters/llamaworker/package.go": "258b89c5b2206ed2e2ecf6c9a38854deace68ffdc1fb3f3150e488fb586b0998",
+    "dev/src/client/adapters/llamaworker/package_test.go": "b0abbcd945a37a6a7b7ce9fafe8f6770bc1142946b42c4f87ce3c5381cc43323",
+    "dev/src/client/adapters/llamaworker/process.go": "3eca915fe9eb7046e7f8a4a602d78589164a0844ba2419642ac32179fe7adc35",
+    "dev/src/client/adapters/llamaworker/process_linux.go": "98ee8108f2469fe1ac3bde3f2599c302c51b8c263c736b725da06e7f14326ee2",
+    "dev/src/client/adapters/llamaworker/process_windows.go": "a11ddd5239ee94fa767237c0d9b4d3574349b71a4ffdf386be8268302a4d0198",
+    "dev/src/client/adapters/llamaworker/README.md": "3049f0434abbb5ae3e84d6e4db8e4e6a57c1fb23f7d77c9423369b87170468a1",
+    "dev/src/client/adapters/llamaworker/real_windows_test.go": "bc548b03d58c6ee2af6a4a3bf19cc78f7c3cbe9517f70653ffcb966804da05a6",
+    "dev/src/client/adapters/llamaworker/wire.go": "e7e5328aab5749be8f252b38d84c94c902141897e5bf0b617f6ed15bcb60bbd5",
+    "dev/src/client/kernels/llama-worker/dependencies.lock.json": "1cb197f5aa9002fb833124ff7c392bb9a6783a9f0affb88d3e36e8ebbcc11ee1",
+    "dev/src/client/kernels/llama-worker/qualification.lock.json": "70345717d0af2b1cc9ee5c7835e92e100bce632c56e066bf14c5b4bab7f5fd0d",
+    "dev/src/client/kernels/llama-worker/README.md": "43a15103d1b18ce8189019170ac5f5705d60a5cba0d7c73aa951b7614e0a7413",
+    "dev/src/client/kernels/llama-worker/worker.cpp": "db651acee146b30973aee802e0c3057bde47ab47f02f1086e4521cb7c601e636",
+    "dev/src/client/results/adapter.go": "6a5d07a37b95ebc893c32de338cfc568b272f5119974808f1aef3fbf360863ea",
+    "dev/src/client/results/README.md": "b9dfa87a02f9ca2e0e2663fbb5b8c5cf04445e89effd896b502ff2775658575a",
+    "dev/src/client/results/results_test.go": "240346fc7db946292b42bcb301faa2ee1d0a760a95f69c9db5b284f06d0efc03",
+    "dev/src/client/results/store.go": "3d3137327ddbdc2977b4413f43384ec3dedee543035657f97a747d71fa245e7e",
+    "dev/src/client/results/view.go": "f257478da597b670400b1b6eda377003b74ae8051fc44568e14026bb20bfbb69",
+    "dev/src/client/protocol/textoutput/http_sink.go": "ddcb15982e8ac0a2e924e2d3d6376086e7b961fde34bab900f7dba065cda4aed",
+    "dev/src/client/protocol/textoutput/README.md": "b98e518da603879d5acbc82cfbb991b87cee82d77f4e4fbd50c0a3ff0c704157",
+    "dev/src/client/protocol/textoutput/render.go": "ee36e7820ecf958bae475ff80780a5c5fc8b23c3ec3563dbbe4707c8d2d1fdac",
+    "dev/src/client/protocol/textoutput/render_test.go": "4dec80005e5a69c697f2c7d259cf122a576da135ff901fe5f7953e757b83bb84",
+    "dev/src/client/supervisor/deadline_test.go": "e94ff949fff494b87a27ba3f193d20c9a9ae6a806078e4362bf4085a1740594b",
+    "dev/src/client/supervisor/registry_shutdown_test.go": "1fcdd5f1add7825c980d3f28982efd8b6f85d79f12d0a40ec7318366c3723ca8",
+    "dev/src/client/supervisor/snapshot_test.go": "8e964f54cadb369e452b33eb36f8dce8c6f2841f07237c44b80e716e116726af",
+    "dev/src/client/supervisor/supervisor.go": "02f2e917055ff2a35621e80b8cfa45cab1d5d9e174056aefa0bff6f60eb613b3",
+    "dev/src/client/supervisor/supervisor_test.go": "6a7f4c0bffa18900b98b6ed1ed40ce70ee019bf2b8052777c24b8440309d8831",
+    "dev/src/client/supervisor/text_output.go": "d9305ba71aacbe72fcc38f211b2dabba27448baefb6a5abed570a9c00439706b",
+    "dev/tools/核验真实LLM内核.py": "81b662f4a2ee859b59cc2bd690bbed152b1e2db14425dd3f6af5f683946dd9eb",
+    "dev/tools/准备真实LLM验证包.py": "ac36088a8e07bc0d63a9413632685bf0fcf6f133d8036714cb121d2a7e2096e5"
+  },
+  "virtualization_used": false
+}

@@ -1,0 +1,45 @@
+{
+  "round": "R023",
+  "preparation_failure": {
+    "observed": "Initial 512MiB extraction guard rejected the official 594121728B ggml-cuda.dll. Corrected the pinned bound and streamed extraction in 64KiB blocks.",
+    "original_shell_log_file_retained": false
+  },
+  "real_attempts": [
+    {
+      "attempt": 1,
+      "top_cases": "1 pass / 2 fail",
+      "cause": "Startup unknown; original combined registry/core assumption did not match official DLL export split. Other startup dependency failure also present; do not assign every failure solely to the split."
+    },
+    {
+      "attempt": 2,
+      "top_cases": "1 pass / 2 fail",
+      "cause": "Split corrected; startup remained unknown, not an accepted CUDA run."
+    },
+    {
+      "attempt": 3,
+      "top_cases": "1 pass / 2 fail",
+      "cause": "Bounded startup diagnostic LOAD_MAIN/native126; pinned PE import inspection identified missing libomp.dll, added from same official archive."
+    },
+    {
+      "attempt": 4,
+      "top_cases": "2 pass / 1 fail",
+      "cause": "Actual CUDA Chat JSON/SSE, token limit/cancel/deadline passed; four other combinations rejected unsupported temperature in test input. Removed that unsupported test field without widening profiles."
+    },
+    {
+      "attempt": 5,
+      "top_cases": "3 pass / 0 fail",
+      "cause": "All current explicit real-model tests passed; see original raw and exact input manifest."
+    }
+  ],
+  "archives": [
+    "dev/tests/evidence/R023-native-real-attempt1-archive.json",
+    "dev/tests/evidence/R023-native-real-attempt2-archive.json",
+    "dev/tests/evidence/R023-native-real-attempt3-archive.json",
+    "dev/tests/evidence/R023-native-real-attempt4-archive.json"
+  ],
+  "historical_risks": [
+    "R016/R019/R020/R021/R022 timing/storage causes have not been proven eliminated. No existing timeout/assertion or published SQL durability was relaxed.",
+    "R020 nineteen original screenshots remain missing; retained original manifest, no replacement claimed.",
+    "Real CUDA tests are not marketplace, LP/E2E, SDK, trusted usage, ACK, payment or performance qualification."
+  ]
+}

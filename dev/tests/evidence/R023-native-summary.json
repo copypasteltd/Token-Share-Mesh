@@ -1,0 +1,184 @@
+{
+  "round": "R023",
+  "suite": "full",
+  "run_id": "20261030T225637Z-40952a86",
+  "postgresql": "17.11-5",
+  "test_exit_code": 0,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "package_parallelism": 1,
+  "intra_test_concurrency_retained": true,
+  "native_before_postgres": true,
+  "compiled_db_tests": {
+    "./api/tests": {
+      "path": "runtime/db/integration/20261030T225637Z-40952a86/api-tests.test.exe",
+      "sha256": "47aa85f6e99cf5a51e15c900f4fed5d935a8e52fcbf039431f08b419986845ea",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\db\\integration\\20261030T225637Z-40952a86\\api-tests.test.exe",
+        "./api/tests"
+      ]
+    },
+    "./tests/integration": {
+      "path": "runtime/db/integration/20261030T225637Z-40952a86/integration.test.exe",
+      "sha256": "35980be9e086921804421b9add7f3d88e5e8df9d6a0290b2d8744661d2ff4cf6",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\db\\integration\\20261030T225637Z-40952a86\\integration.test.exe",
+        "./tests/integration"
+      ]
+    }
+  },
+  "test_event_converter": [
+    "go",
+    "tool",
+    "test2json"
+  ],
+  "verification_sources": {
+    "dev/tools/原生数据库验证.py": "5e3cd82a21e360b7a77808603f64f958fdedf6926ded58d3bdcb6471aa1ce918",
+    "dev/tools/frontend/browser.mjs": "911d993842fcd8dae409f730e23d9dee5dfffbc43b8c03397581bc63ffc158b0"
+  },
+  "test_segments": [
+    {
+      "id": "native",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "p11.local/compute/api/cmd/p11-admin",
+        "p11.local/compute/api/cmd/p11-api",
+        "p11.local/compute/api/internal/http",
+        "p11.local/compute/client/adapters/llamaworker",
+        "p11.local/compute/client/cmd/p11-node",
+        "p11.local/compute/client/execution",
+        "p11.local/compute/client/node",
+        "p11.local/compute/client/protocol/devicecontrol",
+        "p11.local/compute/client/protocol/executionlease",
+        "p11.local/compute/client/protocol/textoutput",
+        "p11.local/compute/client/results",
+        "p11.local/compute/client/supervisor",
+        "p11.local/compute/gateway/core",
+        "p11.local/compute/internal/budget",
+        "p11.local/compute/internal/dispatch/device",
+        "p11.local/compute/internal/identity",
+        "p11.local/compute/internal/invocation",
+        "p11.local/compute/internal/market",
+        "p11.local/compute/internal/outbox",
+        "p11.local/compute/internal/persistence",
+        "p11.local/compute/internal/pricing",
+        "p11.local/compute/internal/routecontract",
+        "p11.local/compute/internal/seller",
+        "p11.local/compute/internal/testsupport",
+        "p11.local/compute/internal/trade",
+        "p11.local/compute/shared/clock",
+        "p11.local/compute/shared/fault",
+        "p11.local/compute/shared/ids",
+        "p11.local/compute/shared/money",
+        "p11.local/compute/shared/strictjson"
+      ],
+      "exit_code": 0,
+      "database_isolation": "NO_DATABASE_SERVER",
+      "temporary_database_removed": null
+    },
+    {
+      "id": "core",
+      "arguments": [
+        [
+          "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\tooling\\native\\go-1.27.3\\go\\bin\\go.exe",
+          "tool",
+          "test2json",
+          "-t",
+          "-p",
+          "p11.local/compute/api/tests",
+          "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\db\\integration\\20261030T225637Z-40952a86\\api-tests.test.exe",
+          "-test.v=test2json",
+          "-test.count=1",
+          "-test.timeout=240s",
+          "-test.skip=^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$"
+        ],
+        [
+          "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\tooling\\native\\go-1.27.3\\go\\bin\\go.exe",
+          "tool",
+          "test2json",
+          "-t",
+          "-p",
+          "p11.local/compute/tests/integration",
+          "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\db\\integration\\20261030T225637Z-40952a86\\integration.test.exe",
+          "-test.v=test2json",
+          "-test.count=1",
+          "-test.timeout=240s",
+          "-test.skip=^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$"
+        ]
+      ],
+      "working_directories": [
+        "dev/src/api/tests",
+        "dev/src/tests/integration"
+      ],
+      "exit_code": 0,
+      "database_isolation": "CORE",
+      "temporary_database_removed": null
+    },
+    {
+      "id": "web",
+      "arguments": [
+        [
+          "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\tooling\\native\\go-1.27.3\\go\\bin\\go.exe",
+          "tool",
+          "test2json",
+          "-t",
+          "-p",
+          "p11.local/compute/api/tests",
+          "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\db\\integration\\20261030T225637Z-40952a86\\api-tests.test.exe",
+          "-test.v=test2json",
+          "-test.count=1",
+          "-test.timeout=240s",
+          "-test.run=^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^web$"
+        ]
+      ],
+      "working_directories": [
+        "dev/src/api/tests"
+      ],
+      "exit_code": 0,
+      "database_isolation": "FRESH_NATIVE_CHILD",
+      "temporary_database_removed": true
+    },
+    {
+      "id": "miniapp",
+      "arguments": [
+        [
+          "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\tooling\\native\\go-1.27.3\\go\\bin\\go.exe",
+          "tool",
+          "test2json",
+          "-t",
+          "-p",
+          "p11.local/compute/api/tests",
+          "E:\\dev\\sandbox\\支付宝黑客松\\算力共享平台\\runtime\\db\\integration\\20261030T225637Z-40952a86\\api-tests.test.exe",
+          "-test.v=test2json",
+          "-test.count=1",
+          "-test.timeout=240s",
+          "-test.run=^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^miniapp$"
+        ]
+      ],
+      "working_directories": [
+        "dev/src/api/tests"
+      ],
+      "exit_code": 0,
+      "database_isolation": "FRESH_NATIVE_CHILD",
+      "temporary_database_removed": true
+    }
+  ],
+  "case_inventory": "Unique top-level test IDs; R014 browser parent runs separately for each selected child",
+  "shutdown_mode": "FAST",
+  "runner_error": null,
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R023-native-go-tests.jsonl",
+  "scope": "Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test"
+}
