@@ -11826,6 +11826,11 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "confirmed_order_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
           "seller_id": {
             "type": "string",
             "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
@@ -11879,6 +11884,7 @@
           }
         },
         "required": [
+          "confirmed_order_id",
           "seller_id",
           "listing_id",
           "listing_revision",
@@ -11889,7 +11895,7 @@
           "expires_at",
           "purchase_authorization_ref"
         ],
-        "description": "自动调用授权不等于任意支付权限；实际渠道必须支持；E2E须额外端点信任绑定。",
+        "description": "confirmed_order_id绑定原订单；purchase_authorization_ref引用同单原始payments.id，不是客户端自报支付。R015仅实现PLAINTEXT/STANDARD和三种native文本profile；E2E/租赁拒绝，不自动降级。配置不授予执行权。",
         "allOf": [
           {
             "if": {
@@ -11962,6 +11968,19 @@
           "contract_hash": {
             "type": "string",
             "pattern": "^[a-f0-9]{64}$"
+          },
+          "public_model": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "protocol_profile_revision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "order_contract": {
+            "type": "object"
           }
         },
         "required": [
@@ -11973,7 +11992,8 @@
           "remaining_budget_fen",
           "used_calls",
           "contract_hash"
-        ]
+        ],
+        "description": "R015已实现响应额外给出冻结订单快照、模型及profile修订；历史设计示例不构成实际支付/执行资格。used_calls当前为0，调用签发和调用次数约束尚未接通。"
       },
       "ApiKeyWrite": {
         "type": "object",

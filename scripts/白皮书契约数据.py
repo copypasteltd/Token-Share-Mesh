@@ -217,17 +217,20 @@ def make_schemas() -> dict:
         "evidence_ref": ID}, description="服务器验证不未来/不重叠/可信性；不自动相信设备单方面自报。")
     s["ExportWrite"] = obj({"expected_version": VERSION, "asset_refs": arr(ID, 50, 1)},
         description="只申请合法现有对象导出；不接受主机文件路径。")
-    s["RouteContractWrite"] = obj({"seller_id": ID, "listing_id": ID, "listing_revision": VERSION,
+    s["RouteContractWrite"] = obj({"confirmed_order_id": ID, "seller_id": ID, "listing_id": ID, "listing_revision": VERSION,
         "policy": ref("Policy"), "budget_per_call_fen": UINT, "total_budget_fen": UINT,
         "max_call_count": VERSION, "expires_at": TIME, "purchase_authorization_ref": ID,
         "recipient_id": ID, "recipient_key_hash": HASH},
-        ["seller_id", "listing_id", "listing_revision", "policy", "budget_per_call_fen", "total_budget_fen", "max_call_count", "expires_at", "purchase_authorization_ref"],
-        description="自动调用授权不等于任意支付权限；实际渠道必须支持；E2E须额外端点信任绑定。",
+        ["confirmed_order_id", "seller_id", "listing_id", "listing_revision", "policy", "budget_per_call_fen", "total_budget_fen", "max_call_count", "expires_at", "purchase_authorization_ref"],
+        description="confirmed_order_id绑定原订单；purchase_authorization_ref引用同单原始payments.id，不是客户端自报支付。R015仅实现PLAINTEXT/STANDARD和三种native文本profile；E2E/租赁拒绝，不自动降级。配置不授予执行权。",
         allOf=[{"if": {"properties": {"policy": {"properties": {"service_mode": {"const": "E2E"}}, "required": ["service_mode"]}}, "required": ["policy"]},
                 "then": {"required": ["recipient_id", "recipient_key_hash"]}}])
     s["RouteContract"] = obj({"route_id": ID, "buyer_id": ID, "version": VERSION,
         "definition": ref("RouteContractWrite"), "state": enum("ACTIVE", "SUSPENDED", "EXPIRED", "REVOKED"),
-        "remaining_budget_fen": UINT, "used_calls": UINT, "contract_hash": HASH})
+        "remaining_budget_fen": UINT, "used_calls": UINT, "contract_hash": HASH,
+        "public_model": ID, "protocol_profile_revision": TEXT, "order_contract": {"type": "object"}},
+        ["route_id", "buyer_id", "version", "definition", "state", "remaining_budget_fen", "used_calls", "contract_hash"],
+        description="R015已实现响应额外给出冻结订单快照、模型及profile修订；历史设计示例不构成实际支付/执行资格。used_calls当前为0，调用签发和调用次数约束尚未接通。")
     s["ApiKeyWrite"] = obj({"label": TEXT, "scopes": arr(enum("ROUTE_INVOKE", "ORDER_READ", "ASSET_READ", "MARKET_READ"), 4, 1),
         "route_ids": arr(ID, 50), "expires_at": TIME}, ["label", "scopes", "expires_at"])
     s["ApiKey"] = obj({"key_id": ID, "fingerprint": HASH, "label": TEXT, "scopes": arr(TEXT, 20),

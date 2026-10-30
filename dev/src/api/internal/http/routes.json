@@ -1,7 +1,7 @@
 {
-  "version": "P11_CONTROL_HTTP_R007",
+  "version": "P11_CONTROL_HTTP_R015",
   "base_path": "/v1/p11",
-  "scope": "R007 native provider identity/control plus R004/R005 subset; no qualification, engines or payment execution",
+  "scope": "34 explicit control operations including confirmed original-order route configuration; no public inference listener, payment execution or execution grant",
   "operations": [
     {
       "operation_id": "createAuthChallenge",
@@ -218,6 +218,27 @@
       "method": "PATCH",
       "path": "/devices/{device_id}/resource-policy",
       "handler": "devicePolicy",
+      "anonymous": false
+    },
+    {
+      "operation_id": "listRouteContracts",
+      "method": "GET",
+      "path": "/route-contracts",
+      "handler": "routeContracts",
+      "anonymous": false
+    },
+    {
+      "operation_id": "createRouteContract",
+      "method": "POST",
+      "path": "/route-contracts",
+      "handler": "routeContracts",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getRouteContract",
+      "method": "GET",
+      "path": "/route-contracts/{route_id}",
+      "handler": "getRouteContract",
       "anonymous": false
     }
   ]

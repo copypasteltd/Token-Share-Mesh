@@ -17,6 +17,7 @@ import (
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/persistence"
+	"p11.local/compute/internal/routecontract"
 	"p11.local/compute/internal/seller"
 	"p11.local/compute/internal/trade"
 	"p11.local/compute/shared/clock"
@@ -142,11 +143,10 @@ func run() error {
 		return err
 	}
 	defer db.Close()
-	var version int
 	checkCtx, checkCancel := context.WithTimeout(context.Background(), 5*time.Second)
-	err = db.Pool.QueryRow(checkCtx, "SELECT max(version) FROM p11_meta.schema_migrations").Scan(&version)
+	err = db.VerifyMigrations(checkCtx)
 	checkCancel()
-	if err != nil || version != 5 {
+	if err != nil {
 		return fmt.Errorf("apply and verify migrations with p11-admin before starting control APIs")
 	}
 	address := os.Getenv("P11_API_ADDR")
@@ -168,7 +168,8 @@ func run() error {
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
 		Keys:     identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "api_v1", Peppers: map[string][]byte{"api_v1": keyPepper}, MaxTTL: 30 * 24 * time.Hour},
 		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: fees},
-		Devices: device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}}})
+		Devices: device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
+		Routes:  routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
 	if err != nil {
 		return err
 	}

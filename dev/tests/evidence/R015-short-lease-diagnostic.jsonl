@@ -1,0 +1,9 @@
+{"Time":"2026-10-30T18:49:47.4034976+08:00","Action":"start","Package":"p11.local/compute/client/supervisor"}
+{"Time":"2026-10-30T18:49:49.1899756+08:00","Action":"run","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShortRealLeaseNeverExecutesPastExpiry"}
+{"Time":"2026-10-30T18:49:49.1899756+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShortRealLeaseNeverExecutesPastExpiry","Output":"=== RUN   TestSupervisorShortRealLeaseNeverExecutesPastExpiry\n","OutputType":"frame"}
+{"Time":"2026-10-30T18:49:52.6864449+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShortRealLeaseNeverExecutesPastExpiry","Output":"    supervisor_test.go:637: ZERO_SUBMIT_SAFE_REJECTION: short lease could not authorize backend work\n"}
+{"Time":"2026-10-30T18:49:54.5370366+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShortRealLeaseNeverExecutesPastExpiry","Output":"--- PASS: TestSupervisorShortRealLeaseNeverExecutesPastExpiry (5.34s)\n","OutputType":"frame"}
+{"Time":"2026-10-30T18:49:54.5390376+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Test":"TestSupervisorShortRealLeaseNeverExecutesPastExpiry","Elapsed":5.34}
+{"Time":"2026-10-30T18:49:54.5390376+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-30T18:49:54.5814871+08:00","Action":"output","Package":"p11.local/compute/client/supervisor","Output":"ok  \tp11.local/compute/client/supervisor\t7.178s\n"}
+{"Time":"2026-10-30T18:49:54.5814871+08:00","Action":"pass","Package":"p11.local/compute/client/supervisor","Elapsed":7.178}

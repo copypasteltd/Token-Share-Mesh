@@ -1,5 +1,14 @@
 # Changelog
 
+## R015 — Confirmed order routes and scoped SDK model resolution
+
+- Add three owner-session control operations with explicit original-order/payment binding, immutable seller/listing/model/profile/price limits, current-state replay and bounded signed pagination.
+- Resolve exactly one key-bound model/protocol in a SQL transaction, including revoked-key/current-role checks; ambiguous or unavailable routes never select another seller. Configuration is not execution admission.
+- Add forward-only 007 and its matching manifest: five columns, original-payment FK, one confirmed route per order, immutable bindings and conservative legacy quarantine. Keep 001–006 and native SQLite DDL unchanged.
+- Replace the stale API migration-version check with read-only embedded name/hash/set verification. Add 14 original-order/SDK/upgrade/HTTP cases, preserve failed fixture attempts and refresh evidence/media and bilingual documentation.
+- Keep real channel verification, qualified usage, invocation/call accounting, production engines, E2E and route UI pending; all 56 tasks and 222 open steps remain tracked. No virtualization, deployment or observability work.
+- Preserve sold listing revisions when sellers publish new versions; new purchases remain current-version-only. Correct the short real-lease regression to distinguish zero-submit safe expiry rejection from one deadline-bounded submission, retaining its 150ms/800ms limits and all failed attempts.
+
 ## R014 — Order capacity reservations and qualified consumption
 
 - Add SQL-only reserve/complete/lookup/snapshot transactions bound to the original order, buyer, seller, contract and purpose. They compose with caller intents and never authorize payment or execution.

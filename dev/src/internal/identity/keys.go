@@ -117,7 +117,12 @@ func (s KeyService) Create(ctx context.Context, p Principal, input KeyInput, ide
 		}
 		for _, route := range input.RouteIDs {
 			var expires time.Time
-			err := tx.QueryRow(ctx, `SELECT expires_at FROM p11.route_contracts WHERE id=$1 AND buyer_id=$2 AND state='ACTIVE' AND expires_at>clock_timestamp() FOR SHARE`, route, p.UserID).Scan(&expires)
+			err := tx.QueryRow(ctx, `SELECT r.expires_at FROM p11.route_contracts r
+JOIN p11.orders o ON o.id=r.order_id JOIN p11.payments py ON py.id=r.payment_id AND py.order_id=o.id
+WHERE r.id=$1 AND r.buyer_id=$2 AND r.state='ACTIVE' AND r.binding_profile='CONFIRMED_ROUTE_1'
+AND r.expires_at>clock_timestamp() AND o.state IN ('READY','FULFILLING') AND o.deadline>clock_timestamp()
+AND py.state='SETTLED' AND (py.funds_expires_at IS NULL OR py.funds_expires_at>clock_timestamp())
+AND NOT EXISTS(SELECT 1 FROM p11.refunds WHERE payment_id=py.id AND state<>'FAILED') FOR SHARE OF r,o,py`, route, p.UserID).Scan(&expires)
 			if err == pgx.ErrNoRows {
 				return outbox.StoredResult{}, fault.New(fault.NotFound, "Route not found")
 			}

@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql",
+  "source_sha256": "2b3406b5678ba6db23ae5c2845eb3b4bf76e36a259546ec673d99d8d1b0fede9",
+  "migration": "007_confirmed_route_contracts.sql",
+  "migration_sha256": "2b3406b5678ba6db23ae5c2845eb3b4bf76e36a259546ec673d99d8d1b0fede9",
+  "policy": "007 forward-only R015 confirmed original-order routes; 001-006 and native client DDL unchanged; legacy routes suspended without invented consent"
+}

@@ -52,7 +52,7 @@ func budgetUpgradeDB(t *testing.T) (*persistence.DB, fs.FS, fs.FS) {
 	}
 	old := fstest.MapFS{}
 	for _, name := range paths {
-		if strings.HasPrefix(filepath.Base(name), "006_") {
+		if filepath.Base(name)[:3] >= "006" {
 			continue
 		}
 		body, e := fs.ReadFile(source, name)

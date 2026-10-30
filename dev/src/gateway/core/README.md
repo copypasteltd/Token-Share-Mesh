@@ -19,3 +19,6 @@ Tests use explicit synthetic admission/secret ports and owned native loopback HT
 The exact-field follow-up passes all 20 relay cases. The latest full rerun failed seven existing short-deadline cases; 114 unchanged-package cases retain only byte-verified evidence from the initial published full pass. A serialized diagnostic also failed six cases. See the [current limited evidence](../../../tests/evidence/R012-验证报告.md); this is not a current full-suite pass. / 字段修复后转发20项通过，末次全量7项失败，114项仅复用初次完整通过的相同源码对照；未放宽时限/清理规则。
 
 [完整字段/事件/限制/编号与接线细则](../../../../docs/技术开发/附录-固定路由协议转发核心实施细则.md)。生产准入、低权限引擎、SDK兼容矩阵、跨方言、工具、媒体、Sub2API抽取和内容加密仍待完成。
+
+
+R015 update: the original failed R012 attempts remain historical evidence; the latest complete source-validation report is [R015](../../../../dev/tests/evidence/R015-验证报告.md). The new confirmed-order resolver supplies configuration only, not this core's Authorizer/Grant. Production invocation intent, funds, call-count and lease integration remain pending.

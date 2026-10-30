@@ -2,7 +2,7 @@
   "version": "1.0-draft",
   "date": "2026-10-29",
   "source": "docs/白皮书/contracts/openapi-control-v3.0.json",
-  "canonical_api_sha256": "79650c91e74799d56f55d0a870b39f104fb2658b42a513a441e201a01b85d7f7",
+  "canonical_api_sha256": "23c8c85c0b42f120ce87aa911902ef2c8b099baea9bf62acc4a5fb6324ab7f33",
   "status": "DESIGN_UNIMPLEMENTED",
   "operations": [
     {
@@ -4198,7 +4198,13 @@
       "canonical_operation_sha256": "2650afef02c045551ee2c160bee8c71bdd482fc1191925296cf2686fa8953539",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "routeContracts",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "createRouteContract",
@@ -4263,7 +4269,13 @@
       "canonical_operation_sha256": "0ad4ca59a4df97d07321330cd3ba435c48c8933874bb57cfef58cc8f02ba5a52",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "routeContracts",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "getRouteContract",
@@ -4324,7 +4336,13 @@
       "canonical_operation_sha256": "8933f90c4fb5876870439f60643b9fb90bf524c5359c4a87365cf301a75d21c6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getRouteContract",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "listApiKeys",

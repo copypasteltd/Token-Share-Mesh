@@ -44,13 +44,23 @@ func SeedOffer(t *testing.T, ctx context.Context, db *persistence.DB, mode, regi
 // SeedOfferForSeller attaches synthetic approvals to an actual test login.
 // It is fixture-only and is never imported by a runtime command.
 func SeedOfferForSeller(t *testing.T, ctx context.Context, db *persistence.DB, mode, region string, p identity.Principal) Offer {
+	return seedOfferProfile(t, ctx, db, mode, region, p, "openai_nb1")
+}
+
+// SeedOfferForProtocol binds one explicit synthetic protocol across the listing,
+// capability, evidence and release. It never upgrades an existing qualification.
+func SeedOfferForProtocol(t *testing.T, ctx context.Context, db *persistence.DB, mode, region, protocol string) Offer {
+	return seedOfferProfile(t, ctx, db, mode, region, newBuyer(t, ctx, db), protocol)
+}
+
+func seedOfferProfile(t *testing.T, ctx context.Context, db *persistence.DB, mode, region string, p identity.Principal, protocol string) Offer {
 	t.Helper()
 	f := Offer{Seller: p, ID: ids.New("lst"), Device: ids.New("dev"), Resource: ids.New("res"), Capability: ids.New("cap"), Gate: ids.New("gate"), Release: ids.New("rel")}
 	execDB(t, ctx, db, `INSERT INTO p11.role_grants(id,user_id,role_code,scope_ref,granted_by) VALUES($1,$2,'SELLER','self',$2)`, ids.New("grant"), f.Seller.UserID)
 	execDB(t, ctx, db, `INSERT INTO p11.seller_profiles(id,state,legal_scope_ref,payee_binding_ref,approved_regions,display_name) VALUES($1,'APPROVED',$2,$3,ARRAY[$4],'个人卖家')`, f.Seller.UserID, ids.New("legal"), ids.New("payee"), region)
 	f.Seller.Roles = append(f.Seller.Roles, "SELLER")
 	bps := 500
-	f.Terms = market.Terms{SKU: ids.New("sku"), SellerDisplayName: "星河同学", Policy: market.Policy{Mode: mode, Privacy: "STANDARD", Region: region, Protocol: "openai_nb1", Acceptance: "accept_nb1", Disclosure: "disclosure_nb1"}, DeadlineSec: 3600,
+	f.Terms = market.Terms{SKU: ids.New("sku"), SellerDisplayName: "星河同学", Policy: market.Policy{Mode: mode, Privacy: "STANDARD", Region: region, Protocol: protocol, Acceptance: "accept_nb1", Disclosure: "disclosure_nb1"}, DeadlineSec: 3600,
 		Price:    pricing.Price{Version: pricing.Version, Currency: "CNY", Rounding: pricing.Rounding, CommissionBPS: &bps, ChannelCostOwner: "SELLER", FeePolicyVersion: "fee_nb1"},
 		Bindings: []market.Binding{{DeviceID: f.Device, CapabilityID: f.Capability, EnvironmentRef: ids.New("env"), EnvironmentDigest: strings.Repeat("b", 64)}},
 		Devices:  []market.DeviceDisplay{{DeviceID: f.Device, ModelName: "RTX 4090 24GB"}}}

@@ -208,16 +208,34 @@ R014_CASES = [(f'R014-TEST-{i:03d}', p, n, d) for i, (_, p, n, d) in enumerate(R
 ]
 
 
+R015_CASES = [(f'R015-TEST-{i:03d}', p, 'TestSupervisorShortRealLeaseNeverExecutesPastExpiry' if n == 'TestSupervisorRealDeadlineInterruptsPendingSubmission' else n, '150ms签名短租约：零提交安全拒绝或单次后端截止中止，禁止到期后迟交' if n == 'TestSupervisorRealDeadlineInterruptsPendingSubmission' else d) for i, (_, p, n, d) in enumerate(R014_CASES, 1)] + [
+    ('R015-TEST-157', 'tests/integration', 'TestRouteContractFreezesOriginalOrderAndConcurrentReplay', '原订单合同固定与12并发同键只建一份路由/事件'),
+    ('R015-TEST-158', 'tests/integration', 'TestRouteContractRejectsCrossOwnerAndChangedConfirmation', '跨买家、卖家、商品版本和策略改写拒绝'),
+    ('R015-TEST-159', 'tests/integration', 'TestRouteContractRequiresOriginalSettledEnvironmentAndNoRefund', '同单原付款、已结算、环境和退款门槛'),
+    ('R015-TEST-160', 'tests/integration', 'TestRouteContractBoundsDeadlineCapacityAndUnsupportedModes', '预算/次数/有效期边界及未实现模式拒绝'),
+    ('R015-TEST-161', 'tests/integration', 'TestRouteContractCurrentRevocationsAndReplayNeverRestoreActive', '当前撤销/关闭投影且旧键不恢复ACTIVE'),
+    ('R015-TEST-162', 'tests/integration', 'TestRouteSDKUsesOnlyKeyBoundModelAndExactProtocol', '标准SDK仅精确匹配key绑定模型和原协议'),
+    ('R015-TEST-163', 'tests/integration', 'TestRouteSDKAmbiguityIncludesUnavailableSellerAndNeverFailsOver', '同名歧义包含失效路由，禁止换卖家兜底'),
+    ('R015-TEST-164', 'tests/integration', 'TestRouteSDKRechecksKeyRoleOrderAndSellerRevocation', '事务内重查key、角色、卖家和原订单'),
+    ('R015-TEST-165', 'tests/integration', 'TestRouteSQLBindingsAreImmutableAndCannotCreateBareActiveRows', 'SQL固定路由/订单/支付绑定，空壳ACTIVE拒绝'),
+    ('R015-TEST-166', 'tests/integration', 'TestRouteListIsOwnedBoundedAndSharesOriginalBudgetCapacity', '本人有界分页和原订单共享预算保留'),
+    ('R015-TEST-167', 'tests/integration', 'TestRouteLegacyUpgradeQuarantinesWithoutInventingConsent', '007升级旧路由隔离，不推测确认/付款'),
+    ('R015-TEST-168', 'tests/integration', 'TestReadOnlyStartupMigrationVerificationRejectsMetadataDrift', 'API只读启动迁移校验拒绝缺失/漂移/未知版本'),
+    ('R015-TEST-169', 'api/tests', 'TestHTTPRouteContractsUseOriginalOrderScopedKeyAndSafeReplay', '真实HTTP原订单路由、scoped key和安全重放'),
+    ('R015-TEST-170', 'api/tests', 'TestHTTPRouteContractsRejectAmbiguousInputCursorAndMissingCSRF', '真实HTTP严格输入、认证/CSRF及游标签名边界'),
+]
+
+
 def main() -> None:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--round',default='R014',choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014'])
+    parser.add_argument('--round',default='R015',choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015'])
     round_id=parser.parse_args().round
-    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES,'R011':R011_CASES,'R012':R012_CASES,'R013':R013_CASES,'R014':R014_CASES}[round_id]
+    cases={'R003':R003_CASES,'R004':R004_CASES,'R005':R005_CASES,'R006':R006_CASES,'R007':R007_CASES,'R008':R008_CASES,'R009':R009_CASES,'R010':R010_CASES,'R011':R011_CASES,'R012':R012_CASES,'R013':R013_CASES,'R014':R014_CASES,'R015':R015_CASES}[round_id]
     summary = json.loads((EVIDENCE / f'{round_id}-native-summary.json').read_text(encoding='utf-8'))
     checks = json.loads((EVIDENCE / f'{round_id}-native-source-checks.json').read_text(encoding='utf-8'))
-    if round_id == 'R014' and summary.get('suite') != 'full':
-        raise ValueError('专项预算验证不能替代完整156项实际回归')
-    if round_id == 'R014' and ([x['id'] for x in summary.get('test_segments', [])] != ['core','web','miniapp'] or
+    if round_id in {'R014','R015'} and summary.get('suite') != 'full':
+        raise ValueError(f'专项验证不能替代完整{len(cases)}项实际回归')
+    if round_id in {'R014','R015'} and ([x['id'] for x in summary.get('test_segments', [])] != ['core','web','miniapp'] or
                               any(x['exit_code'] for x in summary['test_segments']) or
                               any(x.get('database_isolation') != 'FRESH_NATIVE_CHILD' or x.get('temporary_database_removed') is not True
                                   for x in summary['test_segments'][1:])):
@@ -236,7 +254,7 @@ def main() -> None:
     top = {k: v for k, v in results.items() if '/' not in k[1]}
     if set(top) != expected or any(event['Action'] != 'pass' for event in results.values()):
         raise ValueError(f'本轮{len(cases)}项实际用例必须齐全且无跳过/失败')
-    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014'}:
+    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015'}:
         for target in ['web', 'miniapp']:
             key = ('p11.local/compute/api/tests', 'TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder/' + target)
             if key not in results or results[key]['Action'] != 'pass': raise ValueError('双端实际浏览器子场景不可跳过')
@@ -246,7 +264,7 @@ def main() -> None:
         if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest:
             raise ValueError('源码已变化，不能复用旧构建证据')
     report = {
-        'round': round_id, 'status': 'PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY' if round_id in {'R012','R013','R014'} else 'PASSED_FOR_CONTROL_SERVICES_ONLY',
+        'round': round_id, 'status': 'PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY' if round_id in {'R012','R013','R014','R015'} else 'PASSED_FOR_CONTROL_SERVICES_ONLY',
         'database_run': summary['run_id'], 'temporary_instance_stopped': True,
         'virtualization_used': False, 'passed_cases': len(cases), 'failed_cases': 0, 'skipped_cases': 0,
         'product_acceptance_status': 'NOT_EXECUTED',
@@ -254,7 +272,7 @@ def main() -> None:
         'source_evidence': [f'dev/tests/evidence/{round_id}-native-summary.json', f'dev/tests/evidence/{round_id}-native-go-tests.jsonl', f'dev/tests/evidence/{round_id}-native-source-checks.json'],
         'limitations': ['OAuth uses independently signed synthetic responses; no real Alipay channel or seller/device integration', 'No GPU, Android, real payment, crypto interoperability, independent review or whole-product acceptance', 'Linux admin/API commands cross-compiled only, no Linux runtime validation', 'Not a crash or power-loss durability test; no Go race-detector claim', 'Seller/listing approvals and browser device heartbeats are synthetic, no runtime self-approval; provider pairing UI, complete native key stores/daemons and actual device qualification remain pending'],
     }
-    if round_id in {'R008','R009','R010','R011','R012','R013','R014'}:
+    if round_id in {'R008','R009','R010','R011','R012','R013','R014','R015'}:
         report['limitations'][2] = 'Linux admin/API/node commands cross-compiled only; Linux Secret Service protocol fixtures do not validate a real Linux keyring'
         report['limitations'][3] = 'Windows process-termination recovery is exercised; no power-loss durability or Go race-detector claim'
         report['limitations'][-1] = 'Windows DPAPI/control agent is exercised; Linux Secret Service uses protocol fixtures and cross-compilation only. No GPU, engine execution, job inbox, content encryption or native Alipay acceptance.'
@@ -268,30 +286,36 @@ def main() -> None:
         report['limitations'].append('Adapter observations/cancellation/cleanup are synthetic and must not qualify hardware. Adapter implementations must honor bounded contexts and authoritative original-key query/cancel semantics; no malicious-adapter containment or timing/performance acceptance is claimed.')
         report['limitations'].append('Current 21 shared TS cases and all three frontend builds are rerun after the provider-loading fix; the held-recovery navigation regression runs on both browser targets. H5 is not native Alipay acceptance.')
         report['development_attempts'] = ['dev/tests/evidence/R011-native-summary-attempt1.json', 'dev/tests/evidence/R011-native-go-tests-attempt1.jsonl', 'dev/tests/evidence/R011-web-browser-attempt1.json', 'dev/tests/evidence/R011-development-attempts.json']
-    if round_id in {'R012','R013','R014'}:
+    if round_id in {'R012','R013','R014','R015'}:
         report['limitations'][-1] = 'Native forwarding uses only loopback synthetic HTTP backends and explicit admission/secret fixtures. No production route/funding/lease gate, SDK compatibility certification, real engine stop, content E2E, paid model or billable usage evidence.'
         report['limitations'].append('Three native text profiles only; no cross-dialect conversion, tools, media or Sub2API code extraction. Prior frontend TS/build receipts are reused after exact source/output/log hash checks; both current browser journeys rerun with the current native binary.')
         report['development_attempts'] = ['dev/tests/evidence/R012-development-attempts.json','dev/tests/evidence/R012-native-go-tests-attempt1.jsonl','dev/tests/evidence/R012-native-summary-attempt1.json','dev/tests/evidence/R012-stale-sweep-before-fix.jsonl','dev/tests/evidence/R012-targeted-after-fix.jsonl','dev/tests/evidence/R012-field-whitelist-before-fix.jsonl','dev/tests/evidence/R012-field-whitelist-after-fix.jsonl']
     if round_id == 'R013':
         report['development_attempts'] = ['dev/tests/evidence/R013-deadlines-before-fix.jsonl','dev/tests/evidence/R013-deadlines-after-fix-attempt1.jsonl','dev/tests/evidence/R013-deadlines-after-fix-attempt2.jsonl','dev/tests/evidence/R013-deadlines-after-fix-attempt3.jsonl','dev/tests/evidence/R013-deadlines-after-fix-attempt4.jsonl','dev/tests/evidence/R013-deadlines-after-fix.jsonl','dev/tests/evidence/R013-completed-owner-wakeup-before-fix.jsonl','dev/tests/evidence/R013-native-go-tests-attempt1.jsonl','dev/tests/evidence/R013-native-summary-attempt1.json','dev/tests/evidence/R013-development-attempts.json']
         report['limitations'].append('Metadata I/O has a separate per-operation 2s default (20ms–5s), bounded by shutdown deadlines. Backend call/lease/cleanup gates are not relaxed; no hard real-time or latency benchmark acceptance.')
-    (EVIDENCE / f'{round_id}-验证报告.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     text = f'# {round_id} 原生源码验证报告\n\n仅已列明的控制应用、端侧元数据、监督与协议转发源码子集通过：{len(cases)}项用例通过，实际用例无失败/跳过；临时原生数据库已停止。完整平台80项主验收仍为 NOT_EXECUTED。\n\n'
     text += '| 用例编号 | 验证内容 | 结果 |\n| --- | --- | --- |\n'
     for code, _, _, description in cases:
         text += f'| {code} | {description} | PASSED |\n'
     text += '\n原生 PostgreSQL 实例：`' + summary['run_id'] + '`；关闭方式：`' + summary['shutdown_mode'] + '`。实例与工具均在项目 runtime，无本地虚拟化。\n\n'
-    if round_id == 'R014':
+    if round_id in {'R014','R015'}:
         report['test_segments'] = summary['test_segments']
         report['case_inventory'] = summary['case_inventory']
         report['limitations'].append('Order capacity is not a wallet, payment authorization, route/lease admission or GPU release. Qualifications and READY/usage/rental facts are explicitly synthetic; production qualified-source generation and integration remain pending. Legacy budget rows remain fully held, including old RELEASED/CONSUMED states.')
-        report['development_attempts'] = ['dev/tests/evidence/R014-development-attempts.json','dev/tests/evidence/R014-migration-immutability.json']
-    commands = 'admin/API/node' if round_id in {'R008','R009','R010','R011','R012','R013','R014'} else 'admin/API'
+        report['development_attempts'] = [f'dev/tests/evidence/{round_id}-development-attempts.json',f'dev/tests/evidence/{round_id}-migration-immutability.json']
+    if round_id == 'R015':
+        report['limitations'].append('Confirmed original-order route configuration and exact scoped-key model resolution are implemented; durable invocation/call accounting, atomic budget/funds/lease admission, route UI and real channel confirmation remain pending. All SETTLED/READY and seller/device qualifications are explicit synthetic fixtures.')
+    if round_id == 'R015':
+        lease_paths = [event.get('Output', '').strip() for event in (json.loads(line) for line in events.read_text(encoding='utf-8').splitlines()) if event.get('Test') == 'TestSupervisorShortRealLeaseNeverExecutesPastExpiry' and event.get('Action') == 'output' and any(marker in event.get('Output', '') for marker in ['ZERO_SUBMIT_SAFE_REJECTION', 'ONE_SUBMIT_BOUNDED_BY_SIGNED_EXPIRY'])]
+        if len(lease_paths) != 1:
+            raise ValueError('短签名租约必须有实际零提交/截止中止分支证据')
+        report['short_real_lease_observed_path'] = lease_paths[0]
+    commands = 'admin/API/node' if round_id in {'R008','R009','R010','R011','R012','R013','R014','R015'} else 'admin/API'
     text += f'Go 依赖校验、格式检查、vet及 Windows/Linux amd64 {commands}命令构建均通过；Linux仅交叉编译。依赖版本/许可清单只覆盖当前Go模块，不是全平台SBOM。\n\n'
     text += f'- [Go/数据库实际事件]({round_id}-native-go-tests.jsonl)\n- [实例退出与范围]({round_id}-native-summary.json)\n- [构建、源码摘要与依赖校验]({round_id}-native-source-checks.json)\n- [Go依赖与许可证](../../licenses/go-dependencies.json)\n\n'
     text += '本轮实际覆盖原生HTTP/会话/CSRF，但仅通过签名合成渠道响应；未覆盖真实支付宝授权、GPU、Android、资金渠道、密码互通、独立评审、性能和完整产品主验收；不声称Go race detector或断电恢复通过。测试资格均为显式写入临时数据库的合成夹具，不能作为真实开售证据。\n\n'
-    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014'}:
-        text += f'第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有{21 if round_id in {'R009','R010','R011','R012','R013','R014'} else 13}项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查]({round_id}-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
+    if round_id in {'R006','R007','R008','R009','R010','R011','R012','R013','R014','R015'}:
+        text += f'第45项包含实际React Web/Taro H5两个浏览器子场景：连接真正HTTP/临时PostgreSQL，主动丢弃已提交建单回执，刷新后以原键原参数恢复，数据库各仅一单及一条OrderCreated。授权/资格/设备心跳为合成夹具，H5不代表支付宝原生容器。测试包顺序执行，各用例内真实并发保留，业务锁等待和设备45秒在线规则不放宽。另有{21 if round_id in {'R009','R010','R011','R012','R013','R014','R015'} else 13}项共享TS用例、三目标编译与真实媒体证据，见[当前前端检查]({round_id}-frontend-checks.json)。迁移用例增加真正持锁3.5秒后的双并发准入回归；旧SQL原字节不改。\n\n'
     if round_id == 'R008':
         text += '第61—72项新增原生提供方控制代理：实际Windows DPAPI/ACL、进程强制终止后的OS锁与原命令恢复，以及真实HTTP/临时PG丢登记和心跳回执验证。另以当前编译出的Windows二进制独立运行init、status和未登记heartbeat三个命令，跨进程身份不变且未登记心跳被拒绝，所有命令进程已退出，见[实际CLI记录](R008-native-node-cli.json)。Linux Secret Service只经过线协议夹具与交叉编译，未实测真实Linux钥库；这里的控制状态加密不是客户内容端对端加密。\n\n'
     if round_id == 'R009':
@@ -305,6 +329,9 @@ def main() -> None:
         text += '新增第114—133项为实际原生HTTP与合成后端的转发用例：固定卖家/合同、三种文本方言、严格输入、流终态、取消/截止/受阻写入与无重试。准入/凭据均为显式夹具，不发布模型入口，不证明GPU停算、计费、SDK认证或E2E。前端21项TS及三目标构建只经摘要复核复用，双端浏览器与当前Windows节点命令重新运行。第134项确定性复现并修复清理完成后旧快照ErrFence误判退出失败，未放宽清理证据/CAS或时限。既有115/126项中的请求/响应负向用例补充含分隔符伪字段，白名单逐完整名称相等比较，不使用子串近似。开发夹具超时、原完整失败和修正见[R012失败留档](R012-development-attempts.json)。\n\n'
     if round_id == 'R013':
         text += 'R013新增135—140项：取消元数据排队不破坏健康账证、事务耗时不延租、实际backend截止不晚于原签名、独立元数据I/O预算与分步骤预算。初始五项与新增完成唤醒负向复现全部失败并保留，修复后逐项重跑；原150毫秒租约与后端调用上限未放宽。元数据预算新设默认2秒，与后端预算分离，并受退出绝对截止约束；这不是PE/LP或硬实时验收。\n\n'
+    if round_id == 'R015':
+        text += 'R015新增157—170项：原订单/同单支付路由、三个本人HTTP接口、scoped key精确模型/方言解析、失效/歧义无换卖家、共享容量、007历史隔离和只读启动迁移校验。配置不产生执行权或资金证明；调用签发/次数记账、实际支付/推理及E2E仍待。完整170项采用核心/Web/H5三个原生独立进程，双端各用全新独立原生数据库并在结束删除，全部原始事件无失败/用例跳过才可汇总。专项夹具失败、首轮完整失败及短租约诊断均留档，未降低业务/页面/租期/清理时限。\n\n'
+        text += '150ms短签名租约本次实际分支：`' + report['short_real_lease_observed_path'] + '`。零提交拒绝不冒称执行过后端；另一独立4秒用例检查实际适配器context截止。两次完整失败、三次专项夹具失败及独立诊断均见[R015开发留档](R015-development-attempts.json)；本次完整通过不证明已排除全部时序稳定性风险。\n\n'
     if round_id == 'R014':
         text += 'R014新增141—156项：订单容量预留、已资格化实际费用/零额释放、同purpose幂等、未知保留、并发/回滚/旧快照及原生升级。006仅前向追加8列与约束，001—005和端侧DDL原字节保留；历史任何状态预算均全额标为未核实占用，超出原订单上限则整笔迁移失败。预算不是渠道冻结/付款/钱包/执行权，可信资格生产器、资金/路由准入和真实硬件仍待接入。\n\n'
         text += '完整回归按核心、Web、H5三个独立Go进程顺序执行，双端各用独立迁移并结束删除的原生临时数据库，仍覆盖全部156个唯一顶层用例及双端子场景；浏览器父用例按所选子场景分别执行。各分组实际参数与退出码见原生实例摘要。此隔离修正旧API测试进程共用220秒上下文、录制后误伤后续夹具的问题，未放宽页面、SQL、执行租期、后端、清理或240秒包级时限。原始事件中任一次失败/用例跳过都拒绝汇总，不能由后续同名父项覆盖。152通过/4失败及其后155通过/页面夹具污染失败的开发记录、之前的编译/监督失败和夹具失败均保留。\n\n'
@@ -312,8 +339,9 @@ def main() -> None:
     for path in attempts:
         old=json.loads(path.read_text(encoding='utf-8'))
         text+=f'- 历次验证记录：[{path.name}]({path.name})；测试退出{old["test_exit_code"]}；临时实例停止={old["temporary_instance_stopped"]}。\n'
+    (EVIDENCE / f'{round_id}-验证报告.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     (EVIDENCE / f'{round_id}-验证报告.md').write_text(text.rstrip() + '\n', encoding='utf-8')
-    print(json.dumps({'round': round_id, 'passed': len(cases), 'scope': 'CONTROL_AND_RELAY_SUBSET_ONLY' if round_id in {'R012','R013','R014'} else 'CONTROL_SERVICES_ONLY'}, ensure_ascii=False))
+    print(json.dumps({'round': round_id, 'passed': len(cases), 'scope': 'CONTROL_AND_RELAY_SUBSET_ONLY' if round_id in {'R012','R013','R014','R015'} else 'CONTROL_SERVICES_ONLY'}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

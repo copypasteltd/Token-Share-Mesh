@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 136,
+  "catalog_statements": 146,
   "base_table_count": 60,
   "tables": [
     {
@@ -4053,6 +4053,72 @@
               "initially_deferred": false
             }
           ]
+        },
+        {
+          "name": "binding_profile",
+          "sql": "binding_profile text NOT NULL DEFAULT 'LEGACY_UNVERIFIED' CHECK (binding_profile IN ('LEGACY_UNVERIFIED', 'CONFIRMED_ROUTE_1'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "binding_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'LEGACY_UNVERIFIED'",
+              "columns": [
+                "binding_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (binding_profile IN ('LEGACY_UNVERIFIED', 'CONFIRMED_ROUTE_1'))",
+              "columns": [
+                "binding_profile"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ],
+          "source": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql"
+        },
+        {
+          "name": "definition",
+          "sql": "definition jsonb",
+          "type": "jsonb",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql"
+        },
+        {
+          "name": "order_snapshot",
+          "sql": "order_snapshot jsonb",
+          "type": "jsonb",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql"
+        },
+        {
+          "name": "payment_id",
+          "sql": "payment_id p11.entity_id",
+          "type": "p11.entity_id",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql"
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz",
+          "type": "timestamptz",
+          "constraints": [],
+          "source": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql"
         }
       ],
       "constraints": [
@@ -4073,7 +4139,34 @@
             "buyer_id",
             "seller_id"
           ]
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": "route_payment_order",
+          "sql": "CONSTRAINT route_payment_order FOREIGN KEY (payment_id, order_id) REFERENCES p11.payments (id, order_id)",
+          "columns": [
+            "payment_id",
+            "order_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "payments",
+          "target_columns": [
+            "id",
+            "order_id"
+          ]
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": "route_definition_shape",
+          "sql": "CONSTRAINT route_definition_shape CHECK ((binding_profile = 'LEGACY_UNVERIFIED' AND definition IS NULL AND order_snapshot IS NULL AND payment_id IS NULL AND created_at IS NULL) OR (binding_profile = 'CONFIRMED_ROUTE_1' AND definition IS NOT NULL AND jsonb_typeof(definition) = 'object' AND order_snapshot IS NOT NULL AND jsonb_typeof(order_snapshot) = 'object' AND payment_id IS NOT NULL AND created_at IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
         }
+      ],
+      "alter_sources": [
+        "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql"
       ]
     },
     {
@@ -17013,6 +17106,23 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "route_contracts",
+      "kind": "CONSTR_FOREIGN",
+      "name": "route_payment_order",
+      "sql": "CONSTRAINT route_payment_order FOREIGN KEY (payment_id, order_id) REFERENCES p11.payments (id, order_id)",
+      "columns": [
+        "payment_id",
+        "order_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "payments",
+      "target_columns": [
+        "id",
+        "order_id"
+      ]
     }
   ],
   "indexes": [
@@ -17081,6 +17191,18 @@
       "table": "device_request_nonces",
       "unique": false,
       "sql": "CREATE INDEX device_request_nonces_expiry ON p11.device_request_nonces (expires_at)"
+    },
+    {
+      "name": "one_confirmed_route_per_order",
+      "table": "route_contracts",
+      "unique": true,
+      "sql": "CREATE UNIQUE INDEX one_confirmed_route_per_order ON p11.route_contracts (order_id) WHERE binding_profile = 'CONFIRMED_ROUTE_1'"
+    },
+    {
+      "name": "route_buyer_cursor",
+      "table": "route_contracts",
+      "unique": false,
+      "sql": "CREATE INDEX route_buyer_cursor ON p11.route_contracts (buyer_id, id)"
     }
   ],
   "forward_migrations": [
@@ -17148,6 +17270,24 @@
         "UpdateStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/007_confirmed_route_contracts.sql",
+      "source_sha256": "2b3406b5678ba6db23ae5c2845eb3b4bf76e36a259546ec673d99d8d1b0fede9",
+      "statement_count": 10,
+      "statement_types": [
+        "AlterTableStmt",
+        "UpdateStmt",
+        "IndexStmt",
+        "IndexStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt"

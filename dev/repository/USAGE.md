@@ -377,3 +377,8 @@ Heartbeat sequence is a canonical decimal string 0–18446744073709551615, stric
 See [complete control constraints](../../docs/技术开发/附录-设备配对身份与控制协议实施约束.md), [R007 evidence](../tests/evidence/R007-验证报告.md) and [all remaining work](../progress/R007-本轮实现与完整待办.md). No real GPU, phone, channel or funds are enabled by these checks.
 
 见以上完整协议、实际局部证据与全部待办；不因此开启真实GPU、手机、渠道或资金操作。
+
+
+## R015 confirmed-route control / 已确认路由控制
+
+R015新增已确认订单路由与标准SDK key绑定：明确原订单/同单支付引用，固定个人卖家、商品版本、模型、文本协议、价格、预算、次数上限和有效期。三个本人控制接口使已实现操作增至34/93；ResolveTx仅在key绑定范围内精确解析，同名歧义/失效/协议误配拒绝，不跨卖家兜底。007只追加5列，旧路由隔离；API启动改为核对所有内嵌迁移登记。当前只实现PLAINTEXT/STANDARD及三种native文本profile，路由不是执行或资金授权，调用签发/次数记账、真实付款、E2E和UI路由配置仍待完成。见[RC-001—022](../../docs/技术开发/附录-已确认订单路由与标准SDK绑定实施细则.md)、[R015实际证据](../../dev/tests/evidence/R015-验证报告.md)及[全部56任务/222未收口子项](../../dev/progress/R015-本轮实现与完整待办.md)。

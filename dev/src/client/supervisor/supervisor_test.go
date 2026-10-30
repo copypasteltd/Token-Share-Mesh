@@ -599,7 +599,7 @@ func TestSupervisorSignedRenewalKeepsOriginalBackend(t *testing.T) {
 	finish(t, cancel, done, nil)
 }
 
-func TestSupervisorRealDeadlineInterruptsPendingSubmission(t *testing.T) {
+func TestSupervisorShortRealLeaseNeverExecutesPastExpiry(t *testing.T) {
 	f := newFixture(t)
 	f.store.Close()
 	var e error
@@ -607,26 +607,50 @@ func TestSupervisorRealDeadlineInterruptsPendingSubmission(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
-	f.clock.mu.Lock()
-	f.clock.stamp.Wall = time.Now().UTC()
-	f.clock.mu.Unlock()
-	l := f.lease(t, "lease_one").Details()
-	l.Expires = f.clock.Sample().Wall.Add(150 * time.Millisecond).Format(time.RFC3339Nano)
-	b := newBackend()
+	b := &deadlineBackend{backend: newBackend()}
 	b.blockSubmit = true
 	s, e := New(f.store, []Registration{{strings.Repeat("2", 64), "cap_test", strings.Repeat("1", 64), b}}, Options{Poll: 10 * time.Millisecond, CallTimeout: time.Second, ShutdownTimeout: time.Second})
 	if e != nil {
 		t.Fatal(e)
 	}
 	cancel, done := launch(t, s)
+	// Start the watchdog and SQLite before issuing the short lease. A slow
+	// host can still exhaust the 150ms lease during admission; that must reject
+	// with zero Submit calls rather than count as a failed engine cancellation.
+	f.clock.mu.Lock()
+	f.clock.stamp.Wall = time.Now().UTC()
+	f.clock.mu.Unlock()
+	l := f.lease(t, "lease_one").Details()
+	expires := f.clock.Sample().Wall.Add(150 * time.Millisecond)
+	l.Expires = expires.Format(time.RFC3339Nano)
 	started := time.Now()
-	if _, e = s.Submit(context.Background(), "command_one", sign(t, l, f.clock.Sample().Wall)); !errors.Is(e, ErrUnknown) {
-		t.Fatal(e)
-	}
-	if time.Since(started) > 800*time.Millisecond {
-		t.Fatal("submission used call timeout beyond signed expiry")
+	_, e = s.Submit(context.Background(), "command_one", sign(t, l, f.clock.Sample().Wall))
+	n, _, _, _ := b.counts()
+	if n == 0 {
+		if !errors.Is(e, execution.ErrRecovery) && !errors.Is(e, ErrUnknown) && !errors.Is(e, executionlease.ErrLease) {
+			t.Fatal(e)
+		}
+		if errors.Is(e, executionlease.ErrLease) && time.Now().Before(expires) {
+			t.Fatal("valid original lease rejected before its expiry", e)
+		}
+		await(t, func() bool { return !time.Now().Before(expires) })
+		t.Log("ZERO_SUBMIT_SAFE_REJECTION: short lease could not authorize backend work")
+	} else {
+		if n != 1 || !errors.Is(e, ErrUnknown) {
+			t.Fatal("unexpected side effects", n, e)
+		}
+		if b.deadline.IsZero() || b.deadline.After(expires) {
+			t.Fatal("backend deadline exceeded signed expiry")
+		}
+		if time.Since(started) > 800*time.Millisecond {
+			t.Fatal("submission used call timeout beyond signed expiry")
+		}
+		t.Log("ONE_SUBMIT_BOUNDED_BY_SIGNED_EXPIRY")
 	}
 	await(t, func() bool { return f.phase() == "FREE" })
+	if after, _, _, _ := b.counts(); after != n {
+		t.Fatal("late or repeated backend Submit after expiry")
+	}
 	finish(t, cancel, done, nil)
 }
 

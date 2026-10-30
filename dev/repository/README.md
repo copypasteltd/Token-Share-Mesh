@@ -26,3 +26,8 @@ links resolve from the repository root after generation. Run
 两份 `.md.in` 为人工维护源，链接以生成后的仓库根为基准。不要只改单语输出；通过生成器同时刷新两种语言及真实进度统计。
 
 [R012 fixed-route relay / 固定路由协议核](../../docs/技术开发/附录-固定路由协议转发核心实施细则.md) · [source / 源码](../src/gateway/core/README.md)：三种原生文本子集及生产端口/SDK/硬件/E2E剩余门槛。
+
+
+## R015 confirmed-route control / 已确认路由控制
+
+R015 adds confirmed original-order routes and scoped standard-SDK keys. Three owner-session control operations bring the implemented count to 34/93; routes freeze the original seller, listing revision, model, text protocol, price, budget, call ceiling and expiry. ResolveTx selects exactly one key-bound model/profile and rejects ambiguity, revocation or mismatch without seller failover. Forward-only 007 adds five columns and quarantines legacy routes; API startup verifies every embedded migration record. Only PLAINTEXT/STANDARD and the three native text profiles are implemented. Resolution grants no funds or execution; durable invocation/call accounting, real payments, E2E and route-configuration UI remain pending. See [RC-001–022](../../docs/技术开发/附录-已确认订单路由与标准SDK绑定实施细则.md), [R015 source evidence](../../dev/tests/evidence/R015-验证报告.md) and [all 56 tasks / 222 open steps](../../dev/progress/R015-本轮实现与完整待办.md).

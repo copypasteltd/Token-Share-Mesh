@@ -29,6 +29,7 @@
     "used_calls": 0,
     "contract_hash": "1111111111111111111111111111111111111111111111111111111111111111",
     "definition": {
+      "confirmed_order_id": "order_demo_01",
       "seller_id": "seller_demo_01",
       "listing_id": "listing_demo_01",
       "listing_revision": 1,

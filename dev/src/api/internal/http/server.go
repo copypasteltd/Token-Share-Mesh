@@ -19,6 +19,7 @@ import (
 	"p11.local/compute/internal/dispatch/device"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
+	"p11.local/compute/internal/routecontract"
 	"p11.local/compute/internal/seller"
 	"p11.local/compute/internal/trade"
 	"p11.local/compute/shared/fault"
@@ -43,6 +44,7 @@ type Config struct {
 	Trade                            trade.Service
 	Seller                           seller.Service
 	Devices                          device.Service
+	Routes                           routecontract.Service
 }
 type Server struct {
 	c                          Config
@@ -84,6 +86,9 @@ func New(c Config) (*Server, error) {
 	}
 	if s.c.Devices.DB == nil {
 		s.c.Devices.DB = c.Trade.DB
+	}
+	if s.c.Routes.DB == nil {
+		s.c.Routes.DB = c.Trade.DB
 	}
 	if c.RequestsPerMinute <= 0 {
 		s.c.RequestsPerMinute = 120

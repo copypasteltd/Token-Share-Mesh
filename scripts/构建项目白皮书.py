@@ -87,7 +87,7 @@ def make_examples() -> dict:
     route_policy = {**policy, "service_mode": "E2E", "privacy_profile": "PLATFORM_BLIND"}
     route = {"route_id": "route_demo_01", "buyer_id": "buyer_demo_01", "version": 1, "state": "ACTIVE",
         "remaining_budget_fen": 500, "used_calls": 0, "contract_hash": "1" * 64,
-        "definition": {"seller_id": "seller_demo_01", "listing_id": "listing_demo_01", "listing_revision": 1,
+        "definition": {"confirmed_order_id": "order_demo_01", "seller_id": "seller_demo_01", "listing_id": "listing_demo_01", "listing_revision": 1,
             "policy": route_policy, "budget_per_call_fen": 50, "total_budget_fen": 500, "max_call_count": 10,
             "expires_at": "2026-10-29T12:00:00Z", "purchase_authorization_ref": "auth_demo_01",
             "recipient_id": "recipient_demo_01", "recipient_key_hash": "2" * 64}}

@@ -1,0 +1,36 @@
+{
+  "round": "R015",
+  "suite": "route",
+  "run_id": "20261030T102155Z-ed663f56",
+  "postgresql": "17.11-5",
+  "test_exit_code": 1,
+  "temporary_instance_stopped": true,
+  "virtualization_used": false,
+  "package_parallelism": 1,
+  "intra_test_concurrency_retained": true,
+  "test_segments": [
+    {
+      "id": "route",
+      "arguments": [
+        "test",
+        "-json",
+        "-count=1",
+        "-p=1",
+        "-timeout=240s",
+        "-run",
+        "^TestRoute|^TestReadOnlyStartup|^TestHTTPRoute",
+        "./tests/integration",
+        "./api/tests"
+      ],
+      "exit_code": 1,
+      "database_isolation": "CORE",
+      "temporary_database_removed": null
+    }
+  ],
+  "case_inventory": "Unique top-level test IDs; R014 browser parent runs separately for each selected child",
+  "shutdown_mode": "FAST",
+  "runner_error": null,
+  "cleanup_error": null,
+  "evidence": "dev/tests/evidence/R015-route-native-go-tests.jsonl",
+  "scope": "Budget tests only; NOT full-round evidence. Native PostgreSQL and Go source tests only; no GPU, Android, real payment or full product acceptance; not a power-loss durability test"
+}

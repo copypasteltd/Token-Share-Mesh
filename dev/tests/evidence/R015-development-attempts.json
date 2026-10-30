@@ -1,0 +1,291 @@
+{
+  "round": "R015",
+  "status": "DEVELOPMENT_ATTEMPTS_RETAINED_NOT_ACCEPTANCE",
+  "virtualization_used": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "suite": "ROUTE_ONLY_NOT_FULL_EVIDENCE",
+      "passed": [
+        "TestHTTPRouteContractsRejectAmbiguousInputCursorAndMissingCSRF",
+        "TestHTTPRouteContractsUseOriginalOrderScopedKeyAndSafeReplay",
+        "TestReadOnlyStartupMigrationVerificationRejectsMetadataDrift",
+        "TestRouteContractBoundsDeadlineCapacityAndUnsupportedModes",
+        "TestRouteContractCurrentRevocationsAndReplayNeverRestoreActive",
+        "TestRouteContractFreezesOriginalOrderAndConcurrentReplay",
+        "TestRouteContractRejectsCrossOwnerAndChangedConfirmation",
+        "TestRouteLegacyUpgradeQuarantinesWithoutInventingConsent",
+        "TestRouteSDKAmbiguityIncludesUnavailableSellerAndNeverFailsOver",
+        "TestRouteSDKRechecksKeyRoleOrderAndSellerRevocation",
+        "TestRouteSDKUsesOnlyKeyBoundModelAndExactProtocol",
+        "TestRouteSQLBindingsAreImmutableAndCannotCreateBareActiveRows"
+      ],
+      "failed": [
+        "TestRouteContractRequiresOriginalSettledEnvironmentAndNoRefund",
+        "TestRouteListIsOwnedBoundedAndSharesOriginalBudgetCapacity"
+      ],
+      "note": "Negative fixture tried to rewrite immutable payment fields; a failed explicit test transaction also delayed package cleanup. Another fixture reused one parameter for entity_id and text. No production guard was weakened.",
+      "temporary_instance_stopped": true,
+      "files": [
+        {
+          "path": "dev/tests/evidence/R015-route-native-go-tests-attempt1.jsonl",
+          "sha256": "2d2fd2170f638edce116a8f1146da3cc527b173f3f27b540e2e6b09345cf2aa8"
+        },
+        {
+          "path": "dev/tests/evidence/R015-route-native-summary-attempt1.json",
+          "sha256": "a857323beb7cf2fbb40b28deda9aaf36e5667f99e92daaeeeb011d7faf277317"
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "suite": "ROUTE_ONLY_NOT_FULL_EVIDENCE",
+      "passed": [
+        "TestHTTPRouteContractsRejectAmbiguousInputCursorAndMissingCSRF",
+        "TestHTTPRouteContractsUseOriginalOrderScopedKeyAndSafeReplay",
+        "TestReadOnlyStartupMigrationVerificationRejectsMetadataDrift",
+        "TestRouteContractBoundsDeadlineCapacityAndUnsupportedModes",
+        "TestRouteContractCurrentRevocationsAndReplayNeverRestoreActive",
+        "TestRouteContractFreezesOriginalOrderAndConcurrentReplay",
+        "TestRouteContractRejectsCrossOwnerAndChangedConfirmation",
+        "TestRouteLegacyUpgradeQuarantinesWithoutInventingConsent",
+        "TestRouteListIsOwnedBoundedAndSharesOriginalBudgetCapacity",
+        "TestRouteSDKAmbiguityIncludesUnavailableSellerAndNeverFailsOver",
+        "TestRouteSDKRechecksKeyRoleOrderAndSellerRevocation",
+        "TestRouteSDKUsesOnlyKeyBoundModelAndExactProtocol",
+        "TestRouteSQLBindingsAreImmutableAndCannotCreateBareActiveRows"
+      ],
+      "failed": [
+        "TestRouteContractRequiresOriginalSettledEnvironmentAndNoRefund"
+      ],
+      "note": "Independent negative-payment fixture still duplicated a live order payment purpose; corrected to own original orders with closed prior synthetic facts.",
+      "temporary_instance_stopped": true,
+      "files": [
+        {
+          "path": "dev/tests/evidence/R015-route-native-go-tests-attempt2.jsonl",
+          "sha256": "6fcda5cfe76ec75754a8092f398819f29f8e21d2e034a89e7241672e38bd6338"
+        },
+        {
+          "path": "dev/tests/evidence/R015-route-native-summary-attempt2.json",
+          "sha256": "c82c22ecc94c13911ae52b95915c35bbab8f692b2988c09571c93a2b7c9e45c0"
+        }
+      ]
+    },
+    {
+      "attempt": 3,
+      "suite": "ROUTE_ONLY_NOT_FULL_EVIDENCE",
+      "passed": [
+        "TestHTTPRouteContractsRejectAmbiguousInputCursorAndMissingCSRF",
+        "TestHTTPRouteContractsUseOriginalOrderScopedKeyAndSafeReplay",
+        "TestReadOnlyStartupMigrationVerificationRejectsMetadataDrift",
+        "TestRouteContractBoundsDeadlineCapacityAndUnsupportedModes",
+        "TestRouteContractCurrentRevocationsAndReplayNeverRestoreActive",
+        "TestRouteContractFreezesOriginalOrderAndConcurrentReplay",
+        "TestRouteContractRejectsCrossOwnerAndChangedConfirmation",
+        "TestRouteLegacyUpgradeQuarantinesWithoutInventingConsent",
+        "TestRouteListIsOwnedBoundedAndSharesOriginalBudgetCapacity",
+        "TestRouteSDKAmbiguityIncludesUnavailableSellerAndNeverFailsOver",
+        "TestRouteSDKRechecksKeyRoleOrderAndSellerRevocation",
+        "TestRouteSDKUsesOnlyKeyBoundModelAndExactProtocol",
+        "TestRouteSQLBindingsAreImmutableAndCannotCreateBareActiveRows"
+      ],
+      "failed": [
+        "TestRouteContractRequiresOriginalSettledEnvironmentAndNoRefund"
+      ],
+      "note": "Synthetic negative channel references duplicated an existing unique provider/environment reference; corrected to unique per-fixture references.",
+      "temporary_instance_stopped": true,
+      "files": [
+        {
+          "path": "dev/tests/evidence/R015-route-native-go-tests-attempt3.jsonl",
+          "sha256": "19fbc7b64f0bab5b55ed453c79a863b16fe22b262eebc4581031ca6a01d25637"
+        },
+        {
+          "path": "dev/tests/evidence/R015-route-native-summary-attempt3.json",
+          "sha256": "671a4991206e50226ac20e350d3d653e46ba3813218a96206eaffee5f81a6be9"
+        }
+      ]
+    }
+  ],
+  "final_full_evidence": "dev/tests/evidence/R015-native-go-tests.jsonl",
+  "qualification": "READY/SETTLED and all seller/device qualifications are synthetic disposable-database facts; no real payment, GPU, phone or model",
+  "full_attempts": [
+    {
+      "attempt": 1,
+      "unique_passed": 168,
+      "failed": [
+        "TestRouteContractCurrentRevocationsAndReplayNeverRestoreActive",
+        "TestSupervisorRealDeadlineInterruptsPendingSubmission"
+      ],
+      "test_segments": [
+        {
+          "id": "core",
+          "arguments": [
+            "test",
+            "-json",
+            "-count=1",
+            "-p=1",
+            "-timeout=240s",
+            "-skip",
+            "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$",
+            "./..."
+          ],
+          "exit_code": 1,
+          "database_isolation": "CORE",
+          "temporary_database_removed": null
+        },
+        {
+          "id": "web",
+          "arguments": [
+            "test",
+            "-json",
+            "-count=1",
+            "-p=1",
+            "-timeout=240s",
+            "-run",
+            "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^web$",
+            "./api/tests"
+          ],
+          "exit_code": 0,
+          "database_isolation": "FRESH_NATIVE_CHILD",
+          "temporary_database_removed": true
+        },
+        {
+          "id": "miniapp",
+          "arguments": [
+            "test",
+            "-json",
+            "-count=1",
+            "-p=1",
+            "-timeout=240s",
+            "-run",
+            "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^miniapp$",
+            "./api/tests"
+          ],
+          "exit_code": 0,
+          "database_isolation": "FRESH_NATIVE_CHILD",
+          "temporary_database_removed": true
+        }
+      ],
+      "temporary_instance_stopped": true,
+      "files": [
+        {
+          "path": "dev/tests/evidence/R015-native-go-tests-attempt1.jsonl",
+          "sha256": "86d4dec44a249cb030e978db648ceb76405608105e1d334884d157d8f89e298f"
+        },
+        {
+          "path": "dev/tests/evidence/R015-native-summary-attempt1.json",
+          "sha256": "bdfc82133fa7e2d3570e604c583f814e10bdca5502a0a6cd94aa8c6d48d0856c"
+        },
+        {
+          "path": "dev/tests/evidence/R015-native-source-checks-attempt1.json",
+          "sha256": "6162011249c9717aef9df76f96de0ec5a34b05959c946baea101af97e9792903"
+        }
+      ],
+      "note": "Full source validation rejected: immutable listing_versions fixture and a pre-existing 150ms test assumed backend entry before expiry. Keep append-only SQL; verify future published revisions preserve sold route terms. Rename the short-lease case to assert zero-side-effect safe rejection or one deadline-bounded submission, retaining 150ms/800ms/metadata and cleanup limits."
+    },
+    {
+      "attempt": 2,
+      "unique_passed": 164,
+      "failed": [
+        "TestRouteLegacyUpgradeQuarantinesWithoutInventingConsent",
+        "TestSupervisorAdapterDeadlineCannotExceedSignedExpiry",
+        "TestSupervisorMetadataStepsHaveIndependentBudgets",
+        "TestSupervisorRequiresWatchdogAndFrozenRegistry",
+        "TestSupervisorShutdownObservesCleanupBeforeNextPoll",
+        "TestSupervisorSignedRenewalKeepsOriginalBackend"
+      ],
+      "test_segments": [
+        {
+          "id": "core",
+          "arguments": [
+            "test",
+            "-json",
+            "-count=1",
+            "-p=1",
+            "-timeout=240s",
+            "-skip",
+            "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$",
+            "./..."
+          ],
+          "exit_code": 1,
+          "database_isolation": "CORE",
+          "temporary_database_removed": null
+        },
+        {
+          "id": "web",
+          "arguments": [
+            "test",
+            "-json",
+            "-count=1",
+            "-p=1",
+            "-timeout=240s",
+            "-run",
+            "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^web$",
+            "./api/tests"
+          ],
+          "exit_code": 0,
+          "database_isolation": "FRESH_NATIVE_CHILD",
+          "temporary_database_removed": true
+        },
+        {
+          "id": "miniapp",
+          "arguments": [
+            "test",
+            "-json",
+            "-count=1",
+            "-p=1",
+            "-timeout=240s",
+            "-run",
+            "^TestFrontendBrowserJourneysUseNativeControlAndOneOriginalOrder$/^miniapp$",
+            "./api/tests"
+          ],
+          "exit_code": 0,
+          "database_isolation": "FRESH_NATIVE_CHILD",
+          "temporary_database_removed": true
+        }
+      ],
+      "temporary_instance_stopped": true,
+      "files": [
+        {
+          "path": "dev/tests/evidence/R015-native-go-tests-attempt2.jsonl",
+          "sha256": "f1a3cf517a9dad29e6e570fd7bd1150b496f52a3561ec30627a78053876c11ac"
+        },
+        {
+          "path": "dev/tests/evidence/R015-native-summary-attempt2.json",
+          "sha256": "5fb3dab70fb65e2b0a89fcb1d988bffc900ed258dec4316368f0dc79f7254a39"
+        },
+        {
+          "path": "dev/tests/evidence/R015-native-source-checks-attempt2.json",
+          "sha256": "611f1105592758f00a016b2a919e8a5c26c7477d9bf70597cc5b125daad8392a"
+        }
+      ],
+      "note": "Current complete run is FAILED. Existing supervisor stop/cleanup/deadline cases did not finish within their unchanged bounds; metadata remained STOPPING/CLEANING in logged failures. No causal attribution to host load and no claim that subset passes replace this failed full run. Preserve exact SQL/source and all time limits before separate isolated diagnosis. The historical route-upgrade fixture also timed out executing the original immutable 001 migration; the reported failing SQL was not 007. Isolated supervisor passes are recorded separately and do not waive these failures."
+    }
+  ],
+  "isolated_short_lease_diagnostic": {
+    "scope": "SINGLE_CASE_DIAGNOSTIC_NOT_FULL_ACCEPTANCE",
+    "initial_diagnostic": "A tool-output-only diagnostic rejected ErrLease after zero backend submissions; no persisted raw-file claim is made. The assertion now accepts it only after the signed deadline, with zero side effects. No lease duration, adapter timeout, metadata budget or cleanup limit was increased.",
+    "latest_result": "PASSED",
+    "observed_path": "supervisor_test.go:637: ZERO_SUBMIT_SAFE_REJECTION: short lease could not authorize backend work",
+    "file": {
+      "path": "dev/tests/evidence/R015-short-lease-diagnostic.jsonl",
+      "sha256": "0f9ac93d562a6efdb52db9694549d664f9371ce9932967358131e93ae424534c"
+    },
+    "full_acceptance_requires": "Separate complete current-source native run with 170 unique top-level cases and both browser children"
+  },
+  "isolated_supervisor_diagnostic": {
+    "scope": "23_CASE_ISOLATED_DIAGNOSTIC_NOT_FULL_ACCEPTANCE",
+    "status": "PASSED_WITH_UNCHANGED_SOURCE_AND_LIMITS",
+    "note": "All 23 supervisor cases passed after the failed complete run, without any subsequent Go/SQL or timing changes. This is not a proven root cause and cannot replace the failed full run; a separate complete rerun is required.",
+    "files": [
+      {
+        "path": "dev/tests/evidence/R015-supervisor-diagnostic-attempt1.json",
+        "sha256": "1c70dfe599a1acd2025fb82a80101590c7196092822ad58d8759006f1cf0bfe4"
+      },
+      {
+        "path": "dev/tests/evidence/R015-supervisor-diagnostic-attempt1.jsonl",
+        "sha256": "176054dea426f0b9b17c28b6ffc0be466bd6d0f8ad939830e5ac39d9893577ca"
+      }
+    ]
+  }
+}

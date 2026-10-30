@@ -19,11 +19,13 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 26 in progress · 28 not started · 1 conditional · 1 deferred |
-| Latest source round | R014 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 156 passed · control/native/relay source subsets only |
+| Implementation tasks | 27 in progress · 27 not started · 1 conditional · 1 deferred |
+| Latest source round | R015 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 170 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
+
+R015 adds confirmed original-order routes and scoped standard-SDK keys. Three owner-session control operations bring the implemented count to 34/93; routes freeze the original seller, listing revision, model, text protocol, price, budget, call ceiling and expiry. ResolveTx selects exactly one key-bound model/profile and rejects ambiguity, revocation or mismatch without seller failover. Forward-only 007 adds five columns and quarantines legacy routes; API startup verifies every embedded migration record. Only PLAINTEXT/STANDARD and the three native text profiles are implemented. Resolution grants no funds or execution; durable invocation/call accounting, real payments, E2E and route-configuration UI remain pending. See [RC-001–022](docs/技术开发/附录-已确认订单路由与标准SDK绑定实施细则.md), [R015 source evidence](dev/tests/evidence/R015-验证报告.md) and [all 56 tasks / 222 open steps](dev/progress/R015-本轮实现与完整待办.md).
 
 R014 adds order-local budget transactions: reserve an original purpose once, consume the actual amount from an existing immutable trade qualification, or release on a qualified zero. Parent-row updates keep ordinary SQL concurrency and stale higher-isolation snapshots from overbooking. Forward migration 006 adds eight columns; all legacy reservation states remain fully held as unverified, and inconsistent history aborts the upgrade. Capacity is not a wallet, paid funds, route/lease admission or GPU release. Qualified-source generation and production admission integration remain pending. See [OBC-001–017](docs/技术开发/附录-订单预算预留与资格化消耗实施细则.md), [current R014 source evidence](dev/tests/evidence/R014-验证报告.md) and [all 56 tasks/222 open steps](dev/progress/R014-本轮实现与完整待办.md).
 
@@ -37,7 +39,7 @@ The new contract uses hour_rate for AVAILABLE_HOUR, or both input_rate/output_ra
 
 ## Current identity and HTTP flow
 
-The native control command is `p11-api`. Explicitly configure the selected development database, application identity and secret-file paths, then apply migrations; [environment variables and call order](dev/repository/USAGE.md) are documented. It listens on loopback and enables no test login, model or payment shortcut. The [embedded route manifest](dev/src/api/internal/http/routes.json) drives 31 actual operations and is checked against the 93-operation canonical contract; the other operations remain pending.
+The native control command is `p11-api`. Explicitly configure the selected development database, application identity and secret-file paths, then apply migrations; [environment variables and call order](dev/repository/USAGE.md) are documented. It listens on loopback and enables no test login, model or payment shortcut. The [embedded route manifest](dev/src/api/internal/http/routes.json) drives 34 actual operations and is checked against the 93-operation canonical contract; the other operations remain pending.
 
 Seller submissions remain SUBMITTED and grant neither SELLER nor sale admission. New listings require approved regions, owner-specific concrete models/capabilities and explicit platform fees. Edits create future revisions without changing sold contracts; exit closes new admission while existing obligations continue. Provider pairing/policy/drain/revocation pages are implemented; the complete listing editor, real review, hardware qualification, execution endpoint and controlled publication remain unfinished.
 
@@ -67,17 +69,17 @@ The watchdog uses only metadata Work records, never prompts, argv, paths, URLs o
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R014/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R015/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R014/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R015/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R014/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R015/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R014/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R014/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R015/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R015/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R014/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R015/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R014/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R014/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R014/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R014/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R015/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R015/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R015/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R015/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 
@@ -195,15 +197,15 @@ python -X utf8 dev/tools/获取原生工具链.py
 python -X utf8 dev/tools/原生开发.py mod download
 
 # Disposable loopback PostgreSQL -> real tests -> instance stopped
-python -X utf8 dev/tools/核验原生源码.py --round R014
-python -X utf8 dev/tools/原生数据库验证.py --round R014
-python -X utf8 dev/tools/核验前端源码.py --round R014
-python -X utf8 dev/tools/整理原生验证证据.py --round R014
+python -X utf8 dev/tools/核验原生源码.py --round R015
+python -X utf8 dev/tools/原生数据库验证.py --round R015
+python -X utf8 dev/tools/核验前端源码.py --round R015
+python -X utf8 dev/tools/整理原生验证证据.py --round R015
 ```
 
-These commands explicitly target R014 and preserve earlier evidence. The full runner isolates core, Web and H5 into three sequential Go processes, with freshly migrated and subsequently dropped native databases for each browser journey; all 156 unique top-level IDs and both browser children must pass, with existing business and package deadlines retained. The strict consolidator rejects failed current runs; the historical R012 helper cannot substitute for R014 full validation. Build the frontends and native binary before database/browser integration. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
+These commands explicitly target R015 and preserve earlier evidence. The full runner isolates core, Web and H5 into three sequential Go processes, with freshly migrated and subsequently dropped native databases for each browser journey; all 170 unique top-level IDs and both browser children must pass. The strict consolidator rejects failed current runs. The 150ms lease case records either safe zero-submission rejection or one deadline-bounded submission, without increasing lease or metadata budgets; the historical R012 helper cannot substitute for R015 full validation. Build the frontends and native binary before database/browser integration. Missing database configuration in a bare `go test` causes database cases to skip; that does not equal a native integration pass. The Linux admin/API/node commands are cross-compiled only; no Linux runtime or GPU acceptance is claimed. For an explicitly selected PostgreSQL 17 database, the CLI supports `migrate` and `check-schema` using `P11_DATABASE_URL`; see [usage and recovery notes](dev/repository/USAGE.md).
 
-Optional financial subset: `python -X utf8 dev/tools/原生数据库验证.py --round R014 --suite budget` writes separate `R014-budget-*` evidence. It cannot replace all 156 regression cases or product acceptance.
+Optional subsets: `python -X utf8 dev/tools/原生数据库验证.py --round R015 --suite route` or `--suite budget` writes separate `R015-route-*` or `R015-budget-*` evidence. These cannot replace all 170 regression cases or product acceptance.
 
 ## Intended buyer and seller usage
 
@@ -221,7 +223,7 @@ CHANGELOG*.md                    Synchronized release notes
 dev/src/go.mod                   One Go module
 dev/src/api/cmd/p11-admin/        Native migration/check CLI
 dev/src/api/cmd/p11-api/          Native loopback identity/control API
-dev/src/api/internal/http/       31-operation registration and credential adapters
+dev/src/api/internal/http/       34-operation registration and credential adapters
 dev/src/internal/                Database, keys, idempotency, durable jobs
 dev/src/shared/                  IDs, safe errors, clock, money
 dev/src/tests/integration/       Real PostgreSQL tests

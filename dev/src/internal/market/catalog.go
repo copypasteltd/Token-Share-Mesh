@@ -143,6 +143,18 @@ type Catalog struct{ DB *persistence.DB }
 // LoadTx is also used inside quote/order transactions. Shared row locks make
 // revocations and future-version changes serialize with purchase admission.
 func (c Catalog) LoadTx(ctx context.Context, tx pgx.Tx, id string, revision int64) (Service, error) {
+	return c.loadVersionTx(ctx, tx, id, revision, false)
+}
+
+// LoadConfirmedTx reads the immutable version of an already confirmed order.
+// A seller's newer price/model must not rewrite or silently cancel that order.
+// Callers must first verify the original order and its buyer; this is not a
+// purchase path. Current seller/device/qualification/availability still applies.
+func (c Catalog) LoadConfirmedTx(ctx context.Context, tx pgx.Tx, id string, revision int64) (Service, error) {
+	return c.loadVersionTx(ctx, tx, id, revision, true)
+}
+
+func (c Catalog) loadVersionTx(ctx context.Context, tx pgx.Tx, id string, revision int64, confirmed bool) (Service, error) {
 	var s Service
 	var raw []byte
 	var region string
@@ -150,13 +162,13 @@ func (c Catalog) LoadTx(ctx context.Context, tx pgx.Tx, id string, revision int6
 		return s, fault.New(fault.Invalid, "Invalid listing reference")
 	}
 	err := tx.QueryRow(ctx, `SELECT l.id,l.seller_id,v.revision,v.contract_template,v.region,v.valid_until
-FROM p11.listings l JOIN p11.listing_versions v ON v.listing_id=l.id AND v.revision=l.current_revision
+FROM p11.listings l JOIN p11.listing_versions v ON v.listing_id=l.id
 JOIN p11.seller_profiles sp ON sp.id=l.seller_id JOIN p11.users u ON u.id=sp.id
 JOIN p11.role_grants sr ON sr.user_id=u.id AND sr.role_code='SELLER' AND sr.scope_ref='self'
-WHERE l.id=$1 AND v.revision=$2 AND l.state='PUBLISHED' AND sp.state='APPROVED' AND u.state='ACTIVE'
+WHERE l.id=$1 AND v.revision=$2 AND (v.revision=l.current_revision OR $3) AND l.state='PUBLISHED' AND sp.state='APPROVED' AND u.state='ACTIVE'
 AND sr.revoked_at IS NULL AND (sr.expires_at IS NULL OR sr.expires_at>clock_timestamp()) AND v.price_version='NB_PRICE_1'
 AND sp.payee_binding_ref IS NOT NULL AND sp.legal_scope_ref IS NOT NULL AND v.region=ANY(sp.approved_regions)
-AND v.valid_from<=clock_timestamp() AND v.valid_until>clock_timestamp() FOR SHARE OF l,v,sp,u,sr`, id, revision).Scan(&s.ListingID, &s.SellerID, &s.Revision, &raw, &region, &s.ValidUntil)
+AND v.valid_from<=clock_timestamp() AND v.valid_until>clock_timestamp() FOR SHARE OF l,v,sp,u,sr`, id, revision, confirmed).Scan(&s.ListingID, &s.SellerID, &s.Revision, &raw, &region, &s.ValidUntil)
 	if err == pgx.ErrNoRows {
 		return s, fault.New(fault.NotFound, "Offer unavailable")
 	}
