@@ -14,11 +14,12 @@ type LocalRuntimeInfo struct {
 	SelectedGPULayers                                           uint32
 	ObservedGPU                                                 gpuid.Identity
 	PhysicalDigest                                              string
+	Resource, Capability                                        string
 }
 
 func (a *Adapter) LocalInfo() LocalRuntimeInfo {
 	digest, _ := gpuid.Digest(a.physical.UUID)
-	return LocalRuntimeInfo{ObservedGPU: a.physical, PhysicalDigest: digest, ProcessID: a.p.pid, Profile: Profile, UpstreamCommit: UpstreamCommit, EngineRelease: EngineRelease,
+	return LocalRuntimeInfo{Resource: a.c.Resource, Capability: a.c.Capability, ObservedGPU: a.physical, PhysicalDigest: digest, ProcessID: a.p.pid, Profile: Profile, UpstreamCommit: UpstreamCommit, EngineRelease: EngineRelease,
 		Environment: a.c.Environment, ModelSHA256: a.c.Model.SHA256, TemplateSHA256: a.c.Template.SHA256,
 		SelectedGPUDevice: a.c.GPUDevice, SelectedGPULayers: a.c.GPULayers}
 }

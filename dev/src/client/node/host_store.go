@@ -20,6 +20,7 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
+	"time"
 )
 
 //go:embed host-schema.sql
@@ -51,6 +52,7 @@ type Host struct {
 	busy           map[string]context.CancelFunc
 	workers        sync.WaitGroup
 	watchdogs      map[*supervisor.Supervisor]bool
+	nativeSession  *NativeSession
 }
 type hostCommand struct {
 	ID       string                   `json:"command_id"`
@@ -359,6 +361,16 @@ func (h *Host) Close() {
 		p.Close()
 	}
 	h.workers.Wait()
+	h.mu.Lock()
+	native := h.nativeSession
+	h.mu.Unlock()
+	if native != nil {
+		shutdown, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		if native.Close(shutdown) != nil {
+			h.poisoned.Store(true)
+		}
+		cancel()
+	}
 	h.gate <- struct{}{}
 	if h.client != nil {
 		h.client.Close()

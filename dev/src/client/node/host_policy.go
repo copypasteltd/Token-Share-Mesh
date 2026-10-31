@@ -10,8 +10,11 @@ import (
 	relay "p11.local/compute/gateway/core"
 	"p11.local/compute/shared/ids"
 	"p11.local/compute/shared/strictjson"
+	"regexp"
 	"strconv"
 )
+
+var nativeReleaseLabel = regexp.MustCompile(`^[A-Za-z][A-Za-z0-9_-]*(?:\.[A-Za-z0-9_-]+)*$`)
 
 const HostProfile = "P11_NATIVE_EXECUTION_HOST_1"
 const MaximumHostCommands = 4096
@@ -46,10 +49,13 @@ func (c HostConfig) validate(device, seller string) error {
 	seen, physical := map[string]bool{}, map[string]string{}
 	for _, r := range c.Rules {
 		a := r.Approval
-		for _, id := range []string{a.Order, a.Route, a.Seller, a.Device, a.Resource, a.Capability, a.EnvironmentRef, a.EngineKind, a.EngineRelease} {
+		for _, id := range []string{a.Order, a.Route, a.Seller, a.Device, a.Resource, a.Capability, a.EnvironmentRef, a.EngineKind} {
 			if !ids.Valid(id) || len(id) > 128 {
 				return ErrHostPolicy
 			}
+		}
+		if len(a.EngineRelease) < 3 || len(a.EngineRelease) > 128 || !nativeReleaseLabel.MatchString(a.EngineRelease) {
+			return ErrHostPolicy
 		}
 		for _, hash := range []string{a.ContractHash, a.EnvironmentDigest, a.ModelDigest, r.PhysicalDigest} {
 			if !executionlease.Hash(hash) {

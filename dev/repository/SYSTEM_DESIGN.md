@@ -276,3 +276,11 @@ See [NF constraints](../../docs/技术开发/附录-真实原生LLM包校验与�
 R024增加Windows NVIDIA整卡UUID/PCI探测及PIPE_4启动复核；显式GPU选择和环境摘要绑定实际身份，同UUID别名不能绕过共享门闩。只读gpu-discover不加载模型、不准入共享，LocalInfo仅含安全元数据。本机观测不构成远程证明或LP/E2E/性能/usage/ACK/资金资格；Linux/AMD/手机实际接入与完整LM Studio隔离封装仍待。全56任务222子项、80/96完整验收保持开放。
 
 See [GI constraints](../../docs/技术开发/附录-物理显卡身份探测与启动绑定.md), [current evidence](../tests/evidence/R024-验证报告.md), and [all task IDs](../progress/R024-本轮实现与完整待办.md). GPU discovery accepts a pinned local package and returns metadata only. Owner approval and the physical Host binding remain independent; no first-device auto-selection. The complete LM Studio CLI/daemon/runtime compatibility path is still required.
+
+## R025 / Original Host and transient input custody
+
+R025接通独立批准的原生Host会话、原物理GPU与持久任务、加密结果仓和三协议交付；密文资产摘要保持原义，解密正文另以仅驻内存的原租约/清单/字节凭据校验。宿主拥有worker和结果读取句柄并在关闭时排空、撤权及等待退出，未知原owner不释放。当前限PLAINTEXT/STANDARD；生产资金/usage/ACK/SDK、崩溃恢复、完整LM Studio/ComfyUI/LMA、E2E/LP/性能与80/96完整验收仍待，全56任务222子项保持开放。
+
+Trusted embedding sequence: restore the original Host and independently provisioned approval; prepare the original command; call Host.OpenNative with local pins and exact UUID/PCI; run NativeSession and wait for Ready; start only the same Host ticket; reconcile original cleanup; read the original result; close the session/Host. The session owns outstanding result readers, revokes them and closes their handles before releasing its store. No CLI or public content listener is added. Manifest ciphertext digest and private in-memory plaintext check are different facts. Historical metadata cannot authorize new work, restart cannot replay a prompt, and unknown warm-up/work retains the original gate. Resident model memory is retained until explicit session close; switching engines/unloading and production scheduling remain separate work.
+
+See [NH constraints](../../docs/技术开发/附录-原生宿主内核接线与输入驻留绑定.md), [current evidence](../tests/evidence/R025-验证报告.md), and [all task IDs](../progress/R025-本轮实现与完整待办.md). Actual CUDA Host tests still use a synthetic platform issuer/order/payment fixture; no real funds or production qualification is implied.

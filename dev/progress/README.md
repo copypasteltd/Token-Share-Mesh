@@ -2,7 +2,7 @@
 
 目标：按全部开发细则交付成体系源码。当前源码目标 ACTIVE，源码实施进展与需求/设计工作分别记录。
 
-R024增加Windows NVIDIA整卡UUID/PCI探测及PIPE_4启动复核；显式GPU选择和环境摘要绑定实际身份，同UUID别名不能绕过共享门闩。只读gpu-discover不加载模型、不准入共享，LocalInfo仅含安全元数据。本机观测不构成远程证明或LP/E2E/性能/usage/ACK/资金资格；Linux/AMD/手机实际接入与完整LM Studio隔离封装仍待。全56任务222子项、80/96完整验收保持开放。 [本轮完整证据](../tests/evidence/R024-验证报告.md)。
+R025接通独立批准的原生Host会话、原物理GPU与持久任务、加密结果仓和三协议交付；密文资产摘要保持原义，解密正文另以仅驻内存的原租约/清单/字节凭据校验。宿主拥有worker和结果读取句柄并在关闭时排空、撤权及等待退出，未知原owner不释放。当前限PLAINTEXT/STANDARD；生产资金/usage/ACK/SDK、崩溃恢复、完整LM Studio/ComfyUI/LMA、E2E/LP/性能与80/96完整验收仍待，全56任务222子项保持开放。 [本轮完整证据](../tests/evidence/R025-验证报告.md)。
 
 | 轮次 | 内容与完整待办 | 验证状态 |
 | --- | --- | --- |
@@ -29,6 +29,7 @@ R024增加Windows NVIDIA整卡UUID/PCI探测及PIPE_4启动复核；显式GPU选
 | R022 | [原生文本结果加密保管与三协议交付](R022-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R023 | [真实原生LLM包校验、本机检查与CUDA验证](R023-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | R024 | [物理显卡探测、启动绑定与同卡别名防绕过](R024-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| R025 | [原生宿主、输入驻留校验与实际模型结果接线](R025-本轮实现与完整待办.md) | PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 
 任务现状：CONDITIONAL=1；DEFERRED=1；IN_PROGRESS=31；NOT_STARTED=23。
 

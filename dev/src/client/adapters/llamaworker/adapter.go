@@ -71,8 +71,8 @@ type Adapter struct {
 var _ supervisor.InputAdapter = (*Adapter)(nil)
 var _ supervisor.TextAdapter = (*Adapter)(nil)
 
-func (a *Adapter) CheckInput(w supervisor.Work, m executionlease.Manifest, body []byte) error {
-	normal, _, err := normalize(w, m, body, a.c)
+func (a *Adapter) CheckInput(ctx context.Context, w supervisor.Work, m executionlease.Manifest, body []byte) error {
+	normal, _, err := normalize(ctx, w, m, body, a.c)
 	clear(normal)
 	return err
 }
@@ -194,7 +194,7 @@ func (a *Adapter) SubmitInput(ctx context.Context, w supervisor.Work, m executio
 	if ctx.Err() != nil {
 		return supervisor.Observation{}, ErrUnknown
 	}
-	normal, deadline, err := normalize(w, m, body, a.c)
+	normal, deadline, err := normalize(ctx, w, m, body, a.c)
 	if err != nil {
 		return supervisor.Observation{}, err
 	}
@@ -208,7 +208,10 @@ func (a *Adapter) SubmitInput(ctx context.Context, w supervisor.Work, m executio
 	var id encoder
 	id.str(a.session)
 	id.u64(a.sequence)
-	e := &entry{work: w, id: hex.EncodeToString(id.Bytes()), manifest: m.Digest(), state: "RUNNING", inputLimit: uint32(m.InputTokenLimit), outputLimit: uint32(m.Spec.MaxOutputTokens), outputNotify: make(chan struct{}, 1), done: make(chan struct{}), startNotify: make(chan struct{})}
+	// The original supervisor persists a bounded opaque ID with an alphabetic
+	// prefix. Encoding alone begins with the binary string-length field (zero)
+	// and would leave actual entered work unrecordable and safely quarantined.
+	e := &entry{work: w, id: "native_" + hex.EncodeToString(id.Bytes()), manifest: m.Digest(), state: "RUNNING", inputLimit: uint32(m.InputTokenLimit), outputLimit: uint32(m.Spec.MaxOutputTokens), outputNotify: make(chan struct{}, 1), done: make(chan struct{}), startNotify: make(chan struct{})}
 	// normalize validated this bounded binary request. Remember only the stop
 	// count, never an additional copy of request text or stop strings.
 	e.stopCount = uint32(normal[24])<<24 | uint32(normal[25])<<16 | uint32(normal[26])<<8 | uint32(normal[27])

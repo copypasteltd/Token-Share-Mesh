@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[2]
 def sha(path):
     with path.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 def main():
-    source=json.loads((ROOT/'dev/tests/evidence/R024-native-source-checks.json').read_text(encoding='utf-8'))
+    source=json.loads((ROOT/'dev/tests/evidence/R025-native-source-checks.json').read_text(encoding='utf-8'))
     artifact=next(a for a in source['artifacts'] if a['path']=='runtime/bin/p11-node.exe')
     binary=ROOT/artifact['path']
     if source['status']!='PASSED_WITH_LIMITED_SCOPE' or sha(binary)!=artifact['sha256']:raise RuntimeError('current node binary required')
@@ -29,7 +29,7 @@ def main():
         else:passed=result.returncode==2 and not result.stdout and result.stderr.strip()=='local GPU discovery rejected'
         cases[label]={'passed':passed,'returncode':result.returncode}
     paths=[p for d in ['dev/src/client/adapters/llamaworker','dev/src/client/kernels/llama-worker','dev/src/shared/gpuid','dev/src/client/cmd/p11-node'] for p in (ROOT/d).glob('*') if p.is_file()]
-    receipt={'round':'R024','passed':all(c['passed'] for c in cases.values()),'cases':cases,'binary':artifact,'gpus':view['gpus'],'scope':'Actual current Windows CLI and system-driver metadata only; no model/context load, execution approval, Host registration, remote attestation or marketplace/privacy/performance/funds qualification','execution_enabled':False,'model_loaded':False,'virtualization_used':False,'sources':{p.relative_to(ROOT).as_posix():sha(p) for p in [*paths,Path(__file__)]}}
-    (ROOT/'dev/tests/evidence/R024-native-gpu-cli.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    receipt={'round':'R025','passed':all(c['passed'] for c in cases.values()),'cases':cases,'binary':artifact,'gpus':view['gpus'],'scope':'Actual current Windows CLI and system-driver metadata only; no model/context load, execution approval, Host registration, remote attestation or marketplace/privacy/performance/funds qualification','execution_enabled':False,'model_loaded':False,'virtualization_used':False,'sources':{p.relative_to(ROOT).as_posix():sha(p) for p in [*paths,Path(__file__)]}}
+    (ROOT/'dev/tests/evidence/R025-native-gpu-cli.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({'passed':receipt['passed'],'cases':cases},ensure_ascii=False));return 0 if receipt['passed'] else 1
 if __name__=='__main__':raise SystemExit(main())

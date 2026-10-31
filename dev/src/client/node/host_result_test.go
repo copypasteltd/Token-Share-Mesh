@@ -17,7 +17,9 @@ type custodyBackend struct {
 	manifest string
 }
 
-func (*custodyBackend) CheckInput(supervisor.Work, executionlease.Manifest, []byte) error { return nil }
+func (*custodyBackend) CheckInput(context.Context, supervisor.Work, executionlease.Manifest, []byte) error {
+	return nil
+}
 func (b *custodyBackend) SubmitInput(ctx context.Context, w supervisor.Work, m executionlease.Manifest, body []byte) (supervisor.Observation, error) {
 	b.manifest = m.Digest()
 	return b.contentBackend.SubmitInput(ctx, w, m, body)

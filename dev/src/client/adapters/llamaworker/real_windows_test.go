@@ -233,7 +233,7 @@ func TestNativeRealCUDAThreeProfilesEncryptedCustodyAndModelReuse(t *testing.T) 
 				defer clear(b)
 				ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 				defer cancel()
-				if _, err := custody.SubmitInput(ctx, w, m, b); err != nil {
+				if _, err := custody.SubmitInput(nativeInputContext(t, ctx, w, m, b), w, m, b); err != nil {
 					t.Fatal("real submit", err)
 				}
 				o := realStopped(t, a, w)
@@ -253,7 +253,7 @@ func TestNativeRealCUDAThreeProfilesEncryptedCustodyAndModelReuse(t *testing.T) 
 				if len(content) == 0 || !utf8.ValidString(content) {
 					t.Fatal("real model generated no valid text")
 				}
-				if _, err = custody.SubmitInput(ctx, w, m, b); err == nil {
+				if _, err = custody.SubmitInput(nativeInputContext(t, ctx, w, m, b), w, m, b); err == nil {
 					t.Fatal("original real work replay accepted")
 				}
 				t.Logf("profile=%s stream=%t input_tokens=%d output_tokens=%d bytes=%d text_sha256=%x terminal=%s", p, stream, receipt.InputTokens, receipt.OutputTokens, len(content), sha256.Sum256([]byte(content)), receipt.Terminal)
@@ -276,7 +276,7 @@ func TestNativeRealCUDATokenLimitCancelAndHardDeadline(t *testing.T) {
 			}
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
-			if _, err := a.SubmitInput(ctx, w, m, b); err != nil {
+			if _, err := a.SubmitInput(nativeInputContext(t, ctx, w, m, b), w, m, b); err != nil {
 				t.Fatal(err)
 			}
 			if mode == "cancel" {

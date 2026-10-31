@@ -73,7 +73,7 @@ func TestNativeStartupReportsOnlyBoundedStagesAndNeverGrantsWork(t *testing.T) {
 			case <-ctx.Done():
 				t.Fatal("owned startup fixture did not exit")
 			}
-			if _, err = a.SubmitInput(ctx, w, m, b); err == nil {
+			if _, err = a.SubmitInput(nativeInputContext(t, ctx, w, m, b), w, m, b); err == nil {
 				t.Fatal("failed startup accepted new work")
 			}
 			clear(b)

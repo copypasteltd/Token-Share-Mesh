@@ -139,7 +139,7 @@ func TestNativeCAPISyntheticRoundTripStopAndModelReuse(t *testing.T) {
 		raw := strings.Replace(chatRequest, `"max_tokens":32`, `"max_tokens":32,"stop":"<END>"`, 1)
 		w, m, b := capiInput(c, raw)
 		w.RequestID = id
-		if _, e := a.SubmitInput(context.Background(), w, m, b); e != nil {
+		if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, b), w, m, b); e != nil {
 			t.Fatal(e)
 		}
 		ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -287,7 +287,7 @@ func TestNativeCAPIEncryptedCustodyAndThreeProtocolDelivery(t *testing.T) {
 			m.Spec.Protocol = p
 			m.Spec.Stream = stream
 			ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
-			if _, e = custodian.SubmitInput(ctx, w, m, b); e != nil {
+			if _, e = custodian.SubmitInput(nativeInputContext(t, ctx, w, m, b), w, m, b); e != nil {
 				cancel()
 				t.Fatal(e)
 			}
@@ -324,7 +324,7 @@ func TestNativeCAPITokenizerRejectsBeforeDecode(t *testing.T) {
 	a := capiOpen(t, c)
 	w, m, b := capiInput(c, chatRequest)
 	m.InputTokenLimit = 1
-	if _, e := a.SubmitInput(context.Background(), w, m, b); e != nil {
+	if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, b), w, m, b); e != nil {
 		t.Fatal(e)
 	}
 	o := capiState(t, a, w, "STOPPED")
@@ -347,7 +347,7 @@ func TestNativeCAPICancelRequiresSynchronizationAndClear(t *testing.T) {
 	}
 	a := capiOpen(t, c)
 	w, m, b := capiInput(c, strings.Replace(chatRequest, "sensitive fixture only", "WAIT_NATIVE_FIXTURE", 1))
-	if _, e := a.SubmitInput(context.Background(), w, m, b); e != nil {
+	if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, b), w, m, b); e != nil {
 		t.Fatal(e)
 	}
 	capiAudit(t, c, "DECODE_SYNTHETIC")
@@ -381,14 +381,14 @@ func TestNativeCAPIUnexpectedExitNeverReleasesAmbiguousOwner(t *testing.T) {
 			c := capiPack(t)
 			a := capiOpen(t, c)
 			w, m, b := capiInput(c, strings.Replace(chatRequest, "sensitive fixture only", marker, 1))
-			if _, e := a.SubmitInput(context.Background(), w, m, b); e != nil {
+			if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, b), w, m, b); e != nil {
 				t.Fatal(e)
 			}
 			o := capiState(t, a, w, "UNKNOWN")
 			if _, e := a.Cleanup(context.Background(), w, o); e == nil {
 				t.Fatal("native exit/init failure became stop proof")
 			}
-			if _, e := a.SubmitInput(context.Background(), w, m, b); e == nil {
+			if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, b), w, m, b); e == nil {
 				t.Fatal("ambiguous native request resubmitted")
 			}
 		})

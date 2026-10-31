@@ -58,6 +58,7 @@ type InputAdapter interface {
 type inputSubmission struct {
 	manifest executionlease.Manifest
 	body     []byte
+	binding  devicecontrol.PlaintextBinding
 }
 
 type Registration struct {
@@ -202,7 +203,11 @@ func (s *Supervisor) SubmitInput(ctx context.Context, command string, accepted d
 		return execution.Hold{}, ErrAdapter
 	}
 	defer clear(copy)
-	return s.submit(ctx, command, accepted.Verified(), &inputSubmission{accepted.Manifest(), copy})
+	binding, e := accepted.BindPlaintext(copy, time.Now())
+	if e != nil {
+		return execution.Hold{}, ErrAdapter
+	}
+	return s.submit(ctx, command, accepted.Verified(), &inputSubmission{accepted.Manifest(), copy, binding})
 }
 
 func (s *Supervisor) submit(ctx context.Context, command string, v executionlease.Verified, input *inputSubmission) (execution.Hold, error) {
@@ -263,6 +268,9 @@ func (s *Supervisor) submit(ctx context.Context, command string, v executionleas
 	}
 	call, cancel := context.WithDeadline(run, a.Deadline)
 	defer cancel()
+	if input != nil {
+		call = devicecontrol.WithPlaintextBinding(call, input.binding)
+	}
 	bounded, bound := context.WithTimeout(call, s.options.CallTimeout)
 	defer bound()
 	if bounded.Err() != nil || ctx.Err() != nil || key != h.Owner() {

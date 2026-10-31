@@ -1,0 +1,74 @@
+{
+  "round": "R025",
+  "scope": "Development attempts are distinct from final proof; immutable failed raw/source/worker archives retained. Historical R016/R019/R020 timing/storage/media and R024 empty-inspect causes remain unproven.",
+  "attempts": [
+    {
+      "attempt": 1,
+      "passed": false,
+      "cases": {
+        "TestHostNativeRealThreeProfilesOriginalOrderAndCustody": "fail",
+        "TestHostNativeRealCloseWaitsWorkerAndRevokesResult": "fail",
+        "TestHostNativeRealBusyAndUnknownWarmupRetainOwnership": "pass"
+      },
+      "summary": "dev/tests/evidence/R025-native-host-real-attempt1-summary.json",
+      "summary_sha256": "ab3b7613ccd17dde969a007eec03cd1cf75ab8a62cf9578f126fb50783c1298e",
+      "archive": "dev/tests/evidence/R025-native-host-real-attempt1-archive.json",
+      "reason_and_change": "Fixture called Start before Run/Ready and Responses omitted required store:false. Explicit Ready wait and original privacy flag corrected; no test deadline/assertion relaxed.",
+      "deadlines_or_existing_assertions_weakened": false
+    },
+    {
+      "attempt": 2,
+      "passed": false,
+      "cases": {
+        "TestHostNativeRealThreeProfilesOriginalOrderAndCustody": "fail",
+        "TestHostNativeRealCloseWaitsWorkerAndRevokesResult": "fail",
+        "TestHostNativeRealBusyAndUnknownWarmupRetainOwnership": "pass"
+      },
+      "summary": "dev/tests/evidence/R025-native-host-real-attempt2-summary.json",
+      "summary_sha256": "b9bc0358cb7b56674d2bd0980d2e33d8f328f3bf4584531a35bf4afd0e6a3401",
+      "archive": "dev/tests/evidence/R025-native-host-real-attempt2-archive.json",
+      "reason_and_change": "Native input normalization compared the raw plaintext SHA-256 with the manifest ciphertext asset digest. Added a transient accepted-delivery binding propagated through the supervisor context; ciphertext semantics retained, no plaintext hash persisted.",
+      "deadlines_or_existing_assertions_weakened": false
+    },
+    {
+      "attempt": 3,
+      "passed": false,
+      "cases": {
+        "TestHostNativeRealThreeProfilesOriginalOrderAndCustody": "fail",
+        "TestHostNativeRealCloseWaitsWorkerAndRevokesResult": "fail",
+        "TestHostNativeRealBusyAndUnknownWarmupRetainOwnership": "pass"
+      },
+      "summary": "dev/tests/evidence/R025-native-host-real-attempt3-summary.json",
+      "summary_sha256": "4add60361215dd19799bb8ab613dbe23ee70a1ebdc0e937fbe1b9f7dbc925965",
+      "archive": "dev/tests/evidence/R025-native-host-real-attempt3-archive.json",
+      "reason_and_change": "Native backend ID was a hex encoding beginning with its zero binary length prefix and failed the original alphabetic ID grammar. Added native_ prefix and a strict existing-ID regression assertion; did not widen ids.Valid.",
+      "deadlines_or_existing_assertions_weakened": false
+    },
+    {
+      "attempt": 4,
+      "passed": false,
+      "cases": {
+        "TestHostNativeRealThreeProfilesOriginalOrderAndCustody": "pass",
+        "TestHostNativeRealCloseWaitsWorkerAndRevokesResult": "fail",
+        "TestHostNativeRealBusyAndUnknownWarmupRetainOwnership": "pass"
+      },
+      "summary": "dev/tests/evidence/R025-native-host-real-attempt4-summary.json",
+      "summary_sha256": "c748a34c0f04ce8e0c12bca255590e261ae58a1d9e5d8ce2a141483dc0292f52",
+      "archive": "dev/tests/evidence/R025-native-host-real-attempt4-archive.json",
+      "reason_and_change": "Six real Host JSON/SSE paths passed and owned process exited, but an open original output reader kept result custody pending. Native session now owns/awaits its result reader handles, revokes before closing, and retries only the same pending result scope; no UNKNOWN execution cleanup is fabricated.",
+      "deadlines_or_existing_assertions_weakened": false
+    }
+  ],
+  "final_host_attempt": {
+    "attempt": 5,
+    "passed": true,
+    "summary": "dev/tests/evidence/R025-native-host-real-attempt5-summary.json"
+  },
+  "virtualization_used": false,
+  "runtime_package_provenance": {
+    "installed_worker_sha256": "195e77ab621e1546de1e6445bb32ee5d7605242dc42ac2d1366bfdd26e04acc4",
+    "current_fixture_build_worker_sha256": "1e7a1f277e52a240ed28efcc0336d4a2148109b3ebe3f7176a12788019db0b67",
+    "identical_after_only_PE_timestamp_and_checksum_zeroing": false,
+    "scope": "Actual GPU tests explicitly reuse the original independently pinned installed package; a fresh fixture build has different PE build metadata. No installed package/file was replaced after Host proof."
+  }
+}

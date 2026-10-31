@@ -16,10 +16,11 @@ import (
 type HostKernel struct {
 	Environment, Capability, EngineKind, EngineRelease, ModelDigest, RecipeDigest string
 	Backend                                                                       supervisor.InputAdapter
+	native                                                                        *NativeSession
 }
 
 func kernelMatches(k HostKernel, a devicecontrol.Approval) bool {
-	return k.Backend != nil && k.Environment == a.EnvironmentDigest && k.Capability == a.Capability && k.EngineKind == a.EngineKind && k.EngineRelease == a.EngineRelease && k.ModelDigest == a.ModelDigest && k.RecipeDigest == a.RecipeDigest
+	return (k.native == nil || k.native.matches(a)) && k.Backend != nil && k.Environment == a.EnvironmentDigest && k.Capability == a.Capability && k.EngineKind == a.EngineKind && k.EngineRelease == a.EngineRelease && k.ModelDigest == a.ModelDigest && k.RecipeDigest == a.RecipeDigest
 }
 func (h *Host) NewSupervisor(ctx context.Context, kernels []HostKernel, options supervisor.Options) (*supervisor.Supervisor, error) {
 	if len(kernels) < 1 || len(kernels) > MaximumHostRules {
@@ -34,7 +35,7 @@ func (h *Host) NewSupervisor(ctx context.Context, kernels []HostKernel, options 
 		seen[key] = true
 		approved := false
 		for _, r := range h.config.Rules {
-			if kernelMatches(k, r.Approval) {
+			if kernelMatches(k, r.Approval) && (k.native == nil || k.native.host == h && k.native.physical == r.PhysicalDigest && k.Backend == k.native.backend) {
 				approved = true
 			}
 		}
@@ -92,6 +93,13 @@ func (h *Host) NewSupervisor(ctx context.Context, kernels []HostKernel, options 
 	}
 	h.mu.Lock()
 	defer h.mu.Unlock()
+	if h.nativeSession != nil {
+		for _, k := range kernels {
+			if k.native != h.nativeSession {
+				return nil, ErrHostPolicy
+			}
+		}
+	}
 	if h.closed || h.poisoned.Load() {
 		return nil, ErrHost
 	}

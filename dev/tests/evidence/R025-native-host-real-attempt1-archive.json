@@ -1,0 +1,9 @@
+{
+  "round": "R025",
+  "attempt": 1,
+  "archive": "dev/tests/evidence/archive/R025-native-host-real-attempt1.zip",
+  "sha256": "195f99e738274f15f4a853e69a86cf04fd9b7ca2e69cddf205f19dceb8e2e322",
+  "files": 90,
+  "source_hashes_exact": true,
+  "scope": "Exact original source/worker/package metadata; pinned official runtime libraries and model remain private reproducible downloads, not redistributed"
+}

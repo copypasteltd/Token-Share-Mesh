@@ -9,9 +9,9 @@ ROOT = Path(__file__).resolve().parents[2]
 def sha(p):
     with p.open('rb') as f: return hashlib.file_digest(f,'sha256').hexdigest()
 def main():
-    parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('--attempt',type=int,required=True); args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('--attempt',type=int,required=True); parser.add_argument('--scope',choices=['adapter','host'],default='adapter'); args=parser.parse_args()
     if args.attempt < 1 or args.attempt > 99: raise RuntimeError('invalid attempt')
-    prefix=f'R024-native-real-attempt{args.attempt}'; report=ROOT/f'dev/tests/evidence/{prefix}-summary.json'
+    kind='native-host-real' if args.scope=='host' else 'native-real'; prefix=f'R025-{kind}-attempt{args.attempt}'; report=ROOT/f'dev/tests/evidence/{prefix}-summary.json'
     obj=json.loads(report.read_text(encoding='utf-8'))
     files=[(ROOT/p,p) for p in obj['sources']]
     for path,name in files:
@@ -22,7 +22,7 @@ def main():
     target=ROOT/f'dev/tests/evidence/archive/{prefix}.zip'; target.parent.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile(target,'x',zipfile.ZIP_DEFLATED) as z:
         for path,name in files: z.write(path,name)
-    receipt={'round':'R024','attempt':args.attempt,'archive':target.relative_to(ROOT).as_posix(),'sha256':sha(target),'files':len(files),'source_hashes_exact':True,'scope':'Exact original source/worker/package metadata; pinned official runtime libraries and model remain private reproducible downloads, not redistributed'}
+    receipt={'round':'R025','attempt':args.attempt,'archive':target.relative_to(ROOT).as_posix(),'sha256':sha(target),'files':len(files),'source_hashes_exact':True,'scope':'Exact original source/worker/package metadata; pinned official runtime libraries and model remain private reproducible downloads, not redistributed'}
     (ROOT/f'dev/tests/evidence/{prefix}-archive.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8'); print(json.dumps(receipt))
     return 0
 if __name__=='__main__': raise SystemExit(main())

@@ -2,7 +2,7 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
-R024 adds Windows whole-board discovery, PIPE_4 UUID/PCI startup binding and a stable shared-gate identity. Discovery is metadata-only and grants no sharing permission. The 288 regular, six synthetic ABI and three actual CUDA top-level cases are recorded separately. Complete LM Studio isolation, cross-platform execution and privacy/performance/funds qualification remain open. See [round](dev/progress/R024-本轮实现与完整待办.md) and [GI contract](docs/技术开发/附录-物理显卡身份探测与启动绑定.md).
+R025 connects an owned native Host session, independent local approval, the original physical GPU/ticket, encrypted result custody and three protocol renderers. A transient input binding preserves the asset ciphertext digest; shutdown waits for its worker and closes owned result readers. The 300 regular, six synthetic ABI, three direct real CUDA and three real Host CUDA top-level cases are recorded separately; platform issuer/order/payment remain synthetic. Full product, E2E/LP, SDK, trusted usage/ACK and funds qualification remain open. See [round](dev/progress/R025-本轮实现与完整待办.md) and [NH contract](docs/技术开发/附录-原生宿主内核接线与输入驻留绑定.md).
 
 ## Current implementation
 
@@ -14,8 +14,8 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
 | Implementation tasks | 31 in progress · 23 not started · 1 conditional · 1 deferred |
-| Latest source round | R024 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
-| Native test evidence | 288 passed · control/native/relay source subsets only |
+| Latest source round | R025 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
+| Native test evidence | 300 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
 | Source goal | ACTIVE |
 
@@ -83,17 +83,17 @@ Use PowerShell 7 with UTF-8 input. The explicit fetch may download roughly 1.2 G
 
 ## Screenshots and recording
 
-![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R024/screenshots/web-market.png)
+![Actual React Web marketplace/contract; synthetic authorization and qualification, no real payment/device](dev/media/R025/screenshots/web-market.png)
 
-![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R024/screenshots/miniapp-market.png)
+![Actual Taro H5 discovery page; not a native Alipay screenshot](dev/media/R025/screenshots/miniapp-market.png)
 
-![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R024/screenshots/miniapp-provider-conditions.png)
+![Actual Taro H5 provider conditions: concrete model, windows, disk and explicit consent](dev/media/R025/screenshots/miniapp-provider-conditions.png)
 
-[Web provider conditions](dev/media/R024/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R024/screenshots/miniapp-provider-revoked.png)
+[Web provider conditions](dev/media/R025/screenshots/web-provider-conditions.png) · [Revoked identity state](dev/media/R025/screenshots/miniapp-provider-revoked.png)
 
-![Actual Taro H5 transaction and provider-control recording](dev/media/R024/recordings/miniapp-transaction.gif)
+![Actual Taro H5 transaction and provider-control recording](dev/media/R025/recordings/miniapp-transaction.gif)
 
-[Web MP4](dev/media/R024/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R024/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R024/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R024/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
+[Web MP4](dev/media/R025/recordings/web-transaction.mp4) · [Taro H5 MP4](dev/media/R025/recordings/miniapp-transaction.mp4) · [Web GIF](dev/media/R025/recordings/web-transaction.gif) · [Unknown-order reply](dev/media/R025/screenshots/web-order-pending.png) · [Product provenance](dev/media/frontend-manifest.json)
 
 Compiled pages connect a real local HTTP/database chain. Synthetic OAuth/qualifications/device heartbeats exist only in the test binary. There is no real authorization, payment, device execution or model result. The following reader captures have a separate provenance record.
 

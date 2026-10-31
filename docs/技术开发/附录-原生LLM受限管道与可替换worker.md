@@ -50,7 +50,7 @@
 
 | 编号 | 阶段 | 细则 |
 | --- | --- | --- |
-| NK-026 | 三文本档位 | 复用网关严格 `Preflight`：Chat Completions、Responses、Anthropic Messages。模型、流式与输出上限必须和冻结清单相同，原始字节长度与 SHA-256 必须相同。工具、图片、外部资产和其他未支持字段提前拒绝。 |
+| NK-026 | 三文本档位 | 复用网关严格 `Preflight`：Chat Completions、Responses、Anthropic Messages。模型、流式、输出上限及原始字节长度必须和冻结清单相同。清单摘要指原密文资产；解密正文另以受信交付创建的本机驻留凭据检查，见[NH-018—024](附录-原生宿主内核接线与输入驻留绑定.md)。不得将明文 SHA-256 与密文摘要混比或覆盖字段。工具、图片、外部资产和其他未支持字段提前拒绝。 |
 | NK-027 | 内容映射 | Chat 保留 role/content；Responses instructions 作为 system、字符串 input 作为 user，消息数组保留角色；Messages system 放在消息前；仅文本块按原顺序拼接。developer 不静默改为 system，模板不支持时拒绝。 |
 | NK-028 | 采样语义 | 未传 temperature/top_p 时此内核档位明确使用 1/1；temperature=0 走 greedy，否则 top_p→temperature→distribution sampler；本档不支持 top_p=0，提前拒绝。stop/stop_sequences 不丢弃，使用有界前缀后缀过滤，完整停止词和其后文字不得先泄露到输出。 |
 | NK-029 | 真分词门槛 | 使用批准模板调用 `llama_chat_apply_template`，模板结果≤1MiB；使用同一模型 vocab 的 `llama_tokenize` 实际计数。模板＋special token 后的输入超限，或 input＋最大输出超过 context，必须在创建推理上下文和 decode 前拒绝。字符数/平均 token 比率不能代替。 |
@@ -84,3 +84,7 @@ R023 当前接入补充：[NF 约束](附录-真实原生LLM包校验与本机�
 ## R024 当前物理显卡约束
 
 当前私有握手为PIPE_4，环境域为P11_LLAMA_ENV_2；旧版握手仅作历史证据。以[GI-001—032](附录-物理显卡身份探测与启动绑定.md)为当前启动身份约束。R024增加Windows NVIDIA整卡UUID/PCI探测及PIPE_4启动复核；显式GPU选择和环境摘要绑定实际身份，同UUID别名不能绕过共享门闩。只读gpu-discover不加载模型、不准入共享，LocalInfo仅含安全元数据。本机观测不构成远程证明或LP/E2E/性能/usage/ACK/资金资格；Linux/AMD/手机实际接入与完整LM Studio隔离封装仍待。全56任务222子项、80/96完整验收保持开放。
+
+## R025 当前宿主与正文交接约束
+
+以[NH-001—040](附录-原生宿主内核接线与输入驻留绑定.md)为当前装配、输入与结果句柄生命周期约束。R025接通独立批准的原生Host会话、原物理GPU与持久任务、加密结果仓和三协议交付；密文资产摘要保持原义，解密正文另以仅驻内存的原租约/清单/字节凭据校验。宿主拥有worker和结果读取句柄并在关闭时排空、撤权及等待退出，未知原owner不释放。当前限PLAINTEXT/STANDARD；生产资金/usage/ACK/SDK、崩溃恢复、完整LM Studio/ComfyUI/LMA、E2E/LP/性能与80/96完整验收仍待，全56任务222子项保持开放。

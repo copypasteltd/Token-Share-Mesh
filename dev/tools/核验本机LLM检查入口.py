@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[2]
 def sha(path):
     with path.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 def main():
-    native=json.loads((ROOT/'dev/tests/evidence/R024-native-source-checks.json').read_text(encoding='utf-8'))
+    native=json.loads((ROOT/'dev/tests/evidence/R025-native-source-checks.json').read_text(encoding='utf-8'))
     binary=next(a for a in native['artifacts'] if a['path']=='runtime/bin/p11-node.exe')
     executable=ROOT/binary['path']
     if native['status']!='PASSED_WITH_LIMITED_SCOPE' or sha(executable)!=binary['sha256']:raise RuntimeError('current native node binary required')
@@ -35,9 +35,9 @@ def main():
         else: passed=passed and output=='' and diagnostic.strip()=='local kernel inspection rejected'
         records.append({'case':name,'exit_code':result.returncode,'passed':passed,'safe_view':view,'diagnostic':diagnostic.strip()})
     proposal=ROOT/'runtime/native-llama/inspection-proposal.json';proposal.write_text(json.dumps(request,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    report={'round':'R024','passed':all(r['passed'] for r in records),'binary':binary['path'],'binary_sha256':sha(executable),'cases':records,'package_sha256':prepared['package_sha256'],
+    report={'round':'R025','passed':all(r['passed'] for r in records),'binary':binary['path'],'binary_sha256':sha(executable),'cases':records,'package_sha256':prepared['package_sha256'],
       'proposal_is_approval':False,'inference_executed':False,'execution_enabled':False,'virtualization_used':False,'sources':{p.relative_to(ROOT).as_posix():sha(p) for p in [Path(__file__).resolve(),ROOT/'dev/src/client/cmd/p11-node/kernel.go']}}
-    (ROOT/'dev/tests/evidence/R024-native-kernel-cli.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (ROOT/'dev/tests/evidence/R025-native-kernel-cli.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({'passed':report['passed'],'cases':len(records),'execution_enabled':False}))
     return 0 if report['passed'] else 1
 if __name__=='__main__':raise SystemExit(main())

@@ -49,7 +49,8 @@ type hostFixture struct {
 	inputOnce                                                        sync.Once
 }
 
-func newHostFixture(t *testing.T) *hostFixture {
+func newHostFixture(t *testing.T) *hostFixture { return newHostFixtureConfigured(t, nil) }
+func newHostFixtureConfigured(t *testing.T, configure func(*hostFixture)) *hostFixture {
 	t.Helper()
 	f := &hostFixture{key: ed25519.NewKeyFromSeed(bytes.Repeat([]byte{91}, 32)), seen: map[string]bool{}, inputStarted: make(chan struct{})}
 	f.server = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { f.serve(t, w, r) }))
@@ -68,6 +69,9 @@ func newHostFixture(t *testing.T) *hostFixture {
 	a := devicecontrol.Approval{Order: "order_test", Route: "route_test", Seller: "seller_synthetic", Device: "device_synthetic", Resource: "resource_test", Capability: "cap_test", ContractHash: strings.Repeat("c", 64), Mode: "PLAINTEXT", Privacy: "STANDARD", EnvironmentRef: "kernel_environment_test", EnvironmentDigest: strings.Repeat("d", 64), EngineKind: "LLAMA_CPP_NATIVE", EngineRelease: "llama_test_1", ModelDigest: strings.Repeat("e", 64), Spec: executionlease.Spec{Protocol: relay.ChatText, Model: "mesh-local-text", MaxOutputTokens: 32}, InputTokenLimit: 1024}
 	f.config = HostConfig{Profile: HostProfile, IssuerPin: base64.RawURLEncoding.EncodeToString(f.key.Public().(ed25519.PublicKey)), Rules: []HostRule{{Approval: a, PhysicalDigest: strings.Repeat("f", 64)}}}
 	f.body = []byte("{\n  \"model\":\"mesh-local-text\", \"messages\":[{\"role\":\"user\",\"content\":\"" + hostContentMarker + "\"}],\n  \"max_completion_tokens\":8,\"stream\":false\n}\n")
+	if configure != nil {
+		configure(f)
+	}
 	f.issue(t, time.Now().UTC())
 	var e error
 	f.host, e = f.node.InitHost(context.Background(), f.config)

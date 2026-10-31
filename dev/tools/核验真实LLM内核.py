@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--attempt', type=int, required=True)
     args = parser.parse_args()
     if args.attempt < 1 or args.attempt > 99: raise RuntimeError('invalid attempt')
-    evidence = ROOT/'dev/tests/evidence'; prefix = f'R024-native-real-attempt{args.attempt}'
+    evidence = ROOT/'dev/tests/evidence'; prefix = f'R025-native-real-attempt{args.attempt}'
     raw = evidence/(prefix+'-tests.jsonl'); target = evidence/(prefix+'-summary.json')
     if raw.exists() or target.exists(): raise RuntimeError('attempt evidence is immutable; use next attempt')
     prepared = ROOT/'runtime/native-llama/preparation.json'
@@ -48,18 +48,18 @@ def main():
         try: events.append(json.loads(line))
         except json.JSONDecodeError: pass
     cases = {e['Test']:e['Action'] for e in events if e.get('Test') and '/' not in e['Test'] and e['Action'] in ('pass','fail','skip')}
-    paths = [p for d in ['dev/src/client/adapters/llamaworker','dev/src/client/kernels/llama-worker','dev/src/client/results','dev/src/client/protocol/textoutput','dev/src/client/supervisor','dev/src/shared/gpuid'] for p in (ROOT/d).glob('*') if p.is_file()]
+    paths = [p for d in ['dev/src/client/adapters/llamaworker','dev/src/client/kernels/llama-worker','dev/src/client/results','dev/src/client/protocol/textoutput','dev/src/client/supervisor','dev/src/shared/gpuid','dev/src/client/protocol/devicecontrol','dev/src/client/protocol/executionlease'] for p in (ROOT/d).glob('*') if p.is_file()]
     paths += [Path(__file__).resolve(),ROOT/'dev/tools/准备真实LLM验证包.py']
     manifest = json.loads(package.read_text(encoding='utf-8'))
     for pin in [manifest['executable'],manifest['model'],manifest['template'],*manifest['libraries']]:
         if sha(package.parent/pin['path']) != pin['sha256']: raise RuntimeError('native package changed during test')
     passed = code == 0 and len(cases) == 3 and all(v == 'pass' for v in cases.values())
-    receipt = {'round':'R024','attempt':args.attempt,'recorded_at':started,'finished_at':datetime.now(timezone.utc).isoformat(),'passed':passed,'returncode':code,
+    receipt = {'round':'R025','attempt':args.attempt,'recorded_at':started,'finished_at':datetime.now(timezone.utc).isoformat(),'passed':passed,'returncode':code,
       'scope':'Explicit Windows native CUDA0/Qwen 0.5B test on this machine; original owned process, pinned CUDA modules, six JSON/SSE render combinations, native stop/cancel/deadline. Observed UUID/PCI is local metadata, not remote attestation. Not marketplace, LP, E2E, SDK, trusted usage, funds or 30-run performance qualification.',
       'gpu_before':before,'gpu_after':after,'cases':cases,'preparation':preparation,'package_manifest':manifest,
       'raw':raw.relative_to(ROOT).as_posix(),'raw_sha256':sha(raw),'sources':{p.relative_to(ROOT).as_posix():sha(p) for p in paths},'virtualization_used':False}
     target.write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    if passed: (evidence/'R024-native-real-summary.json').write_bytes(target.read_bytes())
+    if passed: (evidence/'R025-native-real-summary.json').write_bytes(target.read_bytes())
     print(json.dumps({'passed':passed,'returncode':code,'cases':cases},ensure_ascii=False))
     return 0 if passed else 1
 

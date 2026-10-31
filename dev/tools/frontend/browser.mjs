@@ -13,8 +13,8 @@ const require = createRequire(path.join(root, 'runtime/frontend/workspace/packag
 const { chromium } = require('playwright-core');
 const target = process.env.P11_UI_TARGET;
 const roundID = process.env.P11_EVIDENCE_ROUND || 'R006';
-if (!['R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024'].includes(roundID)) throw new Error('Explicit evidence round required');
-const providerRound = ['R009', 'R010', 'R011', 'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024'].includes(roundID);
+if (!['R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024','R025'].includes(roundID)) throw new Error('Explicit evidence round required');
+const providerRound = ['R009', 'R010', 'R011', 'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024','R025'].includes(roundID);
 if (!['web', 'miniapp'].includes(target)) throw new Error('Explicit UI target required');
 const base = new URL(process.env.P11_UI_BASE);
 if (base.protocol !== 'http:' || base.hostname !== '127.0.0.1') throw new Error('Disposable loopback harness required');
@@ -56,7 +56,7 @@ try {
     if (providerRound && url.pathname === '/v1/p11/devices/pairing-intents' && request.method() === 'POST') {
       pairRequests.push({ key: request.headers()['idempotency-key'], body: request.postData() });
       if (!lostPairing) { lostPairing = true; const actual = await route.fetch(); assert.equal(actual.status(), 201); return route.abort('failed'); }
-      if (['R011', 'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024'].includes(roundID) && pairRequests.length === 2) {
+      if (['R011', 'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024','R025'].includes(roundID) && pairRequests.length === 2) {
         const actual = await route.fetch(); assert.equal(actual.status(), 201);
         await heldPairRecovery; return route.fulfill({ response: actual });
       }
@@ -224,14 +224,14 @@ try {
     await confirmPair(); await button('创建一次性配对申请').click(); await visible('结果尚未确认');
     await page.reload({ waitUntil: 'networkidle' }); await button('核对原请求').click();
     await navigation(target === 'web' ? '我的共享' : '共享').click();
-    if (['R011', 'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024'].includes(roundID)) {
+    if (['R011', 'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024','R025'].includes(roundID)) {
       assert(!(await input('配对设备名称').isEnabled()), 'Provider form remains gated during original command recovery');
       releasePairRecovery();
     }
     await visible('原配对申请已确认，凭据不再显示');
     assert.equal(pairRequests.length, 2); assert.deepEqual(pairRequests[0], pairRequests[1]); assert.equal(pairingCredential, '');
     await input('配对设备名称').fill('合成本机 RTX 4090'); await confirmPair();
-    if (['R011', 'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024'].includes(roundID)) {
+    if (['R011', 'R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024','R025'].includes(roundID)) {
       receipt.provider_load_after_recovery = true;
       record('Provider page mounted during held original recovery loads owner profile once idle; no manual reload or automatic write retry');
     }
@@ -258,7 +258,7 @@ try {
     native('init', JSON.stringify({ control_base: base.origin, model_name: 'RTX 4090 24GB', resource_kind: 'GPU_DEVICE', os_build: 'SYNTHETIC_BROWSER_CONTROL', client_release_id: 'SYNTHETIC_BROWSER_CONTROL' }));
     const enrolled = native('enroll', pairingCredential); pairingCredential = '';
     receipt.provider_device_id = enrolled.device_id; assert(receipt.provider_device_id?.startsWith('dev_'));
-    if (['R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024'].includes(roundID)) {
+    if (['R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024','R025'].includes(roundID)) {
       const initialized = native('execution-init'); const reopened = native('execution-status');
       assert.deepEqual(reopened, initialized); assert.equal(initialized.profile, 'P11_NATIVE_EXECUTION_STORE_1');
       assert.equal(initialized.receipt_count, 0); assert.deepEqual(initialized.resources, []);

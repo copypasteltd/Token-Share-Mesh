@@ -20177,11 +20177,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "75f56cecc0de429c6b0c5cbdf6a70b9b9ae2f6a07d31b549f8e9db196abd954b"
+      "sha256": "765a003591e8b4a74efd992a54563cd28e8283d13196257a84d78d01eaa98354"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "81c5f3fffc7378f6e0af1183b519b60c94310c85eed859016ee2e44756314f15"
+      "sha256": "fdc782b0e2eb8f37941357d2f40929d30b492388f2aee31adb2eb13b996fc8e3"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20233,7 +20233,7 @@
     },
     {
       "path": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
-      "sha256": "6e837ba51452d839e1827e076db6f1274f89ba7a8fa44dc6e10cf06e3e625331"
+      "sha256": "4c58641f1d59c5723f08297035e153321641e8c1f3f9f0be096e3329465a64cc"
     },
     {
       "path": "docs/技术开发/10-Android与LMA工程设计.md",
@@ -20353,7 +20353,7 @@
     },
     {
       "path": "docs/技术开发/附录-供给端内核封装与替换规范.md",
-      "sha256": "372a871df7fa364d0349b372cc2648a55f95fb92fbab7df82eb3992dff8cf5a5"
+      "sha256": "5f97741ea709e58a60c01d40e98c7af916ea6fb500b206cee1d0988da682925f"
     },
     {
       "path": "docs/技术开发/附录-协议字段映射与兼容档位.md",
@@ -20373,7 +20373,7 @@
     },
     {
       "path": "docs/技术开发/附录-本地内容隐私防护与分级验收.md",
-      "sha256": "dd56b915ab2615d30c8eab0501af2f67c917149a7fe0685fdd0436214fdbacc7"
+      "sha256": "3ea5a5ee3fae3cb73bd3c1177a7811f63afdc81458f4b8e3170f3a7d4c8531ad"
     },
     {
       "path": "docs/技术开发/附录-本轮范围与端侧选型修订.md",

@@ -1,14 +1,14 @@
 package llamaworker
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
+	"context"
 	"encoding/json"
 	"math"
 	"strings"
 	"time"
 	"unicode/utf8"
 
+	"p11.local/compute/client/protocol/devicecontrol"
 	"p11.local/compute/client/protocol/executionlease"
 	"p11.local/compute/client/supervisor"
 	relay "p11.local/compute/gateway/core"
@@ -38,10 +38,9 @@ func content(raw json.RawMessage) string {
 
 // normalize only follows the already strict native-text preflight. Additional
 // local-profile limits are explicit rejections, never silently dropped fields.
-func normalize(w supervisor.Work, m executionlease.Manifest, raw []byte, c Config) ([]byte, time.Time, error) {
-	h := sha256.Sum256(raw)
+func normalize(ctx context.Context, w supervisor.Work, m executionlease.Manifest, raw []byte, c Config) ([]byte, time.Time, error) {
 	deadline, e := time.Parse(time.RFC3339Nano, m.HardDeadline)
-	if e != nil || !deadline.After(time.Now()) || m.Profile != executionlease.ManifestProfile || len(raw) > maxBody || len(raw) != int(m.InputBytes) || hex.EncodeToString(h[:]) != m.InputDigest ||
+	if e != nil || !deadline.After(time.Now()) || m.Profile != executionlease.ManifestProfile || len(raw) > maxBody || len(raw) != int(m.InputBytes) || !executionlease.Hash(m.InputDigest) || !devicecontrol.CheckPlaintextBinding(ctx, w.RequestID, m, raw) ||
 		w.RequestID == "" || len(w.RequestID) > 192 || strings.IndexByte(w.RequestID, 0) >= 0 || w.LocalGeneration == "" || w.Environment != c.Environment || w.Resource != m.Resource || w.Resource != c.Resource ||
 		m.EnvironmentDigest != c.Environment || m.Capability != c.Capability || m.EngineKind != "LLAMA_CPP_NATIVE" || m.EngineRelease != EngineRelease ||
 		m.ModelDigest != c.Model.SHA256 || m.RecipeDigest != c.Template.SHA256 || m.Mode != "PLAINTEXT" || m.Privacy != "STANDARD" ||

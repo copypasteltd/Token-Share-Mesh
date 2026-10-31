@@ -100,7 +100,7 @@ type native struct {
 	checkEntered                    chan struct{}
 }
 
-func (n *native) CheckInput(supervisor.Work, executionlease.Manifest, []byte) error {
+func (n *native) CheckInput(context.Context, supervisor.Work, executionlease.Manifest, []byte) error {
 	if n.checkEntered != nil {
 		close(n.checkEntered)
 	}

@@ -3,18 +3,24 @@ package llamaworker
 import (
 	"bytes"
 	"context"
+	"crypto/ed25519"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/binary"
 	"encoding/hex"
+	"encoding/json"
+	"fmt"
 	"io"
 	"os"
 	"p11.local/compute/shared/gpuid"
+	"p11.local/compute/shared/ids"
 	"path/filepath"
 	"strings"
 	"sync"
 	"testing"
 	"time"
 
+	"p11.local/compute/client/protocol/devicecontrol"
 	"p11.local/compute/client/protocol/executionlease"
 	"p11.local/compute/client/supervisor"
 	relay "p11.local/compute/gateway/core"
@@ -24,9 +30,46 @@ func textCase(profile relay.Profile, raw string) (Config, supervisor.Work, execu
 	c := Config{Environment: strings.Repeat("c", 64), Capability: "cap_native_text", Resource: "physical_gpu_0", Model: FilePin{SHA256: strings.Repeat("a", 64)}, Template: FilePin{SHA256: strings.Repeat("b", 64)}, ContextTokens: 2048, BatchTokens: 32, Threads: 1}
 	w := supervisor.Work{RequestID: "original_request", Resource: "physical_gpu_0", LocalGeneration: "local_generation_1", Environment: c.Environment}
 	b := []byte(raw)
-	h := sha256.Sum256(b)
-	m := executionlease.Manifest{Profile: executionlease.ManifestProfile, ID: "manifest_original", Resource: w.Resource, EnvironmentDigest: c.Environment, Capability: c.Capability, EngineKind: "LLAMA_CPP_NATIVE", EngineRelease: EngineRelease, ModelDigest: c.Model.SHA256, RecipeDigest: c.Template.SHA256, InputTokenLimit: 1024, InputBytes: int64(len(b)), InputDigest: hex.EncodeToString(h[:]), Mode: "PLAINTEXT", Privacy: "STANDARD", HardDeadline: time.Now().Add(time.Minute).UTC().Format(time.RFC3339Nano), Spec: executionlease.Spec{Protocol: profile, Model: "public_model", MaxOutputTokens: 32, Stream: true}}
+	// This synthetic asset digest deliberately differs from the plaintext hash.
+	h := sha256.Sum256(append([]byte("synthetic ciphertext\x00"), b...))
+	m := executionlease.Manifest{Profile: executionlease.ManifestProfile, ID: "manifest_original", Job: "job_original", Attempt: "attempt_original", Order: "order_original", Route: "route_original", Seller: "seller_original", Device: "device_original", Generation: "1", Fence: "1", ContractHash: strings.Repeat("d", 64), EnvironmentRef: "env_original", InputAsset: "asset_original", Resource: w.Resource, EnvironmentDigest: c.Environment, Capability: c.Capability, EngineKind: "LLAMA_CPP_NATIVE", EngineRelease: EngineRelease, ModelDigest: c.Model.SHA256, RecipeDigest: c.Template.SHA256, InputTokenLimit: 1024, InputBytes: int64(len(b)), InputDigest: hex.EncodeToString(h[:]), Mode: "PLAINTEXT", Privacy: "STANDARD", HardDeadline: time.Now().Add(time.Minute).UTC().Format(time.RFC3339Nano), Spec: executionlease.Spec{Protocol: profile, Model: "public_model", MaxOutputTokens: 32, Stream: true}}
 	return c, w, m, b
+}
+
+// Synthetic issuer and approval are test fixtures only. Production obtains pins
+// and approval independently; it never derives consent from an incoming task.
+func nativeFixtureBinding(w supervisor.Work, m executionlease.Manifest, body []byte) (devicecontrol.PlaintextBinding, error) {
+	now := time.Now().UTC()
+	hard, _ := time.Parse(time.RFC3339Nano, m.HardDeadline)
+	expires := now.Add(30 * time.Second)
+	if hard.Before(expires) {
+		expires = hard
+	}
+	stamp := now.Add(-time.Millisecond).Format(time.RFC3339Nano)
+	l := executionlease.Lease{ID: w.RequestID, Job: m.Job, Attempt: m.Attempt, Order: m.Order, Seller: m.Seller, Device: m.Device, Resource: m.Resource, Generation: m.Generation, Capability: m.Capability, Manifest: m.ID, ManifestHash: m.Digest(), Environment: m.EnvironmentDigest, Revision: 1, Issued: stamp, NotBefore: stamp, HardDeadline: m.HardDeadline, Fence: m.Fence, Expires: expires.Format(time.RFC3339Nano), ContractHash: m.ContractHash, InputAssets: []string{m.InputAsset}, Profile: executionlease.Profile}
+	private := ed25519.NewKeyFromSeed(bytes.Repeat([]byte{0x42}, ed25519.SeedSize))
+	message, err := executionlease.Message(l)
+	if err != nil {
+		return devicecontrol.PlaintextBinding{}, err
+	}
+	l.Signature = base64.RawURLEncoding.EncodeToString(ed25519.Sign(private, message))
+	claim, _ := json.Marshal(l)
+	manifest, _ := json.Marshal(m)
+	approved := devicecontrol.Approval{Order: m.Order, Route: m.Route, Seller: m.Seller, Device: m.Device, Resource: m.Resource, Capability: m.Capability, ContractHash: m.ContractHash, Mode: m.Mode, Privacy: m.Privacy, EnvironmentRef: m.EnvironmentRef, EnvironmentDigest: m.EnvironmentDigest, EngineKind: m.EngineKind, EngineRelease: m.EngineRelease, ModelDigest: m.ModelDigest, RecipeDigest: m.RecipeDigest, Spec: m.Spec, InputTokenLimit: m.InputTokenLimit}
+	a, err := devicecontrol.AcceptDelivery(devicecontrol.Reply{Status: 200, Body: claim}, devicecontrol.Reply{Status: 200, Body: manifest}, private.Public().(ed25519.PublicKey), approved, now)
+	if err != nil {
+		return devicecontrol.PlaintextBinding{}, err
+	}
+	return a.BindPlaintext(body, now)
+}
+
+func nativeInputContext(t *testing.T, ctx context.Context, w supervisor.Work, m executionlease.Manifest, body []byte) context.Context {
+	t.Helper()
+	b, err := nativeFixtureBinding(w, m, body)
+	if err != nil {
+		t.Fatal("synthetic authenticated native input fixture", err)
+	}
+	return devicecontrol.WithPlaintextBinding(ctx, b)
 }
 
 const chatRequest = `{"model":"public_model","messages":[{"role":"user","content":"sensitive fixture only"}],"max_tokens":32,"stream":true}`
@@ -41,19 +84,20 @@ func TestNativePipeThreeProfilesKeepTextAndRejectUnimplementedSemantics(t *testi
 		{relay.MessagesText, `{"model":"public_model","system":[{"type":"text","text":"system rule"}],"messages":[{"role":"user","content":[{"type":"text","text":"anthropic text"}]}],"max_tokens":32,"stream":true}`, "anthropic text"},
 	} {
 		c, w, m, raw := textCase(tc.profile, tc.raw)
-		b, _, e := normalize(w, m, raw, c)
+		b, _, e := normalize(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw, c)
 		if e != nil || !bytes.Contains(b, []byte(tc.want)) {
 			t.Fatalf("profile %s: %v", tc.profile, e)
 		}
 		clear(b)
 	}
 	c, w, m, raw := textCase(relay.ChatText, chatRequest)
+	ctx := nativeInputContext(t, context.Background(), w, m, raw)
 	for _, mutate := range []func(*executionlease.Manifest){func(m *executionlease.Manifest) { m.Resource = "another_gpu" }, func(m *executionlease.Manifest) { m.EngineKind = "LM_STUDIO" }, func(m *executionlease.Manifest) { m.Privacy = "LP" }, func(m *executionlease.Manifest) { m.InputBytes++ }, func(m *executionlease.Manifest) { m.Spec.MaxOutputTokens++ }, func(m *executionlease.Manifest) {
 		m.HardDeadline = time.Now().Add(-time.Second).UTC().Format(time.RFC3339Nano)
 	}} {
 		copy := m
 		mutate(&copy)
-		if b, _, e := normalize(w, copy, raw, c); e == nil {
+		if b, _, e := normalize(ctx, w, copy, raw, c); e == nil {
 			clear(b)
 			t.Fatal("mismatched authority admitted")
 		}
@@ -62,17 +106,77 @@ func TestNativePipeThreeProfilesKeepTextAndRejectUnimplementedSemantics(t *testi
 	other.Resource = "another_physical_gpu"
 	companion := m
 	companion.Resource = other.Resource
-	if b, _, e := normalize(other, companion, raw, c); e == nil {
+	if b, _, e := normalize(ctx, other, companion, raw, c); e == nil {
 		clear(b)
 		t.Fatal("companion manifest selected an unapproved physical resource")
 	}
 
 	for _, raw := range []string{strings.Replace(chatRequest, `"max_tokens":32`, `"max_tokens":32,"tools":[]`, 1), strings.Replace(chatRequest, `"max_tokens":32`, `"max_tokens":32,"top_p":0`, 1), strings.Replace(chatRequest, "sensitive fixture only", `has\u0000nul`, 1)} {
 		c, w, m, b := textCase(relay.ChatText, raw)
-		if out, _, e := normalize(w, m, b, c); e == nil {
+		binding, err := nativeFixtureBinding(w, m, b)
+		// Unsupported fields may already be refused by authenticated delivery's
+		// strict preflight. Locally unsupported accepted fields must still fail.
+		if err != nil {
+			continue
+		}
+		if out, _, e := normalize(devicecontrol.WithPlaintextBinding(context.Background(), binding), w, m, b, c); e == nil {
 			clear(out)
 			t.Fatal("unsupported native semantics silently accepted")
 		}
+	}
+}
+
+func TestNativeLocalInputBindingKeepsCipherAndPlaintextDigestsSeparate(t *testing.T) {
+	c, w, m, raw := textCase(relay.ChatText, chatRequest)
+	plain := sha256.Sum256(raw)
+	if m.InputDigest == hex.EncodeToString(plain[:]) {
+		t.Fatal("fixture incorrectly conflated plaintext and ciphertext digests")
+	}
+	before := m.Digest()
+	ctx := nativeInputContext(t, context.Background(), w, m, raw)
+	if b, _, err := normalize(ctx, w, m, raw, c); err != nil {
+		t.Fatal("valid independently accepted bytes rejected", err)
+	} else {
+		clear(b)
+	}
+	tampered := bytes.ReplaceAll(raw, []byte("sensitive"), []byte("different"))
+	if len(tampered) != len(raw) {
+		t.Fatal("same-length mutation fixture drift")
+	}
+	for _, tc := range []struct {
+		ctx context.Context
+		raw []byte
+	}{{context.Background(), raw}, {ctx, tampered}} {
+		if b, _, err := normalize(tc.ctx, w, m, tc.raw, c); err == nil {
+			clear(b)
+			t.Fatal("missing custody or replaced bytes reached native normalization")
+		}
+	}
+	if m.Digest() != before {
+		t.Fatal("local custody altered the signed ciphertext manifest")
+	}
+}
+
+func TestNativeInputBindingRejectsOtherAuthorityAndRedactsFingerprint(t *testing.T) {
+	_, w, m, raw := textCase(relay.ChatText, chatRequest)
+	b, err := nativeFixtureBinding(w, m, raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := devicecontrol.WithPlaintextBinding(context.Background(), b)
+	wrong := m
+	wrong.InputDigest = strings.Repeat("e", 64)
+	if devicecontrol.CheckPlaintextBinding(ctx, "another_original_request", m, raw) || devicecontrol.CheckPlaintextBinding(ctx, w.RequestID, wrong, raw) || devicecontrol.CheckPlaintextBinding(devicecontrol.WithPlaintextBinding(context.Background(), devicecontrol.PlaintextBinding{}), w.RequestID, m, raw) {
+		t.Fatal("local fingerprint borrowed another lease or manifest")
+	}
+	dead, cancel := context.WithCancel(ctx)
+	cancel()
+	if devicecontrol.CheckPlaintextBinding(dead, w.RequestID, m, raw) {
+		t.Fatal("canceled call remained authorized")
+	}
+	encoded, err := json.Marshal(b)
+	if err != nil || string(encoded) != "{}" || fmt.Sprintf("%#v", b) != "[local input binding]" || fmt.Sprintf("%+v", b) != "[local input binding]" {
+		t.Fatal("transient fingerprint exposed to ordinary serialization or diagnostics")
 	}
 }
 
@@ -229,11 +333,14 @@ func awaitState(t *testing.T, a *Adapter, w supervisor.Work, state string) super
 func TestNativePipeOriginalOwnerOnceAndCleanupReceipt(t *testing.T) {
 	c, w, m, raw := textCase(relay.ChatText, chatRequest)
 	a, p := synthetic(t, c)
-	o, e := a.SubmitInput(context.Background(), w, m, raw)
+	o, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw)
 	if e != nil {
 		t.Fatal(e)
 	}
-	if _, e = a.SubmitInput(context.Background(), w, m, raw); e == nil {
+	if !ids.Valid(o.BackendID) {
+		t.Fatal("native backend ID cannot be persisted by the original supervisor")
+	}
+	if _, e = a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw); e == nil {
 		t.Fatal("duplicate submission")
 	}
 	id, body := p.request(t)
@@ -265,7 +372,7 @@ func TestNativePipeOriginalOwnerOnceAndCleanupReceipt(t *testing.T) {
 	if e != nil || !clean.WorkStopped || !clean.TokensRevoked || !clean.WorkspaceCleared || clean.ManifestHash != m.Digest() || clean.LocalGeneration != w.LocalGeneration {
 		t.Fatal("original cleanup proof lost")
 	}
-	if _, e = a.SubmitInput(context.Background(), w, m, raw); e == nil {
+	if _, e = a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw); e == nil {
 		t.Fatal("cleaned request resubmitted")
 	}
 }
@@ -273,7 +380,7 @@ func TestNativePipeOriginalOwnerOnceAndCleanupReceipt(t *testing.T) {
 func TestNativePipeCancelIndependentOfBlockedContent(t *testing.T) {
 	c, w, m, raw := textCase(relay.ChatText, chatRequest)
 	a, p := synthetic(t, c)
-	o, e := a.SubmitInput(context.Background(), w, m, raw)
+	o, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw)
 	if e != nil {
 		t.Fatal(e)
 	}
@@ -304,7 +411,7 @@ func TestNativePipeCancelIndependentOfBlockedContent(t *testing.T) {
 func TestNativePipeExitKeepsAmbiguousOwner(t *testing.T) {
 	c, w, m, raw := textCase(relay.ChatText, chatRequest)
 	a, p := synthetic(t, c)
-	if _, e := a.SubmitInput(context.Background(), w, m, raw); e != nil {
+	if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw); e != nil {
 		t.Fatal(e)
 	}
 	_, b := p.request(t)
@@ -314,7 +421,7 @@ func TestNativePipeExitKeepsAmbiguousOwner(t *testing.T) {
 	if _, e := a.Cleanup(context.Background(), w, o); e == nil {
 		t.Fatal("exit fabricated stop proof")
 	}
-	if _, e := a.SubmitInput(context.Background(), w, m, raw); e == nil {
+	if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw); e == nil {
 		t.Fatal("ambiguous work retried")
 	}
 }
@@ -322,7 +429,7 @@ func TestNativePipeExitKeepsAmbiguousOwner(t *testing.T) {
 func TestNativePipeSlowOutputCancelsWithinFixedBuffer(t *testing.T) {
 	c, w, m, raw := textCase(relay.ChatText, chatRequest)
 	a, p := synthetic(t, c)
-	if _, e := a.SubmitInput(context.Background(), w, m, raw); e != nil {
+	if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw); e != nil {
 		t.Fatal(e)
 	}
 	id, b := p.request(t)
@@ -352,7 +459,7 @@ func TestNativePipeSlowOutputCancelsWithinFixedBuffer(t *testing.T) {
 func TestNativePipeStaleCallbackCannotReleaseNextOwner(t *testing.T) {
 	c, w, m, raw := textCase(relay.ChatText, chatRequest)
 	a, p := synthetic(t, c)
-	if _, e := a.SubmitInput(context.Background(), w, m, raw); e != nil {
+	if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw); e != nil {
 		t.Fatal(e)
 	}
 	old, b := p.request(t)
@@ -364,7 +471,7 @@ func TestNativePipeStaleCallbackCannotReleaseNextOwner(t *testing.T) {
 	}
 	w.RequestID = "next_original_request"
 	w.LocalGeneration = "new_generation"
-	if _, e := a.SubmitInput(context.Background(), w, m, raw); e != nil {
+	if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw); e != nil {
 		t.Fatal(e)
 	}
 	_, b = p.request(t)
@@ -381,7 +488,7 @@ func TestNativePipeRejectsMismatchedStartAndStopMetadata(t *testing.T) {
 		t.Run(attack, func(t *testing.T) {
 			c, w, m, raw := textCase(relay.ChatText, chatRequest)
 			a, p := synthetic(t, c)
-			if _, e := a.SubmitInput(context.Background(), w, m, raw); e != nil {
+			if _, e := a.SubmitInput(nativeInputContext(t, context.Background(), w, m, raw), w, m, raw); e != nil {
 				t.Fatal(e)
 			}
 			id, body := p.request(t)

@@ -104,7 +104,7 @@ func (a *Adapter) SubmitInput(ctx context.Context, w supervisor.Work, m executio
 	if !original(w, m) {
 		return reject(ErrBinding)
 	}
-	if e := a.native.CheckInput(w, m, body); e != nil {
+	if e := a.native.CheckInput(ctx, w, m, body); e != nil {
 		return reject(e)
 	}
 	o, e := inputOptions(m, body)

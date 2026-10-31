@@ -269,5 +269,15 @@ func (p *PreparedExecution) Output(ctx context.Context) (supervisor.TextOutput, 
 		return nil, e
 	}
 	defer finish()
-	return p.resultWatch.Output(owned, p.resultHold, p.accepted)
+	out, e := p.resultWatch.Output(owned, p.resultHold, p.accepted)
+	if e != nil {
+		return nil, e
+	}
+	p.host.mu.Lock()
+	native := p.host.nativeSession
+	p.host.mu.Unlock()
+	if native != nil && native.watch == p.resultWatch {
+		return native.ownOutput(owned, out)
+	}
+	return out, nil
 }

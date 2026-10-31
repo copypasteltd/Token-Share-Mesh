@@ -22,7 +22,7 @@ type TextResult struct {
 // custodian drains it independently from transport and execution cleanup.
 type TextAdapter interface {
 	InputAdapter
-	CheckInput(Work, executionlease.Manifest, []byte) error
+	CheckInput(context.Context, Work, executionlease.Manifest, []byte) error
 	Started(context.Context, Work) (TextStart, error)
 	Read(context.Context, Work) ([]byte, error)
 	Result(Work) (TextResult, error)
