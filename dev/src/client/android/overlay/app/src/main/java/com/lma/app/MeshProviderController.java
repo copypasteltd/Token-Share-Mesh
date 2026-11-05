@@ -60,7 +60,7 @@ public final class MeshProviderController implements AutoCloseable {
     private void openApproved()throws Exception{
         openIdentity(false);approved=config.load(identity.publicKey());validateLocal(approved);JSONObject approval=approved.getJSONObject("approval");
         if(journal==null)journal=new MeshJournal(app.getNoBackupFilesDir(),new JSONObject().put("seller_id",approval.getString("seller_id")).put("device_id",approval.getString("device_id")).put("resource_id",approval.getString("resource_id")),true);
-        if(control==null)control=new MeshControlClient(approved,identity);if(reports==null)reports=new MeshControlReporter(config,identity,control);
+        if(control==null)control=new MeshControlClient(approved,identity);if(reports==null)reports=new MeshControlReporter(config,identity,control,(original,wire)->renewExecutionLease(original.id,wire));
     }
     public CompletableFuture<JSONObject> enable(){long choice=ownerChoice.incrementAndGet();return enqueue(()->{
         if(choice!=ownerChoice.get())throw new IOException("MESH_OWNER_CHOICE_CHANGED");
@@ -93,7 +93,7 @@ public final class MeshProviderController implements AutoCloseable {
                 MeshResultCipher.Result result;
                 try(MeshProgressPump progress=new MeshProgressPump(original,reports,control,()->runner.cancel(original.id))){
                     result=runner.execute(original,body,key,inputs,(id,stage,fraction)->{
-                        if(!admitted[0]){reports.progress(original,"ACKED",null);admitted[0]=true;}else progress.changed(fraction);
+                        if(!admitted[0]){reports.progress(original,"ACKED",null);admitted[0]=true;progress.admitted();}else progress.changed(fraction);
                     });progress.check();
                 }
                 return new JSONObject().put("lease_id",original.id).put("attempt_id",original.attempt).put("ciphertext_sha256",result.ciphertextSha256).put("ciphertext_bytes",result.ciphertextBytes).put("charge_authority",false);
@@ -113,12 +113,12 @@ public final class MeshProviderController implements AutoCloseable {
         try{if(wire==null||wire.length>16384)throw new IOException("MESH_RENEWAL_BODY");current.renew(originalLease,wire,pin,new MeshLease.Approval(approval.getJSONObject("approval")));}finally{Arrays.fill(pin,(byte)0);if(wire!=null)Arrays.fill(wire,(byte)0);}
     }
     public CompletableFuture<JSONObject> recoverAfterReboot(){return enqueue(()->{
-        if(enabled||busy.get())throw new IOException("MESH_DISABLE_BEFORE_RECOVERY");openApproved();if(recovery==null)recovery=new MeshMediaRecovery(app,resident,journal);recovery.afterReboot();runner=null;state="DISABLED";reason="";return status();
+        if(enabled||busy.get())throw new IOException("MESH_DISABLE_BEFORE_RECOVERY");openApproved();if(recovery==null)recovery=new MeshMediaRecovery(app,resident,journal);recovery.afterReboot();runner=null;state="DISABLED";reason="";reports.recoverCleaned(journal,approved.getJSONObject("approval").getString("device_id"));return status();
     });}
     public CompletableFuture<JSONObject> retryOwnedCleanup(){return enqueue(()->{
-        if(enabled||busy.get()||runner==null)throw new IOException("MESH_DISABLE_BEFORE_RECOVERY");runner.retryCleanup();state="DISABLED";reason="";return status();
+        if(enabled||busy.get()||runner==null)throw new IOException("MESH_DISABLE_BEFORE_RECOVERY");runner.retryCleanup();state="DISABLED";reason="";reports.recoverCleaned(journal,approved.getJSONObject("approval").getString("device_id"));return status();
     });}
-    public CompletableFuture<JSONObject> retryReports(){return enqueue(()->{openApproved();return reports.retryPending();});}
+    public CompletableFuture<JSONObject> retryReports(){return enqueue(()->{openApproved();JSONObject pending=reports.retryPending();pending.put("cleanup_recovery",reports.recoverCleaned(journal,approved.getJSONObject("approval").getString("device_id")));return pending;});}
     public boolean keepAlive(){return enabled||busy.get();}
     public JSONObject status(){
         try{return new JSONObject().put("profile","P11_ANDROID_PROVIDER_STATUS_1").put("model_name",Build.MANUFACTURER+" "+Build.MODEL).put("state",state).put("sharing_enabled",enabled).put("busy",busy.get()).put("safe_reason_code",reason).put("content_preview_available",false).put("market_qualified",false);}

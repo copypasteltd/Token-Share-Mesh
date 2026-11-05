@@ -40,7 +40,7 @@ public final class MeshLease {
     private final JSONObject originalLease;
     private final byte[] originalManifest;
     private final JSONObject manifest;
-    private MeshLease(JSONObject lease,JSONObject m,byte[] original,byte[] manifestBytes,Instant now) throws Exception {
+    private MeshLease(JSONObject lease,JSONObject m,byte[] original,byte[] manifestBytes,Instant now,String signedIdentity) throws Exception {
         id=lease.getString("lease_id");job=lease.getString("job_id");attempt=lease.getString("attempt_id");order=lease.getString("order_id");
         seller=lease.getString("seller_id");device=lease.getString("device_id");resource=lease.getString("resource_id");capability=lease.getString("capability_id");
         generation=counter(lease,"resource_lock_generation");fence=counter(lease,"fencing_token");manifestHash=lease.getString("execution_manifest_hash");environment=lease.getString("kernel_environment_digest");metadataHash=MeshJournal.sha(original);
@@ -48,7 +48,7 @@ public final class MeshLease {
         List<InputAsset> inputList=new ArrayList<>();JSONArray inputAssets=m.optJSONArray("input_assets");if(inputAssets!=null)for(int i=0;i<inputAssets.length();i++)inputList.add(new InputAsset(inputAssets.getJSONObject(i)));inputs=Collections.unmodifiableList(inputList);
         inputBytes=MeshJson.integer(m,"input_bytes",1,256L*1024);maxWidth=MeshJson.integer(m,"maximum_width",1,8192);maxHeight=MeshJson.integer(m,"maximum_height",1,8192);
         maxFrames=MeshJson.integer(m,"maximum_frames",1,4096);maxSeconds=MeshJson.integer(m,"maximum_seconds",1,3600);
-        window=new Window(lease,now,metadataHash);originalLease=MeshJson.copy(lease);originalManifest=manifestBytes.clone();manifest=MeshJson.copy(m);
+        window=new Window(lease,now,signedIdentity);originalLease=MeshJson.copy(lease);originalManifest=manifestBytes.clone();manifest=MeshJson.copy(m);
     }
     /** Approval comes from the separately encrypted owner configuration, not a task response. */
     public static final class Approval {
@@ -102,7 +102,7 @@ public final class MeshLease {
         Ed25519Signer verifier=new Ed25519Signer();verifier.init(false,new Ed25519PublicKeyParameters(independentIssuerPin,0));verifier.update(message,0,message.length);
         if(!verifier.verifySignature(sig))throw new IOException("MESH_LEASE_SIGNATURE");
         Instant now=Instant.now(),issued=instant(l,"issued_at"),start=instant(l,"not_before"),end=instant(l,"expires_at"),hard=instant(l,"hard_deadline");
-        if(start.isAfter(issued)||!issued.isBefore(end)||end.isAfter(hard)||Duration.between(issued,end).compareTo(Duration.ofSeconds(45))>0||now.isBefore(start)||!now.isBefore(end))throw new IOException("MESH_LEASE_TIME");
+        if(start.isAfter(issued)||!issued.isBefore(end)||end.isAfter(hard)||Duration.between(issued,end).compareTo(Duration.ofSeconds(45))>0||now.isBefore(issued)||now.isBefore(start)||!now.isBefore(end))throw new IOException("MESH_LEASE_TIME");
         for(String name:new String[]{"job_id","attempt_id","order_id","seller_id","device_id","resource_id","capability_id","resource_lock_generation","fencing_token","contract_hash","kernel_environment_digest","hard_deadline"})if(!MeshJson.string(l,name).equals(MeshJson.string(m,name)))throw new IOException("MESH_ORIGINAL_MANIFEST_OWNER");
         identifier(m,"input_asset_ref");if(!seen.contains(m.getString("input_asset_ref")))throw new IOException("MESH_ORIGINAL_INPUT_REFERENCE");
         JSONArray media=m.optJSONArray("input_assets");if(m.has("input_assets")&&media==null||media!=null&&media.length()>8)throw new IOException("MESH_INPUT_ASSET_LIMIT");
@@ -113,7 +113,10 @@ public final class MeshLease {
             mediaBytes=Math.addExact(mediaBytes,a.bytes);if(mediaBytes>64L*1024*1024)throw new IOException("MESH_INPUT_ASSET_LIMIT");
         }
         independentApproval.matches(m);
-        return new MeshLease(l,m,rawLease,rawManifest,now);
+        // Identity follows the authenticated field encoding, never JSON layout.
+        // Original wire bytes retain their separate metadataHash for the journal.
+        String signedIdentity=MeshJournal.sha(("P11_EXECUTION_LEASE_IDENTITY_1\n"+new String(message,StandardCharsets.US_ASCII)+signature+"\n").getBytes(StandardCharsets.US_ASCII));
+        return new MeshLease(l,m,rawLease,rawManifest,now,signedIdentity);
     }
     static String identifier(JSONObject o,String name)throws Exception{String s=MeshJson.string(o,name);if(!s.matches("[A-Za-z][A-Za-z0-9_-]{2,127}"))throw new IOException("MESH_ID");return s;}
     static String digest(JSONObject o,String name)throws Exception{String s=MeshJson.string(o,name);if(!s.matches("[a-f0-9]{64}"))throw new IOException("MESH_SHA256");return s;}
@@ -129,6 +132,7 @@ public final class MeshLease {
         if(elapsed<0||elapsed>=current.remainingNanos||!now.isBefore(current.expires)||!now.isBefore(current.hard))throw new IOException("MESH_LEASE_STOP_REQUIRED");
     }
     public long revision(){return window.revision;}
+    public String signedIdentity(){return window.signedHash;}
     /** A signed continuation can extend time only before the current window ends, with all original facts fixed. */
     public synchronized void renew(byte[] rawLease,byte[] issuerPin,Approval approval,RenewalCommit durable)throws Exception{
         check();if(durable==null)throw new IOException("MESH_RENEWAL_DURABILITY_REQUIRED");
@@ -137,12 +141,15 @@ public final class MeshLease {
         // Keep the existing monotonic clock; replay never creates a fresh window.
         if(candidate.revision==previous.revision&&candidate.signedHash.equals(previous.signedHash))return;
         if(previous.revision==Integer.MAX_VALUE||candidate.revision!=previous.revision+1||candidate.issued.isBefore(previous.issued)||!candidate.expires.isAfter(previous.expires))throw new IOException("MESH_RENEWAL_SEQUENCE");
-        java.util.Set<String> mutable=new HashSet<>(Arrays.asList("lease_revision","issued_at","not_before","expires_at","signature"));
-        if(next.originalLease.length()!=originalLease.length())throw new IOException("MESH_RENEWAL_ORIGINAL_FIELDS");
-        for(Iterator<String> it=originalLease.keys();it.hasNext();){String field=it.next();if(!mutable.contains(field)&&!MeshJson.canonical(originalLease.get(field)).equals(MeshJson.canonical(next.originalLease.get(field))))throw new IOException("MESH_RENEWAL_ORIGINAL_FIELDS");}
+        java.util.Set<String> mutable=new HashSet<>(Arrays.asList("lease_revision","issued_at","expires_at","signature"));
+        // Match the signed encoding: absent/empty optional values have the
+        // same meaning, while asset ordering and NotBefore remain immutable.
+        for(Iterator<String> it=originalLease.keys();it.hasNext();){String field=it.next();if(!mutable.contains(field)&&!field.equals("input_asset_refs")&&!field.equals("envelope_ref")&&!MeshJson.canonical(originalLease.get(field)).equals(MeshJson.canonical(next.originalLease.get(field))))throw new IOException("MESH_RENEWAL_ORIGINAL_FIELDS");}
+        JSONArray previousAssets=originalLease.optJSONArray("input_asset_refs"),nextAssets=next.originalLease.optJSONArray("input_asset_refs");
+        if(!MeshJson.canonical(previousAssets==null?new JSONArray():previousAssets).equals(MeshJson.canonical(nextAssets==null?new JSONArray():nextAssets))||!originalLease.optString("envelope_ref","").equals(next.originalLease.optString("envelope_ref","")))throw new IOException("MESH_RENEWAL_ORIGINAL_FIELDS");
         // Storage failure leaves the prior time window in force. A renewal is
         // neither another local submission nor new usage/charge authority.
-        check();durable.beforeUse(candidate.revision,next.metadataHash);check();window=candidate;
+        check();durable.beforeUse(candidate.revision,candidate.signedHash);check();window=candidate;
     }
     public JSONObject safeManifest()throws Exception{return MeshJson.copy(manifest);}
 }

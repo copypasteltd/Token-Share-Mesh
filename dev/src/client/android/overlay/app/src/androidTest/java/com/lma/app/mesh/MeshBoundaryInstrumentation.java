@@ -43,6 +43,7 @@ public final class MeshBoundaryInstrumentation extends Instrumentation {
             run(cases,"AIB-005",this::workspace);
             run(cases,"AIB-006",this::resultCipher);
             run(cases,"AIB-007",this::unknownReport);
+            run(cases,"AIB-008",this::failedCleanupRecovery);
             success=true;
         }catch(Exception failure){result.putString("safe_failure",failure.getClass().getSimpleName());}
         finally{try{if(ownedRoot!=null)removeTestTree(ownedRoot);}catch(Exception cleanup){success=false;result.putString("safe_failure","TEST_CLEANUP_FAILED");}}
@@ -91,9 +92,15 @@ public final class MeshBoundaryInstrumentation extends Instrumentation {
             MeshJournal.Work work=journal.admit(lease,1);journal.executing(work);byte[] next=fixture.wire(2,40);
             lease.renew(next,fixture.publicKey,fixture.approved(),(revision,hash)->journal.renewed(work,revision,hash));require(lease.revision()==2);
             lease.renew(next,fixture.publicKey,fixture.approved(),(revision,hash)->{throw new IOException("REPLAY_MUST_NOT_COMMIT_OR_RESET_WINDOW");});require(lease.revision()==2);
+            JSONObject sameLease=MeshJson.parse(next,16384);JSONObject reordered=new JSONObject();java.util.List<String> names=new java.util.ArrayList<>();for(java.util.Iterator<String> it=sameLease.keys();it.hasNext();)names.add(it.next());java.util.Collections.reverse(names);for(String name:names)reordered.put(name,sameLease.get(name));
+            byte[] reformatted=reordered.toString(2).getBytes(StandardCharsets.UTF_8);
+            require(!MeshJournal.sha(next).equals(MeshJournal.sha(reformatted)));
+            String originalIdentity=lease.signedIdentity();lease.renew(reformatted,fixture.publicKey,fixture.approved(),(revision,hash)->{throw new IOException("JSON_LAYOUT_REPLAY_MUST_NOT_RESET_WINDOW");});require(originalIdentity.equals(lease.signedIdentity()));
             rejected(()->lease.renew(fixture.wire(2,44),fixture.publicKey,fixture.approved(),(revision,hash)->journal.renewed(work,revision,hash)));require(lease.revision()==2);
             JSONObject altered=MeshJson.parse(fixture.wire(3,44),16384);altered.put("resource_lock_generation","2");byte[] bad=fixture.sign(altered);
             rejected(()->lease.renew(bad,fixture.publicKey,fixture.approved(),(revision,hash)->journal.renewed(work,revision,hash)));require(lease.revision()==2);
+            JSONObject optionalEmpty=MeshJson.parse(fixture.wire(3,44),16384);optionalEmpty.put("envelope_ref","");
+            lease.renew(fixture.sign(optionalEmpty),fixture.publicKey,fixture.approved(),(revision,hash)->journal.renewed(work,revision,hash));require(lease.revision()==3);
             journal.stopping(work);journal.cleaned(work,fixture.hash,true,true,true);
         }
     }
@@ -140,6 +147,28 @@ public final class MeshBoundaryInstrumentation extends Instrumentation {
             require(first.getString("key").equals(terminal.getString("key"))&&first.getString("body").equals(terminal.getString("body")));
         }finally{listener.close();dropper.join(5000);require(!dropper.isAlive());}}
     }
+    private void failedCleanupRecovery(File scratch)throws Exception{
+        Fixture fixture=new Fixture();MeshLease lease=fixture.lease(1,20);
+        try(ServerSocket listener=new ServerSocket(0,2,InetAddress.getByName("127.0.0.1"))){
+            listener.setSoTimeout(500);java.util.concurrent.atomic.AtomicInteger progress=new java.util.concurrent.atomic.AtomicInteger();
+            Thread server=new Thread(()->{while(!listener.isClosed())try(Socket accepted=listener.accept()){accepted.setSoTimeout(1000);replyOrDrop(accepted,progress);}catch(SocketTimeoutException again){}catch(IOException closed){if(listener.isClosed())return;}},"Mesh-test-owned-recovery");server.setDaemon(true);server.start();
+            try(MeshDeviceIdentity identity=new MeshDeviceIdentity(scratch,true);MeshOwnerConfig store=new MeshOwnerConfig(scratch,true);MeshJournal journal=new MeshJournal(scratch,fixture.binding(),true);MeshControlClient control=new MeshControlClient(fixture.config(identity.publicKey()).put("control_origin","http://127.0.0.1:"+listener.getLocalPort()),identity)){
+                MeshControlReporter reports=new MeshControlReporter(store,identity,control);MeshJournal.Work work=journal.admit(lease,1);journal.quarantine(work);
+                JSONObject failed=reports.cleanup(lease,journal.receipt(lease.id));require("QUARANTINED".equals(failed.getString("status")));
+                JSONObject original=store.controlRecords().getJSONObject("rows").getJSONObject("cleanup:"+lease.id);
+                journal.stopping(work);journal.cleaned(work,fixture.hash,true,true,true);
+                JSONObject result=reports.recoverCleaned(journal,lease.device);require(result.getInt("recovered_originals")==1&&!result.getBoolean("execution_authority_restored"));
+                JSONObject rows=store.controlRecords().getJSONObject("rows"),retained=rows.getJSONObject("cleanup:"+lease.id),recovery=rows.getJSONObject("recovery:"+lease.id);
+                require(original.getString("body").equals(retained.getString("body"))&&original.getString("key").equals(retained.getString("key"))&&"QUARANTINED".equals(retained.getJSONObject("ack").getString("status")));
+                byte[] wire=android.util.Base64.decode(recovery.getString("body"),android.util.Base64.URL_SAFE|android.util.Base64.NO_WRAP|android.util.Base64.NO_PADDING);JSONObject value=MeshJson.parse(wire,4096);
+                require(failed.getString("id").equals(value.getString("recovery_of"))&&"CLEANED".equals(recovery.getJSONObject("ack").getString("status")));
+                String signature=value.getString("signature"),unsigned=new String(wire,StandardCharsets.US_ASCII).replace("\"signature\":\""+signature+"\"","\"signature\":\"\"");
+                byte[] message=("P11_DEVICE_CLEANUP_RECOVERY_1\n"+lease.device+"\n"+lease.attempt+"\n"+lease.generation+"\n"+failed.getString("id")+"\n"+unsigned).getBytes(StandardCharsets.US_ASCII),sig=MeshDeviceIdentity.decoded(signature,64);
+                Ed25519Signer verifier=new Ed25519Signer();verifier.init(false,new Ed25519PublicKeyParameters(MeshDeviceIdentity.decoded(identity.publicKey(),32),0));verifier.update(message,0,message.length);require(verifier.verifySignature(sig));
+                new MeshControlReporter(store,identity,control).retryPending();require(original.getString("body").equals(store.controlRecords().getJSONObject("rows").getJSONObject("cleanup:"+lease.id).getString("body")));
+            }finally{listener.close();server.join(5000);require(!server.isAlive());}
+        }
+    }
     private static void replyOrDrop(Socket socket,java.util.concurrent.atomic.AtomicInteger progress)throws IOException{
         InputStream input=socket.getInputStream();ByteArrayOutputStream header=new ByteArrayOutputStream();int value;
         while((value=input.read())!=-1){header.write(value);if(header.size()>8192)throw new IOException("SYNTHETIC_HEADER_LIMIT");byte[] bytes=header.toByteArray();int n=bytes.length;
@@ -147,9 +176,10 @@ public final class MeshBoundaryInstrumentation extends Instrumentation {
         }
         String request=new String(header.toByteArray(),StandardCharsets.US_ASCII);java.util.regex.Matcher length=java.util.regex.Pattern.compile("(?im)^Content-Length: ([0-9]+)\\r?$").matcher(request);
         if(!length.find())throw new IOException("SYNTHETIC_BODY_LENGTH");int remaining=Integer.parseInt(length.group(1));if(remaining>4096)throw new IOException("SYNTHETIC_BODY_LIMIT");
-        byte[] discard=new byte[1024];while(remaining>0){int count=input.read(discard,0,Math.min(discard.length,remaining));if(count<0)throw new EOFException();remaining-=count;}
+        ByteArrayOutputStream body=new ByteArrayOutputStream();byte[] discard=new byte[1024];while(remaining>0){int count=input.read(discard,0,Math.min(discard.length,remaining));if(count<0)throw new EOFException();body.write(discard,0,count);remaining-=count;}
         if(!request.startsWith("POST /v1/p11/runner/attempts/att_fixture/cleanup ")){progress.incrementAndGet();socket.setSoLinger(true,0);return;}
-        byte[] reply=("{\"id\":\"ack_fixture_cleanup\",\"status\":\"CLEANED\",\"version\":1,\"recorded_at\":\""+Instant.now()+"\"}").getBytes(StandardCharsets.US_ASCII);
+        String payload=new String(body.toByteArray(),StandardCharsets.US_ASCII);boolean failed=payload.contains("\"state\":\"FAILED\""),recovery=payload.contains("P11_DEVICE_CLEANUP_RECOVERY_1");
+        byte[] reply=("{\"id\":\""+(failed?"ack_fixture_failed":recovery?"ack_fixture_recovery":"ack_fixture_cleanup")+"\",\"status\":\""+(failed?"QUARANTINED":"CLEANED")+"\",\"version\":1,\"recorded_at\":\""+Instant.now()+"\"}").getBytes(StandardCharsets.US_ASCII);
         OutputStream output=socket.getOutputStream();output.write(("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: "+reply.length+"\r\nConnection: close\r\n\r\n").getBytes(StandardCharsets.US_ASCII));output.write(reply);output.flush();
     }
     private static final class Fixture {

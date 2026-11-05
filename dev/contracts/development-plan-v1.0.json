@@ -456,13 +456,18 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "application_services": [
         "Admission",
         "ResourceArbiter",
         "AttemptLease",
-        "Fence"
+        "Fence",
+        "Continuations",
+        "CleanupRecovery"
       ],
       "dependencies": [
         "MOD-03",
@@ -12880,7 +12885,13 @@
       "canonical_operation_sha256": "bf1597a4c3fbe243fd2c766788cc785e122f7564eeb0c8820648e7acde62cc0e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "recordAttemptCleanup",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-064"
     },
     {
@@ -12949,7 +12960,13 @@
       "canonical_operation_sha256": "62786f8a137c56d08cb3077ff834615825e7663c37cccffdecaf784de160e858",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "recordAttemptProgress",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-065"
     },
     {
@@ -15428,6 +15445,36 @@
       "runtime_validation": "NOT_EXECUTED"
     },
     {
+      "id": "DATA-068",
+      "name": "native_cleanup_recoveries",
+      "schema": "p11",
+      "module_id": "MOD-06",
+      "column_count": 16,
+      "foreign_key_count": 5,
+      "source_document": "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-066",
+      "name": "native_execution_reports",
+      "schema": "p11",
+      "module_id": "MOD-06",
+      "column_count": 16,
+      "foreign_key_count": 4,
+      "source_document": "docs/技术开发/database/migrations/011_native_execution_reports.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-067",
+      "name": "native_lease_continuations",
+      "schema": "p11",
+      "module_id": "MOD-06",
+      "column_count": 19,
+      "foreign_key_count": 5,
+      "source_document": "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
       "id": "DATA-036",
       "name": "notifications",
       "schema": "p11",
@@ -15818,7 +15865,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -15928,6 +15978,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "seller_profiles",
         "seller_applications",
         "listings",
@@ -16188,7 +16241,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -16241,6 +16297,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -16362,6 +16421,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",
@@ -16472,6 +16534,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "quotes",
         "orders",
         "route_contracts",
@@ -16539,6 +16604,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -16848,6 +16916,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
@@ -17034,7 +17105,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -17391,7 +17465,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -17451,6 +17528,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "cipher_channels",
         "assets",
         "transfer_grants",
@@ -17508,6 +17588,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "cipher_channels"
       ],
       "technical_documents": [
@@ -17565,7 +17648,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -17722,6 +17808,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "cipher_channels",
         "reviews",
         "disputes",
@@ -17855,7 +17944,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18155,7 +18247,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18430,6 +18525,9 @@
         "execution_leases",
         "deliveries",
         "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries",
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
@@ -18563,7 +18661,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/07-统一协议网关与Sub2API改造.md",
@@ -18772,7 +18873,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/11-引擎与授权上游适配器设计.md",
@@ -18855,7 +18959,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -19068,7 +19175,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -19125,7 +19235,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -19191,7 +19304,10 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/10-Android与LMA工程设计.md",
@@ -20177,11 +20293,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "765a003591e8b4a74efd992a54563cd28e8283d13196257a84d78d01eaa98354"
+      "sha256": "4ed9cf8e9d9765a1eaebe288fba6e7c89a8775513971c544acc3ef4a2a3221d1"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "fdc782b0e2eb8f37941357d2f40929d30b492388f2aee31adb2eb13b996fc8e3"
+      "sha256": "7a2198332ae7b5b4b25331b250204fe8aa389ff8f7356c86319b08eafda510db"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20189,15 +20305,15 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "ed31e1bd36466029107b88f61748d85437f69253fc2ec65941ce7fa535c95543"
+      "sha256": "70b45d071609dc6258fa6645189be15a6d09a8e4bc3363aa78fc4977d0f36d5c"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "38cf900d4ae4ef79088418a322106272dfa738e0592f32940a884e1210dd3dbc"
+      "sha256": "f181ebe5490b3f4be98c448c1018abe17b23cf95bf9f1078737b0a2126c6eb55"
     },
     {
       "path": "dev/tools/构建开发细则.py",
-      "sha256": "286dca0d914cca6c2137ad595ad5287135ab446dc2ba324f811901d24392e2d6"
+      "sha256": "e6c151f0b7c192b34bcac8d0262df5916833d6d4cf2f1b199ed1b9b2e706f5a7"
     },
     {
       "path": "docs/交易/C2C交易与市场规则.md",
@@ -20285,11 +20401,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "1259bc9d673d4699e9f09b5e7761a153c1d762c9e5aac8e069346200b18b1c55"
+      "sha256": "1e15ca1c5a392759e45e0938b6faf60f2bd7faaa992ad943d8793eba86cc4bd6"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "8e9eb7880384ed535d2ec76d379cffe599acd700aa61448e821e1242444fddf5"
+      "sha256": "48dd1ba9d817d0867434b17513cfdf6c875f544be206f5adf8e3287466b40870"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20297,11 +20413,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "509685676baaeefa420686f6f22e2e7cbfd439570544b6e6e5c0b687897e7074"
+      "sha256": "ce2f600823308fa02a80c3ecf1fbb1d91d8d9dadc79ba088b4f1797661dd41ab"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "1797e56f7e3abfc0623b5559a60102a6a7eadee286582819f300b53bbec0089d"
+      "sha256": "3a81b22be1ffecadb255fb107b05284f8ee49d4d8f377d2537900d3e7f3e6cbd"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -20338,6 +20454,18 @@
     {
       "path": "docs/技术开发/database/migrations/010_native_lease_claim.sql",
       "sha256": "6ca9ad4f6ef116975ab92015197330efde6f546ca33d4cb8527b419be7adc979"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/011_native_execution_reports.sql",
+      "sha256": "cdeb37e55295d5c19681534b7513aee642df4f43c57712435c1d05c3e41e5b18"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
+      "sha256": "b5ab2d43387f8cfe602b2dae5d445d21963aac7e77e9ff2d8b3090e923934dfb"
+    },
+    {
+      "path": "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
+      "sha256": "a8a5cd52d4459854abd0ea980812945cf3bf3d08ff65137c2fc89725d9f123e7"
     },
     {
       "path": "docs/技术开发/database/schema-draft.sql",
@@ -20389,7 +20517,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "80b030d8824cc1f545bce5640f3a8c49cc6742b9f515187c053d2df9a8b94dbb"
+      "sha256": "1513f275a41753fd3560437032d18fdb7fb8de9348902fc3f0a640c0f7493ef0"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -20409,7 +20537,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "60beddd8df6040fbc6a77e0c458f1a5a35feef025205e146c9ba218330eaf104"
+      "sha256": "42f0eec9f1b57d7e6f7ae3bad4f93731230b09af9801398e4e178b143c1ee6a8"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -20422,7 +20550,7 @@
     "steps": 222,
     "constraints": 47,
     "control_operations": 95,
-    "tables": 65,
+    "tables": 68,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 176,
+  "catalog_statements": 196,
   "base_table_count": 60,
   "tables": [
     {
@@ -15770,6 +15770,1398 @@
           "initially_deferred": false
         }
       ]
+    },
+    {
+      "name": "native_execution_reports",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/011_native_execution_reports.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "lease_id",
+          "sql": "lease_id p11.entity_id NOT NULL REFERENCES p11.execution_leases (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "lease_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.execution_leases (id)",
+              "columns": [
+                "lease_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "execution_leases",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "attempt_id",
+          "sql": "attempt_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "attempt_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "job_id",
+          "sql": "job_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "device_id",
+          "sql": "device_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "seller_id",
+          "sql": "seller_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "resource_id",
+          "sql": "resource_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "resource_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "fencing_token",
+          "sql": "fencing_token p11.counter NOT NULL CHECK (fencing_token > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "fencing_token"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (fencing_token > 0)",
+              "columns": [
+                "fencing_token"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "resource_lock_generation",
+          "sql": "resource_lock_generation p11.counter NOT NULL CHECK (resource_lock_generation > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "resource_lock_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (resource_lock_generation > 0)",
+              "columns": [
+                "resource_lock_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "kind",
+          "sql": "kind text NOT NULL CHECK (kind IN ('PROGRESS', 'CLEANUP'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "kind"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (kind IN ('PROGRESS', 'CLEANUP'))",
+              "columns": [
+                "kind"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "sequence",
+          "sql": "sequence p11.counter NOT NULL",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "sequence"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "key_digest",
+          "sql": "key_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "key_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "request_digest",
+          "sql": "request_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "request_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "safe_request",
+          "sql": "safe_request jsonb NOT NULL CHECK (jsonb_typeof(safe_request) = 'object')",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "safe_request"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(safe_request) = 'object')",
+              "columns": [
+                "safe_request"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "safe_response",
+          "sql": "safe_response jsonb NOT NULL CHECK (jsonb_typeof(safe_response) = 'object')",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "safe_response"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(safe_response) = 'object')",
+              "columns": [
+                "safe_response"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "recorded_at",
+          "sql": "recorded_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (attempt_id, job_id, fencing_token) REFERENCES p11.attempts (id, job_id, fencing_token)",
+          "columns": [
+            "attempt_id",
+            "job_id",
+            "fencing_token"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "attempts",
+          "target_columns": [
+            "id",
+            "job_id",
+            "fencing_token"
+          ]
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (attempt_id, resource_id, resource_lock_generation) REFERENCES p11.attempts (id, resource_id, resource_lock_generation)",
+          "columns": [
+            "attempt_id",
+            "resource_id",
+            "resource_lock_generation"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "attempts",
+          "target_columns": [
+            "id",
+            "resource_id",
+            "resource_lock_generation"
+          ]
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (resource_id, device_id, seller_id) REFERENCES p11.resources (id, device_id, seller_id)",
+          "columns": [
+            "resource_id",
+            "device_id",
+            "seller_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "resources",
+          "target_columns": [
+            "id",
+            "device_id",
+            "seller_id"
+          ]
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (lease_id, kind, sequence)",
+          "columns": [
+            "lease_id",
+            "kind",
+            "sequence"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (device_id, attempt_id, kind, key_digest)",
+          "columns": [
+            "device_id",
+            "attempt_id",
+            "kind",
+            "key_digest"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((kind = 'PROGRESS' AND sequence > 0) OR (kind = 'CLEANUP' AND sequence = 0))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "native_lease_continuations",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "report_id",
+          "sql": "report_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.native_execution_reports (id) DEFERRABLE INITIALLY DEFERRED",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "report_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "report_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.native_execution_reports (id)",
+              "columns": [
+                "report_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "native_execution_reports",
+              "target_columns": [
+                "id"
+              ]
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRABLE",
+              "name": null,
+              "sql": "DEFERRABLE",
+              "columns": [
+                "report_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRED",
+              "name": null,
+              "sql": "INITIALLY DEFERRED",
+              "columns": [
+                "report_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "lease_id",
+          "sql": "lease_id p11.entity_id NOT NULL REFERENCES p11.execution_leases (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "lease_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.execution_leases (id)",
+              "columns": [
+                "lease_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "execution_leases",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "attempt_id",
+          "sql": "attempt_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "attempt_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "job_id",
+          "sql": "job_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "device_id",
+          "sql": "device_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "seller_id",
+          "sql": "seller_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "resource_id",
+          "sql": "resource_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "resource_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "fencing_token",
+          "sql": "fencing_token p11.counter NOT NULL CHECK (fencing_token > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "fencing_token"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (fencing_token > 0)",
+              "columns": [
+                "fencing_token"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "resource_lock_generation",
+          "sql": "resource_lock_generation p11.counter NOT NULL CHECK (resource_lock_generation > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "resource_lock_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (resource_lock_generation > 0)",
+              "columns": [
+                "resource_lock_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "previous_revision",
+          "sql": "previous_revision integer NOT NULL CHECK (previous_revision > 0 AND previous_revision < 2147483647)",
+          "type": "integer",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "previous_revision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (previous_revision > 0 AND previous_revision < 2147483647)",
+              "columns": [
+                "previous_revision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "lease_revision",
+          "sql": "lease_revision integer NOT NULL CHECK (CAST(lease_revision AS bigint) = CAST(previous_revision AS bigint) + 1)",
+          "type": "integer",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "lease_revision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (CAST(lease_revision AS bigint) = CAST(previous_revision AS bigint) + 1)",
+              "columns": [
+                "lease_revision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "previous_identity",
+          "sql": "previous_identity p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "previous_identity"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "signed_identity",
+          "sql": "signed_identity p11.sha256_hex NOT NULL CHECK (signed_identity <> previous_identity)",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "signed_identity"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (signed_identity <> previous_identity)",
+              "columns": [
+                "signed_identity"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "previous_payload",
+          "sql": "previous_payload jsonb NOT NULL CHECK (jsonb_typeof(previous_payload) = 'object')",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "previous_payload"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(previous_payload) = 'object')",
+              "columns": [
+                "previous_payload"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "signed_payload",
+          "sql": "signed_payload jsonb NOT NULL CHECK (jsonb_typeof(signed_payload) = 'object')",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "signed_payload"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(signed_payload) = 'object')",
+              "columns": [
+                "signed_payload"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "previous_expires_at",
+          "sql": "previous_expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "previous_expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL CHECK (expires_at > previous_expires_at)",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (expires_at > previous_expires_at)",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "recorded_at",
+          "sql": "recorded_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (attempt_id, job_id, fencing_token) REFERENCES p11.attempts (id, job_id, fencing_token)",
+          "columns": [
+            "attempt_id",
+            "job_id",
+            "fencing_token"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "attempts",
+          "target_columns": [
+            "id",
+            "job_id",
+            "fencing_token"
+          ]
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (attempt_id, resource_id, resource_lock_generation) REFERENCES p11.attempts (id, resource_id, resource_lock_generation)",
+          "columns": [
+            "attempt_id",
+            "resource_id",
+            "resource_lock_generation"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "attempts",
+          "target_columns": [
+            "id",
+            "resource_id",
+            "resource_lock_generation"
+          ]
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (resource_id, device_id, seller_id) REFERENCES p11.resources (id, device_id, seller_id)",
+          "columns": [
+            "resource_id",
+            "device_id",
+            "seller_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "resources",
+          "target_columns": [
+            "id",
+            "device_id",
+            "seller_id"
+          ]
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (lease_id, lease_revision)",
+          "columns": [
+            "lease_id",
+            "lease_revision"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "native_cleanup_recoveries",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "original_report_id",
+          "sql": "original_report_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.native_execution_reports (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "original_report_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "original_report_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.native_execution_reports (id)",
+              "columns": [
+                "original_report_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "native_execution_reports",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lease_id",
+          "sql": "lease_id p11.entity_id NOT NULL REFERENCES p11.execution_leases (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "lease_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.execution_leases (id)",
+              "columns": [
+                "lease_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "execution_leases",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "attempt_id",
+          "sql": "attempt_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "attempt_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "job_id",
+          "sql": "job_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "device_id",
+          "sql": "device_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "seller_id",
+          "sql": "seller_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "resource_id",
+          "sql": "resource_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "resource_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "fencing_token",
+          "sql": "fencing_token p11.counter NOT NULL CHECK (fencing_token > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "fencing_token"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (fencing_token > 0)",
+              "columns": [
+                "fencing_token"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "resource_lock_generation",
+          "sql": "resource_lock_generation p11.counter NOT NULL CHECK (resource_lock_generation > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "resource_lock_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (resource_lock_generation > 0)",
+              "columns": [
+                "resource_lock_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "key_digest",
+          "sql": "key_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "key_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "request_digest",
+          "sql": "request_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "request_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "cleanup_manifest_hash",
+          "sql": "cleanup_manifest_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "cleanup_manifest_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "safe_request",
+          "sql": "safe_request jsonb NOT NULL CHECK (jsonb_typeof(safe_request) = 'object')",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "safe_request"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(safe_request) = 'object')",
+              "columns": [
+                "safe_request"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "safe_response",
+          "sql": "safe_response jsonb NOT NULL CHECK (jsonb_typeof(safe_response) = 'object')",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "safe_response"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(safe_response) = 'object')",
+              "columns": [
+                "safe_response"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "recorded_at",
+          "sql": "recorded_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (attempt_id, job_id, fencing_token) REFERENCES p11.attempts (id, job_id, fencing_token)",
+          "columns": [
+            "attempt_id",
+            "job_id",
+            "fencing_token"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "attempts",
+          "target_columns": [
+            "id",
+            "job_id",
+            "fencing_token"
+          ]
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (attempt_id, resource_id, resource_lock_generation) REFERENCES p11.attempts (id, resource_id, resource_lock_generation)",
+          "columns": [
+            "attempt_id",
+            "resource_id",
+            "resource_lock_generation"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "attempts",
+          "target_columns": [
+            "id",
+            "resource_id",
+            "resource_lock_generation"
+          ]
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (resource_id, device_id, seller_id) REFERENCES p11.resources (id, device_id, seller_id)",
+          "columns": [
+            "resource_id",
+            "device_id",
+            "seller_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "resources",
+          "target_columns": [
+            "id",
+            "device_id",
+            "seller_id"
+          ]
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (device_id, attempt_id, key_digest)",
+          "columns": [
+            "device_id",
+            "attempt_id",
+            "key_digest"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -17583,6 +18975,252 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "native_execution_reports",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.execution_leases (id)",
+      "columns": [
+        "lease_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "execution_leases",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_execution_reports",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (attempt_id, job_id, fencing_token) REFERENCES p11.attempts (id, job_id, fencing_token)",
+      "columns": [
+        "attempt_id",
+        "job_id",
+        "fencing_token"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "attempts",
+      "target_columns": [
+        "id",
+        "job_id",
+        "fencing_token"
+      ]
+    },
+    {
+      "table": "native_execution_reports",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (attempt_id, resource_id, resource_lock_generation) REFERENCES p11.attempts (id, resource_id, resource_lock_generation)",
+      "columns": [
+        "attempt_id",
+        "resource_id",
+        "resource_lock_generation"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "attempts",
+      "target_columns": [
+        "id",
+        "resource_id",
+        "resource_lock_generation"
+      ]
+    },
+    {
+      "table": "native_execution_reports",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (resource_id, device_id, seller_id) REFERENCES p11.resources (id, device_id, seller_id)",
+      "columns": [
+        "resource_id",
+        "device_id",
+        "seller_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "resources",
+      "target_columns": [
+        "id",
+        "device_id",
+        "seller_id"
+      ]
+    },
+    {
+      "table": "native_lease_continuations",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.native_execution_reports (id)",
+      "columns": [
+        "report_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "native_execution_reports",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_lease_continuations",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.execution_leases (id)",
+      "columns": [
+        "lease_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "execution_leases",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_lease_continuations",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (attempt_id, job_id, fencing_token) REFERENCES p11.attempts (id, job_id, fencing_token)",
+      "columns": [
+        "attempt_id",
+        "job_id",
+        "fencing_token"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "attempts",
+      "target_columns": [
+        "id",
+        "job_id",
+        "fencing_token"
+      ]
+    },
+    {
+      "table": "native_lease_continuations",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (attempt_id, resource_id, resource_lock_generation) REFERENCES p11.attempts (id, resource_id, resource_lock_generation)",
+      "columns": [
+        "attempt_id",
+        "resource_id",
+        "resource_lock_generation"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "attempts",
+      "target_columns": [
+        "id",
+        "resource_id",
+        "resource_lock_generation"
+      ]
+    },
+    {
+      "table": "native_lease_continuations",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (resource_id, device_id, seller_id) REFERENCES p11.resources (id, device_id, seller_id)",
+      "columns": [
+        "resource_id",
+        "device_id",
+        "seller_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "resources",
+      "target_columns": [
+        "id",
+        "device_id",
+        "seller_id"
+      ]
+    },
+    {
+      "table": "native_cleanup_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.native_execution_reports (id)",
+      "columns": [
+        "original_report_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "native_execution_reports",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_cleanup_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.execution_leases (id)",
+      "columns": [
+        "lease_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "execution_leases",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_cleanup_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (attempt_id, job_id, fencing_token) REFERENCES p11.attempts (id, job_id, fencing_token)",
+      "columns": [
+        "attempt_id",
+        "job_id",
+        "fencing_token"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "attempts",
+      "target_columns": [
+        "id",
+        "job_id",
+        "fencing_token"
+      ]
+    },
+    {
+      "table": "native_cleanup_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (attempt_id, resource_id, resource_lock_generation) REFERENCES p11.attempts (id, resource_id, resource_lock_generation)",
+      "columns": [
+        "attempt_id",
+        "resource_id",
+        "resource_lock_generation"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "attempts",
+      "target_columns": [
+        "id",
+        "resource_id",
+        "resource_lock_generation"
+      ]
+    },
+    {
+      "table": "native_cleanup_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (resource_id, device_id, seller_id) REFERENCES p11.resources (id, device_id, seller_id)",
+      "columns": [
+        "resource_id",
+        "device_id",
+        "seller_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "resources",
+      "target_columns": [
+        "id",
+        "device_id",
+        "seller_id"
+      ]
     }
   ],
   "indexes": [
@@ -17835,6 +19473,50 @@
         "CreateTrigStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/011_native_execution_reports.sql",
+      "source_sha256": "cdeb37e55295d5c19681534b7513aee642df4f43c57712435c1d05c3e41e5b18",
+      "statement_count": 7,
+      "statement_types": [
+        "CreateStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
+      "source_sha256": "b5ab2d43387f8cfe602b2dae5d445d21963aac7e77e9ff2d8b3090e923934dfb",
+      "statement_count": 7,
+      "statement_types": [
+        "CreateStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateFunctionStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
+      "source_sha256": "a8a5cd52d4459854abd0ea980812945cf3bf3d08ff65137c2fc89725d9f123e7",
+      "statement_count": 6,
+      "statement_types": [
+        "CreateStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt"
       ],
       "runtime_validation_in_this_build": "NOT_EXECUTED"
     }

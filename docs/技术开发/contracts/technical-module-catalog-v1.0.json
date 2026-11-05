@@ -157,13 +157,18 @@
         "attempts",
         "execution_leases",
         "deliveries",
-        "acceptances"
+        "acceptances",
+        "native_execution_reports",
+        "native_lease_continuations",
+        "native_cleanup_recoveries"
       ],
       "application_services": [
         "Admission",
         "ResourceArbiter",
         "AttemptLease",
-        "Fence"
+        "Fence",
+        "Continuations",
+        "CleanupRecovery"
       ],
       "dependencies": [
         "MOD-03",

@@ -35,7 +35,13 @@ func (s *Server) recordAttemptProgress(w http.ResponseWriter, r *http.Request, a
 	if !ok {
 		return
 	}
-	v, e := s.c.Claims.RecordProgress(r.Context(), a.p, attemptFromReportPath(r), in, key)
+	var v invocation.ReportResult
+	var e error
+	if s.c.Continuations != nil {
+		v, e = s.c.Continuations.RecordProgress(r.Context(), a.p, attemptFromReportPath(r), in, key)
+	} else {
+		v, e = s.c.Claims.RecordProgress(r.Context(), a.p, attemptFromReportPath(r), in, key)
+	}
 	s.writeReport(w, r, v, e)
 }
 func (s *Server) recordAttemptCleanup(w http.ResponseWriter, r *http.Request, a actor) {

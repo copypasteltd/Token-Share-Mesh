@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
+  "source_sha256": "a8a5cd52d4459854abd0ea980812945cf3bf3d08ff65137c2fc89725d9f123e7",
+  "migration": "013_native_cleanup_recovery.sql",
+  "migration_sha256": "a8a5cd52d4459854abd0ea980812945cf3bf3d08ff65137c2fc89725d9f123e7",
+  "policy": "013 forward-only separate signed recovery; failed report and revoked lease remain immutable; no execution, usage or billing restoration"
+}

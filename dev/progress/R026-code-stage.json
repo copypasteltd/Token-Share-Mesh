@@ -5,6 +5,9 @@
   "validation_started_after_user_policy": false,
   "upstream_commit": "0ca9445b1196ebd808b7c186ceda6ca79ffe0831",
   "source_files": [
+    "dev/src/api/cmd/p11-api/continuation.go",
+    "dev/src/api/cmd/p11-api/continuation_test.go",
+    "dev/src/client/android/integration-patches.json",
     "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
@@ -27,7 +30,14 @@
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshProgressPump.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-    "dev/src/client/android/integration-patches.json"
+    "dev/src/client/protocol/devicecontrol/reports_test.go",
+    "dev/src/internal/invocation/cleanup_recovery.go",
+    "dev/src/internal/invocation/continuation.go",
+    "dev/src/internal/persistence/migrations/012_native_lease_continuations.sql",
+    "dev/src/internal/persistence/migrations/013_native_cleanup_recovery.sql",
+    "dev/src/tests/integration/execution_reports_test.go",
+    "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
+    "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql"
   ],
   "implemented_items": [
     {
@@ -52,8 +62,8 @@
     },
     {
       "id": "IMP-R026-005",
-      "title": "原生进度/清理回报及前向迁移011",
-      "status": "源码已写，未测试"
+      "title": "原生进度/签名续租/独立清理恢复及前向迁移011–013",
+      "status": "T1平台与Android协议源码已写；M1完整准入、桌面接线及全量验证仍待"
     },
     {
       "id": "IMP-R026-006",
@@ -1677,11 +1687,22 @@
       "AIB-004",
       "AIB-005",
       "AIB-006",
-      "AIB-007"
+      "AIB-007",
+      "AIB-008"
     ],
     "status": "SOURCE_ONLY_NOT_EXECUTED",
     "apk_built": false,
     "physical_models_executed": false
   },
-  "android_replay_rules": "OWNER_PERSIST_BEFORE_ACK; SAME_SIGNED_RENEWAL_KEEPS_CLOCK; CLEANUP_SUPERSEDES_PENDING_PROGRESS_WITHOUT_FAKE_ACK"
+  "android_replay_rules": "OWNER_PERSIST_BEFORE_ACK; CANONICAL_SIGNED_IDENTITY_KEEPS_CLOCK_ACROSS_JSON_LAYOUT; CLEANUP_SUPERSEDES_PROGRESS_WITHOUT_FAKE_ACK; FAILED_CLEANUP_RETAINED_WITH_SEPARATE_SIGNED_RECOVERY",
+  "platform_continuation_scope": {
+    "profile": "T1_ONLY_CURRENT_SOURCE",
+    "migration_versions": [
+      12,
+      13
+    ],
+    "validation": "NOT_EXECUTED",
+    "media_M1_admission": "PENDING",
+    "rental_paid_renewal": "NOT_IMPLEMENTED_BY_THIS_EXECUTION_CONTINUATION"
+  }
 }

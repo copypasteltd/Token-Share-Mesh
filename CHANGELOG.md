@@ -2,8 +2,10 @@
 
 ## R026 · Full-scope code phase (in progress, unverified)
 
+- Added source-only T1 signed execution continuation, stable signature identity across JSON layouts, append-only prior/new lease history, and separate signed recovery of failed cleanup (012/013). Android now receives continuations and reports periodically; M1 admission and desktop integration remain open. Eight Android boundary definitions and new Go/integration test sources have not run.
+
 - Complete Android admission/replay source ordering: persist original ownership before ACK, preserve the clock on identical signed renewals, and supersede older pending progress after confirmed cleanup without fabricating ACKs. Expand AIB-004/007 test definitions; no tests executed.
-- Expand the Android source with explicit NB04 owner controls, a private service Binder, local wrapped identity/configuration, persisted original reports, bounded asynchronous progress, pre-create workspace ownership and conservative original-owner recovery. Add signed continuation verification and seven unexecuted physical-device boundary test definitions.
+- Expand the Android source with explicit NB04 owner controls, a private service Binder, local wrapped identity/configuration, persisted original reports, bounded asynchronous progress, pre-create workspace ownership and conservative original-owner recovery. Add signed continuation verification and eight unexecuted physical-device boundary test definitions.
 - Complete all remaining production code before batch compilation, testing and debugging; retain all 56 tasks and 222 steps with separate code/acceptance states.
 - Pin LMA v1.0.0/code65, 1205 upstream source files and dependency digests. Add Android private image/video execution, signed original leases/shared slots, Keystore metadata, chunked ciphertext and explicit sharing conditions.
 - Include native progress/signed cleanup reporting and forward-only migration 011, DATA-066; historical SQL stays immutable.

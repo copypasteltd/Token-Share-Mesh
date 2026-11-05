@@ -18,6 +18,7 @@ import (
 )
 
 const Profile = "P11_EXECUTION_LEASE_ED25519_1"
+const IdentityProfile = "P11_EXECUTION_LEASE_IDENTITY_1"
 const MaximumBody = 16384
 const MaximumTerm = 45 * time.Second
 
@@ -128,6 +129,23 @@ func Message(l Lease) ([]byte, error) {
 	fields = append(fields, l.InputAssets...)
 	fields = append(fields, l.Envelope)
 	return []byte(strings.Join(fields, "\n") + "\n"), nil
+}
+
+// SignedIdentity identifies a signed lease independently of JSON whitespace,
+// object ordering, or an omitted empty asset array. It does not authenticate
+// the issuer: callers must still Verify against their independent trust pin.
+// Digest and persisted original wire hashes keep their existing meanings.
+func SignedIdentity(l Lease) (string, error) {
+	message, err := Message(l)
+	sig, signatureErr := base64.RawURLEncoding.Strict().DecodeString(l.Signature)
+	if err != nil || signatureErr != nil || len(sig) != ed25519.SignatureSize || base64.RawURLEncoding.EncodeToString(sig) != l.Signature {
+		return "", ErrLease
+	}
+	h := sha256.New()
+	h.Write([]byte(IdentityProfile + "\n"))
+	h.Write(message)
+	h.Write([]byte(l.Signature + "\n"))
+	return hex.EncodeToString(h.Sum(nil)), nil
 }
 
 func Verify(raw []byte, public ed25519.PublicKey, plan Plan, now time.Time) (Verified, error) {

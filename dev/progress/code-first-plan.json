@@ -711,7 +711,7 @@
     {
       "id": "DEV-18",
       "title": "资源门闩与双围栏",
-      "code_status": "OPEN",
+      "code_status": "IN_PROGRESS",
       "source_target": "dev/src",
       "requirement": "实现每物理资源全模式/引擎锁、job token、跨job lock_generation、签名租约与版本化续约。输入准备/结果密文交付不额外持GPU锁，编码仍用GPU则继续持锁；控制通道独立。",
       "steps": [
@@ -727,16 +727,22 @@
           "id": "DEV-18.02",
           "title": "双围栏签名",
           "code_requirement": "job token和跨job资源代次签入租约，核owner/环境/硬截止",
-          "code_status": "OPEN",
-          "implementation_refs": [],
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/internal/invocation/continuation.go"
+          ],
           "acceptance_status": "NOT_EXECUTED"
         },
         {
           "id": "DEV-18.03",
           "title": "续约恢复",
           "code_requirement": "有效新revision才续权，持久最高值，重启先查后端",
-          "code_status": "OPEN",
-          "implementation_refs": [],
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/internal/invocation/continuation.go"
+          ],
           "acceptance_status": "NOT_EXECUTED"
         },
         {
@@ -836,8 +842,10 @@
           "code_requirement": "未停/未知资源隔离，重连先查停清再恢复FREE",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
+            "dev/src/client/node/host_reports.go",
+            "dev/src/internal/invocation/cleanup_recovery.go",
             "dev/src/internal/invocation/reports.go",
-            "dev/src/client/node/host_reports.go"
+            "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql"
           ],
           "acceptance_status": "NOT_EXECUTED"
         }
@@ -2536,5 +2544,13 @@
   ],
   "checkpoint_restored_into_current_code": true,
   "code_completion_definition": "生产实现、真实依赖接线与验收/故障测试源码齐全；测试执行后才产生的证据不作为进入第一次集中测试的循环前置条件。代码完成不表示真机/资金/可售验收通过。",
-  "open_recovery_integration": "Android本机清理/恢复不解除平台FAILED终态；必须补齐原设备/原租约签名的恢复及平台解除隔离事务。011已随7e86c12公开，后续采用新前向迁移，原SQL不改。"
+  "open_recovery_integration": {
+    "source_status": "T1_SERVER_AND_ANDROID_RECOVERY_PROTOCOL_SOURCE_ONLY",
+    "remaining": [
+      "M1平台准入及媒体原始清单/素材/放钥/上传完整链路",
+      "桌面原清理失败回执与恢复调用",
+      "全量编译、数据库、真机及交易验证"
+    ],
+    "migration_policy": "001–011不可改；新增012/013进入源码检查点后同样冻结；后续变化仅新前向迁移。"
+  }
 }

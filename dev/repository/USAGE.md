@@ -515,3 +515,12 @@ Complete all production code before batch compilation, tests and debugging. LMA 
 当前仅为未验证源码：本人创建公钥→核对并批准本机配置→选择已安装模型/后端和共享条件→开启本机准备→私有控制适配器交付原签名任务→原生引擎执行/密文结果→原回执与明确清理/恢复。UI只展示真实机型和安全状态；平台M1签发/领取/续租、放钥、上传和市场资格仍在全量实现范围内。完整字段、构造过程与失败边界见[Android双语说明](../src/client/android/README.md)。所有代码齐全后才集中构建/测试；不能把历史APK/媒体当成这份源码的新验证。
 
 The source defines explicit owner identity/approval, installed-model selection, sharing preparation, private original-lease execution and recovery. It does not yet provide a complete platform dispatcher or a qualified APK. Read the module README for exact bindings and open integrations. Build and run the included physical-device boundary tests only after every in-scope code item is complete.
+
+
+## 原任务续签与清理恢复源码 / Execution continuation and cleanup recovery source
+
+平台可显式设置 `P11_LEASE_CONTINUATION_SIGNER_FILE` 指向受限签发配置，profile为 `P11_LEASE_CONTINUATION_SIGNER_1`，含 `key_id` 和canonical base64url无填充的64字节 `private_key`；公钥须匹配原独立verifier，不自动生成或借用内容钥。未设置时只有STOP/NO_CHANGE。源码尚未全量完成，当前不据此启动生产执行。
+
+Existing progress requests can receive a signed CONTINUE for the same original execution; the dedicated signing service rechecks original admission and retains both signed revisions. Android verifies and durably accepts that continuation while its current window remains valid. FAILED cleanup is retained and a separately signed recovery names its original receipt; successful recovery clears only that occupant while its lease remains revoked. No extra operation ID or payment/usage authority is introduced.
+
+当前平台授权仍仅T1文本清单；M1媒体准入、桌面报告/恢复、密文素材/钥与上传的完整接线仍在全量清单。012/013及八项Android边界定义、新增Go用例均未运行；这些源码不代表手机媒体已闭环，也不等于GPU租赁付费续租。

@@ -143,7 +143,7 @@ def main() -> int:
     catalog=database_catalog()
     check(catalog==load(CONTRACTS/'database-catalog-v1.0.json'),'DDL与生成目录漂移')
     table_by_name={t['name']:t for t in catalog['tables']}
-    check(len(table_by_name)==len(catalog['tables'])==65 and catalog['base_table_count']==60,'应为基础60＋前向5张唯一表')
+    check(len(table_by_name)==len(catalog['tables'])==68 and catalog['base_table_count']==60,'应为基础60＋前向8张唯一表，保留已发布表及新增原回报/续租/清理恢复')
     columns={n:{c['name'] for c in t['columns']} for n,t in table_by_name.items()}
     uniques={}
     for n,t in table_by_name.items():

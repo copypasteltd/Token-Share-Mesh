@@ -46,6 +46,7 @@ type Config struct {
 	Seller                           seller.Service
 	Devices                          device.Service
 	Claims                           *invocation.Claims
+	Continuations                    *invocation.Continuations
 	Delivery                         *invocation.Delivery
 	Routes                           routecontract.Service
 }
@@ -63,6 +64,9 @@ type actor struct {
 }
 
 func New(c Config) (*Server, error) {
+	if c.Continuations != nil && !c.Continuations.UsesClaims(c.Claims) {
+		return nil, fault.New(fault.Unavailable, "Continuation and delivery must use the same original verifier")
+	}
 	u, err := url.Parse(c.BrowserOrigin)
 	if err != nil || u.Host == "" || u.User != nil || u.Path != "" || u.RawQuery != "" || u.Fragment != "" ||
 		(u.Scheme != "https" && !(c.InsecureLoopback && u.Scheme == "http" && loopback(u.Hostname()))) ||

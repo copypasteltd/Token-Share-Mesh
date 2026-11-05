@@ -6,8 +6,8 @@
   "development_tasks": 56,
   "requirements": 80,
   "control_operations": 95,
-  "sql_tables": 65,
-  "reader_sources": 60,
-  "reader_sections": 615,
-  "reader_bytes": 1719273
+  "sql_tables": 68,
+  "reader_sources": 61,
+  "reader_sections": 627,
+  "reader_bytes": 1773469
 }

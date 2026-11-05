@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
+  "source_sha256": "b5ab2d43387f8cfe602b2dae5d445d21963aac7e77e9ff2d8b3090e923934dfb",
+  "migration": "012_native_lease_continuations.sql",
+  "migration_sha256": "b5ab2d43387f8cfe602b2dae5d445d21963aac7e77e9ff2d8b3090e923934dfb",
+  "policy": "012 forward-only signed original-owner continuation and append-only prior signed history; 001-011 and local DDL immutable; no usage, billing or replacement execution authority"
+}

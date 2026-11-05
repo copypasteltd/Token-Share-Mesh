@@ -305,3 +305,6 @@ Complete all production code before batch compilation, tests and debugging. LMA 
 | MeshMediaRecovery + MeshLease | 保守重启清理、原租约连续签名续租，不重新生成 / Conservative cleanup and signed original-lease continuation |
 
 这些组件仍属R026源码阶段。完整平台媒体准入、控制/资产/续租和加密接线未收口；当前允许的PLAINTEXT/STANDARD不能改称E2E或硬件证明。Two versioned Android schemas and seven unexecuted boundary test definitions accompany this source. They do not qualify a model, device or transaction.
+
+
+R026 source-only continuation: verifier-only Claims and explicit signing Continuations share the original authority. Forward 012 retains previous/new signed metadata and commits its response with the existing progress receipt and physical expiry. Forward 013 separately records recovery of an original failed cleanup; the failure remains and its lease stays REVOKED. Android uses stable signed identity, independent pin/approval, durable monotonic revisions and bounded periodic metadata. These remain uncompiled/unexecuted; the current platform authorizer is T1-only, full M1/desktop/funds/encrypted-mode integration remains in scope.

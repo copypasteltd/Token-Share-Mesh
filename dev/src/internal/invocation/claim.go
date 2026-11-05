@@ -170,6 +170,7 @@ type claimAuthority struct {
 	manifest               Manifest
 	buyer                  identity.Principal
 	state, command, digest string
+	now, deadline          time.Time
 }
 
 func (s *Claims) authorizeTx(ctx context.Context, tx pgx.Tx, p identity.Principal, leaseID, capID string, version int64) (claimAuthority, error) {
@@ -280,6 +281,7 @@ WHERE l.id=$1 FOR UPDATE OF l FOR SHARE OF j,a,rl,ast`, leaseID, p.DeviceID, p.U
 		return claimAuthority{}, fault.New(fault.Conflict, "Original signed lease ID mismatch")
 	}
 	out.manifest = m
+	out.now, out.deadline = now, minDeadline(hard, jobDeadline, assetExpiry, c.CurrentDeadline)
 	out.buyer = bp
 	out.state, out.command, out.digest = state, originalCommand, originalDigest
 	return out, nil

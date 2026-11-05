@@ -13251,14 +13251,21 @@
           },
           "signature_profile_id": {
             "type": "string",
-            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-            "maxLength": 128
+            "enum": [
+              "P11_DEVICE_CLEANUP_1",
+              "P11_DEVICE_CLEANUP_RECOVERY_1"
+            ]
           },
           "signature": {
             "type": "string",
             "minLength": 64,
             "maxLength": 4096,
             "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "recovery_of": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
           }
         },
         "required": [
@@ -13272,7 +13279,43 @@
           "recorded_at",
           "signature_profile_id",
           "signature"
-        ]
+        ],
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "recovery_of"
+              ]
+            },
+            "then": {
+              "properties": {
+                "signature_profile_id": {
+                  "const": "P11_DEVICE_CLEANUP_RECOVERY_1"
+                },
+                "state": {
+                  "const": "ACKED"
+                },
+                "work_stopped": {
+                  "const": true
+                },
+                "tokens_revoked": {
+                  "const": true
+                },
+                "workspace_cleared": {
+                  "const": true
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "signature_profile_id": {
+                  "const": "P11_DEVICE_CLEANUP_1"
+                }
+              }
+            }
+          }
+        ],
+        "description": "原FAILED清理不可改写。recovery_of只引用原失败回执，使用独立域签名并另存恢复历史；全部实际清理事实齐全才释放原owner，原租约保持撤销，不恢复执行或计费。"
       },
       "EvidenceWrite": {
         "type": "object",

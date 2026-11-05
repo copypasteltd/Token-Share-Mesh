@@ -170,6 +170,13 @@ func run() error {
 	if claims != nil {
 		defer claims.Close()
 	}
+	continuations, err := configuredContinuations(claims)
+	if err != nil {
+		return err
+	}
+	if continuations != nil {
+		defer continuations.Close()
+	}
 	delivery, closeDelivery, err := configuredDelivery(db, claims)
 	if err != nil {
 		return err
@@ -180,10 +187,11 @@ func run() error {
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
 		Keys:     identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "api_v1", Peppers: map[string][]byte{"api_v1": keyPepper}, MaxTTL: 30 * 24 * time.Hour},
 		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: fees},
-		Devices:  device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
-		Claims:   claims,
-		Delivery: delivery,
-		Routes:   routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
+		Devices:       device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
+		Claims:        claims,
+		Continuations: continuations,
+		Delivery:      delivery,
+		Routes:        routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
 	if err != nil {
 		return err
 	}

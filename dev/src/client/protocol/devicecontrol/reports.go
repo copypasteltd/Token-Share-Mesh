@@ -15,6 +15,7 @@ import (
 )
 
 const CleanupProfile = "P11_DEVICE_CLEANUP_1"
+const CleanupRecoveryProfile = "P11_DEVICE_CLEANUP_RECOVERY_1"
 
 type ProgressWrite struct {
 	Lease    string   `json:"lease_id"`
@@ -35,10 +36,12 @@ type CleanupWrite struct {
 	Recorded         string `json:"recorded_at"`
 	Profile          string `json:"signature_profile_id"`
 	Signature        string `json:"signature"`
+	RecoveryOf       string `json:"recovery_of,omitempty"`
 }
 type ProgressAck struct {
-	Ack    Ack    `json:"ack"`
-	Action string `json:"action"`
+	Ack    Ack                   `json:"ack"`
+	Action string                `json:"action"`
+	Lease  *executionlease.Lease `json:"lease,omitempty"`
 }
 
 // ReportCounter is canonical, positive and within the native issuer's signed
@@ -57,7 +60,8 @@ func (in ProgressWrite) Validate() error {
 func (in CleanupWrite) Validate() error {
 	t, e := time.Parse(time.RFC3339Nano, in.Recorded)
 	b, se := base64.RawURLEncoding.Strict().DecodeString(in.Signature)
-	if !ids.Valid(in.Lease) || !ReportCounter(in.Fence) || !executionlease.Hash(in.ManifestHash) || (in.State != "ACKED" && in.State != "FAILED") || in.State == "ACKED" && (!in.WorkStopped || !in.TokensRevoked || !in.WorkspaceCleared) || in.Profile != CleanupProfile || e != nil || t.IsZero() || in.Recorded != t.UTC().Format(time.RFC3339Nano) || se != nil || len(b) != ed25519.SignatureSize || base64.RawURLEncoding.EncodeToString(b) != in.Signature {
+	profile := in.RecoveryOf == "" && in.Profile == CleanupProfile || ids.Valid(in.RecoveryOf) && in.Profile == CleanupRecoveryProfile && in.State == "ACKED"
+	if !ids.Valid(in.Lease) || !ReportCounter(in.Fence) || !executionlease.Hash(in.ManifestHash) || (in.State != "ACKED" && in.State != "FAILED") || in.State == "ACKED" && (!in.WorkStopped || !in.TokensRevoked || !in.WorkspaceCleared) || !profile || e != nil || t.IsZero() || in.Recorded != t.UTC().Format(time.RFC3339Nano) || se != nil || len(b) != ed25519.SignatureSize || base64.RawURLEncoding.EncodeToString(b) != in.Signature {
 		return errors.New("original signed cleanup report required")
 	}
 	return nil
@@ -80,7 +84,11 @@ func CleanupMessage(device, attempt, generation string, in CleanupWrite) ([]byte
 	if e != nil {
 		return nil, e
 	}
-	return append([]byte(CleanupProfile+"\n"+device+"\n"+attempt+"\n"+generation+"\n"), b...), nil
+	prefix := in.Profile + "\n" + device + "\n" + attempt + "\n" + generation + "\n"
+	if in.RecoveryOf != "" {
+		prefix += in.RecoveryOf + "\n"
+	}
+	return append([]byte(prefix), b...), nil
 }
 func SignCleanup(key ed25519.PrivateKey, l executionlease.Lease, in CleanupWrite) (CleanupWrite, error) {
 	if len(key) != ed25519.PrivateKeySize || in.Lease != l.ID || in.Fence != l.Fence {
@@ -116,6 +124,30 @@ func CleanupAck(r Reply) (Ack, error) {
 	}
 	if a.Recorded.IsZero() {
 		return Ack{}, errors.New("cleanup receipt time required")
+	}
+	return a, nil
+}
+
+// ProgressReceipt checks bounded response shape only. A CONTINUE lease still
+// requires independent issuer verification, original owner checks and durable
+// monotonic renewal before any caller may extend execution.
+func ProgressReceipt(r Reply) (ProgressAck, error) {
+	var a ProgressAck
+	if r.Status != 200 || strictjson.Decode(r.Body, &a, 32768) != nil || !ids.Valid(a.Ack.ID) || a.Ack.Version != 1 || a.Ack.Recorded.IsZero() || (a.Ack.Status != "ACKED" && a.Ack.Status != "RECORDED" && a.Ack.Status != "STOP") {
+		return ProgressAck{}, errors.New("bounded progress receipt required")
+	}
+	var fields map[string]json.RawMessage
+	if json.Unmarshal(r.Body, &fields) != nil {
+		return ProgressAck{}, errors.New("progress object required")
+	}
+	_, carriesLease := fields["lease"]
+	if a.Action != "CONTINUE" && a.Action != "NO_CHANGE" && a.Action != "STOP" || (a.Action == "CONTINUE") != carriesLease || carriesLease && a.Lease == nil {
+		return ProgressAck{}, errors.New("progress action and signed continuation must agree")
+	}
+	if a.Lease != nil {
+		if _, err := executionlease.SignedIdentity(*a.Lease); err != nil {
+			return ProgressAck{}, err
+		}
 	}
 	return a, nil
 }

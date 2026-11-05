@@ -3,7 +3,9 @@ package executionlease
 import (
 	"bytes"
 	"crypto/ed25519"
+	"crypto/sha256"
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"strings"
 	"testing"
@@ -26,6 +28,55 @@ func signed(t *testing.T, l Lease, key ed25519.PrivateKey) []byte {
 	l.Signature = base64.RawURLEncoding.EncodeToString(ed25519.Sign(key, m))
 	b, _ := json.Marshal(l)
 	return b
+}
+
+func TestSignedLeaseIdentitySurvivesDatabaseJSONLayout(t *testing.T) {
+	l, plan, key, now := sample()
+	raw := signed(t, l, key)
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(raw, &fields); err != nil {
+		t.Fatal(err)
+	}
+	reformatted, err := json.MarshalIndent(fields, "", "  ")
+	if err != nil || bytes.Equal(raw, reformatted) {
+		t.Fatal("fixture must change JSON layout", err)
+	}
+	first, err := Verify(raw, key.Public().(ed25519.PublicKey), plan, now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	replayed, err := Verify(reformatted, key.Public().(ed25519.PublicKey), plan, now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	a, err := SignedIdentity(first.Details())
+	if err != nil {
+		t.Fatal(err)
+	}
+	b, err := SignedIdentity(replayed.Details())
+	if err != nil || a != b {
+		t.Fatal("same authenticated lease changed identity", err)
+	}
+	message, _ := Message(first.Details())
+	literal := []byte("P11_EXECUTION_LEASE_IDENTITY_1\n" + string(message) + first.Details().Signature + "\n")
+	want := sha256.Sum256(literal)
+	if a != hex.EncodeToString(want[:]) {
+		t.Fatal("identity domain/encoding changed")
+	}
+	changed := first.Details()
+	changed.Expires = now.Add(44 * time.Second).Format(time.RFC3339Nano)
+	var changedSigned Lease
+	if err := json.Unmarshal(signed(t, changed, key), &changedSigned); err != nil {
+		t.Fatal(err)
+	}
+	c, err := SignedIdentity(changedSigned)
+	if err != nil || c == a {
+		t.Fatal("different authenticated expiry reused identity", err)
+	}
+	changedSigned.Signature += "="
+	if _, err := SignedIdentity(changedSigned); err == nil {
+		t.Fatal("noncanonical signature accepted")
+	}
 }
 func TestExecutionLeaseIndependentSignatureVector(t *testing.T) {
 	l, p, k, now := sample()

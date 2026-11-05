@@ -122,7 +122,7 @@ public final class MeshJournal implements AutoCloseable {
         Work work=new Work(lease,local+1);
         JSONObject receipt=new JSONObject().put("attempt_id",work.attempt).put("resource_id",work.resource).put("fencing_token",work.fence)
                 .put("resource_lock_generation",work.generation).put("local_generation",work.localGeneration).put("metadata_sha256",work.metadataHash).put("phase","PREPARING")
-                .put("boot_count",bootCount).put("private_directory","").put("engine_workspaces",new JSONArray()).put("lease_revision",lease.revision()).put("signed_lease_sha256",lease.metadataHash);
+                .put("boot_count",bootCount).put("private_directory","").put("engine_workspaces",new JSONArray()).put("lease_revision",lease.revision()).put("signed_lease_sha256",lease.signedIdentity());
         receipts.put(work.lease,receipt);state.put("remote_high",work.generation).put("local_high",work.localGeneration).put("owner",work.lease).put("phase","PREPARING");persist();return work;
     }
     private JSONObject owned(Work work) throws Exception {

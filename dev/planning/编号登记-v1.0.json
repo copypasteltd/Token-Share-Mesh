@@ -164,6 +164,8 @@
     "seller_applications": "DATA-063",
     "listing_definitions": "DATA-064",
     "device_request_nonces": "DATA-065",
-    "native_execution_reports": "DATA-066"
+    "native_execution_reports": "DATA-066",
+    "native_lease_continuations": "DATA-067",
+    "native_cleanup_recoveries": "DATA-068"
   }
 }

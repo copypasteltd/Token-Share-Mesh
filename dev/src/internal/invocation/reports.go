@@ -156,6 +156,15 @@ func (s *Claims) report(ctx context.Context, p identity.Principal, attempt, leas
 	return ReportResult{Body: r.Body, Replayed: r.Replayed}, e
 }
 func (s *Claims) RecordProgress(ctx context.Context, p identity.Principal, attempt string, in devicecontrol.ProgressWrite, key string) (ReportResult, error) {
+	return s.recordProgress(ctx, p, attempt, in, key, nil)
+}
+
+type continueProgress func(context.Context, pgx.Tx, identity.Principal, reportAuthority, devicecontrol.Ack) (*executionlease.Lease, error)
+
+func (s *Claims) recordProgress(ctx context.Context, p identity.Principal, attempt string, in devicecontrol.ProgressWrite, key string, continuation continueProgress) (ReportResult, error) {
+	if s == nil || s.db == nil {
+		return ReportResult{}, fault.New(fault.Unavailable, "Original report verifier unavailable")
+	}
 	if in.Validate() != nil {
 		return ReportResult{}, fault.New(fault.Invalid, "Bounded progress facts required")
 	}
@@ -176,13 +185,15 @@ func (s *Claims) RecordProgress(ctx context.Context, p identity.Principal, attem
 		stop := v.jobState != "RUNNING" || v.deviceState != "ONLINE" || v.sellerState != "APPROVED" || v.lockPhase != "ACTIVE" || v.leaseState != "ISSUED" && v.leaseState != "ACKED" || !v.now.Before(v.expires) || in.Phase == "FAILED" || in.Phase == "CANCELED"
 		state := in.Phase
 		var eligible bool
-		if e=tx.QueryRow(ctx,`SELECT EXISTS(SELECT 1 FROM p11.jobs j JOIN p11.orders o ON o.id=j.order_id
+		if e = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM p11.jobs j JOIN p11.orders o ON o.id=j.order_id
 JOIN p11.users u ON u.id=o.buyer_id JOIN p11.api_keys k ON k.id=j.invoker_key_id AND k.user_id=u.id
 JOIN p11.route_contracts r ON r.id=j.route_contract_id AND r.order_id=o.id
 WHERE j.id=$1 AND u.state='ACTIVE' AND k.revoked_at IS NULL AND k.expires_at>clock_timestamp()
 AND 'ROUTE_INVOKE'=ANY(k.scopes) AND r.id=ANY(k.route_ids) AND r.state='ACTIVE' AND r.expires_at>clock_timestamp()
-AND EXISTS(SELECT 1 FROM p11.role_grants g WHERE g.user_id=u.id AND g.role_code='BUYER' AND g.revoked_at IS NULL AND (g.expires_at IS NULL OR g.expires_at>clock_timestamp())))`,v.lease.Job).Scan(&eligible);e!=nil{return nil,e}
-		stop=stop||!eligible
+AND EXISTS(SELECT 1 FROM p11.role_grants g WHERE g.user_id=u.id AND g.role_code='BUYER' AND g.revoked_at IS NULL AND (g.expires_at IS NULL OR g.expires_at>clock_timestamp())))`, v.lease.Job).Scan(&eligible); e != nil {
+			return nil, e
+		}
+		stop = stop || !eligible
 		if state == "UPLOADING" {
 			state = "RUNNING"
 		}
@@ -203,6 +214,16 @@ AND EXISTS(SELECT 1 FROM p11.role_grants g WHERE g.user_id=u.id AND g.role_code=
 			return nil, e
 		}
 		action := "NO_CHANGE"
+		var next *executionlease.Lease
+		if !stop && continuation != nil && (in.Phase == "ACKED" || in.Phase == "RUNNING") {
+			next, e = continuation(ctx, tx, p, v, ack)
+			if e != nil {
+				return nil, e
+			}
+			if next != nil {
+				action = "CONTINUE"
+			}
+		}
 		if stop {
 			action = "STOP"
 			if _, e = tx.Exec(ctx, `UPDATE p11.resource_locks SET phase='STOPPING',version=version+1,updated_at=clock_timestamp() WHERE resource_id=$1 AND phase='ACTIVE'`, v.lease.Resource); e != nil {
@@ -210,12 +231,18 @@ AND EXISTS(SELECT 1 FROM p11.role_grants g WHERE g.user_id=u.id AND g.role_code=
 			}
 		}
 		ack.Status = "RECORDED"
-		return devicecontrol.ProgressAck{Ack: ack, Action: action}, nil
+		return devicecontrol.ProgressAck{Ack: ack, Action: action, Lease: next}, nil
 	})
 }
 func (s *Claims) RecordCleanup(ctx context.Context, p identity.Principal, attempt string, in devicecontrol.CleanupWrite, key string) (ReportResult, error) {
+	if s == nil || s.db == nil {
+		return ReportResult{}, fault.New(fault.Unavailable, "Original cleanup verifier unavailable")
+	}
 	if in.Validate() != nil {
 		return ReportResult{}, fault.New(fault.Invalid, "Signed original cleanup facts required")
+	}
+	if in.RecoveryOf != "" {
+		return s.recordCleanupRecovery(ctx, p, attempt, in, key)
 	}
 	b, _ := json.Marshal(in)
 	return s.report(ctx, p, attempt, in.Lease, in.Fence, "CLEANUP", "0", key, b, func(v reportAuthority) error {

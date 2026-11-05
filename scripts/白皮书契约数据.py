@@ -287,7 +287,10 @@ def make_schemas() -> dict:
         description="这是待核验用量证据，不因设备提交即变成可收费账。重复计数/估计不得收费。")
     s["CleanupWrite"] = obj({"lease_id": ID, "fencing_token": COUNTER, "cleanup_manifest_hash": HASH,
         "state": enum("ACKED", "FAILED"), "work_stopped": BOOL, "tokens_revoked": BOOL,
-        "workspace_cleared": BOOL, "recorded_at": TIME, "signature_profile_id": ID, "signature": SIG})
+        "workspace_cleared": BOOL, "recorded_at": TIME, "signature_profile_id": enum("P11_DEVICE_CLEANUP_1", "P11_DEVICE_CLEANUP_RECOVERY_1"), "signature": SIG,
+        "recovery_of": ID}, ["lease_id", "fencing_token", "cleanup_manifest_hash", "state", "work_stopped", "tokens_revoked", "workspace_cleared", "recorded_at", "signature_profile_id", "signature"],
+        allOf=[{"if": {"required": ["recovery_of"]}, "then": {"properties": {"signature_profile_id": {"const": "P11_DEVICE_CLEANUP_RECOVERY_1"}, "state": {"const": "ACKED"}, "work_stopped": {"const": True}, "tokens_revoked": {"const": True}, "workspace_cleared": {"const": True}}}, "else": {"properties": {"signature_profile_id": {"const": "P11_DEVICE_CLEANUP_1"}}}}],
+        description="原FAILED清理不可改写。recovery_of只引用原失败回执，使用独立域签名并另存恢复历史；全部实际清理事实齐全才释放原owner，原租约保持撤销，不恢复执行或计费。")
     s["EvidenceWrite"] = obj({"kind": s["EvidenceRef"]["properties"]["kind"], "scope_ref": ID, "asset_ref": ID,
         "digest": HASH, "valid_until": TIME, "review_decision": enum("APPROVED", "REJECTED", "NEEDS_REVIEW"),
         "review_reason_code": ID, "is_mock": BOOL})
