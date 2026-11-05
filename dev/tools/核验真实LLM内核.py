@@ -17,6 +17,8 @@ def sha(path):
     with path.open('rb') as source: return hashlib.file_digest(source, 'sha256').hexdigest()
 
 def main():
+    from 开发阶段 import require_test_phase
+    require_test_phase()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--attempt', type=int, required=True)
     args = parser.parse_args()

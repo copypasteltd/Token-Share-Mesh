@@ -2,6 +2,8 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
+2026-11-06: **R026 is in the full-scope code phase (SOURCE_ONLY / UNVERIFIED)**. Complete all production-code work before batch compilation, tests and debugging. The [56-task / 222-step plan](dev/全量代码优先实施清单.md) separates implementation from acceptance. Latest LMA v1.0.0/code65 is pinned and an [Android media overlay](dev/src/client/android/README.md) is being implemented for private image/video execution and chunk-encrypted results. Control wiring, complete encrypted/recovery paths and physical-phone acceptance remain in scope. All R025 test counts below belong to the original R025 revision, not this new source.
+
 R025 connects an owned native Host session, independent local approval, the original physical GPU/ticket, encrypted result custody and three protocol renderers. A transient input binding preserves the asset ciphertext digest; shutdown waits for its worker and closes owned result readers. The 300 regular, six synthetic ABI, three direct real CUDA and three real Host CUDA top-level cases are recorded separately; platform issuer/order/payment remain synthetic. Full product, E2E/LP, SDK, trusted usage/ACK and funds qualification remain open. See [round](dev/progress/R025-本轮实现与完整待办.md) and [NH contract](docs/技术开发/附录-原生宿主内核接线与输入驻留绑定.md).
 
 ## Current implementation
@@ -13,7 +15,7 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 31 in progress · 23 not started · 1 conditional · 1 deferred |
+| Implementation tasks | 35 in progress · 19 not started · 1 conditional · 1 deferred |
 | Latest source round | R025 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | Native test evidence | 300 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |

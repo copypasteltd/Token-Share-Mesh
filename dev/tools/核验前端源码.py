@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / 'dev/tests/evidence'
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
+    from 开发阶段 import require_test_phase
+    require_test_phase()
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument("--round",default="R025",choices=["R006","R007","R008","R009","R010","R011","R012","R013","R014","R015","R016","R017","R018","R019","R020","R021","R022","R023","R024","R025"]);round_id=parser.parse_args().round
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     records = []

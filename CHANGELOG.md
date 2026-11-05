@@ -1,5 +1,12 @@
 # Changelog
 
+## R026 · Full-scope code phase (in progress, unverified)
+
+- Complete all remaining production code before batch compilation, testing and debugging; retain all 56 tasks and 222 steps with separate code/acceptance states.
+- Pin LMA v1.0.0/code65, 1205 upstream source files and dependency digests. Add Android private image/video execution, signed original leases/shared slots, Keystore metadata, chunked ciphertext and explicit sharing conditions.
+- Include native progress/signed cleanup reporting and forward-only migration 011, DATA-066; historical SQL stays immutable.
+- No batch compilation/tests, APK release, phone/model quality or commercial-acceptance claim.
+
 ## R025 — Native Host and input custody / 原生宿主与输入绑定
 
 R025 connects an owned native Host session, independent local approval, the original physical GPU/ticket, encrypted result custody and three protocol renderers. A transient input binding preserves the asset ciphertext digest; shutdown waits for its worker and closes owned result readers. The 300 regular, six synthetic ABI, three direct real CUDA and three real Host CUDA top-level cases are recorded separately; platform issuer/order/payment remain synthetic. Full product, E2E/LP, SDK, trusted usage/ACK and funds qualification remain open. See [round](dev/progress/R025-本轮实现与完整待办.md) and [NH contract](docs/技术开发/附录-原生宿主内核接线与输入驻留绑定.md).

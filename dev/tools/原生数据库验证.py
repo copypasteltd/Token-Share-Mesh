@@ -46,6 +46,8 @@ def native_path_alias(lease=None):
         else:raise RuntimeError('Project alias changed; refusing to remove another mapping')
 
 def main():
+    from 开发阶段 import require_test_phase
+    require_test_phase()
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--round', default='R025', choices=['R003','R004','R005','R006','R007','R008','R009','R010','R011','R012','R013','R014','R015','R016','R017','R018','R019','R020','R021','R022','R023','R024','R025'])
     parser.add_argument('--suite', default='full', choices=['full','budget','route','invocation','execution','claim','delivery'],

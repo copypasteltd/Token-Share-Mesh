@@ -65,6 +65,8 @@ def sources(fetch: bool):
     return binary, lock
 
 def main():
+    from 开发阶段 import require_test_phase
+    require_test_phase()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--fetch', action='store_true', help='explicitly prepare pinned native compiler and headers')
     parser.add_argument('--fixture', action='store_true', help='also compile a synthetic C API DLL; never real inference')

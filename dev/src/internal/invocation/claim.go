@@ -220,7 +220,7 @@ WHERE l.id=$1 AND a.device_id=$2 AND a.seller_id=$3`, leaseID, p.DeviceID, p.Use
 	err = tx.QueryRow(ctx, `SELECT l.signed_payload,l.execution_manifest,l.issuer_key_id,a.resource_id,a.resource_lock_generation::text,a.fencing_token::text,a.capability_id,
 c.kernel_environment_digest,l.execution_manifest_ref,l.execution_manifest_hash,o.contract_hash,l.hard_deadline,l.expires_at,j.deadline,j.invocation_spec,d.version,
 ast.id,ast.storage_digest,ast.bytes,ast.input_profile,ast.state,ast.expires_at,ast.input_ciphertext,l.claim_profile,COALESCE(l.claim_key_digest::text,''),COALESCE(l.claim_request_digest::text,''),clock_timestamp(),
-(l.admission_profile=$4 AND l.state='ISSUED' AND a.state='ISSUED' AND j.invocation_profile=$5 AND j.state='RUNNING'
+(l.admission_profile=$4 AND l.state IN ('ISSUED','ACKED') AND a.state IN ('ISSUED','ACKED','RUNNING') AND j.invocation_profile=$5 AND j.state='RUNNING'
  AND j.current_attempt_id=a.id AND j.fencing_token=a.fencing_token AND j.route_contract_id=$6 AND j.invoker_key_id=$7
  AND a.device_id=$2 AND a.seller_id=$3 AND a.capability_id=$8 AND d.state='ONLINE'
  AND d.last_seen_at>clock_timestamp()-interval '45 seconds' AND d.resource_policy->'accepting_new_jobs'='true'::jsonb

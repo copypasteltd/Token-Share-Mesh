@@ -9,6 +9,8 @@ ROOT=Path(__file__).resolve().parents[2]
 def sha(path):
     with path.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 def main():
+    from 开发阶段 import require_test_phase
+    require_test_phase()
     source=json.loads((ROOT/'dev/tests/evidence/R025-native-source-checks.json').read_text(encoding='utf-8'))
     artifact=next(a for a in source['artifacts'] if a['path']=='runtime/bin/p11-node.exe')
     binary=ROOT/artifact['path']

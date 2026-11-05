@@ -284,3 +284,10 @@ R025接通独立批准的原生Host会话、原物理GPU与持久任务、加密
 Trusted embedding sequence: restore the original Host and independently provisioned approval; prepare the original command; call Host.OpenNative with local pins and exact UUID/PCI; run NativeSession and wait for Ready; start only the same Host ticket; reconcile original cleanup; read the original result; close the session/Host. The session owns outstanding result readers, revokes them and closes their handles before releasing its store. No CLI or public content listener is added. Manifest ciphertext digest and private in-memory plaintext check are different facts. Historical metadata cannot authorize new work, restart cannot replay a prompt, and unknown warm-up/work retains the original gate. Resident model memory is retained until explicit session close; switching engines/unloading and production scheduling remain separate work.
 
 See [NH constraints](../../docs/技术开发/附录-原生宿主内核接线与输入驻留绑定.md), [current evidence](../tests/evidence/R025-验证报告.md), and [all task IDs](../progress/R025-本轮实现与完整待办.md). Actual CUDA Host tests still use a synthetic platform issuer/order/payment fixture; no real funds or production qualification is implied.
+
+
+## 2026-11-06：全量代码阶段 / Full-code phase
+
+当前进入CODE_FIRST。先完成全部待办生产代码，再统一编译、测试和调试；[全量清单](../全量代码优先实施清单.md)与[R026进展](../progress/R026-全量代码阶段进展.md)分别记录代码和验收。最新固定LMA v1.0.0多模态内核及[Android派生源码](../src/client/android/README.md)纳入本项目；[技术细则](../../docs/技术开发/附录-LMA多模态派生内核与全量代码阶段.md)明确私有任务、共享槽、Keystore与分块密文、尚未接通的控制/加密/恢复边界。现阶段没有新增源码的编译/手机/模型验收记录，R025证据保留原身份。
+
+Complete all production code before batch compilation, tests and debugging. LMA v1.0.0 image/video source is pinned and the private Android overlay is being implemented; it is not an APK, phone-performance or commercial-eligibility claim. Historical R025 evidence does not validate the new source.

@@ -73,9 +73,9 @@ def main() -> int:
     check({r['operation_id'] for r in mapping['operations']}==set(api),'控制操作集合漂移')
     runtime=load(ROOT/'dev/src/api/internal/http/routes.json')
     registrations={r['operation_id']:r for r in runtime['operations']}
-    check(len(registrations)==len(runtime['operations'])==37,'实际HTTP子集应为37个唯一操作')
+    check(len(registrations)==len(runtime['operations'])==39,'实际HTTP子集应为39个唯一操作')
     check(set(registrations)<=set(api),'实际HTTP子集超出权威API')
-    check(runtime['version']=='P11_CONTROL_HTTP_R019','实际HTTP版本应为R019')
+    check(runtime['version']=='P11_CONTROL_HTTP_R026','实际HTTP版本应为R026')
     check({'getExecutionManifest','getExecutionInput'}<=set(registrations),'R019原设备受限交付接口登记缺失')
     mod_by_id={m['id']:m for m in mod}
     task_by_id={t['id']:t for t in tasks}

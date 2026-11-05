@@ -1,5 +1,5 @@
 {
-  "version": "P11_CONTROL_HTTP_R019",
+  "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
   "scope": "37 explicit control operations including signed native original-lease claims and restricted original manifest/input delivery; no public inference listener, execution ACK, usage or payment execution",
   "operations": [
@@ -260,6 +260,20 @@
       "method": "GET",
       "path": "/runner/leases/{lease_id}/input",
       "handler": "getExecutionInput",
+      "anonymous": false
+    },
+    {
+      "operation_id": "recordAttemptProgress",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/progress",
+      "handler": "recordAttemptProgress",
+      "anonymous": false
+    },
+    {
+      "operation_id": "recordAttemptCleanup",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/cleanup",
+      "handler": "recordAttemptCleanup",
       "anonymous": false
     }
   ]

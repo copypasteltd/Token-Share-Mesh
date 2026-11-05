@@ -12,6 +12,8 @@ def sha(path: Path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 def main():
+    from 开发阶段 import require_test_phase
+    require_test_phase()
     binary, env = environment();env['GOPROXY'] = 'off'
     build = ROOT / 'runtime/native-worker/build'
     env.update(P11_NATIVE_RUNTIME_ROOT=str(ROOT/'runtime'),P11_NATIVE_WORKER_EXE=str(build/'p11-llama-worker.exe'),P11_NATIVE_FIXTURE_DLL=str(build/'fixture/llama-fixture.dll'))

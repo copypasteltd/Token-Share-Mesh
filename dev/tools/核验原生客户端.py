@@ -11,6 +11,8 @@ import uuid
 ROOT = Path(__file__).resolve().parents[2]
 
 def main():
+    from 开发阶段 import require_test_phase
+    require_test_phase()
     if os.name != 'nt':
         raise RuntimeError('This evidence runner exercises Windows DPAPI only')
     binary = ROOT / 'runtime/bin/p11-node.exe'

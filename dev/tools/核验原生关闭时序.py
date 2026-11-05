@@ -6,6 +6,8 @@ from 原生开发 import ROOT,environment
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def main():
+    from 开发阶段 import require_test_phase
+    require_test_phase()
  binary,env=environment();env['GOPROXY']='off'
  directory=ROOT/'dev/tests/evidence';raw=directory/'R022-native-timing-replay.jsonl'
  command=[str(binary),'test','-p','1','-count=3','-timeout=90s','-run=^(TestNodeControlDrainStopsSupervisedOriginalOwner|TestSupervisorRequiresWatchdogAndFrozenRegistry)$','-json','./client/node','./client/supervisor']

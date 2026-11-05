@@ -1,8 +1,8 @@
 {
   "version": "1.0",
   "goal_status": "ACTIVE",
-  "current_activity": "SOURCE_IMPLEMENTATION_R025",
-  "activity_source": "R025接通独立批准的原生Host会话、原物理GPU与持久任务、加密结果仓和三协议交付；密文资产摘要保持原义，解密正文另以仅驻内存的原租约/清单/字节凭据校验。宿主拥有worker和结果读取句柄并在关闭时排空、撤权及等待退出，未知原owner不释放。当前限PLAINTEXT/STANDARD；生产资金/usage/ACK/SDK、崩溃恢复、完整LM Studio/ComfyUI/LMA、E2E/LP/性能与80/96完整验收仍待，全56任务222子项保持开放。",
+  "current_activity": "CODE_FIRST_FULL_SCOPE",
+  "activity_source": "2026-11-06用户要求：先完成全部待办生产代码，再统一测试调试。最新LMA v1.0.0移动端生图/视频纳入全量实现；R025测试保持历史身份，本轮源码未验证。",
   "round": "R025",
   "tasks": [
     {
@@ -1065,7 +1065,7 @@
     },
     {
       "id": "DEV-41",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-41.01",
@@ -1073,11 +1073,12 @@
         "DEV-41.03",
         "DEV-41.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "remaining_detail": "CODE_FIRST：已拉取并固定LMA v1.0.0/code65，正在补私有多模态适配、原租约/门闩/Keystore/分块密文源码。控制接线、完整生命周期/加密角色、故障恢复与所有真机验收仍未收口；本阶段不运行局部测试。"
     },
     {
       "id": "DEV-42",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-42.01",
@@ -1085,11 +1086,12 @@
         "DEV-42.03",
         "DEV-42.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "remaining_detail": "CODE_FIRST：已拉取并固定LMA v1.0.0/code65，正在补私有多模态适配、原租约/门闩/Keystore/分块密文源码。控制接线、完整生命周期/加密角色、故障恢复与所有真机验收仍未收口；本阶段不运行局部测试。"
     },
     {
       "id": "DEV-43",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-43.01",
@@ -1097,11 +1099,12 @@
         "DEV-43.03",
         "DEV-43.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "remaining_detail": "CODE_FIRST：已拉取并固定LMA v1.0.0/code65，正在补私有多模态适配、原租约/门闩/Keystore/分块密文源码。控制接线、完整生命周期/加密角色、故障恢复与所有真机验收仍未收口；本阶段不运行局部测试。"
     },
     {
       "id": "DEV-44",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-44.01",
@@ -1109,7 +1112,8 @@
         "DEV-44.03",
         "DEV-44.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "remaining_detail": "CODE_FIRST：已拉取并固定LMA v1.0.0/code65，正在补私有多模态适配、原租约/门闩/Keystore/分块密文源码。控制接线、完整生命周期/加密角色、故障恢复与所有真机验收仍未收口；本阶段不运行局部测试。"
     },
     {
       "id": "DEV-45",

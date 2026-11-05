@@ -1,0 +1,2485 @@
+{
+  "schema": "p11.full-scope-code-first/1",
+  "phase": "CODE_FIRST",
+  "authority": "2026-11-06用户明确要求全量待办完整生产代码后再统一测试调试",
+  "round_in_progress": "R026",
+  "previous_verified_round": "R025",
+  "test_admission": "DENIED_UNTIL_ALL_IN_SCOPE_CODE_COMPLETE",
+  "deferred_task_ids": [
+    "DEV-55"
+  ],
+  "conditional_policy": "DEV-32实现证明校验/放钥门槛和安全关闭；无真实证明不得冒称合格增强档。",
+  "checkpoint": "runtime/work-in-progress/R026-execution-reports/manifest.json",
+  "tasks": [
+    {
+      "id": "DEV-01",
+      "title": "原生工程与版本锁",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "建立单Go模块、原生Go/Node/Android构建入口和锁文件/SBOM；不引入虚拟化脚本。",
+      "steps": [
+        {
+          "id": "DEV-01.01",
+          "title": "工程边界",
+          "code_requirement": "在dev/src规划单Go模块、前端分端包、Android派生工程和原生构建入口",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-01.02",
+          "title": "依赖锁定",
+          "code_requirement": "记录工具链/源码/版本/hash/许可，不引入隐式latest或虚拟化脚本",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-01.03",
+          "title": "配置规范",
+          "code_requirement": "开发配置只引用项目runtime，秘密通过受限引用注入，不默认真实收款",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-01.04",
+          "title": "构建验证",
+          "code_requirement": "分别校Go internal导入、TS共享边界及中文路径，不假称移动/模型已跑",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-02",
+      "title": "物理模型与原生迁移",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "将DDL草案转换为正式版本迁移；实现TxRunner、锁序、复合FK和账务触发器。",
+      "steps": [
+        {
+          "id": "DEV-02.01",
+          "title": "迁移基线",
+          "code_requirement": "从60表DDL草案形成有序迁移与版本表，采用项目专用原生PG",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-02.02",
+          "title": "事务基础",
+          "code_requirement": "实现TxRunner、统一锁序、复合外键/唯一键，外部IO不得持业务锁",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-02.03",
+          "title": "资金与围栏约束",
+          "code_requirement": "验证接受唯一、资源代次、金额平衡与账务触发器，不仅解析SQL",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-02.04",
+          "title": "恢复边界",
+          "code_requirement": "升级失败保留账证/最高代次，备份运维不纳入本轮",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-03",
+      "title": "主体scope与密钥",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现Principal、会话/CSRF、scope+owner+状态策略、key摘要/撤销和配对令牌。",
+      "steps": [
+        {
+          "id": "DEV-03.01",
+          "title": "主体解析",
+          "code_requirement": "登录/会话/设备/SDK凭据统一解析Principal，拒错用途及撤销凭据",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-03.02",
+          "title": "权限策略",
+          "code_requirement": "统一scope+owner+状态+合同校验，跨租户ID替换不能读写",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-03.03",
+          "title": "密钥生命周期",
+          "code_requirement": "高强度随机key只首发一次，库留摘要，重放不再显示secret",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-03.04",
+          "title": "本地与浏览器入口",
+          "code_requirement": "Cookie会话CSRF，loopback核Host/Origin，配对token限时一次性",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-04",
+      "title": "同意权限与数据处理边界",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现版本化同意、限时排障授权、删除申请及受控证据访问审计。",
+      "steps": [
+        {
+          "id": "DEV-04.01",
+          "title": "同意版本",
+          "code_requirement": "按角色/模式保存同意版本/目的/范围，不用一次总勾选代全部用途",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-04.02",
+          "title": "证据授权",
+          "code_requirement": "实现指定订单/人员/字段/目的/期限授权，不能索E2E私钥",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-04.03",
+          "title": "删除请求",
+          "code_requirement": "区分业务文件、必要账证与争议证据，删除申请触发受控待办",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-04.04",
+          "title": "访问审计",
+          "code_requirement": "记录谁以何授权查看何类证据，不复制内容到审计正文",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-05",
+      "title": "个人卖家准入及退出",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现自愿卖家申请、资格/收款主体绑定、暂停/退出和在途尾单处理。",
+      "steps": [
+        {
+          "id": "DEV-05.01",
+          "title": "申请准入",
+          "code_requirement": "登记自愿个人卖家、主体/地区/许可/收款条件，不建采购库存",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-05.02",
+          "title": "渠道绑定",
+          "code_requirement": "收款主体与实际seller绑定，资格未明确不得真实收费",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-05.03",
+          "title": "暂停退出",
+          "code_requirement": "停新售/排空/撤销分开，在途订单/争议/尾款继续受控处理",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-05.04",
+          "title": "权限隔离",
+          "code_requirement": "仅本人/受权审核者变更准入，恢复重新核证据",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-06",
+      "title": "设备配对与身份生命周期",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现一次配对、设备凭据、出站心跳、drain/revoke和恢复再登记。",
+      "steps": [
+        {
+          "id": "DEV-06.01",
+          "title": "设备配对",
+          "code_requirement": "短时一次性token绑定本人seller/设备，重复或过期拒绝",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-06.02",
+          "title": "设备身份",
+          "code_requirement": "设备认证与内容接收钥分开，重装/转让新身份",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-06.03",
+          "title": "在线生命周期",
+          "code_requirement": "出站连接、心跳、共享时段与drain状态，不以在线代表空闲/可售",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-06.04",
+          "title": "恢复先核权",
+          "code_requirement": "重连核最高围栏/旧后端/清理待办后再允许新售",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-07",
+      "title": "能力许可与内核环境证据",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现按OS/内核组件/模型/节点依赖/配方/profile/模式/地区的资格与许可；登记不可变kernel_environment_ref/digest，ComfyUI图/视频/音频/3D分别准入。六桌面组合增加两OS的LLAMA_CPP_NATIVE，独立登记本地防护/性能证据。",
+      "steps": [
+        {
+          "id": "DEV-07.01",
+          "title": "资格维度",
+          "code_requirement": "按OS/设备/引擎/模型/配方/profile/模式/地区登记证据",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-07.02",
+          "title": "环境与许可",
+          "code_requirement": "校组件/模型/节点依赖/hash/许可，绑定环境摘要",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-07.03",
+          "title": "六桌面与真机",
+          "code_requirement": "两OS各Comfy/原生LLM/LM兼容及LMA独立留证，不借其他组合",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-07.04",
+          "title": "失效撤销",
+          "code_requirement": "证据过期/文件漂移/许可撤销停新售，已售环境不热换",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-08",
+      "title": "挂牌版本与市场查询",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现卖家未来挂牌版、时段/价费、披露设备及按真实资格/容量过滤的市场查询。",
+      "steps": [
+        {
+          "id": "DEV-08.01",
+          "title": "挂牌版本",
+          "code_requirement": "卖家编辑未来价费/时段/设备集合，既售快照不变",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-08.02",
+          "title": "可售投影",
+          "code_requirement": "只展示资格/容量允许组合，手机CPU不标GPU",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-08.03",
+          "title": "检索分页",
+          "code_requirement": "过滤模式/能力/地区，游标绑定查询范围，逐对象授权",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-08.04",
+          "title": "暂停关联",
+          "code_requirement": "卖家/设备/证据停用传播至新报价，不改历史单",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-09",
+      "title": "报价预检及费率快照",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现SKU/模式/隐私/期限/资金预检，冻结设备/能力/kernel_environment集合与价费；消费报价时重核环境，变动需重新确认。",
+      "steps": [
+        {
+          "id": "DEV-09.01",
+          "title": "报价预检",
+          "code_requirement": "核实际seller、SKU、模式/隐私、地区/期限/许可及资金路线",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-09.02",
+          "title": "不可变快照",
+          "code_requirement": "冻结挂牌/设备/环境、费率、佣金/渠道费/预算和验收规则",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-09.03",
+          "title": "消费再核",
+          "code_requirement": "报价限时一次消费，关键证据/环境变化重新确认",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-09.04",
+          "title": "公开私密分开",
+          "code_requirement": "报价只公开规格，不接prompt/私有URL或内容摘要",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-10",
+      "title": "不可变C2C订单",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "原子消费报价，固定seller/设备能力环境集合/价费/模式/隐私/验收；既售内核不热换，跨卖家仍需关联新单。",
+      "steps": [
+        {
+          "id": "DEV-10.01",
+          "title": "订单创建",
+          "code_requirement": "原子消费本人报价，固定实际seller/收款主体/模式/价费",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-10.02",
+          "title": "合同绑定",
+          "code_requirement": "保存环境/设备集合、协议/隐私/验收/重试政策及hash",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-10.03",
+          "title": "状态与幂等",
+          "code_requirement": "同键同请求复用原单，同键不同内容冲突，付款不等于接受",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-10.04",
+          "title": "变更边界",
+          "code_requirement": "跨卖家结束原单并新确认；既售环境/价格不后台覆盖",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-11",
+      "title": "标准SDK路由合同",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现RouteContract与scoped key，标准Base URL/key即可绑定已确认卖家/预算/模式。",
+      "steps": [
+        {
+          "id": "DEV-11.01",
+          "title": "路由配置",
+          "code_requirement": "本人明确绑定seller/listing/模型/模式/预算/超时",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-11.02",
+          "title": "标准接入",
+          "code_requirement": "普通Base URL/key/版本头解析已确认路由，不加私有JSON必填",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-11.03",
+          "title": "凭据隔离",
+          "code_requirement": "路由key不能后台管理/无限代购，模型别名不暗换卖家",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-11.04",
+          "title": "撤销更新",
+          "code_requirement": "路由版本不可改已售合同，撤key/预算到期停新调用",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-12",
+      "title": "预算预留与有理费率",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现并发预算reserve/consume/release、新售小时与输入输出M token有理费率、整单累计取整和硬截止；关闭NB-R1价格契约缺口，旧版只精确适配。",
+      "steps": [
+        {
+          "id": "DEV-12.01",
+          "title": "费率与金额",
+          "code_requirement": "用整数分/有理单位价，明示usage包含关系/累计取整",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-12.02",
+          "title": "预算事务",
+          "code_requirement": "并发reserve/consume/release，唯一来源避免超用或重复释放",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-12.03",
+          "title": "停止条件",
+          "code_requirement": "达到预算/截止拒新执行，未知资金不当可用余额",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-12.04",
+          "title": "费用解释",
+          "code_requirement": "预估/上限/最终额区分，token未知不编造精确价格",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-13",
+      "title": "Machine Pay预下单验付与原号查询",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/payment",
+      "requirement": "实现precreate/amtPaymentLink/Payment-Proof/verify及原号绑定；应用/service/实际seller授权快照，50元/12h校验，分离沙箱/正式。",
+      "steps": [
+        {
+          "id": "DEV-13.01",
+          "title": "渠道适配",
+          "code_requirement": "按当前获准产品实现precreate/付款入口/验付/query，冻结字段版本",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-13.02",
+          "title": "收款绑定",
+          "code_requirement": "核seller/应用/service/金额/截止/原号，凭据不透传引擎",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-13.03",
+          "title": "意向与验付",
+          "code_requirement": "先持久渠道请求意向再外发，只有渠道确认才PAID",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-13.04",
+          "title": "未知恢复",
+          "code_requirement": "超时UNKNOWN查原号，沙箱/正式身份严格隔离",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-14",
+      "title": "退款累计及未知恢复",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/payment",
+      "requirement": "锁原支付累计生成唯一退款原号；处理部分退款、重复回调和未知查核。",
+      "steps": [
+        {
+          "id": "DEV-14.01",
+          "title": "退款意向",
+          "code_requirement": "锁原支付累计，唯一退款原号关联责任/金额",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-14.02",
+          "title": "原号执行",
+          "code_requirement": "提交后查同一退款，不以超时新建另一退款",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-14.03",
+          "title": "累计守恒",
+          "code_requirement": "扣除已退/处理中金额，冲正按累计差额而非覆盖历史",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-14.04",
+          "title": "状态呈现",
+          "code_requirement": "退款受理/渠道成功/到账区分，失败保留可查凭据",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-15",
+      "title": "资金资格与长任务时序",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/payment",
+      "requirement": "实现固定有界预付、未知token最终价/租赁预算的产品能力门槛，区分已付款、业务接受和正式成交资格。",
+      "steps": [
+        {
+          "id": "DEV-15.01",
+          "title": "能力准入",
+          "code_requirement": "核固定预付/变量token价/租时预算各自渠道能力",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-15.02",
+          "title": "长任务时序",
+          "code_requirement": "明确报价/付款/执行/接受/退款窗口，不臆造后结算API",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-15.03",
+          "title": "资金执行分离",
+          "code_requirement": "验付证据只赋合同范围准入，不直接成功成交",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-15.04",
+          "title": "缺证关闭",
+          "code_requirement": "个人seller/佣金/退款路线未获证不收费，不补平台自营",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-16",
+      "title": "对账与资金异常",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/reconciliation",
+      "requirement": "实现支付/退款/佣金/卖家到账的原号核对、差额队列和双人受控修复。",
+      "steps": [
+        {
+          "id": "DEV-16.01",
+          "title": "原号对账",
+          "code_requirement": "按支付/退款/卖家到账/佣金原号和金额周期核对",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-16.02",
+          "title": "差异分类",
+          "code_requirement": "处理中/UNKNOWN/重复/缺失分开，事件不覆盖权威事实",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-16.03",
+          "title": "受控修复",
+          "code_requirement": "修复意图/复核/执行分权，保留前后追加记录",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-16.04",
+          "title": "查询售后",
+          "code_requirement": "后台能查原交易进展，错误只最小安全信息",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-17",
+      "title": "任务上下文与输入准入",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现INPUT_PENDING/PREPARED和输入/封装、资金/证据/容量短事务准入。",
+      "steps": [
+        {
+          "id": "DEV-17.01",
+          "title": "准备上下文",
+          "code_requirement": "E2E建INPUT_PENDING/PREPARED、attempt/token/recipient/截止",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-17.02",
+          "title": "输入准入",
+          "code_requirement": "核资产归属/完成、封装签名/引用/限额，平台不验私密内容",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-17.03",
+          "title": "综合复核",
+          "code_requirement": "资金/资格/环境/地区/预算/期限/容量都重核",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-17.04",
+          "title": "事务提交",
+          "code_requirement": "短事务准备准入/outbox，外部引擎/支付不持锁调用",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-18",
+      "title": "资源门闩与双围栏",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现每物理资源全模式/引擎锁、job token、跨job lock_generation、签名租约与版本化续约。输入准备/结果密文交付不额外持GPU锁，编码仍用GPU则继续持锁；控制通道独立。",
+      "steps": [
+        {
+          "id": "DEV-18.01",
+          "title": "物理资源标识",
+          "code_requirement": "一卡一resource，所有引擎/自用/租赁/维护共门闩",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-18.02",
+          "title": "双围栏签名",
+          "code_requirement": "job token和跨job资源代次签入租约，核owner/环境/硬截止",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-18.03",
+          "title": "续约恢复",
+          "code_requirement": "有效新revision才续权，持久最高值，重启先查后端",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-18.04",
+          "title": "计算交付分离",
+          "code_requirement": "输入准备/原密文补传不占卡，编码用GPU仍持锁",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-19",
+      "title": "同卖家重派及唯一接受",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/dispatch",
+      "requirement": "实现一次同卖家重派、换端重封、当前尝试交付/签收唯一CAS和取消竞争。",
+      "steps": [
+        {
+          "id": "DEV-19.01",
+          "title": "受限重派",
+          "code_requirement": "同seller已披露合格端最多一次，保持预算/总期限",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-19.02",
+          "title": "加密换端",
+          "code_requirement": "旧执行上下文围栏，新端独立核验并买方重新封装",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-19.03",
+          "title": "唯一接受",
+          "code_requirement": "交付版/清单/签名和接受拒绝取消超时CAS竞争",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-19.04",
+          "title": "流和未知",
+          "code_requirement": "新生成不拼原SSE，执行未知先query，晚结果不改正式终态",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-20",
+      "title": "取消停止与清理确认",
+      "code_status": "IN_PROGRESS",
+      "source_target": "dev/src",
+      "requirement": "实现取消意向→撤租约→真实停止→清理ACK→释放；未知状态资源隔离。",
+      "steps": [
+        {
+          "id": "DEV-20.01",
+          "title": "撤执行权",
+          "code_requirement": "取消/到期先拒新调用，签名命令对应原owner/attempt",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/invocation/reports.go",
+            "dev/src/client/node/host_reports.go"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-20.02",
+          "title": "真实停算",
+          "code_requirement": "触发owned worker检查点/受控停止，不能把HTTP断开当停算",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/invocation/reports.go",
+            "dev/src/client/node/host_reports.go"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-20.03",
+          "title": "清理ACK",
+          "code_requirement": "任务KV/张量/文件/钥按范围清理并签确认",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/invocation/reports.go",
+            "dev/src/client/node/host_reports.go"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-20.04",
+          "title": "隔离恢复",
+          "code_requirement": "未停/未知资源隔离，重连先查停清再恢复FREE",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/invocation/reports.go",
+            "dev/src/client/node/host_reports.go"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-21",
+      "title": "桌面RuntimeSupervisor与可替换内核",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现KernelRegistry/RuntimeSupervisor、Windows/Linux普通权限生命周期、不可变版本目录/暂存/验证、排空维护/切换/合格旧版回滚，持久inbox与进程归属。实现独立低权限执行身份与定向继承数据/控制管道，worker可复用。",
+      "steps": [
+        {
+          "id": "DEV-21.01",
+          "title": "内核注册",
+          "code_requirement": "组件/模型/配置分版本，校签名/hash/归属/许可",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-21.02",
+          "title": "低权限服务",
+          "code_requirement": "独立受限身份，定向继承数据/控制句柄，不加常驻Chromium",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-21.03",
+          "title": "监督与持久化",
+          "code_requirement": "只管理本程序进程，inbox/backend ID/最高围栏落盘",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-21.04",
+          "title": "替换回滚",
+          "code_requirement": "排空/维护/暂存/验证/重验再切，旧版仍批准才回滚",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-22",
+      "title": "ComfyUI完整内核与有限节点安装",
+      "code_status": "OPEN",
+      "source_target": "dev/src/client/adapters/comfyui",
+      "requirement": "封装固定Python/ComfyUI/传递依赖/媒体工具和批准图像/视频/音频/3D能力包；实现NodeAllowlistInstaller、本人确认、导入前目录核验及prompt_id恢复。增加不开Web服务的ComfyPrivacyBridge和首次写盘前加密的媒体sink。",
+      "steps": [
+        {
+          "id": "DEV-22.01",
+          "title": "完整环境",
+          "code_requirement": "Python/Comfy/依赖/节点/编码器精确固定，四媒体独立能力包",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-22.02",
+          "title": "节点安装",
+          "code_requirement": "有限白名单+提供方同意，导入前校全启用目录",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-22.03",
+          "title": "隐私入口",
+          "code_requirement": "PrivacyBridge不开原生Web，输入受限file-like/张量",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-22.04",
+          "title": "产物与恢复",
+          "code_requirement": "编码直接加密sink，保存真实backend ID用于query/cancel",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-23",
+      "title": "原生隐私LLM与LM Studio兼容内核",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现lms CLI/llmster/runtime三层版本与官方接口桥、独立配置/进程归属验证、本地API/SSE/模型管理/取消/usage，以及经验证的精确版本替换恢复。新增llama.cpp C API原生C++ worker，通过管道执行隐私文本/流式；原LM Studio三层封装保留兼容。",
+      "steps": [
+        {
+          "id": "DEV-23.01",
+          "title": "原生隐私分支",
+          "code_requirement": "C++嵌llama C API、管道调用，登记worker/库/后端独立版本",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-23.02",
+          "title": "LM兼容分支",
+          "code_requirement": "lms/llmster/runtime可替换并核专用配置/进程归属",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-23.03",
+          "title": "协议和模型",
+          "code_requirement": "核GGUF/模板/上下文/工具/usage，不借LM能力冒原生兼容",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-23.04",
+          "title": "取消与资格",
+          "code_requirement": "不把CPU abort当CUDA瞬停；两个分支分别验LP/许可/性能",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-24",
+      "title": "桌面共享门闩与本机入口",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现持久inbox/资源代次及环境摘要、本地维护与双引擎/自用/租赁共门闩、loopback受权内核页和可选LAN配对撤销；买家key无安装权限。",
+      "steps": [
+        {
+          "id": "DEV-24.01",
+          "title": "统一入口",
+          "code_requirement": "本机调用/自用/共享/租赁/维护都经同门闩",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-24.02",
+          "title": "本地鉴权",
+          "code_requirement": "买方key无安装/管理权，loopback核Host/Origin",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-24.03",
+          "title": "LAN配对",
+          "code_requirement": "主动启用明确接口/访问方/撤销，连接受保护",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-24.04",
+          "title": "控制透明",
+          "code_requirement": "状态/版本/资源/收益/停止可见，正文读取接口不存在",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-25",
+      "title": "兼容转发内核与授权上游",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现BoundRelayCore/FieldPolicy/BackendSelector，固定seller/设备/route，审核上游目标/usage；Payment-Proof不进模型。",
+      "steps": [
+        {
+          "id": "DEV-25.01",
+          "title": "核心分层",
+          "code_requirement": "BoundRelayCore把协议/鉴权/后端选择与资金平台账分开",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-25.02",
+          "title": "绑定后端",
+          "code_requirement": "依合同seller/device/环境选择获准后端，不接受任意base_url",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-25.03",
+          "title": "授权上游",
+          "code_requirement": "按主体/套餐/地区许可连接并隔离凭据，proof不入引擎",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-25.04",
+          "title": "幂等取消计量",
+          "code_requirement": "传播deadline/cancel及原request映射，只发候选usage",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-26",
+      "title": "三文本协议与字段档位",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现三个文本入口的原生直通/无损子集profile，逐字段PASS/MAP/REJECT、工具ID往返和usage口径。",
+      "steps": [
+        {
+          "id": "DEV-26.01",
+          "title": "入口profile",
+          "code_requirement": "冻结Chat/Responses/Messages版本、认证、字段和模型映射",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-26.02",
+          "title": "语义映射",
+          "code_requirement": "角色优先级/多段内容/工具ID/并行参数保真，不编造思考签名",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-26.03",
+          "title": "状态和usage",
+          "code_requirement": "错误/停止/长度/拒绝/缓存口径如实表达",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-26.04",
+          "title": "状态引用限制",
+          "code_requirement": "无状态基础请求先行，未支持store/远端会话明确拒绝",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-27",
+      "title": "SSE媒体、音频与资产协议",
+      "code_status": "OPEN",
+      "source_target": "dev/src",
+      "requirement": "实现有界SSE/取消/原ID恢复，Images/Videos及Audio Speech/Transcriptions批准子集；声明Responses音乐/3D资产结果档位并验证background/retrieve/cancel。",
+      "steps": [
+        {
+          "id": "DEV-27.01",
+          "title": "流式解析",
+          "code_requirement": "增量有界处理UTF8/JSON/SSE/工具，不用心跳伪生成",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-27.02",
+          "title": "错误与取消",
+          "code_requirement": "起流前标准JSON，起流后方言错误或异常中断，不造成功终态",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-27.03",
+          "title": "媒体接口",
+          "code_requirement": "实现批准Images/Videos/Audio子集及异步领取，不将内部job冒官方结果",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-27.04",
+          "title": "资产扩展",
+          "code_requirement": "音乐/3D只声明Responses结构化资产档，不伪造官方端点",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-28",
+      "title": "Sub2API源码裁剪与许可",
+      "code_status": "OPEN",
+      "source_target": "dev/src/gateway/sub2api",
+      "requirement": "冻结候选commit/依赖/许可证，记录修改和转发内核边界，完成原生构建/分发义务。",
+      "steps": [
+        {
+          "id": "DEV-28.01",
+          "title": "源码冻结",
+          "code_requirement": "选定Sub2API仓库commit/hash/许可与依赖，不仅看main路由",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-28.02",
+          "title": "核心裁剪",
+          "code_requirement": "保留协议适配/受限连接，去池轮换/钱包/正文捕获",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-28.03",
+          "title": "原生打包",
+          "code_requirement": "证明可独立原生构建，不执行仓库容器/一键安装脚本",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-28.04",
+          "title": "分发义务",
+          "code_requirement": "核二开/链接/再分发义务及替代实现条件",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-29",
+      "title": "端点身份与密钥库",
+      "code_status": "OPEN",
+      "source_target": "dev/src/client/crypto",
+      "requirement": "实现独立端点核验/公钥版本、独立签名/加密钥、轮换/撤销及OS秘密存储。实现双向接收钥独立信任、用途隔离、正常/泄漏轮换、撤销未知拒绝及丢钥恢复边界。",
+      "steps": [
+        {
+          "id": "DEV-29.01",
+          "title": "独立信任",
+          "code_requirement": "双向recipient/签名身份/指纹绑定合同，TOFU不当首次证明",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-29.02",
+          "title": "钥用途存储",
+          "code_requirement": "auth/content/identity/receipt/update分开，专用OS秘密库",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-29.03",
+          "title": "轮换撤销",
+          "code_requirement": "旧身份签新钥或独立重核，撤销未知停新放钥",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-29.04",
+          "title": "丢钥恢复",
+          "code_requirement": "重装新身份，买方私钥丢失不解旧结果，披露无完整前向保密",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-30",
+      "title": "本地加密与内置转发",
+      "code_status": "OPEN",
+      "source_target": "dev/src/client/crypto",
+      "requirement": "通过成熟库薄封装实现上下文规范化、sealed key、ordered secretstream及反向响应。实现C→sealed→H签名→记录AAD、BINARY_STREAM_1及LOCAL_SEGMENTED_1，Go/C++/JNI同库；先补二进制channel协商/版本Schema。",
+      "steps": [
+        {
+          "id": "DEV-30.01",
+          "title": "冻结加密档",
+          "code_requirement": "同库CGO/C++/JNI，先补二进制channel协商/Schema/版本和域向量",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-30.02",
+          "title": "信封和AAD",
+          "code_requirement": "按C→sealed→H签名→长度/seq AAD，无未知资源字段/自引用",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-30.03",
+          "title": "记录与终态",
+          "code_requirement": "有界二进制类型/flags/reserved；END本身TAG_FINAL",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-30.04",
+          "title": "本地存储恢复",
+          "code_requirement": "独立LOCAL_SEGMENTED_1不可变缓存；丢push状态新授权epoch，不能盲重跑",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-31",
+      "title": "盲转分块与本地接受",
+      "code_status": "OPEN",
+      "source_target": "dev/src/gateway/blind",
+      "requirement": "实现平台opaque frame/channel、配额/有界重排、已认证本地媒体缓存/Range和签名收据。实现二进制盲转、4MiB共享配额/8ms聚合、原密文补传、完整认证后Range及签名回执唯一终态。",
+      "steps": [
+        {
+          "id": "DEV-31.01",
+          "title": "盲转通道",
+          "code_requirement": "只看允许外层身份/配额/签名，平台无解密/内容转换模块",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-31.02",
+          "title": "有界传输",
+          "code_requirement": "4MiB整流共享/重排32条且2MiB，原密文补传和背压",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-31.03",
+          "title": "本地领取",
+          "code_requirement": "买方按序认证完整媒体后Range，SSE认证前缀实时交但非最终接受",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-31.04",
+          "title": "签名回执",
+          "code_requirement": "原attempt/交付版/清单签收，唯一终态且交付无计算权",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-32",
+      "title": "增强档证明放钥门槛",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/attestation",
+      "requirement": "实现独立证明/放钥政策和全路径覆盖，绑定kernel_environment_digest及实际CLI/daemon/runtime、ComfyUI/节点/编解码或native测量；替换必须重验。",
+      "steps": [
+        {
+          "id": "DEV-32.01",
+          "title": "证明政策",
+          "code_requirement": "独立买方策略定义challenge/新鲜度/钥绑定/完整测量",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-32.02",
+          "title": "全路径验证",
+          "code_requirement": "CPU/GPU互联/内核/编码/日志/出口都覆盖，不仅保密GPU",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-32.03",
+          "title": "放钥撤销",
+          "code_requirement": "证明有效才封钥，环境升级/过期/撤销重新验证",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-32.04",
+          "title": "保持独立关闭",
+          "code_requirement": "普通原生/Keystore/VM/mock不解锁增强，不阻基础隐私实现",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-33",
+      "title": "租赁占位及双方就绪",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/rental",
+      "requirement": "实现同卡独占、零费准备、设备/买方就绪、单次起表及受控工作区grant。",
+      "steps": [
+        {
+          "id": "DEV-33.01",
+          "title": "租赁占位",
+          "code_requirement": "已付合格合同原子取同物理卡，会话权限不等主机管理员",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-33.02",
+          "title": "双方准备",
+          "code_requirement": "device/buyer ready核同环境/截止，准备失败零费",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-33.03",
+          "title": "单次起表",
+          "code_requirement": "双端ready+资金有效后唯一started_at与工作区grant",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-33.04",
+          "title": "受控工作区",
+          "code_requirement": "仅批准模型/配方/参数，租内调用不另售，不给shell/RDP",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-34",
+      "title": "可用区间与最终计费",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/rental",
+      "requirement": "实现序号/单调时/资源代次证据、区间去重合并、累计毫秒一次取整和预算停止。",
+      "steps": [
+        {
+          "id": "DEV-34.01",
+          "title": "区间证据",
+          "code_requirement": "用单调耗时/序号/资源代次表达真实可用区间",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-34.02",
+          "title": "去重合并",
+          "code_requirement": "剔重叠/重复/未知，准备和故障不算可用",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-34.03",
+          "title": "一次取整",
+          "code_requirement": "累计毫秒按约有理费率最终取整，不逐片多收",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-34.04",
+          "title": "清单核对",
+          "code_requirement": "区间→meter statement→账单可复核，卖方自报不默认可信",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-35",
+      "title": "续租断线与硬截止",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/rental",
+      "requirement": "实现显式续租报价/支付有效后延长，断线宽限、签名本地deadline和到期强停。",
+      "steps": [
+        {
+          "id": "DEV-35.01",
+          "title": "显式续租",
+          "code_requirement": "新报价/付款有效后才延，迟到付款不复活已结束会话",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-35.02",
+          "title": "断线策略",
+          "code_requirement": "合同固定宽限/继续范围，不能靠重连无限续费",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-35.03",
+          "title": "本地硬截止",
+          "code_requirement": "签名deadline本地执行，未有效续权必停",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-35.04",
+          "title": "停止后恢复",
+          "code_requirement": "超时先停清理、后核新单，旧grant不再有效",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-36",
+      "title": "租赁撤权导出与清理",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/rental",
+      "requirement": "实现结束撤grant、受控导出、真实停止及租户工作区/缓存清理ACK。",
+      "steps": [
+        {
+          "id": "DEV-36.01",
+          "title": "结束撤权",
+          "code_requirement": "结束/退款/到期撤工作区grant与新调用权",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-36.02",
+          "title": "受控导出",
+          "code_requirement": "只导本人获准结果，期限/对象scope明确，不导系统文件",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-36.03",
+          "title": "实际清理",
+          "code_requirement": "后端停算、KV/文件/临时钥清完ACK，不放任任务继续",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-36.04",
+          "title": "离线补清",
+          "code_requirement": "失联标隔离/待清，重启先查停清再售",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-37",
+      "title": "媒体对象生命周期",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/assets",
+      "requirement": "实现单对象授权/明密文隔离/受控取回、图像视频音频3D规格检查与运行删除；3D拒脚本/任意外部纹理，音频真实解码。备份方案延后。增加图/视频/音频/3D流式编码加密、不可变分段缓存与spool配额。",
+      "steps": [
+        {
+          "id": "DEV-37.01",
+          "title": "对象权限",
+          "code_requirement": "登记owner/order/attempt/类型/限额，单对象短时上传/读grant",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-37.02",
+          "title": "完整性与格式",
+          "code_requirement": "完成核hash/长度/manifest，再按公开或端侧路径验证媒体",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-37.03",
+          "title": "隐私流式存储",
+          "code_requirement": "首次写盘前加密、不可变分段/加密manifest、有界spool/LRU",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-37.04",
+          "title": "删除恢复",
+          "code_requirement": "终态留存到期tombstone再删，离线补清，不复活权益",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-38",
+      "title": "可信usage与价格计算",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/usage",
+      "requirement": "实现固定tokenizer/模板/缓存口径、输入输出M token双价、原始数量/有理费率和证据版；当前/最终账单与净额投影有水位。",
+      "steps": [
+        {
+          "id": "DEV-38.01",
+          "title": "用量来源",
+          "code_requirement": "保留真实模型/tokenizer/模板/后端和原始字段口径",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-38.02",
+          "title": "口径核验",
+          "code_requirement": "输入/输出/缓存命中/创建/推理不重复计数",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-38.03",
+          "title": "价格计算",
+          "code_requirement": "按合同有理费率/累计取整给清单，不回平台解E2E算token",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-38.04",
+          "title": "缺证处理",
+          "code_requirement": "缺可信usage用已约定有界固定价或禁售，不编造0/估扣",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-39",
+      "title": "成交资格与追加镜像账",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/settlement",
+      "requirement": "实现接受/最终租时/真实用量成交资格、平衡分录和累计退款差额冲正。",
+      "steps": [
+        {
+          "id": "DEV-39.01",
+          "title": "成交资格",
+          "code_requirement": "只以唯一接受/最终可用租时/真实用量产生qualification",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-39.02",
+          "title": "平衡追加账",
+          "code_requirement": "按唯一来源写journal及借贷分录，不修改历史",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-39.03",
+          "title": "退款冲正",
+          "code_requirement": "按累计差额追加逆向账，区分渠道费/佣金/卖家净额",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-39.04",
+          "title": "账单投影",
+          "code_requirement": "GMV/平台费/净收益/待结算/已到账分别显示",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-40",
+      "title": "个人卖家渠道结算",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/settlement",
+      "requirement": "按实际seller渠道绑定实现到账/成交资格/争议hold、渠道结算能力及原号查询；直收路径只记录到账不重复平台出款。",
+      "steps": [
+        {
+          "id": "DEV-40.01",
+          "title": "渠道资格",
+          "code_requirement": "本人seller渠道及佣金/出款能力逐项核实",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-40.02",
+          "title": "结算资格",
+          "code_requirement": "接受/退款/争议hold/计量都满足才可结",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-40.03",
+          "title": "批次原号",
+          "code_requirement": "制单/复核/提交分权，UNKNOWN查原batch/item",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-40.04",
+          "title": "直收与到账",
+          "code_requirement": "渠道直收只记到账，不再平台二付，到账状态非仅请求受理",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-41",
+      "title": "LMA源码二开与内核桥基座",
+      "code_status": "IN_PROGRESS",
+      "source_target": "dev/src/client/android",
+      "requirement": "固定LMA源码/依赖许可和原生链，在本项目建立派生Android工程；复用Java服务/WebView/EngineHost/ApiHost，新增Kotlin可互操作PlatformBridge。",
+      "steps": [
+        {
+          "id": "DEV-41.01",
+          "title": "固定派生源码",
+          "code_requirement": "在dev内基于固定LMA commit建独立工程，原Java/WebView边界明确",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-41.02",
+          "title": "平台桥",
+          "code_requirement": "Java/Kotlin互操作接身份/合同/调度/引擎，不改外部仓库",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-41.03",
+          "title": "内核模型分离",
+          "code_requirement": "native可执行随受签APK，模型由本人独立选下载",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-41.04",
+          "title": "真机基线",
+          "code_requirement": "至少两款授权手机验证安装/升级/内部引擎，不用模拟器",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-42",
+      "title": "手机本地推理和执行槽",
+      "code_status": "IN_PROGRESS",
+      "source_target": "dev/src/client/android",
+      "requirement": "在LMA派生工程内接本机native推理和GatewayLite，标准协议转换/环境租约校验、原聊天/API/共享共门闩及真实usage。",
+      "steps": [
+        {
+          "id": "DEV-42.01",
+          "title": "本机推理",
+          "code_requirement": "GatewayLite调用手机native引擎，断PC/云仍工作",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-42.02",
+          "title": "统一执行槽",
+          "code_requirement": "个人聊天/本地API/共享共门闩，不同买家上下文隔离",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-42.03",
+          "title": "协议和授权",
+          "code_requirement": "核环境/租约/双围栏，映射标准文本已验证子集",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-42.04",
+          "title": "原号恢复",
+          "code_requirement": "native任务映射持久，未知先query/停清，不重复计算收益",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-43",
+      "title": "手机生命周期及共享条件",
+      "code_status": "IN_PROGRESS",
+      "source_target": "dev/src/client/android",
+      "requirement": "改造LMA前台服务共享生命周期、充电/WiFi/热条件、用户停止；内核可执行组件随受签APK更新，模型独立选择下载，更新前drain后先恢复查询补清。",
+      "steps": [
+        {
+          "id": "DEV-43.01",
+          "title": "共享条件",
+          "code_requirement": "本人设置充电/WiFi/电量/温控/时段，越界停新单",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-43.02",
+          "title": "生命周期",
+          "code_requirement": "前台服务/通知只状态，锁屏/后台/系统限制分别处理",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-43.03",
+          "title": "升级维护",
+          "code_requirement": "APK更新前drain，模型与native版本分离，环境重验",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-43.04",
+          "title": "恢复清理",
+          "code_requirement": "被杀/重启先查最高代次/后端并补清，不能自动旧ACTIVE续算",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-44",
+      "title": "手机权限与加密角色",
+      "code_status": "IN_PROGRESS",
+      "source_target": "dev/src/client/android",
+      "requirement": "在LMA派生端实现最小权限、Keystore用途隔离、平台桥/端侧加解密、模型调用与管理权限分离和清数据后新身份。复用LMA内部Java/JNI调用和受控私有存储，不启动额外Go/Node/Python。",
+      "steps": [
+        {
+          "id": "DEV-44.01",
+          "title": "最小权限",
+          "code_requirement": "共享不读私人相册/聊天/联系人，管理和模型调用分权",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-44.02",
+          "title": "内部加密",
+          "code_requirement": "LMA内部JNI同库、静态钥适用Keystore包装，内容不进WebView/logcat",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-44.03",
+          "title": "缓存恢复",
+          "code_requirement": "内部密文分段/最多2段LRU，临时钥丢失不盲重跑",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-44.04",
+          "title": "身份更新",
+          "code_requirement": "清数据/重装新身份，受签APK升级重验资格，不标增强",
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+          ],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-45",
+      "title": "Taro小程序买家交易主链",
+      "code_status": "OPEN",
+      "source_target": "dev/src/miniapp",
+      "requirement": "以React/Taro支付宝目标实现市场/seller选择、三模式价费确认、PayLauncher、订单/接受/退款/结果及前后台恢复。",
+      "steps": [
+        {
+          "id": "DEV-45.01",
+          "title": "市场与确认",
+          "code_requirement": "Taro按NB五页/十辅助界面实现seller/具体型号/模式/隐私/小时或M token双价/预算确认，关闭契约缺口",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-45.02",
+          "title": "付款动作",
+          "code_requirement": "PayLauncher分端，付款返回只触查单，不立即标成交",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-45.03",
+          "title": "订单交付",
+          "code_requirement": "执行/待验收/退款/到账分别显示，E2E引导本地程序不经服务器解密",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-45.04",
+          "title": "移动恢复",
+          "code_requirement": "默认非流式或控制轮询，前后台/弱网/重复操作不新购",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-46",
+      "title": "Taro卖家与Web设备挂牌收益",
+      "code_status": "OPEN",
+      "source_target": "dev/src/frontend",
+      "requirement": "小程序提供卖家准入、设备状态、挂牌未来版/时段及收益；React/Vite Web补复杂配置，原生端负责真实执行。",
+      "steps": [
+        {
+          "id": "DEV-46.01",
+          "title": "卖家准入挂牌",
+          "code_requirement": "小程序申请/设备/价费/时段/未来版本，关键变更需本人确认",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-46.02",
+          "title": "设备与共享",
+          "code_requirement": "P04显示本人型号/组件/资格/资源/草稿，停止接新单原子准入与在途清理分开，不展示买方正文",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-46.03",
+          "title": "收益账单",
+          "code_requirement": "区分当前成交额/预估净额/未结算/应结/退款/已到账，P04的0.57须同价费/水位投影",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-46.04",
+          "title": "Web复杂配置",
+          "code_requirement": "React/Vite补批量/版本/配方配置，不把Web当实际供给端",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-47",
+      "title": "React Web开发者与可信程序配对",
+      "code_status": "OPEN",
+      "source_target": "dev/src/web",
+      "requirement": "React/Vite实现三方言SDK配置、RouteContract/预算、撤销key及本机/LAN指引；小程序只做配对摘要和交易控制。",
+      "steps": [
+        {
+          "id": "DEV-47.01",
+          "title": "开发者配置",
+          "code_requirement": "Web配置三SDK入口、已确认RouteContract/预算及key",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-47.02",
+          "title": "可信端配对",
+          "code_requirement": "本机/LAN网关一次配对与本人确认、独立指纹/能力/撤销摘要；recipient注册不冒充买方配对",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-47.03",
+          "title": "租赁控制",
+          "code_requirement": "P05选择版本绑定右侧原合同，小时价/30分钟/预算/预计/含佣金分别列；双ready后起表，调用不另售",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-47.04",
+          "title": "安全交互",
+          "code_requirement": "key只创建时展示，不入URL/普通持久存储；服务器不收E2E正文",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-48",
+      "title": "React Web运营财务与售后",
+      "code_status": "OPEN",
+      "source_target": "dev/src/web",
+      "requirement": "React/Vite实现证据审查/开关/争议/渠道查单/批次复核与业务审计；不建设观测仪表盘或告警后台。",
+      "steps": [
+        {
+          "id": "DEV-48.01",
+          "title": "运营审核",
+          "code_requirement": "Web实现许可/证据/发布范围审核和撤销，不建观测大屏",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-48.02",
+          "title": "财务复核",
+          "code_requirement": "查原号/差异/结算批次制单复核提交分权",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-48.03",
+          "title": "售后证据",
+          "code_requirement": "争议/申诉只看限时授权材料，不索历史私钥",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-48.04",
+          "title": "后台安全",
+          "code_requirement": "逐接口权限/审计，敏感导出限范围，UI不替后端授权",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-49",
+      "title": "争议申诉与最小披露",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/disputes",
+      "requirement": "实现双方证据/责任/决定/申诉，争议hold与限时内容授权。",
+      "steps": [
+        {
+          "id": "DEV-49.01",
+          "title": "争议申请",
+          "code_requirement": "本人真实订单、期限/责任/费用事实关联，不以截图代渠道事实",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-49.02",
+          "title": "最小披露",
+          "code_requirement": "买方可选择坏包/字段/截图独立授权，不能强交全部正文钥",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-49.03",
+          "title": "处理与hold",
+          "code_requirement": "裁决/退款/卖家款暂缓分权，内容不可见时只裁可验证事项",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-49.04",
+          "title": "申诉恢复",
+          "code_requirement": "记录决定版本和申诉，不覆盖原事实/账证",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-50",
+      "title": "评价信誉与反关联",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/reputation",
+      "requirement": "实现仅真实成交主体评价、关联/刷单信号和可申诉可解释限制。",
+      "steps": [
+        {
+          "id": "DEV-50.01",
+          "title": "评价资格",
+          "code_requirement": "只对真实成交双方开放，一单去重，退款关系按规则处理",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-50.02",
+          "title": "信誉投影",
+          "code_requirement": "展示可解释服务维度，设备/模式证据与主观评价区分",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-50.03",
+          "title": "反关联信号",
+          "code_requirement": "识别关联成交/刷单信号，不假造机器学习结论",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-50.04",
+          "title": "申诉和治理",
+          "code_requirement": "限制可解释可申诉，不付费删差评或改历史成交",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-51",
+      "title": "事件outbox与持久任务",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/outbox",
+      "requirement": "实现事务outbox/inbox、claim_generation、有限重试/死信、通知和清理/查单worker。增加PE-01—PE-08/LP专项及同模型同机30次A/B的内存/VRAM/性能预算验证。",
+      "steps": [
+        {
+          "id": "DEV-51.01",
+          "title": "事务事件",
+          "code_requirement": "业务状态与outbox同事务，消费者用inbox去重",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-51.02",
+          "title": "持久任务",
+          "code_requirement": "claim_generation/期限/有限重试/死信，不重复资金/推理",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-51.03",
+          "title": "后台编排",
+          "code_requirement": "通知/查单/清理只调模块公开端口，通知无正文钥",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-51.04",
+          "title": "专项衔接",
+          "code_requirement": "调度/密码/客户端提供PE/LP及同机A/B夹具，测试工程复核证据",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-52",
+      "title": "证据门槛与撤销发布",
+      "code_status": "OPEN",
+      "source_target": "dev/src/internal/qualification",
+      "requirement": "实现seller/device/SKU/mode/privacy/profile/region证据约束、审批/到期撤销和默认关闭。",
+      "steps": [
+        {
+          "id": "DEV-52.01",
+          "title": "组合政策",
+          "code_requirement": "seller/device/SKU/profile/mode/privacy/region分维度资格",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-52.02",
+          "title": "审批撤销",
+          "code_requirement": "证据有来源/期限/版本，失效停新售，记录在途影响",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-52.03",
+          "title": "许可分支",
+          "code_requirement": "原生LLM/LM兼容/上游分别门槛，不全局继承某分支许可",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-52.04",
+          "title": "放行判定",
+          "code_requirement": "无真机/密码/渠道证据保持false，mock永不解锁",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-53",
+      "title": "安全与隐私攻击验证",
+      "code_status": "OPEN",
+      "source_target": "dev/src/tests",
+      "requirement": "实施跨租户/秘密/Origin/SSRF/流篡改/升级包/内容留存攻击场景及独立安全审查。",
+      "steps": [
+        {
+          "id": "DEV-53.01",
+          "title": "权限输入攻击",
+          "code_requirement": "跨租户/Origin/SSRF/路径/媒体展开/秘密输出验证",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-53.02",
+          "title": "加密攻击",
+          "code_requirement": "E2E-01—20适用项、上下文/重放/轮换/终块/回执检查",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-53.03",
+          "title": "本地供应链",
+          "code_requirement": "LP普通工具目标、节点/更新包/日志/缓存/个人数据出口",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-53.04",
+          "title": "修复复核",
+          "code_requirement": "按实际影响阻对应组合，修复/回归/已知限制不伪造通过",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-54",
+      "title": "协议资源边界与运行故障验证",
+      "code_status": "OPEN",
+      "source_target": "dev/src/tests",
+      "requirement": "原生故障验证流限额/取消/旧代次/租赁截止，以及内核替换中断、撤销回滚、节点目录漂移、LMA升级恢复；部署/观测延后。",
+      "steps": [
+        {
+          "id": "DEV-54.01",
+          "title": "协议资源故障",
+          "code_requirement": "流量/对象/长度/背压/慢客户端/取消与断流验证",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-54.02",
+          "title": "调度资金故障",
+          "code_requirement": "旧围栏/重派/重复事件/UNKNOWN/租赁硬截止竞态",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-54.03",
+          "title": "内核手机故障",
+          "code_requirement": "更新中断/撤销回滚/节点漂移/LMA升级强杀恢复",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-54.04",
+          "title": "性能证据",
+          "code_requirement": "同机同引擎/模型/精度/配方每分支≥30次，不用隐私旁路过关",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-55",
+      "title": "部署运维与可观测性（本轮延后）",
+      "code_status": "DEFERRED",
+      "source_target": null,
+      "requirement": "依用户当前范围，本轮不规划HTTPS、部署发布、备份运维或可观测性，保留历史需求编号并标DEFERRED。",
+      "steps": [
+        {
+          "id": "DEV-55.01",
+          "title": "保留边界",
+          "code_requirement": "仅登记DEFERRED：部署/公网HTTPS/证书/备份运维/可观测性",
+          "code_status": "DEFERRED",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-55.02",
+          "title": "恢复条件",
+          "code_requirement": "只有用户将来明确恢复范围后再细化计划/实现，不把时间流逝当授权",
+          "code_status": "DEFERRED",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    },
+    {
+      "id": "DEV-56",
+      "title": "本轮需求与真实组合验收登记",
+      "code_status": "OPEN",
+      "source_target": "dev/tests",
+      "requirement": "保留80项F/T追踪，按CURRENT/PARTIAL/DEFERRED执行当前适用场景，增加小程序/转发/收单证据，不依赖DEV-55。",
+      "steps": [
+        {
+          "id": "DEV-56.01",
+          "title": "追踪核对",
+          "code_requirement": "80 F/T、20模块、56任务、95操作/65表覆盖，部分/延后不丢号",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-56.02",
+          "title": "真实组合验收",
+          "code_requirement": "六桌面组合和Android真机，模式/模型/SDK/渠道分别证据",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-56.03",
+          "title": "交易闭环",
+          "code_requirement": "真实seller挂牌→合同→支付→执行→接受/租时→退款/结算",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        },
+        {
+          "id": "DEV-56.04",
+          "title": "交付判定",
+          "code_requirement": "代码完成/产品通过/可售分别裁定，缺证保留关闭不依赖DEV-55",
+          "code_status": "OPEN",
+          "implementation_refs": [],
+          "acceptance_status": "NOT_EXECUTED"
+        }
+      ]
+    }
+  ],
+  "checkpoint_restored_into_current_code": true,
+  "code_completion_definition": "生产实现、真实依赖接线与验收/故障测试源码齐全；测试执行后才产生的证据不作为进入第一次集中测试的循环前置条件。代码完成不表示真机/资金/可售验收通过。"
+}

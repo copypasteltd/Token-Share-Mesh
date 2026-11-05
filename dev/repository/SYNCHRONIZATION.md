@@ -56,3 +56,10 @@ synthetic test evidence are versioned with provenance. `.gitattributes` preserve
 content-addressed source bytes on checkout.
 
 数据库、凭据、支付凭证、用户输入输出、浏览器配置、缓存、下载模型/内核/工具和编译产物不入库。README 小型演示媒体及合成测试证据连同来源入库；检出保留内容寻址文件原字节。
+
+
+## 2026-11-06 全量代码阶段的源码检查点
+
+用户要求先完成全部待办生产代码，之后统一开展编译、测试和调试。本阶段不得运行产品验证序列来推动局部收口。阶段内可把代码、双语说明和完整待办作为 **SOURCE_ONLY / UNVERIFIED** 检查点同步到 `codex/full-scope-code-first` 分支；主分支保留原已验证提交。检查点不代表本轮完成或可以发布，不能把历史R025证据改挂到新源码。全部在范围代码完成后再切换集中验证阶段，执行适用检查并合并交付。
+
+The full-code phase may publish explicitly unverified source checkpoints to `codex/full-scope-code-first`. Keep the previously verified main revision intact. A checkpoint does not complete R026 or transfer historical R025 evidence to changed source. Complete every in-scope code item before batch validation, then integrate the verified delivery.

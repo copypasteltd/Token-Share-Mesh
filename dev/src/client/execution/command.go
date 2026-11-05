@@ -11,6 +11,7 @@ import (
 type CommandStatus struct {
 	Found                        bool
 	LeaseID, Phase, MetadataHash string
+	CleanupHash                  string
 }
 
 // CommandStatus is an exact original-command projection for host recovery. It
@@ -30,6 +31,7 @@ func (s *Store) CommandStatus(ctx context.Context, id string) (CommandStatus, er
 			return ErrStorage
 		}
 		out.Found = true
+		out.CleanupHash = cleanup
 		return nil
 	})
 	return out, e

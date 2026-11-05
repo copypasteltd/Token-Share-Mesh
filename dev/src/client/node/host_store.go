@@ -55,11 +55,13 @@ type Host struct {
 	nativeSession  *NativeSession
 }
 type hostCommand struct {
-	ID       string                   `json:"command_id"`
-	Claim    devicecontrol.LeaseClaim `json:"original_claim"`
-	Phase    string                   `json:"phase"`
-	Lease    json.RawMessage          `json:"lease,omitempty"`
-	Manifest json.RawMessage          `json:"manifest,omitempty"`
+	ID            string                      `json:"command_id"`
+	Claim         devicecontrol.LeaseClaim    `json:"original_claim"`
+	Phase         string                      `json:"phase"`
+	Lease         json.RawMessage             `json:"lease,omitempty"`
+	Manifest      json.RawMessage             `json:"manifest,omitempty"`
+	CleanupReport *devicecontrol.CleanupWrite `json:"cleanup_report,omitempty"`
+	CleanupAck    *devicecontrol.Ack          `json:"cleanup_ack,omitempty"`
 }
 type HostCommandStatus struct {
 	ID    string `json:"command_id"`

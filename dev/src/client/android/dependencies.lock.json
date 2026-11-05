@@ -1,0 +1,13 @@
+{
+  "schema": "p11.android-dependencies/1",
+  "files": [
+    {
+      "name": "bcprov-jdk18on-1.86.jar",
+      "version": "1.86",
+      "url": "https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.86/bcprov-jdk18on-1.86.jar",
+      "sha256": "2af190b300cbb0b35e248ccf5f4a06b6072030aeb3da7a98ec73abe5b4cb371f",
+      "license": "Bouncy Castle (MIT-style)",
+      "purpose": "API28+ provider-independent Ed25519; private seed encrypted under Android Keystore AES-GCM"
+    }
+  ]
+}

@@ -47,6 +47,7 @@ type hostFixture struct {
 	blockInput                                                       atomic.Bool
 	inputStarted                                                     chan struct{}
 	inputOnce                                                        sync.Once
+	cleanupHandler func(http.ResponseWriter,*http.Request,[]byte)
 }
 
 func newHostFixture(t *testing.T) *hostFixture { return newHostFixtureConfigured(t, nil) }
@@ -109,6 +110,7 @@ func (f *hostFixture) serve(t *testing.T, w http.ResponseWriter, r *http.Request
 		f.requests = append(f.requests, bytes.Clone(body))
 	}
 	f.mu.Unlock()
+	if strings.HasSuffix(r.URL.Path,"/cleanup") && f.cleanupHandler!=nil { f.cleanupHandler(w,r,body);return }
 	switch r.URL.Path {
 	case "/v1/p11/runner/leases/claim":
 		f.claims.Add(1)

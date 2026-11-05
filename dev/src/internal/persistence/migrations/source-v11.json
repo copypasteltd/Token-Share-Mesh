@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/011_native_execution_reports.sql",
+  "source_sha256": "cdeb37e55295d5c19681534b7513aee642df4f43c57712435c1d05c3e41e5b18",
+  "migration": "011_native_execution_reports.sql",
+  "migration_sha256": "cdeb37e55295d5c19681534b7513aee642df4f43c57712435c1d05c3e41e5b18",
+  "policy": "011 forward-only native progress and signed original-owner cleanup; historical 001-010 and local SQLite immutable; no usage, charge or renewal authority"
+}

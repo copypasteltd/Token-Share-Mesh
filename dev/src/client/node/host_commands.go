@@ -40,6 +40,9 @@ func (h *Host) loadCommand(ctx context.Context, tx *sql.Tx, id string) (hostComm
 	if c.Phase == "CLAIM_PENDING" && (len(c.Lease) != 0 || len(c.Manifest) != 0) || c.Phase == "CLAIMED" && len(c.Manifest) != 0 {
 		return hostCommand{}, ErrHost
 	}
+	if !h.validateCleanupReport(c) {
+		return hostCommand{}, ErrHost
+	}
 	return c, nil
 }
 func (h *Host) saveCommand(ctx context.Context, tx *sql.Tx, c hostCommand, insert bool) error {
