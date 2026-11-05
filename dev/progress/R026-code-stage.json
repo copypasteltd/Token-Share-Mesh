@@ -5,17 +5,29 @@
   "validation_started_after_user_policy": false,
   "upstream_commit": "0ca9445b1196ebd808b7c186ceda6ca79ffe0831",
   "source_files": [
-    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+    "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRecovery.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderActivity.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderController.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshServiceBinder.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/core/MeshWorkspaceOwnership.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlClient.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlReporter.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshDeviceIdentity.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournalGuard.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshOwnerConfig.java",
+    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshProgressPump.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
-    "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournalGuard.java"
+    "dev/src/client/android/integration-patches.json"
   ],
   "implemented_items": [
     {
@@ -31,12 +43,12 @@
     {
       "id": "IMP-R026-003",
       "title": "Android私有生图/视频、参考素材和共享槽",
-      "status": "源码已写，未接通全部控制链路"
+      "status": "私有媒体、提供方页面/服务、原目录归属源码已写，完整平台接线仍待"
     },
     {
       "id": "IMP-R026-004",
       "title": "签名租约/Keystore/持久围栏与分块密文",
-      "status": "源码已写，完整E2E/恢复仍待"
+      "status": "本机钥/配置、双围栏、回执、签名续租/保守恢复源码已写，未测试"
     },
     {
       "id": "IMP-R026-005",
@@ -1656,5 +1668,19 @@
       "remaining_detail": "R025补原生宿主/本机批准与输入驻留绑定源码。原合同和物理围栏不改；生产资金、可信usage/最终ACK/SDK、持久崩溃恢复与安装器/跨平台/完整LM Studio/ComfyUI/LMA/E2E/LP/性能及真实组合验收仍须分别补齐；本任务原子项保持未收口。"
     }
   ],
-  "previous_verified_revision": "3560ebd3657f66e70cc876a95f68f034a6316953"
+  "previous_verified_revision": "3560ebd3657f66e70cc876a95f68f034a6316953",
+  "android_boundary_test_definitions": {
+    "ids": [
+      "AIB-001",
+      "AIB-002",
+      "AIB-003",
+      "AIB-004",
+      "AIB-005",
+      "AIB-006",
+      "AIB-007"
+    ],
+    "status": "SOURCE_ONLY_NOT_EXECUTED",
+    "apk_built": false,
+    "physical_models_executed": false
+  }
 }

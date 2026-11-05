@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:p11:android-media-manifest:1",
+  "title": "P11 Android media manifest; source-stage profile",
+  "description": "SHA256 of exact UTF-8 bytes is bound by the signed execution lease. No reserialization before checking. This profile currently admits PLAINTEXT/STANDARD only; platform production wiring remains open.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "order_id",
+    "route_id",
+    "seller_id",
+    "device_id",
+    "resource_id",
+    "capability_id",
+    "bundle_id",
+    "engine_id",
+    "model_alias",
+    "contract_hash",
+    "kernel_environment_digest",
+    "bundle_sha256",
+    "recipe_sha256",
+    "engine_build_sha256",
+    "maximum_width",
+    "maximum_height",
+    "maximum_frames",
+    "maximum_seconds",
+    "backend",
+    "task_type",
+    "operation",
+    "mode",
+    "privacy",
+    "profile_id",
+    "job_id",
+    "attempt_id",
+    "resource_lock_generation",
+    "fencing_token",
+    "input_asset_ref",
+    "input_ciphertext_sha256",
+    "input_bytes",
+    "request_payload_sha256",
+    "hard_deadline",
+    "input_assets"
+  ],
+  "properties": {
+    "order_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "route_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "seller_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "device_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "resource_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "capability_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "bundle_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "engine_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "model_alias": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "contract_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "kernel_environment_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "bundle_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "recipe_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "engine_build_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "maximum_width": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8192
+    },
+    "maximum_height": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8192
+    },
+    "maximum_frames": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4096
+    },
+    "maximum_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3600
+    },
+    "backend": {
+      "enum": [
+        "cpu",
+        "vulkan"
+      ]
+    },
+    "task_type": {
+      "enum": [
+        "image.generate",
+        "video.generate"
+      ]
+    },
+    "operation": {
+      "enum": [
+        "OPENAI_IMAGES_GENERATIONS_V1",
+        "OPENAI_IMAGES_EDITS_V1",
+        "OPENAI_VIDEOS_V1"
+      ]
+    },
+    "mode": {
+      "const": "PLAINTEXT"
+    },
+    "privacy": {
+      "const": "STANDARD"
+    },
+    "profile_id": {
+      "const": "P11_ANDROID_MEDIA_MANIFEST_1"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "attempt_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "resource_lock_generation": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,18}$",
+      "description": "Also checked against signed-63-bit maximum in native code."
+    },
+    "fencing_token": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,18}$"
+    },
+    "input_asset_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+    },
+    "input_ciphertext_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "input_bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 262144
+    },
+    "request_payload_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "hard_deadline": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Canonical UTC RFC3339Nano, same as original signed lease."
+    },
+    "input_assets": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset_ref",
+          "role",
+          "payload_sha256",
+          "bytes"
+        ],
+        "properties": {
+          "asset_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+          },
+          "role": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,31}$"
+          },
+          "payload_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 67108864
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "task_type": {
+            "const": "video.generate"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "operation": {
+            "const": "OPENAI_VIDEOS_V1"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "operation": {
+            "enum": [
+              "OPENAI_IMAGES_GENERATIONS_V1",
+              "OPENAI_IMAGES_EDITS_V1"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1676,16 +1676,19 @@
           "code_requirement": "在dev内基于固定LMA commit建独立工程，原Java/WebView边界明确",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/integration-patches.json",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderController.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshServiceBinder.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1695,16 +1698,19 @@
           "code_requirement": "Java/Kotlin互操作接身份/合同/调度/引擎，不改外部仓库",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/integration-patches.json",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderController.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshServiceBinder.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1714,16 +1720,19 @@
           "code_requirement": "native可执行随受签APK，模型由本人独立选下载",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/integration-patches.json",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderController.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshServiceBinder.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1733,20 +1742,24 @@
           "code_requirement": "至少两款授权手机验证安装/升级/内部引擎，不用模拟器",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/integration-patches.json",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderController.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshServiceBinder.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         }
-      ]
+      ],
+      "partial_scope_note": "Android派生源码已扩展；完整平台控制/加密/生命周期接线与全部原要求仍待，不表示该任务全部代码完成。"
     },
     {
       "id": "DEV-42",
@@ -1761,16 +1774,17 @@
           "code_requirement": "GatewayLite调用手机native引擎，断PC/云仍工作",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/core/MeshWorkspaceOwnership.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1780,16 +1794,17 @@
           "code_requirement": "个人聊天/本地API/共享共门闩，不同买家上下文隔离",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/core/MeshWorkspaceOwnership.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1799,16 +1814,17 @@
           "code_requirement": "核环境/租约/双围栏，映射标准文本已验证子集",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/core/MeshWorkspaceOwnership.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1818,20 +1834,22 @@
           "code_requirement": "native任务映射持久，未知先query/停清，不重复计算收益",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/core/MeshWorkspaceOwnership.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         }
-      ]
+      ],
+      "partial_scope_note": "Android派生源码已扩展；完整平台控制/加密/生命周期接线与全部原要求仍待，不表示该任务全部代码完成。"
     },
     {
       "id": "DEV-43",
@@ -1846,16 +1864,18 @@
           "code_requirement": "本人设置充电/WiFi/电量/温控/时段，越界停新单",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRecovery.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderActivity.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1865,16 +1885,18 @@
           "code_requirement": "前台服务/通知只状态，锁屏/后台/系统限制分别处理",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRecovery.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderActivity.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1884,16 +1906,18 @@
           "code_requirement": "APK更新前drain，模型与native版本分离，环境重验",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRecovery.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderActivity.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1903,20 +1927,23 @@
           "code_requirement": "被杀/重启先查最高代次/后端并补清，不能自动旧ACTIVE续算",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRecovery.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshProviderActivity.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         }
-      ]
+      ],
+      "partial_scope_note": "Android派生源码已扩展；完整平台控制/加密/生命周期接线与全部原要求仍待，不表示该任务全部代码完成。"
     },
     {
       "id": "DEV-44",
@@ -1931,16 +1958,21 @@
           "code_requirement": "共享不读私人相册/聊天/联系人，管理和模型调用分权",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlClient.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlReporter.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshDeviceIdentity.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshOwnerConfig.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshProgressPump.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1950,16 +1982,21 @@
           "code_requirement": "LMA内部JNI同库、静态钥适用Keystore包装，内容不进WebView/logcat",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlClient.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlReporter.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshDeviceIdentity.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshOwnerConfig.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshProgressPump.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1969,16 +2006,21 @@
           "code_requirement": "内部密文分段/最多2段LRU，临时钥丢失不盲重跑",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlClient.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlReporter.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshDeviceIdentity.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshOwnerConfig.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshProgressPump.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         },
@@ -1988,20 +2030,26 @@
           "code_requirement": "清数据/重装新身份，受签APK升级重验资格，不标增强",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshLmaDescriptors.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaAssets.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRequests.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/MeshMediaRunner.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlClient.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshControlReporter.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshDeviceIdentity.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJournal.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshKeystore.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshLease.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshOwnerConfig.java",
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshProgressPump.java",
             "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
-            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshJson.java"
+            "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java"
           ],
           "acceptance_status": "NOT_EXECUTED"
         }
-      ]
+      ],
+      "partial_scope_note": "Android派生源码已扩展；完整平台控制/加密/生命周期接线与全部原要求仍待，不表示该任务全部代码完成。"
     },
     {
       "id": "DEV-45",
@@ -2334,7 +2382,7 @@
     {
       "id": "DEV-53",
       "title": "安全与隐私攻击验证",
-      "code_status": "OPEN",
+      "code_status": "IN_PROGRESS",
       "source_target": "dev/src/tests",
       "requirement": "实施跨租户/秘密/Origin/SSRF/流篡改/升级包/内容留存攻击场景及独立安全审查。",
       "steps": [
@@ -2342,16 +2390,20 @@
           "id": "DEV-53.01",
           "title": "权限输入攻击",
           "code_requirement": "跨租户/Origin/SSRF/路径/媒体展开/秘密输出验证",
-          "code_status": "OPEN",
-          "implementation_refs": [],
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java"
+          ],
           "acceptance_status": "NOT_EXECUTED"
         },
         {
           "id": "DEV-53.02",
           "title": "加密攻击",
           "code_requirement": "E2E-01—20适用项、上下文/重放/轮换/终块/回执检查",
-          "code_status": "OPEN",
-          "implementation_refs": [],
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java"
+          ],
           "acceptance_status": "NOT_EXECUTED"
         },
         {
@@ -2375,7 +2427,7 @@
     {
       "id": "DEV-54",
       "title": "协议资源边界与运行故障验证",
-      "code_status": "OPEN",
+      "code_status": "IN_PROGRESS",
       "source_target": "dev/src/tests",
       "requirement": "原生故障验证流限额/取消/旧代次/租赁截止，以及内核替换中断、撤销回滚、节点目录漂移、LMA升级恢复；部署/观测延后。",
       "steps": [
@@ -2399,8 +2451,10 @@
           "id": "DEV-54.03",
           "title": "内核手机故障",
           "code_requirement": "更新中断/撤销回滚/节点漂移/LMA升级强杀恢复",
-          "code_status": "OPEN",
-          "implementation_refs": [],
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java"
+          ],
           "acceptance_status": "NOT_EXECUTED"
         },
         {
@@ -2481,5 +2535,6 @@
     }
   ],
   "checkpoint_restored_into_current_code": true,
-  "code_completion_definition": "生产实现、真实依赖接线与验收/故障测试源码齐全；测试执行后才产生的证据不作为进入第一次集中测试的循环前置条件。代码完成不表示真机/资金/可售验收通过。"
+  "code_completion_definition": "生产实现、真实依赖接线与验收/故障测试源码齐全；测试执行后才产生的证据不作为进入第一次集中测试的循环前置条件。代码完成不表示真机/资金/可售验收通过。",
+  "open_recovery_integration": "Android本机清理/恢复不解除平台FAILED终态；必须补齐原设备/原租约签名的恢复及平台解除隔离事务。011已随7e86c12公开，后续采用新前向迁移，原SQL不改。"
 }

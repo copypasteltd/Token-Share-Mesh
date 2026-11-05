@@ -508,3 +508,10 @@ See [NH constraints](../../docs/技术开发/附录-原生宿主内核接线与�
 当前进入CODE_FIRST。先完成全部待办生产代码，再统一编译、测试和调试；[全量清单](../全量代码优先实施清单.md)与[R026进展](../progress/R026-全量代码阶段进展.md)分别记录代码和验收。最新固定LMA v1.0.0多模态内核及[Android派生源码](../src/client/android/README.md)纳入本项目；[技术细则](../../docs/技术开发/附录-LMA多模态派生内核与全量代码阶段.md)明确私有任务、共享槽、Keystore与分块密文、尚未接通的控制/加密/恢复边界。现阶段没有新增源码的编译/手机/模型验收记录，R025证据保留原身份。
 
 Complete all production code before batch compilation, tests and debugging. LMA v1.0.0 image/video source is pinned and the private Android overlay is being implemented; it is not an APK, phone-performance or commercial-eligibility claim. Historical R025 evidence does not validate the new source.
+
+
+## Android提供方源码使用逻辑 / Provider source operation
+
+当前仅为未验证源码：本人创建公钥→核对并批准本机配置→选择已安装模型/后端和共享条件→开启本机准备→私有控制适配器交付原签名任务→原生引擎执行/密文结果→原回执与明确清理/恢复。UI只展示真实机型和安全状态；平台M1签发/领取/续租、放钥、上传和市场资格仍在全量实现范围内。完整字段、构造过程与失败边界见[Android双语说明](../src/client/android/README.md)。所有代码齐全后才集中构建/测试；不能把历史APK/媒体当成这份源码的新验证。
+
+The source defines explicit owner identity/approval, installed-model selection, sharing preparation, private original-lease execution and recovery. It does not yet provide a complete platform dispatcher or a qualified APK. Read the module README for exact bindings and open integrations. Build and run the included physical-device boundary tests only after every in-scope code item is complete.

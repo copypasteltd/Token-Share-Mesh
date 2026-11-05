@@ -1,0 +1,96 @@
+{
+  "schema": "p11.lma-integration-patches/1",
+  "upstream_commit": "0ca9445b1196ebd808b7c186ceda6ca79ffe0831",
+  "policy": "Exact fixed-source replacements during preparation; no upstream mutation, compilation, execution or model download.",
+  "patches": [
+    {
+      "path": "app/src/main/java/com/lma/app/core/ExecutionGate.java",
+      "replacements": [
+        {
+          "old": "\"load\", \"chat\", \"api\", \"job\"",
+          "new": "\"load\", \"chat\", \"api\", \"job\", \"mesh_media\", \"mesh_recovery\""
+        }
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/lma/app/core/EngineWorkspace.java",
+      "replacements": [
+        {
+          "old": "        directory = Files.createDirectory(parent.resolve(\"work-\" + UUID.randomUUID()));",
+          "new": "        Path planned = parent.resolve(\"work-\" + UUID.randomUUID());\n        MeshWorkspaceOwnership.beforeCreate(planned.toFile());\n        directory = Files.createDirectory(planned);"
+        }
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/lma/app/LmaService.java",
+      "replacements": [
+        {
+          "old": "    public EngineHost engine;",
+          "new": "    public EngineHost engine;\n    private MeshProviderController meshController;"
+        },
+        {
+          "old": "&& !app.generating) stopSelf();",
+          "new": "&& !app.generating && (meshController == null || !meshController.keepAlive())) stopSelf();"
+        },
+        {
+          "old": "        engine = new EngineHost(this, app); chat = new ChatRunner(this, app); downloads = new Downloads(this, app);",
+          "new": "        engine = new EngineHost(this, app); chat = new ChatRunner(this, app); downloads = new Downloads(this, app);\n        meshController = new MeshProviderController(app, engine, this::activityChanged);"
+        },
+        {
+          "old": "    @Override public int onStartCommand(Intent intent, int flags, int startId) {",
+          "new": "    @Override public int onStartCommand(Intent intent, int flags, int startId) {\n        if (intent != null && \"MESH_CONTROL_START\".equals(intent.getAction())) { activityChanged(); return START_NOT_STICKY; }"
+        },
+        {
+          "old": "        PendingIntent open = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class),",
+          "new": "        PendingIntent open = PendingIntent.getActivity(this, 0, new Intent(this, MeshProviderActivity.class),"
+        },
+        {
+          "old": "            getSystemService(NotificationManager.class).notify(NOTIFICATION, notification(text));",
+          "new": "            if (meshController != null && meshController.keepAlive()) text = \"算力共享已开启 · 可随时停止 · 不显示任务内容\";\n            getSystemService(NotificationManager.class).notify(NOTIFICATION, notification(text));"
+        },
+        {
+          "old": "    private void stopAll() {",
+          "new": "    private void stopAll() {\n        if (meshController != null) meshController.disable();"
+        },
+        {
+          "old": "    @Override public void onDestroy() {",
+          "new": "    @Override public void onDestroy() {\n        if (meshController != null) meshController.close();"
+        },
+        {
+          "old": "    @Override public IBinder onBind(Intent intent) { return null; }",
+          "new": "    @Override public IBinder onBind(Intent intent) {\n        return intent != null && \"MESH_LOCAL_CONTROL\".equals(intent.getAction()) ? new MeshServiceBinder(meshController) : null;\n    }"
+        }
+      ]
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "replacements": [
+        {
+          "old": "android:label=\"LMA\"",
+          "new": "android:label=\"Token Share Mesh\""
+        },
+        {
+          "old": "<activity android:name=\".MainActivity\" android:exported=\"true\"",
+          "new": "<activity android:name=\".MeshProviderActivity\" android:exported=\"true\""
+        },
+        {
+          "old": "        <service android:name=\".LmaService\"",
+          "new": "        <activity android:name=\".MainActivity\" android:exported=\"false\" android:windowSoftInputMode=\"adjustResize\" />\n        <service android:name=\".LmaService\""
+        },
+        {
+          "old": "android:name=\".BootReceiver\" android:enabled=\"true\"",
+          "new": "android:name=\".BootReceiver\" android:enabled=\"false\""
+        }
+      ]
+    },
+    {
+      "path": "app/build.gradle",
+      "replacements": [
+        {
+          "old": "    defaultConfig {",
+          "new": "    defaultConfig {\n        testInstrumentationRunner 'com.lma.app.mesh.MeshBoundaryInstrumentation'"
+        }
+      ]
+    }
+  ]
+}

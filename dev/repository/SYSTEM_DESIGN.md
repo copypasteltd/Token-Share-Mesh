@@ -291,3 +291,17 @@ See [NH constraints](../../docs/技术开发/附录-原生宿主内核接线与�
 当前进入CODE_FIRST。先完成全部待办生产代码，再统一编译、测试和调试；[全量清单](../全量代码优先实施清单.md)与[R026进展](../progress/R026-全量代码阶段进展.md)分别记录代码和验收。最新固定LMA v1.0.0多模态内核及[Android派生源码](../src/client/android/README.md)纳入本项目；[技术细则](../../docs/技术开发/附录-LMA多模态派生内核与全量代码阶段.md)明确私有任务、共享槽、Keystore与分块密文、尚未接通的控制/加密/恢复边界。现阶段没有新增源码的编译/手机/模型验收记录，R025证据保留原身份。
 
 Complete all production code before batch compilation, tests and debugging. LMA v1.0.0 image/video source is pinned and the private Android overlay is being implemented; it is not an APK, phone-performance or commercial-eligibility claim. Historical R025 evidence does not validate the new source.
+
+
+## Android私有执行链 / Android private execution source
+
+| 组件 / Component | 责任 / Responsibility |
+|---|---|
+| MeshProviderActivity + MeshServiceBinder | 本人启停/批准、真实型号、安全状态；只供本应用UID控制 / Explicit owner controls and same-UID access |
+| MeshDeviceIdentity + MeshOwnerConfig | 独立控制身份与签发pin/本机批准的Keystore封装 / Wrapped control identity and independently approved pins |
+| MeshProviderController + 原LmaService | 单控制worker，复用原驻留内核与执行槽 / One owned controller using the actual LMA service/gate |
+| MeshProgressPump + MeshControlReporter | 单条最新进度、原键原正文持久回执，不产生续租/计费权 / Bounded progress and durable original reports |
+| MeshWorkspaceOwnership + MeshJournal | 创建前持久归属、最高代次和原owner；失败保留占用 / Durable ownership before creation and retained fences |
+| MeshMediaRecovery + MeshLease | 保守重启清理、原租约连续签名续租，不重新生成 / Conservative cleanup and signed original-lease continuation |
+
+这些组件仍属R026源码阶段。完整平台媒体准入、控制/资产/续租和加密接线未收口；当前允许的PLAINTEXT/STANDARD不能改称E2E或硬件证明。Two versioned Android schemas and seven unexecuted boundary test definitions accompany this source. They do not qualify a model, device or transaction.

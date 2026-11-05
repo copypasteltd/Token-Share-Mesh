@@ -2,7 +2,7 @@
   "version": "1.0",
   "goal_status": "ACTIVE",
   "current_activity": "CODE_FIRST_FULL_SCOPE",
-  "activity_source": "2026-11-06用户要求：先完成全部待办生产代码，再统一测试调试。最新LMA v1.0.0移动端生图/视频纳入全量实现；R025测试保持历史身份，本轮源码未验证。",
+  "activity_source": "2026-11-06全量代码优先：LMA v1.0.0派生媒体、本人页面/前台服务、私有控制/回执、目录归属、保守恢复及端侧续租源码已扩展；完整链路仍进行中，无新增编译/测试结果。R025保持历史身份。",
   "round": "R025",
   "tasks": [
     {

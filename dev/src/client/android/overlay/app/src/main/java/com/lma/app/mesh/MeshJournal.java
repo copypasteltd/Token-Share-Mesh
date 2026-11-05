@@ -1,6 +1,7 @@
 package com.lma.app.mesh;
 
 import android.util.AtomicFile;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +27,10 @@ public final class MeshJournal implements AutoCloseable {
         private Work(MeshLease lease,long local) {
             this.lease=lease.id;attempt=lease.attempt;resource=lease.resource;metadataHash=lease.metadataHash;
             generation=lease.generation;fence=lease.fence;localGeneration=local;
+        }
+        private Work(String original,JSONObject receipt)throws Exception{
+            lease=original;attempt=receipt.getString("attempt_id");resource=receipt.getString("resource_id");metadataHash=receipt.getString("metadata_sha256");
+            generation=receipt.getLong("resource_lock_generation");fence=receipt.getLong("fencing_token");localGeneration=receipt.getLong("local_generation");
         }
     }
     public MeshJournal(File noBackup,JSONObject binding,boolean initialize) throws Exception {
@@ -84,6 +89,20 @@ public final class MeshJournal implements AutoCloseable {
         MeshJson.integer(state,"remote_high",0,Long.MAX_VALUE);MeshJson.integer(state,"local_high",0,Long.MAX_VALUE);
         String owner=state.getString("owner"),phase=state.getString("phase");
         if (owner.isEmpty()!=phase.equals("FREE")||!java.util.Arrays.asList("FREE","PREPARING","EXECUTING","STOPPING","CLEANING","QUARANTINED").contains(phase))throw new IOException("MESH_JOURNAL_OWNER");
+        JSONObject receipts=state.getJSONObject("receipts");
+        if(!owner.isEmpty()&&!receipts.has(owner))throw new IOException("MESH_JOURNAL_OWNER_MISSING");
+        for(java.util.Iterator<String> it=receipts.keys();it.hasNext();){
+            String original=it.next();if(!original.matches("[A-Za-z][A-Za-z0-9_-]{2,127}"))throw new IOException("MESH_RECEIPT_ID");JSONObject r=receipts.getJSONObject(original);
+            MeshJson.fields(r,"attempt_id","resource_id","fencing_token","resource_lock_generation","local_generation","metadata_sha256","phase","boot_count","private_directory","engine_workspaces","ciphertext","cleanup_manifest_hash","lease_revision","signed_lease_sha256");
+            id(r,"attempt_id");id(r,"resource_id");MeshJson.integer(r,"fencing_token",1,Long.MAX_VALUE);MeshJson.integer(r,"resource_lock_generation",1,state.getLong("remote_high"));MeshJson.integer(r,"local_generation",1,state.getLong("local_high"));
+            if(!MeshJson.string(r,"metadata_sha256").matches("[a-f0-9]{64}")||!java.util.Arrays.asList("PREPARING","EXECUTING","STOPPING","QUARANTINED","CLEANED").contains(r.getString("phase")))throw new IOException("MESH_RECEIPT_SHAPE");
+            MeshJson.integer(r,"boot_count",0,Integer.MAX_VALUE);String directory=r.getString("private_directory");if(!directory.isEmpty()&&!directory.matches("[a-f0-9-]{36}"))throw new IOException("MESH_RECEIPT_DIRECTORY");
+            MeshJson.integer(r,"lease_revision",1,Integer.MAX_VALUE);if(!r.getString("signed_lease_sha256").matches("[a-f0-9]{64}"))throw new IOException("MESH_RECEIPT_LEASE_HASH");
+            JSONArray paths=r.getJSONArray("engine_workspaces");if(paths.length()>128)throw new IOException("MESH_WORKSPACE_LIMIT");java.util.Set<String> seen=new java.util.HashSet<>();
+            for(int i=0;i<paths.length();i++){String path=paths.getString(i);if(!path.matches("work-[a-f0-9-]{36}")||!seen.add(path))throw new IOException("MESH_WORKSPACE_OWNER");}
+            if(!original.equals(owner)&&!"CLEANED".equals(r.getString("phase")))throw new IOException("MESH_RECEIPT_UNRELEASED_OWNER");
+            if(original.equals(owner)&&(r.getLong("local_generation")!=state.getLong("local_high")||r.getLong("resource_lock_generation")!=state.getLong("remote_high")))throw new IOException("MESH_RECEIPT_OWNER_FENCE");
+        }
     }
     private void persist() throws Exception {
         if(poisoned||closed)throw new IOException("MESH_JOURNAL_POISONED");
@@ -92,8 +111,9 @@ public final class MeshJournal implements AutoCloseable {
         catch(Exception error){poisoned=true;throw new IOException("MESH_JOURNAL_WRITE",error);}
         finally{Arrays.fill(clear,(byte)0);}
     }
-    public synchronized Work admit(MeshLease lease) throws Exception {
+    public synchronized Work admit(MeshLease lease,int bootCount) throws Exception {
         lease.check();if(poisoned||closed)throw new IOException("MESH_JOURNAL_POISONED");
+        if(bootCount<0)throw new IOException("MESH_BOOT_COUNT_UNAVAILABLE");
         JSONObject receipts=state.getJSONObject("receipts");
         if(receipts.has(lease.id))throw new IOException("MESH_ORIGINAL_ALREADY_RECEIVED_QUERY_ONLY");
         if(!state.getString("owner").isEmpty()||!state.getString("phase").equals("FREE"))throw new IOException("MESH_ORIGINAL_OWNER_HELD");
@@ -101,7 +121,8 @@ public final class MeshJournal implements AutoCloseable {
         if(lease.generation<=high||local==Long.MAX_VALUE||receipts.length()>=64)throw new IOException("MESH_GENERATION_OR_HISTORY_LIMIT");
         Work work=new Work(lease,local+1);
         JSONObject receipt=new JSONObject().put("attempt_id",work.attempt).put("resource_id",work.resource).put("fencing_token",work.fence)
-                .put("resource_lock_generation",work.generation).put("local_generation",work.localGeneration).put("metadata_sha256",work.metadataHash).put("phase","PREPARING");
+                .put("resource_lock_generation",work.generation).put("local_generation",work.localGeneration).put("metadata_sha256",work.metadataHash).put("phase","PREPARING")
+                .put("boot_count",bootCount).put("private_directory","").put("engine_workspaces",new JSONArray()).put("lease_revision",lease.revision()).put("signed_lease_sha256",lease.metadataHash);
         receipts.put(work.lease,receipt);state.put("remote_high",work.generation).put("local_high",work.localGeneration).put("owner",work.lease).put("phase","PREPARING");persist();return work;
     }
     private JSONObject owned(Work work) throws Exception {
@@ -113,6 +134,25 @@ public final class MeshJournal implements AutoCloseable {
         JSONObject r=owned(work);if(!state.getString("phase").equals("PREPARING"))throw new IOException("MESH_SUBMIT_ONCE");
         r.put("phase","EXECUTING");state.put("phase","EXECUTING");persist();
     }
+    public synchronized void privateDirectory(Work work,String name)throws Exception{
+        JSONObject r=owned(work);if(!"PREPARING".equals(state.getString("phase"))||!r.getString("private_directory").isEmpty()||!name.matches("[a-f0-9-]{36}"))throw new IOException("MESH_WORKSPACE_BINDING");
+        r.put("private_directory",name);persist();
+    }
+    public synchronized void engineWorkspace(Work work,String name)throws Exception{
+        JSONObject r=owned(work);JSONArray names=r.getJSONArray("engine_workspaces");
+        if(!"EXECUTING".equals(state.getString("phase"))||!name.matches("work-[a-f0-9-]{36}")||names.length()>=128)throw new IOException("MESH_WORKSPACE_BINDING");
+        for(int i=0;i<names.length();i++)if(name.equals(names.getString(i)))throw new IOException("MESH_WORKSPACE_DUPLICATE");names.put(name);persist();
+    }
+    public synchronized void renewed(Work work,long revision,String signedHash)throws Exception{
+        JSONObject r=owned(work);long previous=r.getLong("lease_revision");
+        if(!java.util.Arrays.asList("PREPARING","EXECUTING").contains(state.getString("phase"))||previous==Integer.MAX_VALUE||revision!=previous+1||signedHash==null||!signedHash.matches("[a-f0-9]{64}"))throw new IOException("MESH_RENEWAL_ORIGINAL_OWNER");
+        r.put("lease_revision",revision).put("signed_lease_sha256",signedHash);persist();
+    }
+    public synchronized Work recoverable()throws Exception{
+        if(closed||poisoned||!"QUARANTINED".equals(state.getString("phase")))throw new IOException("MESH_RECOVERY_NOT_QUARANTINED");
+        String owner=state.getString("owner");return new Work(owner,state.getJSONObject("receipts").getJSONObject(owner));
+    }
+    public synchronized JSONObject recoveryData(Work work)throws Exception{return MeshJson.copy(owned(work));}
     public synchronized void stopping(Work work) throws Exception {JSONObject r=owned(work);r.put("phase","STOPPING");state.put("phase","STOPPING");persist();}
     public synchronized void result(Work work,MeshResultCipher.Result result)throws Exception{
         JSONObject r=owned(work);if(!state.getString("phase").equals("EXECUTING")||!result.ciphertext.getName().matches("[a-f0-9]{32}\\.aead"))throw new IOException("MESH_RESULT_OWNER");

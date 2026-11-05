@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:p11:android-owner-config:1",
+  "title": "P11 Android owner-approved configuration; source-stage profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profile",
+    "control_origin",
+    "allow_development_http",
+    "issuer_public_key",
+    "device_public_key",
+    "device_version",
+    "approval",
+    "conditions"
+  ],
+  "properties": {
+    "profile": {
+      "const": "P11_ANDROID_OWNER_CONFIG_1"
+    },
+    "control_origin": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "Exact ASCII origin without path/query/fragment/userinfo. HTTP requires an explicit owner choice and a numeric private/loopback address; implementation rejects redirects."
+    },
+    "allow_development_http": {
+      "type": "boolean"
+    },
+    "issuer_public_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "device_public_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "device_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483646
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "order_id",
+        "route_id",
+        "seller_id",
+        "device_id",
+        "resource_id",
+        "capability_id",
+        "bundle_id",
+        "engine_id",
+        "model_alias",
+        "contract_hash",
+        "kernel_environment_digest",
+        "bundle_sha256",
+        "recipe_sha256",
+        "engine_build_sha256",
+        "maximum_width",
+        "maximum_height",
+        "maximum_frames",
+        "maximum_seconds",
+        "backend",
+        "task_type",
+        "operation",
+        "mode",
+        "privacy"
+      ],
+      "properties": {
+        "order_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "route_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "seller_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "device_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "resource_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "capability_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "bundle_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "engine_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "model_alias": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "contract_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "kernel_environment_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bundle_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "recipe_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "engine_build_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "maximum_width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8192
+        },
+        "maximum_height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8192
+        },
+        "maximum_frames": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "maximum_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600
+        },
+        "backend": {
+          "enum": [
+            "cpu",
+            "vulkan"
+          ]
+        },
+        "task_type": {
+          "enum": [
+            "image.generate",
+            "video.generate"
+          ]
+        },
+        "operation": {
+          "enum": [
+            "OPENAI_IMAGES_GENERATIONS_V1",
+            "OPENAI_IMAGES_EDITS_V1",
+            "OPENAI_VIDEOS_V1"
+          ]
+        },
+        "mode": {
+          "const": "PLAINTEXT"
+        },
+        "privacy": {
+          "const": "STANDARD"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "task_type": {
+                "const": "video.generate"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operation": {
+                "const": "OPENAI_VIDEOS_V1"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "operation": {
+                "enum": [
+                  "OPENAI_IMAGES_GENERATIONS_V1",
+                  "OPENAI_IMAGES_EDITS_V1"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "charging_only",
+        "wifi_only",
+        "allow_screen_on",
+        "minimum_battery_percent",
+        "maximum_thermal_status",
+        "reserved_ram_bytes",
+        "estimated_peak_ram_bytes",
+        "minimum_free_disk_bytes"
+      ],
+      "properties": {
+        "charging_only": {
+          "type": "boolean"
+        },
+        "wifi_only": {
+          "type": "boolean"
+        },
+        "allow_screen_on": {
+          "type": "boolean"
+        },
+        "minimum_battery_percent": {
+          "type": "integer",
+          "minimum": 20,
+          "maximum": 100
+        },
+        "maximum_thermal_status": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "reserved_ram_bytes": {
+          "type": "integer",
+          "minimum": 536870912,
+          "maximum": 17179869184
+        },
+        "estimated_peak_ram_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 68719476736
+        },
+        "minimum_free_disk_bytes": {
+          "type": "integer",
+          "minimum": 134217728,
+          "maximum": 274877906944
+        }
+      }
+    }
+  }
+}

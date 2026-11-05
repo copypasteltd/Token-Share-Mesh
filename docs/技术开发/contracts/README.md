@@ -34,3 +34,6 @@ EngineAdapter仅用于授权本地执行域。local_protocol_body_ref是本机�
 BINARY_STREAM_1、JSON_COMPAT和LOCAL_SEGMENTED_1分层。旧JSON channel/Schema不覆盖新增二进制格式；协商/独立Schema/库及向量冻结后才可启用。完整钥生命周期、签名/AAD、END/回执/恢复见[技术08](../08-端到端加密协议与密钥实现设计.md)，执行/媒体/预算见[低开销方案](../附录-低开销隐私执行完整方案.md)。
 
 源为技术章节/SQL、scripts/技术开发数据.py、scripts/供给端内核数据.py和scripts/端对端加密数据.py。构建运行scripts/构建技术开发文档.py，核验运行scripts/核验技术开发文档.py；只写/核设计，不运行产品或真实密码。E2E-01—20、LP-01—14、PE-01—08及80项主验收均NOT_EXECUTED。
+
+
+Android源码阶段新增：[本人批准配置schema](android-owner-config-v1.0.schema.json)与[M1媒体清单schema](android-media-manifest-v1.0.schema.json)。当前只接受PLAINTEXT/STANDARD，原95个控制操作编号保持；M1平台生产接线与完整加密档位仍待，不代表schema已执行验证。

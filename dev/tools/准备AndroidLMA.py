@@ -38,6 +38,7 @@ def prepare(fetch=False):
     stamp.update(Path(__file__).read_bytes())
     stamp.update((SOURCE / 'upstream.lock.json').read_bytes())
     stamp.update((SOURCE / 'dependencies.lock.json').read_bytes())
+    stamp.update((SOURCE / 'integration-patches.json').read_bytes())
     for file in sorted(overlay.rglob('*')):
         if file.is_file():
             stamp.update(file.relative_to(overlay).as_posix().encode()); stamp.update(file.read_bytes())
@@ -58,6 +59,28 @@ def prepare(fetch=False):
             raise RuntimeError('Pinned source changed: ' + str(rel))
         destination = target / rel; destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(data); records.append(entry)
+    integrations = json.loads((SOURCE / 'integration-patches.json').read_text(encoding='utf-8'))
+    if integrations['schema'] != 'p11.lma-integration-patches/1' or integrations['upstream_commit'] != lock['commit']:
+        raise RuntimeError('Integration patch does not belong to the pinned upstream')
+    patched = []
+    pinned_paths = {entry['path'] for entry in lock['files']}
+    for patch in integrations['patches']:
+        relative = Path(patch['path'])
+        if relative.is_absolute() or '..' in relative.parts or relative.as_posix() not in pinned_paths:
+            raise RuntimeError('Integration patch must target a pinned upstream file')
+        destination = target / relative
+        original = destination.read_bytes()
+        content = original.decode('utf-8')
+        newline = '\r\n' if b'\r\n' in original else '\n'
+        for change in patch['replacements']:
+            before, after = change['old'], change['new']
+            if not isinstance(before, str) or not before or not isinstance(after, str) or content.count(before) != 1:
+                raise RuntimeError('Pinned integration location changed: ' + relative.as_posix())
+            content = content.replace(before, after.replace('\n', newline), 1)
+        transformed = content.encode('utf-8')
+        destination.write_bytes(transformed)
+        patched.append({'path': relative.as_posix(), 'source_sha256': hashlib.sha256(original).hexdigest(),
+                        'derived_sha256': hashlib.sha256(transformed).hexdigest()})
     for file in sorted(overlay.rglob('*')):
         if file.is_file():
             relative = file.relative_to(overlay)
@@ -76,7 +99,7 @@ def prepare(fetch=False):
     receipt = {'schema': 'p11.lma-derived-source/1', 'upstream': lock['commit'],
                'overlay_sha256': stamp.hexdigest(), 'application_id': 'com.tokenshare.mesh.provider',
                'source_only': True, 'apk_built': False, 'tests_executed': False,
-               'models_downloaded': False, 'upstream_files': records}
+               'models_downloaded': False, 'upstream_files': records, 'integration_patches': patched}
     (target / 'mesh-source.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     return target
 

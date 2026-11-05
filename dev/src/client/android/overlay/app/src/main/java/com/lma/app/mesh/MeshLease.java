@@ -28,18 +28,27 @@ public final class MeshLease {
     }
     public final List<InputAsset> inputs;
     public final long generation,fence,inputBytes,maxWidth,maxHeight,maxFrames,maxSeconds;
-    private final Instant expires,hard;
-    private final long acceptedElapsed,remainingNanos;
+    private static final class Window {
+        final Instant issued,expires,hard;final long acceptedElapsed,remainingNanos,revision;
+        Window(JSONObject wire,Instant now)throws Exception{
+            issued=instant(wire,"issued_at");expires=instant(wire,"expires_at");hard=instant(wire,"hard_deadline");revision=MeshJson.integer(wire,"lease_revision",1,Integer.MAX_VALUE);
+            acceptedElapsed=SystemClock.elapsedRealtimeNanos();remainingNanos=Duration.between(now,expires).toNanos();
+        }
+    }
+    public interface RenewalCommit { void beforeUse(long revision,String signedLeaseSha256)throws Exception; }
+    private volatile Window window;
+    private final JSONObject originalLease;
+    private final byte[] originalManifest;
     private final JSONObject manifest;
-    private MeshLease(JSONObject lease,JSONObject m,byte[] original,Instant now) throws Exception {
+    private MeshLease(JSONObject lease,JSONObject m,byte[] original,byte[] manifestBytes,Instant now) throws Exception {
         id=lease.getString("lease_id");job=lease.getString("job_id");attempt=lease.getString("attempt_id");order=lease.getString("order_id");
         seller=lease.getString("seller_id");device=lease.getString("device_id");resource=lease.getString("resource_id");capability=lease.getString("capability_id");
         generation=counter(lease,"resource_lock_generation");fence=counter(lease,"fencing_token");manifestHash=lease.getString("execution_manifest_hash");environment=lease.getString("kernel_environment_digest");metadataHash=MeshJournal.sha(original);
         bundle=m.getString("bundle_id");bundleHash=m.getString("bundle_sha256");recipeHash=m.getString("recipe_sha256");engine=m.getString("engine_id");engineBuild=m.getString("engine_build_sha256");backend=m.getString("backend");task=m.getString("task_type");modelAlias=m.getString("model_alias");operation=m.getString("operation");requestPayloadHash=m.getString("request_payload_sha256");
         List<InputAsset> inputList=new ArrayList<>();JSONArray inputAssets=m.optJSONArray("input_assets");if(inputAssets!=null)for(int i=0;i<inputAssets.length();i++)inputList.add(new InputAsset(inputAssets.getJSONObject(i)));inputs=Collections.unmodifiableList(inputList);
-        inputBytes=MeshJson.integer(m,"input_bytes",1,64L*1024*1024);maxWidth=MeshJson.integer(m,"maximum_width",1,8192);maxHeight=MeshJson.integer(m,"maximum_height",1,8192);
+        inputBytes=MeshJson.integer(m,"input_bytes",1,256L*1024);maxWidth=MeshJson.integer(m,"maximum_width",1,8192);maxHeight=MeshJson.integer(m,"maximum_height",1,8192);
         maxFrames=MeshJson.integer(m,"maximum_frames",1,4096);maxSeconds=MeshJson.integer(m,"maximum_seconds",1,3600);
-        expires=instant(lease,"expires_at");hard=instant(lease,"hard_deadline");acceptedElapsed=SystemClock.elapsedRealtimeNanos();remainingNanos=Duration.between(now,expires).toNanos();manifest=MeshJson.copy(m);
+        window=new Window(lease,now);originalLease=MeshJson.copy(lease);originalManifest=manifestBytes.clone();manifest=MeshJson.copy(m);
     }
     /** Approval comes from the separately encrypted owner configuration, not a task response. */
     public static final class Approval {
@@ -66,6 +75,11 @@ public final class MeshLease {
         }
     }
     public static MeshLease verify(byte[] rawLease,byte[] rawManifest,byte[] independentIssuerPin,Approval independentApproval) throws Exception {
+        if(rawLease==null||rawManifest==null||rawLease.length>16384||rawManifest.length>16384||independentIssuerPin==null||independentIssuerPin.length!=32)throw new IOException("MESH_LEASE_BODY_LIMIT");
+        byte[] lease=rawLease.clone(),manifest=rawManifest.clone(),pin=independentIssuerPin.clone();
+        try{return verifyOwned(lease,manifest,pin,independentApproval);}finally{Arrays.fill(lease,(byte)0);Arrays.fill(manifest,(byte)0);Arrays.fill(pin,(byte)0);}
+    }
+    private static MeshLease verifyOwned(byte[] rawLease,byte[] rawManifest,byte[] independentIssuerPin,Approval independentApproval) throws Exception {
         if(independentIssuerPin==null||independentIssuerPin.length!=32||independentApproval==null)throw new IOException("MESH_INDEPENDENT_PIN_REQUIRED");
         JSONObject l=MeshJson.parse(rawLease,16384),m=MeshJson.parse(rawManifest,16384);
         MeshJson.fields(l,"lease_id","job_id","attempt_id","order_id","seller_id","device_id","resource_id","resource_lock_generation","capability_id","execution_manifest_ref","execution_manifest_hash","kernel_environment_digest","lease_revision","issued_at","not_before","hard_deadline","fencing_token","expires_at","contract_hash","input_asset_refs","envelope_ref","signature_profile_id","signature");
@@ -99,7 +113,7 @@ public final class MeshLease {
             mediaBytes=Math.addExact(mediaBytes,a.bytes);if(mediaBytes>64L*1024*1024)throw new IOException("MESH_INPUT_ASSET_LIMIT");
         }
         independentApproval.matches(m);
-        return new MeshLease(l,m,rawLease,now);
+        return new MeshLease(l,m,rawLease,rawManifest,now);
     }
     static String identifier(JSONObject o,String name)throws Exception{String s=MeshJson.string(o,name);if(!s.matches("[A-Za-z][A-Za-z0-9_-]{2,127}"))throw new IOException("MESH_ID");return s;}
     static String digest(JSONObject o,String name)throws Exception{String s=MeshJson.string(o,name);if(!s.matches("[a-f0-9]{64}"))throw new IOException("MESH_SHA256");return s;}
@@ -110,8 +124,22 @@ public final class MeshLease {
         return Instant.parse(value);
     }
     public void check()throws Exception{
-        Instant now=Instant.now();long elapsed=SystemClock.elapsedRealtimeNanos()-acceptedElapsed;
-        if(elapsed<0||elapsed>=remainingNanos||!now.isBefore(expires)||!now.isBefore(hard))throw new IOException("MESH_LEASE_STOP_REQUIRED");
+        Window current=window;
+        Instant now=Instant.now();long elapsed=SystemClock.elapsedRealtimeNanos()-current.acceptedElapsed;
+        if(elapsed<0||elapsed>=current.remainingNanos||!now.isBefore(current.expires)||!now.isBefore(current.hard))throw new IOException("MESH_LEASE_STOP_REQUIRED");
+    }
+    public long revision(){return window.revision;}
+    /** A signed continuation can extend time only before the current window ends, with all original facts fixed. */
+    public synchronized void renew(byte[] rawLease,byte[] issuerPin,Approval approval,RenewalCommit durable)throws Exception{
+        check();if(durable==null)throw new IOException("MESH_RENEWAL_DURABILITY_REQUIRED");
+        MeshLease next=verify(rawLease,originalManifest,issuerPin,approval);Window previous=window,candidate=next.window;
+        if(previous.revision==Integer.MAX_VALUE||candidate.revision!=previous.revision+1||candidate.issued.isBefore(previous.issued)||!candidate.expires.isAfter(previous.expires))throw new IOException("MESH_RENEWAL_SEQUENCE");
+        java.util.Set<String> mutable=new HashSet<>(Arrays.asList("lease_revision","issued_at","not_before","expires_at","signature"));
+        if(next.originalLease.length()!=originalLease.length())throw new IOException("MESH_RENEWAL_ORIGINAL_FIELDS");
+        for(Iterator<String> it=originalLease.keys();it.hasNext();){String field=it.next();if(!mutable.contains(field)&&!MeshJson.canonical(originalLease.get(field)).equals(MeshJson.canonical(next.originalLease.get(field))))throw new IOException("MESH_RENEWAL_ORIGINAL_FIELDS");}
+        // Storage failure leaves the prior time window in force. A renewal is
+        // neither another local submission nor new usage/charge authority.
+        check();durable.beforeUse(candidate.revision,next.metadataHash);check();window=candidate;
     }
     public JSONObject safeManifest()throws Exception{return MeshJson.copy(manifest);}
 }
