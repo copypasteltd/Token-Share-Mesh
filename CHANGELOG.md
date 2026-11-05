@@ -2,6 +2,7 @@
 
 ## R026 · Full-scope code phase (in progress, unverified)
 
+- Complete Android admission/replay source ordering: persist original ownership before ACK, preserve the clock on identical signed renewals, and supersede older pending progress after confirmed cleanup without fabricating ACKs. Expand AIB-004/007 test definitions; no tests executed.
 - Expand the Android source with explicit NB04 owner controls, a private service Binder, local wrapped identity/configuration, persisted original reports, bounded asynchronous progress, pre-create workspace ownership and conservative original-owner recovery. Add signed continuation verification and seven unexecuted physical-device boundary test definitions.
 - Complete all remaining production code before batch compilation, testing and debugging; retain all 56 tasks and 222 steps with separate code/acceptance states.
 - Pin LMA v1.0.0/code65, 1205 upstream source files and dependency digests. Add Android private image/video execution, signed original leases/shared slots, Keystore metadata, chunked ciphertext and explicit sharing conditions.

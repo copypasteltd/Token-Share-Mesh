@@ -29,10 +29,10 @@ public final class MeshLease {
     public final List<InputAsset> inputs;
     public final long generation,fence,inputBytes,maxWidth,maxHeight,maxFrames,maxSeconds;
     private static final class Window {
-        final Instant issued,expires,hard;final long acceptedElapsed,remainingNanos,revision;
-        Window(JSONObject wire,Instant now)throws Exception{
+        final Instant issued,expires,hard;final long acceptedElapsed,remainingNanos,revision;final String signedHash;
+        Window(JSONObject wire,Instant now,String signedHash)throws Exception{
             issued=instant(wire,"issued_at");expires=instant(wire,"expires_at");hard=instant(wire,"hard_deadline");revision=MeshJson.integer(wire,"lease_revision",1,Integer.MAX_VALUE);
-            acceptedElapsed=SystemClock.elapsedRealtimeNanos();remainingNanos=Duration.between(now,expires).toNanos();
+            this.signedHash=signedHash;acceptedElapsed=SystemClock.elapsedRealtimeNanos();remainingNanos=Duration.between(now,expires).toNanos();
         }
     }
     public interface RenewalCommit { void beforeUse(long revision,String signedLeaseSha256)throws Exception; }
@@ -48,7 +48,7 @@ public final class MeshLease {
         List<InputAsset> inputList=new ArrayList<>();JSONArray inputAssets=m.optJSONArray("input_assets");if(inputAssets!=null)for(int i=0;i<inputAssets.length();i++)inputList.add(new InputAsset(inputAssets.getJSONObject(i)));inputs=Collections.unmodifiableList(inputList);
         inputBytes=MeshJson.integer(m,"input_bytes",1,256L*1024);maxWidth=MeshJson.integer(m,"maximum_width",1,8192);maxHeight=MeshJson.integer(m,"maximum_height",1,8192);
         maxFrames=MeshJson.integer(m,"maximum_frames",1,4096);maxSeconds=MeshJson.integer(m,"maximum_seconds",1,3600);
-        window=new Window(lease,now);originalLease=MeshJson.copy(lease);originalManifest=manifestBytes.clone();manifest=MeshJson.copy(m);
+        window=new Window(lease,now,metadataHash);originalLease=MeshJson.copy(lease);originalManifest=manifestBytes.clone();manifest=MeshJson.copy(m);
     }
     /** Approval comes from the separately encrypted owner configuration, not a task response. */
     public static final class Approval {
@@ -133,6 +133,9 @@ public final class MeshLease {
     public synchronized void renew(byte[] rawLease,byte[] issuerPin,Approval approval,RenewalCommit durable)throws Exception{
         check();if(durable==null)throw new IOException("MESH_RENEWAL_DURABILITY_REQUIRED");
         MeshLease next=verify(rawLease,originalManifest,issuerPin,approval);Window previous=window,candidate=next.window;
+        // An identical original reply may be retried after its local commit.
+        // Keep the existing monotonic clock; replay never creates a fresh window.
+        if(candidate.revision==previous.revision&&candidate.signedHash.equals(previous.signedHash))return;
         if(previous.revision==Integer.MAX_VALUE||candidate.revision!=previous.revision+1||candidate.issued.isBefore(previous.issued)||!candidate.expires.isAfter(previous.expires))throw new IOException("MESH_RENEWAL_SEQUENCE");
         java.util.Set<String> mutable=new HashSet<>(Arrays.asList("lease_revision","issued_at","not_before","expires_at","signature"));
         if(next.originalLease.length()!=originalLease.length())throw new IOException("MESH_RENEWAL_ORIGINAL_FIELDS");

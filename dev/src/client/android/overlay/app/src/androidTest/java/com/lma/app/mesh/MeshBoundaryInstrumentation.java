@@ -90,7 +90,8 @@ public final class MeshBoundaryInstrumentation extends Instrumentation {
         try(MeshJournal journal=new MeshJournal(scratch,fixture.binding(),true)){
             MeshJournal.Work work=journal.admit(lease,1);journal.executing(work);byte[] next=fixture.wire(2,40);
             lease.renew(next,fixture.publicKey,fixture.approved(),(revision,hash)->journal.renewed(work,revision,hash));require(lease.revision()==2);
-            rejected(()->lease.renew(next,fixture.publicKey,fixture.approved(),(revision,hash)->journal.renewed(work,revision,hash)));require(lease.revision()==2);
+            lease.renew(next,fixture.publicKey,fixture.approved(),(revision,hash)->{throw new IOException("REPLAY_MUST_NOT_COMMIT_OR_RESET_WINDOW");});require(lease.revision()==2);
+            rejected(()->lease.renew(fixture.wire(2,44),fixture.publicKey,fixture.approved(),(revision,hash)->journal.renewed(work,revision,hash)));require(lease.revision()==2);
             JSONObject altered=MeshJson.parse(fixture.wire(3,44),16384);altered.put("resource_lock_generation","2");byte[] bad=fixture.sign(altered);
             rejected(()->lease.renew(bad,fixture.publicKey,fixture.approved(),(revision,hash)->journal.renewed(work,revision,hash)));require(lease.revision()==2);
             journal.stopping(work);journal.cleaned(work,fixture.hash,true,true,true);
@@ -127,11 +128,29 @@ public final class MeshBoundaryInstrumentation extends Instrumentation {
         Fixture fixture=new Fixture();MeshLease lease=fixture.lease(1,20);
         // An owned, ephemeral listener drops replies. Never call another app's fixed port.
         try(ServerSocket listener=new ServerSocket(0,2,InetAddress.getByName("127.0.0.1"))){
-        listener.setSoTimeout(500);Thread dropper=new Thread(()->{while(!listener.isClosed())try(Socket accepted=listener.accept()){accepted.setSoLinger(true,0);}catch(SocketTimeoutException again){/* Bounded owner stop check. */}catch(IOException closed){return;}},"Mesh-test-owned-dropper");dropper.setDaemon(true);dropper.start();
+        java.util.concurrent.atomic.AtomicInteger progressRequests=new java.util.concurrent.atomic.AtomicInteger();
+        listener.setSoTimeout(500);Thread dropper=new Thread(()->{while(!listener.isClosed())try(Socket accepted=listener.accept()){accepted.setSoTimeout(1000);replyOrDrop(accepted,progressRequests);}catch(SocketTimeoutException again){/* Bounded owner stop check. */}catch(IOException closed){if(listener.isClosed())return;}},"Mesh-test-owned-dropper");dropper.setDaemon(true);dropper.start();
         try(MeshDeviceIdentity identity=new MeshDeviceIdentity(scratch,true);MeshOwnerConfig store=new MeshOwnerConfig(scratch,true);MeshControlClient control=new MeshControlClient(fixture.config(identity.publicKey()).put("control_origin","http://127.0.0.1:"+listener.getLocalPort()),identity)){
             MeshControlReporter reports=new MeshControlReporter(store,identity,control);rejected(()->reports.progress(lease,"ACKED",null));JSONObject first=store.controlRecords().getJSONObject("rows").getJSONObject("progress:"+lease.id);
             rejected(()->reports.progress(lease,"RUNNING",0.5));JSONObject second=store.controlRecords().getJSONObject("rows").getJSONObject("progress:"+lease.id);require(first.getString("key").equals(second.getString("key"))&&first.getString("body").equals(second.getString("body")));
+            int requestsBeforeCleanup=progressRequests.get();
+            JSONObject receipt=new JSONObject().put("attempt_id",lease.attempt).put("resource_id",lease.resource).put("resource_lock_generation",lease.generation).put("fencing_token",lease.fence).put("metadata_sha256",lease.metadataHash).put("phase","CLEANED").put("cleanup_manifest_hash",fixture.hash);
+            reports.cleanup(lease,receipt);reports.retryPending();JSONObject terminal=store.controlRecords().getJSONObject("rows").getJSONObject("progress:"+lease.id);
+            require("ack_fixture_cleanup".equals(terminal.getString("superseded_by_cleanup"))&&!terminal.has("ack")&&progressRequests.get()==requestsBeforeCleanup);
+            require(first.getString("key").equals(terminal.getString("key"))&&first.getString("body").equals(terminal.getString("body")));
         }finally{listener.close();dropper.join(5000);require(!dropper.isAlive());}}
+    }
+    private static void replyOrDrop(Socket socket,java.util.concurrent.atomic.AtomicInteger progress)throws IOException{
+        InputStream input=socket.getInputStream();ByteArrayOutputStream header=new ByteArrayOutputStream();int value;
+        while((value=input.read())!=-1){header.write(value);if(header.size()>8192)throw new IOException("SYNTHETIC_HEADER_LIMIT");byte[] bytes=header.toByteArray();int n=bytes.length;
+            if(n>=4&&bytes[n-4]=='\r'&&bytes[n-3]=='\n'&&bytes[n-2]=='\r'&&bytes[n-1]=='\n')break;
+        }
+        String request=new String(header.toByteArray(),StandardCharsets.US_ASCII);java.util.regex.Matcher length=java.util.regex.Pattern.compile("(?im)^Content-Length: ([0-9]+)\\r?$").matcher(request);
+        if(!length.find())throw new IOException("SYNTHETIC_BODY_LENGTH");int remaining=Integer.parseInt(length.group(1));if(remaining>4096)throw new IOException("SYNTHETIC_BODY_LIMIT");
+        byte[] discard=new byte[1024];while(remaining>0){int count=input.read(discard,0,Math.min(discard.length,remaining));if(count<0)throw new EOFException();remaining-=count;}
+        if(!request.startsWith("POST /v1/p11/runner/attempts/att_fixture/cleanup ")){progress.incrementAndGet();socket.setSoLinger(true,0);return;}
+        byte[] reply=("{\"id\":\"ack_fixture_cleanup\",\"status\":\"CLEANED\",\"version\":1,\"recorded_at\":\""+Instant.now()+"\"}").getBytes(StandardCharsets.US_ASCII);
+        OutputStream output=socket.getOutputStream();output.write(("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: "+reply.length+"\r\nConnection: close\r\n\r\n").getBytes(StandardCharsets.US_ASCII));output.write(reply);output.flush();
     }
     private static final class Fixture {
         final byte[] seed=new byte[32],publicKey;final String hash;final Instant issued=Instant.ofEpochSecond(Instant.now().getEpochSecond());final JSONObject approval,manifest;

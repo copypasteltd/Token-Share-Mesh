@@ -73,9 +73,11 @@ public final class MeshMediaRunner implements AutoCloseable {
         MeshJournal.Work work=null;ExecutionGate.Ticket slot=null;BundleStore.Selection selection=null;File directory=null;
         ScheduledExecutorService watchdog=null;MeshResultCipher.Result encrypted=null;Exception failure=null;boolean clean=false;
         try{
-            run.check();new MeshLmaDescriptors(app).matches(lease);JSONObject request=MeshMediaRequests.normalize(app,lease,ownedBody);
+            run.check();
             int bootCount=Settings.Global.getInt(app.getContentResolver(),Settings.Global.BOOT_COUNT,-1);
-            work=journal.admit(lease,bootCount);run.work=work;slot=app.execution.enqueueIfIdle("mesh_media",lease.bundle);run.slot=slot;
+            work=journal.admit(lease,bootCount);run.work=work;progress.changed(lease.id,"accepted",null);
+            new MeshLmaDescriptors(app).matches(lease);JSONObject request=MeshMediaRequests.normalize(app,lease,ownedBody);
+            slot=app.execution.enqueueIfIdle("mesh_media",lease.bundle);run.slot=slot;
             if(slot==null)throw new IOException("MESH_PHONE_SLOT_BUSY");
             final ExecutionGate.Ticket owned=slot;owned.await(run::check);resident.park(owned);run.parked=true;run.check();policy.admit();
             String directoryName=UUID.randomUUID().toString();journal.privateDirectory(work,directoryName);

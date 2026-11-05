@@ -18,7 +18,7 @@ public final class MeshControlReporter {
         MeshJson.fields(records,"profile","rows","sequences");
         if(!"P11_ANDROID_CONTROL_OUTBOX_1".equals(records.getString("profile"))||records.getJSONObject("rows").length()>32||records.getJSONObject("sequences").length()>64)throw new IOException("MESH_CONTROL_RECORDS");
         JSONObject rows=records.getJSONObject("rows");
-        for(java.util.Iterator<String> it=rows.keys();it.hasNext();){String name=it.next();JSONObject row=rows.getJSONObject(name);MeshJson.fields(row,"path","key","body","ack");
+        for(java.util.Iterator<String> it=rows.keys();it.hasNext();){String name=it.next();JSONObject row=rows.getJSONObject(name);MeshJson.fields(row,"path","key","body","ack","superseded_by_cleanup");
             if(!name.matches("(?:progress|cleanup):[A-Za-z][A-Za-z0-9_-]{2,127}")||!row.getString("key").matches("m[pc]_[a-f0-9]{64}(?:_[1-9][0-9]{0,18})?")||!row.getString("path").matches("/v1/p11/runner/attempts/[A-Za-z][A-Za-z0-9_-]{2,127}/(?:progress|cleanup)"))throw new IOException("MESH_CONTROL_RECORD_OWNER");
             byte[] body=decodeBody(row);try{JSONObject value=MeshJson.parse(body,4096);boolean cleanup=name.startsWith("cleanup:");
                 if(!name.substring(name.indexOf(':')+1).equals(MeshLease.identifier(value,"lease_id"))||cleanup!=row.getString("path").endsWith("/cleanup"))throw new IOException("MESH_CONTROL_RECORD_OWNER");
@@ -27,6 +27,7 @@ public final class MeshControlReporter {
                 else{MeshJson.fields(value,"lease_id","fencing_token","sequence","phase","fraction");MeshLease.counter(value,"sequence");}
             }finally{Arrays.fill(body,(byte)0);}
             if(row.has("ack")&&!(row.get("ack")instanceof JSONObject))throw new IOException("MESH_CONTROL_RECORD_ACK");
+            if(row.has("superseded_by_cleanup")&&(!name.startsWith("progress:")||!MeshJson.string(row,"superseded_by_cleanup").matches("[A-Za-z][A-Za-z0-9_-]{2,127}")))throw new IOException("MESH_CONTROL_REPORT_TERMINAL");
         }
     }
     private static byte[] decodeBody(JSONObject row)throws Exception{
@@ -58,6 +59,7 @@ public final class MeshControlReporter {
     public synchronized void progress(MeshLease lease,String phase,Double fraction)throws Exception{
         lease.check();if(!Arrays.asList("ACKED","RUNNING","UPLOADING","FAILED","CANCELED").contains(phase)||fraction!=null&&(!Double.isFinite(fraction)||fraction<0||fraction>1))throw new IOException("MESH_PROGRESS_SHAPE");
         String name="progress:"+lease.id;JSONObject rows=records.getJSONObject("rows"),old=rows.optJSONObject(name);
+        if(old!=null&&old.has("superseded_by_cleanup"))throw new IOException("MESH_REPORT_ORIGINAL_TERMINAL");
         if(old!=null&&!old.has("ack")){JSONObject replay=send(old,true);if("STOP".equals(replay.getString("action")))throw new IOException("MESH_PLATFORM_STOP_REQUIRED");}
         JSONObject counters=records.getJSONObject("sequences");long previous=counters.has(lease.id)?MeshJson.integer(counters,lease.id,1,Long.MAX_VALUE):0;
         if(previous==Long.MAX_VALUE||!counters.has(lease.id)&&counters.length()>=64)throw new IOException("MESH_REPORT_SEQUENCE_EXHAUSTED");long sequence=previous+1;
@@ -79,11 +81,20 @@ public final class MeshControlReporter {
             String signature=identity.sign(message.getBytes(StandardCharsets.US_ASCII));String signed=unsigned.substring(0,unsigned.length()-2)+signature+"\"}";
             row=freeze(name,"/v1/p11/runner/attempts/"+lease.attempt+"/cleanup","mc_"+MeshJournal.sha(message.getBytes(StandardCharsets.US_ASCII)),signed.getBytes(StandardCharsets.US_ASCII));
         }
-        return send(row,false);
+        JSONObject terminal=send(row,false);JSONObject progress=records.getJSONObject("rows").optJSONObject("progress:"+lease.id);
+        if(progress!=null&&!progress.has("ack")&&!progress.has("superseded_by_cleanup")){progress.put("superseded_by_cleanup",terminal.getString("id"));save();}
+        return terminal;
     }
     public synchronized JSONObject retryPending()throws Exception{
         int sent=0;JSONObject rows=records.getJSONObject("rows");
-        for(java.util.Iterator<String> it=rows.keys();it.hasNext();){String name=it.next();JSONObject row=rows.getJSONObject(name);if(!row.has("ack")){send(row,name.startsWith("progress:"));sent++;}}
+        // Terminal reports are recovered first. A confirmed original cleanup
+        // retires older pending progress without fabricating a progress ACK.
+        for(java.util.Iterator<String> it=rows.keys();it.hasNext();){String name=it.next();JSONObject row=rows.getJSONObject(name);if(name.startsWith("cleanup:")){
+            boolean pending=!row.has("ack");JSONObject terminal=send(row,false);if(pending)sent++;
+            JSONObject progress=rows.optJSONObject("progress:"+name.substring("cleanup:".length()));
+            if(progress!=null&&!progress.has("ack")&&!progress.has("superseded_by_cleanup")){progress.put("superseded_by_cleanup",terminal.getString("id"));save();}
+        }}
+        for(java.util.Iterator<String> it=rows.keys();it.hasNext();){String name=it.next();JSONObject row=rows.getJSONObject(name);if(name.startsWith("progress:")&&!row.has("ack")&&!row.has("superseded_by_cleanup")){send(row,true);sent++;}}
         return new JSONObject().put("acknowledged",sent);
     }
     private static String utcNano(Instant instant){

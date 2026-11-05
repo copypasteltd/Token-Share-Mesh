@@ -88,11 +88,13 @@ public final class MeshProviderController implements AutoCloseable {
                 try{lease=MeshLease.verify(leaseBytes,manifestBytes,pin,new MeshLease.Approval(approved.getJSONObject("approval")));}finally{Arrays.fill(pin,(byte)0);}
                 if(lease.revision()!=1)throw new IOException("MESH_FIRST_SUBMISSION_REVISION");
                 final MeshLease original=lease;state="EXECUTING";changed.run();
-                // The original server receipt cannot renew or replace this lease.
-                reports.progress(original,"ACKED",null);
+                // ACK follows durable local ownership, before the first model submission.
+                final boolean[] admitted={false};
                 MeshResultCipher.Result result;
                 try(MeshProgressPump progress=new MeshProgressPump(original,reports,control,()->runner.cancel(original.id))){
-                    result=runner.execute(original,body,key,inputs,(id,stage,fraction)->progress.changed(fraction));progress.check();
+                    result=runner.execute(original,body,key,inputs,(id,stage,fraction)->{
+                        if(!admitted[0]){reports.progress(original,"ACKED",null);admitted[0]=true;}else progress.changed(fraction);
+                    });progress.check();
                 }
                 return new JSONObject().put("lease_id",original.id).put("attempt_id",original.attempt).put("ciphertext_sha256",result.ciphertextSha256).put("ciphertext_bytes",result.ciphertextBytes).put("charge_authority",false);
             }finally{

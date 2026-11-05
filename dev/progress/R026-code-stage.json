@@ -1682,5 +1682,6 @@
     "status": "SOURCE_ONLY_NOT_EXECUTED",
     "apk_built": false,
     "physical_models_executed": false
-  }
+  },
+  "android_replay_rules": "OWNER_PERSIST_BEFORE_ACK; SAME_SIGNED_RENEWAL_KEEPS_CLOCK; CLEANUP_SUPERSEDES_PENDING_PROGRESS_WITHOUT_FAKE_ACK"
 }
