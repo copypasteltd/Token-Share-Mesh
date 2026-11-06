@@ -1,5 +1,7 @@
 # Changelog
 
+- R026 adds IMP-R026-023–026 / RN-091–110: original rental text authentication and RAM AEAD, strict three-profile preflight, a typed llama rental/private-pipe adapter, independent local deadline supervision and owned node shutdown. Fourteen new source test definitions bring the rental total to 67; all remain uncompiled/unexecuted. No DDL/migration/device run or full-round completion. All 56/222 remain open; platform cleanup/budget release and full-scope code still precede batch validation.
+
 - R026 CODE_FIRST adds IMP-R026-019–022 and RN-071–090: encrypted independent local approval, the original shared physical-session gate, and a serial once-only rental child inbox. New native forward schema-002 preserves original occupancy/fences/inbox; published platform001–015 and base client DDL retain their bytes. Independently read grant metadata, pinned JWS and signed control must reach the same slot; duplicates never extend deadlines, child cleanup retains its parent, generic JOB cleanup cannot release RENTAL, and old history cannot control a new owner. Eleven new test definitions bring rental source inventory to 53, all unexecuted; no compilation or migration. Actual rental engines/authenticated input/independent stop, Android sessions and platform cleanup confirmation/owner/budget release remain open. Bilingual usage and complete 56-task/222-step tables are synchronized; this is neither round completion nor acceptance.
 
 

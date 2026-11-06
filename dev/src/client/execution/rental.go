@@ -364,6 +364,11 @@ func (s *Store) RentalCurrent(ctx context.Context, h Hold) (RentalStatus, error)
 		if o.context != "" && strictjson.Decode([]byte(o.context), &out.Expected, 8192) != nil {
 			return ErrStorage
 		}
+		// A preparation or not-yet-ALLOW grant still has an immutable stop
+		// deadline. Reporting it does not grant invocation authority.
+		if g, ok := s.rentalGuards[h.owner]; ok {
+			out.Deadline = g.clock.deadline
+		}
 		if g, ok := s.rentalGuards[h.owner]; ok && g.allowed && o.phase == "ACTIVE" && !s.clockUnsafe && g.expected == out.Expected {
 			out.Deadline = g.clock.deadline
 			out.Authorized = stamp.Wall.Before(g.clock.expires) && stamp.Elapsed < g.clock.until && time.Now().Before(g.clock.deadline)

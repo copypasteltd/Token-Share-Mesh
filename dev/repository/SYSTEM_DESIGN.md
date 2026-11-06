@@ -1,8 +1,8 @@
 # System design / 系统方案
 
-R026租赁源码包括领域/成熟JWS/控制窗口/完整历史计量，以及当前新增的平台事务和7项HTTP接线。前向014保存原始manifest/context、版本history、小时价与grant约束；INT-096明确原设备准备领取，原INT-001—095不重排，总契约96操作/70表。小时租赁按owner_session_id/物理代次绑定原设备，租内媒体/LLM不另收作品/token费。新增共28项测试定义未编译运行，SQL未迁移；实际渠道/独立就绪证据、付费续租、可信区间计量落库、原加密journal/控制、Android和物理清理释放仍待。001—013及原端侧DDL字节保留。
+R026继续补齐[小时租赁源码 RN-001—110](../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md)：原本机批准/加密journal/共享物理门闩/串行inbox之外，新增独立原grant认证、三标准文本协议预检、仅驻内存的随机AES-GCM一次输入、租赁专用llama私有管道适配、不等SQL的本机到期循环与节点有主关闭。不假造T1 job/attempt，不换卖家/设备/模型/隐私档；真实原同步/清理回执及进程/管道join后才可能释放本机槽。参见[租赁执行模块](../src/client/rentalruntime/README.md)。
 
-Rental source now includes platform transaction/HTTP wiring alongside domain/JWS/control/meter rules. Forward014 preserves original raw manifest/context, hourly price and immutable history; INT-096 appends preparation without renumbering the original operations. The design has 96 operations/70 tables. Session children share the original physical owner and add no per-result/token fee. All 28 rental test definitions and SQL are unexecuted. Channel/readiness producers, paid renewal, confirmed meter storage, encrypted journals/control, Android and physical cleanup remain open. See [RN-001—050](../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md).
+**SOURCE_ONLY / UNVERIFIED.** All 67 rental test definitions remain unexecuted; no compilation, migration, model/GPU/phone run occurred. This RAM AEAD covers GPU_RENTAL/STANDARD text and provides neither network E2E nor provider blindness. Unknown stop/cleanup retains the original owner; unjoined shutdown retains the node lock/master key. Public SDK/model listeners, owner approval UI/independent readiness, real acquiring/paid renewal, confirmed metering, Android rental media, E2E/LP and platform cleanup/budget release remain open. Counts stay at 48 control/nine rental HTTP handlers, 98 planned operations and 71 platform tables. Published DDL bytes are unchanged. All 56 tasks/222 steps remain open until full-scope code precedes batch validation.
 
 ## R021 · 原生 C API worker 与受限管道
 

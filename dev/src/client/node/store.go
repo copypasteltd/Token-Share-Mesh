@@ -24,6 +24,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"unicode"
 	"unicode/utf8"
 )
@@ -87,15 +88,19 @@ type state struct {
 // Store holds an OS-level single-writer lock until Close, including during
 // network operations. A missing key or corrupt journal never creates new keys.
 type Store struct {
-	root      *os.Root
-	path      string
-	lock      *os.File
-	master    []byte
-	s         state
-	poisoned  bool
-	execution *execution.Store
-	host      *Host
-	rentals   *RentalJournal
+	root                  *os.Root
+	path                  string
+	lock                  *os.File
+	master                []byte
+	s                     state
+	poisoned              bool
+	execution             *execution.Store
+	host                  *Host
+	rentals               *RentalJournal
+	nativeMu              sync.Mutex
+	nativeRentals         map[string]*NativeRental
+	closingNative         bool
+	closeOnce, finishOnce sync.Once
 }
 
 func randomHex(n int) (string, error) {
@@ -421,30 +426,40 @@ func counter(value string) (uint64, error) {
 	return v, nil
 }
 func (s *Store) Close() {
-	if s.rentals != nil {
-		s.rentals.Close()
-		s.rentals = nil
-	}
-	if s.host != nil {
-		s.host.Close()
-		s.host = nil
-	}
-	if s.execution != nil {
-		s.execution.Close()
-		s.execution = nil
-	}
-	clear(s.master)
-	clear(s.s.Seed)
-	if s.s.Pending != nil {
-		clear(s.s.Pending.Body)
-		s.s.Pending.Credential = ""
-	}
-	if s.lock != nil {
-		s.lock.Close()
-		s.lock = nil
-	}
-	if s.root != nil {
-		s.root.Close()
-		s.root = nil
-	}
+	s.closeOnce.Do(func() {
+		if s.closeNativeRentals() {
+			s.finishClose()
+		}
+	})
+}
+
+func (s *Store) finishClose() {
+	s.finishOnce.Do(func() {
+		if s.rentals != nil {
+			s.rentals.Close()
+			s.rentals = nil
+		}
+		if s.host != nil {
+			s.host.Close()
+			s.host = nil
+		}
+		if s.execution != nil {
+			s.execution.Close()
+			s.execution = nil
+		}
+		clear(s.master)
+		clear(s.s.Seed)
+		if s.s.Pending != nil {
+			clear(s.s.Pending.Body)
+			s.s.Pending.Credential = ""
+		}
+		if s.lock != nil {
+			s.lock.Close()
+			s.lock = nil
+		}
+		if s.root != nil {
+			s.root.Close()
+			s.root = nil
+		}
+	})
 }

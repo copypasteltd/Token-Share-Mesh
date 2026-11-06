@@ -17,3 +17,11 @@
 Do not run this package's tests during CODE_FIRST. All remaining production code across the complete 56-task / 222-step scope must be implemented before batch compilation, tests and debugging. Existing tests are source definitions only.
 
 [规范、消息字节顺序与53项测试源码登记 / Protocol and test-source inventory](../../../../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md) · [Native gate integration / 原生门闩接线](../../execution/README.md) · [Dependency/license lock](dependencies.lock.json) · [Full backlog](../../../../全量代码优先实施清单.md)
+
+## R026 RN-091—110：租赁文本与独立停止源码
+
+RN-091—110追加租赁专用文本接线源码：独立原grant/当前物理门闩、本人TextPolicy与三协议预检，随机AES-256-GCM仅RAM一次输入；不构造T1 job/attempt。独立本机截止循环不等SQL即发原取消，真实同步清理回执及进程/管道join后才可能释放本机槽；未知或超时保留owner，父节点未join则保留OS锁/密钥。输入/输出调用者仍负责本人持有的明文切片。
+
+当前只限GPU_RENTAL/STANDARD文本。没有网络E2E、提供方不可见、TEE或实际性能结论；平台独立清理回执/资金释放、Android租内媒体、公开SDK/模型入口与全56/222其余代码仍待。累计67项租赁测试定义均未编译/运行。本段更新早期源码检查点的“租赁内核/watchdog仍待”状态，不追认历史验收。
+
+Source only, unverified. Typed original rental input and private native pipes reuse encoding, not T1 authority. A separate monotonic deadline loop cancels without SQL; original cleanup facts plus actual joins gate local release. Unknown outcomes retain ownership. Local RAM encryption is not network E2E, provider blindness or a platform funds-release proof. No builds, tests, migration or device execution occurred.

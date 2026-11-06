@@ -10,12 +10,12 @@ import (
 )
 
 // ProviderRental joins original encrypted local approval, the shared physical
-// gate, independent grant resolution and signed continuous control. Native
-// engine adapters still must consume the once-only child ticket, normalize
-// authenticated input and enforce an independently owned stop watchdog.
-// This type does not launch engines, approve hardware or emit cleanup facts.
+// gate, independent grant resolution and signed continuous control. OpenNative
+// explicitly attaches the rental-only native adapter and owned watchdog;
+// successful startup alone never approves hardware or platform readiness.
 type ProviderRental struct {
 	mu       sync.RWMutex
+	node     *Store
 	journal  *RentalJournal
 	ledger   *execution.Store
 	prepared rentalaccess.Prepared
@@ -40,7 +40,7 @@ func (s *Store) PrepareRentalSession(ctx context.Context, command string, p rent
 	if err != nil {
 		return nil, "", err
 	}
-	return &ProviderRental{journal: j, ledger: ledger, prepared: p, hold: h}, disposition, nil
+	return &ProviderRental{node: s, journal: j, ledger: ledger, prepared: p, hold: h}, disposition, nil
 }
 
 func (r *ProviderRental) Hold() execution.Hold {

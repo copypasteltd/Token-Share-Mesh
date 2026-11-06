@@ -26,3 +26,11 @@ Internal cleanup observations are supplied only by trusted owned native adapters
 当前 `node.ProviderRental` 已有本机加密批准记录、原平台摘要/控制 HTTP 与本门闩的接线源码。实际租赁内核适配、受认证输入消费、参考素材/密文分块、独立停工 watchdog、原平台清理证明/解除占用以及 Android 会话执行仍待完成。CLI 继续不开租赁执行。这里的本机元数据 SQLite 不保存 prompt、输出、内容钥或明文内容指纹；加密批准 journal 也不等于客户内容 E2E 或硬件增强证明。
 
 [RN-071—090 and test-source inventory / 编号细则](../../../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md) · [Full 56-task / 222-step backlog / 全部待办](../../../全量代码优先实施清单.md) · [SQLite documented rebuild procedure](https://www.sqlite.org/lang_altertable.html#making_other_kinds_of_table_schema_changes)
+
+## R026 RN-091—110：租赁文本与独立停止源码
+
+RN-091—110追加租赁专用文本接线源码：独立原grant/当前物理门闩、本人TextPolicy与三协议预检，随机AES-256-GCM仅RAM一次输入；不构造T1 job/attempt。独立本机截止循环不等SQL即发原取消，真实同步清理回执及进程/管道join后才可能释放本机槽；未知或超时保留owner，父节点未join则保留OS锁/密钥。输入/输出调用者仍负责本人持有的明文切片。
+
+当前只限GPU_RENTAL/STANDARD文本。没有网络E2E、提供方不可见、TEE或实际性能结论；平台独立清理回执/资金释放、Android租内媒体、公开SDK/模型入口与全56/222其余代码仍待。累计67项租赁测试定义均未编译/运行。本段更新早期源码检查点的“租赁内核/watchdog仍待”状态，不追认历史验收。
+
+Source only, unverified. Typed original rental input and private native pipes reuse encoding, not T1 authority. A separate monotonic deadline loop cancels without SQL; original cleanup facts plus actual joins gate local release. Unknown outcomes retain ownership. Local RAM encryption is not network E2E, provider blindness or a platform funds-release proof. No builds, tests, migration or device execution occurred.

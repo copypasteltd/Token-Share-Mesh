@@ -20608,7 +20608,7 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "9741fee6cdc73e87280f7fd4bd7ab69b07c88299c5beb66c538bd2d1d015a397"
+      "sha256": "c6b6fab8c7fe1379624c25ee7a48a9db8c354dd050dccc65843ea1d526f1c82a"
     },
     {
       "path": "dev/AGENTS.md",
@@ -20820,7 +20820,7 @@
     },
     {
       "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-      "sha256": "02640b6ca383b9c3f710c5073fa579d5ee6cc60260b55cdc9e6b7ec4e2d78187"
+      "sha256": "5df219a384600b7bb75d234f68011523e0820715bb73dade64cb7b0dd6129168"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",

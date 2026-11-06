@@ -43,6 +43,7 @@ type entry struct {
 	start                      supervisor.TextStart
 	startNotify                chan struct{}
 	stopCount                  uint32
+	cancelContext              func() bool
 }
 
 // Result is local kernel measurement, NOT trusted platform usage, a billable
@@ -61,6 +62,7 @@ type Adapter struct {
 	closed, failed bool
 	ready          chan error
 	exited         chan struct{}
+	joined         chan struct{}
 	send           chan submission
 	control        chan []byte
 	stop           chan struct{}
@@ -101,9 +103,11 @@ func Open(ctx context.Context, c Config) (*Adapter, error) {
 		init.u32(v)
 	}
 	written := make(chan error, 1)
-	go func() { defer clear(init.Bytes()); written <- writeFrame(p.input, kInit, init.Bytes()) }()
+	go func() { e := writeFrame(p.input, kInit, init.Bytes()); clear(init.Bytes()); written <- e }()
+	writeReturned := false
 	select {
 	case e = <-written:
+		writeReturned = true
 	case <-ctx.Done():
 		e = ErrUnknown
 	}
@@ -121,10 +125,13 @@ func Open(ctx context.Context, c Config) (*Adapter, error) {
 	a.mu.Unlock()
 	if e != nil {
 		a.terminate()
-		select {
-		case <-a.exited:
-		case <-ctx.Done():
+		// Do not return an unowned startup process or a writer still holding
+		// initialization bytes. The enclosing owner may time out waiting, but
+		// retains its lock until this explicit startup operation really joins.
+		if !writeReturned {
+			<-written
 		}
+		<-a.joined
 		var startup StartupError
 		if errors.As(e, &startup) {
 			return nil, startup
@@ -140,12 +147,26 @@ func newAdapter(c Config, p child) *Adapter {
 	if e != nil {
 		panic("native session randomness unavailable")
 	}
-	a := &Adapter{c: c, p: p, jobs: map[string]*entry{}, session: hex.EncodeToString(nonce[:]), ready: make(chan error, 1), exited: make(chan struct{}), send: make(chan submission, 1), control: make(chan []byte, 1), stop: make(chan struct{})}
-	go a.readLoop()
-	go a.writeLoop()
-	go a.controlLoop()
-	go func() { <-p.wait; a.failure(); close(a.exited) }()
+	a := &Adapter{c: c, p: p, jobs: map[string]*entry{}, session: hex.EncodeToString(nonce[:]), ready: make(chan error, 1), exited: make(chan struct{}), joined: make(chan struct{}), send: make(chan submission, 1), control: make(chan []byte, 1), stop: make(chan struct{})}
+	var owned sync.WaitGroup
+	owned.Add(4)
+	go func() { defer owned.Done(); a.readLoop() }()
+	go func() { defer owned.Done(); a.writeLoop() }()
+	go func() { defer owned.Done(); a.controlLoop() }()
+	go func() { defer owned.Done(); <-p.wait; a.failure(); close(a.exited) }()
+	go func() { owned.Wait(); close(a.joined) }()
 	return a
+}
+
+// Join is a lifecycle fact only. Even a successful join does not manufacture
+// STOPPED/cleanup evidence for a child whose native acknowledgement was lost.
+func (a *Adapter) Join(ctx context.Context) error {
+	select {
+	case <-a.joined:
+		return nil
+	case <-ctx.Done():
+		return ErrUnknown
+	}
 }
 func (a *Adapter) terminate() {
 	a.stopOnce.Do(func() {
@@ -181,6 +202,9 @@ func (a *Adapter) finish(e *entry) {
 		if e.timer != nil {
 			e.timer.Stop()
 		}
+		if e.cancelContext != nil {
+			e.cancelContext()
+		}
 		close(e.done)
 	}
 }
@@ -198,8 +222,12 @@ func (a *Adapter) SubmitInput(ctx context.Context, w supervisor.Work, m executio
 	if err != nil {
 		return supervisor.Observation{}, err
 	}
+	return a.submitNormalized(ctx, w, m.Digest(), uint32(m.InputTokenLimit), uint32(m.Spec.MaxOutputTokens), normal, deadline, false)
+}
+
+func (a *Adapter) submitNormalized(ctx context.Context, w supervisor.Work, manifestHash string, inputLimit, outputLimit uint32, normal []byte, deadline time.Time, watchContext bool) (supervisor.Observation, error) {
 	a.mu.Lock()
-	if a.closed || a.failed || a.active != nil || len(a.jobs) >= maxJobs || a.jobs[w.RequestID] != nil || ctx.Err() != nil {
+	if a.closed || a.failed || a.active != nil || len(a.jobs) >= maxJobs || a.jobs[w.RequestID] != nil || ctx.Err() != nil || !time.Now().Before(deadline) {
 		a.mu.Unlock()
 		clear(normal)
 		return supervisor.Observation{}, ErrCapacity
@@ -211,13 +239,16 @@ func (a *Adapter) SubmitInput(ctx context.Context, w supervisor.Work, m executio
 	// The original supervisor persists a bounded opaque ID with an alphabetic
 	// prefix. Encoding alone begins with the binary string-length field (zero)
 	// and would leave actual entered work unrecordable and safely quarantined.
-	e := &entry{work: w, id: "native_" + hex.EncodeToString(id.Bytes()), manifest: m.Digest(), state: "RUNNING", inputLimit: uint32(m.InputTokenLimit), outputLimit: uint32(m.Spec.MaxOutputTokens), outputNotify: make(chan struct{}, 1), done: make(chan struct{}), startNotify: make(chan struct{})}
+	e := &entry{work: w, id: "native_" + hex.EncodeToString(id.Bytes()), manifest: manifestHash, state: "RUNNING", inputLimit: inputLimit, outputLimit: outputLimit, outputNotify: make(chan struct{}, 1), done: make(chan struct{}), startNotify: make(chan struct{})}
 	// normalize validated this bounded binary request. Remember only the stop
 	// count, never an additional copy of request text or stop strings.
 	e.stopCount = uint32(normal[24])<<24 | uint32(normal[25])<<16 | uint32(normal[26])<<8 | uint32(normal[27])
 	a.jobs[w.RequestID] = e
 	a.active = e
 	e.timer = time.AfterFunc(time.Until(deadline), func() { _ = a.Cancel(context.Background(), w) })
+	if watchContext {
+		e.cancelContext = context.AfterFunc(ctx, func() { _ = a.Cancel(context.Background(), w) })
+	}
 	a.send <- submission{e, normal, deadline}
 	o := a.observation(e)
 	a.mu.Unlock()
@@ -456,7 +487,7 @@ func (a *Adapter) Close(ctx context.Context) error {
 	}
 	a.mu.Unlock()
 	select {
-	case <-a.exited:
+	case <-a.joined:
 	case <-ctx.Done():
 		err = ErrUnknown
 	}
