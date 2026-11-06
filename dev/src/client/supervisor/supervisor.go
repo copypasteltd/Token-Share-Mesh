@@ -78,8 +78,12 @@ type slot struct {
 type Supervisor struct {
 	store      *execution.Store
 	registry   map[registryKey]Adapter
+	registryMu sync.RWMutex
+	kernels    map[kernelKey]Adapter
 	options    Options
 	mu         sync.Mutex
+	operations sync.WaitGroup
+	joining    bool
 	slots      map[string]*slot
 	runContext context.Context
 	ready      chan struct{}
@@ -92,7 +96,25 @@ type Supervisor struct {
 // New freezes a COPY of registry bindings. This is not KernelRegistry package
 // installation/signature validation and provides no sale or funding approval.
 func New(store *execution.Store, registrations []Registration, o Options) (*Supervisor, error) {
-	if store == nil || len(registrations) == 0 || len(registrations) > 128 {
+	if len(registrations) == 0 || len(registrations) > 128 {
+		return nil, ErrAdapter
+	}
+	s, err := newSupervisor(store, o)
+	if err != nil {
+		return nil, err
+	}
+	for _, r := range registrations {
+		key := registryKey{r.Environment, r.Capability, r.ManifestHash}
+		if !executionlease.Hash(r.Environment) || !executionlease.Hash(r.ManifestHash) || !ids.Valid(r.Capability) || r.Backend == nil || s.registry[key] != nil {
+			return nil, ErrAdapter
+		}
+		s.registry[key] = r.Backend
+	}
+	return s, nil
+}
+
+func newSupervisor(store *execution.Store, o Options) (*Supervisor, error) {
+	if store == nil {
 		return nil, ErrAdapter
 	}
 	if o.Poll == 0 {
@@ -111,13 +133,6 @@ func New(store *execution.Store, registrations []Registration, o Options) (*Supe
 		return nil, ErrAdapter
 	}
 	s := &Supervisor{store: store, registry: map[registryKey]Adapter{}, options: o, slots: map[string]*slot{}, ready: make(chan struct{}), done: make(chan struct{}), completed: make(chan struct{}, 1)}
-	for _, r := range registrations {
-		key := registryKey{r.Environment, r.Capability, r.ManifestHash}
-		if !executionlease.Hash(r.Environment) || !executionlease.Hash(r.ManifestHash) || !ids.Valid(r.Capability) || r.Backend == nil || s.registry[key] != nil {
-			return nil, ErrAdapter
-		}
-		s.registry[key] = r.Backend
-	}
 	return s, nil
 }
 func (s *Supervisor) Ready() <-chan struct{} { return s.ready }
@@ -141,7 +156,7 @@ func (s *Supervisor) Drain() {
 	}
 }
 func (s *Supervisor) adapter(a execution.Activity) Adapter {
-	return s.registry[registryKey{a.Environment, a.Capability, a.ManifestHash}]
+	return s.lookup(a.Environment, a.Capability, a.ManifestHash)
 }
 func work(a execution.Activity) Work {
 	return Work{a.Hold.Owner(), a.Hold.Resource(), a.Hold.LocalGeneration(), a.Environment}
@@ -152,7 +167,7 @@ func (s *Supervisor) reserve(a execution.Activity, b Adapter, parent context.Con
 	defer s.mu.Unlock()
 	// Drain may win after Receive but before this slot is reserved. It must
 	// still permit stop recovery, while refusing any new live-work slot.
-	if a.Authorized && s.closed.Load() {
+	if s.joining || a.Authorized && s.closed.Load() {
 		return nil, nil, false
 	}
 	r := s.slots[a.Hold.Resource()]
@@ -173,7 +188,43 @@ func (s *Supervisor) reserve(a execution.Activity, b Adapter, parent context.Con
 	r.cancel = cancel
 	r.backend = b
 	r.work = work(a)
-	return ctx, func() { cancel(); s.mu.Lock(); r.busy = false; r.cancel = nil; s.mu.Unlock() }, true
+	s.operations.Add(1)
+	return ctx, func() {
+		cancel()
+		s.mu.Lock()
+		r.busy = false
+		r.cancel = nil
+		s.mu.Unlock()
+		s.operations.Done()
+	}, true
+}
+
+// Joining and Add share the same lock, including metadata work that has not yet
+// reserved a slot. Done must not allow a caller to close the original ledger
+// while a late backend return still records the original submission/cleanup.
+func (s *Supervisor) beginSubmission() bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if s.joining || s.closed.Load() {
+		return false
+	}
+	s.operations.Add(1)
+	return true
+}
+
+func (s *Supervisor) joinOperations() {
+	s.closed.Store(true)
+	s.mu.Lock()
+	s.joining = true
+	for _, r := range s.slots {
+		if r.busy && r.cancel != nil {
+			r.cancel()
+		}
+	}
+	s.mu.Unlock()
+	// A backend that violates its cancellation contract cannot make it safe to
+	// clear the ledger/key. Retain the original ownership until it really joins.
+	s.operations.Wait()
 }
 func (s *Supervisor) cancelOwner(h execution.Hold) {
 	s.mu.Lock()
@@ -211,12 +262,16 @@ func (s *Supervisor) SubmitInput(ctx context.Context, command string, accepted d
 }
 
 func (s *Supervisor) submit(ctx context.Context, command string, v executionlease.Verified, input *inputSubmission) (execution.Hold, error) {
+	if !s.beginSubmission() {
+		return execution.Hold{}, ErrClosed
+	}
+	defer s.operations.Done()
 	parent, ok := s.runningContext()
 	if !ok {
 		return execution.Hold{}, ErrClosed
 	}
 	l := v.Details()
-	b := s.registry[registryKey{l.Environment, l.Capability, l.ManifestHash}]
+	b := s.lookup(l.Environment, l.Capability, l.ManifestHash)
 	if b == nil {
 		return execution.Hold{}, ErrAdapter
 	}
@@ -556,6 +611,7 @@ func (s *Supervisor) Run(ctx context.Context) error {
 		return ErrClosed
 	}
 	defer close(s.done)
+	defer s.joinOperations()
 	s.mu.Lock()
 	s.runContext = ctx
 	s.mu.Unlock()

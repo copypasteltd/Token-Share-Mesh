@@ -93,6 +93,11 @@ func (h *Host) resolve(ctx context.Context, id string) (devicecontrol.AcceptedDe
 	}
 	defer clear(claim.Body)
 	if claim.Status != 200 {
+		// An empty original poll is not a revoked device. Retain its exact key
+		// and version; the independent control loop still checks current access.
+		if claim.Status == 404 && c.Phase == "CLAIM_PENDING" && len(c.Lease) == 0 {
+			return zero, ErrHostNoOffer
+		}
 		return zero, classify(claim)
 	}
 	raw, e := devicecontrol.UnverifiedClaim(claim)
@@ -214,6 +219,9 @@ func (p *PreparedExecution) Start(ctx context.Context, watch *supervisor.Supervi
 	p.host.mu.Unlock()
 	if !bound {
 		return execution.Hold{}, ErrHostPolicy
+	}
+	if e := p.host.bindPrepared(watch, p.accepted); e != nil {
+		return execution.Hold{}, e
 	}
 	owned, finish, e := p.host.beginWork(ctx, p.id)
 	if e != nil {

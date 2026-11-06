@@ -23,6 +23,7 @@ const MaximumHostRules = 64
 var ErrHost = errors.New("execution host state unavailable; retain original commands and owners")
 var ErrHostPolicy = errors.New("execution is outside independent local order and kernel approval")
 var ErrHostPending = errors.New("original execution command requires recovery; no replacement claim")
+var ErrHostNoOffer = errors.New("no original lease available; retain the original claim")
 
 // HostRule is independently approved order/kernel metadata. Spec output tokens
 // are the original contract's maximum; streaming is an exact allowed choice.

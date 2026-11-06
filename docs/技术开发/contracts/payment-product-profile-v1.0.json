@@ -136,6 +136,17 @@
     "sql_changed_or_migrated": false,
     "compiled_or_executed": false
   },
+  "native_provider_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-原生提供方常驻接单与签名续期源码.md",
+    "source_contract": "docs/技术开发/contracts/native-provider-source-v1.json",
+    "original_native_text_daemon_and_continuation_source_wired": true,
+    "other_engine_daemons_live_sse_e2e_and_actual_qualification_complete": false,
+    "original_receive_and_current_renewal_hash_separate": true,
+    "remote_ready_and_cleanup_ack_before_local_retirement": true,
+    "sql_changed_or_migrated": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",

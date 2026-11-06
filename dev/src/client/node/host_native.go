@@ -23,10 +23,10 @@ import (
 // downloaded manifest or a source of approval. One resident native environment
 // is owned by a Host at a time; switching requires closing the previous session.
 type NativeInstallation struct {
-	RuntimeRoot string
-	Package     llamaworker.FilePin
-	Selection   llamaworker.OwnerSelection
-	Environment string
+	RuntimeRoot string                     `json:"runtime_root"`
+	Package     llamaworker.FilePin        `json:"package"`
+	Selection   llamaworker.OwnerSelection `json:"selection"`
+	Environment string                     `json:"environment"`
 }
 
 type NativeSession struct {
@@ -89,7 +89,8 @@ func nativeIdentityMatches(c llamaworker.Config, physical string, i llamaworker.
 }
 
 // OpenNative composes the owned native worker, encrypted result scope and
-// ORIGINAL Host supervisor. It must follow Prepare of an approved command.
+// ORIGINAL Host supervisor. Independent local rules permit resident warm-up
+// before the first claim; no task or manifest can install those rules.
 // No public listener, device qualification, lease or payment is created here.
 func (h *Host) OpenNative(ctx context.Context, install NativeInstallation, options supervisor.Options) (_ *NativeSession, answer error) {
 	var nonce [16]byte
@@ -108,6 +109,7 @@ func (h *Host) OpenNative(ctx context.Context, install NativeInstallation, optio
 		select {
 		case <-w.Done():
 			delete(h.watchdogs, w)
+			delete(h.watchKernels, w)
 		default:
 		}
 	}
@@ -144,11 +146,8 @@ func (h *Host) OpenNative(ctx context.Context, install NativeInstallation, optio
 	if err != nil {
 		return nil, err
 	}
-	// Validate the original command registry before mapping a model or taking a
-	// maintenance generation. NewSupervisor repeats it after actual READY.
-	if err = h.hasNativeCommand(owned, c); err != nil {
-		return nil, err
-	}
+	// Host approval above binds the actual installed package and physical gate.
+	// A job is not required to keep a model warm, and warm-up grants no job guard.
 	s.resource, s.capability, s.physical = c.Resource, c.Capability, physical
 	hold, err := h.ledger.AcquireLocal(owned, c.Resource, id, "MAINTENANCE")
 	if err != nil {
@@ -189,6 +188,8 @@ func (h *Host) OpenNative(ctx context.Context, install NativeInstallation, optio
 	return s, nil
 }
 
+// hasNativeCommand is a historical metadata query, not a warm-up authorization.
+// Resident warm-up is authorized by independent approveNative and its gate.
 func (h *Host) hasNativeCommand(ctx context.Context, c llamaworker.Config) error {
 	found := false
 	err := h.transaction(ctx, func(tx *sql.Tx) error {

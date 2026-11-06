@@ -160,12 +160,12 @@ func TestHostNativeMountReservationRejectsConcurrentOpen(t *testing.T) {
 	}
 }
 
-func TestHostNativeUnpreparedCommandCannotWarmModel(t *testing.T) {
+func TestHostNativeHistoricalCommandQueryDoesNotApproveWarmup(t *testing.T) {
 	f := newHostFixture(t)
 	a := f.config.Rules[0].Approval
 	c := llamaworker.Config{Environment: a.EnvironmentDigest, Capability: a.Capability, Resource: a.Resource}
 	if err := f.host.hasNativeCommand(context.Background(), c); !errors.Is(err, ErrHostPending) {
-		t.Fatal("model warmup without original command", err)
+		t.Fatal("historical metadata query invented a command", err)
 	}
 	f.begin(t, "command_native_prepared")
 	p, err := f.host.Prepare(context.Background(), "command_native_prepared")
@@ -178,7 +178,7 @@ func TestHostNativeUnpreparedCommandCannotWarmModel(t *testing.T) {
 	}
 	c.Resource = "other_gpu"
 	if err = f.host.hasNativeCommand(context.Background(), c); !errors.Is(err, ErrHostPending) {
-		t.Fatal("foreign command warmed model", err)
+		t.Fatal("foreign resource counted as original historical metadata", err)
 	}
 }
 

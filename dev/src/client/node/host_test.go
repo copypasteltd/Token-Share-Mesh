@@ -49,6 +49,8 @@ type hostFixture struct {
 	inputOnce                                                        sync.Once
 	cleanupHandler                                                   func(http.ResponseWriter, *http.Request, []byte)
 	resultHandler                                                    func(http.ResponseWriter, *http.Request, []byte)
+	progressHandler                                                  func(http.ResponseWriter, *http.Request, []byte)
+	claimHandler                                                     func(http.ResponseWriter, *http.Request, []byte)
 }
 
 func newHostFixture(t *testing.T) *hostFixture { return newHostFixtureConfigured(t, nil) }
@@ -110,9 +112,18 @@ func (f *hostFixture) serve(t *testing.T, w http.ResponseWriter, r *http.Request
 	if r.Method == "POST" {
 		f.requests = append(f.requests, bytes.Clone(body))
 	}
+	lease, manifest := f.lease, f.manifest
 	f.mu.Unlock()
 	if strings.HasSuffix(r.URL.Path, "/cleanup") && f.cleanupHandler != nil {
 		f.cleanupHandler(w, r, body)
+		return
+	}
+	if strings.HasSuffix(r.URL.Path, "/progress") && f.progressHandler != nil {
+		f.progressHandler(w, r, body)
+		return
+	}
+	if r.URL.Path == "/v1/p11/runner/leases/claim" && f.claimHandler != nil {
+		f.claimHandler(w, r, body)
 		return
 	}
 	if f.resultHandler != nil && (strings.HasSuffix(r.URL.Path, "/deliveries") || strings.Contains(r.URL.Path, "/content/")) {
@@ -131,22 +142,20 @@ func (f *hostFixture) serve(t *testing.T, w http.ResponseWriter, r *http.Request
 			drop(w)
 			return
 		}
-		lease := f.lease
 		if f.wrongPin.Load() {
 			lease.Signature = base64.RawURLEncoding.EncodeToString(bytes.Repeat([]byte{1}, 64))
 		}
 		writeReply(w, 200, lease)
-	case "/v1/p11/runner/leases/lease_test/manifest":
+	case "/v1/p11/runner/leases/" + lease.ID + "/manifest":
 		if f.oversizeManifest.Load() {
 			writeReply(w, 200, map[string]string{"oversize": strings.Repeat("x", 17000)})
 			return
 		}
-		manifest := f.manifest
 		if f.wrongOrder.Load() {
 			manifest.Order = "other_order"
 		}
 		writeReply(w, 200, manifest)
-	case "/v1/p11/runner/leases/lease_test/input":
+	case "/v1/p11/runner/leases/" + lease.ID + "/input":
 		f.inputs.Add(1)
 		f.inputOnce.Do(func() { close(f.inputStarted) })
 		if f.blockInput.Load() {

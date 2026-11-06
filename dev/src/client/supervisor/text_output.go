@@ -59,7 +59,7 @@ func (s *Supervisor) Output(ctx context.Context, h execution.Hold, a devicecontr
 	if l.ID != h.Owner() || l.Resource != h.Resource() || m.Digest() != l.ManifestHash || s.store.ResultBinding(ctx, h, m) != nil {
 		return nil, ErrAdapter
 	}
-	backend := s.registry[registryKey{l.Environment, l.Capability, l.ManifestHash}]
+	backend := s.lookup(l.Environment, l.Capability, l.ManifestHash)
 	provider, ok := backend.(TextOutputProvider)
 	if !ok {
 		return nil, ErrAdapter

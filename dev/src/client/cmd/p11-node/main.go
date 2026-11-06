@@ -30,11 +30,11 @@ func run() int {
 		return inspectKernel(os.Args[2:], os.Stdin, os.Stdout, os.Stderr)
 	}
 	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "usage: p11-node kernel-inspect --runtime-root <absolute-private-directory>, or comfy-init|comfy-status|comfy-install|comfy-verify|comfy-delete|init|enroll|recover|status|heartbeat|run|execution-init|execution-status|host-init|host-status --state <absolute-private-directory>")
+		fmt.Fprintln(os.Stderr, "usage: p11-node kernel-inspect --runtime-root <absolute-private-directory>, or comfy-init|comfy-status|comfy-install|comfy-verify|comfy-delete|init|enroll|recover|status|heartbeat|run|execution-init|execution-status|host-init|host-status|host-run --state <absolute-private-directory>")
 		return 2
 	}
 	action := os.Args[1]
-	if action != "init" && action != "enroll" && action != "recover" && action != "status" && action != "heartbeat" && action != "run" && action != "execution-init" && action != "execution-status" && action != "host-init" && action != "host-status" {
+	if action != "init" && action != "enroll" && action != "recover" && action != "status" && action != "heartbeat" && action != "run" && action != "execution-init" && action != "execution-status" && action != "host-init" && action != "host-status" && action != "host-run" {
 		fmt.Fprintln(os.Stderr, "unknown native control command")
 		return 2
 	}
@@ -90,6 +90,18 @@ func run() int {
 		err = s.Step(ctx)
 	case "run":
 		err = s.Run(ctx, func(status node.Status) { _ = json.NewEncoder(os.Stdout).Encode(status) })
+	case "host-run":
+		var raw []byte
+		raw, err = readInput(16384)
+		if err == nil {
+			var config node.NativeProviderConfig
+			config, err = decodeNativeProvider(raw)
+			clear(raw)
+			if err == nil {
+				err = s.RunNativeProvider(ctx, config, func(status node.ProviderStatus) { _ = json.NewEncoder(os.Stdout).Encode(status) })
+			}
+		}
+		clear(raw)
 	case "execution-init", "execution-status":
 		var ledger *execution.Store
 		if action == "execution-init" {
@@ -120,7 +132,7 @@ func run() int {
 			output, err = host.Snapshot(ctx)
 		}
 	}
-	if action != "run" && (action != "execution-init" && action != "execution-status" || err == nil) {
+	if action != "run" && action != "host-run" && (action != "execution-init" && action != "execution-status" || err == nil) {
 		if output == nil {
 			output = s.Status()
 		}
@@ -131,6 +143,13 @@ func run() int {
 		return 1
 	}
 	return 0
+}
+func decodeNativeProvider(raw []byte) (node.NativeProviderConfig, error) {
+	var config node.NativeProviderConfig
+	if err := strictjson.Decode(raw, &config, 16384); err != nil {
+		return config, err
+	}
+	return config.Normalize()
 }
 func readInput(maximum int) ([]byte, error) {
 	info, err := os.Stdin.Stat()

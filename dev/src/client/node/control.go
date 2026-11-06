@@ -271,6 +271,12 @@ func (s *Store) Recover(ctx context.Context) error {
 // It cannot falsely advertise IDLE, produce usage, unlock a GPU or acknowledge
 // a task's cleanup. A recovered old heartbeat is not treated as fresh liveness.
 func (s *Store) Step(ctx context.Context) error {
+	return s.stepResource(ctx, nil)
+}
+
+// Resource state can only come from an owned resident session in this package,
+// never from CLI flags or a downloaded task. Ordinary control stays UNKNOWN.
+func (s *Store) stepResource(ctx context.Context, sample func(context.Context) (string, error)) error {
 	if s.s.DeviceID == "" {
 		return ErrEnrollment
 	}
@@ -296,7 +302,14 @@ func (s *Store) Step(ctx context.Context) error {
 		return err
 	}
 	value := strconv.FormatUint(sequence, 10)
-	h := devicecontrol.Heartbeat{Sequence: value, Version: s.s.Version, Recorded: time.Now().UTC().Truncate(time.Microsecond), State: "UNKNOWN"}
+	state := "UNKNOWN"
+	if sample != nil {
+		state, err = sample(ctx)
+		if err != nil || state != "IDLE" && state != "BUSY" && state != "UNKNOWN" {
+			return ErrHost
+		}
+	}
+	h := devicecontrol.Heartbeat{Sequence: value, Version: s.s.Version, Recorded: time.Now().UTC().Truncate(time.Microsecond), State: state}
 	body, err := json.Marshal(h)
 	if err != nil {
 		return ErrState
@@ -318,15 +331,23 @@ func retryable(err error) bool {
 // Run is foreground/outbound-only. It uses bounded jitter/backoff, rechecks
 // current authority and stops on key/state/auth failures. It starts no engine.
 func (s *Store) Run(ctx context.Context, report func(Status)) error {
+	return s.runControl(ctx, s.Step, func(status Status, _ error) {
+		if report != nil {
+			report(status)
+		}
+	})
+}
+
+func (s *Store) runControl(ctx context.Context, step func(context.Context) error, report func(Status, error)) error {
 	delay := 15 * time.Second
 	failures := 0
 	for {
 		if err := ctx.Err(); err != nil {
 			return nil
 		}
-		err := s.Step(ctx)
+		err := step(ctx)
 		if report != nil {
-			report(s.Status())
+			report(s.Status(), err)
 		}
 		if err != nil && !retryable(err) {
 			return err

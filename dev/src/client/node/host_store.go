@@ -53,6 +53,7 @@ type Host struct {
 	busy           map[string]context.CancelFunc
 	workers        sync.WaitGroup
 	watchdogs      map[*supervisor.Supervisor]bool
+	watchKernels   map[*supervisor.Supervisor][]HostKernel
 	nativeSession  *NativeSession
 }
 type hostCommand struct {
@@ -63,6 +64,8 @@ type hostCommand struct {
 	Manifest          json.RawMessage             `json:"manifest,omitempty"`
 	CleanupReport     *devicecontrol.CleanupWrite `json:"cleanup_report,omitempty"`
 	CleanupAck        *devicecontrol.Ack          `json:"cleanup_ack,omitempty"`
+	Progress          *hostProgress               `json:"progress,omitempty"`
+	ResultRetired     bool                        `json:"local_result_retired,omitempty"`
 	ResultDelivery    *resultwire.Delivery        `json:"result_delivery,omitempty"`
 	ResultDeliveryAck json.RawMessage             `json:"result_delivery_ack,omitempty"`
 	UsageStatement    *resultwire.Statement       `json:"usage_statement,omitempty"`
@@ -378,6 +381,12 @@ func (h *Host) Close() {
 			h.poisoned.Store(true)
 		}
 		cancel()
+		// A bounded close failure retains ownership. Do not clear the original
+		// host ledger/key before late original watchdog/pipe operations join.
+		<-native.runDone
+		if native.native != nil {
+			_ = native.native.Join(context.Background())
+		}
 	}
 	h.gate <- struct{}{}
 	if h.client != nil {

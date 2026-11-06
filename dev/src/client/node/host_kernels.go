@@ -84,12 +84,18 @@ func (h *Host) NewSupervisor(ctx context.Context, kernels []HostKernel, options 
 	if e != nil {
 		return nil, e
 	}
-	if len(registrations) == 0 {
-		return nil, ErrHostPending
+	resident := make([]supervisor.KernelRegistration, 0, len(kernels))
+	for _, k := range kernels {
+		resident = append(resident, supervisor.KernelRegistration{Environment: k.Environment, Capability: k.Capability, Backend: k.Backend})
 	}
-	watch, e := supervisor.New(h.ledger, registrations, options)
+	watch, e := supervisor.NewResident(h.ledger, resident, options)
 	if e != nil {
 		return nil, e
+	}
+	for _, r := range registrations {
+		if e = watch.BindManifest(r.Environment, r.Capability, r.ManifestHash); e != nil {
+			return nil, e
+		}
 	}
 	h.mu.Lock()
 	defer h.mu.Unlock()
@@ -107,6 +113,7 @@ func (h *Host) NewSupervisor(ctx context.Context, kernels []HostKernel, options 
 		select {
 		case <-old.Done():
 			delete(h.watchdogs, old)
+			delete(h.watchKernels, old)
 		default:
 		}
 	}
@@ -117,5 +124,33 @@ func (h *Host) NewSupervisor(ctx context.Context, kernels []HostKernel, options 
 		return nil, ErrHostPending
 	}
 	h.watchdogs[watch] = true
+	if h.watchKernels == nil {
+		h.watchKernels = map[*supervisor.Supervisor][]HostKernel{}
+	}
+	h.watchKernels[watch] = append([]HostKernel(nil), kernels...)
 	return watch, nil
+}
+
+func (h *Host) bindPrepared(watch *supervisor.Supervisor, accepted devicecontrol.AcceptedDelivery) error {
+	if !accepted.Verified().ValidAt(time.Now()) {
+		return ErrHostPolicy
+	}
+	m := accepted.Manifest()
+	a, err := h.config.approve(devicecontrol.Reply{Status: 200, Body: canonicalHostJSON(m)})
+	if err != nil {
+		return err
+	}
+	h.mu.Lock()
+	kernels := append([]HostKernel(nil), h.watchKernels[watch]...)
+	bound := h.watchdogs[watch] && !h.closed && !h.poisoned.Load()
+	h.mu.Unlock()
+	if !bound {
+		return ErrHostPolicy
+	}
+	for _, k := range kernels {
+		if kernelMatches(k, a) {
+			return watch.BindManifest(m.EnvironmentDigest, m.Capability, m.Digest())
+		}
+	}
+	return ErrHostPolicy
 }

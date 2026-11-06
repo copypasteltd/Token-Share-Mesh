@@ -40,7 +40,10 @@ func (h *Host) loadCommand(ctx context.Context, tx *sql.Tx, id string) (hostComm
 	if c.Phase == "CLAIM_PENDING" && (len(c.Lease) != 0 || len(c.Manifest) != 0) || c.Phase == "CLAIMED" && len(c.Manifest) != 0 {
 		return hostCommand{}, ErrHost
 	}
-	if !h.validateCleanupReport(c) || !h.validateResultReport(c) || !h.validateContentCheckpoint(c) {
+	if !h.validateCleanupReport(c) || !h.validateResultReport(c) || !h.validateContentCheckpoint(c) || !h.validateProgress(c) {
+		return hostCommand{}, ErrHost
+	}
+	if c.ResultRetired && (c.Phase != "CLEANED" || c.CleanupAck == nil || c.ResultContent == nil || !c.ResultContent.Ready) {
 		return hostCommand{}, ErrHost
 	}
 	return c, nil
