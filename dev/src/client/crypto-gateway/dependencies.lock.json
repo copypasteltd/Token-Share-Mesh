@@ -1,0 +1,40 @@
+{
+  "profile_id": "P11_E2E_NATIVE_SOURCE_DEPENDENCIES_1",
+  "status": "SOURCE_ONLY_NOT_QUALIFIED",
+  "native_cipher_suite": {
+    "library": "libsodium",
+    "version": "1.0.22",
+    "repository": "https://github.com/jedisct1/libsodium",
+    "tag": "1.0.22-RELEASE",
+    "commit": "77e1ce5d6dee871c49ef211222ba18ef0c486bda",
+    "source_url": "https://github.com/jedisct1/libsodium/releases/download/1.0.22-RELEASE/libsodium-1.0.22.tar.bz2",
+    "source_sha256": "51b93737bf62e8549b0e94dce0fba92169e31c8ecc160883460a9bdaa6d2c298",
+    "mingw_url": "https://github.com/jedisct1/libsodium/releases/download/1.0.22-RELEASE/libsodium-1.0.22-mingw.tar.gz",
+    "mingw_sha256": "1d99e0afaf27bce664249232e9dc628ae6bb7b49f0ab53ad6db372b028a35d9d",
+    "upstream_license": "ISC",
+    "license_path": "dev/src/client/crypto-gateway/sodium/UPSTREAM-LICENSE",
+    "license_sha256": "508a76d186356c0dd807a670ef510964f8724557024796a2c426c6c0e19ab683",
+    "linkage": "STATIC",
+    "build_tag": "p11_sodium",
+    "cgo_required": true,
+    "executed_or_built_this_stage": false,
+    "release_signature_independently_verified": false,
+    "platform_or_hardware_privacy_qualified": false
+  },
+  "canonicalization": {
+    "profile": "RFC8785_JCS_1",
+    "repository": "https://github.com/cyberphone/json-canonicalization",
+    "commit": "32a48195b9b20fe67b1795e39e4509f14d860b45",
+    "source_directory": "go/src/webpki.org/jsoncanonicalizer",
+    "vendored_directory": "dev/src/thirdparty/jsoncanonicalizer",
+    "license": "Apache-2.0",
+    "files": {
+      "jsoncanonicalizer.go": "9c5e9f19aa888268a9369cc09a3c0ff1b115a17461e5cc038f29b059c69aca5b",
+      "es6numfmt.go": "a5f31e4411d030c309b79d865329d02f90deeaabb9e926ceb0399cf053541e8c",
+      "LICENSE": "6821faaddedf2d78c95bb6d98b127e9e616097afd2f6bcc34389f000d13ab12d",
+      "APACHE-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "upstream_bytes_unmodified": true,
+    "tests_executed_this_stage": false
+  }
+}

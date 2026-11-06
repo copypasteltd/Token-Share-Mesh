@@ -1,6 +1,10 @@
 # Preserve exact bytes: contracts, source manifests and applied migrations use
 # SHA-256 over file bytes. Checkout must not silently rewrite line endings.
 * -text
+# These two pinned upstream sources contain trailing spaces in their original
+# bytes. Preserve their recorded SHA-256; other whitespace rules still apply.
+dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go whitespace=-blank-at-eol
+dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go whitespace=-blank-at-eol
 dev/tests/evidence/R*-frontend-*.log -whitespace
 *.png binary
 *.jpg binary

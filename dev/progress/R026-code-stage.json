@@ -5,6 +5,7 @@
   "validation_started_after_user_policy": false,
   "upstream_commit": "0ca9445b1196ebd808b7c186ceda6ca79ffe0831",
   "source_files": [
+    ".gitattributes",
     "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
     "dev/licenses/golang-jwt-v5.3.1-MIT.txt",
     "dev/planning/编号登记-v1.0.json",
@@ -80,6 +81,8 @@
     "dev/src/client/cmd/p11-buyer/main.go",
     "dev/src/client/cmd/p11-node/comfy.go",
     "dev/src/client/cmd/p11-node/comfy_test.go",
+    "dev/src/client/cmd/p11-node/crypto.go",
+    "dev/src/client/cmd/p11-node/crypto_test.go",
     "dev/src/client/cmd/p11-node/main.go",
     "dev/src/client/cmd/p11-node/provider_test.go",
     "dev/src/client/comfyenv/README.md",
@@ -95,6 +98,21 @@
     "dev/src/client/comfyenv/use.go",
     "dev/src/client/comfyenv/use_join_test.go",
     "dev/src/client/comfyenv/use_test.go",
+    "dev/src/client/crypto-gateway/README.md",
+    "dev/src/client/crypto-gateway/dependencies.lock.json",
+    "dev/src/client/crypto-gateway/endpoint/public.go",
+    "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
+    "dev/src/client/crypto-gateway/endpoint/trust.go",
+    "dev/src/client/crypto-gateway/endpoint/vault.go",
+    "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+    "dev/src/client/crypto-gateway/sodium/UPSTREAM-LICENSE",
+    "dev/src/client/crypto-gateway/sodium/api.go",
+    "dev/src/client/crypto-gateway/sodium/disabled.go",
+    "dev/src/client/crypto-gateway/sodium/disabled_test.go",
+    "dev/src/client/crypto-gateway/sodium/native.go",
+    "dev/src/client/crypto-gateway/transfer.go",
+    "dev/src/client/crypto-gateway/transfer_native_test.go",
+    "dev/src/client/crypto-gateway/transfer_test.go",
     "dev/src/client/execution/README.md",
     "dev/src/client/execution/command.go",
     "dev/src/client/execution/command_renewal_test.go",
@@ -144,6 +162,8 @@
     "dev/src/client/mediaworkspace/owner.go",
     "dev/src/client/mediaworkspace/owner_test.go",
     "dev/src/client/node/control.go",
+    "dev/src/client/node/crypto_keys.go",
+    "dev/src/client/node/crypto_keys_test.go",
     "dev/src/client/node/host_agent.go",
     "dev/src/client/node/host_commands.go",
     "dev/src/client/node/host_completion.go",
@@ -177,6 +197,14 @@
     "dev/src/client/node/rental_session.go",
     "dev/src/client/node/rental_session_test.go",
     "dev/src/client/node/store.go",
+    "dev/src/client/protocol/cipherstream/manifest.go",
+    "dev/src/client/protocol/cipherstream/native_test.go",
+    "dev/src/client/protocol/cipherstream/opaque.go",
+    "dev/src/client/protocol/cipherstream/reader.go",
+    "dev/src/client/protocol/cipherstream/records.go",
+    "dev/src/client/protocol/cipherstream/records_test.go",
+    "dev/src/client/protocol/cipherstream/types.go",
+    "dev/src/client/protocol/cipherstream/writer.go",
     "dev/src/client/protocol/devicecontrol/completion.go",
     "dev/src/client/protocol/devicecontrol/rental.go",
     "dev/src/client/protocol/devicecontrol/reports_test.go",
@@ -340,6 +368,8 @@
     "dev/src/miniapp/src/components/refund.tsx",
     "dev/src/miniapp/src/pages/order/index.tsx",
     "dev/src/scheduler/cmd/p11-payment-worker/main.go",
+    "dev/src/shared/canonicaljson/canonical.go",
+    "dev/src/shared/canonicaljson/canonical_test.go",
     "dev/src/shared/contractspec/spec.go",
     "dev/src/shared/resultwire/content.go",
     "dev/src/shared/resultwire/content_test.go",
@@ -358,11 +388,17 @@
     "dev/src/tests/integration/rental_test.go",
     "dev/src/tests/integration/result_content_test.go",
     "dev/src/tests/integration/sdk_native_text_test.go",
+    "dev/src/thirdparty/jsoncanonicalizer/APACHE-2.0.txt",
+    "dev/src/thirdparty/jsoncanonicalizer/LICENSE",
+    "dev/src/thirdparty/jsoncanonicalizer/README.md",
+    "dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go",
+    "dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go",
     "dev/src/web/src/completion.tsx",
     "dev/src/web/src/main.tsx",
     "dev/src/web/src/payment.tsx",
     "dev/src/web/src/refund.tsx",
     "dev/tools/frontend/browser.mjs",
+    "dev/tools/准备原生密码依赖.py",
     "dev/tools/整理R026Comfy媒体源码.py",
     "dev/tools/整理R026Comfy宿主源码.py",
     "dev/tools/整理R026交付计量账务源码.py",
@@ -378,10 +414,13 @@
     "dev/tools/整理R026支付宿主源码.py",
     "dev/tools/整理R026支付边界源码.py",
     "dev/tools/整理R026标准SDK源码.py",
+    "dev/tools/整理R026端点密文流源码.py",
     "dev/tools/整理R026资金准入源码.py",
     "dev/tools/整理R026退款事务源码.py",
     "dev/tools/补充Comfy进度源码审阅.py",
     "dev/开发轮次执行规则.md",
+    "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
+    "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
     "docs/技术开发/contracts/native-provider-source-v1.json",
     "docs/技术开发/contracts/native-sdk-source-v1.json",
     "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
@@ -412,6 +451,7 @@
     "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
     "docs/技术开发/附录-标准SDK原订单文本入口源码.md",
     "docs/技术开发/附录-租内媒体工作区与结果托管源码.md",
+    "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md",
     "docs/技术开发/附录-退款申请独立审核与双端售后源码.md",
     "docs/白皮书/contracts/openapi-control-v3.0.json",
     "scripts/技术开发数据.py",
@@ -1022,6 +1062,41 @@
       "id": "IMP-R026-121",
       "title": "PD测试定义与完整双语登记",
       "status": "PD041—045：生产链/网络未知/续期/清理/配置等源码定义及约束文档同步；全56/222仍未收口"
+    },
+    {
+      "id": "IMP-R026-122",
+      "title": "固定原生密码与JCS依赖源码",
+      "status": "KE001—008：版本/提交/归档摘要、静态CGO FFI、无库失败关闭、JCS严格包装和原许可证；未构建/执行"
+    },
+    {
+      "id": "IMP-R026-123",
+      "title": "原安装密钥库与元数据入口源码",
+      "status": "KE009—017：原OS根/锁、AEAD日志/anchor、用途独立和八命令；无明文或私钥导出"
+    },
+    {
+      "id": "IMP-R026-124",
+      "title": "独立信任与原轮换恢复源码",
+      "status": "KE018—025：OUT_OF_BAND pin、旧签新/同回执恢复、历史原用途/撤销取消/关闭join；未验证"
+    },
+    {
+      "id": "IMP-R026-125",
+      "title": "签名二进制密文与完整结束源码",
+      "status": "KE026—038：C/sealed/H/AAD、严格记录、END FINAL、仅密文摘要清单和无钥结构检查；非业务授权"
+    },
+    {
+      "id": "IMP-R026-126",
+      "title": "原双方密钥与输入认证屏障源码",
+      "status": "KE039—044：精确Binding、输入完整认证/同库预检、结果认证前缀及传输期限；执行与平台接线仍待"
+    },
+    {
+      "id": "IMP-R026-127",
+      "title": "独立结构契约与原生依赖工具源码",
+      "status": "KE045—047：独立未发布Schema、受限缓存/归档物化、build阶段门槛；工具未调用/无迁移"
+    },
+    {
+      "id": "IMP-R026-128",
+      "title": "KE测试定义与双语完整待办登记",
+      "status": "KE048—050：源码定义/限制/恢复及全56/222保留；未编译/运行，不作整轮完成"
     }
   ],
   "tasks": [
@@ -4623,7 +4698,7 @@
     },
     {
       "id": "DEV-29",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-29.01",
@@ -4631,11 +4706,58 @@
         "DEV-29.03",
         "DEV-29.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "endpoint_cipher_source_limit": "KE补入固定libsodium/JCS原字节依赖、原OS秘密根/单写者AEAD密钥库、分用途钥与八项元数据CLI、独立首次pin/原轮换回执恢复/撤销及实际join、签名BINARY_STREAM_1与加密END/外层清单/无钥结构检查、原双方用途组合/完整输入屏障/同库文本预检及独立传输期限源码。平台E2E授权/盲转持久化与原密文补传、本机SDK/实际Host私有执行/LOCAL_SEGMENTED_1、Android JNI/媒体/有界重排、原签收/独立计量和真实资格尚未形成完整通路；不得宣称可用或合格E2E。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变；新增独立未发布envelope Schema，无SQL。全56/222保持待收口；源码测试未编译/运行，依赖工具未调用，新媒体未录。先完整生产接线和测试源码，再集中验证；本次不是开发轮完成。",
+      "current_source_refs": [
+        ".gitattributes",
+        "dev/src/client/cmd/p11-node/crypto.go",
+        "dev/src/client/cmd/p11-node/crypto_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/crypto-gateway/README.md",
+        "dev/src/client/crypto-gateway/dependencies.lock.json",
+        "dev/src/client/crypto-gateway/endpoint/public.go",
+        "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
+        "dev/src/client/crypto-gateway/endpoint/trust.go",
+        "dev/src/client/crypto-gateway/endpoint/vault.go",
+        "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "dev/src/client/crypto-gateway/sodium/UPSTREAM-LICENSE",
+        "dev/src/client/crypto-gateway/sodium/api.go",
+        "dev/src/client/crypto-gateway/sodium/disabled.go",
+        "dev/src/client/crypto-gateway/sodium/disabled_test.go",
+        "dev/src/client/crypto-gateway/sodium/native.go",
+        "dev/src/client/crypto-gateway/transfer.go",
+        "dev/src/client/crypto-gateway/transfer_native_test.go",
+        "dev/src/client/crypto-gateway/transfer_test.go",
+        "dev/src/client/node/crypto_keys.go",
+        "dev/src/client/node/crypto_keys_test.go",
+        "dev/src/client/node/store.go",
+        "dev/src/client/protocol/cipherstream/manifest.go",
+        "dev/src/client/protocol/cipherstream/native_test.go",
+        "dev/src/client/protocol/cipherstream/opaque.go",
+        "dev/src/client/protocol/cipherstream/reader.go",
+        "dev/src/client/protocol/cipherstream/records.go",
+        "dev/src/client/protocol/cipherstream/records_test.go",
+        "dev/src/client/protocol/cipherstream/types.go",
+        "dev/src/client/protocol/cipherstream/writer.go",
+        "dev/src/shared/canonicaljson/canonical.go",
+        "dev/src/shared/canonicaljson/canonical_test.go",
+        "dev/src/thirdparty/jsoncanonicalizer/APACHE-2.0.txt",
+        "dev/src/thirdparty/jsoncanonicalizer/LICENSE",
+        "dev/src/thirdparty/jsoncanonicalizer/README.md",
+        "dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go",
+        "dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go",
+        "dev/tools/准备原生密码依赖.py",
+        "dev/tools/整理R026端点密文流源码.py",
+        "dev/开发轮次执行规则.md",
+        "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
+        "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+        "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-30",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-30.01",
@@ -4643,11 +4765,58 @@
         "DEV-30.03",
         "DEV-30.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "endpoint_cipher_source_limit": "KE补入固定libsodium/JCS原字节依赖、原OS秘密根/单写者AEAD密钥库、分用途钥与八项元数据CLI、独立首次pin/原轮换回执恢复/撤销及实际join、签名BINARY_STREAM_1与加密END/外层清单/无钥结构检查、原双方用途组合/完整输入屏障/同库文本预检及独立传输期限源码。平台E2E授权/盲转持久化与原密文补传、本机SDK/实际Host私有执行/LOCAL_SEGMENTED_1、Android JNI/媒体/有界重排、原签收/独立计量和真实资格尚未形成完整通路；不得宣称可用或合格E2E。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变；新增独立未发布envelope Schema，无SQL。全56/222保持待收口；源码测试未编译/运行，依赖工具未调用，新媒体未录。先完整生产接线和测试源码，再集中验证；本次不是开发轮完成。",
+      "current_source_refs": [
+        ".gitattributes",
+        "dev/src/client/cmd/p11-node/crypto.go",
+        "dev/src/client/cmd/p11-node/crypto_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/crypto-gateway/README.md",
+        "dev/src/client/crypto-gateway/dependencies.lock.json",
+        "dev/src/client/crypto-gateway/endpoint/public.go",
+        "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
+        "dev/src/client/crypto-gateway/endpoint/trust.go",
+        "dev/src/client/crypto-gateway/endpoint/vault.go",
+        "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "dev/src/client/crypto-gateway/sodium/UPSTREAM-LICENSE",
+        "dev/src/client/crypto-gateway/sodium/api.go",
+        "dev/src/client/crypto-gateway/sodium/disabled.go",
+        "dev/src/client/crypto-gateway/sodium/disabled_test.go",
+        "dev/src/client/crypto-gateway/sodium/native.go",
+        "dev/src/client/crypto-gateway/transfer.go",
+        "dev/src/client/crypto-gateway/transfer_native_test.go",
+        "dev/src/client/crypto-gateway/transfer_test.go",
+        "dev/src/client/node/crypto_keys.go",
+        "dev/src/client/node/crypto_keys_test.go",
+        "dev/src/client/node/store.go",
+        "dev/src/client/protocol/cipherstream/manifest.go",
+        "dev/src/client/protocol/cipherstream/native_test.go",
+        "dev/src/client/protocol/cipherstream/opaque.go",
+        "dev/src/client/protocol/cipherstream/reader.go",
+        "dev/src/client/protocol/cipherstream/records.go",
+        "dev/src/client/protocol/cipherstream/records_test.go",
+        "dev/src/client/protocol/cipherstream/types.go",
+        "dev/src/client/protocol/cipherstream/writer.go",
+        "dev/src/shared/canonicaljson/canonical.go",
+        "dev/src/shared/canonicaljson/canonical_test.go",
+        "dev/src/thirdparty/jsoncanonicalizer/APACHE-2.0.txt",
+        "dev/src/thirdparty/jsoncanonicalizer/LICENSE",
+        "dev/src/thirdparty/jsoncanonicalizer/README.md",
+        "dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go",
+        "dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go",
+        "dev/tools/准备原生密码依赖.py",
+        "dev/tools/整理R026端点密文流源码.py",
+        "dev/开发轮次执行规则.md",
+        "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
+        "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+        "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-31",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-31.01",
@@ -4655,7 +4824,54 @@
         "DEV-31.03",
         "DEV-31.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "endpoint_cipher_source_limit": "KE补入固定libsodium/JCS原字节依赖、原OS秘密根/单写者AEAD密钥库、分用途钥与八项元数据CLI、独立首次pin/原轮换回执恢复/撤销及实际join、签名BINARY_STREAM_1与加密END/外层清单/无钥结构检查、原双方用途组合/完整输入屏障/同库文本预检及独立传输期限源码。平台E2E授权/盲转持久化与原密文补传、本机SDK/实际Host私有执行/LOCAL_SEGMENTED_1、Android JNI/媒体/有界重排、原签收/独立计量和真实资格尚未形成完整通路；不得宣称可用或合格E2E。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变；新增独立未发布envelope Schema，无SQL。全56/222保持待收口；源码测试未编译/运行，依赖工具未调用，新媒体未录。先完整生产接线和测试源码，再集中验证；本次不是开发轮完成。",
+      "current_source_refs": [
+        ".gitattributes",
+        "dev/src/client/cmd/p11-node/crypto.go",
+        "dev/src/client/cmd/p11-node/crypto_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/crypto-gateway/README.md",
+        "dev/src/client/crypto-gateway/dependencies.lock.json",
+        "dev/src/client/crypto-gateway/endpoint/public.go",
+        "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
+        "dev/src/client/crypto-gateway/endpoint/trust.go",
+        "dev/src/client/crypto-gateway/endpoint/vault.go",
+        "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "dev/src/client/crypto-gateway/sodium/UPSTREAM-LICENSE",
+        "dev/src/client/crypto-gateway/sodium/api.go",
+        "dev/src/client/crypto-gateway/sodium/disabled.go",
+        "dev/src/client/crypto-gateway/sodium/disabled_test.go",
+        "dev/src/client/crypto-gateway/sodium/native.go",
+        "dev/src/client/crypto-gateway/transfer.go",
+        "dev/src/client/crypto-gateway/transfer_native_test.go",
+        "dev/src/client/crypto-gateway/transfer_test.go",
+        "dev/src/client/node/crypto_keys.go",
+        "dev/src/client/node/crypto_keys_test.go",
+        "dev/src/client/node/store.go",
+        "dev/src/client/protocol/cipherstream/manifest.go",
+        "dev/src/client/protocol/cipherstream/native_test.go",
+        "dev/src/client/protocol/cipherstream/opaque.go",
+        "dev/src/client/protocol/cipherstream/reader.go",
+        "dev/src/client/protocol/cipherstream/records.go",
+        "dev/src/client/protocol/cipherstream/records_test.go",
+        "dev/src/client/protocol/cipherstream/types.go",
+        "dev/src/client/protocol/cipherstream/writer.go",
+        "dev/src/shared/canonicaljson/canonical.go",
+        "dev/src/shared/canonicaljson/canonical_test.go",
+        "dev/src/thirdparty/jsoncanonicalizer/APACHE-2.0.txt",
+        "dev/src/thirdparty/jsoncanonicalizer/LICENSE",
+        "dev/src/thirdparty/jsoncanonicalizer/README.md",
+        "dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go",
+        "dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go",
+        "dev/tools/准备原生密码依赖.py",
+        "dev/tools/整理R026端点密文流源码.py",
+        "dev/开发轮次执行规则.md",
+        "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
+        "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+        "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-32",
@@ -12936,6 +13152,288 @@
       "PD-T029",
       "PD-T030",
       "PD-T031"
+    ],
+    "status": "SOURCE_ONLY_NOT_EXECUTED"
+  },
+  "endpoint_cipher_source_integration": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "requirements": "KE001—050",
+    "annex": "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md",
+    "source_contract": "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+    "independent_envelope_schema": "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
+    "metadata_cli_and_signed_cipher_libraries_source_wired": true,
+    "platform_e2e_authorization_relay_sdk_worker_jni_complete": false,
+    "compiled_or_executed": false,
+    "native_dependency_tool_executed": false,
+    "sql_changed_or_migrated": false,
+    "new_media_captured": false,
+    "full_development_round_complete": false,
+    "test_definition_count": 31,
+    "control_http_operations": 75,
+    "native_sdk_data_plane_operations": 3,
+    "planned_control_operations": 115,
+    "registered_control_schemas": 150,
+    "platform_tables": 84,
+    "remaining": [
+      "平台E2E原上下文/授权/无钥持久化/原密文补传/背压及有界重排",
+      "本机SDK/实际Host私有执行/LOCAL_SEGMENTED_1/Android JNI/媒体",
+      "原买家receipt/可信usage/资金事务、独立信任UI与真实资格",
+      "固定库独立签名核验/native构建/跨端向量/LP/PE/性能实测",
+      "完整56/222其他生产接线和测试源码后集中验证；DEV55延后/DEV32无证明关闭"
+    ]
+  },
+  "endpoint_cipher_test_definitions": {
+    "tests": [
+      {
+        "id": "KE-T001",
+        "name": "TestEndpointCLIRejectsUnknownActionsAndSecretFlagsWithoutEcho",
+        "source": "dev/src/client/cmd/p11-node/crypto_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T002",
+        "name": "TestEndpointCLIStrictInputRejectsUnknownDuplicateAndOversize",
+        "source": "dev/src/client/cmd/p11-node/crypto_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T003",
+        "name": "TestEndpointLocalRotationReturnsOriginalDurableTransitionAfterLostReply",
+        "source": "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T004",
+        "name": "TestEndpointVaultRoundTripBindsOriginalMasterAndInstallation",
+        "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T005",
+        "name": "TestEndpointVaultMissingOrCorruptStateCannotRecreateKeys",
+        "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T006",
+        "name": "TestEndpointInitialTrustNeedsIndependentFingerprint",
+        "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T007",
+        "name": "TestEndpointKeyUseSeparatesIdentityContentAndBuyerReceipt",
+        "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T008",
+        "name": "TestEndpointCloseCancelsAndJoinsOwnedKeyUse",
+        "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T009",
+        "name": "TestEndpointPeerRevocationCancelsAlreadyOwnedStream",
+        "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T010",
+        "name": "TestEndpointRotationRequiresOldSignatureAndPreservesOriginalHistory",
+        "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T011",
+        "name": "TestEndpointCommitFailureClosesAllFutureKeyUses",
+        "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T012",
+        "name": "TestCipherUnavailableBuildNeverSubstitutesAnotherSuite",
+        "source": "dev/src/client/crypto-gateway/sodium/disabled_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T013",
+        "name": "TestCryptoTransferChecksOriginalKeysAndPrivateRequestBeforeConsumer",
+        "source": "dev/src/client/crypto-gateway/transfer_native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T014",
+        "name": "TestCryptoTransferInvalidFinalManifestExposesNoInputPrefix",
+        "source": "dev/src/client/crypto-gateway/transfer_native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T015",
+        "name": "TestCryptoTransferPreflightAndPeerOwnershipRejectBeforeCipherOutput",
+        "source": "dev/src/client/crypto-gateway/transfer_native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T016",
+        "name": "TestCryptoTransferBoundsPrecedeInputAllocation",
+        "source": "dev/src/client/crypto-gateway/transfer_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T017",
+        "name": "TestCryptoTransferUsesTransportDeadlineAndOriginalParentCancellation",
+        "source": "dev/src/client/crypto-gateway/transfer_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T018",
+        "name": "TestEndpointNodeAnchorSurvivesReopenAndMissingJournalCannotReinitialize",
+        "source": "dev/src/client/node/crypto_keys_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T019",
+        "name": "TestEndpointNodeRejectsForeignSellerBeforeCipherInitialization",
+        "source": "dev/src/client/node/crypto_keys_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T020",
+        "name": "TestCipherNativeRoundTripAndBlindManifestContainNoPlaintextHash",
+        "source": "dev/src/client/protocol/cipherstream/native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T021",
+        "name": "TestCipherNativeRejectsOtherIdentityRecipientAndOriginalAttempt",
+        "source": "dev/src/client/protocol/cipherstream/native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T022",
+        "name": "TestCipherNativeTruncationAppendAndTamperingNeverComplete",
+        "source": "dev/src/client/protocol/cipherstream/native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T023",
+        "name": "TestCipherNativeChecksSequenceAndDeclaredLengthBeforeAllocation",
+        "source": "dev/src/client/protocol/cipherstream/native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T024",
+        "name": "TestCipherNativeBlindScanDoesNotProveEncryptedEND",
+        "source": "dev/src/client/protocol/cipherstream/native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T025",
+        "name": "TestCipherNativeFailedSinkCannotResumePushOrCreateManifest",
+        "source": "dev/src/client/protocol/cipherstream/native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T026",
+        "name": "TestCipherNativeHeaderSignatureCoversSealedMaterialAndMode",
+        "source": "dev/src/client/protocol/cipherstream/native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T027",
+        "name": "TestCipherRecordOrderAndUsageCannotClaimTrustedMetering",
+        "source": "dev/src/client/protocol/cipherstream/records_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T028",
+        "name": "TestCipherRecordFinalTagMustBeTheBusinessEND",
+        "source": "dev/src/client/protocol/cipherstream/records_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T029",
+        "name": "TestCanonicalUsesRFC8785NumbersAndUTF16Ordering",
+        "source": "dev/src/shared/canonicaljson/canonical_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T030",
+        "name": "TestCanonicalRejectsAmbiguousUnicodeKeysAndExcessiveDepth",
+        "source": "dev/src/shared/canonicaljson/canonical_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "KE-T031",
+        "name": "TestCanonicalExactRejectsAliasesAndNonCanonicalWireBytes",
+        "source": "dev/src/shared/canonicaljson/canonical_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      }
+    ],
+    "ids": [
+      "KE-T001",
+      "KE-T002",
+      "KE-T003",
+      "KE-T004",
+      "KE-T005",
+      "KE-T006",
+      "KE-T007",
+      "KE-T008",
+      "KE-T009",
+      "KE-T010",
+      "KE-T011",
+      "KE-T012",
+      "KE-T013",
+      "KE-T014",
+      "KE-T015",
+      "KE-T016",
+      "KE-T017",
+      "KE-T018",
+      "KE-T019",
+      "KE-T020",
+      "KE-T021",
+      "KE-T022",
+      "KE-T023",
+      "KE-T024",
+      "KE-T025",
+      "KE-T026",
+      "KE-T027",
+      "KE-T028",
+      "KE-T029",
+      "KE-T030",
+      "KE-T031"
     ],
     "status": "SOURCE_ONLY_NOT_EXECUTED"
   }

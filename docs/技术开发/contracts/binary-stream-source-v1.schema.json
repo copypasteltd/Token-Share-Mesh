@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:p11:source:binary-stream-envelope:1",
+  "title": "Unpublished BINARY_STREAM_1 signed envelope structure",
+  "$comment": "SOURCE_ONLY. Not a binary channel negotiation or complete semantic/cryptographic/business validator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "context",
+    "sealed_key",
+    "sealed_key_sha256",
+    "signature_profile_id",
+    "signature"
+  ],
+  "properties": {
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "const": "BINARY_STREAM_1"
+        },
+        "suite_id": {
+          "const": "P11_SODIUM_1_0_22_SEAL_SECRETSTREAM_ED25519_JCS_1"
+        },
+        "canonicalization_id": {
+          "const": "RFC8785_JCS_1"
+        },
+        "contract_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "order_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "job_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "fencing_token": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "maxLength": 19
+        },
+        "seller_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "buyer_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "seller_endpoint_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "buyer_endpoint_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "buyer_result_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "buyer_result_key_fingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sender_endpoint_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "sender_signing_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "receiver_endpoint_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "receiver_encryption_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "receiver_key_fingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "kernel_environment_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "local_policy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "service_mode": {
+          "const": "E2E"
+        },
+        "privacy_profile": {
+          "const": "PLATFORM_BLIND"
+        },
+        "api_profile_id": {
+          "enum": [
+            "P11_CHAT_TEXT_NATIVE_1",
+            "P11_RESPONSES_TEXT_NATIVE_1",
+            "P11_MESSAGES_TEXT_NATIVE_1"
+          ]
+        },
+        "direction": {
+          "enum": [
+            "BUYER_TO_SELLER",
+            "SELLER_TO_BUYER"
+          ]
+        },
+        "purpose": {
+          "enum": [
+            "INPUT",
+            "OUTPUT",
+            "CONTROL"
+          ]
+        },
+        "object_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "epoch": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "maxLength": 20
+        },
+        "deadline": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40,
+          "pattern": "Z$"
+        },
+        "original_hard_deadline": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40,
+          "pattern": "Z$"
+        },
+        "delivery_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$"
+        },
+        "delivery_revision": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "maxLength": 19
+        },
+        "stream_header": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{32}$"
+        }
+      },
+      "required": [
+        "profile_id",
+        "suite_id",
+        "canonicalization_id",
+        "contract_hash",
+        "order_id",
+        "job_id",
+        "attempt_id",
+        "fencing_token",
+        "seller_id",
+        "buyer_id",
+        "seller_endpoint_id",
+        "buyer_endpoint_id",
+        "buyer_result_key_id",
+        "buyer_result_key_fingerprint",
+        "sender_endpoint_id",
+        "sender_signing_key_id",
+        "receiver_endpoint_id",
+        "receiver_encryption_key_id",
+        "receiver_key_fingerprint",
+        "kernel_environment_digest",
+        "local_policy_id",
+        "service_mode",
+        "privacy_profile",
+        "api_profile_id",
+        "direction",
+        "purpose",
+        "object_id",
+        "stream_id",
+        "epoch",
+        "deadline",
+        "original_hard_deadline",
+        "stream_header"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "purpose": {
+                "const": "OUTPUT"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "delivery_id",
+              "delivery_revision"
+            ],
+            "properties": {
+              "direction": {
+                "const": "SELLER_TO_BUYER"
+              }
+            }
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "delivery_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "delivery_revision"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "purpose": {
+                "const": "INPUT"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "direction": {
+                "const": "BUYER_TO_SELLER"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "sealed_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "minLength": 66,
+      "maxLength": 5462
+    },
+    "sealed_key_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "signature_profile_id": {
+      "const": "ED25519_JCS_1"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  }
+}

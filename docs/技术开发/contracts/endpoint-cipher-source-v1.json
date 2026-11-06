@@ -1,0 +1,347 @@
+{
+  "profile_id": "P11_ENDPOINT_CIPHER_SOURCE_1",
+  "requirements": "KE-001—050",
+  "authority": "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md",
+  "status": "SOURCE_ONLY_UNVERIFIED",
+  "compiled_or_executed": false,
+  "activation": false,
+  "development_policy": "dev/开发轮次执行规则.md",
+  "source_refs": [
+    ".gitattributes",
+    "dev/src/client/cmd/p11-node/crypto.go",
+    "dev/src/client/cmd/p11-node/crypto_test.go",
+    "dev/src/client/cmd/p11-node/main.go",
+    "dev/src/client/crypto-gateway/README.md",
+    "dev/src/client/crypto-gateway/dependencies.lock.json",
+    "dev/src/client/crypto-gateway/endpoint/public.go",
+    "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
+    "dev/src/client/crypto-gateway/endpoint/trust.go",
+    "dev/src/client/crypto-gateway/endpoint/vault.go",
+    "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+    "dev/src/client/crypto-gateway/sodium/UPSTREAM-LICENSE",
+    "dev/src/client/crypto-gateway/sodium/api.go",
+    "dev/src/client/crypto-gateway/sodium/disabled.go",
+    "dev/src/client/crypto-gateway/sodium/disabled_test.go",
+    "dev/src/client/crypto-gateway/sodium/native.go",
+    "dev/src/client/crypto-gateway/transfer.go",
+    "dev/src/client/crypto-gateway/transfer_native_test.go",
+    "dev/src/client/crypto-gateway/transfer_test.go",
+    "dev/src/client/node/crypto_keys.go",
+    "dev/src/client/node/crypto_keys_test.go",
+    "dev/src/client/node/store.go",
+    "dev/src/client/protocol/cipherstream/manifest.go",
+    "dev/src/client/protocol/cipherstream/native_test.go",
+    "dev/src/client/protocol/cipherstream/opaque.go",
+    "dev/src/client/protocol/cipherstream/reader.go",
+    "dev/src/client/protocol/cipherstream/records.go",
+    "dev/src/client/protocol/cipherstream/records_test.go",
+    "dev/src/client/protocol/cipherstream/types.go",
+    "dev/src/client/protocol/cipherstream/writer.go",
+    "dev/src/shared/canonicaljson/canonical.go",
+    "dev/src/shared/canonicaljson/canonical_test.go",
+    "dev/src/thirdparty/jsoncanonicalizer/APACHE-2.0.txt",
+    "dev/src/thirdparty/jsoncanonicalizer/LICENSE",
+    "dev/src/thirdparty/jsoncanonicalizer/README.md",
+    "dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go",
+    "dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go",
+    "dev/tools/准备原生密码依赖.py",
+    "dev/tools/整理R026端点密文流源码.py",
+    "dev/开发轮次执行规则.md",
+    "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
+    "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+    "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md"
+  ],
+  "independent_envelope_schema": "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
+  "suite_id": "P11_SODIUM_1_0_22_SEAL_SECRETSTREAM_ED25519_JCS_1",
+  "canonicalization_id": "RFC8785_JCS_1",
+  "scope": {
+    "platform_blind_only": true,
+    "enhanced_qualified": false,
+    "metadata_cli_wired": true,
+    "platform_e2e_authorization_relay_sdk_worker_jni_complete": false,
+    "text_profile_ids": [
+      "P11_CHAT_TEXT_NATIVE_1",
+      "P11_RESPONSES_TEXT_NATIVE_1",
+      "P11_MESSAGES_TEXT_NATIVE_1"
+    ],
+    "media_profiles_or_reorder_or_segmented_cache_complete": false
+  },
+  "keys": {
+    "original_os_master_and_single_writer": true,
+    "anchor_before_journal": true,
+    "aead": "AES_256_GCM",
+    "separate_content_identity_buyer_receipt": true,
+    "initial_trust": "INDEPENDENT_OUT_OF_BAND",
+    "lost_state_reinitialized": false,
+    "original_rotation_receipt_recovered": true,
+    "revocation_cancels_owned_uses": true,
+    "close_joins_owned_uses": true,
+    "static_receiving_keys_full_forward_secrecy": false
+  },
+  "wire": {
+    "profile_id": "BINARY_STREAM_1",
+    "old_json_channel_changed": false,
+    "resource_generation_or_future_delivery_in_input": false,
+    "signed_header_before_unseal": true,
+    "record_aad": [
+      "unsigned_header_domain_hash",
+      "body_length_u32be",
+      "sequence_u64be"
+    ],
+    "encrypted_end_is_tag_final": true,
+    "plaintext_digest_public": false,
+    "finish_requires_final_manifest_hash_length_and_eof": true,
+    "opaque_inspection_proves_private_aead_or_end": false,
+    "input_complete_and_preflight_before_consumer": true,
+    "authenticated_output_prefix_is_acceptance_or_trusted_usage": false
+  },
+  "budgets_not_measurements": {
+    "header_bytes": 16384,
+    "inner_record_bytes": 65536,
+    "payload_bytes": 65528,
+    "record_body_bytes": 65561,
+    "record_wire_bytes": 65565,
+    "records": 131072,
+    "input_data_bytes": 2097152,
+    "output_data_bytes": 67108864,
+    "cipher_object_bytes": 69206016,
+    "local_key_versions": 32,
+    "peer_key_versions": 128,
+    "key_journal_bytes": 262144,
+    "active_key_uses": 2,
+    "metadata_stdin_bytes": 16384,
+    "key_validity_days": 90,
+    "output_transport_after_compute_maximum_seconds": 1800
+  },
+  "test_definitions": [
+    {
+      "id": "KE-T001",
+      "name": "TestEndpointCLIRejectsUnknownActionsAndSecretFlagsWithoutEcho",
+      "source": "dev/src/client/cmd/p11-node/crypto_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T002",
+      "name": "TestEndpointCLIStrictInputRejectsUnknownDuplicateAndOversize",
+      "source": "dev/src/client/cmd/p11-node/crypto_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T003",
+      "name": "TestEndpointLocalRotationReturnsOriginalDurableTransitionAfterLostReply",
+      "source": "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T004",
+      "name": "TestEndpointVaultRoundTripBindsOriginalMasterAndInstallation",
+      "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T005",
+      "name": "TestEndpointVaultMissingOrCorruptStateCannotRecreateKeys",
+      "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T006",
+      "name": "TestEndpointInitialTrustNeedsIndependentFingerprint",
+      "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T007",
+      "name": "TestEndpointKeyUseSeparatesIdentityContentAndBuyerReceipt",
+      "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T008",
+      "name": "TestEndpointCloseCancelsAndJoinsOwnedKeyUse",
+      "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T009",
+      "name": "TestEndpointPeerRevocationCancelsAlreadyOwnedStream",
+      "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T010",
+      "name": "TestEndpointRotationRequiresOldSignatureAndPreservesOriginalHistory",
+      "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T011",
+      "name": "TestEndpointCommitFailureClosesAllFutureKeyUses",
+      "source": "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T012",
+      "name": "TestCipherUnavailableBuildNeverSubstitutesAnotherSuite",
+      "source": "dev/src/client/crypto-gateway/sodium/disabled_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T013",
+      "name": "TestCryptoTransferChecksOriginalKeysAndPrivateRequestBeforeConsumer",
+      "source": "dev/src/client/crypto-gateway/transfer_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T014",
+      "name": "TestCryptoTransferInvalidFinalManifestExposesNoInputPrefix",
+      "source": "dev/src/client/crypto-gateway/transfer_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T015",
+      "name": "TestCryptoTransferPreflightAndPeerOwnershipRejectBeforeCipherOutput",
+      "source": "dev/src/client/crypto-gateway/transfer_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T016",
+      "name": "TestCryptoTransferBoundsPrecedeInputAllocation",
+      "source": "dev/src/client/crypto-gateway/transfer_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T017",
+      "name": "TestCryptoTransferUsesTransportDeadlineAndOriginalParentCancellation",
+      "source": "dev/src/client/crypto-gateway/transfer_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T018",
+      "name": "TestEndpointNodeAnchorSurvivesReopenAndMissingJournalCannotReinitialize",
+      "source": "dev/src/client/node/crypto_keys_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T019",
+      "name": "TestEndpointNodeRejectsForeignSellerBeforeCipherInitialization",
+      "source": "dev/src/client/node/crypto_keys_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T020",
+      "name": "TestCipherNativeRoundTripAndBlindManifestContainNoPlaintextHash",
+      "source": "dev/src/client/protocol/cipherstream/native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T021",
+      "name": "TestCipherNativeRejectsOtherIdentityRecipientAndOriginalAttempt",
+      "source": "dev/src/client/protocol/cipherstream/native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T022",
+      "name": "TestCipherNativeTruncationAppendAndTamperingNeverComplete",
+      "source": "dev/src/client/protocol/cipherstream/native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T023",
+      "name": "TestCipherNativeChecksSequenceAndDeclaredLengthBeforeAllocation",
+      "source": "dev/src/client/protocol/cipherstream/native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T024",
+      "name": "TestCipherNativeBlindScanDoesNotProveEncryptedEND",
+      "source": "dev/src/client/protocol/cipherstream/native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T025",
+      "name": "TestCipherNativeFailedSinkCannotResumePushOrCreateManifest",
+      "source": "dev/src/client/protocol/cipherstream/native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T026",
+      "name": "TestCipherNativeHeaderSignatureCoversSealedMaterialAndMode",
+      "source": "dev/src/client/protocol/cipherstream/native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T027",
+      "name": "TestCipherRecordOrderAndUsageCannotClaimTrustedMetering",
+      "source": "dev/src/client/protocol/cipherstream/records_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T028",
+      "name": "TestCipherRecordFinalTagMustBeTheBusinessEND",
+      "source": "dev/src/client/protocol/cipherstream/records_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T029",
+      "name": "TestCanonicalUsesRFC8785NumbersAndUTF16Ordering",
+      "source": "dev/src/shared/canonicaljson/canonical_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T030",
+      "name": "TestCanonicalRejectsAmbiguousUnicodeKeysAndExcessiveDepth",
+      "source": "dev/src/shared/canonicaljson/canonical_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "KE-T031",
+      "name": "TestCanonicalExactRejectsAliasesAndNonCanonicalWireBytes",
+      "source": "dev/src/shared/canonicaljson/canonical_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    }
+  ],
+  "test_definition_count": 31,
+  "native_dependency_tool_executed": false,
+  "control_http_operations": 75,
+  "planned_control_operations": 115,
+  "registered_control_schemas": 150,
+  "platform_tables": 84,
+  "native_sdk_data_plane_operations": 3,
+  "sql_changed_or_migrated": false,
+  "full_scope_tasks": 56,
+  "full_scope_steps": 222,
+  "full_development_round_complete": false,
+  "test_admission": "DENIED_UNTIL_ALL_IN_SCOPE_CODE_COMPLETE"
+}

@@ -147,6 +147,18 @@
     "sql_changed_or_migrated": false,
     "compiled_or_executed": false
   },
+  "endpoint_cipher_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md",
+    "source_contract": "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+    "independent_envelope_schema": "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
+    "original_endpoint_metadata_cli_and_signed_cipher_libraries_source_wired": true,
+    "platform_e2e_authorization_relay_sdk_worker_jni_complete": false,
+    "input_complete_authentication_and_preflight_before_consumer": true,
+    "sql_changed_or_migrated": false,
+    "native_dependency_tool_executed": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",
