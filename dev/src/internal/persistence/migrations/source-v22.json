@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
+  "source_sha256": "a3dcef7ef69b3943a052072651b06bac211e197ac35f8e406f32cb3eefacd812",
+  "migration": "022_account_endpoint_directory.sql",
+  "migration_sha256": "a3dcef7ef69b3943a052072651b06bac211e197ac35f8e406f32cb3eefacd812",
+  "policy": "022 account/device public endpoint directory only; SOURCE_ONLY, unapplied"
+}

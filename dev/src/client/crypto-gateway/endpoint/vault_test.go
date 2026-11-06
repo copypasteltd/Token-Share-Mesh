@@ -73,7 +73,7 @@ func resignSynthetic(t *testing.T, k *localKey) {
 	t.Helper()
 	priv := ed25519.NewKeyFromSeed(k.IdentitySeed)
 	defer clear(priv)
-	msg, e := k.Bundle.message()
+	msg, e := k.Bundle.SigningMessage()
 	if e != nil {
 		t.Fatal(e)
 	}
@@ -268,7 +268,7 @@ func TestEndpointRotationRequiresOldSignatureAndPreservesOriginalHistory(t *test
 		t.Fatal("initial pin failed")
 	}
 	transition := Transition{Profile: "P11_ENDPOINT_ROTATION_1", Previous: old.Bundle.Hash(), Next: next.Bundle, Recorded: now.Format(time.RFC3339Nano)}
-	msg, _ := transition.message()
+	msg, _ := transition.SigningMessage()
 	priv := ed25519.NewKeyFromSeed(old.IdentitySeed)
 	transition.Signature = base64.RawURLEncoding.EncodeToString(ed25519.Sign(priv, msg))
 	clear(priv)

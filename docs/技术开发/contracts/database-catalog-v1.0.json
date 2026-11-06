@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 307,
+  "catalog_statements": 321,
   "base_table_count": 60,
   "tables": [
     {
@@ -24018,6 +24018,609 @@
           "initially_deferred": false
         }
       ]
+    },
+    {
+      "name": "endpoint_public_bundles",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
+      "columns": [
+        {
+          "name": "recipient_id",
+          "sql": "recipient_id p11.entity_id PRIMARY KEY REFERENCES p11.recipient_keys (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "recipient_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.recipient_keys (id)",
+              "columns": [
+                "recipient_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "recipient_keys",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bundle_hash",
+          "sql": "bundle_hash text NOT NULL UNIQUE CHECK (bundle_hash ~ '^[0-9a-f]{64}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "bundle_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "bundle_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (bundle_hash ~ '^[0-9a-f]{64}$')",
+              "columns": [
+                "bundle_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "owner_id",
+          "sql": "owner_id p11.entity_id NOT NULL REFERENCES p11.users (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "owner_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.users (id)",
+              "columns": [
+                "owner_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "users",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "endpoint_id",
+          "sql": "endpoint_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "endpoint_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "role",
+          "sql": "role text NOT NULL CHECK (role IN ('BUYER', 'SELLER'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "role"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (role IN ('BUYER', 'SELLER'))",
+              "columns": [
+                "role"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "version",
+          "sql": "version bigint NOT NULL CHECK (version BETWEEN 1 AND 32)",
+          "type": "bigint",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (version BETWEEN 1 AND 32)",
+              "columns": [
+                "version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "device_id",
+          "sql": "device_id p11.entity_id REFERENCES p11.devices (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.devices (id)",
+              "columns": [
+                "device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "devices",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "device_fingerprint",
+          "sql": "device_fingerprint text CHECK (device_fingerprint ~ '^[0-9a-f]{64}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (device_fingerprint ~ '^[0-9a-f]{64}$')",
+              "columns": [
+                "device_fingerprint"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "bundle_raw",
+          "sql": "bundle_raw bytea NOT NULL CHECK (octet_length(bundle_raw) BETWEEN 256 AND 8192)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "bundle_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(bundle_raw) BETWEEN 256 AND 8192)",
+              "columns": [
+                "bundle_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "state",
+          "sql": "state text NOT NULL CHECK (state IN ('ACTIVE', 'RETIRED', 'REVOKED'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (state IN ('ACTIVE', 'RETIRED', 'REVOKED'))",
+              "columns": [
+                "state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "previous_recipient_id",
+          "sql": "previous_recipient_id p11.entity_id UNIQUE",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "previous_recipient_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "previous_bundle_hash",
+          "sql": "previous_bundle_hash text",
+          "type": "text",
+          "constraints": []
+        },
+        {
+          "name": "transition_hash",
+          "sql": "transition_hash text CHECK (transition_hash ~ '^[0-9a-f]{64}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (transition_hash ~ '^[0-9a-f]{64}$')",
+              "columns": [
+                "transition_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "transition_raw",
+          "sql": "transition_raw bytea CHECK (octet_length(transition_raw) BETWEEN 256 AND 12000)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(transition_raw) BETWEEN 256 AND 12000)",
+              "columns": [
+                "transition_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "registered_at",
+          "sql": "registered_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "registered_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "revoked_at",
+          "sql": "revoked_at timestamptz",
+          "type": "timestamptz",
+          "constraints": []
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (owner_id, endpoint_id, role, version)",
+          "columns": [
+            "owner_id",
+            "endpoint_id",
+            "role",
+            "version"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (recipient_id, bundle_hash)",
+          "columns": [
+            "recipient_id",
+            "bundle_hash"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (previous_recipient_id, previous_bundle_hash) REFERENCES p11.endpoint_public_bundles (recipient_id, bundle_hash)",
+          "columns": [
+            "previous_recipient_id",
+            "previous_bundle_hash"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "endpoint_public_bundles",
+          "target_columns": [
+            "recipient_id",
+            "bundle_hash"
+          ]
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((role = 'SELLER' AND device_id IS NOT NULL AND device_id = endpoint_id AND device_fingerprint IS NOT NULL) OR (role = 'BUYER' AND device_id IS NULL AND device_fingerprint IS NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((version = 1 AND previous_recipient_id IS NULL AND previous_bundle_hash IS NULL AND transition_hash IS NULL AND transition_raw IS NULL) OR (version > 1 AND previous_recipient_id IS NOT NULL AND previous_bundle_hash IS NOT NULL AND transition_hash IS NOT NULL AND transition_raw IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((state = 'REVOKED') = (revoked_at IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (expires_at > registered_at)",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "endpoint_public_key_claims",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
+      "columns": [
+        {
+          "name": "key_id",
+          "sql": "key_id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "key_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "recipient_id",
+          "sql": "recipient_id p11.entity_id NOT NULL REFERENCES p11.endpoint_public_bundles (recipient_id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "recipient_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.endpoint_public_bundles (recipient_id)",
+              "columns": [
+                "recipient_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "endpoint_public_bundles",
+              "target_columns": [
+                "recipient_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "owner_id",
+          "sql": "owner_id p11.entity_id NOT NULL REFERENCES p11.users (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "owner_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.users (id)",
+              "columns": [
+                "owner_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "users",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "purpose",
+          "sql": "purpose text NOT NULL CHECK (purpose IN ('IDENTITY', 'CONTENT', 'RECEIPT'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "purpose"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (purpose IN ('IDENTITY', 'CONTENT', 'RECEIPT'))",
+              "columns": [
+                "purpose"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "fingerprint",
+          "sql": "fingerprint text NOT NULL UNIQUE CHECK (fingerprint ~ '^[0-9a-f]{64}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "fingerprint"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "fingerprint"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (fingerprint ~ '^[0-9a-f]{64}$')",
+              "columns": [
+                "fingerprint"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (recipient_id, purpose)",
+          "columns": [
+            "recipient_id",
+            "purpose"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -27230,6 +27833,98 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "endpoint_public_bundles",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.recipient_keys (id)",
+      "columns": [
+        "recipient_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "recipient_keys",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "endpoint_public_bundles",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.users (id)",
+      "columns": [
+        "owner_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "users",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "endpoint_public_bundles",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.devices (id)",
+      "columns": [
+        "device_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "devices",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "endpoint_public_bundles",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (previous_recipient_id, previous_bundle_hash) REFERENCES p11.endpoint_public_bundles (recipient_id, bundle_hash)",
+      "columns": [
+        "previous_recipient_id",
+        "previous_bundle_hash"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "endpoint_public_bundles",
+      "target_columns": [
+        "recipient_id",
+        "bundle_hash"
+      ]
+    },
+    {
+      "table": "endpoint_public_key_claims",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.endpoint_public_bundles (recipient_id)",
+      "columns": [
+        "recipient_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "endpoint_public_bundles",
+      "target_columns": [
+        "recipient_id"
+      ]
+    },
+    {
+      "table": "endpoint_public_key_claims",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.users (id)",
+      "columns": [
+        "owner_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "users",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -27400,6 +28095,18 @@
       "table": "native_result_read_grants",
       "unique": false,
       "sql": "CREATE INDEX native_result_read_grant_expiry ON p11.native_result_read_grants (delivery_id, expires_at) WHERE revoked_at IS NULL"
+    },
+    {
+      "name": "endpoint_public_one_active",
+      "table": "endpoint_public_bundles",
+      "unique": true,
+      "sql": "CREATE UNIQUE INDEX endpoint_public_one_active ON p11.endpoint_public_bundles (owner_id, endpoint_id, role) WHERE state = 'ACTIVE'"
+    },
+    {
+      "name": "endpoint_public_owner_history",
+      "table": "endpoint_public_bundles",
+      "unique": false,
+      "sql": "CREATE INDEX endpoint_public_owner_history ON p11.endpoint_public_bundles (owner_id, role, endpoint_id, version DESC)"
     }
   ],
   "forward_migrations": [
@@ -27760,6 +28467,28 @@
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
+      "source_sha256": "a3dcef7ef69b3943a052072651b06bac211e197ac35f8e406f32cb3eefacd812",
+      "statement_count": 14,
+      "statement_types": [
+        "VariableSetStmt",
+        "CreateStmt",
+        "IndexStmt",
+        "IndexStmt",
+        "CreateStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
         "CreateTrigStmt"
       ],
       "runtime_validation_in_this_build": "NOT_EXECUTED"

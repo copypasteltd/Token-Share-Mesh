@@ -18,7 +18,7 @@ P11｜开发细则 v1.0｜MOD-10｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 计划路径 | dev/src/client/crypto-gateway |
 | 协作模块 | [MOD-01](MOD-01-身份授权.md)、[MOD-04](MOD-04-合同订单路由预算.md) |
 | 应用服务 | TrustStore、EnvelopeService、StreamCrypto、LocalAcceptance |
-| 权威表 | recipient_keys、encryption_intents、envelopes |
+| 权威表 | recipient_keys、encryption_intents、envelopes、endpoint_public_bundles、endpoint_public_key_claims |
 | 适用约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-002](../docs/02-表格化需求约束.md#CON-002)、[CON-003](../docs/02-表格化需求约束.md#CON-003)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-010](../docs/02-表格化需求约束.md#CON-010)、[CON-012](../docs/02-表格化需求约束.md#CON-012)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-018](../docs/02-表格化需求约束.md#CON-018)、[CON-019](../docs/02-表格化需求约束.md#CON-019)、[CON-020](../docs/02-表格化需求约束.md#CON-020)、[CON-021](../docs/02-表格化需求约束.md#CON-021)、[CON-023](../docs/02-表格化需求约束.md#CON-023)、[CON-024](../docs/02-表格化需求约束.md#CON-024)、[CON-025](../docs/02-表格化需求约束.md#CON-025)、[CON-026](../docs/02-表格化需求约束.md#CON-026)、[CON-027](../docs/02-表格化需求约束.md#CON-027)、[CON-028](../docs/02-表格化需求约束.md#CON-028)、[CON-029](../docs/02-表格化需求约束.md#CON-029)、[CON-032](../docs/02-表格化需求约束.md#CON-032)、[CON-033](../docs/02-表格化需求约束.md#CON-033)、[CON-034](../docs/02-表格化需求约束.md#CON-034)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-040](../docs/02-表格化需求约束.md#CON-040)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-044](../docs/02-表格化需求约束.md#CON-044)、[CON-046](../docs/02-表格化需求约束.md#CON-046) |
 | 核心规范 | [08-端到端加密协议与密钥实现设计.md](../../docs/技术开发/08-端到端加密协议与密钥实现设计.md) |
 
@@ -34,6 +34,12 @@ P11｜开发细则 v1.0｜MOD-10｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | INT-077 | registerEnvelope | POST /jobs/{job_id}/envelopes | [DEV-30](../开发细则总表.md#DEV-30) | cipher:envelope | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
 | INT-078 | registerRecipient | POST /recipients | [DEV-29](../开发细则总表.md#DEV-29) | recipient:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
 | INT-083 | revokeRecipient | POST /recipients/{recipient_id}/revoke | [DEV-29](../开发细则总表.md#DEV-29) | recipient:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-116 | registerEndpointBundle | POST /endpoint-bundles | [DEV-29](../开发细则总表.md#DEV-29) | recipient:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-117 | listOwnEndpointBundles | GET /endpoint-bundles | [DEV-29](../开发细则总表.md#DEV-29) | recipient:read | READ_PROJECTION / 见权威契约 |
+| INT-118 | getOwnEndpointBundle | GET /endpoint-bundles/{recipient_id} | [DEV-29](../开发细则总表.md#DEV-29) | recipient:read | READ_PROJECTION / 见权威契约 |
+| INT-119 | rotateEndpointBundle | POST /endpoint-bundles/{recipient_id}/rotations | [DEV-29](../开发细则总表.md#DEV-29) | recipient:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-120 | revokeEndpointBundle | POST /endpoint-bundles/{recipient_id}/revoke | [DEV-29](../开发细则总表.md#DEV-29) | recipient:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-121 | getOrderEndpointBundle | GET /orders/{order_id}/endpoint-bundles/{recipient_id} | [DEV-29](../开发细则总表.md#DEV-29) | recipient:read | READ_PROJECTION / 见权威契约 |
 
 [完整控制面、数据表与需求追踪](../docs/04-接口数据与需求追踪.md)；请求/响应 Schema 和响应码沿用既有 OpenAPI。
 
@@ -53,7 +59,7 @@ P11｜开发细则 v1.0｜MOD-10｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 实施目标 | 实现独立端点核验/公钥版本、独立签名/加密钥、轮换/撤销及OS秘密存储。实现双向接收钥独立信任、用途隔离、正常/泄漏轮换、撤销未知拒绝及丢钥恢复边界。 |
 | 原完成证据 | 平台无内容私钥；sealed box匿名性不冒充身份认证，换端须买方核验重封。E2E-01/02/04/14；不把TOFU当首次证明，不宣称静态接收钥具有完整前向保密。 |
 | 门槛 | POC-04、POC-09、E08 |
-| 控制操作 | createEncryptionIntent、registerRecipient、getRecipient、createRecipientRotation、revokeRecipient |
+| 控制操作 | createEncryptionIntent、registerRecipient、getRecipient、createRecipientRotation、revokeRecipient、registerEndpointBundle、listOwnEndpointBundles、getOwnEndpointBundle、rotateEndpointBundle、revokeEndpointBundle、getOrderEndpointBundle |
 | 需求约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-002](../docs/02-表格化需求约束.md#CON-002)、[CON-003](../docs/02-表格化需求约束.md#CON-003)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-010](../docs/02-表格化需求约束.md#CON-010)、[CON-012](../docs/02-表格化需求约束.md#CON-012)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-018](../docs/02-表格化需求约束.md#CON-018)、[CON-019](../docs/02-表格化需求约束.md#CON-019)、[CON-020](../docs/02-表格化需求约束.md#CON-020)、[CON-021](../docs/02-表格化需求约束.md#CON-021)、[CON-023](../docs/02-表格化需求约束.md#CON-023)、[CON-024](../docs/02-表格化需求约束.md#CON-024)、[CON-025](../docs/02-表格化需求约束.md#CON-025)、[CON-026](../docs/02-表格化需求约束.md#CON-026)、[CON-027](../docs/02-表格化需求约束.md#CON-027)、[CON-028](../docs/02-表格化需求约束.md#CON-028)、[CON-029](../docs/02-表格化需求约束.md#CON-029)、[CON-032](../docs/02-表格化需求约束.md#CON-032)、[CON-033](../docs/02-表格化需求约束.md#CON-033)、[CON-034](../docs/02-表格化需求约束.md#CON-034)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-040](../docs/02-表格化需求约束.md#CON-040)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-044](../docs/02-表格化需求约束.md#CON-044)、[CON-046](../docs/02-表格化需求约束.md#CON-046) |
 | 统一交付 | 适用 CHK-01—08；不适用项注明理由；证据规则见 DOC-06 |
 

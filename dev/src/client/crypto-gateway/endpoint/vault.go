@@ -253,6 +253,7 @@ func (v *Vault) CreateLocal(owner, endpoint, role string, now, expires time.Time
 type PublicStatus struct {
 	Bundle Bundle `json:"bundle"`
 	Status string `json:"status"`
+	Hash   string `json:"bundle_hash"`
 }
 
 func (v *Vault) Public() ([]PublicStatus, error) {
@@ -263,7 +264,7 @@ func (v *Vault) Public() ([]PublicStatus, error) {
 	}
 	out := make([]PublicStatus, 0, len(v.state.Local))
 	for _, k := range v.state.Local {
-		out = append(out, PublicStatus{cloneBundle(k.Bundle), k.Status})
+		out = append(out, PublicStatus{Bundle: cloneBundle(k.Bundle), Status: k.Status, Hash: k.Bundle.Hash()})
 	}
 	return out, nil
 }

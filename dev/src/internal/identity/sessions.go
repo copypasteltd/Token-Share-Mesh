@@ -356,12 +356,14 @@ func rolesTx(ctx context.Context, tx pgx.Tx, p Principal) (Principal, error) {
 	for _, role := range p.Roles {
 		switch role {
 		case "BUYER":
+			p.Scopes = append(p.Scopes, "recipient:manage", "recipient:read")
 			p.Scopes = append(p.Scopes, "job:read", "job:decide", "job:cancel", "bill:read")
 			p.Scopes = append(p.Scopes, "refund:create", "refund:read")
 			p.Scopes = append(p.Scopes, "payment:create", "payment:read")
 			p.Scopes = append(p.Scopes, "rental:create", "rental:read", "rental:ready", "rental:stop", "rental:access")
 			p.Scopes = append(p.Scopes, "key:manage", "quote:create", "quote:read", "order:create", "order:read", "route:create", "route:read", "seller:apply", "seller:read", "seller:manage", "identity:consent", "identity:delete")
 		case "SELLER":
+			p.Scopes = append(p.Scopes, "recipient:manage", "recipient:read")
 			p.Scopes = append(p.Scopes, "job:read", "bill:read")
 			p.Scopes = append(p.Scopes, "refund:read")
 			p.Scopes = append(p.Scopes, "payment:read")

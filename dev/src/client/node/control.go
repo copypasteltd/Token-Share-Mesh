@@ -192,6 +192,10 @@ func (s *Store) Recover(ctx context.Context) error {
 	if s.poisoned || s.validate() != nil {
 		return ErrState
 	}
+	if devicecontrol.EndpointCommandKind(p.Kind) {
+		_, e := s.RecoverEndpointDirectory(ctx)
+		return e
+	}
 	if p.Kind == "ENROLLMENT" {
 		c, err := devicecontrol.NewEnrollmentClient(s.s.Config.Base)
 		if err != nil {

@@ -17,6 +17,7 @@ import (
 	"net/url"
 	"p11.local/compute/client/protocol/devicecontrol"
 	"p11.local/compute/internal/dispatch/device"
+	"p11.local/compute/internal/endpointregistry"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/invocation"
 	"p11.local/compute/internal/market"
@@ -56,6 +57,7 @@ type Config struct {
 	Rentals                          *rental.Service
 	Payments                         *payments.Machine
 	Refunds                          *payments.RefundService
+	EndpointDirectory                *endpointregistry.Service
 }
 type Server struct {
 	c                          Config
@@ -71,6 +73,9 @@ type actor struct {
 }
 
 func New(c Config) (*Server, error) {
+	if c.EndpointDirectory != nil && (!c.EndpointDirectory.UsesDB(c.Sessions.DB) || !c.EndpointDirectory.UsesDB(c.Keys.DB) || !c.EndpointDirectory.UsesDB(c.Trade.DB)) {
+		return nil, fault.New(fault.Unavailable, "Endpoint directory and identity must use the same original store")
+	}
 	if c.ResultContent != nil && !c.ResultContent.UsesCompletion(c.Completion) {
 		return nil, fault.New(fault.Unavailable, "Result content must use the same original completion authority")
 	}

@@ -116,7 +116,13 @@
     "createOriginalResultReadGrant": "INT-112",
     "getOriginalResultContent": "INT-113",
     "getOriginalResultChunk": "INT-114",
-    "getOriginalResultUploadStatus": "INT-115"
+    "getOriginalResultUploadStatus": "INT-115",
+    "registerEndpointBundle": "INT-116",
+    "listOwnEndpointBundles": "INT-117",
+    "getOwnEndpointBundle": "INT-118",
+    "rotateEndpointBundle": "INT-119",
+    "revokeEndpointBundle": "INT-120",
+    "getOrderEndpointBundle": "INT-121"
   },
   "tables": {
     "acceptances": "DATA-001",
@@ -202,6 +208,8 @@
     "accepted_usage_settlements": "DATA-081",
     "native_result_content": "DATA-082",
     "native_result_content_chunks": "DATA-083",
-    "native_result_read_grants": "DATA-084"
+    "native_result_read_grants": "DATA-084",
+    "endpoint_public_bundles": "DATA-085",
+    "endpoint_public_key_claims": "DATA-086"
   }
 }

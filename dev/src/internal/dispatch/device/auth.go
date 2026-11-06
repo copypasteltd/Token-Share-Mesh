@@ -58,7 +58,7 @@ func (s Service) Authenticate(ctx context.Context, token string, binding devicec
 	}
 	p.Kind = identity.Device
 	p.DeviceID = proof.DeviceID
-	p.Scopes = []string{"device:read", "device:heartbeat", "device:capability", "device:execute", "device:rental"}
+	p.Scopes = []string{"device:read", "device:heartbeat", "device:capability", "device:execute", "device:rental", "recipient:read", "recipient:manage"}
 	err = s.DB.Transaction(ctx, pgx.ReadCommitted, func(tx pgx.Tx) error {
 		if err := authorizeDevice(ctx, tx, p, "device:read"); err != nil {
 			return err

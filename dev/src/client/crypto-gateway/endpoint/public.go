@@ -11,61 +11,27 @@ import (
 	"encoding/json"
 	"errors"
 	"p11.local/compute/client/crypto-gateway/sodium"
-	"p11.local/compute/shared/canonicaljson"
-	"p11.local/compute/shared/ids"
+	"p11.local/compute/shared/endpointwire"
 	"strconv"
 	"time"
 )
 
 const Profile = "P11_ENDPOINT_KEYS_1"
-const BundleProfile = "P11_ENDPOINT_PUBLIC_1"
+const BundleProfile = endpointwire.BundleProfile
 const MaximumJournalBytes = 256 << 10
 const MaximumLocalKeys = 32
 const MaximumPeerKeys = 128
 const MaximumActiveUses = 2
-const SignatureProfile = "ED25519_JCS_1"
+const SignatureProfile = endpointwire.SignatureProfile
 
 var ErrState = errors.New("original endpoint key state unavailable; do not recreate")
-var ErrTrust = errors.New("independent endpoint identity required")
+var ErrTrust = endpointwire.ErrTrust
 var ErrClosed = errors.New("endpoint key use unavailable")
 
-type PublicKey struct {
-	ID          string `json:"key_id"`
-	Algorithm   string `json:"algorithm"`
-	Public      string `json:"public_key"`
-	Fingerprint string `json:"fingerprint"`
-}
-type Bundle struct {
-	Profile          string     `json:"profile_id"`
-	Owner            string     `json:"owner_id"`
-	Endpoint         string     `json:"endpoint_id"`
-	Role             string     `json:"role"`
-	Version          string     `json:"version"`
-	Identity         PublicKey  `json:"identity_signing_key"`
-	Content          PublicKey  `json:"content_receiving_key"`
-	Receipt          *PublicKey `json:"buyer_receipt_key,omitempty"`
-	NotBefore        string     `json:"not_before"`
-	Expires          string     `json:"expires_at"`
-	SignatureProfile string     `json:"signature_profile_id"`
-	Signature        string     `json:"signature"`
-}
-type unsignedBundle struct {
-	Profile          string     `json:"profile_id"`
-	Owner            string     `json:"owner_id"`
-	Endpoint         string     `json:"endpoint_id"`
-	Role             string     `json:"role"`
-	Version          string     `json:"version"`
-	Identity         PublicKey  `json:"identity_signing_key"`
-	Content          PublicKey  `json:"content_receiving_key"`
-	Receipt          *PublicKey `json:"buyer_receipt_key,omitempty"`
-	NotBefore        string     `json:"not_before"`
-	Expires          string     `json:"expires_at"`
-	SignatureProfile string     `json:"signature_profile_id"`
-}
+type PublicKey = endpointwire.PublicKey
+type Bundle = endpointwire.Bundle
+type Transition = endpointwire.Transition
 
-func (b Bundle) unsigned() unsignedBundle {
-	return unsignedBundle{b.Profile, b.Owner, b.Endpoint, b.Role, b.Version, b.Identity, b.Content, b.Receipt, b.NotBefore, b.Expires, b.SignatureProfile}
-}
 func cloneBundle(b Bundle) Bundle {
 	if b.Receipt != nil {
 		p := *b.Receipt
@@ -102,79 +68,6 @@ func version(v string) (uint64, error) {
 }
 func key(id, algorithm string, public []byte) PublicKey {
 	return PublicKey{id, algorithm, base64.RawURLEncoding.EncodeToString(public), Hash(public)}
-}
-func (k PublicKey) Bytes(algorithm string) ([]byte, error) {
-	p, e := decode(k.Public, 32)
-	if e != nil || !ids.Valid(k.ID) || k.Algorithm != algorithm || Hash(p) != k.Fingerprint {
-		return nil, ErrTrust
-	}
-	return p, nil
-}
-func (b Bundle) message() ([]byte, error) {
-	raw, e := canonicaljson.Encode(b.unsigned(), 8192)
-	if e != nil {
-		return nil, ErrTrust
-	}
-	return append([]byte("P11/E2E/ENDPOINT/BUNDLE_SIGNATURE\x00"), raw...), nil
-}
-func (b Bundle) Validate() error {
-	start, e := stamp(b.NotBefore)
-	expiry, ee := stamp(b.Expires)
-	if b.Profile != BundleProfile || !ids.Valid(b.Owner) || !ids.Valid(b.Endpoint) || b.SignatureProfile != SignatureProfile || e != nil || ee != nil || !expiry.After(start) || expiry.Sub(start) > 90*24*time.Hour {
-		return ErrTrust
-	}
-	if _, e = version(b.Version); e != nil {
-		return ErrTrust
-	}
-	ip, e := b.Identity.Bytes("Ed25519")
-	if e != nil {
-		return ErrTrust
-	}
-	cp, e := b.Content.Bytes("X25519_SEALED_BOX")
-	if e != nil || string(ip) == string(cp) || b.Identity.ID == b.Content.ID {
-		return ErrTrust
-	}
-	switch b.Role {
-	case "BUYER":
-		if b.Receipt == nil {
-			return ErrTrust
-		}
-		rp, re := b.Receipt.Bytes("Ed25519")
-		if re != nil || string(rp) == string(ip) || string(rp) == string(cp) || b.Receipt.ID == b.Identity.ID || b.Receipt.ID == b.Content.ID {
-			return ErrTrust
-		}
-	case "SELLER":
-		if b.Receipt != nil {
-			return ErrTrust
-		}
-	default:
-		return ErrTrust
-	}
-	msg, e := b.message()
-	sig, se := decode(b.Signature, ed25519.SignatureSize)
-	if e != nil || se != nil || !ed25519.Verify(ed25519.PublicKey(ip), msg, sig) {
-		return ErrTrust
-	}
-	return nil
-}
-func (b Bundle) Current(now time.Time) error {
-	if b.Validate() != nil {
-		return ErrTrust
-	}
-	start, _ := stamp(b.NotBefore)
-	expiry, _ := stamp(b.Expires)
-	if now.Before(start) || !now.Before(expiry) {
-		return ErrTrust
-	}
-	return nil
-}
-func (b Bundle) Bytes() ([]byte, error) { return canonicaljson.Encode(b, 8192) }
-func (b Bundle) Hash() string {
-	raw, e := b.Bytes()
-	if e != nil {
-		return ""
-	}
-	return Hash(raw)
 }
 func randomID(prefix string) (string, error) {
 	b := make([]byte, 16)
@@ -260,7 +153,7 @@ func generate(owner, endpoint, role, v string, now, expires time.Time) (_ localK
 		rkey := key(rid, "Ed25519", rp.Public().(ed25519.PublicKey))
 		k.Bundle.Receipt = &rkey
 	}
-	msg, e := k.Bundle.message()
+	msg, e := k.Bundle.SigningMessage()
 	if e != nil {
 		return localKey{}, e
 	}

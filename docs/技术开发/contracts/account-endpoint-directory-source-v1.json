@@ -1,0 +1,379 @@
+{
+  "profile_id": "P11_ACCOUNT_ENDPOINT_DIRECTORY_SOURCE_1",
+  "requirements": "ER001—050",
+  "authority": "docs/技术开发/附录-账户设备公钥目录与原请求发布源码.md",
+  "source_refs": [
+    "dev/planning/编号登记-v1.0.json",
+    "dev/src/api/cmd/p11-api/main.go",
+    "dev/src/api/internal/http/endpoint_directory.go",
+    "dev/src/api/internal/http/routes.go",
+    "dev/src/api/internal/http/routes.json",
+    "dev/src/api/internal/http/server.go",
+    "dev/src/api/tests/endpoint_directory_http_test.go",
+    "dev/src/client/cmd/p11-node/endpoint_directory.go",
+    "dev/src/client/cmd/p11-node/endpoint_directory_test.go",
+    "dev/src/client/cmd/p11-node/main.go",
+    "dev/src/client/crypto-gateway/endpoint/public.go",
+    "dev/src/client/crypto-gateway/endpoint/trust.go",
+    "dev/src/client/crypto-gateway/endpoint/vault.go",
+    "dev/src/client/crypto-gateway/endpoint/vault_test.go",
+    "dev/src/client/node/control.go",
+    "dev/src/client/node/endpoint_directory.go",
+    "dev/src/client/node/endpoint_directory_native_test.go",
+    "dev/src/client/node/store.go",
+    "dev/src/client/protocol/devicecontrol/endpoint_directory.go",
+    "dev/src/client/protocol/devicecontrol/endpoint_directory_test.go",
+    "dev/src/internal/dispatch/device/auth.go",
+    "dev/src/internal/endpointregistry/README.md",
+    "dev/src/internal/endpointregistry/mutations.go",
+    "dev/src/internal/endpointregistry/reads.go",
+    "dev/src/internal/endpointregistry/types.go",
+    "dev/src/internal/endpointregistry/types_test.go",
+    "dev/src/internal/identity/sessions.go",
+    "dev/src/internal/persistence/migrations/022_account_endpoint_directory.sql",
+    "dev/src/internal/persistence/migrations/source-v22.json",
+    "dev/src/internal/testsupport/endpoint_directory.go",
+    "dev/src/internal/testsupport/market.go",
+    "dev/src/shared/endpointdirectory/types.go",
+    "dev/src/shared/endpointdirectory/types_test.go",
+    "dev/src/shared/endpointwire/README.md",
+    "dev/src/shared/endpointwire/bundle.go",
+    "dev/src/shared/endpointwire/bundle_test.go",
+    "dev/src/shared/endpointwire/rotation.go",
+    "dev/src/tests/integration/core_test.go",
+    "dev/src/tests/integration/endpoint_directory_keys_test.go",
+    "dev/src/tests/integration/endpoint_directory_test.go",
+    "dev/tools/整理R026公钥目录源码.py",
+    "dev/开发轮次执行规则.md",
+    "docs/技术开发/contracts/account-endpoint-directory-source-v1.json",
+    "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
+    "docs/技术开发/附录-账户设备公钥目录与原请求发布源码.md",
+    "docs/白皮书/contracts/openapi-control-v3.0.json",
+    "scripts/技术开发数据.py",
+    "scripts/白皮书契约数据.py"
+  ],
+  "development_policy": "dev/开发轮次执行规则.md",
+  "status": "SOURCE_ONLY_UNVERIFIED",
+  "annex": "docs/技术开发/附录-账户设备公钥目录与原请求发布源码.md",
+  "source_contract": "docs/技术开发/contracts/account-endpoint-directory-source-v1.json",
+  "public_only_verification_and_account_device_directory_source_wired": true,
+  "native_original_publication_and_five_metadata_cli_source_wired": true,
+  "independent_trust_or_content_possession_or_execution_proven": false,
+  "platform_e2e_grant_blind_store_private_sdk_host_jni_complete": false,
+  "migration_executed": false,
+  "compiled_or_executed": false,
+  "new_media_captured": false,
+  "full_development_round_complete": false,
+  "test_definition_count": 35,
+  "planned_control_operations": 121,
+  "registered_control_schemas": 158,
+  "platform_tables": 86,
+  "control_http_operations": 81,
+  "native_sdk_data_plane_operations": 3,
+  "remaining": [
+    "平台E2E原上下文/授权/无钥持久化/实际网络补传与全局背压重排",
+    "本机SDK/实际Host私有推理/LOCAL_SEGMENTED_1/Android JNI/媒体",
+    "独立信任和本机配对UI/原签收/可信usage/资金与真实资格",
+    "过期或丢钥显式恢复/未知文件残留恢复、实际固定库和物理测试",
+    "全56/222其余生产接线及测试源码齐备后集中验证；DEV55延后/DEV32无证明关闭"
+  ],
+  "directory_profile": "P11_ACCOUNT_ENDPOINT_DIRECTORY_1",
+  "bundle_profile": "P11_ENDPOINT_PUBLIC_1",
+  "rotation_profile": "P11_ENDPOINT_ROTATION_1",
+  "source_migration": {
+    "source": "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
+    "source_sha256": "a3dcef7ef69b3943a052072651b06bac211e197ac35f8e406f32cb3eefacd812",
+    "migration": "022_account_endpoint_directory.sql",
+    "migration_sha256": "a3dcef7ef69b3943a052072651b06bac211e197ac35f8e406f32cb3eefacd812",
+    "policy": "022 account/device public endpoint directory only; SOURCE_ONLY, unapplied"
+  },
+  "public_only": {
+    "content_private_keys_or_native_cipher_dependency": false,
+    "signed_wire_format_changed": false,
+    "out_of_band_pin_or_content_key_possession_proven": false,
+    "recipient_trust_evidence_id": null
+  },
+  "limits_not_measurements": {
+    "account_endpoints_per_role": 32,
+    "versions_per_endpoint": 32,
+    "bundle_bytes": 8192,
+    "transition_bytes": 12000,
+    "page_size": 2,
+    "reply_bytes": 65536,
+    "maximum_validity_days": 90
+  },
+  "states": [
+    "ACTIVE",
+    "RETIRED",
+    "REVOKED"
+  ],
+  "time_projection": "EXPIRED; exact signed nanoseconds checked in Go, SQL projection floored to microseconds",
+  "revocation_scope": "Exactly named version; does not cascade to successors or erase/join local key uses.",
+  "recovery": "Persist original command before HTTP; retain unknown; replay original bytes/key with fresh device proof nonce; no replacement keys or automatic pending abandonment.",
+  "explicit_expired_or_lost_key_recovery_complete": false,
+  "http_operations": [
+    "registerEndpointBundle",
+    "listOwnEndpointBundles",
+    "getOwnEndpointBundle",
+    "rotateEndpointBundle",
+    "revokeEndpointBundle",
+    "getOrderEndpointBundle"
+  ],
+  "metadata_cli": [
+    "directory-publish",
+    "directory-revoke",
+    "directory-get",
+    "directory-list",
+    "directory-recover"
+  ],
+  "test_definitions": [
+    {
+      "id": "ER-T001",
+      "name": "TestPublicEndpointSignatureDomainAndExactCanonicalRoundTrip",
+      "source": "dev/src/shared/endpointwire/bundle_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T002",
+      "name": "TestPublicEndpointTamperingIsRejectedWithoutNativeCrypto",
+      "source": "dev/src/shared/endpointwire/bundle_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T003",
+      "name": "TestPublicEndpointRolePurposeAndCanonicalCounterConstraints",
+      "source": "dev/src/shared/endpointwire/bundle_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T004",
+      "name": "TestPublicEndpointExactValidityBoundaries",
+      "source": "dev/src/shared/endpointwire/bundle_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T005",
+      "name": "TestPublicRotationRequiresOriginalIdentityAndMonotonicBinding",
+      "source": "dev/src/shared/endpointwire/bundle_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T006",
+      "name": "TestPublicRotationRejectsReuseAcrossOldPurposes",
+      "source": "dev/src/shared/endpointwire/bundle_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T007",
+      "name": "TestDirectoryPublicRecordCannotClaimIndependentTrust",
+      "source": "dev/src/shared/endpointdirectory/types_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T008",
+      "name": "TestDirectoryRecordBindsExactRecipientAndRotationMetadata",
+      "source": "dev/src/shared/endpointdirectory/types_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T009",
+      "name": "TestDirectoryTwoLargestShapedRecordsStayWithinReplyBudget",
+      "source": "dev/src/shared/endpointdirectory/types_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T010",
+      "name": "TestDirectorySellerRegistrationRequiresExactSignedDeviceKind",
+      "source": "dev/src/internal/endpointregistry/types_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T011",
+      "name": "TestDirectoryBuyerRegistrationRejectsAPIKeyAndMissingSession",
+      "source": "dev/src/internal/endpointregistry/types_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T012",
+      "name": "TestDirectoryProviderCannotReuseItsControlAuthenticationPublicKey",
+      "source": "dev/src/internal/endpointregistry/types_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T013",
+      "name": "TestDirectoryOrderDeviceMustBeBothListedAndKernelBound",
+      "source": "dev/src/internal/endpointregistry/types_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T014",
+      "name": "TestEndpointDirectoryOriginalRegistrationAndReferenceOnlyReplay",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T015",
+      "name": "TestEndpointDirectoryDifferentInitialKeyCannotReplaceOriginal",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T016",
+      "name": "TestEndpointDirectoryRotationRetainsOriginalAndRejectsFork",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T017",
+      "name": "TestEndpointDirectoryConcurrentRotationsHaveOneSuccessor",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T018",
+      "name": "TestEndpointDirectoryRevocationIsCurrentOnOriginalReplay",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T019",
+      "name": "TestEndpointDirectoryHistoryNeverFallsBackAfterCurrentRevocation",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T020",
+      "name": "TestEndpointDirectoryAccountIsolationAndCurrentSessionRechecked",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T021",
+      "name": "TestEndpointDirectoryDeviceProofOwnsExactProviderEndpoint",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T022",
+      "name": "TestEndpointDirectoryDatabaseRejectsRebindingHistoryAndOrphanProjection",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T023",
+      "name": "TestEndpointDirectoryBoundedPaginationAndAccountQuota",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T024",
+      "name": "TestEndpointDirectoryOrderDiscoveryRetainsOriginalSellerAndDevice",
+      "source": "dev/src/tests/integration/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T025",
+      "name": "TestEndpointDirectoryGlobalPublicKeyClaimCannotBeAliasedByNewEndpoint",
+      "source": "dev/src/tests/integration/endpoint_directory_keys_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T026",
+      "name": "TestHTTPEndpointDirectoryCurrentRevocationAndReferenceReplay",
+      "source": "dev/src/api/tests/endpoint_directory_http_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T027",
+      "name": "TestHTTPEndpointDirectoryCSRFAndStrictPublicBody",
+      "source": "dev/src/api/tests/endpoint_directory_http_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T028",
+      "name": "TestHTTPEndpointDirectoryOwnerPaginationAndCursorCannotCrossAccounts",
+      "source": "dev/src/api/tests/endpoint_directory_http_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T029",
+      "name": "TestHTTPEndpointDirectoryProviderRequiresSignedExactDevice",
+      "source": "dev/src/api/tests/endpoint_directory_http_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T030",
+      "name": "TestHTTPEndpointDirectoryAbsentCompositionFailsClosed",
+      "source": "dev/src/api/tests/endpoint_directory_http_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T031",
+      "name": "TestEndpointDirectoryPreparedCommandKeepsOriginalBytesAndScope",
+      "source": "dev/src/client/protocol/devicecontrol/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T032",
+      "name": "TestEndpointDirectoryReplyRejectsTrustUpgradeAndUnknownSuccess",
+      "source": "dev/src/client/protocol/devicecontrol/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T033",
+      "name": "TestEndpointDirectoryLostReplyReopensOriginalAEADIntentAndKey",
+      "source": "dev/src/client/node/endpoint_directory_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T034",
+      "name": "TestEndpointDirectoryRotationPublishesCommittedOriginalPublicProof",
+      "source": "dev/src/client/node/endpoint_directory_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "ER-T035",
+      "name": "TestDirectoryCLIRejectsUnknownActionsAndDoesNotEchoCallerSecrets",
+      "source": "dev/src/client/cmd/p11-node/endpoint_directory_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    }
+  ],
+  "full_scope_tasks": 56,
+  "full_scope_steps": 222,
+  "test_admission": "DENIED_UNTIL_ALL_IN_SCOPE_CODE_COMPLETE"
+}

@@ -742,7 +742,9 @@
       "authoritative_tables": [
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "application_services": [
         "TrustStore",
@@ -5491,7 +5493,13 @@
         "registerRecipient",
         "getRecipient",
         "createRecipientRotation",
-        "revokeRecipient"
+        "revokeRecipient",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "conditional_branch": false,
       "milestone_id": "MS-05"
@@ -16524,6 +16532,447 @@
         "evidence_authority": "dev/progress/implementation-status.json"
       },
       "id": "INT-115"
+    },
+    {
+      "operation_id": "registerEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles",
+      "summary": "registerEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/registerEndpointBundle.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EndpointBundleRegistration"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "f5d6389a889eedcacf35b8485e2ce191d1b276fec59e926780ce0d05f3ac580c",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "registerEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-116"
+    },
+    {
+      "operation_id": "listOwnEndpointBundles",
+      "method": "GET",
+      "path": "/endpoint-bundles",
+      "summary": "listOwnEndpointBundles",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/listOwnEndpointBundles.go",
+      "required_scopes": [
+        "recipient:read"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "dfc2f0f8bee3aae5e2b873da6d726d363c42865251417699d3be5b51a00dde5c",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "listOwnEndpointBundles",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-117"
+    },
+    {
+      "operation_id": "getOwnEndpointBundle",
+      "method": "GET",
+      "path": "/endpoint-bundles/{recipient_id}",
+      "summary": "getOwnEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/getOwnEndpointBundle.go",
+      "required_scopes": [
+        "recipient:read"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "0765f06f008dff991ea45899ddb02b27d952dad076cc313b49480f9e62d23b1d",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOwnEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-118"
+    },
+    {
+      "operation_id": "rotateEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles/{recipient_id}/rotations",
+      "summary": "rotateEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/rotateEndpointBundle.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EndpointBundleRotationWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "1cd4a2e1be76ff832c11c761e2768e9618b1d9f664e8f3ad3fc80c58a0a66ef4",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "rotateEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-119"
+    },
+    {
+      "operation_id": "revokeEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles/{recipient_id}/revoke",
+      "summary": "revokeEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/revokeEndpointBundle.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EndpointBundleRevocation"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "e830b7c9b032000ea3afd51e8a95b5a204fa4219f1b253d2ab9977ccf83a9be5",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "revokeEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-120"
+    },
+    {
+      "operation_id": "getOrderEndpointBundle",
+      "method": "GET",
+      "path": "/orders/{order_id}/endpoint-bundles/{recipient_id}",
+      "summary": "getOrderEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/getOrderEndpointBundle.go",
+      "required_scopes": [
+        "recipient:read"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "5c83f119912ec2dd22b9c5e105c37682aefe54bbefa3b4aeb240d2e437cac2df",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOrderEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-121"
     }
   ],
   "tables": [
@@ -16765,6 +17214,26 @@
       "column_count": 7,
       "foreign_key_count": 3,
       "source_document": "docs/技术开发/database/schema-draft.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-085",
+      "name": "endpoint_public_bundles",
+      "schema": "p11",
+      "module_id": "MOD-10",
+      "column_count": 17,
+      "foreign_key_count": 4,
+      "source_document": "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-086",
+      "name": "endpoint_public_key_claims",
+      "schema": "p11",
+      "module_id": "MOD-10",
+      "column_count": 5,
+      "foreign_key_count": 2,
+      "source_document": "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
     {
@@ -19123,7 +19592,13 @@
         "createAuthChallenge",
         "createUserSession",
         "getCurrentSession",
-        "revokeUserSession"
+        "revokeUserSession",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "users",
@@ -19139,7 +19614,9 @@
         "budget_reservations",
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "technical_documents": [
         "docs/技术开发/16-身份授权与安全工程.md",
@@ -19182,12 +19659,20 @@
         "getRecipient",
         "createRecipientRotation",
         "revokeRecipient",
-        "registerEnvelope"
+        "registerEnvelope",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "devices",
         "device_request_nonces",
         "resources",
@@ -19250,6 +19735,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "devices",
         "device_request_nonces",
         "resources",
@@ -19322,6 +19809,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "devices",
         "device_request_nonces",
         "resources",
@@ -19385,12 +19874,20 @@
         "createOriginalResultReadGrant",
         "getOriginalResultContent",
         "getOriginalResultChunk",
-        "getOriginalResultUploadStatus"
+        "getOriginalResultUploadStatus",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "devices",
         "device_request_nonces",
         "resources",
@@ -19447,6 +19944,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "audit_events",
         "feature_gates",
         "releases"
@@ -19494,6 +19993,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "audit_events",
         "feature_gates",
         "releases"
@@ -19647,6 +20148,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "reviews",
         "disputes",
         "appeals",
@@ -20136,6 +20639,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "audit_events",
         "feature_gates",
         "releases"
@@ -21459,12 +21964,20 @@
         "getRecipient",
         "createRecipientRotation",
         "revokeRecipient",
-        "registerEnvelope"
+        "registerEnvelope",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -21506,7 +22019,9 @@
       "tables": [
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -21600,12 +22115,20 @@
         "createAuthChallenge",
         "createUserSession",
         "getCurrentSession",
-        "revokeUserSession"
+        "revokeUserSession",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "users",
         "role_grants",
         "api_keys",
@@ -21851,7 +22374,9 @@
       "tables": [
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "technical_documents": [
         "docs/技术开发/07-统一协议网关与Sub2API改造.md",
@@ -22165,11 +22690,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "dc911e8dec24a43dc0a508906242225adb2c87e30852decf97263882d7b73237"
+      "sha256": "2b7bc1ebd5e114ae36f1b0ac4205fbbd2c8d68ca2664013646c249c693401f02"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "dfedc89ce6df209591c8e60065eab7c67417c36540e28f3c4d37cc1dff1f841c"
+      "sha256": "9a721b6720885ebc8245cb657fae27eff582baf05a9e0d00d8915e84e475ba6e"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -22177,11 +22702,11 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "3471f546262deb745b333064a13da4aea5659fb3290d434569994f75811a2b42"
+      "sha256": "65a10141d4f87079c99ebe9b1edf7939b1293071013e1f17db934b5ebf8e49cf"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "010878a7eec693d24c630a6d0a2769f3a83b05c86dc085625b84af382f63a9ce"
+      "sha256": "b25d114a00a6855cf96f7b992ce0402c2ed551f789b21b98339740082279bbfb"
     },
     {
       "path": "dev/tools/构建开发细则.py",
@@ -22217,7 +22742,7 @@
     },
     {
       "path": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
-      "sha256": "f44401fdea7d233a253fdfdd7d17e617406ba0a662f051a46fa3f554e9caa1a3"
+      "sha256": "301ea31194daf4ae3fc81354d4c9fb9fc75d4cd02b26c472078b9e1274671e61"
     },
     {
       "path": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -22273,11 +22798,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "bed38e2f7fbebe3bb8af4c68d272c99c0b3b2a3f1a2d7e87b95d744e1b7302b3"
+      "sha256": "eb1312504f2329d62cb01cca64a3aa18870831a29b820ea54a8e3b3b6c9cd2b0"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "464d22661f8e10eb997ad97845dad8666927fcb484cbf5d0b849a5ca3ad8df73"
+      "sha256": "3b68a213e17c4a1686ad77bca05f38b495eee286710911e3f79101a2a7d89a93"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -22285,11 +22810,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "7e9ec9d81b410f9a6442274247ed0696cb3eb00dd14319d1e2f1bed86266db64"
+      "sha256": "f50184a339c7ee2b2f209e289b7341764796d84d0787c4a939f4640d705eafcd"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "3e12893e26a08658c184d580ea269f277941d7bdffa5a970f204f287e31a6587"
+      "sha256": "746f136f731afb26829cc2c255a49aee508cf11f06278e2a79b90f1e62236cb3"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -22372,6 +22897,10 @@
       "sha256": "6a0988d2f04de17f11b75a65831e432517931b6beb5840a3edfe920f8690e5ae"
     },
     {
+      "path": "docs/技术开发/database/migrations/022_account_endpoint_directory.sql",
+      "sha256": "a3dcef7ef69b3943a052072651b06bac211e197ac35f8e406f32cb3eefacd812"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -22425,7 +22954,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "abbe4aa0564d6539916dbefac4961bab514dccd1f47b53a161428e38e1482299"
+      "sha256": "0a4a5609e302ce122ee4e7e0726c395f4a7439f26554c83e454a4614b64085a3"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -22445,7 +22974,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "6da909accc612eb2baba3fe063239a89483364817ec86ebd6bb34d6e470f854d"
+      "sha256": "19005c1d3c083936592e2187dba181e64db92b4eaffb7133f27cb60a626e452f"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -22457,8 +22986,8 @@
     "tasks": 56,
     "steps": 222,
     "constraints": 47,
-    "control_operations": 115,
-    "tables": 84,
+    "control_operations": 121,
+    "tables": 86,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

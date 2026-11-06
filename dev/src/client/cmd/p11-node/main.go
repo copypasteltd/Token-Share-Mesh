@@ -18,6 +18,11 @@ import (
 
 func main() { os.Exit(run()) }
 func run() int {
+	if len(os.Args) > 1 && strings.HasPrefix(os.Args[1], "directory-") {
+		ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+		defer cancel()
+		return manageEndpointDirectory(ctx, os.Args[1], os.Args[2:], os.Stdin, os.Stdout, os.Stderr)
+	}
 	if len(os.Args) > 1 && strings.HasPrefix(os.Args[1], "cipher-") {
 		ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 		defer cancel()

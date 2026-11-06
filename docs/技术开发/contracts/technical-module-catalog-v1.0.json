@@ -280,7 +280,9 @@
       "authoritative_tables": [
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "application_services": [
         "TrustStore",

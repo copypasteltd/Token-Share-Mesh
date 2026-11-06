@@ -1,7 +1,7 @@
 {
   "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
-  "scope": "75 explicit control/content HTTP operations; original plaintext content transport only. Native read-only verification is mandatory even on the two independently authenticated routes. SOURCE_ONLY.",
+  "scope": "81 explicit control/content/public-directory source registrations. Directory metadata does not enable E2E grants, blind content or execution. SOURCE_ONLY.",
   "operations": [
     {
       "operation_id": "createPaymentIntent",
@@ -526,6 +526,48 @@
       "method": "GET",
       "path": "/runner/attempts/{attempt_id}/content/{delivery_id}/status",
       "handler": "getOriginalResultUploadStatus",
+      "anonymous": false
+    },
+    {
+      "operation_id": "registerEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles",
+      "handler": "registerEndpointBundle",
+      "anonymous": false
+    },
+    {
+      "operation_id": "listOwnEndpointBundles",
+      "method": "GET",
+      "path": "/endpoint-bundles",
+      "handler": "listOwnEndpointBundles",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getOwnEndpointBundle",
+      "method": "GET",
+      "path": "/endpoint-bundles/{recipient_id}",
+      "handler": "getOwnEndpointBundle",
+      "anonymous": false
+    },
+    {
+      "operation_id": "rotateEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles/{recipient_id}/rotations",
+      "handler": "rotateEndpointBundle",
+      "anonymous": false
+    },
+    {
+      "operation_id": "revokeEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles/{recipient_id}/revoke",
+      "handler": "revokeEndpointBundle",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getOrderEndpointBundle",
+      "method": "GET",
+      "path": "/orders/{order_id}/endpoint-bundles/{recipient_id}",
+      "handler": "getOrderEndpointBundle",
       "anonymous": false
     }
   ]

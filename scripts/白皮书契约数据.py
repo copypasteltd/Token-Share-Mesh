@@ -645,7 +645,7 @@ def make_openapi() -> dict:
     for parameter in paths["/services"]["get"]["parameters"]:
         if parameter["name"] == "limit":
             parameter["schema"]["maximum"] = 50
-    return extend_original_result_content_contracts(extend_native_completion_contracts(extend_refund_application_contracts({"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
+    return extend_endpoint_directory_contracts(extend_original_result_content_contracts(extend_native_completion_contracts(extend_refund_application_contracts({"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
         "info": {"title": "P11 C2C算力共享平台自有控制面设计", "version": "3.0.0-draft",
             "description": "文档设计，所有产品验收未执行。这里只定义本项目控制资源，不复制厂商完整模型API、渠道支付回调或引擎协议。服务地址为保留无效域名，不存在部署。数字/结构验证不代替授权、状态、资金、密码或SDK实测。"},
         "servers": [{"url": "https://p11.invalid/v1/p11", "description": "仅设计占位，不可调用"}],
@@ -657,7 +657,7 @@ def make_openapi() -> dict:
                 "description": "HttpOnly/Secure/SameSite=Strict；浏览器写同时核Origin和CSRF。显式loopback开发使用p11_session_dev。"},
             "PairingToken": {"type": "http", "scheme": "bearer", "description": "5分钟一次性登记凭据，绑定本人pairing_id；消耗后只允许7日内原键/原规范字段恢复原设备，不能重新登记或换身份。"}},
             "schemas": schemas, "responses": responses},
-        "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE})))
+        "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE}))))
 
 
 def extend_refund_application_contracts(api: dict) -> dict:
@@ -871,6 +871,66 @@ def extend_original_result_content_contracts(api: dict) -> dict:
         }
         if request: item['requestBody'] = {'required': True, 'content': {'application/json': {'schema': ref(request)}}}
         if scope_id == 'job:read': item['x-browser-csrf'] = 'Exact Origin and session-bound X-CSRF-Token for Cookie requests'
+        paths.setdefault(path, {})[method] = item
+    return api
+
+
+def extend_endpoint_directory_contracts(api: dict) -> dict:
+    """ER source-only account/device public directory. Legacy recipients stay separate."""
+    s, paths = api['components']['schemas'], api['paths']
+    public = {'type': 'string', 'pattern': '^[A-Za-z0-9_-]{43}$'}
+    signature = {'type': 'string', 'pattern': '^[A-Za-z0-9_-]{86}$'}
+    s['EndpointPublicKey'] = obj({'key_id': ID, 'algorithm': enum('Ed25519', 'X25519_SEALED_BOX'),
+        'public_key': public, 'fingerprint': HASH}, description='仅公钥；fingerprint=SHA256(decoded32bytes)。不证明内容私钥持有或执行资格。')
+    def purpose(algorithm):
+        return {'allOf': [ref('EndpointPublicKey'), {'properties': {'algorithm': {'const': algorithm}}}]}
+    fields = {'profile_id': {'const': 'P11_ENDPOINT_PUBLIC_1'}, 'owner_id': ID, 'endpoint_id': ID,
+        'role': enum('BUYER', 'SELLER'), 'version': {'type': 'string', 'pattern': '^([1-9]|[12][0-9]|3[0-2])$'},
+        'identity_signing_key': purpose('Ed25519'), 'content_receiving_key': purpose('X25519_SEALED_BOX'),
+        'buyer_receipt_key': purpose('Ed25519'), 'not_before': TIME, 'expires_at': TIME,
+        'signature_profile_id': {'const': 'ED25519_JCS_1'}, 'signature': signature}
+    s['EndpointPublicBundle'] = obj(fields, [k for k in fields if k != 'buyer_receipt_key'],
+        allOf=[{'if': {'properties': {'role': {'const': 'BUYER'}}}, 'then': {'required': ['buyer_receipt_key']},
+            'else': {'not': {'required': ['buyer_receipt_key']}}}],
+        description='原P11_ENDPOINT_PUBLIC_1签名字节未变。JCS/domain/Ed25519、严格UTC时间与<=90天有效窗、各用途不复用由Go核验；结构合法不等于账户/设备/独立信任。')
+    s['EndpointPublicRotation'] = obj({'profile_id': {'const': 'P11_ENDPOINT_ROTATION_1'}, 'previous_bundle_hash': HASH,
+        'next_bundle': ref('EndpointPublicBundle'), 'recorded_at': TIME, 'old_identity_signature': signature},
+        description='原旧身份钥签名的连续版本；同owner/endpoint/role，全部用途钥与历史claim不复用，不分叉。重复发布复用原证明，不重新签名。')
+    s['EndpointBundleRegistration'] = obj({'bundle': ref('EndpointPublicBundle')},
+        description='初始version=1；BUYER只允许当前账户session，SELLER只允许当前原设备逐请求签名。API key不管理公钥。')
+    s['EndpointBundleRotationWrite'] = obj({'transition': ref('EndpointPublicRotation')})
+    s['EndpointBundleRevocation'] = obj({'expected_bundle_hash': HASH},
+        description='只撤销明确指向的版本，保留历史；不隐式撤销整个轮换链或删除本地私钥，不冒称活动内容消费者已join。')
+    fields = {'profile_id': {'const': 'P11_ACCOUNT_ENDPOINT_DIRECTORY_1'}, 'recipient_id': ID,
+        'bundle': ref('EndpointPublicBundle'), 'bundle_hash': HASH, 'state': enum('ACTIVE', 'RETIRED', 'REVOKED', 'EXPIRED'),
+        'previous_recipient_id': ID, 'rotation_hash': HASH, 'rotation': ref('EndpointPublicRotation'),
+        'independent_trust_required': {'const': True}, 'replayed': BOOL}
+    s['EndpointDirectoryRecord'] = obj(fields, [k for k in fields if k not in ('previous_recipient_id', 'rotation_hash', 'rotation')],
+        description='仅公钥元数据；EXPIRED为当前时刻投影。重放只存recipient_id并重新查当前状态；不是独立信任、私钥持有证明、资金、密文通道或执行租约。')
+    s['EndpointDirectoryPage'] = obj({'items': arr(ref('EndpointDirectoryRecord'), 2),
+        'next_cursor': {'oneOf': [{'type': 'string', 'minLength': 1, 'maxLength': 512}, {'type': 'null'}]}},
+        description='仅本人当前角色的每endpoint最新保留版本，撤销不退回旧版；固定每页2，64KiB回复上界。cursor绑定账户及设备。')
+    rows = [
+        ('/endpoint-bundles', 'post', 'registerEndpointBundle', 'EndpointBundleRegistration', 'EndpointDirectoryRecord', 'recipient:manage', '201'),
+        ('/endpoint-bundles', 'get', 'listOwnEndpointBundles', None, 'EndpointDirectoryPage', 'recipient:read', '200'),
+        ('/endpoint-bundles/{recipient_id}', 'get', 'getOwnEndpointBundle', None, 'EndpointDirectoryRecord', 'recipient:read', '200'),
+        ('/endpoint-bundles/{recipient_id}/rotations', 'post', 'rotateEndpointBundle', 'EndpointBundleRotationWrite', 'EndpointDirectoryRecord', 'recipient:manage', '201'),
+        ('/endpoint-bundles/{recipient_id}/revoke', 'post', 'revokeEndpointBundle', 'EndpointBundleRevocation', 'EndpointDirectoryRecord', 'recipient:manage', '200'),
+        ('/orders/{order_id}/endpoint-bundles/{recipient_id}', 'get', 'getOrderEndpointBundle', None, 'EndpointDirectoryRecord', 'recipient:read', '200')]
+    for path, method, operation, request, response, scope, success in rows:
+        params = [{'in': 'path', 'name': key, 'required': True, 'schema': ID} for key in __import__('re').findall(r'\{([^}]+)\}', path)]
+        if method == 'post': params.append({'in': 'header', 'name': 'Idempotency-Key', 'required': True, 'schema': {'type': 'string', 'minLength': 8, 'maxLength': 128}})
+        if operation == 'listOwnEndpointBundles': params.append({'in': 'query', 'name': 'cursor', 'required': False, 'schema': {'type': 'string', 'maxLength': 512}})
+        item = {'operationId': operation, 'tags': ['EndpointDirectory'], 'summary': operation, 'parameters': params,
+            'description': 'ER公钥控制面SOURCE_ONLY，022未迁移/源码未编译运行。账户session或原设备证明分权；不接受SDK API key。原C2C订单查询只能当前买家、原卖家及原合同设备，不能据此执行、改隐私或跳过资金/资格/独立核验。',
+            'x-required-scopes': [scope], 'x-source-status': 'SOURCE_ONLY_UNCOMPILED_UNEXECUTED',
+            'x-response-max-bytes': 65536, 'x-account-endpoints-per-role-max': 32, 'x-retained-versions-per-endpoint-max': 32,
+            'security': [{'BrowserCookie': []}, {'BearerAuth': []}]+([] if operation == 'getOrderEndpointBundle' else [{'DeviceProof': []}]),
+            'responses': {success: {'description': '原公钥当前状态；独立信任仍必需', 'content': {'application/json': {'schema': ref(response)}}},
+                **{str(code): {'$ref': '#/components/responses/'+str(code)} for code in [400, 401, 403, 404, 409, 429, 503]}}}
+        if request:
+            item['requestBody'] = {'required': True, 'content': {'application/json': {'schema': ref(request)}}}
+            item['x-browser-csrf'] = 'Exact Origin and session-bound X-CSRF-Token for Cookie requests'
         paths.setdefault(path, {})[method] = item
     return api
 

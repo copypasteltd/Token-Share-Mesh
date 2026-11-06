@@ -16,6 +16,7 @@ import (
 	controlhttp "p11.local/compute/api/internal/http"
 	"p11.local/compute/gateway/platform/sdkhttp"
 	"p11.local/compute/internal/dispatch/device"
+	"p11.local/compute/internal/endpointregistry"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/payments"
@@ -227,16 +228,17 @@ func run() error {
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
 		Keys:     keys,
 		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: fees},
-		Devices:       device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
-		Claims:        claims,
-		Continuations: continuations,
-		Completion:    completion,
-		ResultContent: resultContent,
-		Delivery:      delivery,
-		Rentals:       rentals,
-		Payments:      paymentService,
-		Refunds:       refundService,
-		Routes:        routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
+		Devices:           device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
+		Claims:            claims,
+		Continuations:     continuations,
+		Completion:        completion,
+		ResultContent:     resultContent,
+		Delivery:          delivery,
+		Rentals:           rentals,
+		Payments:          paymentService,
+		Refunds:           refundService,
+		EndpointDirectory: &endpointregistry.Service{DB: db},
+		Routes:            routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
 	if err != nil {
 		return err
 	}

@@ -2,7 +2,7 @@
   "version": "1.0-draft",
   "date": "2026-10-29",
   "source": "docs/白皮书/contracts/openapi-control-v3.0.json",
-  "canonical_api_sha256": "e84dea1dd2041bde690d7748a73daf5d03bfd9fe12cfaad6de17db77af591e42",
+  "canonical_api_sha256": "0f1390bff82c9ad3ac3206adcd966b00a4a2cf91b654951bd508585045ee4d42",
   "status": "DESIGN_UNIMPLEMENTED",
   "operations": [
     {
@@ -7831,6 +7831,441 @@
         "source": "dev/src/api/internal/http/routes.json",
         "handler_file": "dev/src/api/internal/http/server.go",
         "handler": "getOriginalResultUploadStatus",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "registerEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles",
+      "summary": "registerEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/registerEndpointBundle.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EndpointBundleRegistration"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "f5d6389a889eedcacf35b8485e2ce191d1b276fec59e926780ce0d05f3ac580c",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "registerEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "listOwnEndpointBundles",
+      "method": "GET",
+      "path": "/endpoint-bundles",
+      "summary": "listOwnEndpointBundles",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/listOwnEndpointBundles.go",
+      "required_scopes": [
+        "recipient:read"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "dfc2f0f8bee3aae5e2b873da6d726d363c42865251417699d3be5b51a00dde5c",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "listOwnEndpointBundles",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "getOwnEndpointBundle",
+      "method": "GET",
+      "path": "/endpoint-bundles/{recipient_id}",
+      "summary": "getOwnEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/getOwnEndpointBundle.go",
+      "required_scopes": [
+        "recipient:read"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "0765f06f008dff991ea45899ddb02b27d952dad076cc313b49480f9e62d23b1d",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOwnEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "rotateEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles/{recipient_id}/rotations",
+      "summary": "rotateEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/rotateEndpointBundle.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EndpointBundleRotationWrite"
+      },
+      "response_codes": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "1cd4a2e1be76ff832c11c761e2768e9618b1d9f664e8f3ad3fc80c58a0a66ef4",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "rotateEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "revokeEndpointBundle",
+      "method": "POST",
+      "path": "/endpoint-bundles/{recipient_id}/revoke",
+      "summary": "revokeEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/revokeEndpointBundle.go",
+      "required_scopes": [
+        "recipient:manage"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        },
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/EndpointBundleRevocation"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "e830b7c9b032000ea3afd51e8a95b5a204fa4219f1b253d2ab9977ccf83a9be5",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "revokeEndpointBundle",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "getOrderEndpointBundle",
+      "method": "GET",
+      "path": "/orders/{order_id}/endpoint-bundles/{recipient_id}",
+      "summary": "getOrderEndpointBundle",
+      "module_id": "MOD-10",
+      "task_id": "DEV-29",
+      "planned_handler": "dev/src/api/internal/http/mod_10/getOrderEndpointBundle.go",
+      "required_scopes": [
+        "recipient:read"
+      ],
+      "security": [
+        {
+          "BrowserCookie": []
+        },
+        {
+          "BearerAuth": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F32",
+        "P11-F33",
+        "P11-F36",
+        "P11-F72",
+        "P11-F75"
+      ],
+      "acceptance_ids": [
+        "P11-T32",
+        "P11-T33",
+        "P11-T36",
+        "P11-T72",
+        "P11-T75"
+      ],
+      "source_documents": [
+        "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-低开销隐私执行完整方案.md"
+      ],
+      "canonical_operation_sha256": "5c83f119912ec2dd22b9c5e105c37682aefe54bbefa3b4aeb240d2e437cac2df",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOrderEndpointBundle",
         "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
         "evidence_authority": "dev/progress/implementation-status.json"
       }

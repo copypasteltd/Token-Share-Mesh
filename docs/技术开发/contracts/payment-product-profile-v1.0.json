@@ -169,6 +169,17 @@
     "sql_changed_or_migrated": false,
     "compiled_or_executed": false
   },
+  "account_endpoint_directory_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-账户设备公钥目录与原请求发布源码.md",
+    "source_contract": "docs/技术开发/contracts/account-endpoint-directory-source-v1.json",
+    "forward_source": "022_account_endpoint_directory.sql",
+    "migration_executed": false,
+    "account_device_public_binding_and_native_publish_source_wired": true,
+    "independent_trust_or_content_possession_or_execution_proven": false,
+    "platform_e2e_grant_blind_content_sdk_private_host_jni_complete": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",

@@ -71,6 +71,7 @@ type command struct {
 	Key        string       `json:"idempotency_key"`
 	Body       journalBytes `json:"body"`
 	Credential string       `json:"pairing_credential,omitempty"`
+	Resource   string       `json:"resource_id,omitempty"`
 }
 type state struct {
 	Profile      string       `json:"profile"`
@@ -375,12 +376,16 @@ func (s *Store) validate() error {
 		case "ENROLLMENT":
 			var e devicecontrol.Enrollment
 			id, err := devicecontrol.PairingID(p.Credential)
-			if v.DeviceID != "" || err != nil || strictjson.Decode(p.Body, &e, devicecontrol.MaximumBody) != nil || e != s.enrollment(id) {
+			if v.DeviceID != "" || p.Resource != "" || err != nil || strictjson.Decode(p.Body, &e, devicecontrol.MaximumBody) != nil || e != s.enrollment(id) {
 				return ErrState
 			}
 		case "HEARTBEAT":
 			var h devicecontrol.Heartbeat
-			if v.DeviceID == "" || p.Credential != "" || strictjson.Decode(p.Body, &h, devicecontrol.MaximumBody) != nil || h.Attempt != "" || h.Fence != "" || h.State != "UNKNOWN" || h.Version < 1 || h.Recorded.IsZero() || v.Sequence == nil || h.Sequence != *v.Sequence {
+			if v.DeviceID == "" || p.Resource != "" || p.Credential != "" || strictjson.Decode(p.Body, &h, devicecontrol.MaximumBody) != nil || h.Attempt != "" || h.Fence != "" || h.State != "UNKNOWN" || h.Version < 1 || h.Recorded.IsZero() || v.Sequence == nil || h.Sequence != *v.Sequence {
+				return ErrState
+			}
+		case devicecontrol.EndpointRegister, devicecontrol.EndpointRotate, devicecontrol.EndpointRevoke:
+			if v.CryptoID == "" || p.Credential != "" || !devicecontrol.EndpointCommandValid(p.Kind, p.Resource, v.SellerID, v.DeviceID, p.Body) {
 				return ErrState
 			}
 		default:

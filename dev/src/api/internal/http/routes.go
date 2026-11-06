@@ -44,6 +44,18 @@ func (s *Server) loadRoutes() bool {
 }
 func (s *Server) handlerNamed(name string) handler {
 	switch name {
+	case "registerEndpointBundle":
+		return s.registerEndpointBundle
+	case "listOwnEndpointBundles":
+		return s.listOwnEndpointBundles
+	case "getOwnEndpointBundle":
+		return s.getOwnEndpointBundle
+	case "rotateEndpointBundle":
+		return s.rotateEndpointBundle
+	case "revokeEndpointBundle":
+		return s.revokeEndpointBundle
+	case "getOrderEndpointBundle":
+		return s.getOrderEndpointBundle
 	case "beginOriginalResultContent":
 		return s.beginOriginalResultContent
 	case "putOriginalResultChunk":

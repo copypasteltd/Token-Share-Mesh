@@ -64,6 +64,12 @@ func SeedNativeOfferForProtocol(t *testing.T, ctx context.Context, db *persisten
 	return seedOfferProfile(t, ctx, db, "PLAINTEXT", region, newBuyer(t, ctx, db), protocol, true)
 }
 
+// Directory/order discovery fixture only; synthetic crypto approvals do not
+// activate any E2E route, lease, content channel or native inference runtime.
+func SeedNativeBlindOffer(t *testing.T, ctx context.Context, db *persistence.DB, region, protocol string) Offer {
+	return seedOfferProfile(t, ctx, db, "E2E", region, newBuyer(t, ctx, db), protocol, true)
+}
+
 // Synthetic hourly-session fixture only. This creates no real ComfyUI/GPU,
 // Alipay settlement, hardware readiness or qualification evidence.
 func SeedNativeRentalOffer(t *testing.T, ctx context.Context, db *persistence.DB, region, protocol string) Offer {

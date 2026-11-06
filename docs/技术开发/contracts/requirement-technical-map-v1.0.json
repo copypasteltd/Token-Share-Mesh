@@ -1758,7 +1758,13 @@
         "createAuthChallenge",
         "createUserSession",
         "getCurrentSession",
-        "revokeUserSession"
+        "revokeUserSession",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "users",
@@ -1774,7 +1780,9 @@
         "budget_reservations",
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "technical_documents": [
         "docs/技术开发/16-身份授权与安全工程.md",
@@ -1817,12 +1825,20 @@
         "getRecipient",
         "createRecipientRotation",
         "revokeRecipient",
-        "registerEnvelope"
+        "registerEnvelope",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "devices",
         "device_request_nonces",
         "resources",
@@ -1885,6 +1901,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "devices",
         "device_request_nonces",
         "resources",
@@ -1957,6 +1975,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "devices",
         "device_request_nonces",
         "resources",
@@ -2020,12 +2040,20 @@
         "createOriginalResultReadGrant",
         "getOriginalResultContent",
         "getOriginalResultChunk",
-        "getOriginalResultUploadStatus"
+        "getOriginalResultUploadStatus",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "devices",
         "device_request_nonces",
         "resources",
@@ -2082,6 +2110,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "audit_events",
         "feature_gates",
         "releases"
@@ -2129,6 +2159,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "audit_events",
         "feature_gates",
         "releases"
@@ -2282,6 +2314,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "reviews",
         "disputes",
         "appeals",
@@ -2771,6 +2805,8 @@
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "audit_events",
         "feature_gates",
         "releases"
@@ -4094,12 +4130,20 @@
         "getRecipient",
         "createRecipientRotation",
         "revokeRecipient",
-        "registerEnvelope"
+        "registerEnvelope",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -4141,7 +4185,9 @@
       "tables": [
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -4235,12 +4281,20 @@
         "createAuthChallenge",
         "createUserSession",
         "getCurrentSession",
-        "revokeUserSession"
+        "revokeUserSession",
+        "registerEndpointBundle",
+        "listOwnEndpointBundles",
+        "getOwnEndpointBundle",
+        "rotateEndpointBundle",
+        "revokeEndpointBundle",
+        "getOrderEndpointBundle"
       ],
       "tables": [
         "recipient_keys",
         "encryption_intents",
         "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims",
         "users",
         "role_grants",
         "api_keys",
@@ -4486,7 +4540,9 @@
       "tables": [
         "recipient_keys",
         "encryption_intents",
-        "envelopes"
+        "envelopes",
+        "endpoint_public_bundles",
+        "endpoint_public_key_claims"
       ],
       "technical_documents": [
         "docs/技术开发/07-统一协议网关与Sub2API改造.md",

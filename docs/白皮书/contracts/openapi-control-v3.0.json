@@ -10725,6 +10725,501 @@
           }
         }
       }
+    },
+    "/endpoint-bundles": {
+      "post": {
+        "operationId": "registerEndpointBundle",
+        "tags": [
+          "EndpointDirectory"
+        ],
+        "summary": "registerEndpointBundle",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "ER公钥控制面SOURCE_ONLY，022未迁移/源码未编译运行。账户session或原设备证明分权；不接受SDK API key。原C2C订单查询只能当前买家、原卖家及原合同设备，不能据此执行、改隐私或跳过资金/资格/独立核验。",
+        "x-required-scopes": [
+          "recipient:manage"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-response-max-bytes": 65536,
+        "x-account-endpoints-per-role-max": 32,
+        "x-retained-versions-per-endpoint-max": 32,
+        "security": [
+          {
+            "BrowserCookie": []
+          },
+          {
+            "BearerAuth": []
+          },
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "原公钥当前状态；独立信任仍必需",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDirectoryRecord"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndpointBundleRegistration"
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      },
+      "get": {
+        "operationId": "listOwnEndpointBundles",
+        "tags": [
+          "EndpointDirectory"
+        ],
+        "summary": "listOwnEndpointBundles",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "description": "ER公钥控制面SOURCE_ONLY，022未迁移/源码未编译运行。账户session或原设备证明分权；不接受SDK API key。原C2C订单查询只能当前买家、原卖家及原合同设备，不能据此执行、改隐私或跳过资金/资格/独立核验。",
+        "x-required-scopes": [
+          "recipient:read"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-response-max-bytes": 65536,
+        "x-account-endpoints-per-role-max": 32,
+        "x-retained-versions-per-endpoint-max": 32,
+        "security": [
+          {
+            "BrowserCookie": []
+          },
+          {
+            "BearerAuth": []
+          },
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原公钥当前状态；独立信任仍必需",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDirectoryPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      }
+    },
+    "/endpoint-bundles/{recipient_id}": {
+      "get": {
+        "operationId": "getOwnEndpointBundle",
+        "tags": [
+          "EndpointDirectory"
+        ],
+        "summary": "getOwnEndpointBundle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recipient_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "ER公钥控制面SOURCE_ONLY，022未迁移/源码未编译运行。账户session或原设备证明分权；不接受SDK API key。原C2C订单查询只能当前买家、原卖家及原合同设备，不能据此执行、改隐私或跳过资金/资格/独立核验。",
+        "x-required-scopes": [
+          "recipient:read"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-response-max-bytes": 65536,
+        "x-account-endpoints-per-role-max": 32,
+        "x-retained-versions-per-endpoint-max": 32,
+        "security": [
+          {
+            "BrowserCookie": []
+          },
+          {
+            "BearerAuth": []
+          },
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原公钥当前状态；独立信任仍必需",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDirectoryRecord"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      }
+    },
+    "/endpoint-bundles/{recipient_id}/rotations": {
+      "post": {
+        "operationId": "rotateEndpointBundle",
+        "tags": [
+          "EndpointDirectory"
+        ],
+        "summary": "rotateEndpointBundle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recipient_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "ER公钥控制面SOURCE_ONLY，022未迁移/源码未编译运行。账户session或原设备证明分权；不接受SDK API key。原C2C订单查询只能当前买家、原卖家及原合同设备，不能据此执行、改隐私或跳过资金/资格/独立核验。",
+        "x-required-scopes": [
+          "recipient:manage"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-response-max-bytes": 65536,
+        "x-account-endpoints-per-role-max": 32,
+        "x-retained-versions-per-endpoint-max": 32,
+        "security": [
+          {
+            "BrowserCookie": []
+          },
+          {
+            "BearerAuth": []
+          },
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "原公钥当前状态；独立信任仍必需",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDirectoryRecord"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndpointBundleRotationWrite"
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      }
+    },
+    "/endpoint-bundles/{recipient_id}/revoke": {
+      "post": {
+        "operationId": "revokeEndpointBundle",
+        "tags": [
+          "EndpointDirectory"
+        ],
+        "summary": "revokeEndpointBundle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recipient_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "ER公钥控制面SOURCE_ONLY，022未迁移/源码未编译运行。账户session或原设备证明分权；不接受SDK API key。原C2C订单查询只能当前买家、原卖家及原合同设备，不能据此执行、改隐私或跳过资金/资格/独立核验。",
+        "x-required-scopes": [
+          "recipient:manage"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-response-max-bytes": 65536,
+        "x-account-endpoints-per-role-max": 32,
+        "x-retained-versions-per-endpoint-max": 32,
+        "security": [
+          {
+            "BrowserCookie": []
+          },
+          {
+            "BearerAuth": []
+          },
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原公钥当前状态；独立信任仍必需",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDirectoryRecord"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndpointBundleRevocation"
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      }
+    },
+    "/orders/{order_id}/endpoint-bundles/{recipient_id}": {
+      "get": {
+        "operationId": "getOrderEndpointBundle",
+        "tags": [
+          "EndpointDirectory"
+        ],
+        "summary": "getOrderEndpointBundle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "path",
+            "name": "recipient_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "ER公钥控制面SOURCE_ONLY，022未迁移/源码未编译运行。账户session或原设备证明分权；不接受SDK API key。原C2C订单查询只能当前买家、原卖家及原合同设备，不能据此执行、改隐私或跳过资金/资格/独立核验。",
+        "x-required-scopes": [
+          "recipient:read"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-response-max-bytes": 65536,
+        "x-account-endpoints-per-role-max": 32,
+        "x-retained-versions-per-endpoint-max": 32,
+        "security": [
+          {
+            "BrowserCookie": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原公钥当前状态；独立信任仍必需",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDirectoryRecord"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -19543,6 +20038,323 @@
           "output_digest"
         ],
         "description": "完整接收、校验并加密入缓存后生成；是本地核对元数据，不是独立计量、E2E签名或自动接受。"
+      },
+      "EndpointPublicKey": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "algorithm": {
+            "type": "string",
+            "enum": [
+              "Ed25519",
+              "X25519_SEALED_BOX"
+            ]
+          },
+          "public_key": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "key_id",
+          "algorithm",
+          "public_key",
+          "fingerprint"
+        ],
+        "description": "仅公钥；fingerprint=SHA256(decoded32bytes)。不证明内容私钥持有或执行资格。"
+      },
+      "EndpointPublicBundle": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_ENDPOINT_PUBLIC_1"
+          },
+          "owner_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "endpoint_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "BUYER",
+              "SELLER"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^([1-9]|[12][0-9]|3[0-2])$"
+          },
+          "identity_signing_key": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EndpointPublicKey"
+              },
+              {
+                "properties": {
+                  "algorithm": {
+                    "const": "Ed25519"
+                  }
+                }
+              }
+            ]
+          },
+          "content_receiving_key": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EndpointPublicKey"
+              },
+              {
+                "properties": {
+                  "algorithm": {
+                    "const": "X25519_SEALED_BOX"
+                  }
+                }
+              }
+            ]
+          },
+          "buyer_receipt_key": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EndpointPublicKey"
+              },
+              {
+                "properties": {
+                  "algorithm": {
+                    "const": "Ed25519"
+                  }
+                }
+              }
+            ]
+          },
+          "not_before": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "signature_profile_id": {
+            "const": "ED25519_JCS_1"
+          },
+          "signature": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{86}$"
+          }
+        },
+        "required": [
+          "profile_id",
+          "owner_id",
+          "endpoint_id",
+          "role",
+          "version",
+          "identity_signing_key",
+          "content_receiving_key",
+          "not_before",
+          "expires_at",
+          "signature_profile_id",
+          "signature"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "role": {
+                  "const": "BUYER"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "buyer_receipt_key"
+              ]
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "buyer_receipt_key"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "原P11_ENDPOINT_PUBLIC_1签名字节未变。JCS/domain/Ed25519、严格UTC时间与<=90天有效窗、各用途不复用由Go核验；结构合法不等于账户/设备/独立信任。"
+      },
+      "EndpointPublicRotation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_ENDPOINT_ROTATION_1"
+          },
+          "previous_bundle_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "next_bundle": {
+            "$ref": "#/components/schemas/EndpointPublicBundle"
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "old_identity_signature": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{86}$"
+          }
+        },
+        "required": [
+          "profile_id",
+          "previous_bundle_hash",
+          "next_bundle",
+          "recorded_at",
+          "old_identity_signature"
+        ],
+        "description": "原旧身份钥签名的连续版本；同owner/endpoint/role，全部用途钥与历史claim不复用，不分叉。重复发布复用原证明，不重新签名。"
+      },
+      "EndpointBundleRegistration": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "bundle": {
+            "$ref": "#/components/schemas/EndpointPublicBundle"
+          }
+        },
+        "required": [
+          "bundle"
+        ],
+        "description": "初始version=1；BUYER只允许当前账户session，SELLER只允许当前原设备逐请求签名。API key不管理公钥。"
+      },
+      "EndpointBundleRotationWrite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "transition": {
+            "$ref": "#/components/schemas/EndpointPublicRotation"
+          }
+        },
+        "required": [
+          "transition"
+        ]
+      },
+      "EndpointBundleRevocation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expected_bundle_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "expected_bundle_hash"
+        ],
+        "description": "只撤销明确指向的版本，保留历史；不隐式撤销整个轮换链或删除本地私钥，不冒称活动内容消费者已join。"
+      },
+      "EndpointDirectoryRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_ACCOUNT_ENDPOINT_DIRECTORY_1"
+          },
+          "recipient_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "bundle": {
+            "$ref": "#/components/schemas/EndpointPublicBundle"
+          },
+          "bundle_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "RETIRED",
+              "REVOKED",
+              "EXPIRED"
+            ]
+          },
+          "previous_recipient_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "rotation_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "rotation": {
+            "$ref": "#/components/schemas/EndpointPublicRotation"
+          },
+          "independent_trust_required": {
+            "const": true
+          },
+          "replayed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "profile_id",
+          "recipient_id",
+          "bundle",
+          "bundle_hash",
+          "state",
+          "independent_trust_required",
+          "replayed"
+        ],
+        "description": "仅公钥元数据；EXPIRED为当前时刻投影。重放只存recipient_id并重新查当前状态；不是独立信任、私钥持有证明、资金、密文通道或执行租约。"
+      },
+      "EndpointDirectoryPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EndpointDirectoryRecord"
+            },
+            "minItems": 0,
+            "maxItems": 2
+          },
+          "next_cursor": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "description": "仅本人当前角色的每endpoint最新保留版本，撤销不退回旧版；固定每页2，64KiB回复上界。cursor绑定账户及设备。"
       }
     },
     "responses": {
