@@ -101,6 +101,10 @@ AND COALESCE(channel_reference,'')=$6 AND COALESCE(prepay_reference,'')=$7 FROM 
 		safe, _ := json.Marshal(map[string]string{"profile": Profile, "kind": o.kind, "code": o.safeCode, "receipt_ref": receipt})
 		_, e = tx.Exec(ctx, `UPDATE p11.channel_requests SET state=CASE WHEN state='SUCCEEDED' THEN state ELSE $2 END,
 safe_result=CASE WHEN state='SUCCEEDED' AND $2='UNKNOWN' THEN safe_result ELSE $3::jsonb END,version=version+1 WHERE id=$1`, request, state, safe)
+		if e == nil && o.IsSettled() {
+			_, e = tx.Exec(ctx, `INSERT INTO p11.durable_jobs(id,kind,dedupe_key,target_ref,state,run_at)
+VALUES($1,'ADMIT_MACHINE_FUNDS',$2,$3,'PENDING',clock_timestamp()) ON CONFLICT(dedupe_key) DO NOTHING`, ids.New("bg"), "machine-funds:"+payment, payment)
+		}
 		return e
 	})
 }

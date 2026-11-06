@@ -41,6 +41,27 @@
     "resource_id_required": false,
     "resource_id_api_status": "DEPRECATED_OPTIONAL"
   },
+  "original_funding_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-原订单资金唯一分配与当前准入源码.md",
+    "profile": "P11_ORIGINAL_ORDER_FUNDS_1",
+    "table": "order_fundings",
+    "data_id": "DATA-075",
+    "forward_source": "017_original_order_funding.sql",
+    "migration_executed": false,
+    "paid_is_execution_authority": false,
+    "wallet_created": false,
+    "allocation_order_payment_unique": true,
+    "current_refund_approval_deadline_recheck": true,
+    "source_consumers": [
+      "routecontract",
+      "rental",
+      "identity.scoped_keys"
+    ],
+    "full_fee_refund_renewal_usage_acceptance_ledger_complete": false,
+    "legacy_positive_fixtures_rewritten": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",

@@ -1,11 +1,11 @@
 # Token Share Mesh
 
-<!-- R026-PH-CURRENT -->
-R026 adds [PH-001–040](docs/技术开发/附录-MachinePay原生宿主与本人支付接口源码.md): explicit native registration, independent secrets and proof/receipt keyrings, bounded rooted files, dedicated original recovery/expiry, actual joins before key release, two existing authenticated payment create/get HTTP operations and API/worker entrypoints. Current source: 50 control HTTP operations/98 planned operations/74 platform tables; no SQL changes. All 12 new test definitions and earlier R026 source remain uncompiled/unexecuted. SDK/Proof/A402/PayLauncher, unique funds/current refund-device-deadline admission, full qualified refunds/payouts/fees/statements/renewal/trusted metering/acceptance/ledger and real qualification remain open. All 56 tasks/222 steps are unaccepted. Complete all production source, actual wiring and test source before batch validation; this is not a completed round.
-<!-- /R026-PH-CURRENT -->
+<!-- R026-GF-CURRENT -->
+R026 adds [GF-001–040](docs/技术开发/附录-原订单资金唯一分配与当前准入源码.md): unique original-order allocation DATA075/forward source 017, metadata-only admission after verified payment, atomic READY/outbox, current parties/four approvals/gate/refund/deadline guard and route/rental/scoped-key consumers. Current source: 50 control HTTP operations/98 planned operations/75 platform tables; 14 new test definitions remain uncompiled/unexecuted, and 017 is unapplied. Only the explicit zero-fee profile is wired. Legacy positive flag fixtures, SDK/Proof/A402/PayLauncher, full qualified fees/refunds/payouts/statements/renewal/trusted metering/acceptance/ledger and real qualification remain open. All 56 tasks/222 steps are unaccepted. Complete all production source, actual dependency wiring and test source before batch validation; this is not a completed round.
+<!-- /R026-GF-CURRENT -->
 
 <!-- R026-SOURCE-HISTORY -->
-The following source snapshots retain their earlier scope and counts. The PH notice above and the full progress registry describe the current state.
+The following source snapshots retain their earlier scope and counts. The GF notice above and the full progress registry describe the current state.
 <!-- /R026-SOURCE-HISTORY -->
 
 R026 extends [hourly rental source RN-001—110](docs/技术开发/附录-小时租赁授权与累计计量源码细则.md) with independently authenticated original grants, strict Chat/Responses/Messages text input, one-use random RAM AEAD envelopes, a rental-only llama private-pipe adapter, a SQL-independent monotonic deadline loop and owned node shutdown. No fabricated T1 job/attempt or seller/device/model/privacy fallback is used. Original synchronized cleanup receipts and actual process/pipe joins precede any local slot release. See the [rental runtime](dev/src/client/rentalruntime/README.md).
@@ -318,3 +318,7 @@ R026 adds [PT-001–040](docs/技术开发/附录-MachinePay支付事务与原�
 ## R026 PH-001—040 原生支付宿主与本人接口 / Native payment host and owner HTTP source
 
 R026 adds [PH-001–040](docs/技术开发/附录-MachinePay原生宿主与本人支付接口源码.md): explicit native registration, independent secrets and proof/receipt keyrings, bounded rooted files, dedicated original recovery/expiry, actual joins before key release, two existing authenticated payment create/get HTTP operations and API/worker entrypoints. Current source: 50 control HTTP operations/98 planned operations/74 platform tables; no SQL changes. All 12 new test definitions and earlier R026 source remain uncompiled/unexecuted. SDK/Proof/A402/PayLauncher, unique funds/current refund-device-deadline admission, full qualified refunds/payouts/fees/statements/renewal/trusted metering/acceptance/ledger and real qualification remain open. All 56 tasks/222 steps are unaccepted. Complete all production source, actual wiring and test source before batch validation; this is not a completed round.
+
+## R026 GF-001—040 原订单资金分配与当前准入 / Original allocation and current admission source
+
+R026 adds [GF-001–040](docs/技术开发/附录-原订单资金唯一分配与当前准入源码.md): unique original-order allocation DATA075/forward source 017, metadata-only admission after verified payment, atomic READY/outbox, current parties/four approvals/gate/refund/deadline guard and route/rental/scoped-key consumers. Current source: 50 control HTTP operations/98 planned operations/75 platform tables; 14 new test definitions remain uncompiled/unexecuted, and 017 is unapplied. Only the explicit zero-fee profile is wired. Legacy positive flag fixtures, SDK/Proof/A402/PayLauncher, full qualified fees/refunds/payouts/statements/renewal/trusted metering/acceptance/ledger and real qualification remain open. All 56 tasks/222 steps are unaccepted. Complete all production source, actual dependency wiring and test source before batch validation; this is not a completed round.

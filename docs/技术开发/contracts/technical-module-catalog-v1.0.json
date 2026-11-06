@@ -128,7 +128,8 @@
         "channel_requests",
         "payment_machine_contexts",
         "payment_machine_receipts",
-        "payment_machine_recoveries"
+        "payment_machine_recoveries",
+        "order_fundings"
       ],
       "application_services": [
         "PaymentIntent",
@@ -137,7 +138,9 @@
         "Machine",
         "OriginalProofRecovery",
         "MachineHost",
-        "OriginalProofWorker"
+        "OriginalProofWorker",
+        "OriginalFundingAdmission",
+        "CurrentFundingGuard"
       ],
       "dependencies": [
         "MOD-01",

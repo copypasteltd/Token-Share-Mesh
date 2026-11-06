@@ -15,11 +15,12 @@ import (
 	"time"
 	"unicode/utf8"
 
+	"p11.local/compute/internal/fundguard"
 	"p11.local/compute/shared/ids"
 	"p11.local/compute/shared/money"
 )
 
-const Profile = "P11_MACHINE_PAY_PREPAID_1"
+const Profile = fundguard.ChannelProfile
 const MaximumProofHeader = 16384
 const MaximumChannelResponse = 65536
 

@@ -164,6 +164,11 @@ func (h *Host) RunRecovery(ctx context.Context) error {
 		if ctx.Err() != nil {
 			return nil
 		}
+		if e == nil {
+			var funded bool
+			funded, e = h.service.RecoverFundingOne(ctx)
+			worked = worked || funded
+		}
 		// Retire at most one original expired live-row credential per iteration.
 		// This does not erase WAL/backups or destroy long-lived receipt keys.
 		if e == nil {

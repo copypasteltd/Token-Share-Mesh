@@ -97,3 +97,7 @@
 | PH-T010 | TestHTTPMachinePayUnknownDispatchReplaysWithoutFinancialRetry | dev/src/api/tests/payment_http_test.go | 未编译/未运行 |
 | PH-T011 | TestHTTPMachinePayRejectsUnregisteredBuyerFieldsAndBrowserCSRF | dev/src/api/tests/payment_http_test.go | 未编译/未运行 |
 | PH-T012 | TestHTTPMachinePayRemainsUnavailableWithoutExplicitHost | dev/src/api/tests/payment_http_test.go | 未编译/未运行 |
+
+## R026 GF-001—040 原订单资金分配与当前准入 / Original allocation and current admission source
+
+R026新增[GF-001—040](附录-原订单资金唯一分配与当前准入源码.md)：原订单唯一资金分配DATA075/前向017、原验签后独立元任务和原子READY/outbox、当前主体四证/gate/退款/期限及路由/小时租赁/密钥三消费者源码。当前50控制HTTP/98规划/75平台表；14项新增测试定义未编译/运行，017未迁移。当前仅显式零费用档；旧正向付款标记夹具升级、SDK/Proof/A402/实际PayLauncher、完整费用退款到账佣金对账/付费续租/可信计量接受账务和真实资格仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。

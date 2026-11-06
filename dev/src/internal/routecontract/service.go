@@ -9,6 +9,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	relay "p11.local/compute/gateway/core"
+	"p11.local/compute/internal/fundguard"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/outbox"
@@ -132,29 +133,21 @@ FROM p11.orders WHERE id=$1 AND buyer_id=$2 FOR SHARE`, in.OrderID, buyer).Scan(
 	if s.PaymentEnvironment != "SANDBOX" && s.PaymentEnvironment != "PRODUCTION" {
 		return f, fault.New(fault.Unavailable, "Explicit payment environment required for route resolution")
 	}
-	// This consumes a trusted, persisted channel fact; it never accepts payment
-	// state, channel references or endpoint addresses from the HTTP request.
-	// AUTHORIZED is deliberately unsupported until the real freeze profile exists.
-	var payment string
-	var fundsUntil *time.Time
-	err = tx.QueryRow(ctx, `SELECT id,funds_expires_at FROM p11.payments WHERE id=$1 AND order_id=$2
-AND purpose='ORDER' AND purpose_ref=$2 AND provider='ALIPAY' AND environment=$3
-AND state='SETTLED' AND amount_fen>=$4 AND length(channel_reference)>0
-AND length(product_profile_revision)>0 AND jsonb_typeof(channel_binding_snapshot)='object'
-AND channel_binding_snapshot<>'{}'::jsonb AND (funds_expires_at IS NULL OR funds_expires_at>clock_timestamp())
-FOR SHARE`, in.PaymentID, in.OrderID, s.PaymentEnvironment, int64(f.maximum)).Scan(&payment, &fundsUntil)
-	if err != nil && err != pgx.ErrNoRows {
+	// SETTLED alone is an historical financial fact. A route additionally needs
+	// the unique original allocation and its CURRENT parties/approval/refund
+	// eligibility. No legacy/synthetic flag or another order can substitute.
+	grant, err := fundguard.CurrentTx(ctx, tx, in.OrderID, in.PaymentID, s.PaymentEnvironment)
+	if err != nil {
+		var safe *fault.Error
+		if errors.As(err, &safe) && safe.Code == fault.Conflict {
+			return f, nil // Existing routes become ineligible without losing history.
+		}
 		return f, err
 	}
-	f.paymentCurrent = err == nil
-	if fundsUntil != nil && fundsUntil.Before(f.deadline) {
-		f.deadline = *fundsUntil
+	f.paymentCurrent = grant.Buyer == buyer && grant.Seller == seller && grant.ContractHash == f.hash && grant.Amount == f.maximum
+	if grant.ValidUntil.Before(f.deadline) {
+		f.deadline = grant.ValidUntil
 	}
-	var refund bool
-	if err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM p11.refunds WHERE payment_id=$1 AND state<>'FAILED')`, in.PaymentID).Scan(&refund); err != nil {
-		return f, err
-	}
-	f.paymentCurrent = f.paymentCurrent && !refund
 	return f, nil
 }
 

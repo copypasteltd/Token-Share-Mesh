@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"p11.local/compute/internal/fundguard"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
 	"p11.local/compute/internal/outbox"
@@ -142,32 +143,17 @@ func (s *Service) authorizeSession(ctx context.Context, p identity.Principal, id
 
 func (s *Service) fundingTx(ctx context.Context, tx pgx.Tx, o originalOrder, payment string, now time.Time) (Funding, error) {
 	f := Funding{Order: o.ID, Buyer: o.Buyer, Seller: o.Seller, Environment: s.environment}
-	var expires *time.Time
-	err := tx.QueryRow(ctx, `SELECT id,amount_fen,funds_expires_at FROM p11.payments
-WHERE order_id=$1 AND purpose='ORDER' AND purpose_ref=$1 AND provider='ALIPAY' AND environment=$2
-AND ($3='' OR id=$3) AND state='SETTLED' AND amount_fen>=$4 AND length(channel_reference)>0
-AND length(product_profile_revision)>0 AND jsonb_typeof(channel_binding_snapshot)='object'
-AND channel_binding_snapshot<>'{}'::jsonb AND (funds_expires_at IS NULL OR funds_expires_at>clock_timestamp()) FOR SHARE`, o.ID, s.environment, payment, o.Maximum).Scan(&f.Payment, &f.Amount, &expires)
-	if err == pgx.ErrNoRows {
-		return f, fault.New(fault.Conflict, "Resolved original Alipay funds required; query the original payment")
-	}
+	grant, err := fundguard.CurrentTx(ctx, tx, o.ID, payment, s.environment)
 	if err != nil {
 		return f, err
 	}
-	var refund bool
-	if err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM p11.refunds WHERE payment_id=$1 AND order_id=$2 AND state<>'FAILED')`, f.Payment, o.ID).Scan(&refund); err != nil {
-		return f, err
+	if grant.Buyer != o.Buyer || grant.Seller != o.Seller || grant.ContractHash != o.Hash || grant.Amount != o.Maximum {
+		return f, fault.New(fault.Conflict, "Original rental funding scope unavailable")
 	}
-	if refund {
-		return f, fault.New(fault.Conflict, "Original payment refund requires reconciliation before more work")
-	}
-	// The reference names the independently persisted channel result, not a
-	// Boolean supplied by this request. Actual channel verification precedes it.
-	f.Evidence = f.Payment
-	f.ValidUntil = o.Deadline
-	if expires != nil {
-		f.ValidUntil = minTime(f.ValidUntil, *expires)
-	}
+	// This immutable allocation names only the ORIGINAL ORDER funds. It is not
+	// another rental payment, paid renewal, wallet credit or execution ticket.
+	f.Payment, f.Amount, f.Evidence = grant.Payment, grant.Amount, grant.ID
+	f.ValidUntil = minTime(o.Deadline, grant.ValidUntil)
 	if !now.Before(f.ValidUntil) {
 		return f, fault.New(fault.Conflict, "Original rental funding expired")
 	}

@@ -10,6 +10,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"github.com/jackc/pgx/v5"
+	"p11.local/compute/internal/fundguard"
 	"p11.local/compute/internal/outbox"
 	"p11.local/compute/internal/persistence"
 	"p11.local/compute/shared/clock"
@@ -117,20 +118,32 @@ func (s KeyService) Create(ctx context.Context, p Principal, input KeyInput, ide
 		}
 		for _, route := range input.RouteIDs {
 			var expires time.Time
-			err := tx.QueryRow(ctx, `SELECT r.expires_at FROM p11.route_contracts r
+			var order, payment, environment string
+			err := tx.QueryRow(ctx, `SELECT r.expires_at,r.order_id,r.payment_id,py.environment FROM p11.route_contracts r
 JOIN p11.orders o ON o.id=r.order_id JOIN p11.payments py ON py.id=r.payment_id AND py.order_id=o.id
 WHERE r.id=$1 AND r.buyer_id=$2 AND r.state='ACTIVE' AND r.binding_profile='CONFIRMED_ROUTE_1'
 AND r.expires_at>clock_timestamp() AND o.state IN ('READY','FULFILLING') AND o.deadline>clock_timestamp()
-AND py.state='SETTLED' AND (py.funds_expires_at IS NULL OR py.funds_expires_at>clock_timestamp())
-AND NOT EXISTS(SELECT 1 FROM p11.refunds WHERE payment_id=py.id AND state<>'FAILED') FOR SHARE OF r,o,py`, route, p.UserID).Scan(&expires)
+FOR SHARE OF r,o,py`, route, p.UserID).Scan(&expires, &order, &payment, &environment)
 			if err == pgx.ErrNoRows {
 				return outbox.StoredResult{}, fault.New(fault.NotFound, "Route not found")
 			}
 			if err != nil {
 				return outbox.StoredResult{}, err
 			}
+			// Environment comes from this immutable original payment, never a
+			// caller-selectable default. Actual route use rechecks its host env.
+			grant, err := fundguard.CurrentTx(ctx, tx, order, payment, environment)
+			if err != nil {
+				return outbox.StoredResult{}, err
+			}
+			if grant.Buyer != p.UserID {
+				return outbox.StoredResult{}, fault.New(fault.NotFound, "Route not found")
+			}
+			if grant.ValidUntil.Before(expires) {
+				expires = grant.ValidUntil
+			}
 			if input.ExpiresAt.After(expires) {
-				return outbox.StoredResult{}, fault.New(fault.Invalid, "Key cannot outlive its route")
+				return outbox.StoredResult{}, fault.New(fault.Invalid, "Key cannot outlive its route and original funding eligibility")
 			}
 		}
 		var bytes [32]byte

@@ -396,7 +396,8 @@
         "channel_requests",
         "payment_machine_contexts",
         "payment_machine_receipts",
-        "payment_machine_recoveries"
+        "payment_machine_recoveries",
+        "order_fundings"
       ],
       "application_services": [
         "PaymentIntent",
@@ -405,7 +406,9 @@
         "Machine",
         "OriginalProofRecovery",
         "MachineHost",
-        "OriginalProofWorker"
+        "OriginalProofWorker",
+        "OriginalFundingAdmission",
+        "CurrentFundingGuard"
       ],
       "dependencies": [
         "MOD-01",
@@ -15745,6 +15748,16 @@
       "runtime_validation": "NOT_EXECUTED"
     },
     {
+      "id": "DATA-075",
+      "name": "order_fundings",
+      "schema": "p11",
+      "module_id": "MOD-05",
+      "column_count": 17,
+      "foreign_key_count": 5,
+      "source_document": "docs/技术开发/database/migrations/017_original_order_funding.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
       "id": "DATA-037",
       "name": "orders",
       "schema": "p11",
@@ -16511,6 +16524,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "quotes",
         "orders",
         "route_contracts",
@@ -16921,6 +16935,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "devices",
         "device_request_nonces",
         "resources",
@@ -17128,6 +17143,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -17399,6 +17415,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "audit_events",
         "feature_gates",
         "releases"
@@ -17627,6 +17644,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "reviews",
         "disputes",
         "appeals",
@@ -18344,7 +18362,8 @@
         "channel_requests",
         "payment_machine_contexts",
         "payment_machine_receipts",
-        "payment_machine_recoveries"
+        "payment_machine_recoveries",
+        "order_fundings"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18500,7 +18519,8 @@
         "channel_requests",
         "payment_machine_contexts",
         "payment_machine_receipts",
-        "payment_machine_recoveries"
+        "payment_machine_recoveries",
+        "order_fundings"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18566,6 +18586,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "reviews",
         "disputes",
         "appeals",
@@ -18988,6 +19009,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "usage_evidence",
         "meter_statements"
       ],
@@ -19132,6 +19154,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",
@@ -20687,11 +20710,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "dddd120a52079f29bd737eacd0a70c7f0e7a7afaa7194a435266b704ccbc234a"
+      "sha256": "42bcfa22179a1bfffaf51a3ab3c6c3ce1d55fa1f185ca53838f04830ed8699f9"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "c62fb18aa2b82c6ab6b3e21863a508ca99a537239036611d64aa3352826a3e51"
+      "sha256": "34e66fea869757914c04ccf2705835cc7654116a607e1e4d23305f2bcadc7a54"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20699,7 +20722,7 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "5b4109b8f25f7c96a3651df56e7c444ec49ca48f72bc5c2ccdb983114b995325"
+      "sha256": "5c3ce78b81746209387f89a2765da073888312bddcf542dd91e04f06b5cc318d"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
@@ -20759,7 +20782,7 @@
     },
     {
       "path": "docs/技术开发/13-支付退款账务与渠道结算.md",
-      "sha256": "a708505e258c4a80f83b52277946fff3b4e9b93a6b7b634fc212c58b683d45b9"
+      "sha256": "1718c717b2e34f5404f7bd360de9ba80f042e846538db5a60f084664493cb363"
     },
     {
       "path": "docs/技术开发/14-前端路由状态与接口集成.md",
@@ -20799,7 +20822,7 @@
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "85e463cb8df4f855108f488fd43261f55c0ec9ac9fdf1f2f719cfdf63b837a42"
+      "sha256": "9da6febc72f3a87d00da43034151aad43af4416fde36a35fff25f5bc6f49cea6"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20807,11 +20830,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "9663e862bb6116927eda5b0ab950e74adec0e547d23acd9c1b3fdaf7316e1006"
+      "sha256": "35b90f3de19ef7469d28a9f62a591512d21938cd7bc5ae1b3ea40d2d99255d03"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "41408e5363beb8c3fe046b8427a87085ce18236350531e7fbb05cf1e401dfde7"
+      "sha256": "d0046a10783338335b2dec117fd8f72b0ad2aadf5ccade9733bda1af214e6745"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -20874,6 +20897,10 @@
       "sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5"
     },
     {
+      "path": "docs/技术开发/database/migrations/017_original_order_funding.sql",
+      "sha256": "93ce01c76d9216e2fe4b0e8375982f1a64715594baa2491f5cd0b2543b5794ec"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -20915,7 +20942,7 @@
     },
     {
       "path": "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-      "sha256": "0eaad599779bded0c74b36edaea7fdec6f501eede3618b47e0e9466e580ae509"
+      "sha256": "d2eb9f1cbe1f5fa486edb4580785b17b71ad5980c4459665d7495ed86e3dabee"
     },
     {
       "path": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md",
@@ -20947,7 +20974,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "824b9daca4e6068b17693f3805aa47307b4e18a82505dc1e8a0c92336b275887"
+      "sha256": "c5c48f0b992e9c17a8de83307fd56d5ce844d82550b7d854d8468044c42b53b7"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -20960,7 +20987,7 @@
     "steps": 222,
     "constraints": 47,
     "control_operations": 98,
-    "tables": 74,
+    "tables": 75,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

@@ -76,14 +76,18 @@ FROM p11.orders WHERE id=$1 FOR UPDATE`, id).Scan(&o.Buyer, &o.Seller, &o.Hash, 
 	return o, nil
 }
 
+func machineAuthorityScope(r Registration) map[string]string {
+	b := r.Channel.binding
+	return map[string]string{"payment_profile": Profile, "seller_id": b.Seller, "app_id": b.AppID, "service_id": b.ServiceID,
+		"environment": b.Environment, "revision": b.Revision, "authority_subject": b.AuthoritySubject, "signing_key_hash": b.SigningKeyHash, "alipay_key_hash": b.AlipayKeyHash,
+		"sku_id": r.Policy.SKU, "mode": r.Policy.Mode, "privacy": r.Policy.Privacy, "collection": r.Policy.Collection}
+}
 func requireMachineAuthorityTx(ctx context.Context, tx pgx.Tx, r Registration, buyer string, now time.Time, sale bool) error {
 	b := r.Channel.binding
 	if !b.ResolvableAt(now) || sale && !b.ValidAt(now) {
 		return ErrBinding
 	}
-	scope, _ := json.Marshal(map[string]string{"payment_profile": Profile, "seller_id": b.Seller, "app_id": b.AppID, "service_id": b.ServiceID,
-		"environment": b.Environment, "revision": b.Revision, "authority_subject": b.AuthoritySubject, "signing_key_hash": b.SigningKeyHash, "alipay_key_hash": b.AlipayKeyHash,
-		"sku_id": r.Policy.SKU, "mode": r.Policy.Mode, "privacy": r.Policy.Privacy, "collection": r.Policy.Collection})
+	scope, _ := json.Marshal(machineAuthorityScope(r))
 	proofs := []struct{ id, digest, kind string }{{b.AuthorizationRef, b.AuthorizationHash, "MACHINE_PAY_AUTHORITY_1"}, {b.QualificationRef, b.QualificationHash, "MACHINE_PAY_PERSONAL_SELLER_1"}}
 	if sale {
 		proofs = append(proofs, struct{ id, digest, kind string }{r.Policy.RefundEvidenceRef, r.Policy.RefundEvidenceHash, "MACHINE_PAY_REFUND_ROUTE_1"}, struct{ id, digest, kind string }{r.Policy.CommissionEvidenceRef, r.Policy.CommissionEvidenceHash, "MACHINE_PAY_COMMISSION_ROUTE_1"})

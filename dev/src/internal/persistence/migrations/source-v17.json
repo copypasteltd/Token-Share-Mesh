@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/017_original_order_funding.sql",
+  "source_sha256": "93ce01c76d9216e2fe4b0e8375982f1a64715594baa2491f5cd0b2543b5794ec",
+  "migration": "017_original_order_funding.sql",
+  "migration_sha256": "93ce01c76d9216e2fe4b0e8375982f1a64715594baa2491f5cd0b2543b5794ec",
+  "policy": "017 original order allocation/current funding guard; SOURCE_ONLY, unexecuted, not a wallet, charge, ledger or execution grant"
+}

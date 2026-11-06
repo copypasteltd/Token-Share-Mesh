@@ -40,5 +40,9 @@
   "optional_native_file_proof_store": "NOT_USED_BY_MACHINE_SERVICE",
   "native_host_source_annex": "docs/技术开发/附录-MachinePay原生宿主与本人支付接口源码.md",
   "native_host_and_api_worker_entrypoints_source_wired": true,
-  "standard_sdk_paylauncher_wired": false
+  "standard_sdk_paylauncher_wired": false,
+  "original_order_funding_source_annex": "docs/技术开发/附录-原订单资金唯一分配与当前准入源码.md",
+  "unique_allocation_and_current_consumer_guard_source_wired": true,
+  "full_financial_business_admission_complete": false,
+  "legacy_positive_fixtures_rewritten": false
 }

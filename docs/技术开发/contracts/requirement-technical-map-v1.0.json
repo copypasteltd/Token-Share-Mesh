@@ -459,6 +459,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "quotes",
         "orders",
         "route_contracts",
@@ -869,6 +870,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "devices",
         "device_request_nonces",
         "resources",
@@ -1076,6 +1078,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -1347,6 +1350,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "audit_events",
         "feature_gates",
         "releases"
@@ -1575,6 +1579,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "reviews",
         "disputes",
         "appeals",
@@ -2292,7 +2297,8 @@
         "channel_requests",
         "payment_machine_contexts",
         "payment_machine_receipts",
-        "payment_machine_recoveries"
+        "payment_machine_recoveries",
+        "order_fundings"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2448,7 +2454,8 @@
         "channel_requests",
         "payment_machine_contexts",
         "payment_machine_receipts",
-        "payment_machine_recoveries"
+        "payment_machine_recoveries",
+        "order_fundings"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2514,6 +2521,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "reviews",
         "disputes",
         "appeals",
@@ -2936,6 +2944,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "usage_evidence",
         "meter_statements"
       ],
@@ -3080,6 +3089,7 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
+        "order_fundings",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",
