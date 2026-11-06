@@ -19,11 +19,13 @@ and receipt keyrings must use different key material. Forward016 and these test
 definitions have not been compiled, migrated or executed. The optional native
 file artifact store is not the Machine service's transactional proof store.
 
-API/worker host registration and secret lifecycle, authenticated HTTP/SDK/
-PayLauncher, uniquely usable funds and order admission, actual refund/payout/
-commission/reconciliation capabilities and paid renewal remain **not wired**.
+PH now adds source wiring for an explicit rooted host registry, independent
+secrets/keyrings, API create/get handlers and a dedicated original-proof worker.
+None has been built or run. SDK/PayLauncher, uniquely usable funds and order
+admission, full refund/payout/commission/reconciliation capabilities, paid
+renewal and actual secret/qualification evidence remain **not complete**.
 No actual merchant, channel, funds or SDK qualification has been established;
-charging remains closed. See the PT annex for source scope and remaining work.
+charging remains closed. See the PH annex for current scope and remaining work.
 
 完整 MP-001—040、使用顺序、当前官方字段、秘密持有与恢复、资金/退款限制及全部后续
 接线见[技术附录](../../../../docs/技术开发/附录-MachinePay原支付边界与凭证恢复源码.md)。
@@ -36,3 +38,7 @@ R026新增[MP-001—040](../../../../docs/技术开发/附录-MachinePay原支�
 ## R026 PT-001—040 支付事务与原凭据恢复源码 / Original-payment transactions and recovery source
 
 R026新增[PT-001—040](../../../../docs/技术开发/附录-MachinePay支付事务与原凭据恢复源码.md)：原个人卖家支付/PAY意图/上下文/outbox事务、独立审核四证/销售开关、提交后一次precreate、完整签名envelope与独立归档钥环、同事务receipt/payment/channel/outbox、原Proof密文/QUERY/专用job、原capability过滤/generation恢复与实际调用关闭源码。新增前向016/DATA072—074，当前源码98规划操作/74平台表/48控制HTTP；16项新测试定义未编译/运行，SQL未迁移。正式API/worker宿主/秘密注册轮换、本人HTTP/SDK/A402/PayLauncher、原可执行资金/退款/设备/截止准入、完整退款/到账/佣金/对账单/付费续租/可信计量接受账务与真实资格仍待。全部56任务222子项开放；完整生产代码/实际依赖接线/测试源码后统一验证，本次不是开发轮完成。
+
+## R026 PH-001—040 原生支付宿主与本人接口 / Native payment host and owner HTTP source
+
+R026新增[PH-001—040](../../../../docs/技术开发/附录-MachinePay原生宿主与本人支付接口源码.md)：原生显式注册/独立秘密/双钥环、有界文件与原scope、专用恢复和到期原退役宿主、实际join后关闭、既有本人支付create/get两个HTTP及正式API/worker入口源码。当前50控制HTTP/98规划/74平台表，无SQL变更；12项新测试定义及既有全部R026源码均未编译/运行。SDK/Proof/A402/实际PayLauncher、原资金唯一消费/当前退款设备截止准入、完整渠道退款到账佣金对账/续租/可信计量接受账务与真实资格仍待。全部56/222开放，完整生产代码/实际接线/测试源码后统一验证；本次不是开发轮完成。

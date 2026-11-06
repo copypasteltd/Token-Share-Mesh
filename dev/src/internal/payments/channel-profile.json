@@ -29,7 +29,7 @@
   "third_party_app_auth_token": "INDEPENDENT_ORIGINAL_BINDING_ONLY",
   "resource_id": "DEPRECATED_NOT_A_BINDING_SOURCE",
   "platform_payment_transactions_wired": false,
-  "public_payment_handlers_wired": false,
+  "public_payment_handlers_wired": true,
   "real_channel_or_merchant_qualified": false,
   "compiled_or_executed": false,
   "new_third_party_dependencies": [],
@@ -37,5 +37,8 @@
   "platform_transaction_and_signed_envelope_source_written": true,
   "proof_receipt_keyrings": "SEPARATE_KEY_MATERIAL_REQUIRED",
   "durable_proof_store": "TRANSACTIONAL_ENCRYPTED_PLATFORM_ROW",
-  "optional_native_file_proof_store": "NOT_USED_BY_MACHINE_SERVICE"
+  "optional_native_file_proof_store": "NOT_USED_BY_MACHINE_SERVICE",
+  "native_host_source_annex": "docs/技术开发/附录-MachinePay原生宿主与本人支付接口源码.md",
+  "native_host_and_api_worker_entrypoints_source_wired": true,
+  "standard_sdk_paylauncher_wired": false
 }

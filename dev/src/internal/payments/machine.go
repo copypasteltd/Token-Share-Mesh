@@ -36,6 +36,9 @@ func (s *Machine) Format(w fmt.State, _ rune) {
 }
 func (s *Machine) MarshalJSON() ([]byte, error) { return []byte(`{"redacted":true}`), nil }
 
+// UsesDB binds HTTP authentication/ownership checks to this exact store.
+func (s *Machine) UsesDB(db *persistence.DB) bool { return s != nil && s.db == db }
+
 // NewMachine installs independently configured channels; it neither opens a
 // public payment route nor starts a worker, creates funds or self-approves sales.
 // The enclosing application owns channels and two separate keyrings, and
@@ -236,7 +239,9 @@ VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`, i.Scope.Payment, o.ID, o.Buyer,
 	if e != nil {
 		return Payment{}, e
 	}
-	return s.read(ctx, p, result.Reference, "payment:create", false)
+	value, e := s.read(ctx, p, result.Reference, "payment:create", false)
+	value.Replayed = result.Replayed
+	return value, e
 }
 func (s *Machine) read(ctx context.Context, p identity.Principal, id, scope string, sellerRead bool) (Payment, error) {
 	var result Payment

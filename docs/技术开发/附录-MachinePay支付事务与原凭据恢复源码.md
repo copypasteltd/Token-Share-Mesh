@@ -2,7 +2,7 @@
 
 2026-11-06｜`CODE_FIRST / SOURCE_ONLY_UNVERIFIED`｜PT-001—040。承接[MP 原支付边界](附录-MachinePay原支付边界与凭证恢复源码.md)，本次新增原生 Go 应用服务、平台前向 016、完整签名回包加密归档与专用原凭据恢复处理的源码和测试定义。没有编译、运行测试、执行迁移、启动数据库、调用实际渠道或资金操作；源码检查点不是开发轮完成。全部 56 任务、222 子项及真实验收保持开放。
 
-当前源码目录为 98 项规划操作、74 张平台表、48 个控制 HTTP 操作；本次没有增加公共路由。新增 DATA-072—074 分别为 `payment_machine_contexts`、`payment_machine_receipts`、`payment_machine_recoveries`。016 在文档与原生迁移目录保存相同字节并登记 source-v16；发布后只允许追加 017+。001—015 双份 SQL 与全部原端侧迁移保持原字节。本次仅写迁移源，不执行迁移。
+PT 保存点为 98 项规划操作、74 张平台表、48 个控制 HTTP 操作，PT 本身没有增加公共路由。后续 [PH 原生宿主与本人接口](附录-MachinePay原生宿主与本人支付接口源码.md)补入宿主、独立配置、专用 worker 与原 create/get 接线，当前控制 HTTP 为 50 项，其余数量不变。新增 DATA-072—074 分别为 `payment_machine_contexts`、`payment_machine_receipts`、`payment_machine_recoveries`。016 在文档与原生迁移目录保存相同字节并登记 source-v16；发布后只允许追加 017+。001—015 双份 SQL 与全部原端侧迁移保持原字节。本次仅写迁移源，不执行迁移。
 
 ## 1. 完整编号与当前边界
 
@@ -111,3 +111,7 @@ RetireExpiredProof 是当前行逻辑清理，不承诺清除旧 MVCC/WAL/备份
 | PT-T014 | TestMachinePaymentRevokedRefundEvidenceBlocksBeforeCreatingIntent | dev/src/tests/integration/machine_payment_test.go | 未编译/未运行 |
 | PT-T015 | TestMachinePaymentOtherBuyerCannotReadOrSubmitOriginalProof | dev/src/tests/integration/machine_payment_test.go | 未编译/未运行 |
 | PT-T016 | TestMachinePaymentWorkerCannotClaimAnotherRegisteredCapability | dev/src/tests/integration/machine_payment_test.go | 未编译/未运行 |
+
+## R026 PH-001—040 原生支付宿主与本人接口 / Native payment host and owner HTTP source
+
+R026新增[PH-001—040](附录-MachinePay原生宿主与本人支付接口源码.md)：原生显式注册/独立秘密/双钥环、有界文件与原scope、专用恢复和到期原退役宿主、实际join后关闭、既有本人支付create/get两个HTTP及正式API/worker入口源码。当前50控制HTTP/98规划/74平台表，无SQL变更；12项新测试定义及既有全部R026源码均未编译/运行。SDK/Proof/A402/实际PayLauncher、原资金唯一消费/当前退款设备截止准入、完整渠道退款到账佣金对账/续租/可信计量接受账务与真实资格仍待。全部56/222开放，完整生产代码/实际接线/测试源码后统一验证；本次不是开发轮完成。

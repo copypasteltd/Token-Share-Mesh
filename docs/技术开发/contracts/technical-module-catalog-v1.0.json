@@ -135,7 +135,9 @@
         "ChannelQuery",
         "RefundCommand",
         "Machine",
-        "OriginalProofRecovery"
+        "OriginalProofRecovery",
+        "MachineHost",
+        "OriginalProofWorker"
       ],
       "dependencies": [
         "MOD-01",

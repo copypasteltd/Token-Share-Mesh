@@ -403,7 +403,9 @@
         "ChannelQuery",
         "RefundCommand",
         "Machine",
-        "OriginalProofRecovery"
+        "OriginalProofRecovery",
+        "MachineHost",
+        "OriginalProofWorker"
       ],
       "dependencies": [
         "MOD-01",
@@ -9883,7 +9885,13 @@
       "canonical_operation_sha256": "2813d10b975d86131f925b2cc03f76a2783cda7ce06a5afef9b2ae307ff0439e",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createPaymentIntent",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-019"
     },
     {
@@ -11366,7 +11374,13 @@
       "canonical_operation_sha256": "6b4b49ca986556212a214f16ea3afa1c070355a2a49a7c1c97f8626f161174c5",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getPayment",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-041"
     },
     {
@@ -20673,11 +20687,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "6ec67a02a37448489722f47cad565c93fb85245762d74e4d91638f3a90e252c5"
+      "sha256": "dddd120a52079f29bd737eacd0a70c7f0e7a7afaa7194a435266b704ccbc234a"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "6f23ea9ae774da0d932b74cdaa9f3ed99b9d881a49510fea4b953d380a66a997"
+      "sha256": "c62fb18aa2b82c6ab6b3e21863a508ca99a537239036611d64aa3352826a3e51"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20689,7 +20703,7 @@
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "7ed953b59bf3fc2d137bb82d5ddfa4e8865926998daf1c52a5d9c06f77697659"
+      "sha256": "e945d525fed8f96fb86b6e0eaa7a63ddb92530ba78ba29da7e6f42d75639abd3"
     },
     {
       "path": "dev/tools/构建开发细则.py",
@@ -20745,7 +20759,7 @@
     },
     {
       "path": "docs/技术开发/13-支付退款账务与渠道结算.md",
-      "sha256": "0ed40a2f100835bbe040111c6092d081eb7fb72958d63b1137c653b97ee79f9d"
+      "sha256": "a708505e258c4a80f83b52277946fff3b4e9b93a6b7b634fc212c58b683d45b9"
     },
     {
       "path": "docs/技术开发/14-前端路由状态与接口集成.md",
@@ -20781,7 +20795,7 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "2322472033e19de9f7bc8b05012d6fc72abd10ccb19bc29d407570ead737e7fd"
+      "sha256": "00502e2fef6faf8d179ee1443c06f36f8ff2fc20242fe8de4e122d6c7edaa72e"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
@@ -20797,7 +20811,7 @@
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "fba9da3ec576c9150538522908bcbf0372706ee1950aaed0136c32b62bc3ce8d"
+      "sha256": "41408e5363beb8c3fe046b8427a87085ce18236350531e7fbb05cf1e401dfde7"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -20901,7 +20915,7 @@
     },
     {
       "path": "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-      "sha256": "7ec6dac75d07a18ba543a78c6a807d538ac2dd300f6ef5a5c2c1a35fa7ca883c"
+      "sha256": "0eaad599779bded0c74b36edaea7fdec6f501eede3618b47e0e9466e580ae509"
     },
     {
       "path": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md",
@@ -20933,7 +20947,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "c99af485be897ccba3843e9eae354fe674dc4725c84923143b189d506efe13d7"
+      "sha256": "824b9daca4e6068b17693f3805aa47307b4e18a82505dc1e8a0c92336b275887"
     },
     {
       "path": "scripts/端对端加密数据.py",

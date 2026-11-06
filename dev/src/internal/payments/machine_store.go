@@ -188,6 +188,7 @@ WHERE c.payment_id=$1 FOR UPDATE OF p,c`, payment).Scan(&intent, &intentHash, &p
 }
 
 type Payment struct {
+	Replayed         bool      `json:"-"`
 	ID               string    `json:"payment_id"`
 	Order            string    `json:"order_id"`
 	Seller           string    `json:"seller_id"`

@@ -1,4 +1,5 @@
-// p11-api runs native loopback control APIs. It never starts engines or payments.
+// p11-api runs native loopback control APIs. Optional original seller payments
+// require explicit independent configuration and current per-request gates.
 package main
 
 import (
@@ -16,6 +17,7 @@ import (
 	"p11.local/compute/internal/dispatch/device"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
+	"p11.local/compute/internal/payments"
 	"p11.local/compute/internal/persistence"
 	"p11.local/compute/internal/routecontract"
 	"p11.local/compute/internal/seller"
@@ -189,6 +191,16 @@ func run() error {
 	if rentals != nil {
 		defer rentals.Close()
 	}
+	paymentHost, err := configuredPayments(db)
+	if err != nil {
+		return err
+	}
+	var paymentService *payments.Machine
+	if paymentHost != nil {
+		paymentService = paymentHost.Machine()
+		// Wait for actual callers before dropping keys or the outer DB.
+		defer func() { _ = paymentHost.Close(context.Background()) }()
+	}
 	handler, err := controlhttp.New(controlhttp.Config{AllowedHosts: []string{listener.Addr().String(), "localhost:" + port},
 		BrowserOrigin: os.Getenv("P11_BROWSER_ORIGIN"), InsecureLoopback: os.Getenv("P11_INSECURE_LOOPBACK") == "1", CursorKey: cursorKey,
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
@@ -199,6 +211,7 @@ func run() error {
 		Continuations: continuations,
 		Delivery:      delivery,
 		Rentals:       rentals,
+		Payments:      paymentService,
 		Routes:        routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
 	if err != nil {
 		return err
@@ -220,7 +233,7 @@ func run() error {
 		case <-done:
 		}
 	}()
-	fmt.Println("Native loopback control API listening at " + listener.Addr().String() + "; no model or payment execution enabled.")
+	fmt.Println("Native loopback control API listening at " + listener.Addr().String() + "; optional payments require explicit configuration and current approval.")
 	err = server.Serve(listener)
 	close(done)
 	<-shutdownDone

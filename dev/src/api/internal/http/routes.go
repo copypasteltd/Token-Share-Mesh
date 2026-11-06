@@ -43,6 +43,10 @@ func (s *Server) loadRoutes() bool {
 }
 func (s *Server) handlerNamed(name string) handler {
 	switch name {
+	case "createPaymentIntent":
+		return s.createPaymentIntent
+	case "getPayment":
+		return s.getPayment
 	case "createRentalSession":
 		return s.createRentalSession
 	case "getRentalSession":

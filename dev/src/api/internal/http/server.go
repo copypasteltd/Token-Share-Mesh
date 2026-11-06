@@ -20,6 +20,7 @@ import (
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/invocation"
 	"p11.local/compute/internal/market"
+	"p11.local/compute/internal/payments"
 	"p11.local/compute/internal/rental"
 	"p11.local/compute/internal/routecontract"
 	"p11.local/compute/internal/seller"
@@ -51,6 +52,7 @@ type Config struct {
 	Delivery                         *invocation.Delivery
 	Routes                           routecontract.Service
 	Rentals                          *rental.Service
+	Payments                         *payments.Machine
 }
 type Server struct {
 	c                          Config
@@ -66,6 +68,9 @@ type actor struct {
 }
 
 func New(c Config) (*Server, error) {
+	if c.Payments != nil && (!c.Payments.UsesDB(c.Sessions.DB) || !c.Payments.UsesDB(c.Keys.DB) || !c.Payments.UsesDB(c.Trade.DB)) {
+		return nil, fault.New(fault.Unavailable, "Payment and identity must use the same original store")
+	}
 	if c.Continuations != nil && !c.Continuations.UsesClaims(c.Claims) {
 		return nil, fault.New(fault.Unavailable, "Continuation and delivery must use the same original verifier")
 	}

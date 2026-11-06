@@ -1,8 +1,22 @@
 {
   "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
-  "scope": "48 explicit control operations; nine rental handlers and native encrypted-control journal are R026 SOURCE_ONLY, uncompiled/unverified; no native rental execution, payment qualification or public inference admission",
+  "scope": "50 explicit control operations; original payment create/get, nine rental handlers and encrypted-control journal are R026 SOURCE_ONLY, uncompiled/unverified; no actual payment qualification or public inference admission",
   "operations": [
+    {
+      "operation_id": "createPaymentIntent",
+      "method": "POST",
+      "path": "/orders/{order_id}/payment-intents",
+      "handler": "createPaymentIntent",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getPayment",
+      "method": "GET",
+      "path": "/payments/{payment_id}",
+      "handler": "getPayment",
+      "anonymous": false
+    },
     {
       "operation_id": "createAuthChallenge",
       "method": "POST",
