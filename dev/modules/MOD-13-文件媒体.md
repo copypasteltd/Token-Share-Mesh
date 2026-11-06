@@ -18,7 +18,7 @@ P11｜开发细则 v1.0｜MOD-13｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 计划路径 | dev/src/internal/assets |
 | 协作模块 | [MOD-01](MOD-01-身份授权.md)、[MOD-04](MOD-04-合同订单路由预算.md) |
 | 应用服务 | AssetRegistry、TransferGrant、LifecycleCleaner |
-| 权威表 | assets、transfer_grants、deletion_tasks |
+| 权威表 | assets、transfer_grants、deletion_tasks、native_result_content、native_result_content_chunks、native_result_read_grants |
 | 适用约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-003](../docs/02-表格化需求约束.md#CON-003)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-014](../docs/02-表格化需求约束.md#CON-014)、[CON-022](../docs/02-表格化需求约束.md#CON-022)、[CON-023](../docs/02-表格化需求约束.md#CON-023)、[CON-025](../docs/02-表格化需求约束.md#CON-025)、[CON-026](../docs/02-表格化需求约束.md#CON-026)、[CON-027](../docs/02-表格化需求约束.md#CON-027)、[CON-030](../docs/02-表格化需求约束.md#CON-030)、[CON-033](../docs/02-表格化需求约束.md#CON-033)、[CON-034](../docs/02-表格化需求约束.md#CON-034)、[CON-037](../docs/02-表格化需求约束.md#CON-037)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-046](../docs/02-表格化需求约束.md#CON-046) |
 | 核心规范 | [15-文件媒体与对象存储.md](../../docs/技术开发/15-文件媒体与对象存储.md) |
 

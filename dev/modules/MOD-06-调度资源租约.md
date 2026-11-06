@@ -44,6 +44,13 @@ P11｜开发细则 v1.0｜MOD-06｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | INT-089 | updateResourcePolicy | PATCH /devices/{device_id}/resource-policy | [DEV-06](../开发细则总表.md#DEV-06) | device:manage | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
 | INT-094 | getExecutionManifest | GET /runner/leases/{lease_id}/manifest | [DEV-18](../开发细则总表.md#DEV-18) | device:execute | READ_PROJECTION / 见权威契约 |
 | INT-095 | getExecutionInput | GET /runner/leases/{lease_id}/input | [DEV-18](../开发细则总表.md#DEV-18) | device:execute | READ_PROJECTION / 见权威契约 |
+| INT-109 | beginOriginalResultContent | POST /runner/attempts/{attempt_id}/content/begin | [DEV-19](../开发细则总表.md#DEV-19) | device:execute | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-110 | putOriginalResultChunk | POST /runner/attempts/{attempt_id}/content/chunks | [DEV-19](../开发细则总表.md#DEV-19) | device:execute | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-111 | sealOriginalResultContent | POST /runner/attempts/{attempt_id}/content/seal | [DEV-19](../开发细则总表.md#DEV-19) | device:execute | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-112 | createOriginalResultReadGrant | POST /jobs/{job_id}/results/{delivery_id}/read-grants | [DEV-19](../开发细则总表.md#DEV-19) | job:read | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-113 | getOriginalResultContent | GET /result-content/{delivery_id}/manifest | [DEV-19](../开发细则总表.md#DEV-19) | result:read-only | READ_PROJECTION / 见权威契约 |
+| INT-114 | getOriginalResultChunk | GET /result-content/{delivery_id}/chunks/{chunk_index} | [DEV-19](../开发细则总表.md#DEV-19) | result:read-only | READ_PROJECTION / 见权威契约 |
+| INT-115 | getOriginalResultUploadStatus | GET /runner/attempts/{attempt_id}/content/{delivery_id}/status | [DEV-19](../开发细则总表.md#DEV-19) | device:execute | READ_PROJECTION / 见权威契约 |
 
 [完整控制面、数据表与需求追踪](../docs/04-接口数据与需求追踪.md)；请求/响应 Schema 和响应码沿用既有 OpenAPI。
 
@@ -148,7 +155,7 @@ NB-R1需求增量：NB-R013、NB-R022、NB-R046；[正反向验收及契约缺�
 | 实施目标 | 实现一次同卖家重派、换端重封、当前尝试交付/签收唯一CAS和取消竞争。 |
 | 原完成证据 | 旧token交付拒绝、重传不二次接受；跨卖家重选明确新报价新单。 |
 | 门槛 | POC-05、POC-04 |
-| 控制操作 | getJob、recordBuyerReceipt、registerAttemptDelivery |
+| 控制操作 | getJob、recordBuyerReceipt、registerAttemptDelivery、beginOriginalResultContent、putOriginalResultChunk、sealOriginalResultContent、createOriginalResultReadGrant、getOriginalResultContent、getOriginalResultChunk、getOriginalResultUploadStatus |
 | 需求约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-002](../docs/02-表格化需求约束.md#CON-002)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-016](../docs/02-表格化需求约束.md#CON-016)、[CON-018](../docs/02-表格化需求约束.md#CON-018)、[CON-019](../docs/02-表格化需求约束.md#CON-019)、[CON-020](../docs/02-表格化需求约束.md#CON-020)、[CON-021](../docs/02-表格化需求约束.md#CON-021)、[CON-022](../docs/02-表格化需求约束.md#CON-022)、[CON-032](../docs/02-表格化需求约束.md#CON-032)、[CON-033](../docs/02-表格化需求约束.md#CON-033)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-044](../docs/02-表格化需求约束.md#CON-044)、[CON-046](../docs/02-表格化需求约束.md#CON-046) |
 | 统一交付 | 适用 CHK-01—08；不适用项注明理由；证据规则见 DOC-06 |
 

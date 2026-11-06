@@ -35,10 +35,13 @@ type completionFixture struct {
 }
 
 func completionOriginal(t *testing.T) completionFixture {
+	return completionOriginalBuyer(t, nil)
+}
+func completionOriginalBuyer(t *testing.T, originalBuyer *identity.Principal) completionFixture {
 	t.Helper()
 	requireDB(t)
 	offer := testsupport.SeedNativeOfferForProtocol(t, ctx, db, ids.New("region"), string(relay.ChatText))
-	paid := machineFixtureOffer(t, offer)
+	paid := machineFixtureOfferBuyer(t, offer, originalBuyer)
 	payment := paid.paidOriginal(t)
 	if worked, e := paid.machine.RecoverFundingOne(ctx); e != nil || !worked {
 		t.Fatal("full original allocation", worked, e)

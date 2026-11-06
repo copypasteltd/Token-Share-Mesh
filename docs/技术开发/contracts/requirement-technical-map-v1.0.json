@@ -655,7 +655,10 @@
       "tables": [
         "assets",
         "transfer_grants",
-        "deletion_tasks"
+        "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants"
       ],
       "technical_documents": [
         "docs/技术开发/15-文件媒体与对象存储.md",
@@ -692,7 +695,14 @@
       "operation_ids": [
         "getJob",
         "recordBuyerReceipt",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "devices",
@@ -762,6 +772,9 @@
         "assets",
         "transfer_grants",
         "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -808,7 +821,14 @@
         "getOrder",
         "getJob",
         "recordBuyerReceipt",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "devices",
@@ -1224,6 +1244,9 @@
         "assets",
         "transfer_grants",
         "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants",
         "users",
         "role_grants",
         "api_keys",
@@ -1878,7 +1901,10 @@
         "cipher_channels",
         "assets",
         "transfer_grants",
-        "deletion_tasks"
+        "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -1918,7 +1944,14 @@
         "registerEnvelope",
         "recordBuyerReceipt",
         "createCipherChannel",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "recipient_keys",
@@ -1980,7 +2013,14 @@
         "createRecipientRotation",
         "revokeRecipient",
         "recordBuyerReceipt",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "recipient_keys",
@@ -2136,7 +2176,14 @@
         "getDispute",
         "createAppeal",
         "registerAttemptDelivery",
-        "recordDisputeDecision"
+        "recordDisputeDecision",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "trade_qualifications",
@@ -2770,7 +2817,10 @@
       "tables": [
         "assets",
         "transfer_grants",
-        "deletion_tasks"
+        "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants"
       ],
       "technical_documents": [
         "docs/技术开发/07-统一协议网关与Sub2API改造.md",
@@ -2920,6 +2970,9 @@
         "assets",
         "transfer_grants",
         "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants",
         "users",
         "role_grants",
         "api_keys",
@@ -4244,6 +4297,9 @@
         "assets",
         "transfer_grants",
         "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants",
         "cipher_channels"
       ],
       "technical_documents": [

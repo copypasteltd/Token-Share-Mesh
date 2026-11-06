@@ -183,6 +183,13 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	resultContent, err := configuredResultContent(completion)
+	if err != nil {
+		return err
+	}
+	if resultContent != nil {
+		defer resultContent.Close()
+	}
 	delivery, closeDelivery, err := configuredDelivery(db, claims)
 	if err != nil {
 		return err
@@ -216,6 +223,7 @@ func run() error {
 		Claims:        claims,
 		Continuations: continuations,
 		Completion:    completion,
+		ResultContent: resultContent,
 		Delivery:      delivery,
 		Rentals:       rentals,
 		Payments:      paymentService,
@@ -227,6 +235,10 @@ func run() error {
 	server := handler.NativeHTTPServer(listener.Addr().String())
 	signalCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
+	retireCtx, retireCancel := context.WithCancel(signalCtx)
+	retireDone := make(chan struct{})
+	go func() { defer close(retireDone); runResultRetirement(retireCtx, resultContent) }()
+	defer func() { retireCancel(); <-retireDone }()
 	done := make(chan struct{})
 	shutdownDone := make(chan struct{})
 	go func() {

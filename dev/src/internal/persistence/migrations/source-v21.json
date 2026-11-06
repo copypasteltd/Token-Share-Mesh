@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/021_original_result_content.sql",
+  "source_sha256": "6a0988d2f04de17f11b75a65831e432517931b6beb5840a3edfe920f8690e5ae",
+  "migration": "021_original_result_content.sql",
+  "migration_sha256": "6a0988d2f04de17f11b75a65831e432517931b6beb5840a3edfe920f8690e5ae",
+  "policy": "021 original result encrypted chunks/read-only grant; SOURCE_ONLY, unapplied"
+}

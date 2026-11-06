@@ -2,7 +2,7 @@
   "version": "1.0-draft",
   "date": "2026-10-29",
   "source": "docs/白皮书/contracts/openapi-control-v3.0.json",
-  "canonical_api_sha256": "b138568a52b8c0281ac6c73f5a8f6a8d0be95f1373724962076de80f5dfcfe75",
+  "canonical_api_sha256": "e84dea1dd2041bde690d7748a73daf5d03bfd9fe12cfaad6de17db77af591e42",
   "status": "DESIGN_UNIMPLEMENTED",
   "operations": [
     {
@@ -7365,6 +7365,472 @@
         "source": "dev/src/api/internal/http/routes.json",
         "handler_file": "dev/src/api/internal/http/server.go",
         "handler": "revokeRefundReview",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "beginOriginalResultContent",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/begin",
+      "summary": "beginOriginalResultContent",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/beginOriginalResultContent.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OriginalResultContentBegin"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "20db3d6c09cc5f6d3e4a1c76df3b43eba4f77480b1a630c9a24e6d58c18867c2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "beginOriginalResultContent",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "putOriginalResultChunk",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/chunks",
+      "summary": "putOriginalResultChunk",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/putOriginalResultChunk.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OriginalResultContentChunk"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "38802018705a8eea88621492f566bdf861f3b63a870cdc75a0159eb438227ff0",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "putOriginalResultChunk",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "sealOriginalResultContent",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/seal",
+      "summary": "sealOriginalResultContent",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/sealOriginalResultContent.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OriginalResultContentSeal"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "76f262adfabfccab7c42d0651aac78be8bea65f17e5cece404949508081ba3e8",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "sealOriginalResultContent",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "createOriginalResultReadGrant",
+      "method": "POST",
+      "path": "/jobs/{job_id}/results/{delivery_id}/read-grants",
+      "summary": "createOriginalResultReadGrant",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/createOriginalResultReadGrant.go",
+      "required_scopes": [
+        "job:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OriginalResultReadRequest"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "533fab01d5f123f7185be55095bf79737b0c6f4d47530b74225cc87e8abc7b28",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createOriginalResultReadGrant",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "getOriginalResultContent",
+      "method": "GET",
+      "path": "/result-content/{delivery_id}/manifest",
+      "summary": "getOriginalResultContent",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getOriginalResultContent.go",
+      "required_scopes": [
+        "result:read-only"
+      ],
+      "security": [
+        {
+          "ResultReadOnly": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "5a8a6b0343bd80c280347f88739342eee53739c5ff1cab79df72e400fbc36f06",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOriginalResultContent",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "getOriginalResultChunk",
+      "method": "GET",
+      "path": "/result-content/{delivery_id}/chunks/{chunk_index}",
+      "summary": "getOriginalResultChunk",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getOriginalResultChunk.go",
+      "required_scopes": [
+        "result:read-only"
+      ],
+      "security": [
+        {
+          "ResultReadOnly": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "e57f76fa21242c6adae1bf374d207643ff7bd92a5edba2203605c8f6331a1ed7",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOriginalResultChunk",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "getOriginalResultUploadStatus",
+      "method": "GET",
+      "path": "/runner/attempts/{attempt_id}/content/{delivery_id}/status",
+      "summary": "getOriginalResultUploadStatus",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getOriginalResultUploadStatus.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "debf9fff4b130c3b436533064ee57fdab6d0852bdeb5d5ac85413fc42c50bcbd",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOriginalResultUploadStatus",
         "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
         "evidence_authority": "dev/progress/implementation-status.json"
       }

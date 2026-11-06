@@ -35,15 +35,21 @@ func (s *Completion) UsesClaims(c *Claims) bool      { return s != nil && s.clai
 func (s *Completion) UsesDB(db *persistence.DB) bool { return s != nil && s.db == db }
 
 type ResultView struct {
-	ID               string    `json:"delivery_id"`
-	Attempt          string    `json:"attempt_id"`
-	Revision         int64     `json:"revision"`
-	ManifestHash     string    `json:"manifest_hash"`
-	OutputHash       string    `json:"output_digest"`
-	OutputBytes      int64     `json:"output_bytes"`
-	State            string    `json:"state"`
-	DecisionDeadline time.Time `json:"decision_deadline"`
-	Usage            string    `json:"usage_state"`
+	ID               string             `json:"delivery_id"`
+	Attempt          string             `json:"attempt_id"`
+	Revision         int64              `json:"revision"`
+	ManifestHash     string             `json:"manifest_hash"`
+	OutputHash       string             `json:"output_digest"`
+	OutputBytes      int64              `json:"output_bytes"`
+	State            string             `json:"state"`
+	DecisionDeadline time.Time          `json:"decision_deadline"`
+	Usage            string             `json:"usage_state"`
+	Content          *ResultContentView `json:"content,omitempty"`
+}
+type ResultContentView struct {
+	Head    string    `json:"head_digest"`
+	State   string    `json:"state"`
+	Expires time.Time `json:"expires_at"`
 }
 type JobView struct {
 	ID       string             `json:"job_id"`
@@ -131,9 +137,14 @@ func (s *Completion) nativeCommand(ctx context.Context, p identity.Principal, op
 		return ReportResult{}, fault.New(fault.Invalid, "Original result owner required")
 	}
 	raw, e := json.Marshal(in)
-	if e != nil || len(raw) > 16384 {
+	maximum := 16384
+	if op == "putOriginalResultChunk" {
+		maximum = 65536
+	}
+	if e != nil || len(raw) > maximum {
 		return ReportResult{}, fault.New(fault.Invalid, "Bounded result statement required")
 	}
+	defer clear(raw)
 	var a reportAuthority
 	r, e := (outbox.Idempotency{DB: s.db}).DoAuthorized(ctx, outbox.Command{Principal: p.UserID, PrincipalVersion: p.Version, Operation: op, Resource: p.DeviceID + ":" + attempt, Key: key, Request: raw}, func(tx pgx.Tx) error {
 		var e error
@@ -344,6 +355,11 @@ func (s *Completion) Decide(ctx context.Context, p identity.Principal, job strin
 		if _, e = tx.Exec(ctx, `UPDATE p11.deliveries SET state=$2 WHERE id=$1`, in.Delivery, deliveryState); e != nil {
 			return outbox.StoredResult{}, e
 		}
+		if in.Decision == "REJECT" {
+			if e = retireResultContentTx(ctx, tx, job); e != nil {
+				return outbox.StoredResult{}, e
+			}
+		}
 		bill, e := settlement.AcceptanceTx(ctx, tx, job)
 		if e != nil {
 			return outbox.StoredResult{}, e
@@ -402,6 +418,9 @@ func (s *Completion) Cancel(ctx context.Context, p identity.Principal, job strin
 		if _, e := tx.Exec(ctx, `UPDATE p11.deliveries SET state='STALE' WHERE job_id=$1 AND state IN('REGISTERED','VALIDATING','WAITING_BUYER')`, job); e != nil {
 			return outbox.StoredResult{}, e
 		}
+		if e := retireResultContentTx(ctx, tx, job); e != nil {
+			return outbox.StoredResult{}, e
+		}
 		ack := CompletionAck{Job: job, ID: job, Version: version + 1, State: "CANCELED", Billing: settlement.Outcome{State: "HELD_PENDING_EVIDENCE"}}
 		safe, _ := json.Marshal(ack)
 		if e := completionEvent(ctx, tx, job, "OriginalJobCanceled", map[string]any{"reason_code": in.Reason}); e != nil {
@@ -418,15 +437,20 @@ func loadJobView(ctx context.Context, tx pgx.Tx, id string) (JobView, error) {
 	if e != nil {
 		return v, e
 	}
-	rows, e := tx.Query(ctx, `SELECT d.id,d.attempt_id,d.revision,d.manifest_hash,n.output_digest,n.output_bytes,d.state,n.decision_deadline,CASE WHEN EXISTS(SELECT 1 FROM p11.native_usage_verifications u WHERE u.attempt_id=d.attempt_id) THEN 'VERIFIED' ELSE 'UNVERIFIED' END FROM p11.deliveries d JOIN p11.native_result_deliveries n ON n.delivery_id=d.id WHERE d.job_id=$1 ORDER BY d.created_at,d.id LIMIT 3`, id)
+	rows, e := tx.Query(ctx, `SELECT d.id,d.attempt_id,d.revision,d.manifest_hash,n.output_digest,n.output_bytes,d.state,n.decision_deadline,CASE WHEN EXISTS(SELECT 1 FROM p11.native_usage_verifications u WHERE u.attempt_id=d.attempt_id) THEN 'VERIFIED' ELSE 'UNVERIFIED' END,c.head_digest,c.state,c.expires_at FROM p11.deliveries d JOIN p11.native_result_deliveries n ON n.delivery_id=d.id LEFT JOIN p11.native_result_content c ON c.delivery_id=d.id WHERE d.job_id=$1 ORDER BY d.created_at,d.id LIMIT 3`, id)
 	if e != nil {
 		return v, e
 	}
 	for rows.Next() {
 		var d ResultView
-		if e = rows.Scan(&d.ID, &d.Attempt, &d.Revision, &d.ManifestHash, &d.OutputHash, &d.OutputBytes, &d.State, &d.DecisionDeadline, &d.Usage); e != nil {
+		var contentHash, contentState *string
+		var contentExpiry *time.Time
+		if e = rows.Scan(&d.ID, &d.Attempt, &d.Revision, &d.ManifestHash, &d.OutputHash, &d.OutputBytes, &d.State, &d.DecisionDeadline, &d.Usage, &contentHash, &contentState, &contentExpiry); e != nil {
 			rows.Close()
 			return v, e
+		}
+		if contentHash != nil && contentState != nil && contentExpiry != nil {
+			d.Content = &ResultContentView{Head: *contentHash, State: *contentState, Expires: *contentExpiry}
 		}
 		v.Results = append(v.Results, d)
 	}

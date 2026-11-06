@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"p11.local/compute/shared/ids"
+	"strconv"
 	"strings"
 )
 
@@ -43,6 +44,20 @@ func (s *Server) loadRoutes() bool {
 }
 func (s *Server) handlerNamed(name string) handler {
 	switch name {
+	case "beginOriginalResultContent":
+		return s.beginOriginalResultContent
+	case "putOriginalResultChunk":
+		return s.putOriginalResultChunk
+	case "sealOriginalResultContent":
+		return s.sealOriginalResultContent
+	case "createOriginalResultReadGrant":
+		return s.createOriginalResultReadGrant
+	case "getOriginalResultContent":
+		return s.getOriginalResultContent
+	case "getOriginalResultChunk":
+		return s.getOriginalResultChunk
+	case "getOriginalResultUploadStatus":
+		return s.getOriginalResultUploadStatus
 	case "getJob":
 		return s.getJob
 	case "cancelJob":
@@ -175,6 +190,13 @@ func pathMatches(pattern, path string) bool {
 	}
 	for i, segment := range a {
 		if strings.HasPrefix(segment, "{") && strings.HasSuffix(segment, "}") {
+			if segment == "{chunk_index}" {
+				n, e := strconv.Atoi(b[i])
+				if e != nil || n < 0 || n > 1023 || strconv.Itoa(n) != b[i] {
+					return false
+				}
+				continue
+			}
 			if !ids.Valid(b[i]) {
 				return false
 			}

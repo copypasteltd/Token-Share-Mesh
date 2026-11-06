@@ -1,7 +1,7 @@
 {
   "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
-  "scope": "68 explicit control HTTP operations; six existing original plaintext result/receipt/usage/job/bill operations source-wired. Uncompiled/unexecuted; original privacy and funding gates remain.",
+  "scope": "75 explicit control/content HTTP operations; original plaintext content transport only. Native read-only verification is mandatory even on the two independently authenticated routes. SOURCE_ONLY.",
   "operations": [
     {
       "operation_id": "createPaymentIntent",
@@ -477,6 +477,55 @@
       "method": "POST",
       "path": "/runner/attempts/{attempt_id}/usage",
       "handler": "recordAttemptUsage",
+      "anonymous": false
+    },
+    {
+      "operation_id": "beginOriginalResultContent",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/begin",
+      "handler": "beginOriginalResultContent",
+      "anonymous": false
+    },
+    {
+      "operation_id": "putOriginalResultChunk",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/chunks",
+      "handler": "putOriginalResultChunk",
+      "anonymous": false
+    },
+    {
+      "operation_id": "sealOriginalResultContent",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/seal",
+      "handler": "sealOriginalResultContent",
+      "anonymous": false
+    },
+    {
+      "operation_id": "createOriginalResultReadGrant",
+      "method": "POST",
+      "path": "/jobs/{job_id}/results/{delivery_id}/read-grants",
+      "handler": "createOriginalResultReadGrant",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getOriginalResultContent",
+      "method": "GET",
+      "path": "/result-content/{delivery_id}/manifest",
+      "handler": "getOriginalResultContent",
+      "anonymous": true
+    },
+    {
+      "operation_id": "getOriginalResultChunk",
+      "method": "GET",
+      "path": "/result-content/{delivery_id}/chunks/{chunk_index}",
+      "handler": "getOriginalResultChunk",
+      "anonymous": true
+    },
+    {
+      "operation_id": "getOriginalResultUploadStatus",
+      "method": "GET",
+      "path": "/runner/attempts/{attempt_id}/content/{delivery_id}/status",
+      "handler": "getOriginalResultUploadStatus",
       "anonymous": false
     }
   ]

@@ -111,6 +111,21 @@
     "actual_qualified_chain_complete": false,
     "compiled_or_executed": false
   },
+  "original_result_content_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-原结果分块传输与本地接收源码.md",
+    "tables": [
+      "native_result_content",
+      "native_result_content_chunks",
+      "native_result_read_grants"
+    ],
+    "forward_source": "021_original_result_content.sql",
+    "migration_executed": false,
+    "original_plaintext_content_and_read_only_native_buyer_source_wired": true,
+    "e2e_or_meter_authority": false,
+    "automatic_provider_daemon_and_sdk_ingress_complete": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",

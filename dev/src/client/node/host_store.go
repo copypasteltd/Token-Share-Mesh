@@ -67,6 +67,7 @@ type hostCommand struct {
 	ResultDeliveryAck json.RawMessage             `json:"result_delivery_ack,omitempty"`
 	UsageStatement    *resultwire.Statement       `json:"usage_statement,omitempty"`
 	UsageAck          json.RawMessage             `json:"usage_ack,omitempty"`
+	ResultContent     *resultUploadCheckpoint     `json:"result_content,omitempty"`
 }
 type HostCommandStatus struct {
 	ID    string `json:"command_id"`

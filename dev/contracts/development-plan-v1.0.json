@@ -939,7 +939,10 @@
       "authoritative_tables": [
         "assets",
         "transfer_grants",
-        "deletion_tasks"
+        "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants"
       ],
       "application_services": [
         "AssetRegistry",
@@ -4289,7 +4292,14 @@
       "operation_ids": [
         "getJob",
         "recordBuyerReceipt",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "conditional_branch": false,
       "milestone_id": "MS-03"
@@ -16041,6 +16051,479 @@
         "evidence_authority": "dev/progress/implementation-status.json"
       },
       "id": "INT-108"
+    },
+    {
+      "operation_id": "beginOriginalResultContent",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/begin",
+      "summary": "beginOriginalResultContent",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/beginOriginalResultContent.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OriginalResultContentBegin"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "20db3d6c09cc5f6d3e4a1c76df3b43eba4f77480b1a630c9a24e6d58c18867c2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "beginOriginalResultContent",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-109"
+    },
+    {
+      "operation_id": "putOriginalResultChunk",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/chunks",
+      "summary": "putOriginalResultChunk",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/putOriginalResultChunk.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OriginalResultContentChunk"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "38802018705a8eea88621492f566bdf861f3b63a870cdc75a0159eb438227ff0",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "putOriginalResultChunk",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-110"
+    },
+    {
+      "operation_id": "sealOriginalResultContent",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/content/seal",
+      "summary": "sealOriginalResultContent",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/sealOriginalResultContent.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OriginalResultContentSeal"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "76f262adfabfccab7c42d0651aac78be8bea65f17e5cece404949508081ba3e8",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "sealOriginalResultContent",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-111"
+    },
+    {
+      "operation_id": "createOriginalResultReadGrant",
+      "method": "POST",
+      "path": "/jobs/{job_id}/results/{delivery_id}/read-grants",
+      "summary": "createOriginalResultReadGrant",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/createOriginalResultReadGrant.go",
+      "required_scopes": [
+        "job:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/OriginalResultReadRequest"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "533fab01d5f123f7185be55095bf79737b0c6f4d47530b74225cc87e8abc7b28",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createOriginalResultReadGrant",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-112"
+    },
+    {
+      "operation_id": "getOriginalResultContent",
+      "method": "GET",
+      "path": "/result-content/{delivery_id}/manifest",
+      "summary": "getOriginalResultContent",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getOriginalResultContent.go",
+      "required_scopes": [
+        "result:read-only"
+      ],
+      "security": [
+        {
+          "ResultReadOnly": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "5a8a6b0343bd80c280347f88739342eee53739c5ff1cab79df72e400fbc36f06",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOriginalResultContent",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-113"
+    },
+    {
+      "operation_id": "getOriginalResultChunk",
+      "method": "GET",
+      "path": "/result-content/{delivery_id}/chunks/{chunk_index}",
+      "summary": "getOriginalResultChunk",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getOriginalResultChunk.go",
+      "required_scopes": [
+        "result:read-only"
+      ],
+      "security": [
+        {
+          "ResultReadOnly": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "e57f76fa21242c6adae1bf374d207643ff7bd92a5edba2203605c8f6331a1ed7",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOriginalResultChunk",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-114"
+    },
+    {
+      "operation_id": "getOriginalResultUploadStatus",
+      "method": "GET",
+      "path": "/runner/attempts/{attempt_id}/content/{delivery_id}/status",
+      "summary": "getOriginalResultUploadStatus",
+      "module_id": "MOD-06",
+      "task_id": "DEV-19",
+      "planned_handler": "dev/src/api/internal/http/mod_06/getOriginalResultUploadStatus.go",
+      "required_scopes": [
+        "device:execute"
+      ],
+      "security": [
+        {
+          "DeviceProof": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
+        "P11-F36",
+        "P11-F39"
+      ],
+      "acceptance_ids": [
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
+        "P11-T36",
+        "P11-T39"
+      ],
+      "source_documents": [
+        "docs/技术开发/06-调度资源锁与执行租约.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "debf9fff4b130c3b436533064ee57fdab6d0852bdeb5d5ac85413fc42c50bcbd",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOriginalResultUploadStatus",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-115"
     }
   ],
   "tables": [
@@ -16475,6 +16958,26 @@
       "runtime_validation": "NOT_EXECUTED"
     },
     {
+      "id": "DATA-082",
+      "name": "native_result_content",
+      "schema": "p11",
+      "module_id": "MOD-13",
+      "column_count": 11,
+      "foreign_key_count": 3,
+      "source_document": "docs/技术开发/database/migrations/021_original_result_content.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-083",
+      "name": "native_result_content_chunks",
+      "schema": "p11",
+      "module_id": "MOD-13",
+      "column_count": 6,
+      "foreign_key_count": 1,
+      "source_document": "docs/技术开发/database/migrations/021_original_result_content.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
       "id": "DATA-079",
       "name": "native_result_deliveries",
       "schema": "p11",
@@ -16482,6 +16985,16 @@
       "column_count": 11,
       "foreign_key_count": 6,
       "source_document": "docs/技术开发/database/migrations/020_native_completion_billing.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-084",
+      "name": "native_result_read_grants",
+      "schema": "p11",
+      "module_id": "MOD-13",
+      "column_count": 13,
+      "foreign_key_count": 5,
+      "source_document": "docs/技术开发/database/migrations/021_original_result_content.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
     {
@@ -17507,7 +18020,10 @@
       "tables": [
         "assets",
         "transfer_grants",
-        "deletion_tasks"
+        "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants"
       ],
       "technical_documents": [
         "docs/技术开发/15-文件媒体与对象存储.md",
@@ -17544,7 +18060,14 @@
       "operation_ids": [
         "getJob",
         "recordBuyerReceipt",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "devices",
@@ -17614,6 +18137,9 @@
         "assets",
         "transfer_grants",
         "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -17660,7 +18186,14 @@
         "getOrder",
         "getJob",
         "recordBuyerReceipt",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "devices",
@@ -18076,6 +18609,9 @@
         "assets",
         "transfer_grants",
         "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants",
         "users",
         "role_grants",
         "api_keys",
@@ -18730,7 +19266,10 @@
         "cipher_channels",
         "assets",
         "transfer_grants",
-        "deletion_tasks"
+        "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -18770,7 +19309,14 @@
         "registerEnvelope",
         "recordBuyerReceipt",
         "createCipherChannel",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "recipient_keys",
@@ -18832,7 +19378,14 @@
         "createRecipientRotation",
         "revokeRecipient",
         "recordBuyerReceipt",
-        "registerAttemptDelivery"
+        "registerAttemptDelivery",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "recipient_keys",
@@ -18988,7 +19541,14 @@
         "getDispute",
         "createAppeal",
         "registerAttemptDelivery",
-        "recordDisputeDecision"
+        "recordDisputeDecision",
+        "beginOriginalResultContent",
+        "putOriginalResultChunk",
+        "sealOriginalResultContent",
+        "createOriginalResultReadGrant",
+        "getOriginalResultContent",
+        "getOriginalResultChunk",
+        "getOriginalResultUploadStatus"
       ],
       "tables": [
         "trade_qualifications",
@@ -19622,7 +20182,10 @@
       "tables": [
         "assets",
         "transfer_grants",
-        "deletion_tasks"
+        "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants"
       ],
       "technical_documents": [
         "docs/技术开发/07-统一协议网关与Sub2API改造.md",
@@ -19772,6 +20335,9 @@
         "assets",
         "transfer_grants",
         "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants",
         "users",
         "role_grants",
         "api_keys",
@@ -21096,6 +21662,9 @@
         "assets",
         "transfer_grants",
         "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants",
         "cipher_channels"
       ],
       "technical_documents": [
@@ -21596,11 +22165,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "a50811bb915341a3edce618a3c69960de32f17c509ed0a8ea70f78048de9851a"
+      "sha256": "c96c397dad1b7c9edd2b8a08c31777068fd72287bcd9cf95af93746878881484"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "8048fc2aba14a477e5a2154739941fbcf3f24b7963de13e55430671cd091db85"
+      "sha256": "291fde4e283fd933a2f7012e04b48c179acaa00ab27a3c54ae948a1aabe2ccfc"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -21608,11 +22177,11 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "3328b1319549ef626333fc267c8c73fec757a1b8893e1888705ec496c3b13095"
+      "sha256": "3471f546262deb745b333064a13da4aea5659fb3290d434569994f75811a2b42"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "cf5afb8c1ff821b788c83196a38dee9159a43f49dc2e3b2a8777fedf8528d98e"
+      "sha256": "010878a7eec693d24c630a6d0a2769f3a83b05c86dc085625b84af382f63a9ce"
     },
     {
       "path": "dev/tools/构建开发细则.py",
@@ -21704,11 +22273,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "38fe069d18380ed1e14edd27faf3a75e17bc3a1912941260c3a833329f3cee91"
+      "sha256": "bed38e2f7fbebe3bb8af4c68d272c99c0b3b2a3f1a2d7e87b95d744e1b7302b3"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "92c8e2d0e2370e4fc5098447ec33b1baa1f1284c072516620eba51d73c129f9b"
+      "sha256": "464d22661f8e10eb997ad97845dad8666927fcb484cbf5d0b849a5ca3ad8df73"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -21716,11 +22285,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "b0b15e9c785ea2875c6c479da3489c6c33cafe970d3b53037c4b3f9d65b09446"
+      "sha256": "7e9ec9d81b410f9a6442274247ed0696cb3eb00dd14319d1e2f1bed86266db64"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "d24147f671f6126662a1203e0f789064dd4d29e5c7b5165bfa313f408c9e2432"
+      "sha256": "3e12893e26a08658c184d580ea269f277941d7bdffa5a970f204f287e31a6587"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -21799,6 +22368,10 @@
       "sha256": "67467920b3b8ca526b9820e1979bb32783c896055857a36af87874e0a7561a96"
     },
     {
+      "path": "docs/技术开发/database/migrations/021_original_result_content.sql",
+      "sha256": "6a0988d2f04de17f11b75a65831e432517931b6beb5840a3edfe920f8690e5ae"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -21852,7 +22425,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "0821d0ae72c73b23187a938084901367bab3934e72780635dec87aebc2ab9e57"
+      "sha256": "abbe4aa0564d6539916dbefac4961bab514dccd1f47b53a161428e38e1482299"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -21872,7 +22445,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "d2643e0d098b58d4dee13b3e636d4440806e14ee279d2e4fd3119f48f2614e0d"
+      "sha256": "8cd71f59216dec95ad066f779910235c1dffd38a465ef5148370866c3193c5a5"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -21884,8 +22457,8 @@
     "tasks": 56,
     "steps": 222,
     "constraints": 47,
-    "control_operations": 108,
-    "tables": 81,
+    "control_operations": 115,
+    "tables": 84,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

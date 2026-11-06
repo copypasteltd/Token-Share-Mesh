@@ -102,7 +102,7 @@ type record struct {
 }
 
 func Open(c Config) (*Store, error) {
-	if !filepath.IsAbs(c.Root) || c.MaxResults < 1 || c.MaxResults > 32 || c.ResultBytes < 65536 || c.ResultBytes > 32<<20 || c.TotalBytes < c.ResultBytes || c.TotalBytes > 512<<20 || int64(c.MaxResults) > c.TotalBytes/c.ResultBytes || c.Retention < time.Second || c.Retention > 30*time.Minute || c.DrainGrace < 100*time.Millisecond || c.DrainGrace > 10*time.Second {
+	if !filepath.IsAbs(c.Root) || c.MaxResults < 1 || c.MaxResults > 32 || c.ResultBytes < 65536 || c.ResultBytes > 33<<20 || c.TotalBytes < c.ResultBytes || c.TotalBytes > 512<<20 || int64(c.MaxResults) > c.TotalBytes/c.ResultBytes || c.Retention < time.Second || c.Retention > 30*time.Minute || c.DrainGrace < 100*time.Millisecond || c.DrainGrace > 10*time.Second {
 		return nil, ErrConfig
 	}
 	root, err := filepath.Abs(c.Root)
@@ -144,6 +144,10 @@ func original(w supervisor.Work, m executionlease.Manifest) bool {
 }
 
 func (s *Store) begin(w supervisor.Work, m executionlease.Manifest, o options, stop func()) (*record, error) {
+	return s.beginDescriptor(w, m, o, stop, nil)
+}
+
+func (s *Store) beginDescriptor(w supervisor.Work, m executionlease.Manifest, o options, stop func(), originalDescriptor *supervisor.TextDescriptor) (*record, error) {
 	if !original(w, m) {
 		return nil, ErrBinding
 	}
@@ -162,6 +166,12 @@ func (s *Store) begin(w supervisor.Work, m executionlease.Manifest, o options, s
 	r := &record{store: s, key: make([]byte, 32), notify: make(chan struct{}), done: make(chan struct{}), revoked: make(chan struct{}), stop: stop}
 	r.life, r.abort = context.WithCancel(context.Background())
 	r.descriptor = supervisor.TextDescriptor{Work: w, Manifest: m, ResultID: "result_" + hex.EncodeToString(nonce[:16]), CreatedUnix: time.Now().Unix(), IncludeUsage: o.IncludeUsage}
+	if originalDescriptor != nil {
+		if originalDescriptor.Work != w || originalDescriptor.Manifest.Digest() != m.Digest() || originalDescriptor.ResultID == "" || len(originalDescriptor.ResultID) > 128 || strings.ContainsAny(originalDescriptor.ResultID, "\r\n\x00/\\") || originalDescriptor.CreatedUnix <= 0 || originalDescriptor.IncludeUsage != o.IncludeUsage {
+			return nil, ErrBinding
+		}
+		r.descriptor = *originalDescriptor
+	}
 	encoded, _ := json.Marshal(r.descriptor)
 	binding := sha256.Sum256(encoded)
 	clear(encoded)

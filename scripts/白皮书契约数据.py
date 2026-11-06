@@ -645,7 +645,7 @@ def make_openapi() -> dict:
     for parameter in paths["/services"]["get"]["parameters"]:
         if parameter["name"] == "limit":
             parameter["schema"]["maximum"] = 50
-    return extend_native_completion_contracts(extend_refund_application_contracts({"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
+    return extend_original_result_content_contracts(extend_native_completion_contracts(extend_refund_application_contracts({"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
         "info": {"title": "P11 C2C算力共享平台自有控制面设计", "version": "3.0.0-draft",
             "description": "文档设计，所有产品验收未执行。这里只定义本项目控制资源，不复制厂商完整模型API、渠道支付回调或引擎协议。服务地址为保留无效域名，不存在部署。数字/结构验证不代替授权、状态、资金、密码或SDK实测。"},
         "servers": [{"url": "https://p11.invalid/v1/p11", "description": "仅设计占位，不可调用"}],
@@ -657,7 +657,7 @@ def make_openapi() -> dict:
                 "description": "HttpOnly/Secure/SameSite=Strict；浏览器写同时核Origin和CSRF。显式loopback开发使用p11_session_dev。"},
             "PairingToken": {"type": "http", "scheme": "bearer", "description": "5分钟一次性登记凭据，绑定本人pairing_id；消耗后只允许7日内原键/原规范字段恢复原设备，不能重新登记或换身份。"}},
             "schemas": schemas, "responses": responses},
-        "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE}))
+        "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE})))
 
 
 def extend_refund_application_contracts(api: dict) -> dict:
@@ -801,6 +801,77 @@ def extend_native_completion_contracts(api: dict) -> dict:
         if request: item['requestBody'] = {'required': True, 'content': {'application/json': {'schema': ref(request)}}}
         if scope_id == 'device:execute': item['security'] = [{'DeviceProof': []}]
         item['description'] = schemas[response].get('description', '原主体/合同/版本作用域、独立可信证据和不自动释放预算。') + ' 当前仅源码，未编译/迁移/运行或完成真实资格；没有自动开始模型或付款。'
+    return api
+
+
+def extend_original_result_content_contracts(api: dict) -> dict:
+    """R026 DC auxiliary content transport; not a replacement model API or E2E."""
+    s, paths = api['components']['schemas'], api['paths']
+    s['OriginalResultContentInfo'] = obj({'head_digest': HASH, 'state': enum('UPLOADING', 'READY', 'RETIRED'), 'expires_at': TIME})
+    s['OriginalResultMetadata']['properties']['content'] = ref('OriginalResultContentInfo')
+    s['OriginalResultContentTerminal'] = obj({'stop_sequence': {'type': 'string', 'maxLength': 256}},
+        description='内容字段：仅finish_reason=stop时携带实际匹配停止串；其余必须为空。不得进入元数据journal/outbox/日志。')
+    scope = deepcopy(s['NativeResultDeclaration']['properties']['scope'])
+    manifest = obj({**{k: ID for k in ['execution_manifest_ref', 'job_id', 'attempt_id', 'order_id', 'route_id', 'seller_id', 'device_id', 'resource_id', 'capability_id', 'kernel_environment_ref', 'engine_release', 'input_asset_ref']},
+        'profile_id': {'const': 'P11_NATIVE_TEXT_MANIFEST_1'},
+        **{k: HASH for k in ['contract_hash', 'kernel_environment_digest', 'model_digest', 'recipe_digest', 'input_ciphertext_digest']},
+        **{k: {'type': 'string', 'pattern': '^[1-9][0-9]{0,18}$'} for k in ['resource_lock_generation', 'fencing_token']},
+        'engine_kind': TEXT, 'input_token_limit': {'type': 'integer', 'minimum': 1, 'maximum': 2147483647},
+        'input_bytes': UINT, 'mode': {'const': 'PLAINTEXT'}, 'privacy': {'const': 'STANDARD'}, 'hard_deadline': TIME,
+        'request_spec': obj({'protocol_profile_id': enum('P11_CHAT_TEXT_NATIVE_1', 'P11_RESPONSES_TEXT_NATIVE_1', 'P11_MESSAGES_TEXT_NATIVE_1'),
+            'public_model': TEXT, 'max_output_tokens': {'type': 'integer', 'minimum': 1, 'maximum': 2147483647}, 'stream': BOOL})})
+    s['OriginalResultExecutionManifest'] = manifest
+    s['OriginalResultContentHead'] = obj({'profile_id': {'const': 'P11_ORIGINAL_TEXT_CONTENT_1'}, 'delivery_id': ID,
+        'declaration': ref('NativeResultDeclaration'), 'provider_public_key': {'type': 'string', 'pattern': '^[A-Za-z0-9_-]{43}$'},
+        'execution_manifest': ref('OriginalResultExecutionManifest'), 'include_usage': BOOL, 'chunk_bytes': {'const': 32768},
+        'chunk_count': {'type': 'integer', 'minimum': 0, 'maximum': 1024}, 'expires_at': TIME,
+        'state': enum('UPLOADING', 'READY', 'RETIRED'), 'terminal': ref('OriginalResultContentTerminal')},
+        ['profile_id', 'delivery_id', 'declaration', 'provider_public_key', 'execution_manifest', 'include_usage', 'chunk_bytes', 'chunk_count', 'expires_at', 'state'],
+        description='原设备签名声明+平台认证清单；head_digest按Go规范JSON的UPLOADING/无terminal版本计算，READY响应须带terminal。完成+30分钟固定截止。公开钥快照依赖平台信任，不是E2E独立信任。')
+    s['OriginalResultContentBegin'] = obj({'scope': scope, 'delivery_id': ID, 'include_usage': BOOL})
+    s['OriginalResultContentChunk'] = obj({'profile_id': {'const': 'P11_ORIGINAL_TEXT_CONTENT_1'}, 'scope': deepcopy(scope), 'delivery_id': ID,
+        'head_digest': HASH, 'index': {'type': 'integer', 'minimum': 0, 'maximum': 1023}, 'content_digest': HASH,
+        'content': {'type': 'string', 'contentEncoding': 'base64', 'minLength': 4, 'maxLength': 43692}},
+        description='内部原结果内容传输：每块32768原始字节，末块精确余数；整段SHA256不使用JSON/base64摘要。原设备HTTP证明，不含上游凭据。')
+    s['OriginalResultContentSeal'] = obj({'scope': deepcopy(scope), 'delivery_id': ID, 'head_digest': HASH, 'terminal': ref('OriginalResultContentTerminal')})
+    s['OriginalResultContentAck'] = obj({'delivery_id': ID, 'head_digest': HASH, 'index': {'type': 'integer', 'minimum': 0, 'maximum': 1023},
+        'content_digest': HASH, 'state': enum('UPLOADING', 'READY')}, ['delivery_id', 'head_digest', 'state'])
+    s['OriginalResultReadRequest'] = obj({'head_digest': HASH})
+    s['OriginalResultReadGrant'] = obj({'profile_id': {'const': 'P11_ORIGINAL_RESULT_READ_1'}, 'grant_id': ID,
+        **{k: ID for k in ['order_id', 'job_id', 'seller_id', 'delivery_id']}, 'head_digest': HASH, 'expires_at': TIME},
+        description='原买家当前session/version/角色绑定；5分钟且不超过内容保留期；退出登录即无效。无执行、付款、签收或计量权限。')
+    secret = {'type': 'string', 'pattern': '^[A-Za-z0-9_-]{43}$', 'x-sensitive': True}
+    s['OriginalResultReadIssued'] = obj({'grant': ref('OriginalResultReadGrant'), 'read_secret': secret},
+        description='提交后单独派生只读秘密；原幂等safe_response只保存grant元数据，读取秘密不得进入Storage/日志/URL。')
+    s['OriginalResultReadPacket'] = obj({'grant': ref('OriginalResultReadGrant'), 'read_secret': deepcopy(secret), 'api_origin': {'type': 'string', 'maxLength': 2048}},
+        description='用户显式交给本地接收程序；仅HTTPS服务源或HTTP数字回环/localhost，无路径/查询/用户信息；无账号会话。')
+    s['OriginalLocalReview'] = obj({'profile_id': {'const': 'P11_LOCAL_RESULT_REVIEW_1'}, 'job_id': ID, 'delivery_id': ID,
+        'revision': {'const': 1}, 'manifest_hash': HASH, 'output_digest': HASH},
+        description='完整接收、校验并加密入缓存后生成；是本地核对元数据，不是独立计量、E2E签名或自动接受。')
+    api['components']['securitySchemes']['ResultReadOnly'] = {'type': 'http', 'scheme': 'bearer',
+        'description': '仅两个/result-content读取端点接受p11r.<grant_id>.<32-byte-secret>；拒绝Cookie/Origin，不是账号session。'}
+    rows = [
+        ('/runner/attempts/{attempt_id}/content/begin', 'post', 'beginOriginalResultContent', 'OriginalResultContentBegin', 'OriginalResultContentAck', 'device:execute'),
+        ('/runner/attempts/{attempt_id}/content/chunks', 'post', 'putOriginalResultChunk', 'OriginalResultContentChunk', 'OriginalResultContentAck', 'device:execute'),
+        ('/runner/attempts/{attempt_id}/content/seal', 'post', 'sealOriginalResultContent', 'OriginalResultContentSeal', 'OriginalResultContentAck', 'device:execute'),
+        ('/jobs/{job_id}/results/{delivery_id}/read-grants', 'post', 'createOriginalResultReadGrant', 'OriginalResultReadRequest', 'OriginalResultReadIssued', 'job:read'),
+        ('/result-content/{delivery_id}/manifest', 'get', 'getOriginalResultContent', None, 'OriginalResultContentHead', 'result:read-only'),
+        ('/result-content/{delivery_id}/chunks/{chunk_index}', 'get', 'getOriginalResultChunk', None, 'OriginalResultContentChunk', 'result:read-only'),
+        ('/runner/attempts/{attempt_id}/content/{delivery_id}/status', 'get', 'getOriginalResultUploadStatus', None, 'OriginalResultContentAck', 'device:execute')]
+    for path, method, operation, request, response, scope_id in rows:
+        parameters = [{'in': 'path', 'name': key, 'required': True, 'schema': ({'type': 'integer', 'minimum': 0, 'maximum': 1023} if key == 'chunk_index' else ID)}
+                      for key in __import__('re').findall(r'\{([^}]+)\}', path)]
+        if method == 'post': parameters.append({'in': 'header', 'name': 'Idempotency-Key', 'required': True, 'schema': {'type': 'string', 'minLength': 8, 'maxLength': 128}})
+        item = {'operationId': operation, 'tags': ['OriginalResultContent'], 'summary': operation, 'parameters': parameters,
+            'description': 'DC内部原内容辅助传输，仅PLAINTEXT/STANDARD。模型调用仍通过OpenAI/Anthropic兼容入口；不创建新推理或延长GPU锁。SOURCE_ONLY，未编译/迁移/运行。',
+            'x-required-scopes': [scope_id], 'x-source-status': 'SOURCE_ONLY_UNCOMPILED_UNEXECUTED', 'x-content-policy': 'NO_BODY_LOGGING_OR_METADATA_JOURNAL',
+            'security': ([{'DeviceProof': []}] if scope_id == 'device:execute' else [{'ResultReadOnly': []}] if scope_id == 'result:read-only' else [{'BearerAuth': []}, {'BrowserCookie': []}]),
+            'responses': {'200': {'description': '原结果范围；读取不会签收/收费', 'content': {'application/json': {'schema': ref(response)}}},
+                **{str(code): {'$ref': '#/components/responses/'+str(code)} for code in [400, 401, 403, 404, 409, 429, 503]}}
+        }
+        if request: item['requestBody'] = {'required': True, 'content': {'application/json': {'schema': ref(request)}}}
+        if scope_id == 'job:read': item['x-browser-csrf'] = 'Exact Origin and session-bound X-CSRF-Token for Cookie requests'
+        paths.setdefault(path, {})[method] = item
     return api
 
 

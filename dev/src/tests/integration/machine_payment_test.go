@@ -66,9 +66,18 @@ func machineFixture(t *testing.T) *machinePaymentFixture {
 }
 
 func machineFixtureOffer(t *testing.T, offer testsupport.Offer) *machinePaymentFixture {
+	return machineFixtureOfferBuyer(t, offer, nil)
+}
+func machineFixtureOfferBuyer(t *testing.T, offer testsupport.Offer, originalBuyer *identity.Principal) *machinePaymentFixture {
 	t.Helper()
 	requireDB(t)
-	f := &machinePaymentFixture{buyer: buyer(t), capability: ids.New("pcap")}
+	var principal identity.Principal
+	if originalBuyer == nil {
+		principal = buyer(t)
+	} else {
+		principal = *originalBuyer
+	}
+	f := &machinePaymentFixture{buyer: principal, capability: ids.New("pcap")}
 	f.buyer.Scopes = append(f.buyer.Scopes, "payment:create", "payment:read")
 	zero := 0
 	offer.Terms.Price.CommissionBPS = &zero

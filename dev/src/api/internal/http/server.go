@@ -50,6 +50,7 @@ type Config struct {
 	Claims                           *invocation.Claims
 	Continuations                    *invocation.Continuations
 	Completion                       *invocation.Completion
+	ResultContent                    *invocation.ResultContent
 	Delivery                         *invocation.Delivery
 	Routes                           routecontract.Service
 	Rentals                          *rental.Service
@@ -70,6 +71,9 @@ type actor struct {
 }
 
 func New(c Config) (*Server, error) {
+	if c.ResultContent != nil && !c.ResultContent.UsesCompletion(c.Completion) {
+		return nil, fault.New(fault.Unavailable, "Result content must use the same original completion authority")
+	}
 	if c.Completion != nil && (!c.Completion.UsesClaims(c.Claims) || !c.Completion.UsesDB(c.Sessions.DB) || !c.Completion.UsesDB(c.Trade.DB)) {
 		return nil, fault.New(fault.Unavailable, "Completion and identity must use the same original store and verifier")
 	}
@@ -135,7 +139,7 @@ func (s *Server) NativeHTTPServer(addr string) *http.Server {
 		WriteTimeout: 20 * time.Second, IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16384}
 }
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
+	defer func() { _ = r.Body.Close() }()
 	defer erasePaymentProof(r.Header)
 	requestID := ids.New("req")
 	w.Header().Set("X-Request-ID", requestID)
@@ -219,8 +223,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil || net.ParseIP(ip) == nil {
 		ip = "unknown"
 	}
-	if !s.limiter.take("ip:"+ip, s.c.RequestsPerMinute, time.Now()) ||
-		anonymous && !s.limiter.take("login:"+ip, s.c.AuthPerMinute, time.Now()) {
+	transfer := originalContentTransfer(r)
+	ipKey, ipLimit := "ip:"+ip, s.c.RequestsPerMinute
+	if transfer {
+		ipKey, ipLimit = "result-transfer-ip:"+ip, 4096
+	}
+	if !s.limiter.take(ipKey, ipLimit, time.Now()) ||
+		anonymous && !transfer && !s.limiter.take("login:"+ip, s.c.AuthPerMinute, time.Now()) {
 		w.Header().Set("Retry-After", "60")
 		writeError(w, requestID, 429, "RATE_LIMITED", "Request limit reached", map[string]any{"retry_after_sec": 60})
 		return
@@ -243,7 +252,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			s.appError(w, r, err)
 			return
 		}
-		if !s.limiter.take("user:"+a.p.UserID, s.c.RequestsPerMinute, time.Now()) {
+		userKey, userLimit := "user:"+a.p.UserID, s.c.RequestsPerMinute
+		if transfer {
+			userKey, userLimit = "result-transfer-user:"+a.p.UserID, 4096
+		}
+		if !s.limiter.take(userKey, userLimit, time.Now()) {
 			w.Header().Set("Retry-After", "60")
 			fail(429, "RATE_LIMITED", "Request limit reached")
 			return
@@ -317,9 +330,11 @@ func (s *Server) authenticate(r *http.Request) (actor, error) {
 		}
 		raw, readErr := io.ReadAll(io.LimitReader(r.Body, devicecontrol.MaximumBody+1))
 		if readErr != nil || len(raw) > devicecontrol.MaximumBody {
+			clear(raw)
 			return a, fault.New(fault.Invalid, "Signed control body exceeds limit")
 		}
-		r.Body = io.NopCloser(bytes.NewReader(raw))
+		_ = r.Body.Close()
+		r.Body = &clearingControlBody{Reader: bytes.NewReader(raw), raw: raw}
 		binding := devicecontrol.Binding{Method: r.Method, Authority: r.Host, URI: r.RequestURI, IdempotencyKey: r.Header.Get("Idempotency-Key"), IfMatch: r.Header.Get("If-Match"), ContentType: r.Header.Get("Content-Type")}
 		a.p, err = s.c.Devices.Authenticate(r.Context(), token, binding, raw)
 		return a, err
@@ -342,6 +357,7 @@ func (s *Server) body(w http.ResponseWriter, r *http.Request, out any) bool {
 		return false
 	}
 	raw, err := io.ReadAll(http.MaxBytesReader(w, r.Body, 65536))
+	defer clear(raw)
 	if err != nil {
 		writeError(w, w.Header().Get("X-Request-ID"), 413, "PAYLOAD_TOO_LARGE", "Control request body too large or unreadable", nil)
 		return false

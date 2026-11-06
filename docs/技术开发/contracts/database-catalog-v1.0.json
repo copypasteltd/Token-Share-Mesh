@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 295,
+  "catalog_statements": 307,
   "base_table_count": 60,
   "tables": [
     {
@@ -23186,6 +23186,838 @@
           ]
         }
       ]
+    },
+    {
+      "name": "native_result_content",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/021_original_result_content.sql",
+      "columns": [
+        {
+          "name": "delivery_id",
+          "sql": "delivery_id text PRIMARY KEY REFERENCES p11.native_result_deliveries (delivery_id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "delivery_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.native_result_deliveries (delivery_id)",
+              "columns": [
+                "delivery_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "native_result_deliveries",
+              "target_columns": [
+                "delivery_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "job_id",
+          "sql": "job_id text NOT NULL REFERENCES p11.jobs (id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.jobs (id)",
+              "columns": [
+                "job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "jobs",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "order_id",
+          "sql": "order_id text NOT NULL REFERENCES p11.orders (id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "order_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.orders (id)",
+              "columns": [
+                "order_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "orders",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "head_raw",
+          "sql": "head_raw bytea NOT NULL CHECK (octet_length(head_raw) BETWEEN 64 AND 24576)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "head_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(head_raw) BETWEEN 64 AND 24576)",
+              "columns": [
+                "head_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "head_digest",
+          "sql": "head_digest text NOT NULL CHECK (head_digest ~ '^[0-9a-f]{64}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "head_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (head_digest ~ '^[0-9a-f]{64}$')",
+              "columns": [
+                "head_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "key_version",
+          "sql": "key_version text NOT NULL CHECK (key_version ~ '^[A-Za-z0-9_-]{1,128}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "key_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (key_version ~ '^[A-Za-z0-9_-]{1,128}$')",
+              "columns": [
+                "key_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "wrapped_key",
+          "sql": "wrapped_key bytea CHECK (octet_length(wrapped_key) = 60)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(wrapped_key) = 60)",
+              "columns": [
+                "wrapped_key"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "terminal_ciphertext",
+          "sql": "terminal_ciphertext bytea CHECK (octet_length(terminal_ciphertext) BETWEEN 28 AND 2048)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(terminal_ciphertext) BETWEEN 28 AND 2048)",
+              "columns": [
+                "terminal_ciphertext"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "state",
+          "sql": "state text NOT NULL CHECK (state IN ('UPLOADING', 'READY', 'RETIRED'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (state IN ('UPLOADING', 'READY', 'RETIRED'))",
+              "columns": [
+                "state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((state = 'RETIRED' AND wrapped_key IS NULL AND terminal_ciphertext IS NULL) OR (state = 'UPLOADING' AND wrapped_key IS NOT NULL AND terminal_ciphertext IS NULL) OR (state = 'READY' AND wrapped_key IS NOT NULL AND terminal_ciphertext IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "native_result_content_chunks",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/021_original_result_content.sql",
+      "columns": [
+        {
+          "name": "delivery_id",
+          "sql": "delivery_id text NOT NULL REFERENCES p11.native_result_content (delivery_id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "delivery_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.native_result_content (delivery_id)",
+              "columns": [
+                "delivery_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "native_result_content",
+              "target_columns": [
+                "delivery_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "chunk_index",
+          "sql": "chunk_index integer NOT NULL CHECK (chunk_index BETWEEN 0 AND 1023)",
+          "type": "integer",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "chunk_index"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (chunk_index BETWEEN 0 AND 1023)",
+              "columns": [
+                "chunk_index"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "plaintext_bytes",
+          "sql": "plaintext_bytes integer NOT NULL CHECK (plaintext_bytes BETWEEN 1 AND 32768)",
+          "type": "integer",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "plaintext_bytes"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (plaintext_bytes BETWEEN 1 AND 32768)",
+              "columns": [
+                "plaintext_bytes"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "content_digest",
+          "sql": "content_digest text NOT NULL CHECK (content_digest ~ '^[0-9a-f]{64}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "content_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (content_digest ~ '^[0-9a-f]{64}$')",
+              "columns": [
+                "content_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "ciphertext",
+          "sql": "ciphertext bytea NOT NULL CHECK (octet_length(ciphertext) = plaintext_bytes + 28)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "ciphertext"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(ciphertext) = plaintext_bytes + 28)",
+              "columns": [
+                "ciphertext"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_PRIMARY",
+          "name": null,
+          "sql": "PRIMARY KEY (delivery_id, chunk_index)",
+          "columns": [
+            "delivery_id",
+            "chunk_index"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "native_result_read_grants",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/021_original_result_content.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id text PRIMARY KEY",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "delivery_id",
+          "sql": "delivery_id text NOT NULL REFERENCES p11.native_result_content (delivery_id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "delivery_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.native_result_content (delivery_id)",
+              "columns": [
+                "delivery_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "native_result_content",
+              "target_columns": [
+                "delivery_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "job_id",
+          "sql": "job_id text NOT NULL REFERENCES p11.jobs (id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.jobs (id)",
+              "columns": [
+                "job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "jobs",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "order_id",
+          "sql": "order_id text NOT NULL REFERENCES p11.orders (id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "order_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.orders (id)",
+              "columns": [
+                "order_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "orders",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "buyer_id",
+          "sql": "buyer_id text NOT NULL REFERENCES p11.users (id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "buyer_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.users (id)",
+              "columns": [
+                "buyer_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "users",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "session_id",
+          "sql": "session_id text NOT NULL REFERENCES p11.auth_sessions (id)",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "session_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.auth_sessions (id)",
+              "columns": [
+                "session_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "auth_sessions",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "buyer_version",
+          "sql": "buyer_version bigint NOT NULL CHECK (buyer_version > 0)",
+          "type": "bigint",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "buyer_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (buyer_version > 0)",
+              "columns": [
+                "buyer_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "head_digest",
+          "sql": "head_digest text NOT NULL CHECK (head_digest ~ '^[0-9a-f]{64}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "head_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (head_digest ~ '^[0-9a-f]{64}$')",
+              "columns": [
+                "head_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "token_digest",
+          "sql": "token_digest text NOT NULL CHECK (token_digest ~ '^[0-9a-f]{64}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "token_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (token_digest ~ '^[0-9a-f]{64}$')",
+              "columns": [
+                "token_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "key_version",
+          "sql": "key_version text NOT NULL CHECK (key_version ~ '^[A-Za-z0-9_-]{1,128}$')",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "key_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (key_version ~ '^[A-Za-z0-9_-]{1,128}$')",
+              "columns": [
+                "key_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "revoked_at",
+          "sql": "revoked_at timestamptz",
+          "type": "timestamptz",
+          "constraints": []
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (delivery_id, token_digest)",
+          "columns": [
+            "delivery_id",
+            "token_digest"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -26263,6 +27095,141 @@
         "id",
         "order_id"
       ]
+    },
+    {
+      "table": "native_result_content",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.native_result_deliveries (delivery_id)",
+      "columns": [
+        "delivery_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "native_result_deliveries",
+      "target_columns": [
+        "delivery_id"
+      ]
+    },
+    {
+      "table": "native_result_content",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.jobs (id)",
+      "columns": [
+        "job_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "jobs",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_result_content",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.orders (id)",
+      "columns": [
+        "order_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "orders",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_result_content_chunks",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.native_result_content (delivery_id)",
+      "columns": [
+        "delivery_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "native_result_content",
+      "target_columns": [
+        "delivery_id"
+      ]
+    },
+    {
+      "table": "native_result_read_grants",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.native_result_content (delivery_id)",
+      "columns": [
+        "delivery_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "native_result_content",
+      "target_columns": [
+        "delivery_id"
+      ]
+    },
+    {
+      "table": "native_result_read_grants",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.jobs (id)",
+      "columns": [
+        "job_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "jobs",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_result_read_grants",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.orders (id)",
+      "columns": [
+        "order_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "orders",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_result_read_grants",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.users (id)",
+      "columns": [
+        "buyer_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "users",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "native_result_read_grants",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.auth_sessions (id)",
+      "columns": [
+        "session_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "auth_sessions",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -26421,6 +27388,18 @@
       "table": "accepted_usage_settlements",
       "unique": false,
       "sql": "CREATE INDEX accepted_usage_order_watermark ON p11.accepted_usage_settlements (order_id, created_at, id)"
+    },
+    {
+      "name": "native_result_content_expiry",
+      "table": "native_result_content",
+      "unique": false,
+      "sql": "CREATE INDEX native_result_content_expiry ON p11.native_result_content (expires_at, delivery_id) WHERE state <> 'RETIRED'"
+    },
+    {
+      "name": "native_result_read_grant_expiry",
+      "table": "native_result_read_grants",
+      "unique": false,
+      "sql": "CREATE INDEX native_result_read_grant_expiry ON p11.native_result_read_grants (delivery_id, expires_at) WHERE revoked_at IS NULL"
     }
   ],
   "forward_migrations": [
@@ -26756,6 +27735,26 @@
         "CreateTrigStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/021_original_result_content.sql",
+      "source_sha256": "6a0988d2f04de17f11b75a65831e432517931b6beb5840a3edfe920f8690e5ae",
+      "statement_count": 12,
+      "statement_types": [
+        "VariableSetStmt",
+        "CreateStmt",
+        "IndexStmt",
+        "CreateStmt",
+        "CreateStmt",
+        "IndexStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",

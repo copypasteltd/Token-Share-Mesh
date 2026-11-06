@@ -109,7 +109,14 @@
     "listRefundReviews": "INT-105",
     "getRefundReview": "INT-106",
     "decideRefundReview": "INT-107",
-    "revokeRefundReview": "INT-108"
+    "revokeRefundReview": "INT-108",
+    "beginOriginalResultContent": "INT-109",
+    "putOriginalResultChunk": "INT-110",
+    "sealOriginalResultContent": "INT-111",
+    "createOriginalResultReadGrant": "INT-112",
+    "getOriginalResultContent": "INT-113",
+    "getOriginalResultChunk": "INT-114",
+    "getOriginalResultUploadStatus": "INT-115"
   },
   "tables": {
     "acceptances": "DATA-001",
@@ -192,6 +199,9 @@
     "refund_applications": "DATA-078",
     "native_result_deliveries": "DATA-079",
     "native_usage_verifications": "DATA-080",
-    "accepted_usage_settlements": "DATA-081"
+    "accepted_usage_settlements": "DATA-081",
+    "native_result_content": "DATA-082",
+    "native_result_content_chunks": "DATA-083",
+    "native_result_read_grants": "DATA-084"
   }
 }

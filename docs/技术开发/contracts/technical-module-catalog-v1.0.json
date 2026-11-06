@@ -363,7 +363,10 @@
       "authoritative_tables": [
         "assets",
         "transfer_grants",
-        "deletion_tasks"
+        "deletion_tasks",
+        "native_result_content",
+        "native_result_content_chunks",
+        "native_result_read_grants"
       ],
       "application_services": [
         "AssetRegistry",

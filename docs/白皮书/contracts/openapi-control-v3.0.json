@@ -10156,6 +10156,575 @@
         "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
         "x-current-independent-role": "PAYMENT_REVIEWER/self"
       }
+    },
+    "/runner/attempts/{attempt_id}/content/begin": {
+      "post": {
+        "operationId": "beginOriginalResultContent",
+        "tags": [
+          "OriginalResultContent"
+        ],
+        "summary": "beginOriginalResultContent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "attempt_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "DC内部原内容辅助传输，仅PLAINTEXT/STANDARD。模型调用仍通过OpenAI/Anthropic兼容入口；不创建新推理或延长GPU锁。SOURCE_ONLY，未编译/迁移/运行。",
+        "x-required-scopes": [
+          "device:execute"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-content-policy": "NO_BODY_LOGGING_OR_METADATA_JOURNAL",
+        "security": [
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原结果范围；读取不会签收/收费",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalResultContentAck"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OriginalResultContentBegin"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runner/attempts/{attempt_id}/content/chunks": {
+      "post": {
+        "operationId": "putOriginalResultChunk",
+        "tags": [
+          "OriginalResultContent"
+        ],
+        "summary": "putOriginalResultChunk",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "attempt_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "DC内部原内容辅助传输，仅PLAINTEXT/STANDARD。模型调用仍通过OpenAI/Anthropic兼容入口；不创建新推理或延长GPU锁。SOURCE_ONLY，未编译/迁移/运行。",
+        "x-required-scopes": [
+          "device:execute"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-content-policy": "NO_BODY_LOGGING_OR_METADATA_JOURNAL",
+        "security": [
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原结果范围；读取不会签收/收费",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalResultContentAck"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OriginalResultContentChunk"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runner/attempts/{attempt_id}/content/seal": {
+      "post": {
+        "operationId": "sealOriginalResultContent",
+        "tags": [
+          "OriginalResultContent"
+        ],
+        "summary": "sealOriginalResultContent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "attempt_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "DC内部原内容辅助传输，仅PLAINTEXT/STANDARD。模型调用仍通过OpenAI/Anthropic兼容入口；不创建新推理或延长GPU锁。SOURCE_ONLY，未编译/迁移/运行。",
+        "x-required-scopes": [
+          "device:execute"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-content-policy": "NO_BODY_LOGGING_OR_METADATA_JOURNAL",
+        "security": [
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原结果范围；读取不会签收/收费",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalResultContentAck"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OriginalResultContentSeal"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs/{job_id}/results/{delivery_id}/read-grants": {
+      "post": {
+        "operationId": "createOriginalResultReadGrant",
+        "tags": [
+          "OriginalResultContent"
+        ],
+        "summary": "createOriginalResultReadGrant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "path",
+            "name": "delivery_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "DC内部原内容辅助传输，仅PLAINTEXT/STANDARD。模型调用仍通过OpenAI/Anthropic兼容入口；不创建新推理或延长GPU锁。SOURCE_ONLY，未编译/迁移/运行。",
+        "x-required-scopes": [
+          "job:read"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-content-policy": "NO_BODY_LOGGING_OR_METADATA_JOURNAL",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原结果范围；读取不会签收/收费",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalResultReadIssued"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OriginalResultReadRequest"
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      }
+    },
+    "/result-content/{delivery_id}/manifest": {
+      "get": {
+        "operationId": "getOriginalResultContent",
+        "tags": [
+          "OriginalResultContent"
+        ],
+        "summary": "getOriginalResultContent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "delivery_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "DC内部原内容辅助传输，仅PLAINTEXT/STANDARD。模型调用仍通过OpenAI/Anthropic兼容入口；不创建新推理或延长GPU锁。SOURCE_ONLY，未编译/迁移/运行。",
+        "x-required-scopes": [
+          "result:read-only"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-content-policy": "NO_BODY_LOGGING_OR_METADATA_JOURNAL",
+        "security": [
+          {
+            "ResultReadOnly": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原结果范围；读取不会签收/收费",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalResultContentHead"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      }
+    },
+    "/result-content/{delivery_id}/chunks/{chunk_index}": {
+      "get": {
+        "operationId": "getOriginalResultChunk",
+        "tags": [
+          "OriginalResultContent"
+        ],
+        "summary": "getOriginalResultChunk",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "delivery_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "path",
+            "name": "chunk_index",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1023
+            }
+          }
+        ],
+        "description": "DC内部原内容辅助传输，仅PLAINTEXT/STANDARD。模型调用仍通过OpenAI/Anthropic兼容入口；不创建新推理或延长GPU锁。SOURCE_ONLY，未编译/迁移/运行。",
+        "x-required-scopes": [
+          "result:read-only"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-content-policy": "NO_BODY_LOGGING_OR_METADATA_JOURNAL",
+        "security": [
+          {
+            "ResultReadOnly": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原结果范围；读取不会签收/收费",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalResultContentChunk"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      }
+    },
+    "/runner/attempts/{attempt_id}/content/{delivery_id}/status": {
+      "get": {
+        "operationId": "getOriginalResultUploadStatus",
+        "tags": [
+          "OriginalResultContent"
+        ],
+        "summary": "getOriginalResultUploadStatus",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "attempt_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "path",
+            "name": "delivery_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "description": "DC内部原内容辅助传输，仅PLAINTEXT/STANDARD。模型调用仍通过OpenAI/Anthropic兼容入口；不创建新推理或延长GPU锁。SOURCE_ONLY，未编译/迁移/运行。",
+        "x-required-scopes": [
+          "device:execute"
+        ],
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-content-policy": "NO_BODY_LOGGING_OR_METADATA_JOURNAL",
+        "security": [
+          {
+            "DeviceProof": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "原结果范围；读取不会签收/收费",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalResultContentAck"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -10180,6 +10749,11 @@
         "type": "http",
         "scheme": "bearer",
         "description": "5分钟一次性登记凭据，绑定本人pairing_id；消耗后只允许7日内原键/原规范字段恢复原设备，不能重新登记或换身份。"
+      },
+      "ResultReadOnly": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "仅两个/result-content读取端点接受p11r.<grant_id>.<32-byte-secret>；拒绝Cookie/Origin，不是账号session。"
       }
     },
     "schemas": {
@@ -17584,6 +18158,9 @@
               "VERIFIED",
               "UNVERIFIED"
             ]
+          },
+          "content": {
+            "$ref": "#/components/schemas/OriginalResultContentInfo"
           }
         },
         "required": [
@@ -18183,6 +18760,789 @@
           "signature"
         ],
         "description": "独立计量签名+精确原交付+当前独立审批/角色+固定计量配方。OpenAI缓存/推理仅子集；Anthropic输入按disjoint缓存读写合计。不加载模型/解E2E/估扣，未配置即拒绝核验。"
+      },
+      "OriginalResultContentInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "head_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "UPLOADING",
+              "READY",
+              "RETIRED"
+            ]
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "head_digest",
+          "state",
+          "expires_at"
+        ]
+      },
+      "OriginalResultContentTerminal": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stop_sequence": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "stop_sequence"
+        ],
+        "description": "内容字段：仅finish_reason=stop时携带实际匹配停止串；其余必须为空。不得进入元数据journal/outbox/日志。"
+      },
+      "OriginalResultExecutionManifest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "execution_manifest_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "job_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "attempt_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "order_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "route_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "seller_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "device_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "resource_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "capability_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "kernel_environment_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "engine_release": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "input_asset_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "profile_id": {
+            "const": "P11_NATIVE_TEXT_MANIFEST_1"
+          },
+          "contract_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "kernel_environment_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "model_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "recipe_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "input_ciphertext_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "resource_lock_generation": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,18}$"
+          },
+          "fencing_token": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,18}$"
+          },
+          "engine_kind": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "input_token_limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "input_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "mode": {
+            "const": "PLAINTEXT"
+          },
+          "privacy": {
+            "const": "STANDARD"
+          },
+          "hard_deadline": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "request_spec": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "protocol_profile_id": {
+                "type": "string",
+                "enum": [
+                  "P11_CHAT_TEXT_NATIVE_1",
+                  "P11_RESPONSES_TEXT_NATIVE_1",
+                  "P11_MESSAGES_TEXT_NATIVE_1"
+                ]
+              },
+              "public_model": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "max_output_tokens": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2147483647
+              },
+              "stream": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "protocol_profile_id",
+              "public_model",
+              "max_output_tokens",
+              "stream"
+            ]
+          }
+        },
+        "required": [
+          "execution_manifest_ref",
+          "job_id",
+          "attempt_id",
+          "order_id",
+          "route_id",
+          "seller_id",
+          "device_id",
+          "resource_id",
+          "capability_id",
+          "kernel_environment_ref",
+          "engine_release",
+          "input_asset_ref",
+          "profile_id",
+          "contract_hash",
+          "kernel_environment_digest",
+          "model_digest",
+          "recipe_digest",
+          "input_ciphertext_digest",
+          "resource_lock_generation",
+          "fencing_token",
+          "engine_kind",
+          "input_token_limit",
+          "input_bytes",
+          "mode",
+          "privacy",
+          "hard_deadline",
+          "request_spec"
+        ]
+      },
+      "OriginalResultContentHead": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_ORIGINAL_TEXT_CONTENT_1"
+          },
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "declaration": {
+            "$ref": "#/components/schemas/NativeResultDeclaration"
+          },
+          "provider_public_key": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          },
+          "execution_manifest": {
+            "$ref": "#/components/schemas/OriginalResultExecutionManifest"
+          },
+          "include_usage": {
+            "type": "boolean"
+          },
+          "chunk_bytes": {
+            "const": 32768
+          },
+          "chunk_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "UPLOADING",
+              "READY",
+              "RETIRED"
+            ]
+          },
+          "terminal": {
+            "$ref": "#/components/schemas/OriginalResultContentTerminal"
+          }
+        },
+        "required": [
+          "profile_id",
+          "delivery_id",
+          "declaration",
+          "provider_public_key",
+          "execution_manifest",
+          "include_usage",
+          "chunk_bytes",
+          "chunk_count",
+          "expires_at",
+          "state"
+        ],
+        "description": "原设备签名声明+平台认证清单；head_digest按Go规范JSON的UPLOADING/无terminal版本计算，READY响应须带terminal。完成+30分钟固定截止。公开钥快照依赖平台信任，不是E2E独立信任。"
+      },
+      "OriginalResultContentBegin": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "job_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "attempt_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "lease_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "order_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "seller_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "device_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_lock_generation": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "fencing_token": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "contract_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "execution_manifest_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "kernel_environment_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "job_id",
+              "attempt_id",
+              "lease_id",
+              "order_id",
+              "seller_id",
+              "device_id",
+              "resource_id",
+              "resource_lock_generation",
+              "fencing_token",
+              "contract_hash",
+              "execution_manifest_hash",
+              "kernel_environment_digest"
+            ]
+          },
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "include_usage": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "scope",
+          "delivery_id",
+          "include_usage"
+        ]
+      },
+      "OriginalResultContentChunk": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_ORIGINAL_TEXT_CONTENT_1"
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "job_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "attempt_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "lease_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "order_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "seller_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "device_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_lock_generation": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "fencing_token": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "contract_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "execution_manifest_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "kernel_environment_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "job_id",
+              "attempt_id",
+              "lease_id",
+              "order_id",
+              "seller_id",
+              "device_id",
+              "resource_id",
+              "resource_lock_generation",
+              "fencing_token",
+              "contract_hash",
+              "execution_manifest_hash",
+              "kernel_environment_digest"
+            ]
+          },
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "head_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1023
+          },
+          "content_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "content": {
+            "type": "string",
+            "contentEncoding": "base64",
+            "minLength": 4,
+            "maxLength": 43692
+          }
+        },
+        "required": [
+          "profile_id",
+          "scope",
+          "delivery_id",
+          "head_digest",
+          "index",
+          "content_digest",
+          "content"
+        ],
+        "description": "内部原结果内容传输：每块32768原始字节，末块精确余数；整段SHA256不使用JSON/base64摘要。原设备HTTP证明，不含上游凭据。"
+      },
+      "OriginalResultContentSeal": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "job_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "attempt_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "lease_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "order_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "seller_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "device_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_lock_generation": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "fencing_token": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "contract_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "execution_manifest_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "kernel_environment_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "job_id",
+              "attempt_id",
+              "lease_id",
+              "order_id",
+              "seller_id",
+              "device_id",
+              "resource_id",
+              "resource_lock_generation",
+              "fencing_token",
+              "contract_hash",
+              "execution_manifest_hash",
+              "kernel_environment_digest"
+            ]
+          },
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "head_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "terminal": {
+            "$ref": "#/components/schemas/OriginalResultContentTerminal"
+          }
+        },
+        "required": [
+          "scope",
+          "delivery_id",
+          "head_digest",
+          "terminal"
+        ]
+      },
+      "OriginalResultContentAck": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "head_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1023
+          },
+          "content_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "UPLOADING",
+              "READY"
+            ]
+          }
+        },
+        "required": [
+          "delivery_id",
+          "head_digest",
+          "state"
+        ]
+      },
+      "OriginalResultReadRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "head_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "head_digest"
+        ]
+      },
+      "OriginalResultReadGrant": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_ORIGINAL_RESULT_READ_1"
+          },
+          "grant_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "order_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "job_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "seller_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "head_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "profile_id",
+          "grant_id",
+          "order_id",
+          "job_id",
+          "seller_id",
+          "delivery_id",
+          "head_digest",
+          "expires_at"
+        ],
+        "description": "原买家当前session/version/角色绑定；5分钟且不超过内容保留期；退出登录即无效。无执行、付款、签收或计量权限。"
+      },
+      "OriginalResultReadIssued": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "grant": {
+            "$ref": "#/components/schemas/OriginalResultReadGrant"
+          },
+          "read_secret": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$",
+            "x-sensitive": true
+          }
+        },
+        "required": [
+          "grant",
+          "read_secret"
+        ],
+        "description": "提交后单独派生只读秘密；原幂等safe_response只保存grant元数据，读取秘密不得进入Storage/日志/URL。"
+      },
+      "OriginalResultReadPacket": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "grant": {
+            "$ref": "#/components/schemas/OriginalResultReadGrant"
+          },
+          "read_secret": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$",
+            "x-sensitive": true
+          },
+          "api_origin": {
+            "type": "string",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "grant",
+          "read_secret",
+          "api_origin"
+        ],
+        "description": "用户显式交给本地接收程序；仅HTTPS服务源或HTTP数字回环/localhost，无路径/查询/用户信息；无账号会话。"
+      },
+      "OriginalLocalReview": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_LOCAL_RESULT_REVIEW_1"
+          },
+          "job_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "revision": {
+            "const": 1
+          },
+          "manifest_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "output_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "profile_id",
+          "job_id",
+          "delivery_id",
+          "revision",
+          "manifest_hash",
+          "output_digest"
+        ],
+        "description": "完整接收、校验并加密入缓存后生成；是本地核对元数据，不是独立计量、E2E签名或自动接受。"
       }
     },
     "responses": {

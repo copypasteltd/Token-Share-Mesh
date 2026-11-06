@@ -22,10 +22,11 @@ export function orderBillOf(value: unknown): OrderBill {
  if (!id(v.order_id) || !integer(v.version,1) || !integer(v.gross_fen) || !integer(v.commission_fen,0,v.gross_fen) || !integer(v.provisional_seller_fen,0,v.gross_fen) || v.commission_fen + v.provisional_seller_fen !== v.gross_fen || !integer(v.reserved_fen) || !integer(v.unverified_fen) || v.channel_cost_state !== 'UNKNOWN' || v.payout_state !== 'NOT_QUALIFIED' || v.is_final !== false || !time(v.as_of)) throw new ApiError('INVALID_RESPONSE');
  return v as unknown as OrderBill;
 }
-export interface OriginalResult { delivery_id: string; attempt_id: string; revision: number; manifest_hash: string; output_digest: string; output_bytes: number; state: string; decision_deadline: string; usage_state: 'VERIFIED' | 'UNVERIFIED' }
+export interface OriginalResult { delivery_id: string; attempt_id: string; revision: number; manifest_hash: string; output_digest: string; output_bytes: number; state: string; decision_deadline: string; usage_state: 'VERIFIED' | 'UNVERIFIED'; content?: { head_digest: string; state: 'UPLOADING' | 'READY' | 'RETIRED'; expires_at: string } }
 function resultOf(value: unknown): OriginalResult {
- const v=object(value); exact(v,['delivery_id','attempt_id','revision','manifest_hash','output_digest','output_bytes','state','decision_deadline','usage_state']);
+ const v=object(value); exact(v,['delivery_id','attempt_id','revision','manifest_hash','output_digest','output_bytes','state','decision_deadline','usage_state','content']);
  if (!id(v.delivery_id)||!id(v.attempt_id)||v.revision!==1||!hash(v.manifest_hash)||!hash(v.output_digest)||!integer(v.output_bytes,0,32<<20)||!includes(v.state,['REGISTERED','VALIDATING','WAITING_BUYER','VALID','INVALID','STALE'])||!time(v.decision_deadline)||!includes(v.usage_state,['VERIFIED','UNVERIFIED'])) throw new ApiError('INVALID_RESPONSE');
+ if(v.content!==undefined){const c=object(v.content);exact(c,['head_digest','state','expires_at']);if(!hash(c.head_digest)||!includes(c.state,['UPLOADING','READY','RETIRED'])||!time(c.expires_at))throw new ApiError('INVALID_RESPONSE');}
  return v as unknown as OriginalResult;
 }
 export interface OriginalJob { job_id: string; order_id: string; seller_id: string; state: string; version: number; current_attempt_id?: string; accepted_delivery_id?: string; deadline_at: string; results: OriginalResult[]; billing: BillingOutcome }
@@ -40,6 +41,10 @@ interface Decision { expected_job_version: number; delivery_id: string; revision
 interface Cancel { expected_job_version: number; reason_code: 'BUYER_REQUEST' }
 interface Pending { profile: 'TSM_COMPLETION_COMMAND_1'; owner: string; order: string; job: string; operation: 'decision' | 'cancel'; key: string; body: Decision | Cancel }
 export interface LocalReviewReceipt { profile_id: 'P11_LOCAL_RESULT_REVIEW_1'; job_id: string; delivery_id: string; revision: number; manifest_hash: string; output_digest: string }
+export function localReviewOf(raw:string):LocalReviewReceipt{
+ if(raw.length>4096)throw new ApiError('INVALID_REQUEST');let parsed:unknown;try{parsed=JSON.parse(raw);}catch{throw new ApiError('INVALID_REQUEST');}const v=object(parsed);exact(v,['profile_id','job_id','delivery_id','revision','manifest_hash','output_digest']);
+ if(v.profile_id!=='P11_LOCAL_RESULT_REVIEW_1'||!id(v.job_id)||!id(v.delivery_id)||v.revision!==1||!hash(v.manifest_hash)||!hash(v.output_digest))throw new ApiError('INVALID_REQUEST');return v as unknown as LocalReviewReceipt;
+}
 function pendingOf(raw: string, owner: string): Pending {
  if (raw.length>8192) throw new Error('原任务操作记录需要核对，请保留记录。');
  const v=object(JSON.parse(raw));exact(v,['profile','owner','order','job','operation','key','body']);
@@ -53,14 +58,15 @@ function pendingOf(raw: string, owner: string): Pending {
 function ackOf(value: unknown) {
  const v=object(value);exact(v,['job_id','delivery_id','id','version','state','billing']);if(!id(v.job_id)||(v.delivery_id!==undefined&&!id(v.delivery_id))||!id(v.id)||!integer(v.version,1)||!includes(v.state,['ACCEPTED','FAILED','CANCELED']))throw new ApiError('INVALID_RESPONSE');return {...v,billing:billingOutcomeOf(v.billing)};
 }
-export interface CompletionState { order: string; bill: OrderBill | null; job: OriginalJob | null; busy: boolean; pending: boolean; error: string }
-const initial=():CompletionState=>({order:'',bill:null,job:null,busy:false,pending:false,error:''});
+export interface CompletionState { order: string; bill: OrderBill | null; job: OriginalJob | null; busy: boolean; pending: boolean; error: string; readPacket: string }
+const initial=():CompletionState=>({order:'',bill:null,job:null,busy:false,pending:false,error:'',readPacket:''});
 export class CompletionFlow {
+ private readGrantPending:{job:string;delivery:string;head:string;key:string}|null=null;
  private state=initial();private order:Order|null=null;private epoch=0;private listeners=new Set<()=>void>();private unsubscribe:()=>void;
- constructor(private client:ControlClient,private storage:Storage,private random:SecureBytes){this.unsubscribe=client.onSessionChange(()=>{this.epoch++;this.order=null;this.state=initial();this.emit();});}
+ constructor(private client:ControlClient,private storage:Storage,private random:SecureBytes){this.unsubscribe=client.onSessionChange(()=>{this.epoch++;this.order=null;this.readGrantPending=null;this.state=initial();this.emit();});}
  subscribe=(f:()=>void)=>{this.listeners.add(f);return()=>{this.listeners.delete(f);};};snapshot=()=>this.state;
  private emit(){this.listeners.forEach(f=>f());}private update(p:Partial<CompletionState>){this.state={...this.state,...p};this.emit();}
- bindOrder(order:Order|null){const owner=this.client.current()?.profile.user_id;if(order&&owner!==order.buyer_id&&owner!==order.seller_id)order=null;if(this.order?.order_id===order?.order_id)return;this.epoch++;this.order=order;this.state={...initial(),order:order?.order_id||''};this.emit();}
+ bindOrder(order:Order|null){const owner=this.client.current()?.profile.user_id;if(order&&owner!==order.buyer_id&&owner!==order.seller_id)order=null;if(this.order?.order_id===order?.order_id)return;this.epoch++;this.order=order;this.readGrantPending=null;this.state={...initial(),order:order?.order_id||''};this.emit();}
  private context(epoch:number,owner:string){if(epoch!==this.epoch||this.client.current()?.profile.user_id!==owner)throw new ApiError('COMPLETION_CONTEXT_CHANGED');}
  private readPending(owner:string){const raw=this.storage.get('completion-pending:'+owner);return raw?pendingOf(raw,owner):null;}
  async refresh(job?:string){if(this.state.busy||!this.order)return;const epoch=this.epoch,owner=this.client.current()?.profile.user_id;if(!owner)return;const order=this.order.order_id;this.update({busy:true,error:''});
@@ -88,5 +94,24 @@ export class CompletionFlow {
  // this receipt. Listing server metadata never fabricates local acceptance.
  async decide(receipt:LocalReviewReceipt,accept:boolean){const j=this.state.job;if(!j||receipt.profile_id!=='P11_LOCAL_RESULT_REVIEW_1'||receipt.job_id!==j.job_id)throw new ApiError('INVALID_REQUEST');const d=j.results.find(x=>x.delivery_id===receipt.delivery_id);if(!d||d.attempt_id!==j.current_attempt_id||d.revision!==receipt.revision||d.manifest_hash!==receipt.manifest_hash||d.output_digest!==receipt.output_digest||d.state!=='WAITING_BUYER')throw new ApiError('CONFLICT');return this.command('decision',{expected_job_version:j.version,delivery_id:d.delivery_id,revision:d.revision,manifest_hash:d.manifest_hash,reviewed_output_digest:receipt.output_digest,decision:accept?'ACCEPT':'REJECT'});}
  async cancel(){if(this.state.job)return this.command('cancel',{expected_job_version:this.state.job.version,reason_code:'BUYER_REQUEST'});}
+ async createReadPacket(delivery:string,apiOrigin=this.client.base){
+  if(this.state.busy||!this.order||!this.state.job)return;const epoch=this.epoch,owner=this.client.current()?.profile.user_id,j=this.state.job,d=j.results.find(v=>v.delivery_id===delivery);
+  if(owner!==this.order.buyer_id||!d||d.attempt_id!==j.current_attempt_id||d.content?.state!=='READY'||!['WAITING_BUYER','VALID'].includes(d.state))return;
+  this.update({busy:true,error:'',readPacket:''});
+  try{
+   if(!/^(https:\/\/[A-Za-z0-9.:[\]-]+|http:\/\/(127\.0\.0\.1|localhost)(:\d+)?)$/.test(apiOrigin))throw new Error('请先配置本地接收程序可访问的服务地址。');
+   let p=this.readGrantPending;if(p&&(p.job!==j.job_id||p.delivery!==delivery||p.head!==d.content.head_digest))throw new Error('请先恢复原结果的读取授权。');
+   if(!p){const key=await newKey(this.random);this.context(epoch,owner);p={job:j.job_id,delivery,head:d.content.head_digest,key};this.readGrantPending=p;}
+   const issued=await this.client.request('POST','/jobs/'+p.job+'/results/'+p.delivery+'/read-grants',value=>{
+    const v=object(value);exact(v,['grant','read_secret']);const g=object(v.grant);exact(g,['profile_id','grant_id','order_id','job_id','seller_id','delivery_id','head_digest','expires_at']);
+    if(g.profile_id!=='P11_ORIGINAL_RESULT_READ_1'||!id(g.grant_id)||g.order_id!==this.order?.order_id||g.job_id!==j.job_id||g.seller_id!==j.seller_id||g.delivery_id!==delivery||g.head_digest!==d.content?.head_digest||!time(g.expires_at)||typeof v.read_secret!=='string'||!/^[A-Za-z0-9_-]{43}$/.test(v.read_secret))throw new ApiError('INVALID_RESPONSE');return {grant:g,read_secret:v.read_secret};
+   },{head_digest:p.head},p.key);this.context(epoch,owner);this.readGrantPending=null;
+   // This scoped secret is memory-only. It never enters Storage/journals or
+   // uses the miniapp command-ID PRF as a content or credential RNG.
+   this.update({readPacket:JSON.stringify({...issued,api_origin:apiOrigin},null,2)});
+  }catch(e){if(epoch===this.epoch)this.update({error:errorText(e)});}finally{if(epoch===this.epoch)this.update({busy:false});}
+ }
+ clearReadPacket(){this.update({readPacket:''});}
+ async decideFromJSON(raw:string,accept:boolean){const epoch=this.epoch;try{await this.decide(localReviewOf(raw),accept);}catch(e){if(epoch===this.epoch)this.update({error:errorText(e)});}}
  dispose(){this.epoch++;this.unsubscribe();this.order=null;this.state=initial();this.listeners.clear();}
 }
