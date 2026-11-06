@@ -1,0 +1,11 @@
+{
+  "base_source": "dev/src/client/execution/schema.sql",
+  "base_source_sha256": "5fd81de895db1ab3c19ea49debadb93d644a721f0f755e89443f59777f396e87",
+  "previous_migration": "dev/src/client/execution/schema-002-rental.sql",
+  "previous_migration_sha256": "3dfd70e8e25f1af6012a50029c098331b8163a98bdfda953af28a5ef9b109660",
+  "migration": "dev/src/client/execution/schema-003-media.sql",
+  "migration_sha256": "a1f10bfae77a3073dbd0b3b2713efbf9b3252c739a508686947278cd27b51a40",
+  "native_user_version": 3,
+  "status": "SOURCE_ONLY_NOT_EXECUTED",
+  "policy": "Forward only; original bytes frozen on registration. Metadata reservation does not prove stopped work, successful delivery, payment or owner release."
+}

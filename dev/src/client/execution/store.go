@@ -145,6 +145,10 @@ func Open(ctx context.Context, path string, b Binding, create bool, clock Clock)
 		db.Close()
 		return nil, ErrStorage
 	}
+	if err = s.migrateMedia(ctx); err != nil {
+		db.Close()
+		return nil, ErrStorage
+	}
 	return s, nil
 }
 
@@ -201,7 +205,7 @@ func (s *Store) initialize(ctx context.Context, create bool) error {
 		}
 	}
 	var app, version int
-	if tx.QueryRowContext(ctx, `PRAGMA application_id`).Scan(&app) != nil || app != applicationID || tx.QueryRowContext(ctx, `PRAGMA user_version`).Scan(&version) != nil || (version != 1 && version != 2) {
+	if tx.QueryRowContext(ctx, `PRAGMA application_id`).Scan(&app) != nil || app != applicationID || tx.QueryRowContext(ctx, `PRAGMA user_version`).Scan(&version) != nil || (version != 1 && version != 2 && version != 3) {
 		return ErrStorage
 	}
 	actual, err := schemaDigest(ctx, tx)
@@ -214,9 +218,15 @@ func (s *Store) initialize(ctx context.Context, create bool) error {
 			return ErrStorage
 		}
 	}
-	if version == 2 {
+	if version >= 2 {
 		var forward string
 		if tx.QueryRowContext(ctx, `SELECT value FROM metadata WHERE name='rental_schema_source_hash'`).Scan(&forward) != nil || forward != digest([]byte(rentalSchema)) {
+			return ErrStorage
+		}
+	}
+	if version >= 3 {
+		var forward string
+		if tx.QueryRowContext(ctx, `SELECT value FROM metadata WHERE name='media_schema_source_hash'`).Scan(&forward) != nil || forward != digest([]byte(mediaSchema)) {
 			return ErrStorage
 		}
 	}
@@ -238,8 +248,13 @@ func (s *Store) initialize(ctx context.Context, create bool) error {
 	if _, err = tx.ExecContext(ctx, `UPDATE resources SET phase='QUARANTINED',stopped=0 WHERE owner_id<>''; UPDATE inbox SET phase='QUARANTINED' WHERE phase<>'CLEANED'`); err != nil {
 		return ErrStorage
 	}
-	if version == 2 && quarantineRentalTx(ctx, tx) != nil {
+	if version >= 2 && quarantineRentalTx(ctx, tx) != nil {
 		return ErrStorage
+	}
+	if version >= 3 {
+		if _, err = tx.ExecContext(ctx, `UPDATE media_namespace SET phase='QUARANTINED' WHERE phase='CREATING'; UPDATE rental_media_workspaces SET phase='QUARANTINED' WHERE phase<>'CLEANED'`); err != nil {
+			return ErrStorage
+		}
 	}
 	return tx.Commit()
 }

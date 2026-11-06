@@ -59,6 +59,8 @@ type Process struct {
 	pumps                                                 sync.WaitGroup
 	abortOnce, closeOnce                                  sync.Once
 	authMu                                                sync.Mutex
+	mediaOwned                                            bool
+	mediaAdapter                                          *RentalMediaAdapter
 }
 
 func (p *Process) Format(w fmt.State, _ rune) {
@@ -130,6 +132,12 @@ func OpenPrepared(ctx context.Context, use comfyenv.Use, selection RuntimeSelect
 		p.closing = true
 		p.mu.Unlock()
 		p.operations.Wait()
+		p.mu.Lock()
+		mediaAdapter := p.mediaAdapter
+		p.mu.Unlock()
+		if mediaAdapter != nil {
+			mediaAdapter.revokeResults()
+		}
 		for {
 			select {
 			case frame := <-p.frames:

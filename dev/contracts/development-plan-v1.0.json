@@ -20608,11 +20608,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "d3c349e768c895b91b7f6b4f71b7fc7311994f2e9ccdb179a6ed0c2bdaacd7d0"
+      "sha256": "2ac20b280d80006206e3b2974e3a6efeb48857ea290468c0dfaf3dd7b9e9450b"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "e348337d8a87b427c48ae228056897c7f6dcd78b8ed369a342a9eb5656606373"
+      "sha256": "4e5ec89603d694b50ece1c859bd3bf053ebe2bb0330a9eb0676aafad4dc560b3"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20804,7 +20804,7 @@
     },
     {
       "path": "docs/技术开发/附录-供给端内核封装与替换规范.md",
-      "sha256": "eeb2527bbd4789058756c424153e7a66fabfb0121c15a0af0b84ed52e5790368"
+      "sha256": "92b05210f208d882d2a3c48fccef20fa165798b9ae81062ed6326d782cf4f4ae"
     },
     {
       "path": "docs/技术开发/附录-协议字段映射与兼容档位.md",
@@ -20820,7 +20820,7 @@
     },
     {
       "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-      "sha256": "7b92be1a2b3dc88355abc32303eb2a53489b4d7e32e9df16ee7641395c0d3e7c"
+      "sha256": "150ea193f7bbd8da237b9e475fcdf8cbbb26c775a6585790534ed981fd89bdd2"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",

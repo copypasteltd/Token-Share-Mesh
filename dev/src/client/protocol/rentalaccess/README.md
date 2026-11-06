@@ -25,3 +25,7 @@ RN-091—110追加租赁专用文本接线源码：独立原grant/当前物理�
 当前只限GPU_RENTAL/STANDARD文本。没有网络E2E、提供方不可见、TEE或实际性能结论；平台独立清理回执/资金释放、Android租内媒体、公开SDK/模型入口与全56/222其余代码仍待。累计67项租赁测试定义均未编译/运行。本段更新早期源码检查点的“租赁内核/watchdog仍待”状态，不追认历史验收。
 
 Source only, unverified. Typed original rental input and private native pipes reuse encoding, not T1 authority. A separate monotonic deadline loop cancels without SQL; original cleanup facts plus actual joins gate local release. Unknown outcomes retain ownership. Local RAM encryption is not network E2E, provider blindness or a platform funds-release proof. No builds, tests, migration or device execution occurred.
+
+## R026 WS-001—030 原媒体工作区与结果托管源码 / Original media workspace and custody source
+
+R026新增[WS-001—030](../../../../../docs/技术开发/附录-租内媒体工作区与结果托管源码.md)：原租赁媒体工作区/native003元数据预留、原节点目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用子调用适配器和结果钥托管/读取撤销。23项新测试定义均未编译/运行；公开SDK、完整媒体会话监督/独立停工对账/ready/续租/可信水位/平台释放、完整实际包/低权限/E2E/性能仍待。全56任务/222子项开放，只登记native003源，未迁移/真实执行；完整代码后统一验证，源码检查点不是开发轮完成。

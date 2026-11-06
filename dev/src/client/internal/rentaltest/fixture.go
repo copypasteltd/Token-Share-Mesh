@@ -38,10 +38,17 @@ type Fixture struct {
 
 func digest(b []byte) string { h := sha256.Sum256(b); return hex.EncodeToString(h[:]) }
 
-func Text(t *testing.T, protocol relay.Profile) Fixture {
+func Text(t *testing.T, protocol relay.Profile) Fixture { return fixture(t, protocol, false) }
+func Media(t *testing.T) Fixture                        { return fixture(t, relay.ChatText, true) }
+func fixture(t *testing.T, protocol relay.Profile, media bool) Fixture {
 	t.Helper()
 	now := time.Now().UTC().Truncate(time.Millisecond)
 	m := rentalaccess.Manifest{Profile: rentalaccess.ManifestProfile, Reference: "manifest_rental", Session: "session_rental", Order: "order_rental", Buyer: "buyer_test", Seller: "seller_test", Device: "device_test", Resource: "resource_rental", Generation: "1", Capability: "cap_native_text", Environment: "environment_rental", EnvironmentHash: strings.Repeat("c", 64), ContractHash: strings.Repeat("d", 64), Mode: "GPU_RENTAL", Privacy: "STANDARD", Engine: "LLAMA_CPP_NATIVE", Release: "llama.cpp-v0.8.0-8642541b", ModelHash: strings.Repeat("a", 64), RecipeHash: strings.Repeat("b", 64), Protocol: string(protocol), PublicSpec: contractspec.Selection{ModelID: "model_rental", DurationMS: 120000, InputTokenLimit: 1024, OutputTokenLimit: 32}}
+	if media {
+		m.Engine = "COMFYUI"
+		m.Release = "comfy-private-2"
+		m.PublicSpec = contractspec.Selection{WorkflowID: "workflow_media", WorkflowRevision: 1, DurationMS: 120000}
+	}
 	raw, e := json.Marshal(m)
 	if e != nil {
 		t.Fatal(e)

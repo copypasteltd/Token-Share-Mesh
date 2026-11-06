@@ -32,9 +32,16 @@ type nativeRentalFixture struct {
 }
 
 func nativeRental(t *testing.T, s *Store, c *testClock) nativeRentalFixture {
+	return nativeRentalEngine(t, s, c, "LLAMA_CPP_NATIVE")
+}
+func nativeRentalEngine(t *testing.T, s *Store, c *testClock, engine string) nativeRentalFixture {
 	t.Helper()
 	now := c.stamp.Wall
 	m := rentalaccess.Manifest{Profile: rentalaccess.ManifestProfile, Reference: "manifest_rental", Session: "session_rental", Order: "order_rental", Buyer: "buyer_test", Seller: "seller_test", Device: "device_test", Resource: "resource_test", Generation: "1", Capability: "capability_test", Environment: "environment_test", EnvironmentHash: strings.Repeat("b", 64), ContractHash: strings.Repeat("c", 64), Mode: "GPU_RENTAL", Privacy: "STANDARD", Engine: "LLAMA_CPP_NATIVE", Release: "llama.cpp-b11960", ModelHash: strings.Repeat("d", 64), RecipeHash: strings.Repeat("f", 64), Protocol: "openai_nb1", PublicSpec: contractspec.Selection{ModelID: "model_test", DurationMS: 120000, InputTokenLimit: 2048, OutputTokenLimit: 256}}
+	if engine == "COMFYUI" {
+		m.Engine = engine
+		m.PublicSpec = contractspec.Selection{WorkflowID: "workflow_test", WorkflowRevision: 1, DurationMS: 120000}
+	}
 	raw, _ := json.Marshal(m)
 	p, err := rentalaccess.VerifyPreparation(raw, rentalaccess.LocalApproval{Profile: rentalaccess.ApprovalProfile, Manifest: m, ManifestHash: digest(raw), PhysicalHash: strings.Repeat("e", 64), Connection: "connection_test", Issuer: "issuer_test", PrepareUntil: now.Add(time.Minute)}, now)
 	if err != nil {
@@ -161,7 +168,7 @@ func TestNativeRentalUpgradePreservesLegacyOwnerFencesAndForeignKeys(t *testing.
 	}
 	defer s.Close()
 	var version int
-	if s.db.QueryRow(`PRAGMA user_version`).Scan(&version) != nil || version != 2 {
+	if s.db.QueryRow(`PRAGMA user_version`).Scan(&version) != nil || version != 3 {
 		t.Fatal("legacy database not forward-migrated")
 	}
 	status, err := s.Snapshot(ctx)

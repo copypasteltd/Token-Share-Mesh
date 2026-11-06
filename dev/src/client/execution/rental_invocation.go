@@ -244,6 +244,13 @@ func (s *Store) FinishRentalInvocationCleanup(ctx context.Context, h Hold, id st
 		if v.Phase != "CLEANING" || v.BackendID != c.BackendID {
 			return ErrEvidence
 		}
+		var mediaOutstanding bool
+		if tx.QueryRowContext(ctx, `SELECT EXISTS(SELECT 1 FROM rental_media_workspaces WHERE invocation_id=? AND phase<>'CLEANED')`, id).Scan(&mediaOutstanding) != nil {
+			return ErrStorage
+		}
+		if mediaOutstanding {
+			return ErrEvidence
+		}
 		if _, e = tx.ExecContext(ctx, `UPDATE rental_invocations SET phase='CLEANED',cleanup_hash=? WHERE invocation_id=?`, c.ManifestHash, id); e != nil {
 			return ErrStorage
 		}

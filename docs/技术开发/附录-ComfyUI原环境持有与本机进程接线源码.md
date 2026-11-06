@@ -169,3 +169,7 @@ DEV-55 部署/HTTPS/可观测性仍延后，DEV-32 无实际增强证明保持�
 | CH-T027 | test_child_deadline_cannot_exceed_original_paid_bound | dev/src/client/kernels/comfy-private/tests/test_control.py | 未编译/未运行 |
 | CH-T028 | test_model_pins_are_checked_without_importing_inference_packages | dev/src/client/kernels/comfy-private/tests/test_model_inventory.py | 未编译/未运行 |
 | CH-T029 | test_damaged_models_and_path_aliases_never_gain_runtime_mapping | dev/src/client/kernels/comfy-private/tests/test_model_inventory.py | 未编译/未运行 |
+
+## R026 WS-001—030 原媒体工作区与结果托管源码 / Original media workspace and custody source
+
+R026新增[WS-001—030](附录-租内媒体工作区与结果托管源码.md)：原租赁媒体工作区/native003元数据预留、原节点目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用子调用适配器和结果钥托管/读取撤销。23项新测试定义均未编译/运行；公开SDK、完整媒体会话监督/独立停工对账/ready/续租/可信水位/平台释放、完整实际包/低权限/E2E/性能仍待。全56任务/222子项开放，只登记native003源，未迁移/真实执行；完整代码后统一验证，源码检查点不是开发轮完成。

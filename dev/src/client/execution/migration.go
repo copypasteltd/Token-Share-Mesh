@@ -23,7 +23,7 @@ func (s *Store) migrateRental(ctx context.Context) (result error) {
 	if conn.QueryRowContext(ctx, "PRAGMA user_version").Scan(&version) != nil {
 		return ErrStorage
 	}
-	if version == 2 {
+	if version == 2 || version == 3 {
 		return nil
 	}
 	if version != 1 {

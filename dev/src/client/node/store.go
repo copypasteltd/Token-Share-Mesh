@@ -17,6 +17,7 @@ import (
 	"os"
 	"p11.local/compute/client/comfyenv"
 	"p11.local/compute/client/execution"
+	"p11.local/compute/client/mediaworkspace"
 	"p11.local/compute/client/protocol/devicecontrol"
 	"p11.local/compute/client/protocol/executionlease"
 	"p11.local/compute/shared/ids"
@@ -100,6 +101,7 @@ type Store struct {
 	host                  *Host
 	rentals               *RentalJournal
 	kernels               *comfyenv.Registry
+	media                 *mediaworkspace.Owner
 	nativeMu              sync.Mutex
 	nativeRentals         map[string]*NativeRental
 	closingNative         bool
@@ -449,6 +451,10 @@ func (s *Store) finishClose() {
 			s.nativeMu.Lock()
 			s.kernels = nil
 			s.nativeMu.Unlock()
+		}
+		if s.media != nil {
+			s.media.Close() // wait original child/readers before DB, root, key and OS lock
+			s.media = nil
 		}
 		if s.rentals != nil {
 			s.rentals.Close()
