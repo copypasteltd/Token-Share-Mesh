@@ -352,7 +352,7 @@ def make_schemas() -> dict:
     s["RentalAccess"] = obj({"grant_id": ID, "session_id": ID, "scopes": arr(TEXT, 4, 1),
         "expires_at": TIME, "connection_ref": ID, "kernel_environment_digest": HASH,
         "credential_once": {"type": "string", "minLength": 32, "maxLength": 4096, "readOnly": True}},
-        description="有效期不超已确认租期；停工即撤权；仅本会话受控应用，无主机/shell权限。技术v1.0将credential_once规划为成熟JWS库签发的受限会话授权，签名不加密；claims绑定实际seller/device/resource代次、terms_revision/hash、kernel_environment_digest、scope/硬截止和aud。具体profile/库待原生PoC冻结，Bearer仅首次展示，服务保存摘要。")
+        description="有效期不超已确认租期；停工即撤权；仅本会话受控应用，无主机/shell权限。技术v1.0将credential_once规划为成熟JWS库签发的受限会话授权，签名不加密；claims绑定实际seller/device/resource代次、terms_revision/hash、kernel_environment_digest、scope/硬截止和aud。R026源码选择P11_RENTAL_ACCESS_EDDSA_1及golang-jwt/jwt v5.3.1/MIT，详见RN-001—030；当前未编译测试/未接通实际会话，POC-10冻结与资格仍待。Bearer仅首次展示，服务保存摘要。")
     s["MeterStatement"] = obj({"session_id": ID, "revision": VERSION, "verified_billable_ms": UINT,
         "confirmed_budget_fen": UINT, "charge_fen": UINT, "paid_fen": UINT, "refund_fen": UINT,
         "intervals": arr(obj({"sequence": COUNTER, "starts_at": TIME, "ends_at": TIME, "verified_ms": UINT, "evidence_ref": ID}), 100),

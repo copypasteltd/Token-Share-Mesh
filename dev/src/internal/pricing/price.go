@@ -116,22 +116,71 @@ func ceil(value *big.Rat) (money.Fen, error) {
 
 func validCount(n *int64) bool { return n != nil && *n >= 0 && *n <= money.MaxFen }
 
-func (p Price) Amount(u Usage) (money.Fen, error) {
+func (p Price) exactAmount(u Usage) (*big.Rat, error) {
 	if err := p.Validate(); err != nil {
-		return 0, err
+		return nil, err
 	}
 	if p.Unit == Hour {
 		if !validCount(u.BillableMS) || u.InputTokens != nil || u.OutputTokens != nil {
-			return 0, fault.New(fault.Invalid, "Verified millisecond usage required")
+			return nil, fault.New(fault.Invalid, "Verified millisecond usage required")
 		}
-		return ceil(charge(*u.BillableMS, *p.HourRate, 3600000))
+		return charge(*u.BillableMS, *p.HourRate, 3600000), nil
 	}
 	if !validCount(u.InputTokens) || !validCount(u.OutputTokens) || u.BillableMS != nil {
-		return 0, fault.New(fault.Invalid, "Verified input and output usage required")
+		return nil, fault.New(fault.Invalid, "Verified input and output usage required")
 	}
 	total := charge(*u.InputTokens, *p.InputRate, 1000000)
 	total.Add(total, charge(*u.OutputTokens, *p.OutputRate, 1000000))
-	return ceil(total)
+	return total, nil
+}
+
+func (p Price) Amount(u Usage) (money.Fen, error) {
+	value, err := p.exactAmount(u)
+	if err != nil {
+		return 0, err
+	}
+	return ceil(value)
+}
+
+// AmountCapped clamps the exact cumulative amount BEFORE narrowing to money.
+// Even when the mathematical uncapped amount exceeds the monetary range, a
+// valid confirmed budget remains an exact bound. This grants no right to spend
+// that budget and must only consume independently verified disjoint usage.
+func (p Price) AmountCapped(u Usage, cap money.Fen) (money.Fen, error) {
+	if _, err := money.New(int64(cap)); err != nil {
+		return 0, err
+	}
+	value, err := p.exactAmount(u)
+	if err != nil {
+		return 0, err
+	}
+	if value.Cmp(new(big.Rat).SetInt64(int64(cap))) >= 0 {
+		return cap, nil
+	}
+	return ceil(value)
+}
+
+// AffordableHourlyMS bounds an explicitly requested duration by the confirmed
+// budget using the exact rational hourly rate. A zero rate is explicit, never
+// inferred from a missing field. This is a conservative admission cap; accepted
+// availability, faults and final fees still require their own complete history.
+func (p Price) AffordableHourlyMS(requested int64, budget money.Fen) (int64, error) {
+	if p.Validate() != nil || p.Unit != Hour || requested < 0 || requested > money.MaxFen {
+		return 0, fault.New(fault.Invalid, "Explicit hourly duration and rate required")
+	}
+	if _, err := money.New(int64(budget)); err != nil {
+		return 0, err
+	}
+	if p.HourRate.NumeratorFen == 0 {
+		return requested, nil
+	}
+	n := new(big.Int).Mul(big.NewInt(int64(budget)), big.NewInt(p.HourRate.DenominatorUnits))
+	n.Mul(n, big.NewInt(3600000))
+	n.Quo(n, big.NewInt(p.HourRate.NumeratorFen))
+	if n.Cmp(big.NewInt(requested)) >= 0 {
+		return requested, nil
+	}
+	return n.Int64(), nil
 }
 
 type Split struct {

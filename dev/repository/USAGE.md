@@ -1,5 +1,9 @@
 # Usage / 使用指南
 
+R026小时租赁新增源码目前不能直接作为可运行服务使用：Go [rental领域规则](../src/internal/rental/README.md)与[会话JWS/活性窗口](../src/client/protocol/rentalaccess/README.md)仍需实际事务、原加密journal、Android执行和物理会话门闩接线。先由可信仓储解析原C2C/资金/资格/资源事实，原子提交ACTIVE与grant后才首次交付Bearer；不得把请求正文中的资金/清理布尔当可信事实，不得把Bearer存入幂等响应。全部代码完成前不运行构建/测试命令。
+
+R026 rental code is not a runnable rental service yet. Domain rules and the JWS/control package still require transactional storage, original encrypted journals, Android session execution and physical-owner integration. Resolve facts independently and commit the original active owner/grant before returning a once-only credential; never retain the Bearer in replay storage. Keep batch compilation/testing closed until the full code scope is implemented. See [RN-001—030](../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md).
+
 ## R021 · 原生 C API worker 与受限管道
 
 本轮增加可替换的 llama.cpp 原生 C++ worker 与 Go InputAdapter：独立本机批准包/模型/模板及逐文件摘要；三文本请求严格映射到同一模型模板与真实 tokenizer；受限匿名内容管道、独立取消、两个64KiB输出缓冲及原 owner 一次提交。模型权重可复用，每任务同步、清KV并释放上下文后才发原清理回执；进程退出保持 UNKNOWN。

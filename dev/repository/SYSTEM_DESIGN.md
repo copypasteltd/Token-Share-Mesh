@@ -1,5 +1,9 @@
 # System design / 系统方案
 
+R026租赁源码拆为原会话领域规则、成熟JWS授权、持续控制活性、完整历史计量四部分。小时租赁按owner_session_id/物理代次绑定同一设备，租内媒体/LLM不叠加作品/token费；普通T1任务短执行权续签独立保留。新增领域函数/18项测试源码未编译运行；平台事务、实际资金/确认区间、原加密journal、Android子调用与物理停止清理尚未接通。现有95操作/68表设计口径及已发布001—013 SQL原字节不变。
+
+Rental source separates original-session rules, mature JWS authority, continuing control freshness and complete-history metering. Rental children share one session owner and physical generation; media/LLM calls add no per-result or token fee. T1 task execution continuation remains separate. These sources are uncompiled/untested and not wired to transactional storage, real funding/interval evidence, encrypted journals, Android invocations or physical cleanup. See [RN-001—030](../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md).
+
 ## R021 · 原生 C API worker 与受限管道
 
 本轮增加可替换的 llama.cpp 原生 C++ worker 与 Go InputAdapter：独立本机批准包/模型/模板及逐文件摘要；三文本请求严格映射到同一模型模板与真实 tokenizer；受限匿名内容管道、独立取消、两个64KiB输出缓冲及原 owner 一次提交。模型权重可复用，每任务同步、清KV并释放上下文后才发原清理回执；进程退出保持 UNKNOWN。

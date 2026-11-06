@@ -55,3 +55,9 @@ Go与Android使用 `P11_EXECUTION_LEASE_IDENTITY_1` 对固定顺序签名消息�
 原FAILED清理报告、键和回执保留。实际完成本机清理后，另签 `P11_DEVICE_CLEANUP_RECOVERY_1` 并绑定 `recovery_of` 原失败回执；断线只重发同一恢复正文/键。平台前向013另存恢复事实，只清原owner，旧租约仍REVOKED，不重新执行、释放预算或记费。
 
 This is execution-authority continuation, not paid GPU-rental renewal. The T1 platform service and Android continuation/recovery protocol are unverified source; current platform authorization still rejects unimplemented M1 admission. Eight device-boundary definitions and Go/integration test sources have not run. No APK, media dispatch, E2E, trusted usage or commercial qualification is implied.
+
+## Hourly rental ownership / 小时租赁归属
+
+媒体交易在小时租赁会话内执行，不套用owner_attempt_id的普通任务，也不在租内按图片、视频或token加收。新Go会话领域规则、受限JWS和活性窗口见[RN-001—030](../../../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md)。当前Android尚未接入这些令牌、原session manifest/素材、控制回执、invocation inbox或真实物理会话owner；原M1平台闭环仍待，不能据此开放挂牌执行。
+
+Media trades belong to hourly rental sessions with no per-result/token surcharge. The new Go domain/JWS/control sources are not yet connected to this Android overlay, original rental manifests/assets, control receipts, child-invocation inbox or physical session ownership. M1 production admission stays closed. All 18 rental boundary cases and eight Android boundary cases are source definitions only, with no build/test/device acceptance.

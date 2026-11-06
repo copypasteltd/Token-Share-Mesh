@@ -2,6 +2,8 @@
 
 ## R026 · Full-scope code phase (in progress, unverified)
 
+- Added unverified hourly-rental domain rules, exact affordable duration and cumulative confirmed-interval/fault metering; pinned MIT golang-jwt/jwt v5.3.1 for restricted EdDSA JWS pinned to the original credential digest, one-time credentials, signed control windows and crash watermarks. Added RN-001—030 and 18 test-source definitions. No new HTTP operation or SQL migration; storage/payment, encrypted-journal, physical-owner and Android session integration remain open. No compilation or tests executed; all 56 tasks/222 steps remain unaccepted.
+
 - Added source-only T1 signed execution continuation, stable signature identity across JSON layouts, append-only prior/new lease history, and separate signed recovery of failed cleanup (012/013). Android now receives continuations and reports periodically; M1 admission and desktop integration remain open. Eight Android boundary definitions and new Go/integration test sources have not run.
 
 - Complete Android admission/replay source ordering: persist original ownership before ACK, preserve the clock on identical signed renewals, and supersede older pending progress after confirmed cleanup without fabricating ACKs. Expand AIB-004/007 test definitions; no tests executed.

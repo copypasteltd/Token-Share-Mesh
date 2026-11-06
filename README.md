@@ -2,6 +2,8 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
+R026 now includes source-only [hourly rental rules RN-001—030](docs/技术开发/附录-小时租赁授权与累计计量源码细则.md): original-device sessions, exact budget-duration limits and same-price renewal terms; pinned mature JWS with a once-only credential; 45-second control freshness and durable recovery watermarks; complete confirmed interval/fault metering with one cumulative rounding. The 18 boundary cases are test source only. Platform transactions, the original encrypted journal, Android session execution and the physical resource gate remain unwired. Public rental execution, compilation and tests remain closed during CODE_FIRST.
+
 2026-11-06: **R026 is in the full-scope code phase (SOURCE_ONLY / UNVERIFIED)**. Complete all production-code work before batch compilation, tests and debugging. The [56-task / 222-step plan](dev/全量代码优先实施清单.md) separates implementation from acceptance. Latest LMA v1.0.0/code65 is pinned and an [Android media overlay](dev/src/client/android/README.md) is being implemented for private image/video execution and chunk-encrypted results. Control wiring, complete encrypted/recovery paths and physical-phone acceptance remain in scope. All R025 test counts below belong to the original R025 revision, not this new source.
 
 The Android source now includes a local owner panel, the existing foreground service/private Binder, independent device identity and approvals, durable original control reports, one-slot progress forwarding, pre-create workspace ownership, conservative reboot cleanup and signed renewal verification. See [Android operation and limitations](dev/src/client/android/README.md) and the [LM contract](docs/技术开发/附录-LMA多模态派生内核与全量代码阶段.md). Eight physical-device boundary tests are source definitions only; no APK or test run is claimed. Original ownership now precedes ACK; identical signed renewals preserve the accepted clock, and confirmed cleanup supersedes pending older progress. These replay rules remain unverified.
@@ -19,7 +21,7 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 35 in progress · 19 not started · 1 conditional · 1 deferred |
+| Implementation tasks | 39 in progress · 15 not started · 1 conditional · 1 deferred |
 | Latest source round | R025 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | Native test evidence | 300 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |

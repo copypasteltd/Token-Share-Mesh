@@ -465,7 +465,7 @@
     {
       "id": "DEV-12",
       "title": "预算预留与有理费率",
-      "code_status": "OPEN",
+      "code_status": "IN_PROGRESS",
       "source_target": "dev/src",
       "requirement": "实现并发预算reserve/consume/release、新售小时与输入输出M token有理费率、整单累计取整和硬截止；关闭NB-R1价格契约缺口，旧版只精确适配。",
       "steps": [
@@ -473,9 +473,14 @@
           "id": "DEV-12.01",
           "title": "费率与金额",
           "code_requirement": "用整数分/有理单位价，明示usage包含关系/累计取整",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/pricing/budget_test.go",
+            "dev/src/internal/pricing/price.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-12.02",
@@ -489,9 +494,14 @@
           "id": "DEV-12.03",
           "title": "停止条件",
           "code_requirement": "达到预算/截止拒新执行，未知资金不当可用余额",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/pricing/price.go",
+            "dev/src/internal/rental/session.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-12.04",
@@ -1346,7 +1356,7 @@
     {
       "id": "DEV-33",
       "title": "租赁占位及双方就绪",
-      "code_status": "OPEN",
+      "code_status": "IN_PROGRESS",
       "source_target": "dev/src/internal/rental",
       "requirement": "实现同卡独占、零费准备、设备/买方就绪、单次起表及受控工作区grant。",
       "steps": [
@@ -1354,40 +1364,61 @@
           "id": "DEV-33.01",
           "title": "租赁占位",
           "code_requirement": "已付合格合同原子取同物理卡，会话权限不等主机管理员",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/rental/session.go",
+            "dev/src/internal/rental/session_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-33.02",
           "title": "双方准备",
           "code_requirement": "device/buyer ready核同环境/截止，准备失败零费",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/rental/session.go",
+            "dev/src/internal/rental/session_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-33.03",
           "title": "单次起表",
           "code_requirement": "双端ready+资金有效后唯一started_at与工作区grant",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/rental/session.go",
+            "dev/src/internal/rental/session_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-33.04",
           "title": "受控工作区",
           "code_requirement": "仅批准模型/配方/参数，租内调用不另售，不给shell/RDP",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/protocol/rentalaccess/access.go",
+            "dev/src/client/protocol/rentalaccess/access_test.go",
+            "dev/src/client/protocol/rentalaccess/claims.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         }
       ]
     },
     {
       "id": "DEV-34",
       "title": "可用区间与最终计费",
-      "code_status": "OPEN",
+      "code_status": "IN_PROGRESS",
       "source_target": "dev/src/internal/rental",
       "requirement": "实现序号/单调时/资源代次证据、区间去重合并、累计毫秒一次取整和预算停止。",
       "steps": [
@@ -1403,32 +1434,48 @@
           "id": "DEV-34.02",
           "title": "去重合并",
           "code_requirement": "剔重叠/重复/未知，准备和故障不算可用",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/rental/meter.go",
+            "dev/src/internal/rental/meter_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-34.03",
           "title": "一次取整",
           "code_requirement": "累计毫秒按约有理费率最终取整，不逐片多收",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/pricing/price.go",
+            "dev/src/internal/rental/meter.go",
+            "dev/src/internal/rental/meter_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-34.04",
           "title": "清单核对",
           "code_requirement": "区间→meter statement→账单可复核，卖方自报不默认可信",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/rental/meter.go",
+            "dev/src/internal/rental/meter_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         }
       ]
     },
     {
       "id": "DEV-35",
       "title": "续租断线与硬截止",
-      "code_status": "OPEN",
+      "code_status": "IN_PROGRESS",
       "source_target": "dev/src/internal/rental",
       "requirement": "实现显式续租报价/支付有效后延长，断线宽限、签名本地deadline和到期强停。",
       "steps": [
@@ -1436,40 +1483,63 @@
           "id": "DEV-35.01",
           "title": "显式续租",
           "code_requirement": "新报价/付款有效后才延，迟到付款不复活已结束会话",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/internal/rental/session.go",
+            "dev/src/internal/rental/session_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-35.02",
           "title": "断线策略",
           "code_requirement": "合同固定宽限/继续范围，不能靠重连无限续费",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/protocol/rentalaccess/control_test.go",
+            "dev/src/client/protocol/rentalaccess/window.go",
+            "dev/src/internal/rental/session.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-35.03",
           "title": "本地硬截止",
           "code_requirement": "签名deadline本地执行，未有效续权必停",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/protocol/rentalaccess/claims.go",
+            "dev/src/client/protocol/rentalaccess/control.go",
+            "dev/src/client/protocol/rentalaccess/window.go",
+            "dev/src/internal/rental/session.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-35.04",
           "title": "停止后恢复",
           "code_requirement": "超时先停清理、后核新单，旧grant不再有效",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/protocol/rentalaccess/control_test.go",
+            "dev/src/client/protocol/rentalaccess/window.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         }
       ]
     },
     {
       "id": "DEV-36",
       "title": "租赁撤权导出与清理",
-      "code_status": "OPEN",
+      "code_status": "IN_PROGRESS",
       "source_target": "dev/src/internal/rental",
       "requirement": "实现结束撤grant、受控导出、真实停止及租户工作区/缓存清理ACK。",
       "steps": [
@@ -1477,9 +1547,14 @@
           "id": "DEV-36.01",
           "title": "结束撤权",
           "code_requirement": "结束/退款/到期撤工作区grant与新调用权",
-          "code_status": "OPEN",
-          "implementation_refs": [],
-          "acceptance_status": "NOT_EXECUTED"
+          "code_status": "IN_PROGRESS",
+          "implementation_refs": [
+            "dev/src/client/protocol/rentalaccess/window.go",
+            "dev/src/internal/rental/session.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+          ],
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-36.02",
@@ -2400,9 +2475,13 @@
           "code_requirement": "跨租户/Origin/SSRF/路径/媒体展开/秘密输出验证",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java"
+            "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java",
+            "dev/src/client/protocol/rentalaccess/access_test.go",
+            "dev/src/client/protocol/rentalaccess/control_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
           ],
-          "acceptance_status": "NOT_EXECUTED"
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-53.02",
@@ -2410,9 +2489,13 @@
           "code_requirement": "E2E-01—20适用项、上下文/重放/轮换/终块/回执检查",
           "code_status": "IN_PROGRESS",
           "implementation_refs": [
-            "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java"
+            "dev/src/client/android/overlay/app/src/androidTest/java/com/lma/app/mesh/MeshBoundaryInstrumentation.java",
+            "dev/src/client/protocol/rentalaccess/access_test.go",
+            "dev/src/client/protocol/rentalaccess/control_test.go",
+            "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
           ],
-          "acceptance_status": "NOT_EXECUTED"
+          "acceptance_status": "NOT_EXECUTED",
+          "current_source_limit": "仅领域规则/Go授权及测试源码；完整平台事务、真实资金证据、端侧物理owner与Android租内执行尚未接通，不能据此开放交易或标记代码完成。"
         },
         {
           "id": "DEV-53.03",
@@ -2551,6 +2634,24 @@
       "桌面原清理失败回执与恢复调用",
       "全量编译、数据库、真机及交易验证"
     ],
-    "migration_policy": "001–011不可改；新增012/013进入源码检查点后同样冻结；后续变化仅新前向迁移。"
+    "migration_policy": "001–013及原端侧DDL不可改；后续持久化仅新增前向迁移。"
+  },
+  "rental_source_integration": {
+    "source_status": "DOMAIN_JWS_CONTROL_AND_METER_SOURCE_ONLY",
+    "library": "github.com/golang-jwt/jwt/v5 v5.3.1 (MIT)",
+    "authority_profile": "P11_RENTAL_ACCESS_EDDSA_1",
+    "api_registered": false,
+    "android_session_executor_wired": false,
+    "physical_session_gate_wired": false,
+    "storage_transaction_wired": false,
+    "validation_executed": false,
+    "remaining": [
+      "原订单/资金/资格与会话占位、双端ready的实际原子事务",
+      "原会话manifest原始字节与参考素材、小时租赁内子调用inbox",
+      "一次grant的提交后交付、丢失恢复、撤销及付费续租附约持久化",
+      "控制请求/确认及原加密journal/独立水位接线",
+      "平台独立确认区间/故障、完整修订账单和真实渠道",
+      "Android/桌面共物理槽、会话停止导出及实际清理恢复"
+    ]
   }
 }

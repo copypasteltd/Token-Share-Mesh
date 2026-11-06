@@ -167,7 +167,7 @@ def load_plan() -> dict:
     source_paths.update(m['source_document'] for m in modules)
     source_paths.update(t['source'] for t in database['tables'])
     source_paths.update(m['source'] for m in database['forward_migrations'])
-    source_paths.update({'dev/src/api/internal/http/routes.json','docs/技术开发/附录-身份登录与HTTP交易实施约束.md','docs/技术开发/附录-卖家申请与挂牌版本实施约束.md'})
+    source_paths.update({'dev/src/api/internal/http/routes.json','docs/技术开发/附录-身份登录与HTTP交易实施约束.md','docs/技术开发/附录-卖家申请与挂牌版本实施约束.md','docs/技术开发/附录-小时租赁授权与累计计量源码细则.md'})
     source_paths.update(p for t in tasks for p in t['source_documents'])
     source_paths.update('docs/技术开发/contracts/' + n + '-v1.0.json' for n in
                         ('technical-module-catalog', 'development-backlog', 'requirement-technical-map', 'api-implementation-map', 'database-catalog'))

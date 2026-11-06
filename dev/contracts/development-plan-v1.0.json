@@ -20293,11 +20293,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "4ed9cf8e9d9765a1eaebe288fba6e7c89a8775513971c544acc3ef4a2a3221d1"
+      "sha256": "9129a5131587cb3932d0d0a1ab5b732a5a38b7c0f99c86a8a2da277eae48bfac"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "7a2198332ae7b5b4b25331b250204fe8aa389ff8f7356c86319b08eafda510db"
+      "sha256": "288752e0a39431e02b9c97b67a66001e34287c481d6050ea7872524b1dba5bd3"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20305,7 +20305,7 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "70b45d071609dc6258fa6645189be15a6d09a8e4bc3363aa78fc4977d0f36d5c"
+      "sha256": "564d0f11af44fa6cf41a04487e7f8c22eea14200fa1fff3fb2fa9fed027bb5b3"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
@@ -20313,7 +20313,7 @@
     },
     {
       "path": "dev/tools/构建开发细则.py",
-      "sha256": "e6c151f0b7c192b34bcac8d0262df5916833d6d4cf2f1b199ed1b9b2e706f5a7"
+      "sha256": "089723f49f37d6e5567f8318136511ec6bf019e831cc1623df6607eb320f701c"
     },
     {
       "path": "docs/交易/C2C交易与市场规则.md",
@@ -20361,7 +20361,7 @@
     },
     {
       "path": "docs/技术开发/12-显卡租赁与可用时间计量.md",
-      "sha256": "3482034c54aa88abfdc31894da5bbb9356fd9e83cefaeee6cfe259aede21f5a1"
+      "sha256": "793e8b3a0dd51c5e00263716665e6009909e665ef7cdefe66ed126963a4070c9"
     },
     {
       "path": "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -20401,7 +20401,7 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "1e15ca1c5a392759e45e0938b6faf60f2bd7faaa992ad943d8793eba86cc4bd6"
+      "sha256": "5743c7c083cc8f28b4e3c531b77047aab7322ee1f4794d2e3f4dae0b1525ff48"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
@@ -20496,6 +20496,10 @@
       "sha256": "4c7b397375038c076cf9cd7236db7ba799b61cbbca1d62cfcaf8cbb64d7cbf34"
     },
     {
+      "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
+      "sha256": "89cb25fd860bc4b7198d70d15a48ca4735f97061cacd261e7665833208d78b67"
+    },
+    {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
       "sha256": "8f180c394ebc3e766cbcd93e150d8acc71e3d4e505d87fc4785b4ba4eb3a5695"
     },
@@ -20517,7 +20521,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "1513f275a41753fd3560437032d18fdb7fb8de9348902fc3f0a640c0f7493ef0"
+      "sha256": "33242110e58067eb340acc166bbea1dd701080d13e040aeb95d95b486ae8f76c"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",

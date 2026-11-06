@@ -1,0 +1,14 @@
+{
+  "module": "github.com/golang-jwt/jwt/v5",
+  "version": "v5.3.1",
+  "sum": "h1:kYf81DTWFe7t+1VvL7eS+jKFVWaUnK9cB1qbwn63YCY=",
+  "go_mod_sum": "h1:fxCRLWMO43lRc8nhHWY6LGqRcf+1gQWArsqaEUEa5bE=",
+  "release_url": "https://github.com/golang-jwt/jwt/releases/tag/v5.3.1",
+  "license": "MIT",
+  "license_file": "dev/licenses/golang-jwt-v5.3.1-MIT.txt",
+  "license_sha256": "2ce2d18a4c90147990d4ea9b690bcb7a5e13239e8a31ef68bedd0f99f79e0cf6",
+  "scope": "SOURCE_ONLY_NOT_COMPILED_OR_TESTED",
+  "algorithm": "EdDSA / Ed25519 only; independently pinned issuer keys",
+  "upstream_license_sha256": "fe26ca41577b9b2b4448050a24b25e5753af66b5d5945d5d36094e7790bfcb2f",
+  "license_normalization": "Remove final empty line only; copyright and MIT license text unchanged."
+}
