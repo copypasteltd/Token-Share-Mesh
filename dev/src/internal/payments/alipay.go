@@ -58,6 +58,9 @@ type Alipay struct {
 	operations     sync.WaitGroup
 	closed         bool
 	done           chan struct{}
+	// Immutable after construction. Only NewAlipayRefund sets this on its
+	// privately owned RPC client; public Machine Pay never acquires these APIs.
+	refundOnly bool
 }
 
 func (a *Alipay) Format(w fmt.State, _ rune) {
@@ -190,7 +193,7 @@ func (r *verifiedRPCReply) close() {
 }
 
 func (a *Alipay) call(ctx context.Context, method string, biz any) (*verifiedRPCReply, string, error) {
-	if a == nil || ctx == nil || ctx.Err() != nil || method != precreateMethod && method != verifyMethod {
+	if a == nil || ctx == nil || ctx.Err() != nil || !a.permitsMethod(method) {
 		return nil, "LOCAL_ADMISSION_CLOSED", ErrBinding
 	}
 	a.mu.Lock()
@@ -287,6 +290,13 @@ func (a *Alipay) call(ctx context.Context, method string, biz any) (*verifiedRPC
 		return nil, "SIGNED_BUSINESS_UNRESOLVED", ErrUnknown
 	}
 	return &verifiedRPCReply{node: append([]byte{}, node...), envelope: append([]byte{}, encoded...)}, "", nil
+}
+
+func (a *Alipay) permitsMethod(method string) bool {
+	if a.refundOnly {
+		return method == refundMethod || method == refundQueryMethod
+	}
+	return method == precreateMethod || method == verifyMethod
 }
 
 func (a *Alipay) Precreate(ctx context.Context, i Intent) (Observation, error) {

@@ -2,7 +2,7 @@
   "version": "1.0",
   "goal_status": "ACTIVE",
   "current_activity": "CODE_FIRST_FULL_SCOPE",
-  "activity_source": "2026-11-06 CODE_FIRST：CK-001—030 / IMP076—080；CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+  "activity_source": "2026-11-06 CODE_FIRST：RF-001—030 / IMP081—085；RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。",
   "round": "R025",
   "tasks": [
     {
@@ -346,6 +346,14 @@
         "dev/src/internal/dispatch/device/auth.go",
         "dev/src/internal/identity/sessions.go",
         "dev/src/internal/market/catalog.go",
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
         "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
         "dev/src/internal/persistence/migrations/015_rental_control_history.sql",
         "dev/src/internal/persistence/migrations/source-v14.json",
@@ -360,8 +368,10 @@
         "dev/src/shared/contractspec/spec.go",
         "dev/src/tests/integration/rental_control_test.go",
         "dev/src/tests/integration/rental_test.go",
+        "dev/tools/整理R026原退款适配源码.py",
         "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -385,7 +395,8 @@
       "current_validation_status": "NOT_EXECUTED",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。"
     },
     {
       "id": "DEV-04",
@@ -909,7 +920,20 @@
       "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。",
+      "current_source_refs": [
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
+        "dev/tools/整理R026原退款适配源码.py",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md"
+      ]
     },
     {
       "id": "DEV-14",
@@ -924,9 +948,22 @@
       "evidence_refs": [],
       "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
       "current_validation_status": "NOT_EXECUTED",
-      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "remaining_detail": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。",
+      "current_source_refs": [
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
+        "dev/tools/整理R026原退款适配源码.py",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md"
+      ]
     },
     {
       "id": "DEV-15",
@@ -945,7 +982,20 @@
       "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。",
+      "current_source_refs": [
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
+        "dev/tools/整理R026原退款适配源码.py",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md"
+      ]
     },
     {
       "id": "DEV-16",
@@ -964,7 +1014,20 @@
       "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。",
+      "current_source_refs": [
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
+        "dev/tools/整理R026原退款适配源码.py",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md"
+      ]
     },
     {
       "id": "DEV-17",
@@ -3109,6 +3172,14 @@
         "dev/src/internal/dispatch/device/auth.go",
         "dev/src/internal/identity/sessions.go",
         "dev/src/internal/market/catalog.go",
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
         "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
         "dev/src/internal/persistence/migrations/015_rental_control_history.sql",
         "dev/src/internal/persistence/migrations/source-v14.json",
@@ -3123,8 +3194,10 @@
         "dev/src/shared/contractspec/spec.go",
         "dev/src/tests/integration/rental_control_test.go",
         "dev/src/tests/integration/rental_test.go",
+        "dev/tools/整理R026原退款适配源码.py",
         "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -3149,7 +3222,8 @@
       "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。"
     },
     {
       "id": "DEV-52",
@@ -3221,7 +3295,20 @@
       "current_validation_status": "NOT_EXECUTED",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。",
+      "current_source_refs": [
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
+        "dev/tools/整理R026原退款适配源码.py",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md"
+      ]
     },
     {
       "id": "DEV-53",
@@ -3372,6 +3459,14 @@
         "dev/src/internal/dispatch/device/auth.go",
         "dev/src/internal/identity/sessions.go",
         "dev/src/internal/market/catalog.go",
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
         "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
         "dev/src/internal/persistence/migrations/015_rental_control_history.sql",
         "dev/src/internal/persistence/migrations/source-v14.json",
@@ -3388,6 +3483,7 @@
         "dev/src/tests/integration/rental_test.go",
         "dev/tools/整理R026Comfy媒体源码.py",
         "dev/tools/整理R026Comfy宿主源码.py",
+        "dev/tools/整理R026原退款适配源码.py",
         "dev/tools/整理R026媒体工作区源码.py",
         "dev/tools/补充Comfy进度源码审阅.py",
         "docs/技术开发/database/migrations/014_rental_authority_context.sql",
@@ -3395,6 +3491,7 @@
         "docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md",
         "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
         "docs/技术开发/附录-租内媒体工作区与结果托管源码.md"
       ],
@@ -3446,7 +3543,8 @@
       "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。"
     },
     {
       "id": "DEV-54",
@@ -3590,6 +3688,14 @@
         "dev/src/client/rentalruntime/runtime_test.go",
         "dev/src/client/rentalruntime/types.go",
         "dev/src/internal/market/catalog.go",
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
         "dev/src/internal/persistence/migrations/015_rental_control_history.sql",
         "dev/src/internal/rental/control.go",
         "dev/src/internal/rental/expectation.go",
@@ -3598,12 +3704,14 @@
         "dev/src/tests/integration/rental_control_test.go",
         "dev/tools/整理R026Comfy媒体源码.py",
         "dev/tools/整理R026Comfy宿主源码.py",
+        "dev/tools/整理R026原退款适配源码.py",
         "dev/tools/整理R026媒体工作区源码.py",
         "dev/tools/补充Comfy进度源码审阅.py",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
         "docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md",
         "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
         "docs/技术开发/附录-租内媒体工作区与结果托管源码.md"
       ],
@@ -3651,7 +3759,8 @@
       "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。"
     },
     {
       "id": "DEV-55",
@@ -3811,6 +3920,14 @@
         "dev/src/internal/dispatch/device/auth.go",
         "dev/src/internal/identity/sessions.go",
         "dev/src/internal/market/catalog.go",
+        "dev/src/internal/payments/alipay.go",
+        "dev/src/internal/payments/refund-profile.json",
+        "dev/src/internal/payments/refund_alipay.go",
+        "dev/src/internal/payments/refund_alipay_test.go",
+        "dev/src/internal/payments/refund_protocol.go",
+        "dev/src/internal/payments/refund_protocol_test.go",
+        "dev/src/internal/payments/refund_receipt.go",
+        "dev/src/internal/payments/refund_receipt_test.go",
         "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
         "dev/src/internal/persistence/migrations/015_rental_control_history.sql",
         "dev/src/internal/persistence/migrations/source-v14.json",
@@ -3827,6 +3944,7 @@
         "dev/src/tests/integration/rental_test.go",
         "dev/tools/整理R026Comfy媒体源码.py",
         "dev/tools/整理R026Comfy宿主源码.py",
+        "dev/tools/整理R026原退款适配源码.py",
         "dev/tools/整理R026媒体工作区源码.py",
         "dev/tools/补充Comfy进度源码审阅.py",
         "docs/技术开发/database/migrations/014_rental_authority_context.sql",
@@ -3834,6 +3952,7 @@
         "docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md",
         "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
+        "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
         "docs/技术开发/附录-租内媒体工作区与结果托管源码.md"
       ],
@@ -3885,7 +4004,8 @@
       "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
       "machine_host_source_limit": "PH补入原生注册/独立秘密加载、双钥环、专用恢复宿主、实际退出，以及既有本人create/get两个HTTP和正式API/worker入口源码。当前50控制HTTP/98规划/74表，无新SQL。12项新测试定义未编译/运行。SDK单Proof/A402、实际小程序PayLauncher、原资金唯一消费/当前退款设备截止准入、完整获准退款到账佣金对账、原付费续租/可信M token或小时接受账务、真实秘密/个人seller/渠道/设备与全量验收仍待。全部56任务222子项保持开放；完整生产代码、实际依赖接线和测试源码后统一验证；本次仅源码保存点，不是整轮完成。",
       "original_funds_source_limit": "GF补入原订单唯一资金分配DATA075/前向017、独立原capability元任务/原子READY及outbox、原付款后当前主体/四证/gate/退款/期限复核、原父锁新快照和路由/小时租赁/密钥三消费者源码。当前75表/98规划/50控制HTTP。源码未编译/测试，017未迁移。只支持显式原零费用收款档；旧直接READY/SETTLED正向夹具升级、标准SDK单Proof/A402/实际PayLauncher、完整原退款到账佣金对账、原付费续租/可信M token或小时水位/接受与追加账、真实资格和全部组合仍待。全部56任务222子项未验收；完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
-      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。"
+      "original_checkout_source_limit": "CK补入原订单当前可选原卖家付款方式、唯一原付款查找、原402挑战、单Proof头提交和恢复读取五接口，双端原订单付款页/安全元数据恢复journal/会话代次隔离源码。当前103规划操作/124 schema/75平台表/55控制HTTP。26项新增测试定义未编译/运行；无SQL变更或迁移。获准真实PayLauncher、小程序实际收取Machine Proof的适配、标准SDK付款前原买方路由/凭据绑定与数据面重试、跨端/丢失回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、GF031旧正向夹具升级及真实渠道/设备仍待。全部56任务222子项开放，完整生产代码/实际依赖接线/测试源码后集中验证；本次不是整轮完成。",
+      "original_refund_source_limit": "RF补入独立条件原退款profile/原实付与售后决策意图、原生RSA2退款和原号查询、原付款3秒提交与10秒查询准备/UNKNOWN/generation/成功保持、完整原签名回执AES-GCM归档源码。refund_fee是原交易累计成功额，fund_change=Y也不直接确认本次部分退款；原号签名查询完整归属才记成功。本次不新增SQL/迁移/接口或依赖，103规划/124 schema/75平台表/55控制HTTP不变。当前没有真实Machine Pay个人卖家退款路由资格、持久退款事务、退款host/worker/HTTP接线。原累计锁/3秒水位/专用任务/独立策略/完整费用佣金到账对账及可信usage小时接受账务仍待，CK获准PayLauncher/SDK付款前授权/数据面恢复和GF031旧正向夹具继续开放。全部56任务222子项未收口；先完整生产代码/实际依赖/测试源码，再集中验证。本次不是开发轮完成。"
     }
   ],
   "rounds": [

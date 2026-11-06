@@ -50,5 +50,9 @@
   "web_miniapp_checkout_source_wired": true,
   "actual_approved_paylauncher_installed": false,
   "sdk_prepayment_original_buyer_authority_complete": false,
-  "sdk_data_plane_payment_proof_retry_complete": false
+  "sdk_data_plane_payment_proof_retry_complete": false,
+  "original_refund_source_annex": "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
+  "independent_conditional_original_refund_source_written": true,
+  "original_refund_actual_qualification": false,
+  "original_refund_platform_transaction_host_worker_http_wired": false
 }

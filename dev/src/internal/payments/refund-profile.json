@@ -1,0 +1,38 @@
+{
+  "profile": "P11_ALIPAY_ORIGINAL_REFUND_1",
+  "status": "SOURCE_ONLY_CONDITIONAL_BRIDGE_NOT_REGISTERED",
+  "observed_on": "2026-11-06",
+  "official_sources": [
+    "https://aipay.alipay.com/docs/subscribe/api-list/other-basic-interfaces/alipay-trade-refund.html",
+    "https://aipay.alipay.com/docs/subscribe/api-list/other-basic-interfaces/alipay-trade-fastpay-refund-query.html",
+    "https://aipay.alipay.com/docs/ai-receive/MACHINE_PAY.html"
+  ],
+  "methods": [
+    "alipay.trade.refund",
+    "alipay.trade.fastpay.refund.query"
+  ],
+  "capabilities": ["REFUND_ORIGINAL", "QUERY_ORIGINAL_REFUND"],
+  "extends_default_machine_pay_capabilities": false,
+  "requires_independent_current_original_binding_qualification": true,
+  "actual_machine_pay_refund_route_qualification": false,
+  "actual_personal_seller_or_third_party_refund_authority": false,
+  "platform_durable_refund_transaction_wired": false,
+  "payment_worker_http_and_host_refund_wired": false,
+  "native_channel_and_domain_source_written": true,
+  "encrypted_full_signed_archive_source_written": true,
+  "compiled_or_executed": false,
+  "currency": "CNY",
+  "minimum_fen": 1,
+  "maximum_original_payment_fen": 5000,
+  "minimum_same_payment_submit_interval_seconds": 3,
+  "minimum_query_interval_seconds": 10,
+  "submit_fee_field_semantics": "CUMULATIVE_SUCCESSFUL_REFUNDS_OF_ORIGINAL_TRADE_NOT_THIS_PARTIAL_REFUND",
+  "submit_result_policy": "HOLD_PROCESSING_EVEN_WHEN_FUND_CHANGE_Y_UNTIL_EXACT_ORIGINAL_QUERY",
+  "success": "RSA2_VERIFIED_QUERY_WITH_EXACT_ORIGINAL_TRADE_OUT_TRADE_OUT_REQUEST_AMOUNT_TOTAL_AND_REFUND_SUCCESS",
+  "unknown_result_policy": "HOLD_CAPACITY_QUERY_SAME_ORIGINAL_REFUND_NO_AUTOMATIC_RESUBMIT_OR_REPLACEMENT",
+  "archive": "AES_256_GCM_COMPLETE_ORIGINAL_SIGNED_ENVELOPE_AND_ORIGINAL_REFUND_METADATA_AAD",
+  "archive_decryption_is_fresh_rsa_reverification": false,
+  "arbitrary_destination_reason_royalty_or_fee_instructions_supported": false,
+  "new_dependencies_or_sql": false,
+  "source_annex": "docs/技术开发/附录-原退款协议与渠道恢复源码.md"
+}

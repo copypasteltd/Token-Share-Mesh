@@ -21073,11 +21073,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "fe886e8778618d915e31f46edc9d66a863fb58952a7dc1cdddd7c6246f1b33f4"
+      "sha256": "8bee979accd83e8486a63276e6443c30c4e62e11a87269ee68b1540f0cd38385"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "a9902a366848e43577fc5a042b9e8bfa5f3c9c2e0da393d8fec3aee6f48c185d"
+      "sha256": "7c2ae77392c80665218330a9a4ad99eae5b8a0e0a98dcf281cf6a5960b7a32b6"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -21145,7 +21145,7 @@
     },
     {
       "path": "docs/技术开发/13-支付退款账务与渠道结算.md",
-      "sha256": "df74bd136d5fa4ee2395e54dbb80c61d1acbbf4b8609d1515300712cd0675f07"
+      "sha256": "72883fe93d65bddecade19efbc12b61b6cd24f9d02184154e0acc28945b45f8b"
     },
     {
       "path": "docs/技术开发/14-前端路由状态与接口集成.md",
@@ -21305,7 +21305,7 @@
     },
     {
       "path": "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-      "sha256": "fd4b41276e397927d5054fe7e99454328f0e2be2d58583c88d53769b151a0fa4"
+      "sha256": "eeb8a9d7061a394297cb82c3d6798a15fece12f138a68d1d99397dd04d363ced"
     },
     {
       "path": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md",
