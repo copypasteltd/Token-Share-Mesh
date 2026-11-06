@@ -332,6 +332,9 @@ func (v *Vault) Use(parent context.Context, s Scope, now time.Time, fn func(cont
 		m.Signing = ed25519.NewKeyFromSeed(selected.IdentitySeed)
 	case "OPEN_CONTENT":
 		m.ContentSecret = append([]byte(nil), selected.ContentSecret...)
+	case "CIPHER_CUSTODY":
+		// Public original-bundle ownership only. Ciphertext retransmission
+		// requires no content secret, receipt key or signing-key copy.
 	case "SIGN_RECEIPT":
 		if selected.Bundle.Role != "BUYER" {
 			v.mu.Unlock()
@@ -396,14 +399,17 @@ func (v *Vault) clearLocked() {
 		v.state.Local[i].clear()
 	}
 }
+func (v *Vault) BeginClose() {
+	v.mu.Lock()
+	v.closing = true
+	for _, u := range v.uses {
+		u.cancel()
+	}
+	v.mu.Unlock()
+}
 func (v *Vault) Close() {
 	v.closeOnce.Do(func() {
-		v.mu.Lock()
-		v.closing = true
-		for _, u := range v.uses {
-			u.cancel()
-		}
-		v.mu.Unlock()
+		v.BeginClose()
 		v.active.Wait()
 		v.mu.Lock()
 		v.clearLocked()

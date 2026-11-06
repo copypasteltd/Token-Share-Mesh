@@ -79,6 +79,8 @@
     "dev/src/client/buyerresults/receive.go",
     "dev/src/client/buyerresults/receive_test.go",
     "dev/src/client/cmd/p11-buyer/main.go",
+    "dev/src/client/cmd/p11-node/cipher_custody.go",
+    "dev/src/client/cmd/p11-node/cipher_custody_test.go",
     "dev/src/client/cmd/p11-node/comfy.go",
     "dev/src/client/cmd/p11-node/comfy_test.go",
     "dev/src/client/cmd/p11-node/crypto.go",
@@ -99,7 +101,16 @@
     "dev/src/client/comfyenv/use_join_test.go",
     "dev/src/client/comfyenv/use_test.go",
     "dev/src/client/crypto-gateway/README.md",
+    "dev/src/client/crypto-gateway/ciphercustody/README.md",
+    "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+    "dev/src/client/crypto-gateway/ciphercustody/journal.go",
+    "dev/src/client/crypto-gateway/ciphercustody/produce.go",
+    "dev/src/client/crypto-gateway/ciphercustody/read.go",
+    "dev/src/client/crypto-gateway/ciphercustody/types.go",
+    "dev/src/client/crypto-gateway/custody.go",
+    "dev/src/client/crypto-gateway/custody_native_test.go",
     "dev/src/client/crypto-gateway/dependencies.lock.json",
+    "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
     "dev/src/client/crypto-gateway/endpoint/public.go",
     "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
     "dev/src/client/crypto-gateway/endpoint/trust.go",
@@ -161,6 +172,8 @@
     "dev/src/client/mediaworkspace/deadline.go",
     "dev/src/client/mediaworkspace/owner.go",
     "dev/src/client/mediaworkspace/owner_test.go",
+    "dev/src/client/node/cipher_custody.go",
+    "dev/src/client/node/cipher_custody_test.go",
     "dev/src/client/node/control.go",
     "dev/src/client/node/crypto_keys.go",
     "dev/src/client/node/crypto_keys_test.go",
@@ -403,6 +416,7 @@
     "dev/tools/整理R026Comfy宿主源码.py",
     "dev/tools/整理R026交付计量账务源码.py",
     "dev/tools/整理R026付款衔接源码.py",
+    "dev/tools/整理R026原密文托管源码.py",
     "dev/tools/整理R026原结果传输源码.py",
     "dev/tools/整理R026原退款适配源码.py",
     "dev/tools/整理R026售后审核源码.py",
@@ -423,6 +437,7 @@
     "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
     "docs/技术开发/contracts/native-provider-source-v1.json",
     "docs/技术开发/contracts/native-sdk-source-v1.json",
+    "docs/技术开发/contracts/original-cipher-custody-source-v1.json",
     "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
     "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
     "docs/技术开发/database/migrations/014_rental_authority_context.sql",
@@ -440,6 +455,7 @@
     "docs/技术开发/附录-MachinePay原生宿主与本人支付接口源码.md",
     "docs/技术开发/附录-MachinePay支付事务与原凭据恢复源码.md",
     "docs/技术开发/附录-交付签收独立计量与镜像账源码.md",
+    "docs/技术开发/附录-原密文托管与不可变补传源码.md",
     "docs/技术开发/附录-原生提供方常驻接单与签名续期源码.md",
     "docs/技术开发/附录-原租赁媒体会话监督与停止回收源码.md",
     "docs/技术开发/附录-原租赁媒体兼容入口与加密缓存源码.md",
@@ -1097,6 +1113,41 @@
       "id": "IMP-R026-128",
       "title": "KE测试定义与双语完整待办登记",
       "status": "KE048—050：源码定义/限制/恢复及全56/222保留；未编译/运行，不作整轮完成"
+    },
+    {
+      "id": "IMP-R026-129",
+      "title": "原安装AEAD密文托管与完整配额源码",
+      "status": "IC001—010：原根/锁/master、先anchor、独立包装用途和原描述符/文件绑定；未验证"
+    },
+    {
+      "id": "IMP-R026-130",
+      "title": "原写入意图与不可变重试恢复源码",
+      "status": "IC011—020：先持久WRITING再生产、fsync/签名核验后READY、中断保留、不重加密或重执行"
+    },
+    {
+      "id": "IMP-R026-131",
+      "title": "原密文范围补传与公钥用途源码",
+      "status": "IC021—028：完整无钥检查/原偏移边界、无私钥副本、导入和补传撤销；不证明私有END或业务授权"
+    },
+    {
+      "id": "IMP-R026-132",
+      "title": "期限退役与双owner取消等待源码",
+      "status": "IC029—036：先RETIRING/取消/实际join/删除/RETIRED、保守恢复、双槽与串行control；未验证"
+    },
+    {
+      "id": "IMP-R026-133",
+      "title": "原生托管组合与三管理入口源码",
+      "status": "IC037—043：四node组合API、密钥与文件先同时取消、三元数据CLI/严格policy、未知残留失败关闭"
+    },
+    {
+      "id": "IMP-R026-134",
+      "title": "托管恢复与真实密码组合测试源码",
+      "status": "IC044—047：结构假密文/原生CGO分开、提交未知/断流/范围/撤销/真实join等定义；未编译/运行"
+    },
+    {
+      "id": "IMP-R026-135",
+      "title": "IC技术约束与双语完整待办登记",
+      "status": "IC048—050：独立源码契约/双语README/更新说明/全56及222子项保留；不是整轮完成"
     }
   ],
   "tasks": [
@@ -4710,11 +4761,22 @@
       "endpoint_cipher_source_limit": "KE补入固定libsodium/JCS原字节依赖、原OS秘密根/单写者AEAD密钥库、分用途钥与八项元数据CLI、独立首次pin/原轮换回执恢复/撤销及实际join、签名BINARY_STREAM_1与加密END/外层清单/无钥结构检查、原双方用途组合/完整输入屏障/同库文本预检及独立传输期限源码。平台E2E授权/盲转持久化与原密文补传、本机SDK/实际Host私有执行/LOCAL_SEGMENTED_1、Android JNI/媒体/有界重排、原签收/独立计量和真实资格尚未形成完整通路；不得宣称可用或合格E2E。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变；新增独立未发布envelope Schema，无SQL。全56/222保持待收口；源码测试未编译/运行，依赖工具未调用，新媒体未录。先完整生产接线和测试源码，再集中验证；本次不是开发轮完成。",
       "current_source_refs": [
         ".gitattributes",
+        "dev/src/client/cmd/p11-node/cipher_custody.go",
+        "dev/src/client/cmd/p11-node/cipher_custody_test.go",
         "dev/src/client/cmd/p11-node/crypto.go",
         "dev/src/client/cmd/p11-node/crypto_test.go",
         "dev/src/client/cmd/p11-node/main.go",
         "dev/src/client/crypto-gateway/README.md",
+        "dev/src/client/crypto-gateway/ciphercustody/README.md",
+        "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "dev/src/client/crypto-gateway/ciphercustody/journal.go",
+        "dev/src/client/crypto-gateway/ciphercustody/produce.go",
+        "dev/src/client/crypto-gateway/ciphercustody/read.go",
+        "dev/src/client/crypto-gateway/ciphercustody/types.go",
+        "dev/src/client/crypto-gateway/custody.go",
+        "dev/src/client/crypto-gateway/custody_native_test.go",
         "dev/src/client/crypto-gateway/dependencies.lock.json",
+        "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
         "dev/src/client/crypto-gateway/endpoint/public.go",
         "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
         "dev/src/client/crypto-gateway/endpoint/trust.go",
@@ -4728,6 +4790,8 @@
         "dev/src/client/crypto-gateway/transfer.go",
         "dev/src/client/crypto-gateway/transfer_native_test.go",
         "dev/src/client/crypto-gateway/transfer_test.go",
+        "dev/src/client/node/cipher_custody.go",
+        "dev/src/client/node/cipher_custody_test.go",
         "dev/src/client/node/crypto_keys.go",
         "dev/src/client/node/crypto_keys_test.go",
         "dev/src/client/node/store.go",
@@ -4747,13 +4811,17 @@
         "dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go",
         "dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go",
         "dev/tools/准备原生密码依赖.py",
+        "dev/tools/整理R026原密文托管源码.py",
         "dev/tools/整理R026端点密文流源码.py",
         "dev/开发轮次执行规则.md",
         "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
         "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+        "docs/技术开发/contracts/original-cipher-custody-source-v1.json",
+        "docs/技术开发/附录-原密文托管与不可变补传源码.md",
         "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "original_cipher_custody_source_limit": "IC补入原OS根/单写者锁下的AEAD原密文托管、先持久WRITING及完整配额再生产、READY只回原清单/中断不重加密、同原签名对象完整无钥检查及原字节范围补传、无私钥副本的CIPHER_CUSTODY用途/导入及补传撤销、串行过期清理/双数据槽满时仍可取消和实际join、父节点先同时取消密钥与文件owner再等待、四原生组合API和三元数据CLI源码。本地密文托管不是LOCAL_SEGMENTED_1、私有FINAL/INPUT预检、业务执行权、签收或可信usage。平台E2E授权/无钥存储与真实网络恢复、SDK/Host私有执行/Android JNI/媒体、全局4MiB背压重排、独立计量/真实资格及未知替换残留显式恢复仍待。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变，无SQL或迁移。同一56任务222子项保留，测试源码未编译/运行，完整生产接线与测试源码后集中验证；不是开发轮完成。"
     },
     {
       "id": "DEV-30",
@@ -4769,11 +4837,22 @@
       "endpoint_cipher_source_limit": "KE补入固定libsodium/JCS原字节依赖、原OS秘密根/单写者AEAD密钥库、分用途钥与八项元数据CLI、独立首次pin/原轮换回执恢复/撤销及实际join、签名BINARY_STREAM_1与加密END/外层清单/无钥结构检查、原双方用途组合/完整输入屏障/同库文本预检及独立传输期限源码。平台E2E授权/盲转持久化与原密文补传、本机SDK/实际Host私有执行/LOCAL_SEGMENTED_1、Android JNI/媒体/有界重排、原签收/独立计量和真实资格尚未形成完整通路；不得宣称可用或合格E2E。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变；新增独立未发布envelope Schema，无SQL。全56/222保持待收口；源码测试未编译/运行，依赖工具未调用，新媒体未录。先完整生产接线和测试源码，再集中验证；本次不是开发轮完成。",
       "current_source_refs": [
         ".gitattributes",
+        "dev/src/client/cmd/p11-node/cipher_custody.go",
+        "dev/src/client/cmd/p11-node/cipher_custody_test.go",
         "dev/src/client/cmd/p11-node/crypto.go",
         "dev/src/client/cmd/p11-node/crypto_test.go",
         "dev/src/client/cmd/p11-node/main.go",
         "dev/src/client/crypto-gateway/README.md",
+        "dev/src/client/crypto-gateway/ciphercustody/README.md",
+        "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "dev/src/client/crypto-gateway/ciphercustody/journal.go",
+        "dev/src/client/crypto-gateway/ciphercustody/produce.go",
+        "dev/src/client/crypto-gateway/ciphercustody/read.go",
+        "dev/src/client/crypto-gateway/ciphercustody/types.go",
+        "dev/src/client/crypto-gateway/custody.go",
+        "dev/src/client/crypto-gateway/custody_native_test.go",
         "dev/src/client/crypto-gateway/dependencies.lock.json",
+        "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
         "dev/src/client/crypto-gateway/endpoint/public.go",
         "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
         "dev/src/client/crypto-gateway/endpoint/trust.go",
@@ -4787,6 +4866,8 @@
         "dev/src/client/crypto-gateway/transfer.go",
         "dev/src/client/crypto-gateway/transfer_native_test.go",
         "dev/src/client/crypto-gateway/transfer_test.go",
+        "dev/src/client/node/cipher_custody.go",
+        "dev/src/client/node/cipher_custody_test.go",
         "dev/src/client/node/crypto_keys.go",
         "dev/src/client/node/crypto_keys_test.go",
         "dev/src/client/node/store.go",
@@ -4806,13 +4887,17 @@
         "dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go",
         "dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go",
         "dev/tools/准备原生密码依赖.py",
+        "dev/tools/整理R026原密文托管源码.py",
         "dev/tools/整理R026端点密文流源码.py",
         "dev/开发轮次执行规则.md",
         "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
         "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+        "docs/技术开发/contracts/original-cipher-custody-source-v1.json",
+        "docs/技术开发/附录-原密文托管与不可变补传源码.md",
         "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "original_cipher_custody_source_limit": "IC补入原OS根/单写者锁下的AEAD原密文托管、先持久WRITING及完整配额再生产、READY只回原清单/中断不重加密、同原签名对象完整无钥检查及原字节范围补传、无私钥副本的CIPHER_CUSTODY用途/导入及补传撤销、串行过期清理/双数据槽满时仍可取消和实际join、父节点先同时取消密钥与文件owner再等待、四原生组合API和三元数据CLI源码。本地密文托管不是LOCAL_SEGMENTED_1、私有FINAL/INPUT预检、业务执行权、签收或可信usage。平台E2E授权/无钥存储与真实网络恢复、SDK/Host私有执行/Android JNI/媒体、全局4MiB背压重排、独立计量/真实资格及未知替换残留显式恢复仍待。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变，无SQL或迁移。同一56任务222子项保留，测试源码未编译/运行，完整生产接线与测试源码后集中验证；不是开发轮完成。"
     },
     {
       "id": "DEV-31",
@@ -4828,11 +4913,22 @@
       "endpoint_cipher_source_limit": "KE补入固定libsodium/JCS原字节依赖、原OS秘密根/单写者AEAD密钥库、分用途钥与八项元数据CLI、独立首次pin/原轮换回执恢复/撤销及实际join、签名BINARY_STREAM_1与加密END/外层清单/无钥结构检查、原双方用途组合/完整输入屏障/同库文本预检及独立传输期限源码。平台E2E授权/盲转持久化与原密文补传、本机SDK/实际Host私有执行/LOCAL_SEGMENTED_1、Android JNI/媒体/有界重排、原签收/独立计量和真实资格尚未形成完整通路；不得宣称可用或合格E2E。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变；新增独立未发布envelope Schema，无SQL。全56/222保持待收口；源码测试未编译/运行，依赖工具未调用，新媒体未录。先完整生产接线和测试源码，再集中验证；本次不是开发轮完成。",
       "current_source_refs": [
         ".gitattributes",
+        "dev/src/client/cmd/p11-node/cipher_custody.go",
+        "dev/src/client/cmd/p11-node/cipher_custody_test.go",
         "dev/src/client/cmd/p11-node/crypto.go",
         "dev/src/client/cmd/p11-node/crypto_test.go",
         "dev/src/client/cmd/p11-node/main.go",
         "dev/src/client/crypto-gateway/README.md",
+        "dev/src/client/crypto-gateway/ciphercustody/README.md",
+        "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "dev/src/client/crypto-gateway/ciphercustody/journal.go",
+        "dev/src/client/crypto-gateway/ciphercustody/produce.go",
+        "dev/src/client/crypto-gateway/ciphercustody/read.go",
+        "dev/src/client/crypto-gateway/ciphercustody/types.go",
+        "dev/src/client/crypto-gateway/custody.go",
+        "dev/src/client/crypto-gateway/custody_native_test.go",
         "dev/src/client/crypto-gateway/dependencies.lock.json",
+        "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
         "dev/src/client/crypto-gateway/endpoint/public.go",
         "dev/src/client/crypto-gateway/endpoint/rotation_native_test.go",
         "dev/src/client/crypto-gateway/endpoint/trust.go",
@@ -4846,6 +4942,8 @@
         "dev/src/client/crypto-gateway/transfer.go",
         "dev/src/client/crypto-gateway/transfer_native_test.go",
         "dev/src/client/crypto-gateway/transfer_test.go",
+        "dev/src/client/node/cipher_custody.go",
+        "dev/src/client/node/cipher_custody_test.go",
         "dev/src/client/node/crypto_keys.go",
         "dev/src/client/node/crypto_keys_test.go",
         "dev/src/client/node/store.go",
@@ -4865,13 +4963,17 @@
         "dev/src/thirdparty/jsoncanonicalizer/es6numfmt.go",
         "dev/src/thirdparty/jsoncanonicalizer/jsoncanonicalizer.go",
         "dev/tools/准备原生密码依赖.py",
+        "dev/tools/整理R026原密文托管源码.py",
         "dev/tools/整理R026端点密文流源码.py",
         "dev/开发轮次执行规则.md",
         "docs/技术开发/contracts/binary-stream-source-v1.schema.json",
         "docs/技术开发/contracts/endpoint-cipher-source-v1.json",
+        "docs/技术开发/contracts/original-cipher-custody-source-v1.json",
+        "docs/技术开发/附录-原密文托管与不可变补传源码.md",
         "docs/技术开发/附录-端点密钥与签名二进制密文流源码.md"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "original_cipher_custody_source_limit": "IC补入原OS根/单写者锁下的AEAD原密文托管、先持久WRITING及完整配额再生产、READY只回原清单/中断不重加密、同原签名对象完整无钥检查及原字节范围补传、无私钥副本的CIPHER_CUSTODY用途/导入及补传撤销、串行过期清理/双数据槽满时仍可取消和实际join、父节点先同时取消密钥与文件owner再等待、四原生组合API和三元数据CLI源码。本地密文托管不是LOCAL_SEGMENTED_1、私有FINAL/INPUT预检、业务执行权、签收或可信usage。平台E2E授权/无钥存储与真实网络恢复、SDK/Host私有执行/Android JNI/媒体、全局4MiB背压重排、独立计量/真实资格及未知替换残留显式恢复仍待。115控制规划/150既有schema登记/84表/75控制HTTP及3个SDK入口不变，无SQL或迁移。同一56任务222子项保留，测试源码未编译/运行，完整生产接线与测试源码后集中验证；不是开发轮完成。"
     },
     {
       "id": "DEV-32",
@@ -13434,6 +13536,248 @@
       "KE-T029",
       "KE-T030",
       "KE-T031"
+    ],
+    "status": "SOURCE_ONLY_NOT_EXECUTED"
+  },
+  "original_cipher_custody_source_integration": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "requirements": "IC001—050",
+    "annex": "docs/技术开发/附录-原密文托管与不可变补传源码.md",
+    "source_contract": "docs/技术开发/contracts/original-cipher-custody-source-v1.json",
+    "original_cipher_custody_and_native_apis_source_wired": true,
+    "metadata_cli_source_wired": true,
+    "local_segmented_and_global_4mib_complete": false,
+    "platform_e2e_relay_sdk_host_jni_complete": false,
+    "compiled_or_executed": false,
+    "sql_changed_or_migrated": false,
+    "new_media_captured": false,
+    "full_development_round_complete": false,
+    "test_definition_count": 26,
+    "control_http_operations": 75,
+    "native_sdk_data_plane_operations": 3,
+    "planned_control_operations": 115,
+    "registered_control_schemas": 150,
+    "platform_tables": 84,
+    "remaining": [
+      "平台E2E原上下文/授权/无钥持久化/实际网络补传/背压及有界重排",
+      "本机SDK/实际Host私有执行/LOCAL_SEGMENTED_1/Android JNI/媒体/全局4MiB门闩",
+      "原买家receipt/可信usage/资金事务、独立信任UI与真实资格",
+      "未知替换残留显式恢复工具；固定库构建/向量/LP/PE/性能实测",
+      "完整56/222其他生产接线及测试源码后集中验证；DEV55延后/DEV32无证明关闭"
+    ]
+  },
+  "original_cipher_custody_test_definitions": {
+    "tests": [
+      {
+        "id": "IC-T001",
+        "name": "TestCipherCLIRejectsExportSecretAndACKActionsWithoutEcho",
+        "source": "dev/src/client/cmd/p11-node/cipher_custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T002",
+        "name": "TestCipherCLIRejectsInvalidPolicyBeforeOpeningOriginalState",
+        "source": "dev/src/client/cmd/p11-node/cipher_custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T003",
+        "name": "TestCipherCustodyIntentIsDurableBeforeProducerAndReplayDoesNotReencrypt",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T004",
+        "name": "TestCipherCustodyUnknownIntentCommitNeverCallsProducerOrRecreatesAfterReopen",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T005",
+        "name": "TestCipherCustodyInterruptedBodyStaysUnpublishableAndKeepsReservation",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T006",
+        "name": "TestCipherCustodyExactOriginalBytesSurviveReopenAndRangeRetransmit",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T007",
+        "name": "TestCipherCustodyChangedOwnerScopeManifestAndBoundsExposeNoBytes",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T008",
+        "name": "TestCipherCustodyChangedOnDiskCipherFailsBeforeDestination",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T009",
+        "name": "TestCipherCustodyImportCannotClaimPrivateENDOrReplaceOriginalManifest",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T010",
+        "name": "TestCipherCustodyReservesFullOriginalBoundBeforeOpeningFile",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T011",
+        "name": "TestCipherCustodyExpiresOnlyAfterCancelAndActualReaderJoin",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T012",
+        "name": "TestCipherCustodyCloseCancelsThenJoinsWithoutDroppingJournalKeyEarly",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T013",
+        "name": "TestCipherCustodyUnknownFilesAndMissingJournalCannotBeAdopted",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T014",
+        "name": "TestCipherCustodyWrongInstallationOrMasterCannotOpenMetadata",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T015",
+        "name": "TestCipherCustodySingleCleanupCanCancelBothFullPayloadSlots",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T016",
+        "name": "TestCipherCustodyFailedTransportRetainsOriginalReadyBytesForRetry",
+        "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T017",
+        "name": "TestNativeStoredCipherRetriesExactOriginalManifestWithoutReadingPlaintext",
+        "source": "dev/src/client/crypto-gateway/custody_native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T018",
+        "name": "TestNativeImportedCipherRequiresCompleteInputAuthenticationBeforeConsumer",
+        "source": "dev/src/client/crypto-gateway/custody_native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T019",
+        "name": "TestNativeImportedCipherRejectsChangedManifestBeforeAnyInputCallback",
+        "source": "dev/src/client/crypto-gateway/custody_native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T020",
+        "name": "TestNativeCipherRetransmitRevocationCancelsAndActualCloseStillJoins",
+        "source": "dev/src/client/crypto-gateway/custody_native_test.go",
+        "native_build_tag": true,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T021",
+        "name": "TestEndpointCipherCustodyCopiesNoSigningContentOrReceiptSecret",
+        "source": "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T022",
+        "name": "TestEndpointBeginCloseCancelsAllOwnersBeforeJoiningAny",
+        "source": "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T023",
+        "name": "TestNodeCipherCustodyRequiresOriginalKeyAnchorAndValidPolicyBeforeMutation",
+        "source": "dev/src/client/node/cipher_custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T024",
+        "name": "TestNodeCipherCustodyUsesOriginalRootLockAndAnchorAcrossReopen",
+        "source": "dev/src/client/node/cipher_custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T025",
+        "name": "TestNodeMissingAnchoredCipherJournalNeverReinitializes",
+        "source": "dev/src/client/node/cipher_custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "IC-T026",
+        "name": "TestNodeUnknownCipherFileIsPreservedAndCannotBeAdopted",
+        "source": "dev/src/client/node/cipher_custody_test.go",
+        "native_build_tag": false,
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      }
+    ],
+    "ids": [
+      "IC-T001",
+      "IC-T002",
+      "IC-T003",
+      "IC-T004",
+      "IC-T005",
+      "IC-T006",
+      "IC-T007",
+      "IC-T008",
+      "IC-T009",
+      "IC-T010",
+      "IC-T011",
+      "IC-T012",
+      "IC-T013",
+      "IC-T014",
+      "IC-T015",
+      "IC-T016",
+      "IC-T017",
+      "IC-T018",
+      "IC-T019",
+      "IC-T020",
+      "IC-T021",
+      "IC-T022",
+      "IC-T023",
+      "IC-T024",
+      "IC-T025",
+      "IC-T026"
     ],
     "status": "SOURCE_ONLY_NOT_EXECUTED"
   }

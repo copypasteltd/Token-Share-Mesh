@@ -1,5 +1,6 @@
-// Package node implements the native provider's persistent control agent.
-// It does not execute jobs, approve hardware or handle customer content.
+// Package node implements the native provider's persistent control agent and
+// explicitly composed local owners. Content and execution require their own
+// original scopes and approved runtimes; opening a node grants neither.
 package node
 
 import (
@@ -16,6 +17,7 @@ import (
 	"io"
 	"os"
 	"p11.local/compute/client/comfyenv"
+	"p11.local/compute/client/crypto-gateway/ciphercustody"
 	"p11.local/compute/client/crypto-gateway/endpoint"
 	"p11.local/compute/client/execution"
 	"p11.local/compute/client/mediaworkspace"
@@ -88,6 +90,7 @@ type state struct {
 	RentalID     string       `json:"rental_control_journal_id,omitempty"`
 	KernelID     string       `json:"kernel_environment_registry_id,omitempty"`
 	CryptoID     string       `json:"endpoint_key_vault_id,omitempty"`
+	CipherID     string       `json:"cipher_custody_id,omitempty"`
 }
 
 // Store holds an OS-level single-writer lock until Close, including during
@@ -105,6 +108,7 @@ type Store struct {
 	kernels               *comfyenv.Registry
 	media                 *mediaworkspace.Owner
 	cryptoKeys            *endpoint.Vault
+	cipherCustody         *ciphercustody.Store
 	nativeMu              sync.Mutex
 	nativeRentals         map[string]*NativeRental
 	comfyRentals          map[string]*ComfyRental
@@ -340,6 +344,9 @@ func (s *Store) validate() error {
 	if v.CryptoID != "" && !executionlease.Hash(v.CryptoID) {
 		return ErrState
 	}
+	if v.CipherID != "" && (!executionlease.Hash(v.CipherID) || v.CryptoID == "") {
+		return ErrState
+	}
 	if v.KernelID != "" && (!executionlease.Hash(v.KernelID) || v.DeviceID == "" || v.Config.Kind != "GPU_DEVICE") {
 		return ErrState
 	}
@@ -452,7 +459,18 @@ func (s *Store) finishClose() {
 	s.finishOnce.Do(func() {
 		s.nativeMu.Lock()
 		kernels := s.kernels
+		cryptoKeys := s.cryptoKeys
+		cipherCustody := s.cipherCustody
 		s.nativeMu.Unlock()
+		// Cancel all nested owners before joining any of them. A crypto use
+		// may own a custody callback, and vice versa; sequential cancellation
+		// could otherwise wait on an owner that has not received stop yet.
+		if cryptoKeys != nil {
+			cryptoKeys.BeginClose()
+		}
+		if cipherCustody != nil {
+			cipherCustody.BeginClose()
+		}
 		if kernels != nil {
 			kernels.Close() // join installer/runtime IO before releasing OS lock/root/key
 			s.nativeMu.Lock()
@@ -471,9 +489,12 @@ func (s *Store) finishClose() {
 			s.host.Close()
 			s.host = nil
 		}
-		s.nativeMu.Lock()
-		cryptoKeys := s.cryptoKeys
-		s.nativeMu.Unlock()
+		if cipherCustody != nil {
+			cipherCustody.Close()
+			s.nativeMu.Lock()
+			s.cipherCustody = nil
+			s.nativeMu.Unlock()
+		}
 		if cryptoKeys != nil {
 			cryptoKeys.Close() // cancel/join original uses before root/master/OS lock
 			s.nativeMu.Lock()

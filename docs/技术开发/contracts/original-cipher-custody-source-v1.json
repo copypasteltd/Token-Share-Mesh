@@ -1,0 +1,300 @@
+{
+  "profile_id": "P11_ORIGINAL_CIPHER_CUSTODY_SOURCE_1",
+  "requirements": "IC-001—050",
+  "authority": "docs/技术开发/附录-原密文托管与不可变补传源码.md",
+  "status": "SOURCE_ONLY_UNVERIFIED",
+  "compiled_or_executed": false,
+  "activation": false,
+  "development_policy": "dev/开发轮次执行规则.md",
+  "source_refs": [
+    "dev/src/client/cmd/p11-node/cipher_custody.go",
+    "dev/src/client/cmd/p11-node/cipher_custody_test.go",
+    "dev/src/client/cmd/p11-node/main.go",
+    "dev/src/client/crypto-gateway/README.md",
+    "dev/src/client/crypto-gateway/ciphercustody/README.md",
+    "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+    "dev/src/client/crypto-gateway/ciphercustody/journal.go",
+    "dev/src/client/crypto-gateway/ciphercustody/produce.go",
+    "dev/src/client/crypto-gateway/ciphercustody/read.go",
+    "dev/src/client/crypto-gateway/ciphercustody/types.go",
+    "dev/src/client/crypto-gateway/custody.go",
+    "dev/src/client/crypto-gateway/custody_native_test.go",
+    "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
+    "dev/src/client/crypto-gateway/endpoint/vault.go",
+    "dev/src/client/node/cipher_custody.go",
+    "dev/src/client/node/cipher_custody_test.go",
+    "dev/src/client/node/store.go",
+    "dev/tools/整理R026原密文托管源码.py",
+    "dev/开发轮次执行规则.md",
+    "docs/技术开发/contracts/original-cipher-custody-source-v1.json",
+    "docs/技术开发/附录-原密文托管与不可变补传源码.md"
+  ],
+  "custody_profile": "P11_ORIGINAL_CIPHER_CUSTODY_1",
+  "wire_profile": "BINARY_STREAM_1",
+  "local_segmented_1_implemented": false,
+  "global_4mib_flow_and_reorder_complete": false,
+  "ownership": {
+    "original_os_root_and_single_writer": true,
+    "original_endpoint_anchor_required": true,
+    "custody_anchor_before_journal": true,
+    "missing_anchored_journal_reinitialized": false,
+    "metadata_aead": "AES_256_GCM",
+    "wrap_key_purpose": "P11_CIPHER_CUSTODY_WRAP_KEY_1",
+    "public_only_key_use": "CIPHER_CUSTODY",
+    "unknown_files_or_replacement_retained_and_closed": true,
+    "explicit_unknown_replacement_recovery_tool_complete": false
+  },
+  "lifecycle": [
+    "WRITING",
+    "INTERRUPTED",
+    "READY",
+    "RETIRING",
+    "RETIRED"
+  ],
+  "immutable_original": {
+    "wire_bound_reserved_before_producer": true,
+    "intent_committed_before_producer": true,
+    "ready_before_reply": true,
+    "ready_retry_reads_source_or_reencrypts": false,
+    "interrupted_original_restarts_producer": false,
+    "push_state_restored": false,
+    "model_reexecution_or_new_epoch_automatically_authorized": false,
+    "range_authenticates_complete_opaque_before_copy": true,
+    "range_randomly_decrypts_secretstream": false,
+    "failed_transport_retains_ready": true
+  },
+  "authority_boundaries": {
+    "opaque_ready_proves_private_end_aead_preflight": false,
+    "input_consumption_requires_complete_private_barrier": true,
+    "opaque_ready_is_execution_meter_acceptance_payment": false,
+    "business_network_grant_and_offset_independently_required": true,
+    "enhanced_confidential_qualified": false,
+    "full_platform_sdk_host_android_e2e_complete": false
+  },
+  "retirement": {
+    "journal_retiring_before_cancel_join_delete": true,
+    "actual_owner_join_before_key_root_release": true,
+    "cancel_vault_and_spool_before_joining_either": true,
+    "caller_ack_string_can_delete": false,
+    "expired_tombstone_compaction": true,
+    "single_reserved_cleanup_owner_works_at_payload_capacity": true
+  },
+  "budgets_not_measurements": {
+    "capacity_min_bytes": 69206016,
+    "capacity_max_bytes": 536870912,
+    "objects": 64,
+    "metadata_journal_bytes": 2097152,
+    "copy_buffer_bytes": 65536,
+    "payload_owners": 2,
+    "reserved_serial_cleanup_owners": 1,
+    "cleanup_cancel_seconds_actual_join_still_required": 60
+  },
+  "native_apis_source_wired": [
+    "SealCipher",
+    "ImportCipher",
+    "ConsumeCipher",
+    "CopyCipherRange"
+  ],
+  "metadata_cli_source_wired": [
+    "cipher-init",
+    "cipher-status",
+    "cipher-expire"
+  ],
+  "content_cli_or_listener_opened": false,
+  "test_definitions": [
+    {
+      "id": "IC-T001",
+      "name": "TestCipherCLIRejectsExportSecretAndACKActionsWithoutEcho",
+      "source": "dev/src/client/cmd/p11-node/cipher_custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T002",
+      "name": "TestCipherCLIRejectsInvalidPolicyBeforeOpeningOriginalState",
+      "source": "dev/src/client/cmd/p11-node/cipher_custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T003",
+      "name": "TestCipherCustodyIntentIsDurableBeforeProducerAndReplayDoesNotReencrypt",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T004",
+      "name": "TestCipherCustodyUnknownIntentCommitNeverCallsProducerOrRecreatesAfterReopen",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T005",
+      "name": "TestCipherCustodyInterruptedBodyStaysUnpublishableAndKeepsReservation",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T006",
+      "name": "TestCipherCustodyExactOriginalBytesSurviveReopenAndRangeRetransmit",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T007",
+      "name": "TestCipherCustodyChangedOwnerScopeManifestAndBoundsExposeNoBytes",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T008",
+      "name": "TestCipherCustodyChangedOnDiskCipherFailsBeforeDestination",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T009",
+      "name": "TestCipherCustodyImportCannotClaimPrivateENDOrReplaceOriginalManifest",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T010",
+      "name": "TestCipherCustodyReservesFullOriginalBoundBeforeOpeningFile",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T011",
+      "name": "TestCipherCustodyExpiresOnlyAfterCancelAndActualReaderJoin",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T012",
+      "name": "TestCipherCustodyCloseCancelsThenJoinsWithoutDroppingJournalKeyEarly",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T013",
+      "name": "TestCipherCustodyUnknownFilesAndMissingJournalCannotBeAdopted",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T014",
+      "name": "TestCipherCustodyWrongInstallationOrMasterCannotOpenMetadata",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T015",
+      "name": "TestCipherCustodySingleCleanupCanCancelBothFullPayloadSlots",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T016",
+      "name": "TestCipherCustodyFailedTransportRetainsOriginalReadyBytesForRetry",
+      "source": "dev/src/client/crypto-gateway/ciphercustody/custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T017",
+      "name": "TestNativeStoredCipherRetriesExactOriginalManifestWithoutReadingPlaintext",
+      "source": "dev/src/client/crypto-gateway/custody_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T018",
+      "name": "TestNativeImportedCipherRequiresCompleteInputAuthenticationBeforeConsumer",
+      "source": "dev/src/client/crypto-gateway/custody_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T019",
+      "name": "TestNativeImportedCipherRejectsChangedManifestBeforeAnyInputCallback",
+      "source": "dev/src/client/crypto-gateway/custody_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T020",
+      "name": "TestNativeCipherRetransmitRevocationCancelsAndActualCloseStillJoins",
+      "source": "dev/src/client/crypto-gateway/custody_native_test.go",
+      "native_build_tag": true,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T021",
+      "name": "TestEndpointCipherCustodyCopiesNoSigningContentOrReceiptSecret",
+      "source": "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T022",
+      "name": "TestEndpointBeginCloseCancelsAllOwnersBeforeJoiningAny",
+      "source": "dev/src/client/crypto-gateway/endpoint/custody_scope_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T023",
+      "name": "TestNodeCipherCustodyRequiresOriginalKeyAnchorAndValidPolicyBeforeMutation",
+      "source": "dev/src/client/node/cipher_custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T024",
+      "name": "TestNodeCipherCustodyUsesOriginalRootLockAndAnchorAcrossReopen",
+      "source": "dev/src/client/node/cipher_custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T025",
+      "name": "TestNodeMissingAnchoredCipherJournalNeverReinitializes",
+      "source": "dev/src/client/node/cipher_custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    },
+    {
+      "id": "IC-T026",
+      "name": "TestNodeUnknownCipherFileIsPreservedAndCannotBeAdopted",
+      "source": "dev/src/client/node/cipher_custody_test.go",
+      "native_build_tag": false,
+      "status": "SOURCE_ONLY_NOT_EXECUTED"
+    }
+  ],
+  "test_definition_count": 26,
+  "test_fixture_boundary": "Opaque structural fixture is NOT native AEAD; four native-tag definitions are separate and unexecuted.",
+  "control_http_operations": 75,
+  "planned_control_operations": 115,
+  "registered_control_schemas": 150,
+  "platform_tables": 84,
+  "native_sdk_data_plane_operations": 3,
+  "sql_changed_or_migrated": false,
+  "full_scope_tasks": 56,
+  "full_scope_steps": 222,
+  "full_development_round_complete": false,
+  "test_admission": "DENIED_UNTIL_ALL_IN_SCOPE_CODE_COMPLETE"
+}

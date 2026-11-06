@@ -22165,11 +22165,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "bed6b2862aff7d7b10a88e63682c0e09afe159ca13e8ee69e9e9bf9393c6266e"
+      "sha256": "dc911e8dec24a43dc0a508906242225adb2c87e30852decf97263882d7b73237"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "64a7b5d90792b1e287ffec776c2a76ef142a9b47e38e4a1dbfee8002985c10d5"
+      "sha256": "dfedc89ce6df209591c8e60065eab7c67417c36540e28f3c4d37cc1dff1f841c"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -22217,7 +22217,7 @@
     },
     {
       "path": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
-      "sha256": "e6dc55104d6ed98c9b1f563a90dd2dd4d6aea9e5e676ac6b77e2e2f739854368"
+      "sha256": "f44401fdea7d233a253fdfdd7d17e617406ba0a662f051a46fa3f554e9caa1a3"
     },
     {
       "path": "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -22445,7 +22445,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "5a07be19f7f51ecf7c5fb4a152c5219586bbd2dccb4c0417b1fb4824c54301b1"
+      "sha256": "6da909accc612eb2baba3fe063239a89483364817ec86ebd6bb34d6e470f854d"
     },
     {
       "path": "scripts/端对端加密数据.py",
