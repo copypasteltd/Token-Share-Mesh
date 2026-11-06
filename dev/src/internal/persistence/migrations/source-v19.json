@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/019_refund_applications.sql",
+  "source_sha256": "e4aa6f01f8de52efcefd272980e5ad76c1978c63e96b78dfbd497ad687ba80d6",
+  "migration": "019_refund_applications.sql",
+  "migration_sha256": "e4aa6f01f8de52efcefd272980e5ad76c1978c63e96b78dfbd497ad687ba80d6",
+  "policy": "019 original buyer application/independent review/atomic original financial intent; SOURCE_ONLY, not executed"
+}

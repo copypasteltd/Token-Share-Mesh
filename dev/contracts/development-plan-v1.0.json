@@ -399,7 +399,8 @@
         "payment_machine_recoveries",
         "order_fundings",
         "refund_machine_contexts",
-        "refund_machine_receipts"
+        "refund_machine_receipts",
+        "refund_applications"
       ],
       "application_services": [
         "PaymentIntent",
@@ -413,7 +414,9 @@
         "CurrentFundingGuard",
         "RefundService",
         "OriginalRefundRecovery",
-        "OriginalPaidArchiveVerifier"
+        "OriginalPaidArchiveVerifier",
+        "RefundApplication",
+        "IndependentRefundReview"
       ],
       "dependencies": [
         "MOD-01",
@@ -3731,7 +3734,12 @@
       ],
       "operation_ids": [
         "createRefund",
-        "getRefund"
+        "listOrderRefunds",
+        "getRefund",
+        "listRefundReviews",
+        "getRefundReview",
+        "decideRefundReview",
+        "revokeRefundReview"
       ],
       "conditional_branch": false,
       "milestone_id": "MS-03"
@@ -10108,10 +10116,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "e211e110510f25c7ca414b10d1729b4c12fcace735eaaa3c65f6d340324a0ed3",
+      "canonical_operation_sha256": "ba5da01ff19c84d3ffbdc54babfe1131353a661a119778fc6be8fe5e1409d3fa",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createRefund",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-022"
     },
     {
@@ -11588,7 +11602,13 @@
       "canonical_operation_sha256": "d053a6aa73e9837ecc3a25ed730ddcfdefb2f72ebaa327bab3a74a56cb0161e9",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getRefund",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-044"
     },
     {
@@ -15662,6 +15682,334 @@
         "evidence_authority": "dev/progress/implementation-status.json"
       },
       "id": "INT-103"
+    },
+    {
+      "operation_id": "listOrderRefunds",
+      "method": "GET",
+      "path": "/orders/{order_id}/refunds",
+      "summary": "原买卖双方分页查看售后申请",
+      "module_id": "MOD-05",
+      "task_id": "DEV-14",
+      "planned_handler": "dev/src/api/internal/http/mod_05/listOrderRefunds.go",
+      "required_scopes": [
+        "refund:read"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F17",
+        "P11-F46",
+        "P11-F53"
+      ],
+      "acceptance_ids": [
+        "P11-T17",
+        "P11-T46",
+        "P11-T53"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "6dc55d929701b99a1516de4f90f95cf3f30304ed7ac4b9f4f6fcc02922e7f1c8",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "listOrderRefunds",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-104"
+    },
+    {
+      "operation_id": "listRefundReviews",
+      "method": "GET",
+      "path": "/finance/refund-reviews",
+      "summary": "独立金融审核人分页读取售后队列",
+      "module_id": "MOD-05",
+      "task_id": "DEV-14",
+      "planned_handler": "dev/src/api/internal/http/mod_05/listRefundReviews.go",
+      "required_scopes": [
+        "refund:review"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F17",
+        "P11-F46",
+        "P11-F53"
+      ],
+      "acceptance_ids": [
+        "P11-T17",
+        "P11-T46",
+        "P11-T53"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "0f7704dbb66e77f6005d494d392d1a187403619e1b260bb4b6597fc34b535dc2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "listRefundReviews",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-105"
+    },
+    {
+      "operation_id": "getRefundReview",
+      "method": "GET",
+      "path": "/finance/refund-reviews/{refund_id}",
+      "summary": "独立金融审核人核对原合同与安全资金元数据",
+      "module_id": "MOD-05",
+      "task_id": "DEV-14",
+      "planned_handler": "dev/src/api/internal/http/mod_05/getRefundReview.go",
+      "required_scopes": [
+        "refund:review"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F17",
+        "P11-F46",
+        "P11-F53"
+      ],
+      "acceptance_ids": [
+        "P11-T17",
+        "P11-T46",
+        "P11-T53"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "2bb2fa585f262cfbec8f5e301990d3ac20aad1baee82685d14e53d860c93ba30",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getRefundReview",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-106"
+    },
+    {
+      "operation_id": "decideRefundReview",
+      "method": "POST",
+      "path": "/finance/refund-reviews/{refund_id}/decisions",
+      "summary": "独立批准或拒绝原退款申请",
+      "module_id": "MOD-05",
+      "task_id": "DEV-14",
+      "planned_handler": "dev/src/api/internal/http/mod_05/decideRefundReview.go",
+      "required_scopes": [
+        "refund:review"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RefundReviewInput"
+      },
+      "response_codes": [
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503",
+        "200"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F17",
+        "P11-F46",
+        "P11-F53"
+      ],
+      "acceptance_ids": [
+        "P11-T17",
+        "P11-T46",
+        "P11-T53"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "4d910efc314af468a9dbeaee9eb50011bb4e4bf9c460e908737511a4497e85c2",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "decideRefundReview",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-107"
+    },
+    {
+      "operation_id": "revokeRefundReview",
+      "method": "POST",
+      "path": "/finance/refund-reviews/{refund_id}/revocations",
+      "summary": "撤销批准且保留已提交或未知金融义务",
+      "module_id": "MOD-05",
+      "task_id": "DEV-14",
+      "planned_handler": "dev/src/api/internal/http/mod_05/revokeRefundReview.go",
+      "required_scopes": [
+        "refund:review"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RefundRevokeInput"
+      },
+      "response_codes": [
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503",
+        "200"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-01_OR_MODULE_LOCAL",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F17",
+        "P11-F46",
+        "P11-F53"
+      ],
+      "acceptance_ids": [
+        "P11-T17",
+        "P11-T46",
+        "P11-T53"
+      ],
+      "source_documents": [
+        "docs/技术开发/13-支付退款账务与渠道结算.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "b04fe13072af670038e40f84130b9bbdcf1522dd6fb088f4aab1a86402588781",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "revokeRefundReview",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-108"
     }
   ],
   "tables": [
@@ -16193,6 +16541,16 @@
       "column_count": 11,
       "foreign_key_count": 3,
       "source_document": "docs/技术开发/database/schema-draft.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-078",
+      "name": "refund_applications",
+      "schema": "p11",
+      "module_id": "MOD-05",
+      "column_count": 20,
+      "foreign_key_count": 7,
+      "source_document": "docs/技术开发/database/migrations/019_refund_applications.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
     {
@@ -16900,6 +17258,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "quotes",
         "orders",
         "route_contracts",
@@ -17300,13 +17659,18 @@
         "getPayment",
         "cancelJob",
         "createRefund",
+        "listOrderRefunds",
         "getRefund",
         "recordAttemptCleanup",
         "listOrderPaymentOptions",
         "getOrderPayment",
         "getPaymentChallenge",
         "submitMachinePaymentProof",
-        "getMachinePaymentRecovery"
+        "getMachinePaymentRecovery",
+        "listRefundReviews",
+        "getRefundReview",
+        "decideRefundReview",
+        "revokeRefundReview"
       ],
       "tables": [
         "payments",
@@ -17318,6 +17682,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "devices",
         "device_request_nonces",
         "resources",
@@ -17533,6 +17898,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -17807,6 +18173,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "audit_events",
         "feature_gates",
         "releases"
@@ -18038,6 +18405,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "reviews",
         "disputes",
         "appeals",
@@ -18758,7 +19126,8 @@
         "payment_machine_recoveries",
         "order_fundings",
         "refund_machine_contexts",
-        "refund_machine_receipts"
+        "refund_machine_receipts",
+        "refund_applications"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18917,7 +19286,8 @@
         "payment_machine_recoveries",
         "order_fundings",
         "refund_machine_contexts",
-        "refund_machine_receipts"
+        "refund_machine_receipts",
+        "refund_applications"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18963,11 +19333,16 @@
         "recordRentalCleanup",
         "getRentalMeterStatement",
         "createRefund",
+        "listOrderRefunds",
         "getRefund",
         "createDispute",
         "getDispute",
         "createAppeal",
-        "recordDisputeDecision"
+        "recordDisputeDecision",
+        "listRefundReviews",
+        "getRefundReview",
+        "decideRefundReview",
+        "revokeRefundReview"
       ],
       "tables": [
         "rental_sessions",
@@ -18986,6 +19361,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "reviews",
         "disputes",
         "appeals",
@@ -19384,6 +19760,7 @@
       "operation_ids": [
         "getOrderBill",
         "createRefund",
+        "listOrderRefunds",
         "getRefund",
         "listOwnSettlements",
         "getSettlement",
@@ -19391,7 +19768,11 @@
         "createSettlementBatch",
         "getSettlementBatch",
         "approveSettlementBatch",
-        "submitSettlementBatch"
+        "submitSettlementBatch",
+        "listRefundReviews",
+        "getRefundReview",
+        "decideRefundReview",
+        "revokeRefundReview"
       ],
       "tables": [
         "trade_qualifications",
@@ -19411,6 +19792,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "usage_evidence",
         "meter_statements"
       ],
@@ -19563,6 +19945,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",
@@ -21118,11 +21501,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "31bab7f250f822a480db3d5efa10cb0b4717fa5db74b970f07dd2c605c1e027e"
+      "sha256": "74d6b37178c305f8336d460e040ef7e731a473b09af6e5e8f9b88e6d50913d41"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "244c506f6aba8b2087a89707aaa18fcbf8b8480907a56ae667fce199566a3ba3"
+      "sha256": "1480eeb98590ba714e169ee3523d5b0673fef43cfbd0154a9b6d050060f3cf65"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -21130,11 +21513,11 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "fc991ba6b061cca9e63e35fb978f5a3f205d18fb8b0d79873a58b347bc9e41f3"
+      "sha256": "7314b2a3fa31b77fcae1df46780f7986d2fc245443e9a96346dcbdfcadfba9b0"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "4fa4abf8eaa2a2f18b44a0aee74d2c6c5a133a7928b407c6a09d684ac354b2a3"
+      "sha256": "8561d08526bddd2616f8496ccd734a696c643abc3e525336d4a4c025be901e48"
     },
     {
       "path": "dev/tools/构建开发细则.py",
@@ -21190,7 +21573,7 @@
     },
     {
       "path": "docs/技术开发/13-支付退款账务与渠道结算.md",
-      "sha256": "e1897d4100868afd58be35296601cb5f796d96cbd53c50fda89a21ba54667284"
+      "sha256": "32ef5f81258df5e63dc9a86dda11d93323117b63ecbd2130817131e4190bb3d9"
     },
     {
       "path": "docs/技术开发/14-前端路由状态与接口集成.md",
@@ -21226,11 +21609,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "c6f7b20ec3fc5dfdce553bca50c07a13a2fa18f1037a2a9703db0390eb6feabc"
+      "sha256": "a796d88b104af44a42095ae60b1edb1282fc90db322cc86d9b070a90213727db"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "140e1c123dd5df56b176ca75c766bfa69ac6b984c8192011494f0c7dfdfc27f9"
+      "sha256": "cc33e33497da2430ec965a0ab7572a95a1f1705b65518b946b80d03dc4c3a80a"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -21238,11 +21621,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "eab569230e28f858fb088783562a7fc08a7a50b3d2c7d4d91206a20ebf0ace21"
+      "sha256": "53ea8ce6b589919549c66d7b840dc186e7a60c9d9982bb8ad15b914dbea534ee"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "1e6c8c4e7cf921ff75e6ef2c5b58d16305fff6cace76dc836042bc3c17bdf817"
+      "sha256": "2279a4112a6ef8915c94d03c25c24be6d20117f2071bd859efb3328fb9e48a05"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -21313,6 +21696,10 @@
       "sha256": "c20f4b63a0d245324d1063809f80a37e5bc545c17f59e1f344990b18fc76342a"
     },
     {
+      "path": "docs/技术开发/database/migrations/019_refund_applications.sql",
+      "sha256": "e4aa6f01f8de52efcefd272980e5ad76c1978c63e96b78dfbd497ad687ba80d6"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -21354,7 +21741,7 @@
     },
     {
       "path": "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-      "sha256": "2be4c3f59a14720915e98b2ce606b7d3798f1b1c99ec70673bb19be8c5dd12d5"
+      "sha256": "ae5644d8524fc28b4e42987a63550b01f071d8fd9596fdca8dd09c604ffe055f"
     },
     {
       "path": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md",
@@ -21366,7 +21753,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "244a4543bfdded86608fa4cb8d12dd0c428c3df7e005f9eb338d68c4bb130c1c"
+      "sha256": "6fe709405cf4afd6a56e0df649ee711bf248edbeb9d34cd1edc144b2bfab2291"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -21386,7 +21773,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "06150cb9594b8b8ae3c1e9d16b4821616f337125b08b64c1a81cf923df498858"
+      "sha256": "d270aaef65b336d915009092ab116f8997934786b2e67a3f2b56265cde1e25eb"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -21398,8 +21785,8 @@
     "tasks": 56,
     "steps": 222,
     "constraints": 47,
-    "control_operations": 103,
-    "tables": 77,
+    "control_operations": 108,
+    "tables": 78,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

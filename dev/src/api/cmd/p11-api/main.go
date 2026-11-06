@@ -196,8 +196,10 @@ func run() error {
 		return err
 	}
 	var paymentService *payments.Machine
+	var refundService *payments.RefundService
 	if paymentHost != nil {
 		paymentService = paymentHost.Machine()
+		refundService = paymentHost.Refunds()
 		// Wait for actual callers before dropping keys or the outer DB.
 		defer func() { _ = paymentHost.Close(context.Background()) }()
 	}
@@ -212,6 +214,7 @@ func run() error {
 		Delivery:      delivery,
 		Rentals:       rentals,
 		Payments:      paymentService,
+		Refunds:       refundService,
 		Routes:        routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
 	if err != nil {
 		return err

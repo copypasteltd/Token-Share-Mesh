@@ -467,6 +467,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "quotes",
         "orders",
         "route_contracts",
@@ -867,13 +868,18 @@
         "getPayment",
         "cancelJob",
         "createRefund",
+        "listOrderRefunds",
         "getRefund",
         "recordAttemptCleanup",
         "listOrderPaymentOptions",
         "getOrderPayment",
         "getPaymentChallenge",
         "submitMachinePaymentProof",
-        "getMachinePaymentRecovery"
+        "getMachinePaymentRecovery",
+        "listRefundReviews",
+        "getRefundReview",
+        "decideRefundReview",
+        "revokeRefundReview"
       ],
       "tables": [
         "payments",
@@ -885,6 +891,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "devices",
         "device_request_nonces",
         "resources",
@@ -1100,6 +1107,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -1374,6 +1382,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "audit_events",
         "feature_gates",
         "releases"
@@ -1605,6 +1614,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "reviews",
         "disputes",
         "appeals",
@@ -2325,7 +2335,8 @@
         "payment_machine_recoveries",
         "order_fundings",
         "refund_machine_contexts",
-        "refund_machine_receipts"
+        "refund_machine_receipts",
+        "refund_applications"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2484,7 +2495,8 @@
         "payment_machine_recoveries",
         "order_fundings",
         "refund_machine_contexts",
-        "refund_machine_receipts"
+        "refund_machine_receipts",
+        "refund_applications"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2530,11 +2542,16 @@
         "recordRentalCleanup",
         "getRentalMeterStatement",
         "createRefund",
+        "listOrderRefunds",
         "getRefund",
         "createDispute",
         "getDispute",
         "createAppeal",
-        "recordDisputeDecision"
+        "recordDisputeDecision",
+        "listRefundReviews",
+        "getRefundReview",
+        "decideRefundReview",
+        "revokeRefundReview"
       ],
       "tables": [
         "rental_sessions",
@@ -2553,6 +2570,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "reviews",
         "disputes",
         "appeals",
@@ -2951,6 +2969,7 @@
       "operation_ids": [
         "getOrderBill",
         "createRefund",
+        "listOrderRefunds",
         "getRefund",
         "listOwnSettlements",
         "getSettlement",
@@ -2958,7 +2977,11 @@
         "createSettlementBatch",
         "getSettlementBatch",
         "approveSettlementBatch",
-        "submitSettlementBatch"
+        "submitSettlementBatch",
+        "listRefundReviews",
+        "getRefundReview",
+        "decideRefundReview",
+        "revokeRefundReview"
       ],
       "tables": [
         "trade_qualifications",
@@ -2978,6 +3001,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "usage_evidence",
         "meter_statements"
       ],
@@ -3130,6 +3154,7 @@
         "order_fundings",
         "refund_machine_contexts",
         "refund_machine_receipts",
+        "refund_applications",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",

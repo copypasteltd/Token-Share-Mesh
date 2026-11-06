@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 255,
+  "catalog_statements": 268,
   "base_table_count": 60,
   "tables": [
     {
@@ -21264,6 +21264,573 @@
           "initially_deferred": false
         }
       ]
+    },
+    {
+      "name": "refund_applications",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/019_refund_applications.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "order_id",
+          "sql": "order_id p11.entity_id NOT NULL REFERENCES p11.orders (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "order_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.orders (id)",
+              "columns": [
+                "order_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "orders",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "payment_id",
+          "sql": "payment_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "payment_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "buyer_id",
+          "sql": "buyer_id p11.entity_id NOT NULL REFERENCES p11.users (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "buyer_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.users (id)",
+              "columns": [
+                "buyer_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "users",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "seller_id",
+          "sql": "seller_id p11.entity_id NOT NULL REFERENCES p11.seller_profiles (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.seller_profiles (id)",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "seller_profiles",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "contract_hash",
+          "sql": "contract_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "contract_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "request_raw",
+          "sql": "request_raw bytea NOT NULL CHECK (octet_length(request_raw) BETWEEN 1 AND 16384)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "request_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(request_raw) BETWEEN 1 AND 16384)",
+              "columns": [
+                "request_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "request_digest",
+          "sql": "request_digest p11.sha256_hex NOT NULL CHECK (request_digest = encode(sha256(request_raw), 'hex'))",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "request_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (request_digest = encode(sha256(request_raw), 'hex'))",
+              "columns": [
+                "request_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "requested_fen",
+          "sql": "requested_fen p11.money_fen NOT NULL CHECK (requested_fen BETWEEN 1 AND 5000)",
+          "type": "p11.money_fen",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "requested_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (requested_fen BETWEEN 1 AND 5000)",
+              "columns": [
+                "requested_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "reason_code",
+          "sql": "reason_code text NOT NULL CHECK (reason_code IN ('NO_LONGER_NEEDED', 'SERVICE_UNAVAILABLE', 'BILLING_REVIEW'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "reason_code"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (reason_code IN ('NO_LONGER_NEEDED', 'SERVICE_UNAVAILABLE', 'BILLING_REVIEW'))",
+              "columns": [
+                "reason_code"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "evidence_refs",
+          "sql": "evidence_refs jsonb NOT NULL DEFAULT '[]' CHECK (jsonb_typeof(evidence_refs) = 'array' AND jsonb_array_length(evidence_refs) <= 50)",
+          "type": "jsonb",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "evidence_refs"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT '[]'",
+              "columns": [
+                "evidence_refs"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (jsonb_typeof(evidence_refs) = 'array' AND jsonb_array_length(evidence_refs) <= 50)",
+              "columns": [
+                "evidence_refs"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "review_state",
+          "sql": "review_state text NOT NULL DEFAULT 'PENDING' CHECK (review_state IN ('PENDING', 'APPROVED', 'REJECTED', 'REVOKED'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "review_state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 'PENDING'",
+              "columns": [
+                "review_state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (review_state IN ('PENDING', 'APPROVED', 'REJECTED', 'REVOKED'))",
+              "columns": [
+                "review_state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "review_version",
+          "sql": "review_version p11.counter NOT NULL DEFAULT 1 CHECK (review_version BETWEEN 1 AND 2147483647)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "review_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 1",
+              "columns": [
+                "review_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (review_version BETWEEN 1 AND 2147483647)",
+              "columns": [
+                "review_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "review_reason_code",
+          "sql": "review_reason_code text",
+          "type": "text",
+          "constraints": []
+        },
+        {
+          "name": "reviewed_by",
+          "sql": "reviewed_by p11.entity_id REFERENCES p11.users (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.users (id)",
+              "columns": [
+                "reviewed_by"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "users",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "revoked_by",
+          "sql": "revoked_by p11.entity_id REFERENCES p11.users (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.users (id)",
+              "columns": [
+                "revoked_by"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "users",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decision_evidence_id",
+          "sql": "decision_evidence_id p11.entity_id UNIQUE REFERENCES p11.evidence (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "decision_evidence_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.evidence (id)",
+              "columns": [
+                "decision_evidence_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "evidence",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decision_digest",
+          "sql": "decision_digest p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": []
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "updated_at",
+          "sql": "updated_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "updated_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "updated_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (payment_id, order_id) REFERENCES p11.payments (id, order_id)",
+          "columns": [
+            "payment_id",
+            "order_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "payments",
+          "target_columns": [
+            "id",
+            "order_id"
+          ]
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((decision_evidence_id IS NULL) = (decision_digest IS NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((review_state = 'PENDING' AND review_version = 1 AND reviewed_by IS NULL AND review_reason_code IS NULL AND decision_evidence_id IS NULL AND revoked_by IS NULL) OR (review_state = 'REJECTED' AND reviewed_by IS NOT NULL AND review_reason_code IS NOT NULL AND decision_evidence_id IS NULL AND revoked_by IS NULL) OR (review_state = 'APPROVED' AND reviewed_by IS NOT NULL AND review_reason_code = 'UNUSED_BALANCE_CONFIRMED' AND decision_evidence_id IS NOT NULL AND revoked_by IS NULL) OR (review_state = 'REVOKED' AND reviewed_by IS NOT NULL AND review_reason_code = 'AUTHORITY_REVOKED' AND decision_evidence_id IS NOT NULL AND revoked_by IS NOT NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (reviewed_by IS NULL OR (reviewed_by <> buyer_id AND reviewed_by <> seller_id))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (revoked_by IS NULL OR (revoked_by <> buyer_id AND revoked_by <> seller_id))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (updated_at >= created_at)",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -23939,6 +24506,113 @@
         "id",
         "refund_id"
       ]
+    },
+    {
+      "table": "refund_applications",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.orders (id)",
+      "columns": [
+        "order_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "orders",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_applications",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.users (id)",
+      "columns": [
+        "buyer_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "users",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_applications",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.seller_profiles (id)",
+      "columns": [
+        "seller_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "seller_profiles",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_applications",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.users (id)",
+      "columns": [
+        "reviewed_by"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "users",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_applications",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.users (id)",
+      "columns": [
+        "revoked_by"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "users",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_applications",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.evidence (id)",
+      "columns": [
+        "decision_evidence_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "evidence",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_applications",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (payment_id, order_id) REFERENCES p11.payments (id, order_id)",
+      "columns": [
+        "payment_id",
+        "order_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "payments",
+      "target_columns": [
+        "id",
+        "order_id"
+      ]
     }
   ],
   "indexes": [
@@ -24073,6 +24747,24 @@
       "table": "refund_machine_contexts",
       "unique": false,
       "sql": "CREATE INDEX refund_machine_payment_dispatch ON p11.refund_machine_contexts (payment_id, dispatched_at)"
+    },
+    {
+      "name": "refund_application_one_pending",
+      "table": "refund_applications",
+      "unique": true,
+      "sql": "CREATE UNIQUE INDEX refund_application_one_pending ON p11.refund_applications (order_id) WHERE review_state = 'PENDING'"
+    },
+    {
+      "name": "refund_application_order_page",
+      "table": "refund_applications",
+      "unique": false,
+      "sql": "CREATE INDEX refund_application_order_page ON p11.refund_applications (order_id, id)"
+    },
+    {
+      "name": "refund_application_review_page",
+      "table": "refund_applications",
+      "unique": false,
+      "sql": "CREATE INDEX refund_application_review_page ON p11.refund_applications (id, buyer_id, seller_id)"
     }
   ],
   "forward_migrations": [
@@ -24354,6 +25046,27 @@
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/019_refund_applications.sql",
+      "source_sha256": "e4aa6f01f8de52efcefd272980e5ad76c1978c63e96b78dfbd497ad687ba80d6",
+      "statement_count": 13,
+      "statement_types": [
+        "CreateStmt",
+        "IndexStmt",
+        "IndexStmt",
+        "IndexStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateTrigStmt",
         "CreateTrigStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",

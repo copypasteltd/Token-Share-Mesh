@@ -131,7 +131,8 @@
         "payment_machine_recoveries",
         "order_fundings",
         "refund_machine_contexts",
-        "refund_machine_receipts"
+        "refund_machine_receipts",
+        "refund_applications"
       ],
       "application_services": [
         "PaymentIntent",
@@ -145,7 +146,9 @@
         "CurrentFundingGuard",
         "RefundService",
         "OriginalRefundRecovery",
-        "OriginalPaidArchiveVerifier"
+        "OriginalPaidArchiveVerifier",
+        "RefundApplication",
+        "IndependentRefundReview"
       ],
       "dependencies": [
         "MOD-01",

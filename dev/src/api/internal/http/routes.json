@@ -1,7 +1,7 @@
 {
   "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
-  "scope": "55 explicit control operations, including five original-buyer checkout/proof/recovery handlers; R026 SOURCE_ONLY, uncompiled/unverified; no approved actual wallet bridge, real payment qualification or public inference admission",
+  "scope": "62 explicit control HTTP operations, including buyer aftersale requests and independent current financial review; SOURCE_ONLY, not compiled or qualified, no customer content or default refund capability",
   "operations": [
     {
       "operation_id": "createPaymentIntent",
@@ -386,6 +386,55 @@
       "method": "GET",
       "path": "/payments/{payment_id}/proof-recovery",
       "handler": "getMachinePaymentRecovery",
+      "anonymous": false
+    },
+    {
+      "operation_id": "createRefund",
+      "method": "POST",
+      "path": "/orders/{order_id}/refunds",
+      "handler": "createRefund",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getRefund",
+      "method": "GET",
+      "path": "/refunds/{refund_id}",
+      "handler": "getRefund",
+      "anonymous": false
+    },
+    {
+      "operation_id": "listOrderRefunds",
+      "method": "GET",
+      "path": "/orders/{order_id}/refunds",
+      "handler": "listOrderRefunds",
+      "anonymous": false
+    },
+    {
+      "operation_id": "listRefundReviews",
+      "method": "GET",
+      "path": "/finance/refund-reviews",
+      "handler": "listRefundReviews",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getRefundReview",
+      "method": "GET",
+      "path": "/finance/refund-reviews/{refund_id}",
+      "handler": "getRefundReview",
+      "anonymous": false
+    },
+    {
+      "operation_id": "decideRefundReview",
+      "method": "POST",
+      "path": "/finance/refund-reviews/{refund_id}/decisions",
+      "handler": "decideRefundReview",
+      "anonymous": false
+    },
+    {
+      "operation_id": "revokeRefundReview",
+      "method": "POST",
+      "path": "/finance/refund-reviews/{refund_id}/revocations",
+      "handler": "revokeRefundReview",
       "anonymous": false
     }
   ]

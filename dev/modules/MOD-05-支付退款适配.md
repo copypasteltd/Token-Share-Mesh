@@ -17,8 +17,8 @@ P11｜开发细则 v1.0｜MOD-05｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 岗位/人员 | 支付工程；实际负责人/工期未分配 |
 | 计划路径 | dev/src/internal/payments |
 | 协作模块 | [MOD-01](MOD-01-身份授权.md)、[MOD-04](MOD-04-合同订单路由预算.md) |
-| 应用服务 | PaymentIntent、ChannelQuery、RefundCommand、Machine、OriginalProofRecovery、MachineHost、OriginalProofWorker、OriginalFundingAdmission、CurrentFundingGuard、RefundService、OriginalRefundRecovery、OriginalPaidArchiveVerifier |
-| 权威表 | payments、refunds、channel_requests、payment_machine_contexts、payment_machine_receipts、payment_machine_recoveries、order_fundings、refund_machine_contexts、refund_machine_receipts |
+| 应用服务 | PaymentIntent、ChannelQuery、RefundCommand、Machine、OriginalProofRecovery、MachineHost、OriginalProofWorker、OriginalFundingAdmission、CurrentFundingGuard、RefundService、OriginalRefundRecovery、OriginalPaidArchiveVerifier、RefundApplication、IndependentRefundReview |
+| 权威表 | payments、refunds、channel_requests、payment_machine_contexts、payment_machine_receipts、payment_machine_recoveries、order_fundings、refund_machine_contexts、refund_machine_receipts、refund_applications |
 | 适用约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-012](../docs/02-表格化需求约束.md#CON-012)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-015](../docs/02-表格化需求约束.md#CON-015)、[CON-016](../docs/02-表格化需求约束.md#CON-016)、[CON-017](../docs/02-表格化需求约束.md#CON-017)、[CON-018](../docs/02-表格化需求约束.md#CON-018)、[CON-035](../docs/02-表格化需求约束.md#CON-035)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-039](../docs/02-表格化需求约束.md#CON-039)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-045](../docs/02-表格化需求约束.md#CON-045) |
 | 核心规范 | [13-支付退款账务与渠道结算.md](../../docs/技术开发/13-支付退款账务与渠道结算.md) |
 
@@ -35,6 +35,11 @@ P11｜开发细则 v1.0｜MOD-05｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | INT-101 | getPaymentChallenge | GET /payments/{payment_id}/challenge | [DEV-13](../开发细则总表.md#DEV-13) | payment:create | READ_PROJECTION / 见权威契约 |
 | INT-102 | submitMachinePaymentProof | POST /payments/{payment_id}/proofs | [DEV-13](../开发细则总表.md#DEV-13) | payment:create | TX-03 / 必需稳定键 |
 | INT-103 | getMachinePaymentRecovery | GET /payments/{payment_id}/proof-recovery | [DEV-13](../开发细则总表.md#DEV-13) | payment:read | READ_PROJECTION / 见权威契约 |
+| INT-104 | listOrderRefunds | GET /orders/{order_id}/refunds | [DEV-14](../开发细则总表.md#DEV-14) | refund:read | READ_PROJECTION / 见权威契约 |
+| INT-105 | listRefundReviews | GET /finance/refund-reviews | [DEV-14](../开发细则总表.md#DEV-14) | refund:review | READ_PROJECTION / 见权威契约 |
+| INT-106 | getRefundReview | GET /finance/refund-reviews/{refund_id} | [DEV-14](../开发细则总表.md#DEV-14) | refund:review | READ_PROJECTION / 见权威契约 |
+| INT-107 | decideRefundReview | POST /finance/refund-reviews/{refund_id}/decisions | [DEV-14](../开发细则总表.md#DEV-14) | refund:review | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
+| INT-108 | revokeRefundReview | POST /finance/refund-reviews/{refund_id}/revocations | [DEV-14](../开发细则总表.md#DEV-14) | refund:review | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
 
 [完整控制面、数据表与需求追踪](../docs/04-接口数据与需求追踪.md)；请求/响应 Schema 和响应码沿用既有 OpenAPI。
 
@@ -83,7 +88,7 @@ NB-R1需求增量：NB-R036、NB-R038；[正反向验收及契约缺口](../../d
 | 实施目标 | 锁原支付累计生成唯一退款原号；处理部分退款、重复回调和未知查核。 |
 | 原完成证据 | 退款预留含UNKNOWN不超可退，失败/成功证据明确，重复请求不二退。 |
 | 门槛 | POC-06、E02 |
-| 控制操作 | createRefund、getRefund |
+| 控制操作 | createRefund、listOrderRefunds、getRefund、listRefundReviews、getRefundReview、decideRefundReview、revokeRefundReview |
 | 需求约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-012](../docs/02-表格化需求约束.md#CON-012)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-015](../docs/02-表格化需求约束.md#CON-015)、[CON-016](../docs/02-表格化需求约束.md#CON-016)、[CON-017](../docs/02-表格化需求约束.md#CON-017)、[CON-018](../docs/02-表格化需求约束.md#CON-018)、[CON-035](../docs/02-表格化需求约束.md#CON-035)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-039](../docs/02-表格化需求约束.md#CON-039)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-045](../docs/02-表格化需求约束.md#CON-045) |
 | 统一交付 | 适用 CHK-01—08；不适用项注明理由；证据规则见 DOC-06 |
 

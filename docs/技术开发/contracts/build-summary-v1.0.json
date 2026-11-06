@@ -5,9 +5,9 @@
   "modules": 20,
   "development_tasks": 56,
   "requirements": 80,
-  "control_operations": 103,
-  "sql_tables": 77,
-  "reader_sources": 75,
-  "reader_sections": 826,
-  "reader_bytes": 2597804
+  "control_operations": 108,
+  "sql_tables": 78,
+  "reader_sources": 76,
+  "reader_sections": 842,
+  "reader_bytes": 2654352
 }

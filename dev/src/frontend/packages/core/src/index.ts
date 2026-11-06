@@ -7,3 +7,4 @@ export * from './model';
 export * from './provider';
 export * from './payment';
 export * from './payment-flow';
+export * from './refund';

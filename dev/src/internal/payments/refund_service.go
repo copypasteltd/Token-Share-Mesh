@@ -193,42 +193,8 @@ func (s *RefundService) Create(ctx context.Context, p identity.Principal, paymen
 			if registration.OriginalCapability != paid.Capability || o.Version != in.ExpectedOrderVersion || paid.Version != in.ExpectedPaymentVersion || paid.Intent.Scope.Purpose != "ORDER" || paid.Snapshot.State != "SETTLED" {
 				return outbox.StoredResult{}, ErrConflict
 			}
-			if e = requireRefundRouteTx(ctx, tx, o, original, registration, true); e != nil {
-				return outbox.StoredResult{}, e
-			}
-			authority, amount, decision, e := refundDecisionTx(ctx, tx, o, paid, original, registration, in.DecisionRef, in.DecisionHash)
-			if e != nil {
-				return outbox.StoredResult{}, e
-			}
-			if e = refundCapacityTx(ctx, tx, o, paid, authority.Maximum); e != nil {
-				return outbox.StoredResult{}, e
-			}
-			rows, e := originalRefundsTx(ctx, tx, paid.Snapshot)
-			if e != nil {
-				return outbox.StoredResult{}, e
-			}
 			id := ids.New("refund")
-			number, e := NewOutTradeNo()
-			if e != nil {
-				return outbox.StoredResult{}, e
-			}
-			reserved, _, e := ReserveRefund(paid.Snapshot, rows, authority, id, number, amount)
-			if e != nil {
-				return outbox.StoredResult{}, e
-			}
-			snapshot, receipt, e := s.reverifyOriginalPaidTx(ctx, tx, paid, original, "")
-			if e != nil {
-				return outbox.StoredResult{}, e
-			}
-			before := o.Now.Add(10 * time.Minute)
-			if registration.Channel.route.ValidUntil.Before(before) {
-				before = registration.Channel.route.ValidUntil
-			}
-			intent, e := NewRefundIntent(snapshot, reserved, authority, registration.Channel.route, paid.Binding, o.Now, before)
-			if e != nil {
-				return outbox.StoredResult{}, e
-			}
-			view, e := insertRefundTx(ctx, tx, o, paid, registration, intent, decision, receipt)
+			view, e := s.createApprovedRefundTx(ctx, tx, o, paid, original, registration, id, in.DecisionRef, in.DecisionHash)
 			if e != nil {
 				return outbox.StoredResult{}, e
 			}

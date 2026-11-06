@@ -104,7 +104,12 @@
     "getOrderPayment": "INT-100",
     "getPaymentChallenge": "INT-101",
     "submitMachinePaymentProof": "INT-102",
-    "getMachinePaymentRecovery": "INT-103"
+    "getMachinePaymentRecovery": "INT-103",
+    "listOrderRefunds": "INT-104",
+    "listRefundReviews": "INT-105",
+    "getRefundReview": "INT-106",
+    "decideRefundReview": "INT-107",
+    "revokeRefundReview": "INT-108"
   },
   "tables": {
     "acceptances": "DATA-001",
@@ -183,6 +188,7 @@
     "payment_machine_recoveries": "DATA-074",
     "order_fundings": "DATA-075",
     "refund_machine_contexts": "DATA-076",
-    "refund_machine_receipts": "DATA-077"
+    "refund_machine_receipts": "DATA-077",
+    "refund_applications": "DATA-078"
   }
 }

@@ -57,5 +57,9 @@
   "original_refund_platform_transaction_host_worker_http_wired": false,
   "original_refund_transaction_source_annex": "docs/技术开发/附录-原退款持久事务与宿主恢复源码.md",
   "original_refund_platform_transaction_and_native_host_source_wired": true,
-  "public_refund_http_source_wired": false
+  "public_refund_http_source_wired": true,
+  "original_refund_application_source_annex": "docs/技术开发/附录-退款申请独立审核与双端售后源码.md",
+  "independent_review_and_dual_aftersale_ui_source_wired": true,
+  "actual_original_refund_qualification": false,
+  "full_fee_reversal_renewal_payout_chain_complete": false
 }

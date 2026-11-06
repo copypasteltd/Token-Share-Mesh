@@ -2,12 +2,12 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
-<!-- R026-RT-CURRENT -->
-R026 adds [RT-001–040](docs/技术开发/附录-原退款持久事务与宿主恢复源码.md): original-refund service/current independent unused-consideration decisions, offline RSA reverification after paid-archive decryption, work/cleanup/budget/cumulative guards, atomic refund intents/channel requests/jobs/outbox/idempotency, pre-dispatch UNKNOWN, original-number recovery/dual generations and optional native host composition. New 018 and DATA076/077 keep counts at 103 planned operations/124 schemas/77 platform tables/55 control HTTP operations; 23 new test definitions are uncompiled/unexecuted and 018 is unapplied. The unused-consideration branch does not complete fees/earned-service reversals/commission/renewal/payout/reconciliation. Public refund HTTP, reviewer/aftersale UI, reviewed retries, actual original-transaction qualification and CK/GF follow-ups remain open. All 56 tasks/222 steps stay open. Complete production source, actual wiring and test source precede batch validation and fresh media; this is not a completed development round.
-<!-- /R026-RT-CURRENT -->
+<!-- R026-RA-CURRENT -->
+R026 adds [RA-001–040](docs/技术开发/附录-退款申请独立审核与双端售后源码.md): original buyer applications/participant reads, current independent financial review atomically composed with the original refund, rejection/coordinated revocation, seven control HTTP operations/same native host, Taro/React aftersale views/Web review desk and safe original-command recovery/session epochs. 019/DATA078 are source only; 108 planned operations/128 schemas/78 platform tables/62 control HTTP operations. 32 new test definitions remain uncompiled/unexecuted; 019 is unapplied. An application is neither approval nor a channel result. Full fee/earned-service reversals, commission/renewal/payout/reconciliation, reviewed retries/historical imports, dispute disclosure/reviewer lifecycle, CK/GF and actual qualification remain open. All 56 tasks/222 steps remain open. Complete production source, actual wiring and test source precede batch validation and fresh media; this is not a completed round.
+<!-- /R026-RA-CURRENT -->
 
 <!-- R026-SOURCE-HISTORY -->
-The following source snapshots retain their earlier scope and counts. The RT notice above and the full progress registry describe the current state.
+The following source snapshots retain their earlier scope and counts. The RA notice above and the full progress registry describe the current state.
 <!-- /R026-SOURCE-HISTORY -->
 
 R026 extends [hourly rental source RN-001—110](docs/技术开发/附录-小时租赁授权与累计计量源码细则.md) with independently authenticated original grants, strict Chat/Responses/Messages text input, one-use random RAM AEAD envelopes, a rental-only llama private-pipe adapter, a SQL-independent monotonic deadline loop and owned node shutdown. No fabricated T1 job/attempt or seller/device/model/privacy fallback is used. Original synchronized cleanup receipts and actual process/pipe joins precede any local slot release. See the [rental runtime](dev/src/client/rentalruntime/README.md).
@@ -31,7 +31,7 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 45 in progress · 9 not started · 1 conditional · 1 deferred |
+| Implementation tasks | 46 in progress · 8 not started · 1 conditional · 1 deferred |
 | Latest source round | R025 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | Native test evidence | 300 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
@@ -343,3 +343,7 @@ R026 adds [RF-001–040](docs/技术开发/附录-原退款协议与渠道恢复
 ## R026 RT-001—040 原退款事务与宿主恢复 / Original refund transactions and native host recovery source
 
 R026 adds [RT-001–040](docs/技术开发/附录-原退款持久事务与宿主恢复源码.md): original-refund service/current independent unused-consideration decisions, offline RSA reverification after paid-archive decryption, work/cleanup/budget/cumulative guards, atomic refund intents/channel requests/jobs/outbox/idempotency, pre-dispatch UNKNOWN, original-number recovery/dual generations and optional native host composition. New 018 and DATA076/077 keep counts at 103 planned operations/124 schemas/77 platform tables/55 control HTTP operations; 23 new test definitions are uncompiled/unexecuted and 018 is unapplied. The unused-consideration branch does not complete fees/earned-service reversals/commission/renewal/payout/reconciliation. Public refund HTTP, reviewer/aftersale UI, reviewed retries, actual original-transaction qualification and CK/GF follow-ups remain open. All 56 tasks/222 steps stay open. Complete production source, actual wiring and test source precede batch validation and fresh media; this is not a completed development round.
+
+## R026 RA-001—040 退款申请与双端审核 / Refund applications and independent review source
+
+R026 adds [RA-001–040](docs/技术开发/附录-退款申请独立审核与双端售后源码.md): original buyer applications/participant reads, current independent financial review atomically composed with the original refund, rejection/coordinated revocation, seven control HTTP operations/same native host, Taro/React aftersale views/Web review desk and safe original-command recovery/session epochs. 019/DATA078 are source only; 108 planned operations/128 schemas/78 platform tables/62 control HTTP operations. 32 new test definitions remain uncompiled/unexecuted; 019 is unapplied. An application is neither approval nor a channel result. Full fee/earned-service reversals, commission/renewal/payout/reconciliation, reviewed retries/historical imports, dispute disclosure/reviewer lifecycle, CK/GF and actual qualification remain open. All 56 tasks/222 steps remain open. Complete production source, actual wiring and test source precede batch validation and fresh media; this is not a completed round.

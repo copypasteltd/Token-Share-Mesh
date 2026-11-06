@@ -6670,7 +6670,7 @@
           "AfterSales"
         ],
         "summary": "申请原单合同内退款",
-        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "description": "仅原买家当前账户创建售后申请，无收款去向和生成内容。申请不批准、不预留退款、不调用渠道；独立审核批准后才同事务建立原金融意图。当前 UNUSED_BALANCE_1，其他完整售后分支继续待实现。",
         "security": [
           {
             "BearerAuth": []
@@ -6766,6 +6766,100 @@
           }
         },
         "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      },
+      "get": {
+        "operationId": "listOrderRefunds",
+        "tags": [
+          "AfterSales"
+        ],
+        "summary": "原买卖双方分页查看售后申请",
+        "description": "SOURCE_ONLY 未编译/运行；当前会话和当前角色复核，审核人须独立于买卖双方。批准/原决策/原退款预留与任务同事务；不伪造渠道成功，不提供生成内容。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "refund:read"
+        ],
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundApplicationPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
       }
     },
     "/refunds/{refund_id}": {
@@ -9678,6 +9772,383 @@
         "x-current-original-owner": true,
         "x-metadata-only": true,
         "x-source-annex": "docs/技术开发/附录-原订单付款挑战与双端恢复源码.md"
+      }
+    },
+    "/finance/refund-reviews": {
+      "get": {
+        "operationId": "listRefundReviews",
+        "tags": [
+          "Finance"
+        ],
+        "summary": "独立金融审核人分页读取售后队列",
+        "description": "SOURCE_ONLY 未编译/运行；当前会话和当前角色复核，审核人须独立于买卖双方。批准/原决策/原退款预留与任务同事务；不伪造渠道成功，不提供生成内容。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "refund:review"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundApplicationPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "x-current-independent-role": "PAYMENT_REVIEWER/self"
+      }
+    },
+    "/finance/refund-reviews/{refund_id}": {
+      "get": {
+        "operationId": "getRefundReview",
+        "tags": [
+          "Finance"
+        ],
+        "summary": "独立金融审核人核对原合同与安全资金元数据",
+        "description": "SOURCE_ONLY 未编译/运行；当前会话和当前角色复核，审核人须独立于买卖双方。批准/原决策/原退款预留与任务同事务；不伪造渠道成功，不提供生成内容。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "refund:review"
+        ],
+        "parameters": [
+          {
+            "name": "refund_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundReview"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "x-current-independent-role": "PAYMENT_REVIEWER/self"
+      }
+    },
+    "/finance/refund-reviews/{refund_id}/decisions": {
+      "post": {
+        "operationId": "decideRefundReview",
+        "tags": [
+          "Finance"
+        ],
+        "summary": "独立批准或拒绝原退款申请",
+        "description": "SOURCE_ONLY 未编译/运行；当前会话和当前角色复核，审核人须独立于买卖双方。批准/原决策/原退款预留与任务同事务；不伪造渠道成功，不提供生成内容。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "refund:review"
+        ],
+        "parameters": [
+          {
+            "name": "refund_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            },
+            "description": "同主体/操作/资源范围同键同输入复用；不同输入409。未知结果先查询。"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          },
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Refund"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefundReviewInput"
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
+        "x-current-independent-role": "PAYMENT_REVIEWER/self"
+      }
+    },
+    "/finance/refund-reviews/{refund_id}/revocations": {
+      "post": {
+        "operationId": "revokeRefundReview",
+        "tags": [
+          "Finance"
+        ],
+        "summary": "撤销批准且保留已提交或未知金融义务",
+        "description": "SOURCE_ONLY 未编译/运行；当前会话和当前角色复核，审核人须独立于买卖双方。批准/原决策/原退款预留与任务同事务；不伪造渠道成功，不提供生成内容。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "refund:review"
+        ],
+        "parameters": [
+          {
+            "name": "refund_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            },
+            "description": "同主体/操作/资源范围同键同输入复用；不同输入409。未知结果先查询。"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          },
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Refund"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefundRevokeInput"
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
+        "x-current-independent-role": "PAYMENT_REVIEWER/self"
       }
     }
   },
@@ -13515,13 +13986,16 @@
           },
           "reason_code": {
             "type": "string",
-            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-            "maxLength": 128
+            "enum": [
+              "NO_LONGER_NEEDED",
+              "SERVICE_UNAVAILABLE",
+              "BILLING_REVIEW"
+            ]
           },
           "requested_fen": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 9007199254740991
+            "minimum": 1,
+            "maximum": 5000
           },
           "evidence_refs": {
             "type": "array",
@@ -13587,6 +14061,36 @@
           "updated_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "review_state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "REVOKED"
+            ]
+          },
+          "review_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "NO_LONGER_NEEDED",
+              "SERVICE_UNAVAILABLE",
+              "BILLING_REVIEW"
+            ]
+          },
+          "review_reason_code": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "review_required": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -13597,8 +14101,13 @@
           "state",
           "requested_fen",
           "confirmed_fen",
-          "updated_at"
-        ]
+          "updated_at",
+          "review_state",
+          "review_version",
+          "reason_code",
+          "review_required"
+        ],
+        "description": "审核拒绝不等于渠道失败；PENDING/REJECTED 的资金状态仍为 REQUESTED，confirmed_fen=0，尚无渠道退款。REVOKED 不回退已提交或已成功的金融事实。"
       },
       "Settlement": {
         "type": "object",
@@ -16658,6 +17167,319 @@
           "pay_before"
         ],
         "description": "仅本人原PENDING付款的402挑战；amtPaymentLink是同一已提交预付参考号，不是URL/trade_no/执行权。"
+      },
+      "RefundApplicationPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Refund"
+            },
+            "minItems": 0,
+            "maxItems": 50
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ]
+      },
+      "RefundReview": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "refund_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "order_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "payment_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "PROCESSING",
+              "SUCCEEDED",
+              "FAILED",
+              "UNKNOWN"
+            ]
+          },
+          "requested_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirmed_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "review_state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "REVOKED"
+            ]
+          },
+          "review_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "NO_LONGER_NEEDED",
+              "SERVICE_UNAVAILABLE",
+              "BILLING_REVIEW"
+            ]
+          },
+          "review_reason_code": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "review_required": {
+            "type": "boolean"
+          },
+          "buyer_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "seller_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "order_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "payment_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            },
+            "minItems": 0,
+            "maxItems": 50
+          },
+          "refund_route_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            },
+            "minItems": 0,
+            "maxItems": 128
+          },
+          "collected_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000
+          },
+          "held_refund_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5000
+          },
+          "maximum_refundable_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5000
+          }
+        },
+        "required": [
+          "refund_id",
+          "order_id",
+          "payment_id",
+          "version",
+          "state",
+          "requested_fen",
+          "confirmed_fen",
+          "updated_at",
+          "review_state",
+          "review_version",
+          "reason_code",
+          "review_required",
+          "buyer_id",
+          "seller_id",
+          "order_version",
+          "payment_version",
+          "evidence_refs",
+          "refund_route_refs",
+          "collected_fen",
+          "held_refund_fen",
+          "maximum_refundable_fen"
+        ],
+        "description": "审核拒绝不等于渠道失败；PENDING/REJECTED 的资金状态仍为 REQUESTED，confirmed_fen=0，尚无渠道退款。REVOKED 不回退已提交或已成功的金融事实。"
+      },
+      "RefundReviewInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expected_review_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "expected_order_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "expected_payment_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVED",
+              "REJECTED"
+            ]
+          },
+          "review_reason_code": {
+            "type": "string",
+            "enum": [
+              "UNUSED_BALANCE_CONFIRMED",
+              "INSUFFICIENT_EVIDENCE",
+              "OUTSIDE_CONTRACT",
+              "DUPLICATE_APPLICATION",
+              "REQUIRES_FURTHER_REVIEW",
+              "AUTHORITY_REVOKED"
+            ]
+          },
+          "refund_route_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "maximum_refundable_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000
+          }
+        },
+        "required": [
+          "expected_review_version",
+          "expected_order_version",
+          "expected_payment_version",
+          "decision",
+          "review_reason_code"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "decision": {
+                  "const": "APPROVED"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "refund_route_ref",
+                "maximum_refundable_fen"
+              ],
+              "properties": {
+                "review_reason_code": {
+                  "const": "UNUSED_BALANCE_CONFIRMED"
+                }
+              }
+            },
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "refund_route_ref"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "maximum_refundable_fen"
+                    ]
+                  }
+                ]
+              },
+              "properties": {
+                "review_reason_code": {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "OUTSIDE_CONTRACT",
+                    "DUPLICATE_APPLICATION",
+                    "REQUIRES_FURTHER_REVIEW",
+                    "AUTHORITY_REVOKED"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "RefundRevokeInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expected_review_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "review_reason_code": {
+            "const": "AUTHORITY_REVOKED"
+          }
+        },
+        "required": [
+          "expected_review_version",
+          "review_reason_code"
+        ]
       }
     },
     "responses": {

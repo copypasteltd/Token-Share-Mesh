@@ -80,6 +80,21 @@
     "full_fee_reversal_renewal_payout_reconciliation_complete": false,
     "compiled_or_executed": false
   },
+  "original_refund_application_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-退款申请独立审核与双端售后源码.md",
+    "table": "refund_applications",
+    "data_id": "DATA-078",
+    "forward_source": "019_refund_applications.sql",
+    "migration_executed": false,
+    "buyer_request_is_approval": false,
+    "independent_atomic_review_source_wired": true,
+    "public_refund_http_and_dual_ui_source_wired": true,
+    "native_host_same_machine_required": true,
+    "full_fee_reversal_renewal_payout_chain_complete": false,
+    "actual_channel_qualification": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",

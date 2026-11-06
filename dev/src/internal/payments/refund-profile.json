@@ -40,11 +40,15 @@
   "source_annex": "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
   "transaction_source_annex": "docs/技术开发/附录-原退款持久事务与宿主恢复源码.md",
   "payment_worker_and_host_refund_source_wired": true,
-  "public_refund_http_source_wired": false,
+  "public_refund_http_source_wired": true,
   "source_policy": "UNUSED_BALANCE_1_INDEPENDENT_CURRENT_REVIEW",
   "forward_migration_source": "018_original_refund_context.sql",
   "migration_executed": false,
   "full_fee_earned_reversal_renewal_payout_chain_complete": false,
   "maximum_claims_including_original_submit": 128,
-  "worker_lease_seconds": 20
+  "worker_lease_seconds": 20,
+  "original_refund_application_source_annex": "docs/技术开发/附录-退款申请独立审核与双端售后源码.md",
+  "independent_review_and_dual_aftersale_ui_source_wired": true,
+  "actual_original_refund_qualification": false,
+  "full_fee_reversal_renewal_payout_chain_complete": false
 }

@@ -53,6 +53,7 @@ type Config struct {
 	Routes                           routecontract.Service
 	Rentals                          *rental.Service
 	Payments                         *payments.Machine
+	Refunds                          *payments.RefundService
 }
 type Server struct {
 	c                          Config
@@ -68,6 +69,9 @@ type actor struct {
 }
 
 func New(c Config) (*Server, error) {
+	if c.Refunds != nil && !c.Refunds.UsesMachine(c.Payments) {
+		return nil, fault.New(fault.Unavailable, "Refunds must use the same original payment service")
+	}
 	if c.Payments != nil && (!c.Payments.UsesDB(c.Sessions.DB) || !c.Payments.UsesDB(c.Keys.DB) || !c.Payments.UsesDB(c.Trade.DB)) {
 		return nil, fault.New(fault.Unavailable, "Payment and identity must use the same original store")
 	}

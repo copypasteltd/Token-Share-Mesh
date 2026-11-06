@@ -645,7 +645,7 @@ def make_openapi() -> dict:
     for parameter in paths["/services"]["get"]["parameters"]:
         if parameter["name"] == "limit":
             parameter["schema"]["maximum"] = 50
-    return {"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
+    return extend_refund_application_contracts({"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
         "info": {"title": "P11 C2C算力共享平台自有控制面设计", "version": "3.0.0-draft",
             "description": "文档设计，所有产品验收未执行。这里只定义本项目控制资源，不复制厂商完整模型API、渠道支付回调或引擎协议。服务地址为保留无效域名，不存在部署。数字/结构验证不代替授权、状态、资金、密码或SDK实测。"},
         "servers": [{"url": "https://p11.invalid/v1/p11", "description": "仅设计占位，不可调用"}],
@@ -657,7 +657,79 @@ def make_openapi() -> dict:
                 "description": "HttpOnly/Secure/SameSite=Strict；浏览器写同时核Origin和CSRF。显式loopback开发使用p11_session_dev。"},
             "PairingToken": {"type": "http", "scheme": "bearer", "description": "5分钟一次性登记凭据，绑定本人pairing_id；消耗后只允许7日内原键/原规范字段恢复原设备，不能重新登记或换身份。"}},
             "schemas": schemas, "responses": responses},
-        "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE}
+        "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE})
+
+
+def extend_refund_application_contracts(api: dict) -> dict:
+    """R026 RA source contract; does not regenerate unrelated source contracts.
+
+    Buyer application, independent reviewer decision and channel financial fact
+    have separate states. Current executable policy is UNUSED_BALANCE_1 only;
+    full earned-service/fee/commission/renewal/payout scope remains required.
+    """
+    schemas, paths = api['components']['schemas'], api['paths']
+    schemas['Refund']['properties'].update({
+        'review_state': enum('PENDING', 'APPROVED', 'REJECTED', 'REVOKED'),
+        'review_version': VERSION, 'reason_code': enum('NO_LONGER_NEEDED', 'SERVICE_UNAVAILABLE', 'BILLING_REVIEW'),
+        'review_reason_code': ID, 'review_required': {'type': 'boolean'}})
+    for key in ['review_state', 'review_version', 'reason_code', 'review_required']:
+        if key not in schemas['Refund']['required']:
+            schemas['Refund']['required'].append(key)
+    schemas['Refund']['description'] = '审核拒绝不等于渠道失败；PENDING/REJECTED 的资金状态仍为 REQUESTED，confirmed_fen=0，尚无渠道退款。REVOKED 不回退已提交或已成功的金融事实。'
+    schemas['RefundWrite']['properties']['requested_fen'] = {'type': 'integer', 'minimum': 1, 'maximum': 5000}
+    schemas['RefundWrite']['properties']['reason_code'] = enum('NO_LONGER_NEEDED', 'SERVICE_UNAVAILABLE', 'BILLING_REVIEW')
+    schemas['RefundApplicationPage'] = obj({'items': arr(ref('Refund'), 50), 'next_cursor': {'anyOf': [ID, {'type': 'null'}]}})
+    schemas['RefundReview'] = deepcopy(schemas['Refund'])
+    schemas['RefundReview']['properties'].update({
+        'buyer_id': ID, 'seller_id': ID, 'order_version': VERSION, 'payment_version': VERSION,
+        'evidence_refs': arr(ID, 50), 'refund_route_refs': arr(ID, 128),
+        'collected_fen': {'type': 'integer', 'minimum': 1, 'maximum': 5000},
+        'held_refund_fen': {'type': 'integer', 'minimum': 0, 'maximum': 5000},
+        'maximum_refundable_fen': {'type': 'integer', 'minimum': 0, 'maximum': 5000}})
+    schemas['RefundReview']['required'] += ['buyer_id', 'seller_id', 'order_version', 'payment_version', 'evidence_refs', 'refund_route_refs', 'collected_fen', 'held_refund_fen', 'maximum_refundable_fen']
+    schemas['RefundReviewInput'] = obj({
+        'expected_review_version': {'type': 'integer', 'minimum': 1, 'maximum': 2147483646},
+        'expected_order_version': VERSION, 'expected_payment_version': VERSION,
+        'decision': enum('APPROVED', 'REJECTED'),
+        'review_reason_code': enum('UNUSED_BALANCE_CONFIRMED', 'INSUFFICIENT_EVIDENCE', 'OUTSIDE_CONTRACT', 'DUPLICATE_APPLICATION', 'REQUIRES_FURTHER_REVIEW', 'AUTHORITY_REVOKED'),
+        'refund_route_ref': ID, 'maximum_refundable_fen': {'type': 'integer', 'minimum': 1, 'maximum': 5000}},
+        ['expected_review_version', 'expected_order_version', 'expected_payment_version', 'decision', 'review_reason_code'])
+    schemas['RefundReviewInput']['allOf'] = [
+        {'if': {'properties': {'decision': {'const': 'APPROVED'}}},
+         'then': {'required': ['refund_route_ref', 'maximum_refundable_fen'], 'properties': {'review_reason_code': {'const': 'UNUSED_BALANCE_CONFIRMED'}}},
+         'else': {'not': {'anyOf': [{'required': ['refund_route_ref']}, {'required': ['maximum_refundable_fen']}]},
+                  'properties': {'review_reason_code': enum('INSUFFICIENT_EVIDENCE', 'OUTSIDE_CONTRACT', 'DUPLICATE_APPLICATION', 'REQUIRES_FURTHER_REVIEW', 'AUTHORITY_REVOKED')}}}]
+    schemas['RefundRevokeInput'] = obj({'expected_review_version': {'type': 'integer', 'minimum': 1, 'maximum': 2147483646}, 'review_reason_code': {'const': 'AUTHORITY_REVOKED'}})
+    paths['/orders/{order_id}/refunds']['post']['description'] = '仅原买家当前账户创建售后申请，无收款去向和生成内容。申请不批准、不预留退款、不调用渠道；独立审核批准后才同事务建立原金融意图。当前 UNUSED_BALANCE_1，其他完整售后分支继续待实现。'
+    base_get = deepcopy(paths['/refunds/{refund_id}']['get'])
+    base_post = deepcopy(paths['/orders/{order_id}/refunds']['post'])
+    rows = [
+        ('get', '/orders/{order_id}/refunds', 'listOrderRefunds', '原买卖双方分页查看售后申请', 'RefundApplicationPage', None, 'refund:read'),
+        ('get', '/finance/refund-reviews', 'listRefundReviews', '独立金融审核人分页读取售后队列', 'RefundApplicationPage', None, 'refund:review'),
+        ('get', '/finance/refund-reviews/{refund_id}', 'getRefundReview', '独立金融审核人核对原合同与安全资金元数据', 'RefundReview', None, 'refund:review'),
+        ('post', '/finance/refund-reviews/{refund_id}/decisions', 'decideRefundReview', '独立批准或拒绝原退款申请', 'Refund', 'RefundReviewInput', 'refund:review'),
+        ('post', '/finance/refund-reviews/{refund_id}/revocations', 'revokeRefundReview', '撤销批准且保留已提交或未知金融义务', 'Refund', 'RefundRevokeInput', 'refund:review')]
+    for method, path, operation, summary, response, request, scope in rows:
+        item = deepcopy(base_get if method == 'get' else base_post)
+        item.update({'operationId': operation, 'summary': summary, 'tags': ['Finance' if scope == 'refund:review' else 'AfterSales'], 'x-required-scopes': [scope],
+                     'description': 'SOURCE_ONLY 未编译/运行；当前会话和当前角色复核，审核人须独立于买卖双方。批准/原决策/原退款预留与任务同事务；不伪造渠道成功，不提供生成内容。'})
+        parameters = []
+        for key in ['order_id', 'refund_id']:
+            if '{'+key+'}' in path:
+                parameters.append({'name': key, 'in': 'path', 'required': True, 'schema': ID})
+        if response == 'RefundApplicationPage':
+            parameters += [{'name': 'limit', 'in': 'query', 'schema': {'type': 'integer', 'minimum': 1, 'maximum': 50, 'default': 20}},
+                           {'name': 'cursor', 'in': 'query', 'schema': ID}]
+        if method == 'post':
+            parameters += [p for p in deepcopy(base_post['parameters']) if p['in'] == 'header']
+            item['requestBody']['content']['application/json']['schema'] = ref(request)
+            success = item['responses'].pop('201')
+            item['responses']['200'] = success
+        item['parameters'] = parameters
+        item['responses']['200']['content']['application/json']['schema'] = ref(response)
+        if scope == 'refund:review': item['x-current-independent-role'] = 'PAYMENT_REVIEWER/self'
+        paths.setdefault(path, {})[method] = item
+    return api
 
 
 def make_cipher_schema() -> dict:
