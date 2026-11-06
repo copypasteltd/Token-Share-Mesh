@@ -2,9 +2,10 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
-<!-- R026-MG-CURRENT -->
-R026 adds [MG-001–036](docs/技术开发/附录-原租赁媒体兼容入口与加密缓存源码.md): an original-rental local STANDARD media handler, approved Images/explicit legacy Videos/WAV speech/Responses assets, strict requests and independent scopes, AES-GCM staging, original-id HMAC replay, result capacity reserved before submission, complete authenticated results before encrypted caching/ranges, and actual node-owned HTTP/callback/cache joins. All 37 new test definitions remain uncompiled/unexecuted. Public SDK/listeners/E2E media transport/final ACK, independent readiness/hour meters/paid renewal/physical reconciliation/platform fund release, complete real recipes/low privilege/performance remain open. All 56 tasks/222 steps remain unaccepted. No SQL changes or migrations. Complete all production source, dependency wiring and test source before batch validation. This is a source checkpoint, not a completed development round.
-<!-- /R026-MG-CURRENT -->
+<!-- R026-MP-CURRENT -->
+R026 adds [MP-001–040](docs/技术开发/附录-MachinePay原支付边界与凭证恢复源码.md): original personal-seller payment bindings and two key pins, a native RSA2 precreate/verify adapter, bounded A402, strict original Payment-Proof, AES-GCM/native ciphertext artifacts, monotonic and late-paid facts, funding guards, refund capacity and original-scope reconciliation. All 49 new test definitions remain uncompiled/unexecuted. Platform transactions/outbox/unique consumption/signed receipt archive/secret and authority registry, authenticated HTTP/SDK/PayLauncher, exclusive host and durable recovery workers, actual refund/payout/commission/statements and trusted usage/hour meters/ledger remain unwired. No real personal-seller/channel qualification or charging is enabled. All 56 tasks/222 steps remain open. No SQL changes/migrations. Complete all production source, actual dependency wiring and test source before batch validation. This is a source checkpoint, not a completed development round.
+<!-- /R026-MP-CURRENT -->
+
 
 
 
@@ -35,7 +36,7 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 41 in progress · 13 not started · 1 conditional · 1 deferred |
+| Implementation tasks | 45 in progress · 9 not started · 1 conditional · 1 deferred |
 | Latest source round | R025 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | Native test evidence | 300 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
@@ -319,3 +320,7 @@ R026 adds [MS-001–036](docs/技术开发/附录-原租赁媒体会话监督与
 ## R026 MG-001—036 原租赁媒体入口与加密缓存源码 / Original-rental media gateway source
 
 R026 adds [MG-001–036](docs/技术开发/附录-原租赁媒体兼容入口与加密缓存源码.md): an original-rental local STANDARD media handler, approved Images/explicit legacy Videos/WAV speech/Responses assets, strict requests and independent scopes, AES-GCM staging, original-id HMAC replay, result capacity reserved before submission, complete authenticated results before encrypted caching/ranges, and actual node-owned HTTP/callback/cache joins. All 37 new test definitions remain uncompiled/unexecuted. Public SDK/listeners/E2E media transport/final ACK, independent readiness/hour meters/paid renewal/physical reconciliation/platform fund release, complete real recipes/low privilege/performance remain open. All 56 tasks/222 steps remain unaccepted. No SQL changes or migrations. Complete all production source, dependency wiring and test source before batch validation. This is a source checkpoint, not a completed development round.
+
+## R026 MP-001—040 原支付边界与凭证恢复源码 / Original-payment boundaries and recovery source
+
+R026 adds [MP-001–040](docs/技术开发/附录-MachinePay原支付边界与凭证恢复源码.md): original personal-seller payment bindings and two key pins, a native RSA2 precreate/verify adapter, bounded A402, strict original Payment-Proof, AES-GCM/native ciphertext artifacts, monotonic and late-paid facts, funding guards, refund capacity and original-scope reconciliation. All 49 new test definitions remain uncompiled/unexecuted. Platform transactions/outbox/unique consumption/signed receipt archive/secret and authority registry, authenticated HTTP/SDK/PayLauncher, exclusive host and durable recovery workers, actual refund/payout/commission/statements and trusted usage/hour meters/ledger remain unwired. No real personal-seller/channel qualification or charging is enabled. All 56 tasks/222 steps remain open. No SQL changes/migrations. Complete all production source, actual dependency wiring and test source before batch validation. This is a source checkpoint, not a completed development round.

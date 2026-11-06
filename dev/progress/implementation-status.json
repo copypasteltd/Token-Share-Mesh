@@ -2,7 +2,7 @@
   "version": "1.0",
   "goal_status": "ACTIVE",
   "current_activity": "CODE_FIRST_FULL_SCOPE",
-  "activity_source": "2026-11-06 CODE_FIRST：MG-001—032 / IMP051—055新增源码；新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。",
+  "activity_source": "2026-11-06 CODE_FIRST：MP-001—033 / IMP056—060新增源码；新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
   "round": "R025",
   "tasks": [
     {
@@ -791,7 +791,8 @@
       ],
       "remaining_detail": "原route/key/订单资金资格/完整已占预算重核接到领取和读取；标准SDK模型监听、生产Grant/可信资金、加密租赁仍待。",
       "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。",
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-12",
@@ -879,7 +880,7 @@
     },
     {
       "id": "DEV-13",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-13.01",
@@ -887,11 +888,14 @@
         "DEV-13.03",
         "DEV-13.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "current_validation_status": "NOT_EXECUTED",
+      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-14",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-14.01",
@@ -899,11 +903,14 @@
         "DEV-14.03",
         "DEV-14.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "current_validation_status": "NOT_EXECUTED",
+      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-15",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-15.01",
@@ -911,11 +918,14 @@
         "DEV-15.03",
         "DEV-15.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "current_validation_status": "NOT_EXECUTED",
+      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-16",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-16.01",
@@ -923,7 +933,10 @@
         "DEV-16.03",
         "DEV-16.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "current_validation_status": "NOT_EXECUTED",
+      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-17",
@@ -3381,7 +3394,8 @@
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
       "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
       "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
-      "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。"
+      "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。",
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-54",
@@ -3581,7 +3595,8 @@
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
       "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
       "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
-      "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。"
+      "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。",
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-55",
@@ -3810,7 +3825,8 @@
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
       "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
       "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
-      "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。"
+      "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。",
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
     }
   ],
   "rounds": [
