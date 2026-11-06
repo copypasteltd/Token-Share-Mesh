@@ -126,6 +126,16 @@
     "automatic_provider_daemon_and_sdk_ingress_complete": false,
     "compiled_or_executed": false
   },
+  "native_sdk_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-标准SDK原订单文本入口源码.md",
+    "source_contract": "docs/技术开发/contracts/native-sdk-source-v1.json",
+    "nonstream_data_plane_operations": 3,
+    "automatic_provider_daemon_or_live_sse_complete": false,
+    "original_funded_route_admission_and_same_key_result_source_wired": true,
+    "sql_changed_or_migrated": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",

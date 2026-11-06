@@ -8,6 +8,30 @@ type RequestMetadata struct {
 	Stream          bool
 }
 
+// Inspect resolves the public model from the same strict native JSON object
+// used by forwarding. It does not rewrite or retain the caller's body. A model
+// found by a permissive preliminary decoder must never select a paid route.
+func Inspect(profile Profile, raw []byte) (string, RequestMetadata, error) {
+	o, err := parseObject(raw, DefaultLimits().RequestBytes)
+	if err != nil {
+		return "", RequestMetadata{}, err
+	}
+	defer func() {
+		for _, v := range o {
+			clear(v)
+		}
+	}()
+	model := str(o, "model")
+	if model == "" {
+		return "", RequestMetadata{}, errProtocol
+	}
+	m, err := Preflight(profile, model, raw)
+	if err != nil {
+		return "", RequestMetadata{}, err
+	}
+	return model, m, nil
+}
+
 // Preflight uses the SAME strict text parser as forwarding. No network,
 // credentials, persistence, model rewriting or paid side effects occur here.
 func Preflight(profile Profile, publicModel string, raw []byte) (RequestMetadata, error) {

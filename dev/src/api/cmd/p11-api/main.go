@@ -14,6 +14,7 @@ import (
 	"os"
 	"os/signal"
 	controlhttp "p11.local/compute/api/internal/http"
+	"p11.local/compute/gateway/platform/sdkhttp"
 	"p11.local/compute/internal/dispatch/device"
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/market"
@@ -214,10 +215,17 @@ func run() error {
 		// Wait for actual callers before dropping keys or the outer DB.
 		defer func() { _ = paymentHost.Close(context.Background()) }()
 	}
-	handler, err := controlhttp.New(controlhttp.Config{AllowedHosts: []string{listener.Addr().String(), "localhost:" + port},
+	allowedHosts := []string{listener.Addr().String(), "localhost:" + port}
+	keys := identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "api_v1", Peppers: map[string][]byte{"api_v1": keyPepper}, MaxTTL: 30 * 24 * time.Hour}
+	sdkHandler, closeSDK, err := configuredSDK(db, delivery, resultContent, keys, allowedHosts)
+	if err != nil {
+		return err
+	}
+	defer closeSDK()
+	handler, err := controlhttp.New(controlhttp.Config{AllowedHosts: allowedHosts,
 		BrowserOrigin: os.Getenv("P11_BROWSER_ORIGIN"), InsecureLoopback: os.Getenv("P11_INSECURE_LOOPBACK") == "1", CursorKey: cursorKey,
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
-		Keys:     identity.KeyService{DB: db, Clock: clock.System{}, PepperVersion: "api_v1", Peppers: map[string][]byte{"api_v1": keyPepper}, MaxTTL: 30 * 24 * time.Hour},
+		Keys:     keys,
 		Market:   market.Catalog{DB: db}, Trade: trade.Service{DB: db}, Seller: seller.Service{DB: db, Fees: fees},
 		Devices:       device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
 		Claims:        claims,
@@ -233,6 +241,15 @@ func run() error {
 		return err
 	}
 	server := handler.NativeHTTPServer(listener.Addr().String())
+	if sdkHandler != nil {
+		server.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if sdkhttp.Handles(r.URL.Path) {
+				sdkHandler.ServeHTTP(w, r)
+				return
+			}
+			handler.ServeHTTP(w, r)
+		})
+	}
 	signalCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	retireCtx, retireCancel := context.WithCancel(signalCtx)

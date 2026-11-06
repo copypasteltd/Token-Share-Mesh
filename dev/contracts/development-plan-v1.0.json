@@ -22165,11 +22165,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "c96c397dad1b7c9edd2b8a08c31777068fd72287bcd9cf95af93746878881484"
+      "sha256": "31cbfb5b0bc88c518f0bfc8dd844aa96d6380adc30133f9d5518374eed069a17"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "291fde4e283fd933a2f7012e04b48c179acaa00ab27a3c54ae948a1aabe2ccfc"
+      "sha256": "c1568a417434d629742d2a6efb0452e25582ace92857d60357cbc28b3615f1b2"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -22445,7 +22445,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "8cd71f59216dec95ad066f779910235c1dffd38a465ef5148370866c3193c5a5"
+      "sha256": "8b0399495b6f1d410a49717132ed5531c80f04183de331a397f332d515b13019"
     },
     {
       "path": "scripts/端对端加密数据.py",

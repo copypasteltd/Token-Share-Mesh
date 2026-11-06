@@ -1,0 +1,83 @@
+{
+  "profile_id": "P11_NATIVE_TEXT_SDK_SOURCE_1",
+  "requirements": "SI-001—040",
+  "status": "SOURCE_ONLY_UNVERIFIED",
+  "compiled_or_executed": false,
+  "authority": "docs/技术开发/附录-标准SDK原订单文本入口源码.md",
+  "development_policy": "dev/开发轮次执行规则.md",
+  "operation_namespace": "NATIVE_SDK_DATA_PLANE_NOT_CONTROL_OPENAPI",
+  "operations": [
+    {
+      "id": "SI-001",
+      "method": "POST",
+      "path": "/v1/chat/completions",
+      "profile": "P11_CHAT_TEXT_NATIVE_1"
+    },
+    {
+      "id": "SI-002",
+      "method": "POST",
+      "path": "/v1/responses",
+      "profile": "P11_RESPONSES_TEXT_NATIVE_1"
+    },
+    {
+      "id": "SI-003",
+      "method": "POST",
+      "path": "/v1/messages",
+      "profile": "P11_MESSAGES_TEXT_NATIVE_1"
+    }
+  ],
+  "request": {
+    "native_json_unmodified": true,
+    "maximum_bytes": 262144,
+    "stream": false,
+    "idempotency_header": "Idempotency-Key",
+    "key_bytes_minimum": 8,
+    "key_bytes_maximum": 128,
+    "anthropic_version": "2026-10-21",
+    "independent_route_bound_api_key_required": true,
+    "private_json_fields_required": false,
+    "browser_cookie_or_payment_proof_allowed": false
+  },
+  "original_call": {
+    "funded_confirmed_c2c_route_required": true,
+    "budget_encrypted_input_first_lease_atomic": true,
+    "fallback_seller_or_reexecution_allowed": false,
+    "result_read_uses_same_original_key": true,
+    "result_read_mints_session_delegation": false,
+    "automatic_payment_acceptance_usage_settlement": false
+  },
+  "budgets_not_measurements": {
+    "result_text_bytes": 1048576,
+    "response_json_bytes": 8388608,
+    "simultaneous_requests": 4,
+    "maximum_wait_seconds": 120,
+    "poll_milliseconds": 500,
+    "ip_calls_per_minute": 120,
+    "key_calls_per_minute": 60,
+    "rate_bucket_capacity": 4096
+  },
+  "native_host_opt_in": "P11_NATIVE_TEXT_SDK_FILE",
+  "source_refs": [
+    "docs/技术开发/附录-标准SDK原订单文本入口源码.md",
+    "dev/tools/整理R026标准SDK源码.py",
+    "dev/开发轮次执行规则.md",
+    "dev/src/gateway/core/preflight.go",
+    "dev/src/internal/invocation/sdk.go",
+    "dev/src/gateway/platform/sdkhttp/server.go",
+    "dev/src/gateway/platform/sdkhttp/output.go",
+    "dev/src/gateway/platform/sdkhttp/README.md",
+    "dev/src/api/cmd/p11-api/main.go",
+    "dev/src/api/cmd/p11-api/sdk.go",
+    "docs/技术开发/contracts/native-sdk-source-v1.json",
+    "dev/src/gateway/core/preflight_test.go",
+    "dev/src/internal/invocation/sdk_test.go",
+    "dev/src/gateway/platform/sdkhttp/server_test.go",
+    "dev/src/api/cmd/p11-api/sdk_test.go",
+    "dev/src/tests/integration/sdk_native_text_test.go"
+  ],
+  "new_test_definitions": 31,
+  "sql_changed_or_migrated": false,
+  "full_scope_tasks": 56,
+  "full_scope_steps": 222,
+  "test_admission": "DENIED_UNTIL_ALL_IN_SCOPE_CODE_COMPLETE"
+}
