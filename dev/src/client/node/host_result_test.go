@@ -106,6 +106,10 @@ func TestHostResultCapabilityReadsOriginalAfterComputeCleanup(t *testing.T) {
 	if string(text) != "original text custody" || n.inputCalls.Load() != 1 {
 		t.Fatal("wrong result or re-execution")
 	}
+	command, commandErr := f.host.command(ctx, "command_result")
+	if commandErr != nil || command.ResultDelivery == nil || command.ResultDelivery.OutputBytes != int64(len(text)) || command.ResultDelivery.OutputHash != hostDigest(text) || len(command.ResultDeliveryAck) != 0 || command.UsageStatement != nil {
+		t.Fatal("authenticated output did not persist exactly one unsubmitted, unmetered original declaration", commandErr)
+	}
 	clear(text)
 	if _, e = out.Result(ctx); e != nil {
 		t.Fatal(e)

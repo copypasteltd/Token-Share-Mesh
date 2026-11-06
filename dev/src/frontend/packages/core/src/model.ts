@@ -5,6 +5,7 @@ import { type Storage, type SecureBytes, newKey } from './auth';
 import { CommandJournal } from './journal';
 import { PaymentFlow } from './payment-flow';
 import { RefundFlow } from './refund';
+import { CompletionFlow } from './completion';
 import { type PayLauncher } from './payment';
 import { estimate } from './money';
 import { type Device, type Pairing, type PairInput, type PolicyInput, type DeviceAck, deviceOf, pairingOf, pairInputOf, policyInputOf, deviceAckOf, managedDevice, terminalDevice } from './provider';
@@ -32,10 +33,12 @@ export class AppModel {
   private journal: CommandJournal;
   readonly checkout: PaymentFlow;
   readonly aftersale: RefundFlow;
+  readonly completion: CompletionFlow;
   constructor(readonly client: ControlClient, private storage: Storage, private random: SecureBytes, private auth: AuthPort, launcher?: PayLauncher) {
     this.journal = new CommandJournal(client, storage, random);
     this.checkout = new PaymentFlow(client, storage, random, launcher, error => this.failed(error));
     this.aftersale = new RefundFlow(client, storage, random);
+    this.completion = new CompletionFlow(client, storage, random);
   }
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
   snapshot = () => this.state;

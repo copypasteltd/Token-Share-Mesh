@@ -15,6 +15,7 @@ import (
 	"p11.local/compute/client/execution"
 	"p11.local/compute/client/protocol/devicecontrol"
 	"p11.local/compute/client/supervisor"
+	"p11.local/compute/shared/resultwire"
 	"p11.local/compute/shared/strictjson"
 	"path/filepath"
 	"strings"
@@ -55,13 +56,17 @@ type Host struct {
 	nativeSession  *NativeSession
 }
 type hostCommand struct {
-	ID            string                      `json:"command_id"`
-	Claim         devicecontrol.LeaseClaim    `json:"original_claim"`
-	Phase         string                      `json:"phase"`
-	Lease         json.RawMessage             `json:"lease,omitempty"`
-	Manifest      json.RawMessage             `json:"manifest,omitempty"`
-	CleanupReport *devicecontrol.CleanupWrite `json:"cleanup_report,omitempty"`
-	CleanupAck    *devicecontrol.Ack          `json:"cleanup_ack,omitempty"`
+	ID                string                      `json:"command_id"`
+	Claim             devicecontrol.LeaseClaim    `json:"original_claim"`
+	Phase             string                      `json:"phase"`
+	Lease             json.RawMessage             `json:"lease,omitempty"`
+	Manifest          json.RawMessage             `json:"manifest,omitempty"`
+	CleanupReport     *devicecontrol.CleanupWrite `json:"cleanup_report,omitempty"`
+	CleanupAck        *devicecontrol.Ack          `json:"cleanup_ack,omitempty"`
+	ResultDelivery    *resultwire.Delivery        `json:"result_delivery,omitempty"`
+	ResultDeliveryAck json.RawMessage             `json:"result_delivery_ack,omitempty"`
+	UsageStatement    *resultwire.Statement       `json:"usage_statement,omitempty"`
+	UsageAck          json.RawMessage             `json:"usage_ack,omitempty"`
 }
 type HostCommandStatus struct {
 	ID    string `json:"command_id"`

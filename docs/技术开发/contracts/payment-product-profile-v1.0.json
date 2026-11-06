@@ -95,6 +95,22 @@
     "actual_channel_qualification": false,
     "compiled_or_executed": false
   },
+  "native_completion_billing_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-交付签收独立计量与镜像账源码.md",
+    "tables": [
+      "native_result_deliveries",
+      "native_usage_verifications",
+      "accepted_usage_settlements"
+    ],
+    "forward_source": "020_native_completion_billing.sql",
+    "migration_executed": false,
+    "six_existing_operations_and_same_native_host_source_wired": true,
+    "independent_meter_producer_complete": false,
+    "same_seller_retry_e2e_transport_media_and_full_finance_complete": false,
+    "actual_qualified_chain_complete": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",

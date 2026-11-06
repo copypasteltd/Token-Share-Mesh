@@ -1,7 +1,7 @@
 {
   "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
-  "scope": "62 explicit control HTTP operations, including buyer aftersale requests and independent current financial review; SOURCE_ONLY, not compiled or qualified, no customer content or default refund capability",
+  "scope": "68 explicit control HTTP operations; six existing original plaintext result/receipt/usage/job/bill operations source-wired. Uncompiled/unexecuted; original privacy and funding gates remain.",
   "operations": [
     {
       "operation_id": "createPaymentIntent",
@@ -435,6 +435,48 @@
       "method": "POST",
       "path": "/finance/refund-reviews/{refund_id}/revocations",
       "handler": "revokeRefundReview",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getJob",
+      "method": "GET",
+      "path": "/jobs/{job_id}",
+      "handler": "getJob",
+      "anonymous": false
+    },
+    {
+      "operation_id": "cancelJob",
+      "method": "POST",
+      "path": "/jobs/{job_id}/cancel",
+      "handler": "cancelJob",
+      "anonymous": false
+    },
+    {
+      "operation_id": "recordBuyerReceipt",
+      "method": "POST",
+      "path": "/jobs/{job_id}/receipts",
+      "handler": "recordBuyerReceipt",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getOrderBill",
+      "method": "GET",
+      "path": "/orders/{order_id}/bill",
+      "handler": "getOrderBill",
+      "anonymous": false
+    },
+    {
+      "operation_id": "registerAttemptDelivery",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/deliveries",
+      "handler": "registerAttemptDelivery",
+      "anonymous": false
+    },
+    {
+      "operation_id": "recordAttemptUsage",
+      "method": "POST",
+      "path": "/runner/attempts/{attempt_id}/usage",
+      "handler": "recordAttemptUsage",
       "anonymous": false
     }
   ]

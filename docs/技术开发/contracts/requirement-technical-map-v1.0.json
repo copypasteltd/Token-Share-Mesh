@@ -136,7 +136,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -249,6 +250,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "seller_profiles",
         "seller_applications",
         "listings",
@@ -506,7 +508,6 @@
       ],
       "operation_ids": [
         "createJob",
-        "getJob",
         "claimLease",
         "getExecutionManifest",
         "getExecutionInput",
@@ -524,7 +525,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -561,7 +563,6 @@
       "operation_ids": [
         "listNotifications",
         "createJob",
-        "getJob",
         "claimLease",
         "getExecutionManifest",
         "getExecutionInput",
@@ -580,6 +581,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -688,6 +690,7 @@
         "DEV-54"
       ],
       "operation_ids": [
+        "getJob",
         "recordBuyerReceipt",
         "registerAttemptDelivery"
       ],
@@ -704,6 +707,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",
@@ -711,7 +715,8 @@
         "settlements",
         "settlement_items",
         "settlement_batches",
-        "batch_items"
+        "batch_items",
+        "accepted_usage_settlements"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -801,6 +806,7 @@
         "listOrders",
         "createOrder",
         "getOrder",
+        "getJob",
         "recordBuyerReceipt",
         "registerAttemptDelivery"
       ],
@@ -817,6 +823,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "quotes",
         "orders",
         "route_contracts",
@@ -904,6 +911,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -954,6 +962,7 @@
       "tables": [
         "usage_evidence",
         "meter_statements",
+        "native_usage_verifications",
         "quotes",
         "orders",
         "route_contracts",
@@ -966,6 +975,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
@@ -1028,6 +1038,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "seller_profiles",
         "seller_applications",
         "listings",
@@ -1098,6 +1109,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "payments",
         "refunds",
         "channel_requests",
@@ -1231,6 +1243,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
@@ -1430,7 +1443,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -1469,6 +1483,7 @@
       "tables": [
         "usage_evidence",
         "meter_statements",
+        "native_usage_verifications",
         "quotes",
         "orders",
         "route_contracts",
@@ -1774,7 +1789,6 @@
       ],
       "operation_ids": [
         "createJob",
-        "getJob",
         "createEncryptionIntent",
         "registerRecipient",
         "getRecipient",
@@ -1797,7 +1811,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -1839,7 +1854,6 @@
         "completeAsset",
         "createAssetTransferGrant",
         "createJob",
-        "getJob",
         "listResults",
         "registerEnvelope",
         "createCipherChannel"
@@ -1860,6 +1874,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "cipher_channels",
         "assets",
         "transfer_grants",
@@ -1899,6 +1914,7 @@
         "DEV-44"
       ],
       "operation_ids": [
+        "getJob",
         "registerEnvelope",
         "recordBuyerReceipt",
         "createCipherChannel",
@@ -1920,6 +1936,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "cipher_channels"
       ],
       "technical_documents": [
@@ -1980,7 +1997,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -2111,6 +2129,7 @@
         "DEV-49"
       ],
       "operation_ids": [
+        "getJob",
         "recordBuyerReceipt",
         "createCipherChannel",
         "createDispute",
@@ -2128,6 +2147,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "devices",
         "device_request_nonces",
         "resources",
@@ -2140,6 +2160,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "cipher_channels",
         "reviews",
         "disputes",
@@ -2280,7 +2301,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2429,6 +2451,7 @@
       "tables": [
         "usage_evidence",
         "meter_statements",
+        "native_usage_verifications",
         "quotes",
         "orders",
         "route_contracts",
@@ -2633,7 +2656,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2915,6 +2939,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
@@ -2992,6 +3017,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "payments",
         "refunds",
         "channel_requests",
@@ -3003,7 +3029,8 @@
         "refund_machine_receipts",
         "refund_applications",
         "usage_evidence",
-        "meter_statements"
+        "meter_statements",
+        "native_usage_verifications"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -3045,7 +3072,6 @@
         "createOrder",
         "getOrder",
         "createJob",
-        "getJob",
         "listRouteContracts",
         "createRouteContract",
         "getRouteContract"
@@ -3066,7 +3092,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/07-统一协议网关与Sub2API改造.md",
@@ -3162,7 +3189,8 @@
         "settlements",
         "settlement_items",
         "settlement_batches",
-        "batch_items"
+        "batch_items",
+        "accepted_usage_settlements"
       ],
       "technical_documents": [
         "docs/技术开发/16-身份授权与安全工程.md",
@@ -3290,7 +3318,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/11-引擎与授权上游适配器设计.md",
@@ -3376,7 +3405,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -3465,6 +3495,7 @@
       "tables": [
         "usage_evidence",
         "meter_statements",
+        "native_usage_verifications",
         "quotes",
         "orders",
         "route_contracts",
@@ -3595,7 +3626,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -3655,7 +3687,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -3724,7 +3757,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/10-Android与LMA工程设计.md",

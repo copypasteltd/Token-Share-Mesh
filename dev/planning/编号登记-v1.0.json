@@ -189,6 +189,9 @@
     "order_fundings": "DATA-075",
     "refund_machine_contexts": "DATA-076",
     "refund_machine_receipts": "DATA-077",
-    "refund_applications": "DATA-078"
+    "refund_applications": "DATA-078",
+    "native_result_deliveries": "DATA-079",
+    "native_usage_verifications": "DATA-080",
+    "accepted_usage_settlements": "DATA-081"
   }
 }

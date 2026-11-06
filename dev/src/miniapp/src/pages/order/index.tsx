@@ -4,6 +4,7 @@ import { BottomNav, Feedback, LoginGate, PageTitle, PriceBlock, Empty, useApp } 
 import { model } from '../../runtime';
 import { PaymentPanel } from '../../components/payment';
 import { RefundPanel } from '../../components/refund';
+import { CompletionPanel } from '../../components/completion';
 export default function OrderDetail() {
   const s = useApp(), o = s.order;
   let contract: ReturnType<typeof contractOf> | null = null;
@@ -17,6 +18,7 @@ export default function OrderDetail() {
         <View className='fact'><Text>当前确认用量</Text><Text>暂无已确认用量</Text></View><View className='fact'><Text>最终费用</Text><Text>待确认</Text></View></View><Text className='caption'>合同摘要 {contract.contract_hash}</Text></View> : <Empty>该订单使用历史合同版本，请保留原合同并联系支持核对。</Empty>}
       {contract && <PaymentPanel model={model} order={o} />}
       {contract && <RefundPanel model={model} order={o} />}
+      {contract && <CompletionPanel model={model} order={o} />}
       <View className='ticket panel'><Text className='section-title'>下一步</Text><Text>{o.state === 'WAITING_PAYMENT' ? '订单仍待付款和资格确认；尚未开始计时。' : '当前页面仅展示已返回的订单状态。运行、计量与停止状态等待相应服务确认。'}</Text>
         <Button className='nb-button full-button' disabled={s.busy} onClick={() => void model.readOrder(o.order_id)}><Text>刷新订单状态</Text></Button></View>
     </>}

@@ -645,7 +645,7 @@ def make_openapi() -> dict:
     for parameter in paths["/services"]["get"]["parameters"]:
         if parameter["name"] == "limit":
             parameter["schema"]["maximum"] = 50
-    return extend_refund_application_contracts({"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
+    return extend_native_completion_contracts(extend_refund_application_contracts({"openapi": "3.1.0", "jsonSchemaDialect": SCHEMA,
         "info": {"title": "P11 C2C算力共享平台自有控制面设计", "version": "3.0.0-draft",
             "description": "文档设计，所有产品验收未执行。这里只定义本项目控制资源，不复制厂商完整模型API、渠道支付回调或引擎协议。服务地址为保留无效域名，不存在部署。数字/结构验证不代替授权、状态、资金、密码或SDK实测。"},
         "servers": [{"url": "https://p11.invalid/v1/p11", "description": "仅设计占位，不可调用"}],
@@ -657,7 +657,7 @@ def make_openapi() -> dict:
                 "description": "HttpOnly/Secure/SameSite=Strict；浏览器写同时核Origin和CSRF。显式loopback开发使用p11_session_dev。"},
             "PairingToken": {"type": "http", "scheme": "bearer", "description": "5分钟一次性登记凭据，绑定本人pairing_id；消耗后只允许7日内原键/原规范字段恢复原设备，不能重新登记或换身份。"}},
             "schemas": schemas, "responses": responses},
-        "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE})
+        "x-design-status": "DESIGN_UNIMPLEMENTED", "x-updated-at": DATE}))
 
 
 def extend_refund_application_contracts(api: dict) -> dict:
@@ -729,6 +729,78 @@ def extend_refund_application_contracts(api: dict) -> dict:
         item['responses']['200']['content']['application/json']['schema'] = ref(response)
         if scope == 'refund:review': item['x-current-independent-role'] = 'PAYMENT_REVIEWER/self'
         paths.setdefault(path, {})[method] = item
+    return api
+
+
+def extend_native_completion_contracts(api: dict) -> dict:
+    """R026 DA source contracts only. Plaintext metadata is not E2E acceptance."""
+    schemas, paths = api['components']['schemas'], api['paths']
+    positive = {'type': 'integer', 'minimum': 1, 'maximum': 2147483646}
+    token_count = {'type': 'integer', 'minimum': 0, 'maximum': 2147483647}
+    counter = {'type': 'string', 'pattern': '^[1-9][0-9]{0,18}$'}
+    signature = {'type': 'string', 'pattern': '^[A-Za-z0-9_-]{86}$'}
+    scope = obj({**{key: ID for key in ['job_id', 'attempt_id', 'lease_id', 'order_id', 'seller_id', 'device_id', 'resource_id']},
+                 'resource_lock_generation': counter, 'fencing_token': counter,
+                 **{key: HASH for key in ['contract_hash', 'execution_manifest_hash', 'kernel_environment_digest']}})
+    schemas['OriginalBillingOutcome'] = obj({
+        'state': enum('HELD_PENDING_EVIDENCE', 'HELD_FINANCIAL_REVIEW', 'QUALIFIED_CHANNEL_COST_UNKNOWN'),
+        'qualification_id': ID, 'journal_id': ID, 'gross_fen': UINT, 'commission_fen': UINT, 'provisional_seller_fen': UINT},
+        ['state', 'gross_fen', 'commission_fen', 'provisional_seller_fen'],
+        description='成交镜像不表示渠道到账；gross=commission+provisional_seller。缺证保留预算，已核验零价不创建空分录。')
+    schemas['OriginalResultMetadata'] = obj({'delivery_id': ID, 'attempt_id': ID, 'revision': {'const': 1},
+        'manifest_hash': HASH, 'output_digest': HASH, 'output_bytes': {'type': 'integer', 'minimum': 0, 'maximum': 33554432},
+        'state': enum('REGISTERED', 'VALIDATING', 'WAITING_BUYER', 'VALID', 'INVALID', 'STALE'),
+        'decision_deadline': TIME, 'usage_state': enum('VERIFIED', 'UNVERIFIED')},
+        description='仅元数据，无正文/URL。签收窗口=min(完成+120秒,原任务总期限)；清理及物理资源复用不改变原结果归属。')
+    schemas['OriginalJobCompletion'] = obj({'job_id': ID, 'order_id': ID, 'seller_id': ID,
+        'state': enum('INPUT_PENDING', 'QUEUED', 'RUNNING', 'VALIDATING', 'WAITING_BUYER', 'ACCEPTED', 'FAILED', 'CANCELED', 'UNVERIFIED'),
+        'version': VERSION, 'current_attempt_id': ID, 'accepted_delivery_id': ID, 'deadline_at': TIME,
+        'results': arr(ref('OriginalResultMetadata'), 3), 'billing': ref('OriginalBillingOutcome')},
+        ['job_id', 'order_id', 'seller_id', 'state', 'version', 'deadline_at', 'results', 'billing'])
+    schemas['OriginalOrderBill'] = obj({'order_id': ID, 'version': VERSION,
+        **{key: UINT for key in ['gross_fen', 'commission_fen', 'provisional_seller_fen', 'reserved_fen', 'unverified_fen']},
+        'channel_cost_state': {'const': 'UNKNOWN'}, 'payout_state': {'const': 'NOT_QUALIFIED'}, 'is_final': {'const': False}, 'as_of': TIME},
+        description='当前原订单水位投影，未消费余额退款/已赚取冲正/渠道费/到账对账尚未合并为最终账单。')
+    schemas['OriginalCompletionAck'] = obj({'job_id': ID, 'delivery_id': ID, 'id': ID, 'version': VERSION,
+        'state': enum('VERIFIED', 'ACCEPTED', 'FAILED', 'CANCELED'), 'billing': ref('OriginalBillingOutcome')},
+        ['job_id', 'id', 'version', 'state', 'billing'])
+    schemas['OriginalBuyerDecision'] = obj({'expected_job_version': positive, 'delivery_id': ID, 'revision': {'const': 1},
+        'manifest_hash': HASH, 'reviewed_output_digest': HASH, 'decision': enum('ACCEPT', 'REJECT')},
+        description='本档仅原买家当前账户对已取得并核对的PLAINTEXT/STANDARD结果决策。不得以浏览元数据生成本地回执；不冒充E2E签名。')
+    schemas['OriginalCancel'] = obj({'expected_job_version': positive, 'reason_code': enum('BUYER_REQUEST', 'SERVICE_UNAVAILABLE')},
+        description='与接受共享order/job锁及版本竞争；只撤权/请求原拥有者停止，不推断清理、零用量或自动退款。')
+    schemas['NativeResultDeclaration'] = obj({'profile_id': {'const': 'P11_NATIVE_RESULT_DELIVERY_1'}, 'scope': scope,
+        'local_result_id': ID, 'revision': {'const': 1}, 'output_digest': HASH,
+        'output_bytes': {'type': 'integer', 'minimum': 0, 'maximum': 33554432},
+        'reported_input_tokens': {'type': 'integer', 'minimum': 1, 'maximum': 2147483647},
+        'reported_output_tokens': token_count, 'finish_reason': enum('eog', 'limit', 'stop'), 'completed_at': TIME, 'signature': signature},
+        description='原设备Ed25519签名元数据；按UTF-8输出字节拼接摘要，不依赖SSE分块，不含内容；设备数量不是可信计费数量。')
+    raw_counts = obj({key: token_count for key in ['input_tokens', 'output_tokens', 'cache_read_tokens', 'cache_creation_tokens', 'reasoning_tokens']}, ['input_tokens', 'output_tokens'])
+    candidate = obj({'model_digest': HASH, 'tokenizer_digest': HASH, 'template_digest': HASH, 'backend_id': ID,
+        'counter_profile_id': enum('OPENAI_TOTALS_1', 'ANTHROPIC_DISJOINT_1'), 'raw_counts': raw_counts})
+    schemas['IndependentTokenStatement'] = obj({'profile_id': {'const': 'P11_INDEPENDENT_TOKEN_USAGE_1'}, 'scope': deepcopy(scope),
+        'delivery_digest': HASH, 'meter_key_id': ID, 'authority_evidence_ref': ID, 'candidate': candidate, 'recorded_at': TIME, 'signature': signature},
+        description='独立计量签名+精确原交付+当前独立审批/角色+固定计量配方。OpenAI缓存/推理仅子集；Anthropic输入按disjoint缓存读写合计。不加载模型/解E2E/估扣，未配置即拒绝核验。')
+    rows = [('/jobs/{job_id}', 'get', 'getJob', None, 'OriginalJobCompletion', 'job:read'),
+        ('/jobs/{job_id}/cancel', 'post', 'cancelJob', 'OriginalCancel', 'OriginalCompletionAck', 'job:cancel'),
+        ('/jobs/{job_id}/receipts', 'post', 'recordBuyerReceipt', 'OriginalBuyerDecision', 'OriginalCompletionAck', 'job:decide'),
+        ('/orders/{order_id}/bill', 'get', 'getOrderBill', None, 'OriginalOrderBill', 'bill:read'),
+        ('/runner/attempts/{attempt_id}/deliveries', 'post', 'registerAttemptDelivery', 'NativeResultDeclaration', 'OriginalResultMetadata', 'device:execute'),
+        ('/runner/attempts/{attempt_id}/usage', 'post', 'recordAttemptUsage', 'IndependentTokenStatement', 'OriginalCompletionAck', 'device:execute')]
+    for path, method, operation, request, response, scope_id in rows:
+        item = paths[path][method]
+        item['operationId'] = operation
+        item['x-required-scopes'] = [scope_id]
+        item['x-source-status'] = 'SOURCE_ONLY_UNCOMPILED_UNEXECUTED'
+        item['x-implemented-source-scope'] = 'Original PLAINTEXT/STANDARD text metadata only; E2E/media signatures, automatic expiry, same-seller retry and full refund/payout/reconciliation remain open.'
+        success = next((deepcopy(v) for k, v in item['responses'].items() if k.startswith('2')), {'description': 'Original safe metadata'})
+        for key in list(item['responses']):
+            if key.startswith('2'): del item['responses'][key]
+        success['content'] = {'application/json': {'schema': ref(response)}}
+        item['responses']['200'] = success
+        if request: item['requestBody'] = {'required': True, 'content': {'application/json': {'schema': ref(request)}}}
+        if scope_id == 'device:execute': item['security'] = [{'DeviceProof': []}]
+        item['description'] = schemas[response].get('description', '原主体/合同/版本作用域、独立可信证据和不自动释放预算。') + ' 当前仅源码，未编译/迁移/运行或完成真实资格；没有自动开始模型或付款。'
     return api
 
 

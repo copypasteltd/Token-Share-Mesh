@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/020_native_completion_billing.sql",
+  "source_sha256": "67467920b3b8ca526b9820e1979bb32783c896055857a36af87874e0a7561a96",
+  "migration": "020_native_completion_billing.sql",
+  "migration_sha256": "67467920b3b8ca526b9820e1979bb32783c896055857a36af87874e0a7561a96",
+  "policy": "020 native completion/independent usage/accepted append-only billing; SOURCE_ONLY, unapplied"
+}

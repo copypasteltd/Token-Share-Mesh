@@ -331,7 +331,7 @@ func (s Sessions) Authenticate(ctx context.Context, secret string) (SessionCrede
 	return credential, err
 }
 
-var knownRoles = map[string]bool{"BUYER": true, "SELLER": true, "SUPPORT": true, "OPERATOR": true, "FINANCE": true, "AUDITOR": true}
+var knownRoles = map[string]bool{"BUYER": true, "SELLER": true, "SUPPORT": true, "OPERATOR": true, "FINANCE": true, "AUDITOR": true, "PAYMENT_REVIEWER": true, "METER_AUTHORITY": true, "METER_REVIEWER": true}
 
 func rolesTx(ctx context.Context, tx pgx.Tx, p Principal) (Principal, error) {
 	rows, err := tx.Query(ctx, "SELECT role_code FROM p11.role_grants WHERE user_id=$1 AND scope_ref='self' AND revoked_at IS NULL AND (expires_at IS NULL OR expires_at>clock_timestamp()) ORDER BY role_code FOR SHARE", p.UserID)
@@ -356,11 +356,13 @@ func rolesTx(ctx context.Context, tx pgx.Tx, p Principal) (Principal, error) {
 	for _, role := range p.Roles {
 		switch role {
 		case "BUYER":
+			p.Scopes = append(p.Scopes, "job:read", "job:decide", "job:cancel", "bill:read")
 			p.Scopes = append(p.Scopes, "refund:create", "refund:read")
 			p.Scopes = append(p.Scopes, "payment:create", "payment:read")
 			p.Scopes = append(p.Scopes, "rental:create", "rental:read", "rental:ready", "rental:stop", "rental:access")
 			p.Scopes = append(p.Scopes, "key:manage", "quote:create", "quote:read", "order:create", "order:read", "route:create", "route:read", "seller:apply", "seller:read", "seller:manage", "identity:consent", "identity:delete")
 		case "SELLER":
+			p.Scopes = append(p.Scopes, "job:read", "bill:read")
 			p.Scopes = append(p.Scopes, "refund:read")
 			p.Scopes = append(p.Scopes, "payment:read")
 			p.Scopes = append(p.Scopes, "rental:read")

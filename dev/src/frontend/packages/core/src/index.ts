@@ -8,3 +8,4 @@ export * from './provider';
 export * from './payment';
 export * from './payment-flow';
 export * from './refund';
+export * from './completion';

@@ -2,7 +2,7 @@
   "version": "1.0-draft",
   "date": "2026-10-29",
   "source": "docs/白皮书/contracts/openapi-control-v3.0.json",
-  "canonical_api_sha256": "e43068849115633d36a8cc84a587b8c7545d62c3817c393fae3fd468284a8738",
+  "canonical_api_sha256": "b138568a52b8c0281ac6c73f5a8f6a8d0be95f1373724962076de80f5dfcfe75",
   "status": "DESIGN_UNIMPLEMENTED",
   "operations": [
     {
@@ -2071,7 +2071,7 @@
       "task_id": "DEV-38",
       "planned_handler": "dev/src/api/internal/http/mod_14/getOrderBill.go",
       "required_scopes": [
-        "order:read"
+        "bill:read"
       ],
       "security": [
         {
@@ -2083,13 +2083,13 @@
       ],
       "request_schema": null,
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
         "404",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": false,
       "transaction": "READ_PROJECTION",
@@ -2118,10 +2118,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "b7e717907355776a30b38cceee443322012ccf2baa9bab85d06fc5f1ccc38f2b",
+      "canonical_operation_sha256": "4b7ced6c28f2ea750e9ba1579b3d34105034dfeb79af5d1977f6c6c03c94cb79",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOrderBill",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "createPaymentIntent",
@@ -2620,7 +2626,7 @@
       "path": "/jobs/{job_id}",
       "summary": "查询当前任务状态",
       "module_id": "MOD-06",
-      "task_id": "DEV-17",
+      "task_id": "DEV-19",
       "planned_handler": "dev/src/api/internal/http/mod_06/getJob.go",
       "required_scopes": [
         "job:read"
@@ -2635,13 +2641,13 @@
       ],
       "request_schema": null,
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
         "404",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": false,
       "transaction": "READ_PROJECTION",
@@ -2651,20 +2657,18 @@
       ],
       "external_io_rule": "只读投影，不触发收费或推理",
       "requirement_ids": [
-        "P11-F10",
-        "P11-F11",
-        "P11-F33",
-        "P11-F34",
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
         "P11-F36",
-        "P11-F54"
+        "P11-F39"
       ],
       "acceptance_ids": [
-        "P11-T10",
-        "P11-T11",
-        "P11-T33",
-        "P11-T34",
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
         "P11-T36",
-        "P11-T54"
+        "P11-T39"
       ],
       "source_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -2672,10 +2676,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "5f64924296ce9e9d66a30c7372db8a9c4499fa8f08e785bdb57246fc78f51ea2",
+      "canonical_operation_sha256": "650b03a2fc1858f899c8e793963d916d77e0fd77a4ed7612b6569864fd4891ec",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getJob",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "cancelJob",
@@ -2697,10 +2707,9 @@
         }
       ],
       "request_schema": {
-        "$ref": "#/components/schemas/ReasonWrite"
+        "$ref": "#/components/schemas/OriginalCancel"
       },
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
@@ -2708,7 +2717,8 @@
         "409",
         "422",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": true,
       "transaction": "TX-06",
@@ -2740,10 +2750,16 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "ee65d3bd04d6a174a830040576b21b987367eb45439d3853da38932b910923e0",
+      "canonical_operation_sha256": "2625c4ab7045c3c4bd15cd5ee752cf55d70c72620d57491f6e98adbeb1f09e7b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "cancelJob",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "listResults",
@@ -3341,7 +3357,7 @@
       "task_id": "DEV-19",
       "planned_handler": "dev/src/api/internal/http/mod_06/recordBuyerReceipt.go",
       "required_scopes": [
-        "cipher:receipt"
+        "job:decide"
       ],
       "security": [
         {
@@ -3352,10 +3368,9 @@
         }
       ],
       "request_schema": {
-        "$ref": "#/components/schemas/ReceiptWrite"
+        "$ref": "#/components/schemas/OriginalBuyerDecision"
       },
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
@@ -3363,7 +3378,8 @@
         "409",
         "422",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": true,
       "transaction": "TX-06",
@@ -3392,10 +3408,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "73386ad1c314d71a29aa69cbae19277c91d8b456f4f7cf3de339de506ae62b57",
+      "canonical_operation_sha256": "358812f15f096ea798109860f1d6ebf793643c153528329bedbcf5f624a7409b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "recordBuyerReceipt",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "createCipherChannel",
@@ -5661,17 +5683,13 @@
       ],
       "security": [
         {
-          "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
+          "DeviceProof": []
         }
       ],
       "request_schema": {
-        "$ref": "#/components/schemas/DeliveryWrite"
+        "$ref": "#/components/schemas/NativeResultDeclaration"
       },
       "response_codes": [
-        "201",
         "400",
         "401",
         "403",
@@ -5679,7 +5697,8 @@
         "409",
         "422",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": true,
       "transaction": "TX-06",
@@ -5708,10 +5727,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "c32d16d75f55b9aa5b3818feaa218eb32f3b9cbff6a2480381f7f10f88a2b86e",
+      "canonical_operation_sha256": "5a9b4bf74202ed93bedccbd2e587817259f2e0aad5511a023fd1321c686940d3",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "registerAttemptDelivery",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "recordAttemptUsage",
@@ -5726,17 +5751,13 @@
       ],
       "security": [
         {
-          "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
+          "DeviceProof": []
         }
       ],
       "request_schema": {
-        "$ref": "#/components/schemas/TokenUsageWrite"
+        "$ref": "#/components/schemas/IndependentTokenStatement"
       },
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
@@ -5744,7 +5765,8 @@
         "409",
         "422",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": true,
       "transaction": "TX-01_OR_MODULE_LOCAL",
@@ -5773,10 +5795,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "e5584abd920ae90d27be0cb81d0e93f43d910ae5983597291d4f5a087d6b3c2e",
+      "canonical_operation_sha256": "a829c11d60d0854027376802bcfcae73854e673a26c37a0cab0915f048af1c8a",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "recordAttemptUsage",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "recordAttemptCleanup",

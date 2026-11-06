@@ -18,7 +18,7 @@ P11｜开发细则 v1.0｜MOD-14｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 计划路径 | dev/src/internal/metering |
 | 协作模块 | [MOD-04](MOD-04-合同订单路由预算.md)、[MOD-06](MOD-06-调度资源租约.md)、[MOD-12](MOD-12-GPU租赁.md) |
 | 应用服务 | UsageVerifier、MeterStatement、PriceCalculator |
-| 权威表 | usage_evidence、meter_statements |
+| 权威表 | usage_evidence、meter_statements、native_usage_verifications |
 | 适用约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-015](../docs/02-表格化需求约束.md#CON-015)、[CON-035](../docs/02-表格化需求约束.md#CON-035)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-039](../docs/02-表格化需求约束.md#CON-039)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-047](../docs/02-表格化需求约束.md#CON-047) |
 | 核心规范 | [13-支付退款账务与渠道结算.md](../../docs/技术开发/13-支付退款账务与渠道结算.md) |
 
@@ -26,7 +26,7 @@ P11｜开发细则 v1.0｜MOD-14｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 
 | 索引 | operationId | 方法/路径 | 任务 | scope | 事务/幂等 |
 | --- | --- | --- | --- | --- | --- |
-| INT-039 | getOrderBill | GET /orders/{order_id}/bill | [DEV-38](../开发细则总表.md#DEV-38) | order:read | READ_PROJECTION / 见权威契约 |
+| INT-039 | getOrderBill | GET /orders/{order_id}/bill | [DEV-38](../开发细则总表.md#DEV-38) | bill:read | READ_PROJECTION / 见权威契约 |
 | INT-066 | recordAttemptUsage | POST /runner/attempts/{attempt_id}/usage | [DEV-38](../开发细则总表.md#DEV-38) | device:execute | TX-01_OR_MODULE_LOCAL / 必需稳定键 |
 
 [完整控制面、数据表与需求追踪](../docs/04-接口数据与需求追踪.md)；请求/响应 Schema 和响应码沿用既有 OpenAPI。

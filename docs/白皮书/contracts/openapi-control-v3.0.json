@@ -2747,7 +2747,7 @@
           "Finance"
         ],
         "summary": "查询本人可重算分账账单",
-        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "description": "当前原订单水位投影，未消费余额退款/已赚取冲正/渠道费/到账对账尚未合并为最终账单。 当前仅源码，未编译/迁移/运行或完成真实资格；没有自动开始模型或付款。",
         "security": [
           {
             "BearerAuth": []
@@ -2757,7 +2757,7 @@
           }
         ],
         "x-required-scopes": [
-          "order:read"
+          "bill:read"
         ],
         "parameters": [
           {
@@ -2772,6 +2772,24 @@
           }
         ],
         "responses": {
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          },
           "200": {
             "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
             "headers": {
@@ -2791,30 +2809,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Bill"
+                  "$ref": "#/components/schemas/OriginalOrderBill"
                 }
               }
             }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "429": {
-            "$ref": "#/components/responses/429"
-          },
-          "503": {
-            "$ref": "#/components/responses/503"
           }
-        }
+        },
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-implemented-source-scope": "Original PLAINTEXT/STANDARD text metadata only; E2E/media signatures, automatic expiry, same-seller retry and full refund/payout/reconciliation remain open."
       }
     },
     "/orders/{order_id}/payment-intents": {
@@ -3501,7 +3503,7 @@
           "Execution"
         ],
         "summary": "查询当前任务状态",
-        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "description": "原主体/合同/版本作用域、独立可信证据和不自动释放预算。 当前仅源码，未编译/迁移/运行或完成真实资格；没有自动开始模型或付款。",
         "security": [
           {
             "BearerAuth": []
@@ -3526,6 +3528,24 @@
           }
         ],
         "responses": {
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          },
           "200": {
             "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
             "headers": {
@@ -3545,30 +3565,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Job"
+                  "$ref": "#/components/schemas/OriginalJobCompletion"
                 }
               }
             }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "429": {
-            "$ref": "#/components/responses/429"
-          },
-          "503": {
-            "$ref": "#/components/responses/503"
           }
-        }
+        },
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-implemented-source-scope": "Original PLAINTEXT/STANDARD text metadata only; E2E/media signatures, automatic expiry, same-seller retry and full refund/payout/reconciliation remain open."
       }
     },
     "/jobs/{job_id}/cancel": {
@@ -3578,7 +3582,7 @@
           "Execution"
         ],
         "summary": "幂等取消并与接受状态竞争",
-        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "description": "原主体/合同/版本作用域、独立可信证据和不自动释放预算。 当前仅源码，未编译/迁移/运行或完成真实资格；没有自动开始模型或付款。",
         "security": [
           {
             "BearerAuth": []
@@ -3614,30 +3618,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
-            "headers": {
-              "X-Request-ID": {
-                "schema": {
-                  "type": "string",
-                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-                  "maxLength": 128
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Job"
-                }
-              }
-            }
-          },
           "400": {
             "$ref": "#/components/responses/400"
           },
@@ -3661,6 +3641,30 @@
           },
           "503": {
             "$ref": "#/components/responses/503"
+          },
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalCompletionAck"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -3668,12 +3672,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReasonWrite"
+                "$ref": "#/components/schemas/OriginalCancel"
               }
             }
           }
         },
-        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-implemented-source-scope": "Original PLAINTEXT/STANDARD text metadata only; E2E/media signatures, automatic expiry, same-seller retry and full refund/payout/reconciliation remain open."
       }
     },
     "/jobs/{job_id}/results": {
@@ -4555,7 +4561,7 @@
           "Cipher"
         ],
         "summary": "验证买方接受/拒绝回执",
-        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "description": "原主体/合同/版本作用域、独立可信证据和不自动释放预算。 当前仅源码，未编译/迁移/运行或完成真实资格；没有自动开始模型或付款。",
         "security": [
           {
             "BearerAuth": []
@@ -4565,7 +4571,7 @@
           }
         ],
         "x-required-scopes": [
-          "cipher:receipt"
+          "job:decide"
         ],
         "parameters": [
           {
@@ -4591,30 +4597,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
-            "headers": {
-              "X-Request-ID": {
-                "schema": {
-                  "type": "string",
-                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-                  "maxLength": 128
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Ack"
-                }
-              }
-            }
-          },
           "400": {
             "$ref": "#/components/responses/400"
           },
@@ -4638,6 +4620,30 @@
           },
           "503": {
             "$ref": "#/components/responses/503"
+          },
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalCompletionAck"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4645,12 +4651,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReceiptWrite"
+                "$ref": "#/components/schemas/OriginalBuyerDecision"
               }
             }
           }
         },
-        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-implemented-source-scope": "Original PLAINTEXT/STANDARD text metadata only; E2E/media signatures, automatic expiry, same-seller retry and full refund/payout/reconciliation remain open."
       }
     },
     "/cipher/channels": {
@@ -7840,13 +7848,10 @@
           "Runner"
         ],
         "summary": "提交当前attempt的deliveries证据",
-        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "description": "仅元数据，无正文/URL。签收窗口=min(完成+120秒,原任务总期限)；清理及物理资源复用不改变原结果归属。 当前仅源码，未编译/迁移/运行或完成真实资格；没有自动开始模型或付款。",
         "security": [
           {
-            "BearerAuth": []
-          },
-          {
-            "BrowserCookie": []
+            "DeviceProof": []
           }
         ],
         "x-required-scopes": [
@@ -7876,30 +7881,6 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
-            "headers": {
-              "X-Request-ID": {
-                "schema": {
-                  "type": "string",
-                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-                  "maxLength": 128
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Ack"
-                }
-              }
-            }
-          },
           "400": {
             "$ref": "#/components/responses/400"
           },
@@ -7923,64 +7904,7 @@
           },
           "503": {
             "$ref": "#/components/responses/503"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeliveryWrite"
-              }
-            }
-          }
-        },
-        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
-      }
-    },
-    "/runner/attempts/{attempt_id}/usage": {
-      "post": {
-        "operationId": "recordAttemptUsage",
-        "tags": [
-          "Runner"
-        ],
-        "summary": "提交当前attempt的usage证据",
-        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
-        "security": [
-          {
-            "BearerAuth": []
           },
-          {
-            "BrowserCookie": []
-          }
-        ],
-        "x-required-scopes": [
-          "device:execute"
-        ],
-        "parameters": [
-          {
-            "name": "attempt_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-              "maxLength": 128
-            }
-          },
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "minLength": 8,
-              "maxLength": 128
-            },
-            "description": "同主体/操作/资源范围同键同输入复用；不同输入409。未知结果先查询。"
-          }
-        ],
-        "responses": {
           "200": {
             "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
             "headers": {
@@ -8000,11 +7924,67 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Ack"
+                  "$ref": "#/components/schemas/OriginalResultMetadata"
                 }
               }
             }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NativeResultDeclaration"
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-implemented-source-scope": "Original PLAINTEXT/STANDARD text metadata only; E2E/media signatures, automatic expiry, same-seller retry and full refund/payout/reconciliation remain open."
+      }
+    },
+    "/runner/attempts/{attempt_id}/usage": {
+      "post": {
+        "operationId": "recordAttemptUsage",
+        "tags": [
+          "Runner"
+        ],
+        "summary": "提交当前attempt的usage证据",
+        "description": "原主体/合同/版本作用域、独立可信证据和不自动释放预算。 当前仅源码，未编译/迁移/运行或完成真实资格；没有自动开始模型或付款。",
+        "security": [
+          {
+            "DeviceProof": []
+          }
+        ],
+        "x-required-scopes": [
+          "device:execute"
+        ],
+        "parameters": [
+          {
+            "name": "attempt_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
           },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            },
+            "description": "同主体/操作/资源范围同键同输入复用；不同输入409。未知结果先查询。"
+          }
+        ],
+        "responses": {
           "400": {
             "$ref": "#/components/responses/400"
           },
@@ -8028,6 +8008,30 @@
           },
           "503": {
             "$ref": "#/components/responses/503"
+          },
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OriginalCompletionAck"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -8035,12 +8039,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TokenUsageWrite"
+                "$ref": "#/components/schemas/IndependentTokenStatement"
               }
             }
           }
         },
-        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
+        "x-source-status": "SOURCE_ONLY_UNCOMPILED_UNEXECUTED",
+        "x-implemented-source-scope": "Original PLAINTEXT/STANDARD text metadata only; E2E/media signatures, automatic expiry, same-seller retry and full refund/payout/reconciliation remain open."
       }
     },
     "/runner/attempts/{attempt_id}/cleanup": {
@@ -17480,6 +17486,703 @@
           "expected_review_version",
           "review_reason_code"
         ]
+      },
+      "OriginalBillingOutcome": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "HELD_PENDING_EVIDENCE",
+              "HELD_FINANCIAL_REVIEW",
+              "QUALIFIED_CHANNEL_COST_UNKNOWN"
+            ]
+          },
+          "qualification_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "journal_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "gross_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "commission_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "provisional_seller_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "state",
+          "gross_fen",
+          "commission_fen",
+          "provisional_seller_fen"
+        ],
+        "description": "成交镜像不表示渠道到账；gross=commission+provisional_seller。缺证保留预算，已核验零价不创建空分录。"
+      },
+      "OriginalResultMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "attempt_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "revision": {
+            "const": 1
+          },
+          "manifest_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "output_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "output_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 33554432
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "VALIDATING",
+              "WAITING_BUYER",
+              "VALID",
+              "INVALID",
+              "STALE"
+            ]
+          },
+          "decision_deadline": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usage_state": {
+            "type": "string",
+            "enum": [
+              "VERIFIED",
+              "UNVERIFIED"
+            ]
+          }
+        },
+        "required": [
+          "delivery_id",
+          "attempt_id",
+          "revision",
+          "manifest_hash",
+          "output_digest",
+          "output_bytes",
+          "state",
+          "decision_deadline",
+          "usage_state"
+        ],
+        "description": "仅元数据，无正文/URL。签收窗口=min(完成+120秒,原任务总期限)；清理及物理资源复用不改变原结果归属。"
+      },
+      "OriginalJobCompletion": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "order_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "seller_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "INPUT_PENDING",
+              "QUEUED",
+              "RUNNING",
+              "VALIDATING",
+              "WAITING_BUYER",
+              "ACCEPTED",
+              "FAILED",
+              "CANCELED",
+              "UNVERIFIED"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "current_attempt_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "accepted_delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "deadline_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OriginalResultMetadata"
+            },
+            "minItems": 0,
+            "maxItems": 3
+          },
+          "billing": {
+            "$ref": "#/components/schemas/OriginalBillingOutcome"
+          }
+        },
+        "required": [
+          "job_id",
+          "order_id",
+          "seller_id",
+          "state",
+          "version",
+          "deadline_at",
+          "results",
+          "billing"
+        ]
+      },
+      "OriginalOrderBill": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "gross_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "commission_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "provisional_seller_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "reserved_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "unverified_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "channel_cost_state": {
+            "const": "UNKNOWN"
+          },
+          "payout_state": {
+            "const": "NOT_QUALIFIED"
+          },
+          "is_final": {
+            "const": false
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "order_id",
+          "version",
+          "gross_fen",
+          "commission_fen",
+          "provisional_seller_fen",
+          "reserved_fen",
+          "unverified_fen",
+          "channel_cost_state",
+          "payout_state",
+          "is_final",
+          "as_of"
+        ],
+        "description": "当前原订单水位投影，未消费余额退款/已赚取冲正/渠道费/到账对账尚未合并为最终账单。"
+      },
+      "OriginalCompletionAck": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "VERIFIED",
+              "ACCEPTED",
+              "FAILED",
+              "CANCELED"
+            ]
+          },
+          "billing": {
+            "$ref": "#/components/schemas/OriginalBillingOutcome"
+          }
+        },
+        "required": [
+          "job_id",
+          "id",
+          "version",
+          "state",
+          "billing"
+        ]
+      },
+      "OriginalBuyerDecision": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expected_job_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "delivery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "revision": {
+            "const": 1
+          },
+          "manifest_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "reviewed_output_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "ACCEPT",
+              "REJECT"
+            ]
+          }
+        },
+        "required": [
+          "expected_job_version",
+          "delivery_id",
+          "revision",
+          "manifest_hash",
+          "reviewed_output_digest",
+          "decision"
+        ],
+        "description": "本档仅原买家当前账户对已取得并核对的PLAINTEXT/STANDARD结果决策。不得以浏览元数据生成本地回执；不冒充E2E签名。"
+      },
+      "OriginalCancel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expected_job_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "BUYER_REQUEST",
+              "SERVICE_UNAVAILABLE"
+            ]
+          }
+        },
+        "required": [
+          "expected_job_version",
+          "reason_code"
+        ],
+        "description": "与接受共享order/job锁及版本竞争；只撤权/请求原拥有者停止，不推断清理、零用量或自动退款。"
+      },
+      "NativeResultDeclaration": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_NATIVE_RESULT_DELIVERY_1"
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "job_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "attempt_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "lease_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "order_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "seller_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "device_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_lock_generation": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "fencing_token": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "contract_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "execution_manifest_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "kernel_environment_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "job_id",
+              "attempt_id",
+              "lease_id",
+              "order_id",
+              "seller_id",
+              "device_id",
+              "resource_id",
+              "resource_lock_generation",
+              "fencing_token",
+              "contract_hash",
+              "execution_manifest_hash",
+              "kernel_environment_digest"
+            ]
+          },
+          "local_result_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "revision": {
+            "const": 1
+          },
+          "output_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "output_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 33554432
+          },
+          "reported_input_tokens": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "reported_output_tokens": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          },
+          "finish_reason": {
+            "type": "string",
+            "enum": [
+              "eog",
+              "limit",
+              "stop"
+            ]
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "signature": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{86}$"
+          }
+        },
+        "required": [
+          "profile_id",
+          "scope",
+          "local_result_id",
+          "revision",
+          "output_digest",
+          "output_bytes",
+          "reported_input_tokens",
+          "reported_output_tokens",
+          "finish_reason",
+          "completed_at",
+          "signature"
+        ],
+        "description": "原设备Ed25519签名元数据；按UTF-8输出字节拼接摘要，不依赖SSE分块，不含内容；设备数量不是可信计费数量。"
+      },
+      "IndependentTokenStatement": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "const": "P11_INDEPENDENT_TOKEN_USAGE_1"
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "job_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "attempt_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "lease_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "order_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "seller_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "device_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "resource_lock_generation": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "fencing_token": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,18}$"
+              },
+              "contract_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "execution_manifest_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "kernel_environment_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "job_id",
+              "attempt_id",
+              "lease_id",
+              "order_id",
+              "seller_id",
+              "device_id",
+              "resource_id",
+              "resource_lock_generation",
+              "fencing_token",
+              "contract_hash",
+              "execution_manifest_hash",
+              "kernel_environment_digest"
+            ]
+          },
+          "delivery_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "meter_key_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "authority_evidence_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "candidate": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "model_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "tokenizer_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "template_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "backend_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                "maxLength": 128
+              },
+              "counter_profile_id": {
+                "type": "string",
+                "enum": [
+                  "OPENAI_TOTALS_1",
+                  "ANTHROPIC_DISJOINT_1"
+                ]
+              },
+              "raw_counts": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "input_tokens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "output_tokens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "cache_read_tokens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "cache_creation_tokens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "reasoning_tokens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  }
+                },
+                "required": [
+                  "input_tokens",
+                  "output_tokens"
+                ]
+              }
+            },
+            "required": [
+              "model_digest",
+              "tokenizer_digest",
+              "template_digest",
+              "backend_id",
+              "counter_profile_id",
+              "raw_counts"
+            ]
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "signature": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{86}$"
+          }
+        },
+        "required": [
+          "profile_id",
+          "scope",
+          "delivery_digest",
+          "meter_key_id",
+          "authority_evidence_ref",
+          "candidate",
+          "recorded_at",
+          "signature"
+        ],
+        "description": "独立计量签名+精确原交付+当前独立审批/角色+固定计量配方。OpenAI缓存/推理仅子集；Anthropic输入按disjoint缓存读写合计。不加载模型/解E2E/估扣，未配置即拒绝核验。"
       }
     },
     "responses": {

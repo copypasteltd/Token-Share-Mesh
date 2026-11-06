@@ -49,6 +49,7 @@ type Config struct {
 	Devices                          device.Service
 	Claims                           *invocation.Claims
 	Continuations                    *invocation.Continuations
+	Completion                       *invocation.Completion
 	Delivery                         *invocation.Delivery
 	Routes                           routecontract.Service
 	Rentals                          *rental.Service
@@ -69,6 +70,9 @@ type actor struct {
 }
 
 func New(c Config) (*Server, error) {
+	if c.Completion != nil && (!c.Completion.UsesClaims(c.Claims) || !c.Completion.UsesDB(c.Sessions.DB) || !c.Completion.UsesDB(c.Trade.DB)) {
+		return nil, fault.New(fault.Unavailable, "Completion and identity must use the same original store and verifier")
+	}
 	if c.Refunds != nil && !c.Refunds.UsesMachine(c.Payments) {
 		return nil, fault.New(fault.Unavailable, "Refunds must use the same original payment service")
 	}

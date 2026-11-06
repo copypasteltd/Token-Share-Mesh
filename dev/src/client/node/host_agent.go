@@ -273,6 +273,7 @@ func (p *PreparedExecution) Output(ctx context.Context) (supervisor.TextOutput, 
 	if e != nil {
 		return nil, e
 	}
+	out = completionOutput(out, p.host, p.id, p.accepted.Verified().Details())
 	p.host.mu.Lock()
 	native := p.host.nativeSession
 	p.host.mu.Unlock()

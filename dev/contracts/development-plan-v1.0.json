@@ -477,7 +477,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "application_services": [
         "Admission",
@@ -995,7 +996,8 @@
       "source_document": "docs/技术开发/13-支付退款账务与渠道结算.md",
       "authoritative_tables": [
         "usage_evidence",
-        "meter_statements"
+        "meter_statements",
+        "native_usage_verifications"
       ],
       "application_services": [
         "UsageVerifier",
@@ -1052,7 +1054,8 @@
         "settlements",
         "settlement_items",
         "settlement_batches",
-        "batch_items"
+        "batch_items",
+        "accepted_usage_settlements"
       ],
       "application_services": [
         "LedgerService",
@@ -4062,8 +4065,7 @@
         "CON-046"
       ],
       "operation_ids": [
-        "createJob",
-        "getJob"
+        "createJob"
       ],
       "conditional_branch": false,
       "milestone_id": "MS-03"
@@ -4285,6 +4287,7 @@
         "CON-046"
       ],
       "operation_ids": [
+        "getJob",
         "recordBuyerReceipt",
         "registerAttemptDelivery"
       ],
@@ -8651,10 +8654,9 @@
         }
       ],
       "request_schema": {
-        "$ref": "#/components/schemas/ReasonWrite"
+        "$ref": "#/components/schemas/OriginalCancel"
       },
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
@@ -8662,7 +8664,8 @@
         "409",
         "422",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": true,
       "transaction": "TX-06",
@@ -8694,10 +8697,16 @@
         "docs/技术开发/附录-本轮范围与端侧选型修订.md",
         "docs/技术开发/附录-供给端内核封装与替换规范.md"
       ],
-      "canonical_operation_sha256": "ee65d3bd04d6a174a830040576b21b987367eb45439d3853da38932b910923e0",
+      "canonical_operation_sha256": "2625c4ab7045c3c4bd15cd5ee752cf55d70c72620d57491f6e98adbeb1f09e7b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "cancelJob",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-002"
     },
     {
@@ -11083,7 +11092,7 @@
       "path": "/jobs/{job_id}",
       "summary": "查询当前任务状态",
       "module_id": "MOD-06",
-      "task_id": "DEV-17",
+      "task_id": "DEV-19",
       "planned_handler": "dev/src/api/internal/http/mod_06/getJob.go",
       "required_scopes": [
         "job:read"
@@ -11098,13 +11107,13 @@
       ],
       "request_schema": null,
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
         "404",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": false,
       "transaction": "READ_PROJECTION",
@@ -11114,20 +11123,18 @@
       ],
       "external_io_rule": "只读投影，不触发收费或推理",
       "requirement_ids": [
-        "P11-F10",
-        "P11-F11",
-        "P11-F33",
-        "P11-F34",
+        "P11-F14",
+        "P11-F16",
+        "P11-F35",
         "P11-F36",
-        "P11-F54"
+        "P11-F39"
       ],
       "acceptance_ids": [
-        "P11-T10",
-        "P11-T11",
-        "P11-T33",
-        "P11-T34",
+        "P11-T14",
+        "P11-T16",
+        "P11-T35",
         "P11-T36",
-        "P11-T54"
+        "P11-T39"
       ],
       "source_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -11135,10 +11142,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "5f64924296ce9e9d66a30c7372db8a9c4499fa8f08e785bdb57246fc78f51ea2",
+      "canonical_operation_sha256": "650b03a2fc1858f899c8e793963d916d77e0fd77a4ed7612b6569864fd4891ec",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getJob",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-037"
     },
     {
@@ -11221,7 +11234,7 @@
       "task_id": "DEV-38",
       "planned_handler": "dev/src/api/internal/http/mod_14/getOrderBill.go",
       "required_scopes": [
-        "order:read"
+        "bill:read"
       ],
       "security": [
         {
@@ -11233,13 +11246,13 @@
       ],
       "request_schema": null,
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
         "404",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": false,
       "transaction": "READ_PROJECTION",
@@ -11268,10 +11281,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "b7e717907355776a30b38cceee443322012ccf2baa9bab85d06fc5f1ccc38f2b",
+      "canonical_operation_sha256": "4b7ced6c28f2ea750e9ba1579b3d34105034dfeb79af5d1977f6c6c03c94cb79",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getOrderBill",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-039"
     },
     {
@@ -13064,17 +13083,13 @@
       ],
       "security": [
         {
-          "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
+          "DeviceProof": []
         }
       ],
       "request_schema": {
-        "$ref": "#/components/schemas/TokenUsageWrite"
+        "$ref": "#/components/schemas/IndependentTokenStatement"
       },
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
@@ -13082,7 +13097,8 @@
         "409",
         "422",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": true,
       "transaction": "TX-01_OR_MODULE_LOCAL",
@@ -13111,10 +13127,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "e5584abd920ae90d27be0cb81d0e93f43d910ae5983597291d4f5a087d6b3c2e",
+      "canonical_operation_sha256": "a829c11d60d0854027376802bcfcae73854e673a26c37a0cab0915f048af1c8a",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "recordAttemptUsage",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-066"
     },
     {
@@ -13126,7 +13148,7 @@
       "task_id": "DEV-19",
       "planned_handler": "dev/src/api/internal/http/mod_06/recordBuyerReceipt.go",
       "required_scopes": [
-        "cipher:receipt"
+        "job:decide"
       ],
       "security": [
         {
@@ -13137,10 +13159,9 @@
         }
       ],
       "request_schema": {
-        "$ref": "#/components/schemas/ReceiptWrite"
+        "$ref": "#/components/schemas/OriginalBuyerDecision"
       },
       "response_codes": [
-        "200",
         "400",
         "401",
         "403",
@@ -13148,7 +13169,8 @@
         "409",
         "422",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": true,
       "transaction": "TX-06",
@@ -13177,10 +13199,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "73386ad1c314d71a29aa69cbae19277c91d8b456f4f7cf3de339de506ae62b57",
+      "canonical_operation_sha256": "358812f15f096ea798109860f1d6ebf793643c153528329bedbcf5f624a7409b",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "recordBuyerReceipt",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-067"
     },
     {
@@ -13685,17 +13713,13 @@
       ],
       "security": [
         {
-          "BearerAuth": []
-        },
-        {
-          "BrowserCookie": []
+          "DeviceProof": []
         }
       ],
       "request_schema": {
-        "$ref": "#/components/schemas/DeliveryWrite"
+        "$ref": "#/components/schemas/NativeResultDeclaration"
       },
       "response_codes": [
-        "201",
         "400",
         "401",
         "403",
@@ -13703,7 +13727,8 @@
         "409",
         "422",
         "429",
-        "503"
+        "503",
+        "200"
       ],
       "idempotency_header_required": true,
       "transaction": "TX-06",
@@ -13732,10 +13757,16 @@
         "docs/技术开发/18-测试工程与故障验证.md",
         "docs/技术开发/附录-本轮范围与端侧选型修订.md"
       ],
-      "canonical_operation_sha256": "c32d16d75f55b9aa5b3818feaa218eb32f3b9cbff6a2480381f7f10f88a2b86e",
+      "canonical_operation_sha256": "5a9b4bf74202ed93bedccbd2e587817259f2e0aad5511a023fd1321c686940d3",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "registerAttemptDelivery",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-075"
     },
     {
@@ -16018,9 +16049,19 @@
       "name": "acceptances",
       "schema": "p11",
       "module_id": "MOD-06",
-      "column_count": 10,
+      "column_count": 13,
       "foreign_key_count": 2,
       "source_document": "docs/技术开发/database/schema-draft.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-081",
+      "name": "accepted_usage_settlements",
+      "schema": "p11",
+      "module_id": "MOD-15",
+      "column_count": 17,
+      "foreign_key_count": 6,
+      "source_document": "docs/技术开发/database/migrations/020_native_completion_billing.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
     {
@@ -16431,6 +16472,26 @@
       "column_count": 19,
       "foreign_key_count": 5,
       "source_document": "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-079",
+      "name": "native_result_deliveries",
+      "schema": "p11",
+      "module_id": "MOD-06",
+      "column_count": 11,
+      "foreign_key_count": 6,
+      "source_document": "docs/技术开发/database/migrations/020_native_completion_billing.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-080",
+      "name": "native_usage_verifications",
+      "schema": "p11",
+      "module_id": "MOD-14",
+      "column_count": 14,
+      "foreign_key_count": 7,
+      "source_document": "docs/技术开发/database/migrations/020_native_completion_billing.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
     {
@@ -16927,7 +16988,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -17040,6 +17102,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "seller_profiles",
         "seller_applications",
         "listings",
@@ -17297,7 +17360,6 @@
       ],
       "operation_ids": [
         "createJob",
-        "getJob",
         "claimLease",
         "getExecutionManifest",
         "getExecutionInput",
@@ -17315,7 +17377,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -17352,7 +17415,6 @@
       "operation_ids": [
         "listNotifications",
         "createJob",
-        "getJob",
         "claimLease",
         "getExecutionManifest",
         "getExecutionInput",
@@ -17371,6 +17433,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -17479,6 +17542,7 @@
         "DEV-54"
       ],
       "operation_ids": [
+        "getJob",
         "recordBuyerReceipt",
         "registerAttemptDelivery"
       ],
@@ -17495,6 +17559,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",
@@ -17502,7 +17567,8 @@
         "settlements",
         "settlement_items",
         "settlement_batches",
-        "batch_items"
+        "batch_items",
+        "accepted_usage_settlements"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -17592,6 +17658,7 @@
         "listOrders",
         "createOrder",
         "getOrder",
+        "getJob",
         "recordBuyerReceipt",
         "registerAttemptDelivery"
       ],
@@ -17608,6 +17675,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "quotes",
         "orders",
         "route_contracts",
@@ -17695,6 +17763,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -17745,6 +17814,7 @@
       "tables": [
         "usage_evidence",
         "meter_statements",
+        "native_usage_verifications",
         "quotes",
         "orders",
         "route_contracts",
@@ -17757,6 +17827,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
@@ -17819,6 +17890,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "seller_profiles",
         "seller_applications",
         "listings",
@@ -17889,6 +17961,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "payments",
         "refunds",
         "channel_requests",
@@ -18022,6 +18095,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
@@ -18221,7 +18295,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -18260,6 +18335,7 @@
       "tables": [
         "usage_evidence",
         "meter_statements",
+        "native_usage_verifications",
         "quotes",
         "orders",
         "route_contracts",
@@ -18565,7 +18641,6 @@
       ],
       "operation_ids": [
         "createJob",
-        "getJob",
         "createEncryptionIntent",
         "registerRecipient",
         "getRecipient",
@@ -18588,7 +18663,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -18630,7 +18706,6 @@
         "completeAsset",
         "createAssetTransferGrant",
         "createJob",
-        "getJob",
         "listResults",
         "registerEnvelope",
         "createCipherChannel"
@@ -18651,6 +18726,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "cipher_channels",
         "assets",
         "transfer_grants",
@@ -18690,6 +18766,7 @@
         "DEV-44"
       ],
       "operation_ids": [
+        "getJob",
         "registerEnvelope",
         "recordBuyerReceipt",
         "createCipherChannel",
@@ -18711,6 +18788,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "cipher_channels"
       ],
       "technical_documents": [
@@ -18771,7 +18849,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -18902,6 +18981,7 @@
         "DEV-49"
       ],
       "operation_ids": [
+        "getJob",
         "recordBuyerReceipt",
         "createCipherChannel",
         "createDispute",
@@ -18919,6 +18999,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "devices",
         "device_request_nonces",
         "resources",
@@ -18931,6 +19012,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "cipher_channels",
         "reviews",
         "disputes",
@@ -19071,7 +19153,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -19220,6 +19303,7 @@
       "tables": [
         "usage_evidence",
         "meter_statements",
+        "native_usage_verifications",
         "quotes",
         "orders",
         "route_contracts",
@@ -19424,7 +19508,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -19706,6 +19791,7 @@
         "native_execution_reports",
         "native_lease_continuations",
         "native_cleanup_recoveries",
+        "native_result_deliveries",
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
@@ -19783,6 +19869,7 @@
         "settlement_items",
         "settlement_batches",
         "batch_items",
+        "accepted_usage_settlements",
         "payments",
         "refunds",
         "channel_requests",
@@ -19794,7 +19881,8 @@
         "refund_machine_receipts",
         "refund_applications",
         "usage_evidence",
-        "meter_statements"
+        "meter_statements",
+        "native_usage_verifications"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -19836,7 +19924,6 @@
         "createOrder",
         "getOrder",
         "createJob",
-        "getJob",
         "listRouteContracts",
         "createRouteContract",
         "getRouteContract"
@@ -19857,7 +19944,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/07-统一协议网关与Sub2API改造.md",
@@ -19953,7 +20041,8 @@
         "settlements",
         "settlement_items",
         "settlement_batches",
-        "batch_items"
+        "batch_items",
+        "accepted_usage_settlements"
       ],
       "technical_documents": [
         "docs/技术开发/16-身份授权与安全工程.md",
@@ -20081,7 +20170,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/11-引擎与授权上游适配器设计.md",
@@ -20167,7 +20257,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -20256,6 +20347,7 @@
       "tables": [
         "usage_evidence",
         "meter_statements",
+        "native_usage_verifications",
         "quotes",
         "orders",
         "route_contracts",
@@ -20386,7 +20478,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/06-调度资源锁与执行租约.md",
@@ -20446,7 +20539,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/09-Windows与Linux原生客户端设计.md",
@@ -20515,7 +20609,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "technical_documents": [
         "docs/技术开发/10-Android与LMA工程设计.md",
@@ -21501,11 +21596,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "74d6b37178c305f8336d460e040ef7e731a473b09af6e5e8f9b88e6d50913d41"
+      "sha256": "a50811bb915341a3edce618a3c69960de32f17c509ed0a8ea70f78048de9851a"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "1480eeb98590ba714e169ee3523d5b0673fef43cfbd0154a9b6d050060f3cf65"
+      "sha256": "8048fc2aba14a477e5a2154739941fbcf3f24b7963de13e55430671cd091db85"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -21513,11 +21608,11 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "7314b2a3fa31b77fcae1df46780f7986d2fc245443e9a96346dcbdfcadfba9b0"
+      "sha256": "3328b1319549ef626333fc267c8c73fec757a1b8893e1888705ec496c3b13095"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "8561d08526bddd2616f8496ccd734a696c643abc3e525336d4a4c025be901e48"
+      "sha256": "cf5afb8c1ff821b788c83196a38dee9159a43f49dc2e3b2a8777fedf8528d98e"
     },
     {
       "path": "dev/tools/构建开发细则.py",
@@ -21609,11 +21704,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "a796d88b104af44a42095ae60b1edb1282fc90db322cc86d9b070a90213727db"
+      "sha256": "38fe069d18380ed1e14edd27faf3a75e17bc3a1912941260c3a833329f3cee91"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "cc33e33497da2430ec965a0ab7572a95a1f1705b65518b946b80d03dc4c3a80a"
+      "sha256": "92c8e2d0e2370e4fc5098447ec33b1baa1f1284c072516620eba51d73c129f9b"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -21621,11 +21716,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "53ea8ce6b589919549c66d7b840dc186e7a60c9d9982bb8ad15b914dbea534ee"
+      "sha256": "b0b15e9c785ea2875c6c479da3489c6c33cafe970d3b53037c4b3f9d65b09446"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "2279a4112a6ef8915c94d03c25c24be6d20117f2071bd859efb3328fb9e48a05"
+      "sha256": "d24147f671f6126662a1203e0f789064dd4d29e5c7b5165bfa313f408c9e2432"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -21700,6 +21795,10 @@
       "sha256": "e4aa6f01f8de52efcefd272980e5ad76c1978c63e96b78dfbd497ad687ba80d6"
     },
     {
+      "path": "docs/技术开发/database/migrations/020_native_completion_billing.sql",
+      "sha256": "67467920b3b8ca526b9820e1979bb32783c896055857a36af87874e0a7561a96"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -21753,7 +21852,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "6fe709405cf4afd6a56e0df649ee711bf248edbeb9d34cd1edc144b2bfab2291"
+      "sha256": "0821d0ae72c73b23187a938084901367bab3934e72780635dec87aebc2ab9e57"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -21773,7 +21872,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "d270aaef65b336d915009092ab116f8997934786b2e67a3f2b56265cde1e25eb"
+      "sha256": "d2643e0d098b58d4dee13b3e636d4440806e14ee279d2e4fd3119f48f2614e0d"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -21786,7 +21885,7 @@
     "steps": 222,
     "constraints": 47,
     "control_operations": 108,
-    "tables": 78,
+    "tables": 81,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

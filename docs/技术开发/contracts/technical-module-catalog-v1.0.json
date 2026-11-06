@@ -178,7 +178,8 @@
         "acceptances",
         "native_execution_reports",
         "native_lease_continuations",
-        "native_cleanup_recoveries"
+        "native_cleanup_recoveries",
+        "native_result_deliveries"
       ],
       "application_services": [
         "Admission",
@@ -387,7 +388,8 @@
       "source_document": "docs/技术开发/13-支付退款账务与渠道结算.md",
       "authoritative_tables": [
         "usage_evidence",
-        "meter_statements"
+        "meter_statements",
+        "native_usage_verifications"
       ],
       "application_services": [
         "UsageVerifier",
@@ -419,7 +421,8 @@
         "settlements",
         "settlement_items",
         "settlement_batches",
-        "batch_items"
+        "batch_items",
+        "accepted_usage_settlements"
       ],
       "application_services": [
         "LedgerService",

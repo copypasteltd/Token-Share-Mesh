@@ -179,6 +179,10 @@ func run() error {
 	if continuations != nil {
 		defer continuations.Close()
 	}
+	completion, err := configuredCompletion(claims)
+	if err != nil {
+		return err
+	}
 	delivery, closeDelivery, err := configuredDelivery(db, claims)
 	if err != nil {
 		return err
@@ -211,6 +215,7 @@ func run() error {
 		Devices:       device.Service{DB: db, PepperVersion: "pair_v1", Peppers: map[string][]byte{"pair_v1": pairPepper}},
 		Claims:        claims,
 		Continuations: continuations,
+		Completion:    completion,
 		Delivery:      delivery,
 		Rentals:       rentals,
 		Payments:      paymentService,

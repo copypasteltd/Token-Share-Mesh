@@ -18,7 +18,7 @@ P11｜开发细则 v1.0｜MOD-15｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 计划路径 | dev/src/internal/finance |
 | 协作模块 | [MOD-04](MOD-04-合同订单路由预算.md)、[MOD-05](MOD-05-支付退款适配.md)、[MOD-14](MOD-14-用量计量.md) |
 | 应用服务 | LedgerService、SettlementEligibility、Reconciler |
-| 权威表 | trade_qualifications、ledger_accounts、journal_transactions、journal_entries、settlements、settlement_items、settlement_batches、batch_items |
+| 权威表 | trade_qualifications、ledger_accounts、journal_transactions、journal_entries、settlements、settlement_items、settlement_batches、batch_items、accepted_usage_settlements |
 | 适用约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-002](../docs/02-表格化需求约束.md#CON-002)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-012](../docs/02-表格化需求约束.md#CON-012)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-015](../docs/02-表格化需求约束.md#CON-015)、[CON-016](../docs/02-表格化需求约束.md#CON-016)、[CON-017](../docs/02-表格化需求约束.md#CON-017)、[CON-018](../docs/02-表格化需求约束.md#CON-018)、[CON-035](../docs/02-表格化需求约束.md#CON-035)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-039](../docs/02-表格化需求约束.md#CON-039)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-047](../docs/02-表格化需求约束.md#CON-047) |
 | 核心规范 | [13-支付退款账务与渠道结算.md](../../docs/技术开发/13-支付退款账务与渠道结算.md) |
 

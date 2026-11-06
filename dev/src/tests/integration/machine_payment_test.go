@@ -62,9 +62,14 @@ type machinePaymentFixture struct {
 func machineFixture(t *testing.T) *machinePaymentFixture {
 	t.Helper()
 	requireDB(t)
+	return machineFixtureOffer(t, testsupport.SeedOffer(t, ctx, db, "PLAINTEXT", ids.New("region")))
+}
+
+func machineFixtureOffer(t *testing.T, offer testsupport.Offer) *machinePaymentFixture {
+	t.Helper()
+	requireDB(t)
 	f := &machinePaymentFixture{buyer: buyer(t), capability: ids.New("pcap")}
 	f.buyer.Scopes = append(f.buyer.Scopes, "payment:create", "payment:read")
-	offer := testsupport.SeedOffer(t, ctx, db, "PLAINTEXT", ids.New("region"))
 	zero := 0
 	offer.Terms.Price.CommissionBPS = &zero
 	offer.Version(t, ctx, db, 2)
