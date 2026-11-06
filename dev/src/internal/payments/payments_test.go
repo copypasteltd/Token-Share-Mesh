@@ -30,13 +30,17 @@ type tripFunc func(*http.Request) (*http.Response, error)
 
 func (f tripFunc) RoundTrip(r *http.Request) (*http.Response, error) { return f(r) }
 
-var fixtureKeys = sync.OnceValues(func() (*rsa.PrivateKey, *rsa.PrivateKey, error) {
+type fixtureKeyPair struct {
+	application, provider *rsa.PrivateKey
+}
+
+var fixtureKeys = sync.OnceValues(func() (fixtureKeyPair, error) {
 	a, e := rsa.GenerateKey(rand.Reader, 2048)
 	if e != nil {
-		return nil, nil, e
+		return fixtureKeyPair{}, e
 	}
 	b, e := rsa.GenerateKey(rand.Reader, 2048)
-	return a, b, e
+	return fixtureKeyPair{application: a, provider: b}, e
 })
 
 type payFixture struct {
@@ -50,10 +54,11 @@ type payFixture struct {
 
 func fixture(t *testing.T, transport func(*payFixture, *http.Request) (*http.Response, error)) *payFixture {
 	t.Helper()
-	app, provider, e := fixtureKeys()
+	keys, e := fixtureKeys()
 	if e != nil {
 		t.Fatal(e)
 	}
+	app, provider := keys.application, keys.provider
 	now := time.Date(2026, 11, 6, 8, 0, 0, 0, time.UTC)
 	f := &payFixture{now: now, provider: provider, application: app}
 	f.binding = Binding{Profile: Profile, Revision: "machine_1", Provider: "ALIPAY", Environment: "SANDBOX", Seller: "seller_test", AppID: "2026000000000001", ServiceID: "API_test", AuthoritySubject: "seller_subject", CredentialRef: "app_key", AuthorizationRef: "authorization_test", AuthorizationHash: strings.Repeat("a", 64), QualificationRef: "qualification_test", QualificationHash: strings.Repeat("b", 64), ValidFrom: now.Add(-time.Hour), ValidUntil: now.Add(24 * time.Hour), ResolveUntil: now.Add(48 * time.Hour)}

@@ -20608,11 +20608,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "ee46266829c2c24d2e2936d63ffe636027f971e774e8e1825e2fe5ef10ee31a7"
+      "sha256": "602f87576575c1991bf4545c47c9d8f0bf370bd6ff917e7f0a7c673f40c63c98"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "0f8b3590d9c27b93bd8fda21c1199a175fa3ae89697a522d2b7df3a7795e253d"
+      "sha256": "83bda2d90963d87a8978faed666ca4eceee104fd04f8328dcd67aef2a126c3ac"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20636,7 +20636,7 @@
     },
     {
       "path": "docs/协议/统一API与本地加密网关需求.md",
-      "sha256": "9d87381d25048a252071543a7fcd7527df63261c4ade124aab146c78bfd77b9e"
+      "sha256": "286bde076eb6d88e47ad6630026bb16c199e953d11475a0ef273663842cefbde"
     },
     {
       "path": "docs/技术开发/02-工程结构开发环境与编码规范.md",
@@ -20680,7 +20680,7 @@
     },
     {
       "path": "docs/技术开发/13-支付退款账务与渠道结算.md",
-      "sha256": "b9b73480cb68a5929dc00349108f31474b5d3a08f9f01278134acc11d6ceeb38"
+      "sha256": "cb8a5c01301bb534caa3f7071d4e54d6cbbc5e25fafef1424f6b754be383986f"
     },
     {
       "path": "docs/技术开发/14-前端路由状态与接口集成.md",
@@ -20808,7 +20808,7 @@
     },
     {
       "path": "docs/技术开发/附录-协议字段映射与兼容档位.md",
-      "sha256": "bffe1cce3cd70fab6301d131fb7a66377240d7ae6098ae65eca3157bd0d147ca"
+      "sha256": "92c7b04e76dd7503e46a404cc6154804bdc263ddccb6e99f6a5a3a0a5e2562b4"
     },
     {
       "path": "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
@@ -20820,7 +20820,7 @@
     },
     {
       "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-      "sha256": "21e677b81098d2cd1e6c21ba366980c639c46f6473203c40da80c053dd02f803"
+      "sha256": "d731091899811d7a457448d54617ef53d2ef63531710f5e90399e485fb02deb5"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
@@ -20832,7 +20832,7 @@
     },
     {
       "path": "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-      "sha256": "054b6c4c02f8de525a9c91db1d0cd529703875f03a4cdd3507479d381085542d"
+      "sha256": "7669724dc8e5a3d9bb24ceb7e379d0f3d5efb5d65d75b5d684655f4f4b88684c"
     },
     {
       "path": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md",
