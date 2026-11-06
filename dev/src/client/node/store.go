@@ -15,6 +15,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"p11.local/compute/client/comfyenv"
 	"p11.local/compute/client/execution"
 	"p11.local/compute/client/protocol/devicecontrol"
 	"p11.local/compute/client/protocol/executionlease"
@@ -83,6 +84,7 @@ type state struct {
 	ExecutionID  string       `json:"execution_store_id,omitempty"`
 	HostID       string       `json:"execution_host_id,omitempty"`
 	RentalID     string       `json:"rental_control_journal_id,omitempty"`
+	KernelID     string       `json:"kernel_environment_registry_id,omitempty"`
 }
 
 // Store holds an OS-level single-writer lock until Close, including during
@@ -97,6 +99,7 @@ type Store struct {
 	execution             *execution.Store
 	host                  *Host
 	rentals               *RentalJournal
+	kernels               *comfyenv.Registry
 	nativeMu              sync.Mutex
 	nativeRentals         map[string]*NativeRental
 	closingNative         bool
@@ -328,6 +331,9 @@ func makeCipher(key []byte) (cipher.AEAD, error) {
 }
 func (s *Store) validate() error {
 	v := s.s
+	if v.KernelID != "" && (!executionlease.Hash(v.KernelID) || v.DeviceID == "" || v.Config.Kind != "GPU_DEVICE") {
+		return ErrState
+	}
 	if v.RentalID != "" && (!executionlease.Hash(v.RentalID) || v.DeviceID == "" || v.Config.Kind != "GPU_DEVICE") {
 		return ErrState
 	}
@@ -435,6 +441,15 @@ func (s *Store) Close() {
 
 func (s *Store) finishClose() {
 	s.finishOnce.Do(func() {
+		s.nativeMu.Lock()
+		kernels := s.kernels
+		s.nativeMu.Unlock()
+		if kernels != nil {
+			kernels.Close() // join installer IO before releasing OS lock/root/key
+			s.nativeMu.Lock()
+			s.kernels = nil
+			s.nativeMu.Unlock()
+		}
 		if s.rentals != nil {
 			s.rentals.Close()
 			s.rentals = nil

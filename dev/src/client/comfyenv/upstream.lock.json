@@ -1,0 +1,85 @@
+{
+  "profile_id": "P11_COMFY_SOURCE_REVIEW_PIN_1",
+  "repository": "https://github.com/Comfy-Org/ComfyUI",
+  "release": "v0.44.0",
+  "commit": "2c75dc1b379a59e0880619d029607af5169a62ef",
+  "published_at": "2026-11-04T01:12:27Z",
+  "observed_date": "2026-11-06",
+  "source_only": true,
+  "license": "GPL-3.0-only",
+  "license_path": "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
+  "reviewed_source_files": [
+    {
+      "path": "LICENSE",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "execution.py",
+      "sha256": "4fa82de8dd76192fc6ce1a7c95e085d2c31a64d9e47f2ce3b44d0a86c2d68684"
+    },
+    {
+      "path": "nodes.py",
+      "sha256": "4cfd9be3754f9dc25213febdf96b690d6e32007c2e539d37e799d82226d758c5"
+    },
+    {
+      "path": "main.py",
+      "sha256": "d5f1d810946f0d26c8187c12f9cac273c4689d06466076aea360cfe405e088a2"
+    },
+    {
+      "path": "folder_paths.py",
+      "sha256": "e48ed55f125cd75b5c22d61a6d86917eb2e9154fc7eb57d1f993b4e8e18e3be2"
+    },
+    {
+      "path": "server.py",
+      "sha256": "f0e76068391a1827d361281a599f8043811a6d82fc8ecb3d8d58efb9c348b9d2"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "7e9464627b7998e42b45748258bbcb2896cb64093c6bca7fce173e8efeeefd54"
+    },
+    {
+      "path": "comfy/model_management.py",
+      "sha256": "41e89e3fc871ae19981cf87eb25d354e1fcd4164d720af8369aacda5c54d0358"
+    },
+    {
+      "path": "comfy/cli_args.py",
+      "sha256": "bebe7a5802f99acaed6315adcf1ed2a3661689f4f618452e12dc179b16be8a6c"
+    },
+    {
+      "path": "comfy/options.py",
+      "sha256": "a9d0bb41f5b8d393efc264e83e5f3003ce52c87aca585c0e8ab97bbaea87c8bb"
+    },
+    {
+      "path": "comfy_execution/graph.py",
+      "sha256": "b78c69dda0718e2c6a44fe54d822470632ff638e467ee8448e2d3fab67dbbf0a"
+    },
+    {
+      "path": "comfy_execution/caching.py",
+      "sha256": "edc554b1348f4c5dae50c022b061399ab5be5e06872d73c5c1fedca9bba45ce2"
+    },
+    {
+      "path": "comfy_extras/nodes_video.py",
+      "sha256": "b121ce53f3f241f1389a2d69151cc9ddc4357ea40645c7c9ac923a63df922317"
+    },
+    {
+      "path": "comfy_extras/nodes_audio.py",
+      "sha256": "483466af050a43bf96f9fcdfa56ab2759dbf8611dd6a14a9543f6d136ecbdf43"
+    },
+    {
+      "path": "comfy_extras/nodes_stable3d.py",
+      "sha256": "a96f5e52bcbe0a7f08729f640b0a33216d80dbb28964e1a2ac5a97cefe028b54"
+    },
+    {
+      "path": "comfy_extras/nodes_load_3d.py",
+      "sha256": "414933ee218ab11bd25d4b87b51688a92aec69be2421d5d94dbddaade83c8e50"
+    }
+  ],
+  "distribution_status": "SOURCE_REVIEW_PIN_ONLY_NO_COMPLETE_APPROVED_RUNTIME_ARCHIVES_SHIPPED",
+  "runtime_catalog_requirement": "Independent Ed25519 catalog plus explicit local consent must lock every Python/ComfyUI/dependency/bridge/tool/node file, version, hash, size and license. This source pin is neither an installable environment nor qualification.",
+  "execution_status": "NOT_BUILT_NOT_EXECUTED_NOT_GPU_OR_MEDIA_QUALIFIED",
+  "reference_urls": [
+    "https://github.com/Comfy-Org/ComfyUI/releases/tag/v0.44.0",
+    "https://github.com/Comfy-Org/ComfyUI/blob/2c75dc1b379a59e0880619d029607af5169a62ef/nodes.py",
+    "https://github.com/Comfy-Org/ComfyUI/blob/2c75dc1b379a59e0880619d029607af5169a62ef/execution.py"
+  ]
+}

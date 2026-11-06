@@ -275,3 +275,6 @@ Applied migrations and content-addressed files retain exact bytes across checkou
 - [Media / 演示媒体](dev/repository/MEDIA.md)
 - [Implementation evidence and every outstanding task](dev/progress/README.md)
 
+## R026 ComfyUI source checkpoint / 源码检查点
+
+R026 adds [CE-001–036](docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md): independently pinned/signed complete catalogs and local license/node consent, bounded immutable ZIP installation and whole-tree checks, the original node AEAD registry, shared physical maintenance selection and five metadata-only local CLI operations. Official source is pinned to ComfyUI v0.44.0/2c75dc1b379a59e0880619d029607af5169a62ef; no complete actual runtime archive ships yet. All 31 new test definitions remain uncompiled/unexecuted. Media worker/first-write encryption/rental integration, actual qualification and performance remain open. RN-110/67 rental tests and every 56/222 task/step remain open until full-scope code precedes batch validation. No DDL change/migration.

@@ -1,0 +1,61 @@
+# Complete ComfyUI environment source / 完整环境源码
+
+SOURCE_ONLY / 未编译、未运行。该模块安装完整固定软件包和有限白名单节点，管理原节点下的不可变候选与本机选择；没有执行ComfyUI、模型、pip/git或网络下载。完整媒体 worker / RENTAL_SESSION / 首写加密仍须继续开发。所有56任务222子项保持开放，代码齐备后统一测试。
+
+Read the [CE-001—036 specification](../../../../docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md) and [current source progress](../../../progress/R026-全量代码阶段进展.md). The [source pin](upstream.lock.json) identifies official v0.44.0 commit `2c75dc1b379a59e0880619d029607af5169a62ef`; it is not a shipped Python/Torch runtime bundle or hardware qualification.
+
+## 本人选择及安装
+
+独立本机issuer/pins/revocation文件与独立Consent定义精确目录摘要、节点、许可及磁盘上限。`Verifier.Verify`生成不可变Plan；`Registry.Install`只接受原节点根下已下载ZIP的精确artifact映射。先加密登记原stage，再解压复核、提交目录、再次复核；失败保留QUARANTINED，不自动安装脚本、重试新身份、切换或开售。没有模型权重下载。
+
+节点客户端 `comfy-init/status/install/verify/delete --state <原节点绝对路径>` 提供本机管理。install/verify额外要求独立 `--trust` / `--consent` 绝对路径。install的stdin为 `signed_catalog` 和 `local_archives`。成功操作全部带 `execution_enabled=false / qualification=NOT_GRANTED`。具体信封和字段见CE文档，命令当前不执行。
+
+## Ownership and replacement
+
+`node.Store` anchors a random KernelID before creating the registry. Its separate AES-256-GCM key is derived from the original OS-protected master and original installation/device/seller/control binding. Missing or ambiguous anchored metadata is never recreated. Close cancels installation IO and joins entered operations before the parent releases its OS lock, root or keys.
+
+`Store.ActivateComfy` uses that node's original execution ledger. Selection requires the same physical MAINTENANCE/PREPARING owner, a full directory check and a metadata commit while holding the shared gate. It starts no engine, grants no qualification and leaves the maintenance owner occupied. Explicit rollback follows the same approval/checks; it cannot reset identity, fences, money or prices. Tombstones precede deletion, active candidates cannot be deleted and history remains bounded/countable.
+
+Full hashes run on installation/selection and before future imports, not once per generated token/frame. Installer memory is bounded by catalog/central-directory limits and streaming buffers; actual memory/performance remains unmeasured. Finite approved Python nodes are trusted code, not an isolation boundary. Registry encryption is not network E2E, provider blindness, LP or TEE.
+
+## 测试源码
+
+微小合成包覆盖独立信任/同意、可选节点依赖、路径/大小写/脚本/类覆盖拒绝、ZIP限额/符号链接、精确全树、AEAD与异根、半提交隔离、墓碑、关闭join、维护共槽和CLI输入边界。**全部未编译、未运行**；没有真实Python/ComfyUI/GPU或媒体验收。编号索引由R026文档整理器同步，禁止把未来测试定义计入历史通过数量。
+
+This component adds no SQL and changes none of the published platform/native DDL. Docker/WSL/QEMU and other local virtualization remain prohibited. Continue complete production code and test-source development across all 56/222 before batch validation.
+
+## R026 测试定义编号索引
+
+| 编号 | 定义 | 源码 | 状态 |
+|---|---|---|---|
+| CE-T001 | TestComfyCLIRejectsAmbiguousOwnerOptionsBeforeOpeningNode | dev/src/client/cmd/p11-node/comfy_test.go | 未编译/未运行 |
+| CE-T002 | TestComfyOwnerFilesStrictBoundedAndSelectedByAbsolutePath | dev/src/client/cmd/p11-node/comfy_test.go | 未编译/未运行 |
+| CE-T003 | TestComfyActivationAndExplicitRollbackUseOriginalPhysicalMaintenanceGate | dev/src/client/comfyenv/activation_test.go | 未编译/未运行 |
+| CE-T004 | TestComfyActivationRejectsLocalStoppedAndForeignMaintenanceHolds | dev/src/client/comfyenv/activation_test.go | 未编译/未运行 |
+| CE-T005 | TestComfyArchiveRejectsSymlinkBeforeFollowingItsTarget | dev/src/client/comfyenv/archive_test.go | 未编译/未运行 |
+| CE-T006 | TestComfyInstallCancelledAdmissionCreatesNoCandidateOrStage | dev/src/client/comfyenv/archive_test.go | 未编译/未运行 |
+| CE-T007 | TestComfyCatalogRequiresIndependentPinsConsentAndCurrentRevocations | dev/src/client/comfyenv/catalog_test.go | 未编译/未运行 |
+| CE-T008 | TestComfyCatalogSelectsFiniteNodesAndOnlyTheirOptionalDependencies | dev/src/client/comfyenv/catalog_test.go | 未编译/未运行 |
+| CE-T009 | TestComfyCatalogRejectsPathsCaseAliasesHooksAndCrossRoleOverrides | dev/src/client/comfyenv/catalog_test.go | 未编译/未运行 |
+| CE-T010 | TestComfyCatalogImmutablePlanCopiesAndExactExpiry | dev/src/client/comfyenv/catalog_test.go | 未编译/未运行 |
+| CE-T011 | TestComfyCatalogStrictJSONAndDiskBudget | dev/src/client/comfyenv/catalog_test.go | 未编译/未运行 |
+| CE-T012 | TestComfyInstallExactFullTreeAndFreshPinsReadback | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T013 | TestComfyInstallDirectoryDriftQuarantinesWithoutFallback | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T014 | TestComfyInstallDamagedOriginalArchiveKeepsStageAndCandidate | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T015 | TestComfyArchiveRejectsExtraTraversalAndCaseEntries | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T016 | TestComfyArchiveBoundsRejectBeforeEntryAllocation | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T017 | TestComfyRegistryInterruptedInstallationNeverAdoptsTree | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T018 | TestComfyRegistryMissingCorruptOrDifferentBindingNeverRecreated | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T019 | TestComfyRegistryCommitFailurePoisonsOriginalMetadata | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T020 | TestComfyDeleteTombstoneRetainsHistoryAndOtherOwnedFiles | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T021 | TestComfyDeleteUncertainTombstoneNeverRemovesOriginalTree | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T022 | TestComfyRegistryCloseCancelsAndJoinsEnteredOperation | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T023 | TestComfyRegistryRejectsAlteredAuthenticatedMetadata | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T024 | TestComfyMetadataIncludesExactConsentWithoutContentOrExecutionGrant | dev/src/client/comfyenv/registry_test.go | 未编译/未运行 |
+| CE-T025 | TestMaintenanceRequiresOriginalPreparingOwnerAndNeverAcquiresAnotherMode | dev/src/client/execution/maintenance_test.go | 未编译/未运行 |
+| CE-T026 | TestMaintenanceHoldsPhysicalGateAcrossLocalMetadataCommit | dev/src/client/execution/maintenance_test.go | 未编译/未运行 |
+| CE-T027 | TestMaintenanceMetadataFailureDoesNotManufactureCleanupOrFree | dev/src/client/execution/maintenance_test.go | 未编译/未运行 |
+| CE-T028 | TestMaintenanceCannotBorrowRentalSessionPhysicalOwner | dev/src/client/execution/maintenance_test.go | 未编译/未运行 |
+| CE-T029 | TestNodeComfyRegistryOriginalAnchorEncryptedReopenAndIndependentKey | dev/src/client/node/kernels_test.go | 未编译/未运行 |
+| CE-T030 | TestNodeComfyRegistryMissingAnchoredJournalCannotBeReinitialized | dev/src/client/node/kernels_test.go | 未编译/未运行 |
+| CE-T031 | TestNodeComfyRegistryRejectsForeignRootAndPreservesOSLockUntilClose | dev/src/client/node/kernels_test.go | 未编译/未运行 |

@@ -320,3 +320,9 @@ INT-097从当前原DB会话/资金/资格/完整预算/物理owner事实签发�
 原节点OS锁/OS主密钥＋独立域派生AES-GCM journal保存元组/控制序号/停止标记，最多64份grant水位、8份原本机准备批准、256KiB总密文；文件原子替换及flush先于占位或请求外发。进程恢复没有ALLOW，存储未知关闭。新增端侧schema-002前向源码保留旧DDL和原占用/双水位，以同resources行管理JOB/个人使用/维护/RENTAL；每会话最多一个未清理租内调用，提交前存一次意图。ProviderRental将原加密批准/原DB摘要/签名控制提交共门闩，原子提交耗时不延长窗口。子清理不释放父占位；旧历史不能控制下一owner。
 
 实际磁盘/签名开销没有测量，不主张管理员快照防回滚或硬件TEE。真实租赁内核适配、认证输入/参考素材、独立停止watchdog/反回滚水位、安全容量回收、Android会话及平台独立清理确认/owner/预算释放仍待。控制活性不是付费续租、可用时间计量或单独执行权；内部清理事实不得由提供方HTTP布尔制造。源码未编译/测试/迁移，53项租赁用例均只有源码定义，完整56/222保持开放。
+
+## R026 ComfyUI source checkpoint / 源码检查点
+
+R026新增[CE-001—036](../../docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md)：独立签名/本人许可节点同意、固定完整目录、有限节点依赖、有界ZIP安装/全树复核、原节点AEAD登记、原物理维护共槽切换和五项本机管理入口源码。官方ComfyUI固定v0.44.0/2c75dc1b379a59e0880619d029607af5169a62ef，尚未制作完整实际运行包；31项新测试定义全部未编译/运行。没有ComfyUI媒体执行/首写加密/租内接线或资格/性能结论。RN-110/67租赁测试、全部56任务222子项保持开放，代码齐备后统一验证；无SQL变更/迁移。
+
+R026 adds [CE-001–036](../../docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md): independently pinned/signed complete catalogs and local license/node consent, bounded immutable ZIP installation and whole-tree checks, the original node AEAD registry, shared physical maintenance selection and five metadata-only local CLI operations. Official source is pinned to ComfyUI v0.44.0/2c75dc1b379a59e0880619d029607af5169a62ef; no complete actual runtime archive ships yet. All 31 new test definitions remain uncompiled/unexecuted. Media worker/first-write encryption/rental integration, actual qualification and performance remain open. RN-110/67 rental tests and every 56/222 task/step remain open until full-scope code precedes batch validation. No DDL change/migration.

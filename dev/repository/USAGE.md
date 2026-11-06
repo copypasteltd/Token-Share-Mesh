@@ -536,3 +536,9 @@ Existing progress requests can receive a signed CONTINUE for the same original e
 原Bearer只作内存校验，原批准、请求序号及停止标记持久加密；网络重试不改原键，重启不复用ALLOW。租内子调用只清自身，父租赁继续占原槽。Stop/关闭保留原owner/预算；本机原事实清理门槛已有源码，真实适配器证明与平台回执/owner/预算释放仍待。新增端侧schema-002前向迁移源码，旧DDL不改；目前不运行迁移或编译。9项租赁HTTP/53项测试定义仅是源码，不能据此开启交易或执行。完整56/222完成代码后才集中编译/测试。
 
 The source-level join is explicit owner approval → encrypted durable preparation → original shared physical row → independently read grant metadata and pinned JWS → signed control committed to that row → serial once-only invocation. Stop/expiry retains ownership. Trusted actual engine cleanup observations, platform acknowledgement and release are not implemented by a JSON boolean. No CLI enables rental execution; no tests or database migration have run for this code.
+
+## R026 ComfyUI source checkpoint / 源码检查点
+
+R026新增[CE-001—036](../../docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md)：独立签名/本人许可节点同意、固定完整目录、有限节点依赖、有界ZIP安装/全树复核、原节点AEAD登记、原物理维护共槽切换和五项本机管理入口源码。官方ComfyUI固定v0.44.0/2c75dc1b379a59e0880619d029607af5169a62ef，尚未制作完整实际运行包；31项新测试定义全部未编译/运行。没有ComfyUI媒体执行/首写加密/租内接线或资格/性能结论。RN-110/67租赁测试、全部56任务222子项保持开放，代码齐备后统一验证；无SQL变更/迁移。
+
+R026 adds [CE-001–036](../../docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md): independently pinned/signed complete catalogs and local license/node consent, bounded immutable ZIP installation and whole-tree checks, the original node AEAD registry, shared physical maintenance selection and five metadata-only local CLI operations. Official source is pinned to ComfyUI v0.44.0/2c75dc1b379a59e0880619d029607af5169a62ef; no complete actual runtime archive ships yet. All 31 new test definitions remain uncompiled/unexecuted. Media worker/first-write encryption/rental integration, actual qualification and performance remain open. RN-110/67 rental tests and every 56/222 task/step remain open until full-scope code precedes batch validation. No DDL change/migration.

@@ -20608,11 +20608,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "c6b6fab8c7fe1379624c25ee7a48a9db8c354dd050dccc65843ea1d526f1c82a"
+      "sha256": "bcb35cac7f9eada478c4f5d8abf5acef80d7a53c3c47418ac7372d9deab2a623"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "68f976b30f4d3183bd42aa4639551180f2b4a415590d496aa62cbdd2a15df5a9"
+      "sha256": "0d43630a395c7180813f2a5baa09bd5c81cf9290c4b5ceb3f8a765a9cf2ef5fa"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20804,7 +20804,7 @@
     },
     {
       "path": "docs/技术开发/附录-供给端内核封装与替换规范.md",
-      "sha256": "5f97741ea709e58a60c01d40e98c7af916ea6fb500b206cee1d0988da682925f"
+      "sha256": "54a14fc1522b1947963b7b259cac5b2db3bb8a8463b01723f9d000be3aaa4b2e"
     },
     {
       "path": "docs/技术开发/附录-协议字段映射与兼容档位.md",

@@ -23,7 +23,7 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 39 in progress · 15 not started · 1 conditional · 1 deferred |
+| Implementation tasks | 40 in progress · 14 not started · 1 conditional · 1 deferred |
 | Latest source round | R025 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | Native test evidence | 300 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
@@ -284,3 +284,6 @@ Applied migrations and content-addressed files retain exact bytes across checkou
 - [Media / 演示媒体](dev/repository/MEDIA.md)
 - [Implementation evidence and every outstanding task](dev/progress/README.md)
 
+## R026 ComfyUI source checkpoint / 源码检查点
+
+R026 adds [CE-001–036](docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md): independently pinned/signed complete catalogs and local license/node consent, bounded immutable ZIP installation and whole-tree checks, the original node AEAD registry, shared physical maintenance selection and five metadata-only local CLI operations. Official source is pinned to ComfyUI v0.44.0/2c75dc1b379a59e0880619d029607af5169a62ef; no complete actual runtime archive ships yet. All 31 new test definitions remain uncompiled/unexecuted. Media worker/first-write encryption/rental integration, actual qualification and performance remain open. RN-110/67 rental tests and every 56/222 task/step remain open until full-scope code precedes batch validation. No DDL change/migration.

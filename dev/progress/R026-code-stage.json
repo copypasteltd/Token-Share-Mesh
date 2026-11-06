@@ -5,6 +5,7 @@
   "validation_started_after_user_policy": false,
   "upstream_commit": "0ca9445b1196ebd808b7c186ceda6ca79ffe0831",
   "source_files": [
+    "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
     "dev/licenses/golang-jwt-v5.3.1-MIT.txt",
     "dev/src/api/cmd/p11-api/continuation.go",
     "dev/src/api/cmd/p11-api/continuation_test.go",
@@ -42,8 +43,23 @@
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshProgressPump.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshResultCipher.java",
     "dev/src/client/android/overlay/app/src/main/java/com/lma/app/mesh/MeshSharePolicy.java",
+    "dev/src/client/cmd/p11-node/comfy.go",
+    "dev/src/client/cmd/p11-node/comfy_test.go",
+    "dev/src/client/cmd/p11-node/main.go",
+    "dev/src/client/comfyenv/README.md",
+    "dev/src/client/comfyenv/activation_test.go",
+    "dev/src/client/comfyenv/archive.go",
+    "dev/src/client/comfyenv/archive_test.go",
+    "dev/src/client/comfyenv/catalog.go",
+    "dev/src/client/comfyenv/catalog_test.go",
+    "dev/src/client/comfyenv/files.go",
+    "dev/src/client/comfyenv/registry.go",
+    "dev/src/client/comfyenv/registry_test.go",
+    "dev/src/client/comfyenv/upstream.lock.json",
     "dev/src/client/execution/README.md",
     "dev/src/client/execution/gate.go",
+    "dev/src/client/execution/maintenance.go",
+    "dev/src/client/execution/maintenance_test.go",
     "dev/src/client/execution/migration.go",
     "dev/src/client/execution/rental.go",
     "dev/src/client/execution/rental_history.go",
@@ -54,6 +70,8 @@
     "dev/src/client/execution/store.go",
     "dev/src/client/execution/store_test.go",
     "dev/src/client/internal/rentaltest/fixture.go",
+    "dev/src/client/node/kernels.go",
+    "dev/src/client/node/kernels_test.go",
     "dev/src/client/node/rental_control.go",
     "dev/src/client/node/rental_journal.go",
     "dev/src/client/node/rental_journal_test.go",
@@ -120,6 +138,7 @@
     "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
     "docs/技术开发/database/migrations/014_rental_authority_context.sql",
     "docs/技术开发/database/migrations/015_rental_control_history.sql",
+    "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
     "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
   ],
   "implemented_items": [
@@ -252,6 +271,26 @@
       "id": "IMP-R026-026",
       "title": "RN-091—110、14项新增测试源码及完整文档同步",
       "status": "共67项租赁测试定义均未运行；48控制HTTP/9租赁、98规划操作/71平台表不变；56任务/222子项全量代码与验收仍开放"
+    },
+    {
+      "id": "IMP-R026-027",
+      "title": "ComfyUI完整固定目录、独立签名与本人节点/许可选择",
+      "status": "CE-001—015：精确逐文件包、角色隔离、有限节点依赖与独立同意；官方v0.44.0源码固定，尚未制作完整实际运行包，未验证"
+    },
+    {
+      "id": "IMP-R026-028",
+      "title": "本机ZIP有界安装、完整树复核与失败隔离",
+      "status": "CE-016—025：分配前限中央目录/逐记录扫描、64KiB解压、先登记stage、两次完整复核和重启隔离；不执行pip/git/节点或模型"
+    },
+    {
+      "id": "IMP-R026-029",
+      "title": "原节点加密登记、维护共槽切换和五项本机入口",
+      "status": "CE-026—034：原系统钥/OS锁/锚定AEAD、原MAINTENANCE关键提交、显式回滚/先墓碑删除/关闭join；本机选择NOT_GRANTED，未验证"
+    },
+    {
+      "id": "IMP-R026-030",
+      "title": "CE-001—036、测试源码和完整文档同步",
+      "status": "新边界测试只有定义；不编译/迁移/运行，媒体worker/首写加密/租内接线仍待；原RN-110/67测试与全部56/222开放状态保留"
     }
   ],
   "tasks": [
@@ -282,7 +321,37 @@
         "dev/tests/evidence/R025-development-attempts.json",
         "dev/tests/evidence/R025-migration-immutability.json"
       ],
-      "remaining_detail": "R025补原生宿主/本机批准与输入驻留绑定源码。原合同和物理围栏不改；生产资金、可信usage/最终ACK/SDK、持久崩溃恢复与安装器/跨平台/完整LM Studio/ComfyUI/LMA/E2E/LP/性能及真实组合验收仍须分别补齐；本任务原子项保持未收口。"
+      "remaining_detail": "R025补原生宿主/本机批准与输入驻留绑定源码。原合同和物理围栏不改；生产资金、可信usage/最终ACK/SDK、持久崩溃恢复与安装器/跨平台/完整LM Studio/ComfyUI/LMA/E2E/LP/性能及真实组合验收仍须分别补齐；本任务原子项保持未收口。",
+      "current_source_refs": [
+        "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
+        "dev/src/client/cmd/p11-node/comfy.go",
+        "dev/src/client/cmd/p11-node/comfy_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/comfyenv/README.md",
+        "dev/src/client/comfyenv/activation_test.go",
+        "dev/src/client/comfyenv/archive.go",
+        "dev/src/client/comfyenv/archive_test.go",
+        "dev/src/client/comfyenv/catalog.go",
+        "dev/src/client/comfyenv/catalog_test.go",
+        "dev/src/client/comfyenv/files.go",
+        "dev/src/client/comfyenv/registry.go",
+        "dev/src/client/comfyenv/registry_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
+        "dev/src/client/execution/maintenance.go",
+        "dev/src/client/execution/maintenance_test.go",
+        "dev/src/client/node/kernels.go",
+        "dev/src/client/node/kernels_test.go",
+        "dev/src/client/node/store.go",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-027",
+        "IMP-R026-028",
+        "IMP-R026-029",
+        "IMP-R026-030"
+      ],
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-02",
@@ -699,12 +768,28 @@
       ],
       "remaining_detail": "租赁STANDARD文本已有独立原grant认证、本机随机AEAD一次输入、无假T1的真实llama私有管道适配、不等SQL的本机截止监督、原子调用停止清理与节点所有权/join源码；未编译/运行或物理资格验收。公网/SDK监听与输出交付、平台独立清理确认/预算释放、可信本人批准UI/ready生产、真实收单/付费续租、确认计量、Android会话/M1、E2E/LP及全56/222其余代码仍待，全量代码齐备后再统一测试。",
       "current_source_refs": [
+        "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
         "dev/src/client/adapters/llamaworker/adapter.go",
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
         "dev/src/client/adapters/llamaworker/rental_test.go",
+        "dev/src/client/cmd/p11-node/comfy.go",
+        "dev/src/client/cmd/p11-node/comfy_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/comfyenv/README.md",
+        "dev/src/client/comfyenv/activation_test.go",
+        "dev/src/client/comfyenv/archive.go",
+        "dev/src/client/comfyenv/archive_test.go",
+        "dev/src/client/comfyenv/catalog.go",
+        "dev/src/client/comfyenv/catalog_test.go",
+        "dev/src/client/comfyenv/files.go",
+        "dev/src/client/comfyenv/registry.go",
+        "dev/src/client/comfyenv/registry_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
         "dev/src/client/execution/README.md",
         "dev/src/client/execution/gate.go",
+        "dev/src/client/execution/maintenance.go",
+        "dev/src/client/execution/maintenance_test.go",
         "dev/src/client/execution/migration.go",
         "dev/src/client/execution/rental.go",
         "dev/src/client/execution/rental_history.go",
@@ -715,6 +800,8 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/node/kernels.go",
+        "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_journal.go",
         "dev/src/client/node/rental_native.go",
         "dev/src/client/node/rental_native_test.go",
@@ -736,6 +823,7 @@
         "dev/src/internal/market/catalog.go",
         "dev/src/internal/rental/service.go",
         "dev/src/shared/contractspec/spec.go",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -746,9 +834,14 @@
         "IMP-R026-023",
         "IMP-R026-024",
         "IMP-R026-025",
-        "IMP-R026-026"
+        "IMP-R026-026",
+        "IMP-R026-027",
+        "IMP-R026-028",
+        "IMP-R026-029",
+        "IMP-R026-030"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
     },
     {
       "id": "DEV-08",
@@ -1413,12 +1506,28 @@
       ],
       "remaining_detail": "租赁STANDARD文本已有独立原grant认证、本机随机AEAD一次输入、无假T1的真实llama私有管道适配、不等SQL的本机截止监督、原子调用停止清理与节点所有权/join源码；未编译/运行或物理资格验收。公网/SDK监听与输出交付、平台独立清理确认/预算释放、可信本人批准UI/ready生产、真实收单/付费续租、确认计量、Android会话/M1、E2E/LP及全56/222其余代码仍待，全量代码齐备后再统一测试。",
       "current_source_refs": [
+        "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
         "dev/src/client/adapters/llamaworker/adapter.go",
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
         "dev/src/client/adapters/llamaworker/rental_test.go",
+        "dev/src/client/cmd/p11-node/comfy.go",
+        "dev/src/client/cmd/p11-node/comfy_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/comfyenv/README.md",
+        "dev/src/client/comfyenv/activation_test.go",
+        "dev/src/client/comfyenv/archive.go",
+        "dev/src/client/comfyenv/archive_test.go",
+        "dev/src/client/comfyenv/catalog.go",
+        "dev/src/client/comfyenv/catalog_test.go",
+        "dev/src/client/comfyenv/files.go",
+        "dev/src/client/comfyenv/registry.go",
+        "dev/src/client/comfyenv/registry_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
         "dev/src/client/execution/README.md",
         "dev/src/client/execution/gate.go",
+        "dev/src/client/execution/maintenance.go",
+        "dev/src/client/execution/maintenance_test.go",
         "dev/src/client/execution/migration.go",
         "dev/src/client/execution/rental.go",
         "dev/src/client/execution/rental_history.go",
@@ -1429,6 +1538,8 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/node/kernels.go",
+        "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_journal.go",
         "dev/src/client/node/rental_native.go",
         "dev/src/client/node/rental_native_test.go",
@@ -1450,6 +1561,7 @@
         "dev/src/internal/market/catalog.go",
         "dev/src/internal/rental/service.go",
         "dev/src/shared/contractspec/spec.go",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -1460,13 +1572,18 @@
         "IMP-R026-023",
         "IMP-R026-024",
         "IMP-R026-025",
-        "IMP-R026-026"
+        "IMP-R026-026",
+        "IMP-R026-027",
+        "IMP-R026-028",
+        "IMP-R026-029",
+        "IMP-R026-030"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
     },
     {
       "id": "DEV-22",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-22.01",
@@ -1474,7 +1591,38 @@
         "DEV-22.03",
         "DEV-22.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "current_source_refs": [
+        "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
+        "dev/src/client/cmd/p11-node/comfy.go",
+        "dev/src/client/cmd/p11-node/comfy_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/comfyenv/README.md",
+        "dev/src/client/comfyenv/activation_test.go",
+        "dev/src/client/comfyenv/archive.go",
+        "dev/src/client/comfyenv/archive_test.go",
+        "dev/src/client/comfyenv/catalog.go",
+        "dev/src/client/comfyenv/catalog_test.go",
+        "dev/src/client/comfyenv/files.go",
+        "dev/src/client/comfyenv/registry.go",
+        "dev/src/client/comfyenv/registry_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
+        "dev/src/client/execution/maintenance.go",
+        "dev/src/client/execution/maintenance_test.go",
+        "dev/src/client/node/kernels.go",
+        "dev/src/client/node/kernels_test.go",
+        "dev/src/client/node/store.go",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-027",
+        "IMP-R026-028",
+        "IMP-R026-029",
+        "IMP-R026-030"
+      ],
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
+      "remaining_detail": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-23",
@@ -1563,6 +1711,7 @@
       ],
       "remaining_detail": "租赁STANDARD文本已有独立原grant认证、本机随机AEAD一次输入、无假T1的真实llama私有管道适配、不等SQL的本机截止监督、原子调用停止清理与节点所有权/join源码；未编译/运行或物理资格验收。公网/SDK监听与输出交付、平台独立清理确认/预算释放、可信本人批准UI/ready生产、真实收单/付费续租、确认计量、Android会话/M1、E2E/LP及全56/222其余代码仍待，全量代码齐备后再统一测试。",
       "current_source_refs": [
+        "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
         "dev/src/api/internal/http/rental.go",
         "dev/src/api/internal/http/routes.go",
         "dev/src/api/internal/http/routes.json",
@@ -1570,8 +1719,23 @@
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
         "dev/src/client/adapters/llamaworker/rental_test.go",
+        "dev/src/client/cmd/p11-node/comfy.go",
+        "dev/src/client/cmd/p11-node/comfy_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/comfyenv/README.md",
+        "dev/src/client/comfyenv/activation_test.go",
+        "dev/src/client/comfyenv/archive.go",
+        "dev/src/client/comfyenv/archive_test.go",
+        "dev/src/client/comfyenv/catalog.go",
+        "dev/src/client/comfyenv/catalog_test.go",
+        "dev/src/client/comfyenv/files.go",
+        "dev/src/client/comfyenv/registry.go",
+        "dev/src/client/comfyenv/registry_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
         "dev/src/client/execution/README.md",
         "dev/src/client/execution/gate.go",
+        "dev/src/client/execution/maintenance.go",
+        "dev/src/client/execution/maintenance_test.go",
         "dev/src/client/execution/migration.go",
         "dev/src/client/execution/rental.go",
         "dev/src/client/execution/rental_history.go",
@@ -1582,6 +1746,8 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/node/kernels.go",
+        "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_control.go",
         "dev/src/client/node/rental_journal.go",
         "dev/src/client/node/rental_journal_test.go",
@@ -1615,6 +1781,7 @@
         "dev/src/shared/contractspec/spec.go",
         "dev/src/tests/integration/rental_control_test.go",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -1629,9 +1796,14 @@
         "IMP-R026-023",
         "IMP-R026-024",
         "IMP-R026-025",
-        "IMP-R026-026"
+        "IMP-R026-026",
+        "IMP-R026-027",
+        "IMP-R026-028",
+        "IMP-R026-029",
+        "IMP-R026-030"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
     },
     {
       "id": "DEV-25",
@@ -2834,6 +3006,7 @@
       ],
       "remaining_detail": "租赁STANDARD文本已有独立原grant认证、本机随机AEAD一次输入、无假T1的真实llama私有管道适配、不等SQL的本机截止监督、原子调用停止清理与节点所有权/join源码；未编译/运行或物理资格验收。公网/SDK监听与输出交付、平台独立清理确认/预算释放、可信本人批准UI/ready生产、真实收单/付费续租、确认计量、Android会话/M1、E2E/LP及全56/222其余代码仍待，全量代码齐备后再统一测试。",
       "current_source_refs": [
+        "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
         "dev/src/api/cmd/p11-api/main.go",
         "dev/src/api/cmd/p11-api/rental.go",
         "dev/src/api/cmd/p11-api/rental_test.go",
@@ -2845,8 +3018,23 @@
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
         "dev/src/client/adapters/llamaworker/rental_test.go",
+        "dev/src/client/cmd/p11-node/comfy.go",
+        "dev/src/client/cmd/p11-node/comfy_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/comfyenv/README.md",
+        "dev/src/client/comfyenv/activation_test.go",
+        "dev/src/client/comfyenv/archive.go",
+        "dev/src/client/comfyenv/archive_test.go",
+        "dev/src/client/comfyenv/catalog.go",
+        "dev/src/client/comfyenv/catalog_test.go",
+        "dev/src/client/comfyenv/files.go",
+        "dev/src/client/comfyenv/registry.go",
+        "dev/src/client/comfyenv/registry_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
         "dev/src/client/execution/README.md",
         "dev/src/client/execution/gate.go",
+        "dev/src/client/execution/maintenance.go",
+        "dev/src/client/execution/maintenance_test.go",
         "dev/src/client/execution/migration.go",
         "dev/src/client/execution/rental.go",
         "dev/src/client/execution/rental_history.go",
@@ -2857,6 +3045,8 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/node/kernels.go",
+        "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_control.go",
         "dev/src/client/node/rental_journal.go",
         "dev/src/client/node/rental_journal_test.go",
@@ -2901,6 +3091,7 @@
         "dev/src/tests/integration/rental_test.go",
         "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -2919,9 +3110,14 @@
         "IMP-R026-023",
         "IMP-R026-024",
         "IMP-R026-025",
-        "IMP-R026-026"
+        "IMP-R026-026",
+        "IMP-R026-027",
+        "IMP-R026-028",
+        "IMP-R026-029",
+        "IMP-R026-030"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
     },
     {
       "id": "DEV-54",
@@ -2952,6 +3148,7 @@
       ],
       "remaining_detail": "租赁STANDARD文本已有独立原grant认证、本机随机AEAD一次输入、无假T1的真实llama私有管道适配、不等SQL的本机截止监督、原子调用停止清理与节点所有权/join源码；未编译/运行或物理资格验收。公网/SDK监听与输出交付、平台独立清理确认/预算释放、可信本人批准UI/ready生产、真实收单/付费续租、确认计量、Android会话/M1、E2E/LP及全56/222其余代码仍待，全量代码齐备后再统一测试。",
       "current_source_refs": [
+        "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
         "dev/src/api/internal/http/rental.go",
         "dev/src/api/internal/http/routes.go",
         "dev/src/api/internal/http/routes.json",
@@ -2959,8 +3156,23 @@
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
         "dev/src/client/adapters/llamaworker/rental_test.go",
+        "dev/src/client/cmd/p11-node/comfy.go",
+        "dev/src/client/cmd/p11-node/comfy_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/comfyenv/README.md",
+        "dev/src/client/comfyenv/activation_test.go",
+        "dev/src/client/comfyenv/archive.go",
+        "dev/src/client/comfyenv/archive_test.go",
+        "dev/src/client/comfyenv/catalog.go",
+        "dev/src/client/comfyenv/catalog_test.go",
+        "dev/src/client/comfyenv/files.go",
+        "dev/src/client/comfyenv/registry.go",
+        "dev/src/client/comfyenv/registry_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
         "dev/src/client/execution/README.md",
         "dev/src/client/execution/gate.go",
+        "dev/src/client/execution/maintenance.go",
+        "dev/src/client/execution/maintenance_test.go",
         "dev/src/client/execution/migration.go",
         "dev/src/client/execution/rental.go",
         "dev/src/client/execution/rental_history.go",
@@ -2971,6 +3183,8 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/node/kernels.go",
+        "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_control.go",
         "dev/src/client/node/rental_journal.go",
         "dev/src/client/node/rental_journal_test.go",
@@ -3004,6 +3218,7 @@
         "dev/src/shared/contractspec/spec.go",
         "dev/src/tests/integration/rental_control_test.go",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -3018,9 +3233,14 @@
         "IMP-R026-023",
         "IMP-R026-024",
         "IMP-R026-025",
-        "IMP-R026-026"
+        "IMP-R026-026",
+        "IMP-R026-027",
+        "IMP-R026-028",
+        "IMP-R026-029",
+        "IMP-R026-030"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
     },
     {
       "id": "DEV-55",
@@ -3061,6 +3281,7 @@
       ],
       "remaining_detail": "租赁STANDARD文本已有独立原grant认证、本机随机AEAD一次输入、无假T1的真实llama私有管道适配、不等SQL的本机截止监督、原子调用停止清理与节点所有权/join源码；未编译/运行或物理资格验收。公网/SDK监听与输出交付、平台独立清理确认/预算释放、可信本人批准UI/ready生产、真实收单/付费续租、确认计量、Android会话/M1、E2E/LP及全56/222其余代码仍待，全量代码齐备后再统一测试。",
       "current_source_refs": [
+        "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
         "dev/src/api/cmd/p11-api/main.go",
         "dev/src/api/cmd/p11-api/rental.go",
         "dev/src/api/cmd/p11-api/rental_test.go",
@@ -3072,8 +3293,23 @@
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
         "dev/src/client/adapters/llamaworker/rental_test.go",
+        "dev/src/client/cmd/p11-node/comfy.go",
+        "dev/src/client/cmd/p11-node/comfy_test.go",
+        "dev/src/client/cmd/p11-node/main.go",
+        "dev/src/client/comfyenv/README.md",
+        "dev/src/client/comfyenv/activation_test.go",
+        "dev/src/client/comfyenv/archive.go",
+        "dev/src/client/comfyenv/archive_test.go",
+        "dev/src/client/comfyenv/catalog.go",
+        "dev/src/client/comfyenv/catalog_test.go",
+        "dev/src/client/comfyenv/files.go",
+        "dev/src/client/comfyenv/registry.go",
+        "dev/src/client/comfyenv/registry_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
         "dev/src/client/execution/README.md",
         "dev/src/client/execution/gate.go",
+        "dev/src/client/execution/maintenance.go",
+        "dev/src/client/execution/maintenance_test.go",
         "dev/src/client/execution/migration.go",
         "dev/src/client/execution/rental.go",
         "dev/src/client/execution/rental_history.go",
@@ -3084,6 +3320,8 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/node/kernels.go",
+        "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_control.go",
         "dev/src/client/node/rental_journal.go",
         "dev/src/client/node/rental_journal_test.go",
@@ -3128,6 +3366,7 @@
         "dev/src/tests/integration/rental_test.go",
         "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -3146,9 +3385,14 @@
         "IMP-R026-023",
         "IMP-R026-024",
         "IMP-R026-025",
-        "IMP-R026-026"
+        "IMP-R026-026",
+        "IMP-R026-027",
+        "IMP-R026-028",
+        "IMP-R026-029",
+        "IMP-R026-030"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
     }
   ],
   "previous_verified_revision": "3560ebd3657f66e70cc876a95f68f034a6316953",
@@ -3217,7 +3461,7 @@
       "完整区间/故障独立确认与不可变计量修订、真实财务资格",
       "平台独立清理回执及同原owner/预算原子释放，后续数据库变更只加前向版本",
       "独立防回滚水位、安全容量回收、原grant终止证明；重开不能恢复ALLOW",
-      "独立低权限服务/隐私档完整接线、安装器及实际性能；不可把本机AEAD称为E2E/TEE",
+      "有限节点安装/原登记源码已写未验证；完整运行包/ComfyUI私有worker、低权限与性能仍待，不可把本机AEAD称E2E/TEE",
       "全56任务/222子项其余生产代码及测试源码后统一编译/测试/调试"
     ],
     "stored_grant_expectation_source_wired": true,
@@ -3318,5 +3562,292 @@
     "scope": "67 rental source test definitions; actual crypto/local SQL plus synthetic backend/private pipes only when future batch testing opens. No compilation/migration/model/GPU/Android/payment/physical acceptance executed.",
     "native_forward_migrations_added": 1
   },
-  "native_migration_source": "dev/src/client/execution/schema-002-rental.source.json"
+  "native_migration_source": "dev/src/client/execution/schema-002-rental.source.json",
+  "comfy_environment_source_integration": {
+    "source_status": "IMMUTABLE_COMFY_CATALOG_INSTALLER_ORIGINAL_NODE_REGISTRY_MAINTENANCE_AND_CLI_SOURCE_ONLY",
+    "annex": "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
+    "requirement_ids": [
+      "CE-001",
+      "CE-002",
+      "CE-003",
+      "CE-004",
+      "CE-005",
+      "CE-006",
+      "CE-007",
+      "CE-008",
+      "CE-009",
+      "CE-010",
+      "CE-011",
+      "CE-012",
+      "CE-013",
+      "CE-014",
+      "CE-015",
+      "CE-016",
+      "CE-017",
+      "CE-018",
+      "CE-019",
+      "CE-020",
+      "CE-021",
+      "CE-022",
+      "CE-023",
+      "CE-024",
+      "CE-025",
+      "CE-026",
+      "CE-027",
+      "CE-028",
+      "CE-029",
+      "CE-030",
+      "CE-031",
+      "CE-032",
+      "CE-033",
+      "CE-034",
+      "CE-035",
+      "CE-036"
+    ],
+    "official_source_commit": "2c75dc1b379a59e0880619d029607af5169a62ef",
+    "official_release": "v0.44.0",
+    "complete_runtime_archives_shipped": false,
+    "finite_node_installer_source_written": true,
+    "original_encrypted_node_registry_source_written": true,
+    "original_maintenance_gate_source_written": true,
+    "local_cli_source_written": true,
+    "private_comfy_media_worker_wired": false,
+    "rental_media_executor_wired": false,
+    "media_first_write_encryption_wired": false,
+    "model_downloaded_or_run": false,
+    "qualification_granted": false,
+    "validation_executed": false,
+    "remaining": [
+      "完整经许可Python/ComfyUI/Torch/工具/节点运行包制作、签发/分发和可信本人批准UI",
+      "ComfyUI无内容网络端口私有worker、选择性导入/GPU绑定/取消与原停工事实",
+      "图像/视频/音频/3D素材权限、格式/加密首写、结果恢复与原RENTAL_SESSION调用",
+      "独立低权限、平台实际资格/计量/清理/资金及真实设备性能证据",
+      "全56/222剩余生产代码和测试源码，然后统一编译/测试/调试"
+    ]
+  },
+  "comfy_environment_test_definitions": {
+    "ids": [
+      "CE-T001",
+      "CE-T002",
+      "CE-T003",
+      "CE-T004",
+      "CE-T005",
+      "CE-T006",
+      "CE-T007",
+      "CE-T008",
+      "CE-T009",
+      "CE-T010",
+      "CE-T011",
+      "CE-T012",
+      "CE-T013",
+      "CE-T014",
+      "CE-T015",
+      "CE-T016",
+      "CE-T017",
+      "CE-T018",
+      "CE-T019",
+      "CE-T020",
+      "CE-T021",
+      "CE-T022",
+      "CE-T023",
+      "CE-T024",
+      "CE-T025",
+      "CE-T026",
+      "CE-T027",
+      "CE-T028",
+      "CE-T029",
+      "CE-T030",
+      "CE-T031"
+    ],
+    "tests": [
+      {
+        "id": "CE-T001",
+        "name": "TestComfyCLIRejectsAmbiguousOwnerOptionsBeforeOpeningNode",
+        "source": "dev/src/client/cmd/p11-node/comfy_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T002",
+        "name": "TestComfyOwnerFilesStrictBoundedAndSelectedByAbsolutePath",
+        "source": "dev/src/client/cmd/p11-node/comfy_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T003",
+        "name": "TestComfyActivationAndExplicitRollbackUseOriginalPhysicalMaintenanceGate",
+        "source": "dev/src/client/comfyenv/activation_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T004",
+        "name": "TestComfyActivationRejectsLocalStoppedAndForeignMaintenanceHolds",
+        "source": "dev/src/client/comfyenv/activation_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T005",
+        "name": "TestComfyArchiveRejectsSymlinkBeforeFollowingItsTarget",
+        "source": "dev/src/client/comfyenv/archive_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T006",
+        "name": "TestComfyInstallCancelledAdmissionCreatesNoCandidateOrStage",
+        "source": "dev/src/client/comfyenv/archive_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T007",
+        "name": "TestComfyCatalogRequiresIndependentPinsConsentAndCurrentRevocations",
+        "source": "dev/src/client/comfyenv/catalog_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T008",
+        "name": "TestComfyCatalogSelectsFiniteNodesAndOnlyTheirOptionalDependencies",
+        "source": "dev/src/client/comfyenv/catalog_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T009",
+        "name": "TestComfyCatalogRejectsPathsCaseAliasesHooksAndCrossRoleOverrides",
+        "source": "dev/src/client/comfyenv/catalog_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T010",
+        "name": "TestComfyCatalogImmutablePlanCopiesAndExactExpiry",
+        "source": "dev/src/client/comfyenv/catalog_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T011",
+        "name": "TestComfyCatalogStrictJSONAndDiskBudget",
+        "source": "dev/src/client/comfyenv/catalog_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T012",
+        "name": "TestComfyInstallExactFullTreeAndFreshPinsReadback",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T013",
+        "name": "TestComfyInstallDirectoryDriftQuarantinesWithoutFallback",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T014",
+        "name": "TestComfyInstallDamagedOriginalArchiveKeepsStageAndCandidate",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T015",
+        "name": "TestComfyArchiveRejectsExtraTraversalAndCaseEntries",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T016",
+        "name": "TestComfyArchiveBoundsRejectBeforeEntryAllocation",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T017",
+        "name": "TestComfyRegistryInterruptedInstallationNeverAdoptsTree",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T018",
+        "name": "TestComfyRegistryMissingCorruptOrDifferentBindingNeverRecreated",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T019",
+        "name": "TestComfyRegistryCommitFailurePoisonsOriginalMetadata",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T020",
+        "name": "TestComfyDeleteTombstoneRetainsHistoryAndOtherOwnedFiles",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T021",
+        "name": "TestComfyDeleteUncertainTombstoneNeverRemovesOriginalTree",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T022",
+        "name": "TestComfyRegistryCloseCancelsAndJoinsEnteredOperation",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T023",
+        "name": "TestComfyRegistryRejectsAlteredAuthenticatedMetadata",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T024",
+        "name": "TestComfyMetadataIncludesExactConsentWithoutContentOrExecutionGrant",
+        "source": "dev/src/client/comfyenv/registry_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T025",
+        "name": "TestMaintenanceRequiresOriginalPreparingOwnerAndNeverAcquiresAnotherMode",
+        "source": "dev/src/client/execution/maintenance_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T026",
+        "name": "TestMaintenanceHoldsPhysicalGateAcrossLocalMetadataCommit",
+        "source": "dev/src/client/execution/maintenance_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T027",
+        "name": "TestMaintenanceMetadataFailureDoesNotManufactureCleanupOrFree",
+        "source": "dev/src/client/execution/maintenance_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T028",
+        "name": "TestMaintenanceCannotBorrowRentalSessionPhysicalOwner",
+        "source": "dev/src/client/execution/maintenance_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T029",
+        "name": "TestNodeComfyRegistryOriginalAnchorEncryptedReopenAndIndependentKey",
+        "source": "dev/src/client/node/kernels_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T030",
+        "name": "TestNodeComfyRegistryMissingAnchoredJournalCannotBeReinitialized",
+        "source": "dev/src/client/node/kernels_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "CE-T031",
+        "name": "TestNodeComfyRegistryRejectsForeignRootAndPreservesOSLockUntilClose",
+        "source": "dev/src/client/node/kernels_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      }
+    ],
+    "status": "SOURCE_ONLY_NOT_EXECUTED",
+    "scope": "Authored signature/AEAD/files/ZIP/SQLite and owner-CLI boundary definitions only; tiny synthetic files, no Python/ComfyUI/model/GPU execution or qualification."
+  }
 }
