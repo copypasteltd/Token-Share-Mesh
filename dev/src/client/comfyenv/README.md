@@ -1,6 +1,6 @@
 # Complete ComfyUI environment source / 完整环境源码
 
-SOURCE_ONLY / 未编译、未运行。该模块安装完整固定软件包和有限白名单节点，管理原节点下的不可变候选与本机选择；没有执行ComfyUI、模型、pip/git或网络下载。完整媒体 worker / RENTAL_SESSION / 首写加密仍须继续开发。所有56任务222子项保持开放，代码齐备后统一测试。
+SOURCE_ONLY / 未编译、未运行。该模块安装完整固定软件包和有限白名单节点，管理原节点下的不可变候选与本机选择；没有执行ComfyUI、模型、pip/git或网络下载。后续MW已新增私有worker、四类编码及本地首写加密源码；正式原宿主启动/原RENTAL_SESSION媒体/完整运行包和公开交付仍待接线。所有56任务222子项保持开放，代码齐备后统一测试。
 
 Read the [CE-001—036 specification](../../../../docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md) and [current source progress](../../../progress/R026-全量代码阶段进展.md). The [source pin](upstream.lock.json) identifies official v0.44.0 commit `2c75dc1b379a59e0880619d029607af5169a62ef`; it is not a shipped Python/Torch runtime bundle or hardware qualification.
 
@@ -59,3 +59,7 @@ This component adds no SQL and changes none of the published platform/native DDL
 | CE-T029 | TestNodeComfyRegistryOriginalAnchorEncryptedReopenAndIndependentKey | dev/src/client/node/kernels_test.go | 未编译/未运行 |
 | CE-T030 | TestNodeComfyRegistryMissingAnchoredJournalCannotBeReinitialized | dev/src/client/node/kernels_test.go | 未编译/未运行 |
 | CE-T031 | TestNodeComfyRegistryRejectsForeignRootAndPreservesOSLockUntilClose | dev/src/client/node/kernels_test.go | 未编译/未运行 |
+
+## R026 MW-001—044 私有媒体源码继续 / Private media source
+
+R026新增[MW-001—044](../../../../docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md)：固定原生私有Comfy执行器、GPU UUID/PCI复核、有限配方、PNG/分片MP4/PCM WAV/几何GLB编码、原锚/加密预登记/分块GCM及Go一次原scope凭据/私有帧源码。44项新测试定义未编译/运行；正式原宿主启动器/租内媒体/完整运行包/公开交付/低权限/E2E与性能仍待。CE31/RN67及全部56任务222子项仍未收口，代码齐备后统一验证；本次无SQL变更。

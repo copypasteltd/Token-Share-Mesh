@@ -72,6 +72,10 @@
     {
       "path": "comfy_extras/nodes_load_3d.py",
       "sha256": "414933ee218ab11bd25d4b87b51688a92aec69be2421d5d94dbddaade83c8e50"
+    },
+    {
+      "path": "comfy_execution/progress.py",
+      "sha256": "ff4739f884a5793e6be833ade06a44f3c8d6b183a2fe170137da7a5b7a205438"
     }
   ],
   "distribution_status": "SOURCE_REVIEW_PIN_ONLY_NO_COMPLETE_APPROVED_RUNTIME_ARCHIVES_SHIPPED",

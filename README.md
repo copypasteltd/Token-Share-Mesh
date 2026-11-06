@@ -2,6 +2,11 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
+<!-- R026-MW-CURRENT -->
+R026 adds [MW-001–044](docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md): a fixed native private Comfy worker, exact CUDA UUID/PCI, finite recipes, PNG/fragmented MP4/PCM WAV/geometry GLB encoders, original workspace anchors, encrypted pre-create reservations, chunked GCM and a Go single-use original-scope receipt/private-frame boundary. All 44 new test definitions remain uncompiled/unexecuted. The actual host launcher, rental-media Backend, complete runtime archives, public delivery, OS low-privilege/E2E and performance remain open. CE31/RN67 and all 56 tasks/222 steps remain open until full-scope code precedes batch validation. No SQL change.
+<!-- /R026-MW-CURRENT -->
+
+
 R026 extends [hourly rental source RN-001—110](docs/技术开发/附录-小时租赁授权与累计计量源码细则.md) with independently authenticated original grants, strict Chat/Responses/Messages text input, one-use random RAM AEAD envelopes, a rental-only llama private-pipe adapter, a SQL-independent monotonic deadline loop and owned node shutdown. No fabricated T1 job/attempt or seller/device/model/privacy fallback is used. Original synchronized cleanup receipts and actual process/pipe joins precede any local slot release. See the [rental runtime](dev/src/client/rentalruntime/README.md).
 
 **SOURCE_ONLY / UNVERIFIED.** All 67 rental test definitions remain unexecuted; no compilation, migration, model/GPU/phone run occurred. This RAM AEAD covers GPU_RENTAL/STANDARD text and provides neither network E2E nor provider blindness. Unknown stop/cleanup retains the original owner; unjoined shutdown retains the node lock/master key. Public SDK/model listeners, owner approval UI/independent readiness, real acquiring/paid renewal, confirmed metering, Android rental media, E2E/LP and platform cleanup/budget release remain open. Counts stay at 48 control/nine rental HTTP handlers, 98 planned operations and 71 platform tables. Published DDL bytes are unchanged. All 56 tasks/222 steps remain open until full-scope code precedes batch validation.
@@ -23,7 +28,7 @@ The [NB-R1 requirements](docs/需求推进/NB-1.0/README.md) connect the [five f
 | Item | Evidence/status |
 | --- | --- |
 | Development baseline | 20 modules / 56 tasks / 222 steps / 47 constraints |
-| Implementation tasks | 40 in progress · 14 not started · 1 conditional · 1 deferred |
+| Implementation tasks | 41 in progress · 13 not started · 1 conditional · 1 deferred |
 | Latest source round | R025 · PASSED_FOR_CONTROL_AND_RELAY_SUBSET_ONLY |
 | Native test evidence | 300 passed · control/native/relay source subsets only |
 | Full product acceptance | 80 NOT_EXECUTED |
@@ -287,3 +292,7 @@ Applied migrations and content-addressed files retain exact bytes across checkou
 ## R026 ComfyUI source checkpoint / 源码检查点
 
 R026 adds [CE-001–036](docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md): independently pinned/signed complete catalogs and local license/node consent, bounded immutable ZIP installation and whole-tree checks, the original node AEAD registry, shared physical maintenance selection and five metadata-only local CLI operations. Official source is pinned to ComfyUI v0.44.0/2c75dc1b379a59e0880619d029607af5169a62ef; no complete actual runtime archive ships yet. All 31 new test definitions remain uncompiled/unexecuted. Media worker/first-write encryption/rental integration, actual qualification and performance remain open. RN-110/67 rental tests and every 56/222 task/step remain open until full-scope code precedes batch validation. No DDL change/migration.
+
+## R026 MW-001—044 私有媒体源码继续 / Private media source
+
+R026 adds [MW-001–044](docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md): a fixed native private Comfy worker, exact CUDA UUID/PCI, finite recipes, PNG/fragmented MP4/PCM WAV/geometry GLB encoders, original workspace anchors, encrypted pre-create reservations, chunked GCM and a Go single-use original-scope receipt/private-frame boundary. All 44 new test definitions remain uncompiled/unexecuted. The actual host launcher, rental-media Backend, complete runtime archives, public delivery, OS low-privilege/E2E and performance remain open. CE31/RN67 and all 56 tasks/222 steps remain open until full-scope code precedes batch validation. No SQL change.

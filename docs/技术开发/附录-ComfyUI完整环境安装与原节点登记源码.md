@@ -1,6 +1,6 @@
 # ComfyUI 完整环境安装与原节点登记源码
 
-R026 / CODE_FIRST / CE-001—036 / SOURCE_ONLY，2026-11-06。本文覆盖可替换完整环境、有限白名单节点安装和本机版本登记的新增源码。所有编译、测试、数据库迁移、Python/ComfyUI/显卡运行均未开展；完整媒体 worker、租内调用和隐私链路仍须继续开发。56任务/222子项继续全部开放，不增加80项主需求编号。
+R026 / CODE_FIRST / CE-001—036 / SOURCE_ONLY，2026-11-06。本文覆盖可替换完整环境、有限白名单节点安装和本机版本登记源码。后续[MW-001—044](附录-ComfyUI私有媒体执行与本地加密源码.md)已补入私有worker、四类编码和本地GCM源码；正式原宿主启动、原租内媒体、完整实际运行包及隐私链路仍待接线。所有编译、测试、数据库迁移、Python/ComfyUI/显卡运行均未开展。56任务/222子项继续全部开放，不增加80项主需求编号。
 
 ## 1. 当前实现与完整目标的关系
 
@@ -10,7 +10,7 @@ R026 / CODE_FIRST / CE-001—036 / SOURCE_ONLY，2026-11-06。本文覆盖可替
 | 预构建包安装及完整目录复核 | `archive.go`、`files.go` | 只读本机已下载ZIP，不执行安装命令、不访问网络、不导入节点 |
 | 原节点加密登记与版本选择 | `registry.go`、`node/kernels.go`、`node/store.go` | 原OS进程锁、系统密钥派生的独立AEAD、原设备/卖家/安装绑定和原物理维护占位 |
 | 本机管理入口 | `cmd/p11-node/comfy.go` | 初始化、查看、安装、复核、删除；全部明确 `execution_enabled=false / qualification=NOT_GRANTED` |
-| 真正执行媒体 | 后续完整 ComfyUI worker、媒体适配和 RENTAL_SESSION 接线 | 本次没有启动代码、实际媒体运行、首写加密、平台计量或清理释放的完成结论 |
+| 真正执行媒体 | 后续MW私有worker、四类编码和本地首写加密源码 | 正式启动/RENTAL_SESSION媒体/实际运行包/公开交付仍待；无媒体实跑、资格、计量或清理释放结论 |
 
 官方源码审阅固定至 [ComfyUI v0.44.0](https://github.com/Comfy-Org/ComfyUI/releases/tag/v0.44.0)，提交 `2c75dc1b379a59e0880619d029607af5169a62ef`。具体文件摘要见 `dev/src/client/comfyenv/upstream.lock.json`，GPLv3原文保存在 `dev/licenses/`。这是官方源码审阅快照，**尚不是已经制作完成的Python/Torch/编解码器/节点安装包**，也不能拿来发放设备开售资格。后续更换上游必须生成新的完整环境和独立许可记录，不覆盖原环境。
 
@@ -115,3 +115,7 @@ p11-node comfy-delete --state <原节点绝对路径> --digest <精确PlanDigest
 测试定义编号和文件索引在模块README及 `dev/progress/R026-code-stage.json` 的 `comfy_environment_test_definitions`。覆盖真实签名/AEAD/本机文件/ZIP/SQLite边界的**未来测试源码**，使用微小合成文件，不安装或执行实际Python、ComfyUI或模型。没有通过数量、截图、GIF、性能值、支付或设备资格结论。
 
 旧RN-001—110与67项租赁测试定义、98规划操作/48控制HTTP/9租赁/71平台表均保持原状态。平台SQL001—015双份及原客户端DDL/端侧v2及其provenance均原字节保留；此处只增加节点原AEAD可选字段，不改DDL。先全56/222代码和测试源码，后统一编译、测试、调试；DEV-55延后，DEV-32无真实证明关闭。
+
+## R026 MW-001—044 私有媒体源码继续 / Private media source
+
+R026新增[MW-001—044](附录-ComfyUI私有媒体执行与本地加密源码.md)：固定原生私有Comfy执行器、GPU UUID/PCI复核、有限配方、PNG/分片MP4/PCM WAV/几何GLB编码、原锚/加密预登记/分块GCM及Go一次原scope凭据/私有帧源码。44项新测试定义未编译/运行；正式原宿主启动器/租内媒体/完整运行包/公开交付/低权限/E2E与性能仍待。CE31/RN67及全部56任务222子项仍未收口，代码齐备后统一验证；本次无SQL变更。

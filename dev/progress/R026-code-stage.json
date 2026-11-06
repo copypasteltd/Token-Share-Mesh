@@ -16,6 +16,11 @@
     "dev/src/api/internal/http/routes.go",
     "dev/src/api/internal/http/routes.json",
     "dev/src/api/internal/http/server.go",
+    "dev/src/client/adapters/comfyworker/README.md",
+    "dev/src/client/adapters/comfyworker/cipher.go",
+    "dev/src/client/adapters/comfyworker/cipher_test.go",
+    "dev/src/client/adapters/comfyworker/wire.go",
+    "dev/src/client/adapters/comfyworker/wire_test.go",
     "dev/src/client/adapters/llamaworker/adapter.go",
     "dev/src/client/adapters/llamaworker/input.go",
     "dev/src/client/adapters/llamaworker/rental.go",
@@ -70,6 +75,24 @@
     "dev/src/client/execution/store.go",
     "dev/src/client/execution/store_test.go",
     "dev/src/client/internal/rentaltest/fixture.go",
+    "dev/src/client/kernels/comfy-private/README.md",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/__init__.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/encoders.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/environment.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/io_guard.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/limits.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/private_nodes.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/recipe.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/spool.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/wire.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/worker.py",
+    "dev/src/client/kernels/comfy-private/mesh_comfy/workspace.py",
+    "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+    "dev/src/client/kernels/comfy-private/tests/test_control.py",
+    "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+    "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+    "dev/src/client/kernels/comfy-private/tests/test_support.py",
+    "dev/src/client/kernels/comfy-private/worker.py",
     "dev/src/client/node/kernels.go",
     "dev/src/client/node/kernels_test.go",
     "dev/src/client/node/rental_control.go",
@@ -134,11 +157,14 @@
     "dev/src/tests/integration/execution_reports_test.go",
     "dev/src/tests/integration/rental_control_test.go",
     "dev/src/tests/integration/rental_test.go",
+    "dev/tools/整理R026Comfy媒体源码.py",
+    "dev/tools/补充Comfy进度源码审阅.py",
     "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
     "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
     "docs/技术开发/database/migrations/014_rental_authority_context.sql",
     "docs/技术开发/database/migrations/015_rental_control_history.sql",
     "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
+    "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
     "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
   ],
   "implemented_items": [
@@ -291,6 +317,31 @@
       "id": "IMP-R026-030",
       "title": "CE-001—036、测试源码和完整文档同步",
       "status": "新边界测试只有定义；不编译/迁移/运行，媒体worker/首写加密/租内接线仍待；原RN-110/67测试与全部56/222开放状态保留"
+    },
+    {
+      "id": "IMP-R026-031",
+      "title": "ComfyUI私有入口、选择性导入和固定显卡源码",
+      "status": "MW-001—010/035—040：包内-I/-B/-S、全树/模型复核、UUID/PCI、独立内容/取消和单调截止；实际原宿主启动/低权限/完整包仍待，未运行"
+    },
+    {
+      "id": "IMP-R026-032",
+      "title": "固定有类型配方与四类私有媒体编码源码",
+      "status": "MW-011—021：有限参数、PNG/JPEG输入、PNG/分片MP4/PCM WAV/几何GLB直接写密文；真实模型/节点组合和公开协议未接，未运行"
+    },
+    {
+      "id": "IMP-R026-033",
+      "title": "原工作区锚、首建前登记和64KiB本地媒体密文源码",
+      "status": "MW-022—030：独立随机RAM钥、原scope/AAD、认证END、一次有界reader及原钥关闭；原宿主目录预留/恢复清理仍待，不是网络E2E/LP"
+    },
+    {
+      "id": "IMP-R026-034",
+      "title": "Go原scope一次凭据、加密媒体reader和独立私有帧源码",
+      "status": "MW-031—042：严格receipt、复制别名共撤权、原os.Root、END/逐块认证和分配前限帧；正式process/join/RENTAL Backend未接，不授资金清理资格"
+    },
+    {
+      "id": "IMP-R026-035",
+      "title": "MW-001—044、编解码器/取消/密文测试源码和双语文档",
+      "status": "只有测试定义；未编译、导入、运行或迁移。CE31/RN67和原56/222全部保留，完整代码后统一验证；源码检查点不是完整开发轮"
     }
   ],
   "tasks": [
@@ -1594,6 +1645,11 @@
       "evidence_refs": [],
       "current_source_refs": [
         "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
+        "dev/src/client/adapters/comfyworker/README.md",
+        "dev/src/client/adapters/comfyworker/cipher.go",
+        "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "dev/src/client/adapters/comfyworker/wire.go",
+        "dev/src/client/adapters/comfyworker/wire_test.go",
         "dev/src/client/cmd/p11-node/comfy.go",
         "dev/src/client/cmd/p11-node/comfy_test.go",
         "dev/src/client/cmd/p11-node/main.go",
@@ -1609,20 +1665,47 @@
         "dev/src/client/comfyenv/upstream.lock.json",
         "dev/src/client/execution/maintenance.go",
         "dev/src/client/execution/maintenance_test.go",
+        "dev/src/client/kernels/comfy-private/README.md",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/__init__.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/encoders.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/environment.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/io_guard.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/limits.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/private_nodes.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/recipe.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/spool.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/wire.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/worker.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/workspace.py",
+        "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "dev/src/client/kernels/comfy-private/tests/test_support.py",
+        "dev/src/client/kernels/comfy-private/worker.py",
         "dev/src/client/node/kernels.go",
         "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/store.go",
-        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md"
+        "dev/tools/整理R026Comfy媒体源码.py",
+        "dev/tools/补充Comfy进度源码审阅.py",
+        "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
+        "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md"
       ],
       "current_code_components": [
         "IMP-R026-027",
         "IMP-R026-028",
         "IMP-R026-029",
-        "IMP-R026-030"
+        "IMP-R026-030",
+        "IMP-R026-031",
+        "IMP-R026-032",
+        "IMP-R026-033",
+        "IMP-R026-034",
+        "IMP-R026-035"
       ],
       "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
-      "remaining_detail": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
-      "current_validation_status": "NOT_EXECUTED"
+      "remaining_detail": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。",
+      "current_validation_status": "NOT_EXECUTED",
+      "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。"
     },
     {
       "id": "DEV-23",
@@ -2367,7 +2450,7 @@
     },
     {
       "id": "DEV-37",
-      "implementation_status": "NOT_STARTED",
+      "implementation_status": "IN_PROGRESS",
       "completed_components": [],
       "remaining_step_ids": [
         "DEV-37.01",
@@ -2375,7 +2458,46 @@
         "DEV-37.03",
         "DEV-37.04"
       ],
-      "evidence_refs": []
+      "evidence_refs": [],
+      "current_source_refs": [
+        "dev/src/client/adapters/comfyworker/README.md",
+        "dev/src/client/adapters/comfyworker/cipher.go",
+        "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "dev/src/client/adapters/comfyworker/wire.go",
+        "dev/src/client/adapters/comfyworker/wire_test.go",
+        "dev/src/client/comfyenv/upstream.lock.json",
+        "dev/src/client/kernels/comfy-private/README.md",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/__init__.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/encoders.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/environment.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/io_guard.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/limits.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/private_nodes.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/recipe.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/spool.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/wire.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/worker.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/workspace.py",
+        "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "dev/src/client/kernels/comfy-private/tests/test_support.py",
+        "dev/src/client/kernels/comfy-private/worker.py",
+        "dev/tools/整理R026Comfy媒体源码.py",
+        "dev/tools/补充Comfy进度源码审阅.py",
+        "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-031",
+        "IMP-R026-032",
+        "IMP-R026-033",
+        "IMP-R026-034",
+        "IMP-R026-035"
+      ],
+      "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。",
+      "remaining_detail": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。",
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-38",
@@ -3014,6 +3136,11 @@
         "dev/src/api/internal/http/routes.go",
         "dev/src/api/internal/http/routes.json",
         "dev/src/api/internal/http/server.go",
+        "dev/src/client/adapters/comfyworker/README.md",
+        "dev/src/client/adapters/comfyworker/cipher.go",
+        "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "dev/src/client/adapters/comfyworker/wire.go",
+        "dev/src/client/adapters/comfyworker/wire_test.go",
         "dev/src/client/adapters/llamaworker/adapter.go",
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
@@ -3045,6 +3172,24 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/kernels/comfy-private/README.md",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/__init__.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/encoders.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/environment.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/io_guard.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/limits.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/private_nodes.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/recipe.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/spool.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/wire.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/worker.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/workspace.py",
+        "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "dev/src/client/kernels/comfy-private/tests/test_support.py",
+        "dev/src/client/kernels/comfy-private/worker.py",
         "dev/src/client/node/kernels.go",
         "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_control.go",
@@ -3089,9 +3234,12 @@
         "dev/src/shared/contractspec/spec.go",
         "dev/src/tests/integration/rental_control_test.go",
         "dev/src/tests/integration/rental_test.go",
+        "dev/tools/整理R026Comfy媒体源码.py",
+        "dev/tools/补充Comfy进度源码审阅.py",
         "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
         "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
+        "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -3114,10 +3262,16 @@
         "IMP-R026-027",
         "IMP-R026-028",
         "IMP-R026-029",
-        "IMP-R026-030"
+        "IMP-R026-030",
+        "IMP-R026-031",
+        "IMP-R026-032",
+        "IMP-R026-033",
+        "IMP-R026-034",
+        "IMP-R026-035"
       ],
       "current_validation_status": "NOT_EXECUTED",
-      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
+      "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。"
     },
     {
       "id": "DEV-54",
@@ -3152,6 +3306,11 @@
         "dev/src/api/internal/http/rental.go",
         "dev/src/api/internal/http/routes.go",
         "dev/src/api/internal/http/routes.json",
+        "dev/src/client/adapters/comfyworker/README.md",
+        "dev/src/client/adapters/comfyworker/cipher.go",
+        "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "dev/src/client/adapters/comfyworker/wire.go",
+        "dev/src/client/adapters/comfyworker/wire_test.go",
         "dev/src/client/adapters/llamaworker/adapter.go",
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
@@ -3183,6 +3342,24 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/kernels/comfy-private/README.md",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/__init__.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/encoders.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/environment.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/io_guard.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/limits.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/private_nodes.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/recipe.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/spool.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/wire.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/worker.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/workspace.py",
+        "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "dev/src/client/kernels/comfy-private/tests/test_support.py",
+        "dev/src/client/kernels/comfy-private/worker.py",
         "dev/src/client/node/kernels.go",
         "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_control.go",
@@ -3217,8 +3394,11 @@
         "dev/src/internal/rental/service.go",
         "dev/src/shared/contractspec/spec.go",
         "dev/src/tests/integration/rental_control_test.go",
+        "dev/tools/整理R026Comfy媒体源码.py",
+        "dev/tools/补充Comfy进度源码审阅.py",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
         "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
+        "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -3237,10 +3417,16 @@
         "IMP-R026-027",
         "IMP-R026-028",
         "IMP-R026-029",
-        "IMP-R026-030"
+        "IMP-R026-030",
+        "IMP-R026-031",
+        "IMP-R026-032",
+        "IMP-R026-033",
+        "IMP-R026-034",
+        "IMP-R026-035"
       ],
       "current_validation_status": "NOT_EXECUTED",
-      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
+      "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。"
     },
     {
       "id": "DEV-55",
@@ -3289,6 +3475,11 @@
         "dev/src/api/internal/http/routes.go",
         "dev/src/api/internal/http/routes.json",
         "dev/src/api/internal/http/server.go",
+        "dev/src/client/adapters/comfyworker/README.md",
+        "dev/src/client/adapters/comfyworker/cipher.go",
+        "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "dev/src/client/adapters/comfyworker/wire.go",
+        "dev/src/client/adapters/comfyworker/wire_test.go",
         "dev/src/client/adapters/llamaworker/adapter.go",
         "dev/src/client/adapters/llamaworker/input.go",
         "dev/src/client/adapters/llamaworker/rental.go",
@@ -3320,6 +3511,24 @@
         "dev/src/client/execution/store.go",
         "dev/src/client/execution/store_test.go",
         "dev/src/client/internal/rentaltest/fixture.go",
+        "dev/src/client/kernels/comfy-private/README.md",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/__init__.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/encoders.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/environment.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/io_guard.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/limits.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/private_nodes.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/recipe.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/spool.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/wire.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/worker.py",
+        "dev/src/client/kernels/comfy-private/mesh_comfy/workspace.py",
+        "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "dev/src/client/kernels/comfy-private/tests/test_support.py",
+        "dev/src/client/kernels/comfy-private/worker.py",
         "dev/src/client/node/kernels.go",
         "dev/src/client/node/kernels_test.go",
         "dev/src/client/node/rental_control.go",
@@ -3364,9 +3573,12 @@
         "dev/src/shared/contractspec/spec.go",
         "dev/src/tests/integration/rental_control_test.go",
         "dev/src/tests/integration/rental_test.go",
+        "dev/tools/整理R026Comfy媒体源码.py",
+        "dev/tools/补充Comfy进度源码审阅.py",
         "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/database/migrations/015_rental_control_history.sql",
         "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
+        "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_code_components": [
@@ -3389,10 +3601,16 @@
         "IMP-R026-027",
         "IMP-R026-028",
         "IMP-R026-029",
-        "IMP-R026-030"
+        "IMP-R026-030",
+        "IMP-R026-031",
+        "IMP-R026-032",
+        "IMP-R026-033",
+        "IMP-R026-034",
+        "IMP-R026-035"
       ],
       "current_validation_status": "NOT_EXECUTED",
-      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。"
+      "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
+      "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。"
     }
   ],
   "previous_verified_revision": "3560ebd3657f66e70cc876a95f68f034a6316953",
@@ -3618,12 +3836,16 @@
     "qualification_granted": false,
     "validation_executed": false,
     "remaining": [
-      "完整经许可Python/ComfyUI/Torch/工具/节点运行包制作、签发/分发和可信本人批准UI",
-      "ComfyUI无内容网络端口私有worker、选择性导入/GPU绑定/取消与原停工事实",
-      "图像/视频/音频/3D素材权限、格式/加密首写、结果恢复与原RENTAL_SESSION调用",
-      "独立低权限、平台实际资格/计量/清理/资金及真实设备性能证据",
-      "全56/222剩余生产代码和测试源码，然后统一编译/测试/调试"
-    ]
+      "原已验证环境候选运行持有/可信清单导出与当前本人批准、撤销、许可复核",
+      "完整固定Python/Torch/CUDA/编解码器/密码库/节点工具包和经许可真实模型/四类配方",
+      "原OS锁/物理owner/空间目录预留、独立身份与私有句柄、实际process/pipe join的正式启动适配",
+      "原RENTAL_SESSION媒体策略/认证输入/inbox/双围栏/结果保管/原清理回执与平台资金释放",
+      "OpenAI/Anthropic媒体和资产权限/结果交付/最终ACK、低权限/E2E及真实设备性能",
+      "全部56/222剩余完整生产代码和测试源码，然后统一编译/测试/调试"
+    ],
+    "private_comfy_media_worker_source_written": true,
+    "media_first_write_encryption_source_written": true,
+    "media_source_annex": "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md"
   },
   "comfy_environment_test_definitions": {
     "ids": [
@@ -3849,5 +4071,395 @@
     ],
     "status": "SOURCE_ONLY_NOT_EXECUTED",
     "scope": "Authored signature/AEAD/files/ZIP/SQLite and owner-CLI boundary definitions only; tiny synthetic files, no Python/ComfyUI/model/GPU execution or qualification."
+  },
+  "comfy_media_source_integration": {
+    "source_status": "PRIVATE_COMFY_WORKER_FIXED_RECIPES_MEDIA_CIPHERTEXT_AND_GO_BOUNDARY_SOURCE_ONLY",
+    "annex": "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
+    "requirement_ids": [
+      "MW-001",
+      "MW-002",
+      "MW-003",
+      "MW-004",
+      "MW-005",
+      "MW-006",
+      "MW-007",
+      "MW-008",
+      "MW-009",
+      "MW-010",
+      "MW-011",
+      "MW-012",
+      "MW-013",
+      "MW-014",
+      "MW-015",
+      "MW-016",
+      "MW-017",
+      "MW-018",
+      "MW-019",
+      "MW-020",
+      "MW-021",
+      "MW-022",
+      "MW-023",
+      "MW-024",
+      "MW-025",
+      "MW-026",
+      "MW-027",
+      "MW-028",
+      "MW-029",
+      "MW-030",
+      "MW-031",
+      "MW-032",
+      "MW-033",
+      "MW-034",
+      "MW-035",
+      "MW-036",
+      "MW-037",
+      "MW-038",
+      "MW-039",
+      "MW-040",
+      "MW-041",
+      "MW-042",
+      "MW-043",
+      "MW-044"
+    ],
+    "official_source_commit": "2c75dc1b379a59e0880619d029607af5169a62ef",
+    "private_worker_source_written": true,
+    "private_encoder_source_written": true,
+    "local_first_write_encryption_source_connected": true,
+    "go_cipher_and_wire_boundary_source_written": true,
+    "source_test_definitions": 44,
+    "actual_native_process_adapter_connected": false,
+    "original_rental_media_backend_connected": false,
+    "public_model_listener_connected": false,
+    "complete_runtime_archives_shipped": false,
+    "network_e2e_implemented_by_this_component": false,
+    "low_privilege_profile_granted": false,
+    "qualification_granted": false,
+    "validation_executed": false,
+    "actual_model_gpu_or_phone_run": false,
+    "performance_evidence": false,
+    "remaining": [
+      "原已验证环境候选运行持有/可信清单导出与当前本人批准、撤销、许可复核",
+      "完整固定Python/Torch/CUDA/编解码器/密码库/节点工具包和经许可真实模型/四类配方",
+      "原OS锁/物理owner/空间目录预留、独立身份与私有句柄、实际process/pipe join的正式启动适配",
+      "原RENTAL_SESSION媒体策略/认证输入/inbox/双围栏/结果保管/原清理回执与平台资金释放",
+      "OpenAI/Anthropic媒体和资产权限/结果交付/最终ACK、低权限/E2E及真实设备性能",
+      "全部56/222剩余完整生产代码和测试源码，然后统一编译/测试/调试"
+    ]
+  },
+  "comfy_media_test_definitions": {
+    "ids": [
+      "MW-T001",
+      "MW-T002",
+      "MW-T003",
+      "MW-T004",
+      "MW-T005",
+      "MW-T006",
+      "MW-T007",
+      "MW-T008",
+      "MW-T009",
+      "MW-T010",
+      "MW-T011",
+      "MW-T012",
+      "MW-T013",
+      "MW-T014",
+      "MW-T015",
+      "MW-T016",
+      "MW-T017",
+      "MW-T018",
+      "MW-T019",
+      "MW-T020",
+      "MW-T021",
+      "MW-T022",
+      "MW-T023",
+      "MW-T024",
+      "MW-T025",
+      "MW-T026",
+      "MW-T027",
+      "MW-T028",
+      "MW-T029",
+      "MW-T030",
+      "MW-T031",
+      "MW-T032",
+      "MW-T033",
+      "MW-T034",
+      "MW-T035",
+      "MW-T036",
+      "MW-T037",
+      "MW-T038",
+      "MW-T039",
+      "MW-T040",
+      "MW-T041",
+      "MW-T042",
+      "MW-T043",
+      "MW-T044"
+    ],
+    "tests": [
+      {
+        "id": "MW-T001",
+        "name": "TestComfyCipherIndependentFixtureAndBoundedCrossRecordSeek",
+        "source": "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T002",
+        "name": "TestComfyCipherRejectsTruncationTrailingBytesAndMissingEnd",
+        "source": "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T003",
+        "name": "TestComfyCipherAuthenticatesHeaderEndAndIndividualData",
+        "source": "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T004",
+        "name": "TestComfyReceiptCannotSelectAnotherOriginalScopeKindOrPath",
+        "source": "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T005",
+        "name": "TestComfyReceiptIsConsumedAcrossCopiedAliasesIncludingFailure",
+        "source": "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T006",
+        "name": "TestComfyReceiptCloseRevokesAllAliasesAndFormattingRedacts",
+        "source": "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T007",
+        "name": "TestComfyCipherContextCancellationAndCloseRevokeCopiedReaders",
+        "source": "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T008",
+        "name": "TestComfyReceiptRejectsDuplicateUnknownAndNonCanonicalKeyFields",
+        "source": "dev/src/client/adapters/comfyworker/cipher_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T009",
+        "name": "TestComfyWorkerFramesBoundLengthBeforePayloadAndRejectInputKinds",
+        "source": "dev/src/client/adapters/comfyworker/wire_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T010",
+        "name": "TestComfyPrivateFramePartialReadsSingleUseAliasesAndRedaction",
+        "source": "dev/src/client/adapters/comfyworker/wire_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T011",
+        "name": "TestComfyPrivateFrameCloseRevokesAliasesAndRejectsTruncation",
+        "source": "dev/src/client/adapters/comfyworker/wire_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T012",
+        "name": "TestComfyIndependentControlWriterNotBlockedByContentMutex",
+        "source": "dev/src/client/adapters/comfyworker/wire_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T013",
+        "name": "TestComfyPrivateWriterRejectsEmptyOversizeCancelledAndWrongKinds",
+        "source": "dev/src/client/adapters/comfyworker/wire_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T014",
+        "name": "test_original_scope_roundtrip_cross_record_seek_and_no_plaintext_file",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T015",
+        "name": "test_independent_aead_decrypts_end_and_first_data_record",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T016",
+        "name": "test_reservation_failure_creates_no_payload",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T017",
+        "name": "test_tampered_data_record_rejected_before_exposing_plaintext",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T018",
+        "name": "test_missing_or_appended_authenticated_end_refuses_reader",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T019",
+        "name": "test_one_reader_readall_and_out_of_range_seek_limits",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T020",
+        "name": "test_limit_and_cancel_close_clear_owned_keys_without_deleting_cipher",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T021",
+        "name": "test_empty_spool_and_noncanonical_scope_cannot_produce_result",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T022",
+        "name": "test_workspace_anchor_and_encrypted_reservation_precede_payload",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T023",
+        "name": "test_foreign_workspace_anchor_or_scope_is_not_adopted",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_cipher.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T024",
+        "name": "test_cancel_before_start_is_a_permanent_original_tombstone",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T025",
+        "name": "test_finish_never_allows_reentering_the_original_invocation",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T026",
+        "name": "test_foreign_child_cancel_does_not_interrupt_current_original_work",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T027",
+        "name": "test_native_interrupt_binding_preserves_already_cancelled_session",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T028",
+        "name": "test_monotonic_child_and_session_deadlines_survive_wall_clock_rollback",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T029",
+        "name": "test_foreign_control_identity_or_lost_control_pipe_stops_original_session",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_control.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T030",
+        "name": "test_png_real_codec_roundtrip_contains_pixels_without_prompt_metadata",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T031",
+        "name": "test_png_refuses_multiple_outputs_and_nonfinite_pixels",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T032",
+        "name": "test_fragmented_mp4_real_codec_roundtrip_has_exact_frame_count",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T033",
+        "name": "test_mp4_limits_do_not_silently_resize_or_select_another_codec",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T034",
+        "name": "test_pcm_wav_real_codec_roundtrip_uses_exact_known_frames",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T035",
+        "name": "test_glb_geometry_roundtrip_has_bounded_positions_and_indices",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T036",
+        "name": "test_glb_refuses_bad_indices_and_encoder_cancellation",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_encoders.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T037",
+        "name": "test_parameters_bind_only_approved_slots_and_do_not_mutate_next_call",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T038",
+        "name": "test_native_savers_unknown_nodes_and_second_sink_are_refused",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T039",
+        "name": "test_path_model_and_duplicate_parameter_targets_are_immutable",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T040",
+        "name": "test_strict_json_rejects_duplicate_keys_nan_surrogates_and_utf8",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T041",
+        "name": "test_private_wire_partial_reads_truncation_and_preallocation_limit",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T042",
+        "name": "test_private_output_writer_accepts_only_bounded_worker_metadata",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T043",
+        "name": "test_accidental_io_guard_denies_network_subprocess_and_plain_file_writes",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MW-T044",
+        "name": "test_cancelled_owned_pipe_returns_before_waiting_for_content",
+        "source": "dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      }
+    ],
+    "status": "SOURCE_ONLY_NOT_EXECUTED",
+    "scope": "Authored Go/Python original-scope crypto/file/frame/recipe/cancellation and real-codec tests on synthetic CPU tensors. No test, compiler, engine, model, GPU or phone was run."
   }
 }
