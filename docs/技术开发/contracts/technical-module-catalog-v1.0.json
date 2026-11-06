@@ -316,7 +316,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "application_services": [
         "SessionCoordinator",

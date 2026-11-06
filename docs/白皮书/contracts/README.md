@@ -68,6 +68,8 @@ P11｜v3.0｜2026-10-29｜设计草案；没有已部署服务。仅检查结构
 | POST | `/jobs/{job_id}/receipts` | 验证买方接受/拒绝回执 | `recordBuyerReceipt` |
 | POST | `/cipher/channels` | 签发限scope密文通道引用 | `createCipherChannel` |
 | POST | `/rental-sessions` | 按指定设备/合同申请租赁 | `createRentalSession` |
+| POST | `/runner/rental-sessions/{session_id}/control` | 原签名设备核对最长45秒的原租赁控制权 | `confirmRentalControl` |
+| GET | `/runner/rental-sessions/{session_id}/access-grants/{grant_id}` | 原设备独立读取原DB授权摘要及上下文 | `getRentalGrantExpectation` |
 | POST | `/runner/rental-sessions/{session_id}/preparation` | 原签名设备领取原占位准备清单 | `claimRentalPreparation` |
 | GET | `/rental-sessions/{session_id}` | 查询本人受控租赁 | `getRentalSession` |
 | POST | `/rental-sessions/{session_id}/ready` | 买方确认就绪和预算后起表 | `confirmRentalReady` |

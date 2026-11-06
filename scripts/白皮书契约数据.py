@@ -213,6 +213,29 @@ def make_schemas() -> dict:
         "manifest_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$", "maxLength": 21846},
         "connection_ref": ID, "resource_lock_generation": COUNTER, "prepare_until": TIME},
         description="原签名设备在原占位内领取准备元数据，manifest_hash对应解码后的原始UTF-8字节。不得视作INVOKE授权、设备ACK、真实就绪或自动下载/批准环境。原键重放不延长TTL。")
+    rental_counter = {"type": "string", "pattern": "^[1-9][0-9]{0,18}$", "maxLength": 19,
+        "description": "规范十进制正数，运行时上限9223372036854775807；拒绝前导零、浮点/指数及溢出，不拓宽SQL围栏。"}
+    rental_version = {"type": "integer", "minimum": 1, "maximum": 9223372036854775807}
+    s["RentalControlWrite"] = obj({"expected_version": rental_version, "grant_id": ID, "grant_digest": HASH,
+        "resource_lock_generation": rental_counter, "terms_revision": rental_counter, "terms_hash": HASH, "sequence": rental_counter},
+        description="原签名设备的持续控制元数据，无Bearer；expected_version来自原已提交grant。先落本机加密请求水位再发送，原序号/原键重放不能刷新45秒截止。")
+    s["RentalControlReceipt"] = obj({"profile_id": enum("P11_RENTAL_CONTROL_ED25519_1"), "grant_id": ID, "grant_digest": HASH,
+        "order_id": ID, "session_id": ID, "seller_id": ID, "device_id": ID, "resource_id": ID,
+        "resource_lock_generation": rental_counter, "terms_revision": rental_counter, "terms_hash": HASH,
+        "kernel_environment_digest": HASH, "manifest_hash": HASH, "hard_deadline": TIME,
+        "sequence": rental_counter, "decision": enum("ALLOW", "STOP"), "issued_at": TIME, "expires_at": TIME,
+        "issuer_key_id": ID, "signature": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$", "minLength": 86, "maxLength": 86}},
+        description="固定LF字段转录的Ed25519签名；有效期最长45秒且不超原JWT/已付hard deadline。STOP不可在同grant恢复；控制响应不付费续租、不代表物理票据、可用区间或清理证据。")
+    rental_claims = obj({"profile_id": enum("P11_RENTAL_ACCESS_EDDSA_1"), "iss": ID, "sub": ID, "aud": ID, "jti": ID,
+        "iat": UINT, "nbf": UINT, "exp": UINT, "order_id": ID, "session_id": ID, "seller_id": ID, "device_id": ID,
+        "resource_id": ID, "resource_lock_generation": rental_counter, "terms_revision": rental_counter,
+        "terms_hash": HASH, "environment_revision": ID, "kernel_environment_digest": HASH, "manifest_ref": ID,
+        "manifest_hash": HASH, "scope": arr(enum("INVOKE", "QUEUE_SELF", "CANCEL_SELF", "EXPORT_SELF"), 4, 1),
+        "hard_deadline": TIME, "mode": enum("GPU_RENTAL"), "privacy": enum("STANDARD")})
+    s["RentalGrantExpectation"] = obj({"profile_id": enum("P11_RENTAL_GRANT_EXPECTATION_1"),
+        "grant_metadata": obj({"profile_id": enum("P11_RENTAL_ACCESS_EDDSA_1"), "issuer_key_id": ID, "digest": HASH, "safe_claims": rental_claims}),
+        "session_version": rental_version, "connection_ref": ID},
+        description="原设备从明确配置且认证的控制源独立读取的原DB安全元数据，无Bearer。与本机原批准manifest完整绑定后才验证调用者token；不得哈希调用者token充当独立摘要。只读不构成ALLOW或环境批准。")
     s["RentalReadyWrite"] = obj({"expected_version": VERSION, "environment_revision": ID,
         "connection_evidence_ref": ID, "readiness_evidence_ref": ID, "confirmed_budget_fen": UINT},
         description="设备就绪由设备证据提交，买方ready仍独立确认；服务器原子判断双端条件。")
@@ -518,6 +541,8 @@ def make_openapi() -> dict:
     add("post", "/jobs/{job_id}/receipts", "recordBuyerReceipt", "Cipher", "验证买方接受/拒绝回执", "Ack", "ReceiptWrite", ("cipher:receipt",))
     add("post", "/cipher/channels", "createCipherChannel", "Cipher", "签发限scope密文通道引用", "CipherChannel", "CipherChannelWrite", ("cipher:connect",))
     add("post", "/rental-sessions", "createRentalSession", "Rental", "按指定设备/合同申请租赁", "RentalSession", "RentalWrite", ("rental:create",))
+    add("post", "/runner/rental-sessions/{session_id}/control", "confirmRentalControl", "Rental", "原签名设备核对最长45秒的原租赁控制权", "RentalControlReceipt", "RentalControlWrite", ("device:rental",))
+    add("get", "/runner/rental-sessions/{session_id}/access-grants/{grant_id}", "getRentalGrantExpectation", "Rental", "原设备独立读取原DB授权摘要及上下文", "RentalGrantExpectation", scopes=("device:rental",))
     add("post", "/runner/rental-sessions/{session_id}/preparation", "claimRentalPreparation", "Rental", "原签名设备领取原占位准备清单", "RentalPreparation", "RentalPreparationWrite", ("device:rental",))
     add("get", "/rental-sessions/{session_id}", "getRentalSession", "Rental", "查询本人受控租赁", "RentalSession", scopes=("rental:read",))
     add("post", "/rental-sessions/{session_id}/ready", "confirmRentalReady", "Rental", "买方确认就绪和预算后起表", "RentalSession", "RentalReadyWrite", ("rental:ready",))

@@ -58,6 +58,6 @@ This is execution-authority continuation, not paid GPU-rental renewal. The T1 pl
 
 ## Hourly rental ownership / 小时租赁归属
 
-媒体交易在小时租赁会话内执行，不套用owner_attempt_id的普通任务，也不在租内按图片、视频或token加收。新Go会话领域规则、受限JWS和活性窗口见[RN-001—030](../../../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md)。当前Android尚未接入这些令牌、原session manifest/素材、控制回执、invocation inbox或真实物理会话owner；原M1平台闭环仍待，不能据此开放挂牌执行。
+媒体交易在小时租赁会话内执行，不套用owner_attempt_id的普通任务，也不在租内按图片、视频或token加收。新Go会话领域规则、受限JWS和活性窗口见[RN-001—070](../../../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md)。当前Android尚未接入这些令牌、原session manifest/素材、控制回执、invocation inbox或真实物理会话owner；原M1平台闭环仍待，不能据此开放挂牌执行。
 
-Media trades belong to hourly rental sessions with no per-result/token surcharge. The new Go domain/JWS/control sources are not yet connected to this Android overlay, original rental manifests/assets, control receipts, child-invocation inbox or physical session ownership. M1 production admission stays closed. All 18 rental boundary cases and eight Android boundary cases are source definitions only, with no build/test/device acceptance.
+Media trades belong to hourly rental sessions with no per-result/token surcharge. The new Go domain/JWS/control sources are not yet connected to this Android overlay, original rental manifests/assets, control receipts, child-invocation inbox or physical session ownership. M1 production admission stays closed. All 42 rental boundary cases and eight Android boundary cases are source definitions only, with no build/test/device acceptance.

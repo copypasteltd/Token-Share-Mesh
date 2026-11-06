@@ -942,7 +942,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -1195,6 +1196,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -2211,6 +2213,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "devices",
         "device_request_nonces",
         "resources",
@@ -2268,6 +2271,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "payments",
         "refunds",
         "channel_requests"
@@ -2319,7 +2323,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2371,7 +2376,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -2406,6 +2412,8 @@
         "DEV-54"
       ],
       "operation_ids": [
+        "confirmRentalControl",
+        "getRentalGrantExpectation",
         "createRentalRenewal",
         "stopRentalSession"
       ],
@@ -2416,6 +2424,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "payments",
         "refunds",
         "channel_requests"
@@ -2455,6 +2464,8 @@
         "DEV-49"
       ],
       "operation_ids": [
+        "confirmRentalControl",
+        "getRentalGrantExpectation",
         "createRentalRenewal",
         "stopRentalSession",
         "recordRentalAvailability",
@@ -2475,6 +2486,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "payments",
         "refunds",
         "channel_requests",
@@ -2528,6 +2540,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "devices",
         "device_request_nonces",
         "resources",
@@ -2598,6 +2611,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "quotes",
         "orders",
         "route_contracts",
@@ -2826,6 +2840,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -3354,7 +3369,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",

@@ -81,6 +81,7 @@ type state struct {
 	LastOutcome  string       `json:"last_control_outcome"`
 	ExecutionID  string       `json:"execution_store_id,omitempty"`
 	HostID       string       `json:"execution_host_id,omitempty"`
+	RentalID     string       `json:"rental_control_journal_id,omitempty"`
 }
 
 // Store holds an OS-level single-writer lock until Close, including during
@@ -94,6 +95,7 @@ type Store struct {
 	poisoned  bool
 	execution *execution.Store
 	host      *Host
+	rentals   *RentalJournal
 }
 
 func randomHex(n int) (string, error) {
@@ -321,6 +323,9 @@ func makeCipher(key []byte) (cipher.AEAD, error) {
 }
 func (s *Store) validate() error {
 	v := s.s
+	if v.RentalID != "" && (!executionlease.Hash(v.RentalID) || v.DeviceID == "" || v.Config.Kind != "GPU_DEVICE") {
+		return ErrState
+	}
 	if v.ExecutionID != "" && (!executionlease.Hash(v.ExecutionID) || v.DeviceID == "") {
 		return ErrState
 	}
@@ -416,6 +421,10 @@ func counter(value string) (uint64, error) {
 	return v, nil
 }
 func (s *Store) Close() {
+	if s.rentals != nil {
+		s.rentals.Close()
+		s.rentals = nil
+	}
 	if s.host != nil {
 		s.host.Close()
 		s.host = nil

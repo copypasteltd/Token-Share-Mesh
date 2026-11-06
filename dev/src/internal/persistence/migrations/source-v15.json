@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/015_rental_control_history.sql",
+  "source_sha256": "e85820925a8caa12032f6fb2a0edcb20815a9787fb8484df94cad8b60ff50366",
+  "migration": "015_rental_control_history.sql",
+  "migration_sha256": "e85820925a8caa12032f6fb2a0edcb20815a9787fb8484df94cad8b60ff50366",
+  "policy": "015 append-only signed control metadata; source only, unexecuted, no physical release or paid renewal"
+}

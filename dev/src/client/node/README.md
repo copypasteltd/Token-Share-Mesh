@@ -11,3 +11,9 @@ The manifest's `input_ciphertext_digest` always identifies the encrypted asset. 
 `Close` drains the original supervisor, waits for the owned worker to exit, and revokes the session's result scope before closing the Host journal. A kill, timeout or process exit cannot fabricate an UNKNOWN job's cleanup proof. Resident model memory may remain between completed jobs until this explicit close; no extra model copy or public content listener is created.
 
 当前 CLI 仅提供控制、初始化、状态及只读检查；不接受模型内容或自动批准资格。真实模型的独立标签测试与合成平台订单/签发/支付夹具分别记录，不授予 E2E、LP、可信 usage、最终 ACK、资金或性能资格。实现约束见项目根 `docs/技术开发/附录-原生宿主内核接线与输入驻留绑定.md`。
+
+## R026 rental control / 小时租赁控制源码
+
+`rental_journal.go` shares this node's OS lock/private root/master key, with an independently derived AES-GCM key and explicit random journal anchor. It durably stores metadata watermarks and STOP tombstones, never rental Bearers or content. `rental_control.go` independently resolves the stored grant digest using the original device, binds the locally approved manifest/connection and issuer pins, then sends one original-sequence control request. Replays keep their original absolute expiry; restart restores no ALLOW. Missing/corrupt/uncertain storage closes admission.
+
+Only source is provided: no rental execution CLI, original physical-session ticket, native stop watchdog, Android rental consumer or cleanup release is enabled. This journal adds no GPU lock and does not change the existing client DDL. All 56 tasks/222 steps remain open, and all 42 rental test definitions are unexecuted under CODE_FIRST. See RN-051—070 in the hourly-rental annex.

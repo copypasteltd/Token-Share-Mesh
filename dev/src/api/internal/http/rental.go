@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	"p11.local/compute/client/protocol/rentalaccess"
 	"p11.local/compute/internal/rental"
 	"p11.local/compute/shared/fault"
 )
@@ -180,4 +181,49 @@ func (s *Server) createRentalAccessGrant(w http.ResponseWriter, r *http.Request,
 	// A partial response is not retried under a new key by this adapter. The
 	// buyer explicitly replaces a lost first grant; safe replay has no Bearer.
 	_ = v.WriteJSONOnce(w)
+}
+
+// The response is safe signed control metadata, never a rental Bearer. Native
+// callers verify it against the original independently pinned grant/context.
+func (s *Server) confirmRentalControl(w http.ResponseWriter, r *http.Request, a actor) {
+	if !s.noQuery(w, r) || !s.rentalAvailable(w, r) {
+		return
+	}
+	var in rentalaccess.ControlRequest
+	if !s.body(w, r, &in) {
+		return
+	}
+	key, ok := s.idempotency(w, r)
+	if !ok {
+		return
+	}
+	v, err := s.c.Rentals.ConfirmControl(r.Context(), a.p, rentalID(r), in, key)
+	if err != nil {
+		s.appError(w, r, err)
+		return
+	}
+	if v.Replayed {
+		w.Header().Set("Idempotency-Replayed", "true")
+	}
+	w.Header().Set("Cache-Control", "no-store")
+	writeJSON(w, http.StatusOK, v.Receipt)
+}
+
+func (s *Server) getRentalGrantExpectation(w http.ResponseWriter, r *http.Request, a actor) {
+	if !s.noQuery(w, r) || !s.rentalAvailable(w, r) {
+		return
+	}
+	parts := strings.Split(strings.TrimPrefix(r.URL.Path, prefix+"/"), "/")
+	if len(parts) != 5 {
+		s.appError(w, r, fault.New(fault.NotFound, "Original rental grant not found"))
+		return
+	}
+	v, err := s.c.Rentals.GetGrantExpectation(r.Context(), a.p, rentalID(r), parts[4])
+	if err != nil {
+		s.appError(w, r, err)
+		return
+	}
+	w.Header().Set("Cache-Control", "no-store")
+	w.Header().Set("ETag", strconv.Quote(strconv.FormatInt(v.SessionVersion, 10)))
+	writeJSON(w, http.StatusOK, v)
 }

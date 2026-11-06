@@ -528,3 +528,9 @@ The source defines explicit owner identity/approval, installed-model selection, 
 Existing progress requests can receive a signed CONTINUE for the same original execution; the dedicated signing service rechecks original admission and retains both signed revisions. Android verifies and durably accepts that continuation while its current window remains valid. FAILED cleanup is retained and a separately signed recovery names its original receipt; successful recovery clears only that occupant while its lease remains revoked. No extra operation ID or payment/usage authority is introduced.
 
 当前平台授权仍仅T1文本清单；M1媒体准入、桌面报告/恢复、密文素材/钥与上传的完整接线仍在全量清单。012/013及八项Android边界定义、新增Go用例均未运行；这些源码不代表手机媒体已闭环，也不等于GPU租赁付费续租。
+
+## R026 控制连接源码（尚不能执行租赁任务）
+
+原设备先明确初始化`Store.InitRentalJournal`，与Host/控制循环共用原节点OS锁；已初始化后用`OpenRentalJournal`，缺失/损坏不重建。集成方从原已批准准备记录提供完整Expected和connection，调用`ResolveControl`独立读取平台原grant摘要、核公钥pin/JWS，再用`Refresh`发一次原序号控制确认。`RentalCurrent`必须核原本机批准/owner状态；`CheckScope`不能替代真实物理会话票据、租内inbox或独立停止watchdog。没有新增可执行CLI入口，也没有自动环境批准/模型下载。
+
+原Bearer只作内存校验，原序号及停止标记持久加密；网络重试不改原键，重启不复用ALLOW。关闭后保留原owner/预算，只有真实停工清理证据才可能释放，目前该执行/释放链仍待。9项HTTP/42项测试定义仅是源码，不能据此开启交易或执行。完整56/222完成代码后才集中编译/测试。

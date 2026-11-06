@@ -1,7 +1,7 @@
 {
   "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
-  "scope": "46 explicit control operations; rental session/preparation/ready/stop and one-time access are R026 source-only, uncompiled/unverified; no native rental execution, payment qualification or public inference admission",
+  "scope": "48 explicit control operations; nine rental handlers and native encrypted-control journal are R026 SOURCE_ONLY, uncompiled/unverified; no native rental execution, payment qualification or public inference admission",
   "operations": [
     {
       "operation_id": "createAuthChallenge",
@@ -323,6 +323,20 @@
       "method": "POST",
       "path": "/rental-sessions/{session_id}/access-grants",
       "handler": "createRentalAccessGrant",
+      "anonymous": false
+    },
+    {
+      "operation_id": "confirmRentalControl",
+      "method": "POST",
+      "path": "/runner/rental-sessions/{session_id}/control",
+      "handler": "confirmRentalControl",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getRentalGrantExpectation",
+      "method": "GET",
+      "path": "/runner/rental-sessions/{session_id}/access-grants/{grant_id}",
+      "handler": "getRentalGrantExpectation",
       "anonymous": false
     }
   ]

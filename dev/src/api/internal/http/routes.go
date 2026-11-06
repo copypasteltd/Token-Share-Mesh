@@ -47,6 +47,10 @@ func (s *Server) handlerNamed(name string) handler {
 		return s.createRentalSession
 	case "getRentalSession":
 		return s.getRentalSession
+	case "getRentalGrantExpectation":
+		return s.getRentalGrantExpectation
+	case "confirmRentalControl":
+		return s.confirmRentalControl
 	case "claimRentalPreparation":
 		return s.claimRentalPreparation
 	case "recordRentalDeviceReady":

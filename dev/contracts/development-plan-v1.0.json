@@ -857,7 +857,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "application_services": [
         "SessionCoordinator",
@@ -6133,6 +6134,8 @@
         "CON-047"
       ],
       "operation_ids": [
+        "confirmRentalControl",
+        "getRentalGrantExpectation",
         "createRentalRenewal",
         "stopRentalSession"
       ],
@@ -15161,6 +15164,134 @@
         "evidence_authority": "dev/progress/implementation-status.json"
       },
       "id": "INT-096"
+    },
+    {
+      "operation_id": "confirmRentalControl",
+      "method": "POST",
+      "path": "/runner/rental-sessions/{session_id}/control",
+      "summary": "原签名设备核对最长45秒的原租赁控制权",
+      "module_id": "MOD-12",
+      "task_id": "DEV-35",
+      "planned_handler": "dev/src/api/internal/http/mod_12/confirmRentalControl.go",
+      "required_scopes": [
+        "device:rental"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalControlWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-08",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F45",
+        "P11-F46"
+      ],
+      "acceptance_ids": [
+        "P11-T45",
+        "P11-T46"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "9b42ffa4f78ad4b8d205159baf8907206c334acfb2deab6f0334d9324b5024e3",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "confirmRentalControl",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-097"
+    },
+    {
+      "operation_id": "getRentalGrantExpectation",
+      "method": "GET",
+      "path": "/runner/rental-sessions/{session_id}/access-grants/{grant_id}",
+      "summary": "原设备独立读取原DB授权摘要及上下文",
+      "module_id": "MOD-12",
+      "task_id": "DEV-35",
+      "planned_handler": "dev/src/api/internal/http/mod_12/getRentalGrantExpectation.go",
+      "required_scopes": [
+        "device:rental"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": null,
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": false,
+      "transaction": "READ_PROJECTION",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "只读投影，不触发收费或推理",
+      "requirement_ids": [
+        "P11-F45",
+        "P11-F46"
+      ],
+      "acceptance_ids": [
+        "P11-T45",
+        "P11-T46"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md"
+      ],
+      "canonical_operation_sha256": "13cc024b249bb24e26800d26b2a8d6b27f1f5c8bd948e8c483d9655277b692e3",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getRentalGrantExpectation",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-098"
     }
   ],
   "tables": [
@@ -15692,6 +15823,16 @@
       "column_count": 20,
       "foreign_key_count": 6,
       "source_document": "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-071",
+      "name": "rental_control_history",
+      "schema": "p11",
+      "module_id": "MOD-12",
+      "column_count": 19,
+      "foreign_key_count": 4,
+      "source_document": "docs/技术开发/database/migrations/015_rental_control_history.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
     {
@@ -16804,7 +16945,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -17057,6 +17199,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -18073,6 +18216,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "devices",
         "device_request_nonces",
         "resources",
@@ -18130,6 +18274,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "payments",
         "refunds",
         "channel_requests"
@@ -18181,7 +18326,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18233,7 +18379,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -18268,6 +18415,8 @@
         "DEV-54"
       ],
       "operation_ids": [
+        "confirmRentalControl",
+        "getRentalGrantExpectation",
         "createRentalRenewal",
         "stopRentalSession"
       ],
@@ -18278,6 +18427,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "payments",
         "refunds",
         "channel_requests"
@@ -18317,6 +18467,8 @@
         "DEV-49"
       ],
       "operation_ids": [
+        "confirmRentalControl",
+        "getRentalGrantExpectation",
         "createRentalRenewal",
         "stopRentalSession",
         "recordRentalAvailability",
@@ -18337,6 +18489,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "payments",
         "refunds",
         "channel_requests",
@@ -18390,6 +18543,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "devices",
         "device_request_nonces",
         "resources",
@@ -18460,6 +18614,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "quotes",
         "orders",
         "route_contracts",
@@ -18688,6 +18843,7 @@
         "availability_intervals",
         "rental_authority_contexts",
         "rental_session_history",
+        "rental_control_history",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -19216,7 +19372,8 @@
         "rental_access_grants",
         "availability_intervals",
         "rental_authority_contexts",
-        "rental_session_history"
+        "rental_session_history",
+        "rental_control_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -20451,11 +20608,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "2768404308121ceeb4ec1a2905b1f44a4b4cf518c879f8897b02fa60aebf75eb"
+      "sha256": "82d5ccf18cc523cc2a8eac187ed4c6e4d64be20da7cdf83dc3707b02ae2b9149"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "45370cb9dc39005cfeb9c98925c466f36c86c5fae5f81023ae4cd78485a6a42a"
+      "sha256": "73374ec414d15cff32f0c55958814b2de9186302db98e66df1d5b7d1e55b097c"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20463,11 +20620,11 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "fd030cb462f4c6332a623dbc45a9c7ff70d909ec3d37dfd2fee8163f59f6ec65"
+      "sha256": "50dc8ef44cd3846e3c0c7fac11af4eb33e0c982126cd237ebe3a35fd5f06b275"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "6426338595711707c9a10b7d628e2ed533543a9e9bda079153cff505b0120050"
+      "sha256": "7ed953b59bf3fc2d137bb82d5ddfa4e8865926998daf1c52a5d9c06f77697659"
     },
     {
       "path": "dev/tools/构建开发细则.py",
@@ -20559,11 +20716,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "fd200905ee1c2a5a5c5280f7810a76e716c072e105561be20b628957465ca8aa"
+      "sha256": "3eeaa1748e561f58e488b90916dad0cd8009988342b6cff7d232f4b93ef14c7b"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "075a6baa707e34c9e73453a551428480f927e64c85bc0158c8d72184ab206158"
+      "sha256": "8b564db6e4fa91a29c319ad56d1c3d1b8c679a769984899aef9e334d384ee446"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20571,11 +20728,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "814aa138ba8822487f69df407eb47f55cce045bc7e36a62b7e478b9dcdcc87aa"
+      "sha256": "28006e50a2e22f2a4dedd5f4568e023cdbb6c8efec63a12f2b3fea684eb4c934"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "fb4e46cb85cc71d468e1642ca659eb92f7f6e65472aa3858b43fa1a99d3c98d6"
+      "sha256": "65a76b80cf8a5630275468933de344ce9745708f8c146c1d78e2bf6f882ed01b"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -20630,6 +20787,10 @@
       "sha256": "9268d7dcc0a4a6386a7df491da0bd8636d0b93675a17d2cd6b3df1fba78b059c"
     },
     {
+      "path": "docs/技术开发/database/migrations/015_rental_control_history.sql",
+      "sha256": "e85820925a8caa12032f6fb2a0edcb20815a9787fb8484df94cad8b60ff50366"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -20659,7 +20820,7 @@
     },
     {
       "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-      "sha256": "1d4c12332c9528212ec840392fb0e99467be8777f930f2bf6e3fb315b94dcc45"
+      "sha256": "5a75f5370c34d5bb5a5464514cb4b49519ad047fa356d925e527a2ebe42f1ba5"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
@@ -20683,7 +20844,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "69ee49b3b84b053675814054abfa8b5fd3a28342bd5a382f02c80be6deacac85"
+      "sha256": "45159a069c35d54a47ebd95f0d25b74d41a6a608b2d40b4a74b86aef0a449162"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -20703,7 +20864,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "9e45f8b4c68a8e784994c050ebfcb47d0392449f4776c48f3fd9c808e3b61e6f"
+      "sha256": "a302ab7fc0b06a93511ffd2fe7a7530055db96d7d85a750bb94980e976546c4a"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -20715,8 +20876,8 @@
     "tasks": 56,
     "steps": 222,
     "constraints": 47,
-    "control_operations": 96,
-    "tables": 70,
+    "control_operations": 98,
+    "tables": 71,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

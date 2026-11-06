@@ -312,3 +312,9 @@ Complete all production code before batch compilation, tests and debugging. LMA 
 
 
 R026 source-only continuation: verifier-only Claims and explicit signing Continuations share the original authority. Forward 012 retains previous/new signed metadata and commits its response with the existing progress receipt and physical expiry. Forward 013 separately records recovery of an original failed cleanup; the failure remains and its lease stays REVOKED. Android uses stable signed identity, independent pin/approval, durable monotonic revisions and bounded periodic metadata. These remain uncompiled/unexecuted; the current platform authorizer is T1-only, full M1/desktop/funds/encrypted-mode integration remains in scope.
+
+## R026 原授权持续控制与本机加密元数据
+
+INT-097从当前原DB会话/资金/资格/完整预算/物理owner事实签发至多45秒控制回复；DATA-071/前向015保存原请求及签名回复与安全event，重放原回复不续时，STOP在原grant内永久。INT-098允许原设备独立读取原DB安全grant metadata/digest；来客token不能同时定义自己的可信摘要。本机必须核原批准manifest/connection，再验独立公钥pin/JWS。
+
+原节点OS锁/OS主密钥＋独立域派生AES-GCM journal保存元组/控制序号/停止标记，最多64项、256KiB；文件原子替换及flush先于请求外发。进程恢复没有ALLOW，存储未知关闭。实际磁盘/签名开销没有测量，不主张管理员快照防回滚或硬件TEE。独立防回滚水位、实际native停止watchdog、Android/桌面共享物理会话门闩、租内invocation与真实清理释放尚待集成。控制活性不是付费续租、可用时间计量或执行票据。源码未编译/测试/迁移，完整56/222保持开放。

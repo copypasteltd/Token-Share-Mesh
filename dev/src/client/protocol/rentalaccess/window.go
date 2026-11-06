@@ -47,10 +47,21 @@ func EncodeAnchor(a Anchor, grant Verified, current Expected) ([]byte, error) {
 	}
 	return b, nil
 }
-func DecodeAnchor(raw []byte, grant Verified, current Expected) (Anchor, error) {
+
+// DecodeStoredAnchor validates encrypted-journal metadata without creating
+// verified authority. In particular, omission of the stopped tombstone is not
+// accepted as false. A credential and fresh control are still required later.
+func DecodeStoredAnchor(raw []byte, current Expected) (Anchor, error) {
 	var a Anchor
 	var fields map[string]json.RawMessage
-	if !current.binds(grant) || strictjson.Decode(raw, &a, 2048) != nil || json.Unmarshal(raw, &fields) != nil || fields["stopped"] == nil || !a.matches(grant) {
+	if current.shape() != nil || strictjson.Decode(raw, &a, 2048) != nil || json.Unmarshal(raw, &fields) != nil || fields["stopped"] == nil || !a.matchesContext(current.TokenDigest, current.Session, current.Generation, current.Terms) {
+		return Anchor{}, ErrAccess
+	}
+	return a, nil
+}
+func DecodeAnchor(raw []byte, grant Verified, current Expected) (Anchor, error) {
+	a, err := DecodeStoredAnchor(raw, current)
+	if err != nil || !current.binds(grant) || !a.matches(grant) {
 		return Anchor{}, ErrAccess
 	}
 	return a, nil
@@ -73,6 +84,9 @@ func counter(s string) (uint64, error) {
 	return n, nil
 }
 func (a Anchor) matches(v Verified) bool {
+	return v.valid && a.matchesContext(v.digest, v.claims.Session, v.claims.Generation, v.claims.Terms)
+}
+func (a Anchor) matchesContext(digest, session, generation, terms string) bool {
 	r, e := counter(a.Requested)
 	if e != nil {
 		return false
@@ -81,7 +95,7 @@ func (a Anchor) matches(v Verified) bool {
 	if e != nil {
 		return false
 	}
-	return v.valid && a.Profile == AnchorProfile && a.GrantDigest == v.digest && a.Session == v.claims.Session && a.Generation == v.claims.Generation && a.Terms == v.claims.Terms && n <= r && ((n == 0 && a.ReplyIdentity == "") || (n > 0 && executionlease.Hash(a.ReplyIdentity)))
+	return a.Profile == AnchorProfile && a.GrantDigest == digest && a.Session == session && a.Generation == generation && a.Terms == terms && n <= r && ((n == 0 && a.ReplyIdentity == "") || (n > 0 && executionlease.Hash(a.ReplyIdentity)))
 }
 
 // NewWindow is only for a newly committed grant and newly created owner journal.

@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 213,
+  "catalog_statements": 221,
   "base_table_count": 60,
   "tables": [
     {
@@ -18118,6 +18118,565 @@
           "initially_deferred": false
         }
       ]
+    },
+    {
+      "name": "rental_control_history",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/015_rental_control_history.sql",
+      "columns": [
+        {
+          "name": "grant_id",
+          "sql": "grant_id p11.entity_id NOT NULL REFERENCES p11.rental_access_grants (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "grant_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.rental_access_grants (id)",
+              "columns": [
+                "grant_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "rental_access_grants",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sequence",
+          "sql": "sequence p11.counter NOT NULL CHECK (sequence > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "sequence"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (sequence > 0)",
+              "columns": [
+                "sequence"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "session_id",
+          "sql": "session_id p11.entity_id NOT NULL REFERENCES p11.rental_authority_contexts (session_id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "session_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.rental_authority_contexts (session_id)",
+              "columns": [
+                "session_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "rental_authority_contexts",
+              "target_columns": [
+                "session_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "device_id",
+          "sql": "device_id p11.entity_id NOT NULL REFERENCES p11.devices (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.devices (id)",
+              "columns": [
+                "device_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "devices",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "grant_digest",
+          "sql": "grant_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "grant_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "grant_session_version",
+          "sql": "grant_session_version p11.counter NOT NULL CHECK (grant_session_version > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "grant_session_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (grant_session_version > 0)",
+              "columns": [
+                "grant_session_version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "resource_lock_generation",
+          "sql": "resource_lock_generation p11.counter NOT NULL CHECK (resource_lock_generation > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "resource_lock_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (resource_lock_generation > 0)",
+              "columns": [
+                "resource_lock_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "terms_revision",
+          "sql": "terms_revision p11.counter NOT NULL CHECK (terms_revision > 0)",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "terms_revision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (terms_revision > 0)",
+              "columns": [
+                "terms_revision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "terms_hash",
+          "sql": "terms_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "terms_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "request_raw",
+          "sql": "request_raw bytea NOT NULL CHECK (octet_length(request_raw) BETWEEN 1 AND 2048)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "request_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(request_raw) BETWEEN 1 AND 2048)",
+              "columns": [
+                "request_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "request_digest",
+          "sql": "request_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "request_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "reply_raw",
+          "sql": "reply_raw bytea NOT NULL CHECK (octet_length(reply_raw) BETWEEN 1 AND 8192)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "reply_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(reply_raw) BETWEEN 1 AND 8192)",
+              "columns": [
+                "reply_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "reply_digest",
+          "sql": "reply_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "reply_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "decision",
+          "sql": "decision text NOT NULL CHECK (decision IN ('ALLOW', 'STOP'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "decision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (decision IN ('ALLOW', 'STOP'))",
+              "columns": [
+                "decision"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "issued_at",
+          "sql": "issued_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "issued_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "event_id",
+          "sql": "event_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.outbox_events (id) DEFERRABLE INITIALLY DEFERRED",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.outbox_events (id)",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "outbox_events",
+              "target_columns": [
+                "id"
+              ]
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRABLE",
+              "name": null,
+              "sql": "DEFERRABLE",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRED",
+              "name": null,
+              "sql": "INITIALLY DEFERRED",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "writer_xact",
+          "sql": "writer_xact xid8 NOT NULL DEFAULT pg_current_xact_id()",
+          "type": "xid8",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "writer_xact"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT pg_current_xact_id()",
+              "columns": [
+                "writer_xact"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "recorded_at",
+          "sql": "recorded_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_PRIMARY",
+          "name": null,
+          "sql": "PRIMARY KEY (grant_id, sequence)",
+          "columns": [
+            "grant_id",
+            "sequence"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (request_digest = encode(sha256(request_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (reply_digest = encode(sha256(reply_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (expires_at > issued_at AND expires_at <= issued_at + CAST('45 seconds' AS interval))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (jsonb_typeof(CAST(convert_from(request_raw, 'UTF8') AS jsonb)) = 'object')",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (jsonb_typeof(CAST(convert_from(reply_raw, 'UTF8') AS jsonb)) = 'object')",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -20330,6 +20889,66 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "rental_control_history",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.rental_access_grants (id)",
+      "columns": [
+        "grant_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "rental_access_grants",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "rental_control_history",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.rental_authority_contexts (session_id)",
+      "columns": [
+        "session_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "rental_authority_contexts",
+      "target_columns": [
+        "session_id"
+      ]
+    },
+    {
+      "table": "rental_control_history",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.devices (id)",
+      "columns": [
+        "device_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "devices",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "rental_control_history",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.outbox_events (id)",
+      "columns": [
+        "event_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "outbox_events",
+      "target_columns": [
+        "id"
+      ]
     }
   ],
   "indexes": [
@@ -20446,6 +21065,12 @@
       "table": "rental_access_grants",
       "unique": true,
       "sql": "CREATE UNIQUE INDEX rental_one_current_subject_grant ON p11.rental_access_grants (session_id, subject_id) WHERE revoked_at IS NULL AND authority_profile = 'P11_RENTAL_ACCESS_EDDSA_1'"
+    },
+    {
+      "name": "rental_control_session_sequence",
+      "table": "rental_control_history",
+      "unique": false,
+      "sql": "CREATE INDEX rental_control_session_sequence ON p11.rental_control_history (session_id, grant_id, sequence DESC)"
     }
   ],
   "forward_migrations": [
@@ -20651,6 +21276,22 @@
         "CreateTrigStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/015_rental_control_history.sql",
+      "source_sha256": "e85820925a8caa12032f6fb2a0edcb20815a9787fb8484df94cad8b60ff50366",
+      "statement_count": 8,
+      "statement_types": [
+        "CreateStmt",
+        "IndexStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",

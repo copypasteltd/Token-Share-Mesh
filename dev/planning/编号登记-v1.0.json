@@ -97,7 +97,9 @@
     "revokeUserSession": "INT-093",
     "getExecutionManifest": "INT-094",
     "getExecutionInput": "INT-095",
-    "claimRentalPreparation": "INT-096"
+    "claimRentalPreparation": "INT-096",
+    "confirmRentalControl": "INT-097",
+    "getRentalGrantExpectation": "INT-098"
   },
   "tables": {
     "acceptances": "DATA-001",
@@ -169,6 +171,7 @@
     "native_lease_continuations": "DATA-067",
     "native_cleanup_recoveries": "DATA-068",
     "rental_authority_contexts": "DATA-069",
-    "rental_session_history": "DATA-070"
+    "rental_session_history": "DATA-070",
+    "rental_control_history": "DATA-071"
   }
 }

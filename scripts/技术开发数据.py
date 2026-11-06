@@ -19,7 +19,7 @@ MODULE_ROWS = [
  (9,"兼容明文网关内核","网关工程","relay",7,"","ProfileValidator DialectAdapter BoundRelayCore",[4,6]),
  (10,"端侧加密","密码/客户端工程","crypto",8,"recipient_keys encryption_intents envelopes","TrustStore EnvelopeService StreamCrypto LocalAcceptance",[1,4]),
  (11,"平台密文中转","网关/安全工程","cipherrelay",8,"cipher_channels","CipherChannel OpaqueObjectRelay FrameQuota",[1,6,10]),
- (12,"GPU租赁","租赁/调度工程","rental",12,"rental_sessions rental_renewals rental_access_grants availability_intervals rental_authority_contexts rental_session_history","SessionCoordinator WorkspaceGrant AvailabilityMeter",[4,5,6]),
+ (12,"GPU租赁","租赁/调度工程","rental",12,"rental_sessions rental_renewals rental_access_grants availability_intervals rental_authority_contexts rental_session_history rental_control_history","SessionCoordinator WorkspaceGrant AvailabilityMeter",[4,5,6]),
  (13,"文件媒体","存储后端","assets",15,"assets transfer_grants deletion_tasks","AssetRegistry TransferGrant LifecycleCleaner",[1,4]),
  (14,"用量计量","计量工程","metering",13,"usage_evidence meter_statements","UsageVerifier MeterStatement PriceCalculator",[4,6,12]),
  (15,"财务账与结算","财务工程","finance",13,"trade_qualifications ledger_accounts journal_transactions journal_entries settlements settlement_items settlement_batches batch_items","LedgerService SettlementEligibility Reconciler",[4,5,14]),
@@ -115,7 +115,7 @@ OPERATION_GROUPS = {
  32:"createAttestationChallenge getAttestationEvidence",
  33:"createRentalSession getRentalSession claimRentalPreparation confirmRentalReady recordRentalDeviceReady createRentalAccessGrant",
  34:"recordRentalAvailability getRentalMeterStatement",
- 35:"createRentalRenewal stopRentalSession",
+ 35:"createRentalRenewal stopRentalSession confirmRentalControl getRentalGrantExpectation",
  36:"createRentalExport recordRentalCleanup",
  37:"registerAsset getAsset completeAsset createAssetTransferGrant listResults",
  38:"recordAttemptUsage getOrderBill",
@@ -212,7 +212,7 @@ def operation_tx(op: str, method: str) -> str:
     if op=='createPaymentIntent': return 'TX-03'
     if op in ('createJob','claimLease','getExecutionManifest','getExecutionInput','recordAttemptProgress'): return 'TX-04'
     if op in ('registerAttemptDelivery','recordBuyerReceipt','cancelJob'): return 'TX-06'
-    if op in ('createRentalSession','claimRentalPreparation','confirmRentalReady','recordRentalDeviceReady','createRentalAccessGrant'): return 'TX-08'
+    if op in ('createRentalSession','claimRentalPreparation','confirmRentalControl','getRentalGrantExpectation','confirmRentalReady','recordRentalDeviceReady','createRentalAccessGrant'): return 'TX-08'
     if op=='recordRentalAvailability': return 'TX-09'
     if op in ('stopRentalSession','recordRentalCleanup','recordAttemptCleanup'): return 'TX-10'
     if op=='createRefund': return 'TX-11'
