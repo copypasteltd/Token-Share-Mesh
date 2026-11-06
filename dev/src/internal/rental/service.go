@@ -139,29 +139,7 @@ func viewOf(s Session) View {
 // Manifest contains identifiers/digests and public limits only. It never carries
 // a prompt, arbitrary executable, user path, remote URL or downloaded model.
 // Raw bytes, rather than a later JSONB serialization, define ManifestHash.
-type Manifest struct {
-	Profile         string      `json:"profile_id"`
-	Reference       string      `json:"manifest_ref"`
-	Session         string      `json:"session_id"`
-	Order           string      `json:"order_id"`
-	Buyer           string      `json:"buyer_id"`
-	Seller          string      `json:"seller_id"`
-	Device          string      `json:"device_id"`
-	Resource        string      `json:"resource_id"`
-	Generation      string      `json:"resource_lock_generation"`
-	Capability      string      `json:"capability_id"`
-	Environment     string      `json:"environment_revision"`
-	EnvironmentHash string      `json:"kernel_environment_digest"`
-	ContractHash    string      `json:"contract_hash"`
-	Mode            string      `json:"service_mode"`
-	Privacy         string      `json:"privacy_profile"`
-	Engine          string      `json:"engine_kind"`
-	Release         string      `json:"engine_release"`
-	ModelHash       string      `json:"model_digest"`
-	RecipeHash      string      `json:"recipe_digest"`
-	Protocol        string      `json:"protocol_profile_id"`
-	PublicSpec      market.Spec `json:"public_spec"`
-}
+type Manifest = rentalaccess.Manifest
 
 func userAuthority(ctx context.Context, p identity.Principal, scope string) func(pgx.Tx) error {
 	return func(tx pgx.Tx) error { return identity.RequireRoleTx(ctx, tx, p, scope, "BUYER", true) }

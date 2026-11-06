@@ -161,3 +161,18 @@ func (v *Verifier) VerifyControl(raw []byte, grant Verified, current Expected, n
 	h.Write([]byte("\n"))
 	return VerifiedControl{value: c, identity: hex.EncodeToString(h.Sum(nil)), valid: true}, nil
 }
+
+// Matches rechecks a previously authenticated immutable receipt at its point of
+// use. It does not restore a journal watermark, extend a deadline or verify a
+// new signature; only Verifier.VerifyControl can create a valid value.
+func (c VerifiedControl) Matches(grant Verified, current Expected, now time.Time) bool {
+	if !c.valid || !grant.ValidAt(now) || !current.binds(grant) || !c.value.matches(grant) {
+		return false
+	}
+	issued, err := utc(c.value.Issued)
+	if err != nil {
+		return false
+	}
+	expires, err := utc(c.value.Expires)
+	return err == nil && !now.Before(issued) && now.Before(expires)
+}

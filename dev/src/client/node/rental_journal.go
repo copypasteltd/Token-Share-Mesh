@@ -29,9 +29,10 @@ type rentalEntry struct {
 	Anchor   json.RawMessage       `json:"anchor"`
 }
 type rentalJournalState struct {
-	Profile string        `json:"profile_id"`
-	Binding string        `json:"binding_digest"`
-	Entries []rentalEntry `json:"anchors"`
+	Profile      string                    `json:"profile_id"`
+	Binding      string                    `json:"binding_digest"`
+	Entries      []rentalEntry             `json:"anchors"`
+	Preparations []rentalPreparationRecord `json:"rental_preparations,omitempty"`
 }
 
 // RentalJournal shares the original node's OS process lock and private root;
@@ -119,6 +120,20 @@ func (s *Store) OpenRentalJournal() (*RentalJournal, error) {
 		j.Close()
 		return nil, ErrRentalJournal
 	}
+	if len(j.s.Preparations) > MaximumRentalPreparations {
+		j.Close()
+		return nil, ErrRentalJournal
+	}
+	preparations := map[string]bool{}
+	for _, record := range j.s.Preparations {
+		p, err := rentalaccess.DecodePreparationRecord(record.Manifest, record.Approval)
+		m := p.Details()
+		if err != nil || preparations[m.Session] || m.Device != s.s.DeviceID || m.Seller != s.s.SellerID {
+			j.Close()
+			return nil, ErrRentalJournal
+		}
+		preparations[m.Session] = true
+	}
 	seen := map[string]bool{}
 	for _, e := range j.s.Entries {
 		_, anchorErr := rentalaccess.DecodeStoredAnchor(e.Anchor, e.Expected)
@@ -133,7 +148,7 @@ func (s *Store) OpenRentalJournal() (*RentalJournal, error) {
 }
 
 func (j *RentalJournal) persistLocked() error {
-	if j.closed || j.poisoned || j.node.root == nil || len(j.s.Entries) > MaximumRentalAnchors {
+	if j.closed || j.poisoned || j.node.root == nil || len(j.s.Entries) > MaximumRentalAnchors || len(j.s.Preparations) > MaximumRentalPreparations {
 		return ErrRentalJournal
 	}
 	plain, err := json.Marshal(j.s)

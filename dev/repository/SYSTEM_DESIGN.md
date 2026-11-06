@@ -317,4 +317,6 @@ R026 source-only continuation: verifier-only Claims and explicit signing Continu
 
 INT-097从当前原DB会话/资金/资格/完整预算/物理owner事实签发至多45秒控制回复；DATA-071/前向015保存原请求及签名回复与安全event，重放原回复不续时，STOP在原grant内永久。INT-098允许原设备独立读取原DB安全grant metadata/digest；来客token不能同时定义自己的可信摘要。本机必须核原批准manifest/connection，再验独立公钥pin/JWS。
 
-原节点OS锁/OS主密钥＋独立域派生AES-GCM journal保存元组/控制序号/停止标记，最多64项、256KiB；文件原子替换及flush先于请求外发。进程恢复没有ALLOW，存储未知关闭。实际磁盘/签名开销没有测量，不主张管理员快照防回滚或硬件TEE。独立防回滚水位、实际native停止watchdog、Android/桌面共享物理会话门闩、租内invocation与真实清理释放尚待集成。控制活性不是付费续租、可用时间计量或执行票据。源码未编译/测试/迁移，完整56/222保持开放。
+原节点OS锁/OS主密钥＋独立域派生AES-GCM journal保存元组/控制序号/停止标记，最多64份grant水位、8份原本机准备批准、256KiB总密文；文件原子替换及flush先于占位或请求外发。进程恢复没有ALLOW，存储未知关闭。新增端侧schema-002前向源码保留旧DDL和原占用/双水位，以同resources行管理JOB/个人使用/维护/RENTAL；每会话最多一个未清理租内调用，提交前存一次意图。ProviderRental将原加密批准/原DB摘要/签名控制提交共门闩，原子提交耗时不延长窗口。子清理不释放父占位；旧历史不能控制下一owner。
+
+实际磁盘/签名开销没有测量，不主张管理员快照防回滚或硬件TEE。真实租赁内核适配、认证输入/参考素材、独立停止watchdog/反回滚水位、安全容量回收、Android会话及平台独立清理确认/owner/预算释放仍待。控制活性不是付费续租、可用时间计量或单独执行权；内部清理事实不得由提供方HTTP布尔制造。源码未编译/测试/迁移，53项租赁用例均只有源码定义，完整56/222保持开放。

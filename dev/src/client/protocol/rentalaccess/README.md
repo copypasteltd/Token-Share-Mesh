@@ -1,6 +1,6 @@
 # Rental session authority / 小时租赁会话授权
 
-**R026 · SOURCE_ONLY / UNVERIFIED · 未编译、未运行测试。** Platform rental HTTP and native encrypted-control journal sources are now wired; Android/native physical execution and cleanup remain closed and unverified. 本包不提供支付资格、GPU占用票据或已验收会话执行。
+**R026 · SOURCE_ONLY / UNVERIFIED · 未编译、未运行测试。** Platform rental HTTP, encrypted original local approval and native shared-session/invocation gate sources are wired. Actual rental engine execution, watchdogs, Android sessions and platform cleanup release remain closed and unverified. 本包不提供支付资格、实际内核停工证明或已验收会话执行。
 
 `claims.go` / `access.go` use pinned **golang-jwt/jwt v5.3.1** (MIT) for compact JWS with EdDSA/Ed25519. Only the fixed three-field protected header and strict integer-time, original-C2C claims are accepted. Independently provisioned issuer pins and the current `Expected` context are mandatory. `Expected.TokenDigest` must come from the current original grant record and match the entire credential; hashing the caller token into Expected is not independent trust. Unknown, duplicate, case-aliased or null scalar fields and noncanonical base64url are rejected. JWS is signed, not encrypted.
 
@@ -10,8 +10,10 @@
 
 `control.go` signs metadata-only ALLOW/STOP responses bound to the original grant and durable request sequence. A response lasts at most 45 seconds and cannot extend the JWS, confirmed terms or paid hard deadline. It is not a payment renewal. Its stable signature identity is independent of JSON layout.
 
-`window.go`要求先持久化序号再外发，重复确认不延时，恢复后须先存新序号，旧回复不能重启执行。磁盘写入失败/未知、撤权、到期、时钟回拨和STOP均关闭本窗口。Anchor codec只是严格元数据编解码，不代替原加密journal、持久flush、防回滚或物理门闩。本轮新增node加密journal/flush与实际控制传输源码；独立防回滚水位和实际物理执行仍待。`Window.Check`只证明控制活性；每次进内核仍要核scope、原session owner/代次、批准环境和串行invocation inbox。
+`window.go`要求先持久化序号再外发，重复确认不延时，恢复后须先存新序号，旧回复不能重启执行。磁盘写入失败/未知、撤权、到期、时钟回拨和STOP均关闭本窗口。Anchor codec只是严格元数据编解码，不代替原加密journal、持久flush、防回滚或物理门闩。node.ProviderRental现有源码将原本机加密批准/实际控制传输连接至共用resources行和串行租内inbox；实际内核适配/独立停工watchdog和防回滚水位仍待。`Window.Check`只证明控制活性；每次进内核仍要核scope、原session owner/代次、批准环境、认证输入和invocation。
+
+`preparation.go` preserves the platform's exact original public Manifest/Spec fields and hashed bytes. Explicit trusted owner configuration supplies the independent physical/environment/model/recipe/connection/issuer approval. Strict decoding cannot manufacture it from a network task. The private Prepared value reserves no more than a 120-second preparation window; metadata recovery restores no expired TTL or ALLOW. The original approval and bytes are encrypted before the native gate reserves a physical row. This is public metadata protection, not customer-content E2E or hardware attestation.
 
 Do not run this package's tests during CODE_FIRST. All remaining production code across the complete 56-task / 222-step scope must be implemented before batch compilation, tests and debugging. Existing tests are source definitions only.
 
-[规范、消息字节顺序与42项测试源码登记 / Protocol and test-source inventory](../../../../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md) · [Dependency/license lock](dependencies.lock.json) · [Full backlog](../../../../全量代码优先实施清单.md)
+[规范、消息字节顺序与53项测试源码登记 / Protocol and test-source inventory](../../../../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md) · [Native gate integration / 原生门闩接线](../../execution/README.md) · [Dependency/license lock](dependencies.lock.json) · [Full backlog](../../../../全量代码优先实施清单.md)

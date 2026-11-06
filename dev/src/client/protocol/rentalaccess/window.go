@@ -70,6 +70,7 @@ func DecodeAnchor(raw []byte, grant Verified, current Expected) (Anchor, error) 
 type Window struct {
 	mu                                   sync.Mutex
 	grant                                Verified
+	latest                               VerifiedControl
 	anchor                               Anchor
 	save                                 SaveAnchor
 	deadline, lastWall                   time.Time
@@ -217,6 +218,7 @@ func (w *Window) Accept(verifier *Verifier, raw []byte, current Expected, now ti
 	if w.commitLocked(next) != nil {
 		return ErrAccess
 	}
+	w.latest = reply
 	if c.Decision == "STOP" {
 		w.allowed = false
 		w.terminal = true
@@ -260,4 +262,15 @@ func (w *Window) Snapshot() Anchor {
 	w.mu.Lock()
 	defer w.mu.Unlock()
 	return w.anchor
+}
+
+// LastControl returns accepted metadata only, including a committed STOP. A
+// physical gate must recheck its own owner, watermark and immutable deadline.
+func (w *Window) LastControl() VerifiedControl {
+	if w == nil {
+		return VerifiedControl{}
+	}
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	return w.latest
 }

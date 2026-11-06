@@ -149,6 +149,11 @@ func (v Verified) Details() Claims {
 	return v.claims.clone()
 }
 func (v Verified) ValidAt(now time.Time) bool { return v.valid && v.claims.validAt(now) }
+
+// Matches checks an already verified grant against independently loaded current metadata.
+func (v Verified) Matches(current Expected, now time.Time) bool {
+	return v.ValidAt(now) && current.binds(v)
+}
 func (v Verified) Allows(scope string, now time.Time) bool {
 	return v.ValidAt(now) && slices.Contains(v.claims.Scopes, scope)
 }

@@ -67,15 +67,16 @@ type guard struct {
 	deadline time.Time
 }
 type Store struct {
-	gate        chan struct{}
-	db          *sql.DB
-	binding     Binding
-	clock       Clock
-	guards      map[string]guard
-	lastElapsed time.Duration
-	poisoned    bool
-	clockUnsafe bool
-	sampledAt   time.Time
+	gate         chan struct{}
+	db           *sql.DB
+	binding      Binding
+	clock        Clock
+	guards       map[string]guard
+	rentalGuards map[string]rentalGuard
+	lastElapsed  time.Duration
+	poisoned     bool
+	clockUnsafe  bool
+	sampledAt    time.Time
 }
 type ResourceStatus struct {
 	Resource   string `json:"resource_id"`
@@ -135,8 +136,12 @@ func Open(ctx context.Context, path string, b Binding, create bool, clock Clock)
 	if clock == nil {
 		clock = nativeClock{time.Now()}
 	}
-	s := &Store{gate: make(chan struct{}, 1), db: db, binding: b, clock: clock, guards: map[string]guard{}}
+	s := &Store{gate: make(chan struct{}, 1), db: db, binding: b, clock: clock, guards: map[string]guard{}, rentalGuards: map[string]rentalGuard{}}
 	if err = s.initialize(ctx, create); err != nil {
+		db.Close()
+		return nil, ErrStorage
+	}
+	if err = s.migrateRental(ctx); err != nil {
 		db.Close()
 		return nil, ErrStorage
 	}
@@ -196,7 +201,7 @@ func (s *Store) initialize(ctx context.Context, create bool) error {
 		}
 	}
 	var app, version int
-	if tx.QueryRowContext(ctx, `PRAGMA application_id`).Scan(&app) != nil || app != applicationID || tx.QueryRowContext(ctx, `PRAGMA user_version`).Scan(&version) != nil || version != 1 {
+	if tx.QueryRowContext(ctx, `PRAGMA application_id`).Scan(&app) != nil || app != applicationID || tx.QueryRowContext(ctx, `PRAGMA user_version`).Scan(&version) != nil || (version != 1 && version != 2) {
 		return ErrStorage
 	}
 	actual, err := schemaDigest(ctx, tx)
@@ -206,6 +211,12 @@ func (s *Store) initialize(ctx context.Context, create bool) error {
 	for k, want := range map[string]string{"profile": Profile, "binding_hash": bindingHash(s.binding), "schema_source_hash": digest([]byte(schema)), "schema_live_hash": actual} {
 		var got string
 		if tx.QueryRowContext(ctx, `SELECT value FROM metadata WHERE name=?`, k).Scan(&got) != nil || got != want {
+			return ErrStorage
+		}
+	}
+	if version == 2 {
+		var forward string
+		if tx.QueryRowContext(ctx, `SELECT value FROM metadata WHERE name='rental_schema_source_hash'`).Scan(&forward) != nil || forward != digest([]byte(rentalSchema)) {
 			return ErrStorage
 		}
 	}
@@ -225,6 +236,9 @@ func (s *Store) initialize(ctx context.Context, create bool) error {
 	// Every reopen loses in-memory execution authority, even after clean exit.
 	// A previous disk ACTIVE is never enough to resume or release the resource.
 	if _, err = tx.ExecContext(ctx, `UPDATE resources SET phase='QUARANTINED',stopped=0 WHERE owner_id<>''; UPDATE inbox SET phase='QUARANTINED' WHERE phase<>'CLEANED'`); err != nil {
+		return ErrStorage
+	}
+	if version == 2 && quarantineRentalTx(ctx, tx) != nil {
 		return ErrStorage
 	}
 	return tx.Commit()
@@ -290,8 +304,12 @@ func (s *Store) advance(ctx context.Context, tx *sql.Tx, stamp Stamp) error {
 			if _, e = tx.ExecContext(ctx, `UPDATE resources SET phase='QUARANTINED',stopped=0 WHERE owner_id<>''; UPDATE inbox SET phase='QUARANTINED' WHERE phase<>'CLEANED'`); e != nil {
 				return ErrStorage
 			}
+			if quarantineRentalTx(ctx, tx) != nil {
+				return ErrStorage
+			}
 		}
 		clear(s.guards)
+		clear(s.rentalGuards)
 		s.clockUnsafe = true
 		return nil
 	}
@@ -309,7 +327,7 @@ func (s *Store) advance(ctx context.Context, tx *sql.Tx, stamp Stamp) error {
 			delete(s.guards, id)
 		}
 	}
-	return nil
+	return s.advanceRentalTx(ctx, tx, stamp)
 }
 func (s *Store) Tick(ctx context.Context) error {
 	return s.transaction(ctx, func(*sql.Tx, Stamp) error {
@@ -330,6 +348,7 @@ func (s *Store) Close() {
 		s.db = nil
 	}
 	clear(s.guards)
+	clear(s.rentalGuards)
 }
 
 func (s *Store) RegisterResource(ctx context.Context, id, physicalDigest string) error {

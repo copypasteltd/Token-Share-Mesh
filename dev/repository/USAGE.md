@@ -531,6 +531,8 @@ Existing progress requests can receive a signed CONTINUE for the same original e
 
 ## R026 控制连接源码（尚不能执行租赁任务）
 
-原设备先明确初始化`Store.InitRentalJournal`，与Host/控制循环共用原节点OS锁；已初始化后用`OpenRentalJournal`，缺失/损坏不重建。集成方从原已批准准备记录提供完整Expected和connection，调用`ResolveControl`独立读取平台原grant摘要、核公钥pin/JWS，再用`Refresh`发一次原序号控制确认。`RentalCurrent`必须核原本机批准/owner状态；`CheckScope`不能替代真实物理会话票据、租内inbox或独立停止watchdog。没有新增可执行CLI入口，也没有自动环境批准/模型下载。
+原设备先明确初始化`Store.InitExecution`与`InitRentalJournal`、登记独立核对的物理资源，与Host/控制循环共用原节点OS锁；已初始化后用Open方法，缺失/损坏不重建。本人可信配置/UI独立核准实际安装环境/模型/recipe、原公共manifest/物理摘要/connection/issuer后构造`LocalApproval`，经`VerifyPreparation`与`PrepareRentalSession`先加密保存再占原槽。网络任务不能自动构造批准。`ProviderRental.AttachControl`独立读取平台原grant摘要、核公钥pin/JWS并绑定；`RefreshControl`保存请求序号、签名HTTP控制并提交同一物理门闩。`CheckScope`同时核控制window与原owner，`BeginInvocation`给持久一次提交ticket。真实内核适配、认证输入/素材和独立停止watchdog仍待，不开放执行。完整顺序见[原生接线说明](../src/client/execution/README.md)及RN-071—090。没有新增可执行CLI入口或自动模型下载。
 
-原Bearer只作内存校验，原序号及停止标记持久加密；网络重试不改原键，重启不复用ALLOW。关闭后保留原owner/预算，只有真实停工清理证据才可能释放，目前该执行/释放链仍待。9项HTTP/42项测试定义仅是源码，不能据此开启交易或执行。完整56/222完成代码后才集中编译/测试。
+原Bearer只作内存校验，原批准、请求序号及停止标记持久加密；网络重试不改原键，重启不复用ALLOW。租内子调用只清自身，父租赁继续占原槽。Stop/关闭保留原owner/预算；本机原事实清理门槛已有源码，真实适配器证明与平台回执/owner/预算释放仍待。新增端侧schema-002前向迁移源码，旧DDL不改；目前不运行迁移或编译。9项租赁HTTP/53项测试定义仅是源码，不能据此开启交易或执行。完整56/222完成代码后才集中编译/测试。
+
+The source-level join is explicit owner approval → encrypted durable preparation → original shared physical row → independently read grant metadata and pinned JWS → signed control committed to that row → serial once-only invocation. Stop/expiry retains ownership. Trusted actual engine cleanup observations, platform acknowledgement and release are not implemented by a JSON boolean. No CLI enables rental execution; no tests or database migration have run for this code.

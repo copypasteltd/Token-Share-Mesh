@@ -371,6 +371,9 @@ func (s *Store) Recovery(ctx context.Context, leaseID string) (Recovery, error) 
 }
 
 func (s *Store) RequestStop(ctx context.Context, h Hold) error {
+	if h.mode == "RENTAL" {
+		return s.StopRental(ctx, h)
+	}
 	return s.transaction(ctx, func(tx *sql.Tx, _ Stamp) error {
 		r, e := readResource(ctx, tx, h.resource)
 		if e != nil {
@@ -401,6 +404,9 @@ func (s *Store) RequestStop(ctx context.Context, h Hold) error {
 type Observation struct{ RequestID, BackendID, State string }
 
 func (s *Store) ObserveStopped(ctx context.Context, h Hold, o Observation) error {
+	if h.mode == "RENTAL" {
+		return ErrEvidence
+	}
 	if o.RequestID != h.owner || (o.State != "STOPPED" && o.State != "ABSENT") || o.State == "ABSENT" && o.BackendID != "" || o.State == "STOPPED" && !ids.Valid(o.BackendID) {
 		return ErrEvidence
 	}
@@ -440,6 +446,9 @@ type Cleanup struct {
 }
 
 func (s *Store) FinishCleanup(ctx context.Context, h Hold, c Cleanup) error {
+	if h.mode == "RENTAL" {
+		return ErrEvidence
+	}
 	if !c.WorkStopped || !c.TokensRevoked || !c.WorkspaceCleared || !executionlease.Hash(c.ManifestHash) {
 		return ErrEvidence
 	}

@@ -11,6 +11,7 @@ import (
 	"p11.local/compute/internal/outbox"
 	"p11.local/compute/internal/persistence"
 	"p11.local/compute/internal/pricing"
+	"p11.local/compute/shared/contractspec"
 	"p11.local/compute/shared/fault"
 	"p11.local/compute/shared/ids"
 	"p11.local/compute/shared/strictjson"
@@ -28,14 +29,7 @@ type Policy struct {
 	Disclosure string `json:"disclosure_version"`
 }
 
-type Spec struct {
-	ModelID          string `json:"model_id,omitempty"`
-	WorkflowID       string `json:"workflow_id,omitempty"`
-	WorkflowRevision int64  `json:"workflow_revision,omitempty"`
-	DurationMS       int64  `json:"duration_ms,omitempty"`
-	InputTokenLimit  int64  `json:"input_token_limit,omitempty"`
-	OutputTokenLimit int64  `json:"output_token_limit,omitempty"`
-}
+type Spec = contractspec.Selection
 
 type Binding struct {
 	DeviceID          string `json:"device_id"`

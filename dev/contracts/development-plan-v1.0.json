@@ -20608,11 +20608,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "82d5ccf18cc523cc2a8eac187ed4c6e4d64be20da7cdf83dc3707b02ae2b9149"
+      "sha256": "9741fee6cdc73e87280f7fd4bd7ab69b07c88299c5beb66c538bd2d1d015a397"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "73374ec414d15cff32f0c55958814b2de9186302db98e66df1d5b7d1e55b097c"
+      "sha256": "68f976b30f4d3183bd42aa4639551180f2b4a415590d496aa62cbdd2a15df5a9"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20820,7 +20820,7 @@
     },
     {
       "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-      "sha256": "5a75f5370c34d5bb5a5464514cb4b49519ad047fa356d925e527a2ebe42f1ba5"
+      "sha256": "02640b6ca383b9c3f710c5073fa579d5ee6cc60260b55cdc9e6b7ec4e2d78187"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",

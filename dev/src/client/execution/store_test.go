@@ -381,7 +381,7 @@ func TestNativeStoreRejectsMissingCorruptionBindingAndSchemaDrift(t *testing.T) 
 				}
 			}
 			if mode == "version" {
-				if _, e := s.db.Exec(`PRAGMA user_version=2`); e != nil {
+				if _, e := s.db.Exec(`PRAGMA user_version=3`); e != nil {
 					t.Fatal(e)
 				}
 			}
