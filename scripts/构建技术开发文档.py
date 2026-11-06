@@ -97,6 +97,22 @@ def database_catalog() -> dict:
                         'type':RawStream()(entry.typeName),'constraints':cs,'source':relative(source)})
                     table.setdefault('alter_sources',[])
                     if relative(source) not in table['alter_sources']:table['alter_sources'].append(relative(source))
+                elif cmd.subtype.name=='AT_DropNotNull':
+                    table=next(t for t in tables if t['name']==s.relation.relname)
+                    column=next(c for c in table['columns'] if c['name']==cmd.name)
+                    column['constraints']=[c for c in column['constraints'] if c['kind']!='CONSTR_NOTNULL']
+                    # Render the effective nullable definition from the parsed
+                    # original column. Published migration bytes stay intact.
+                    definition=next(entry for _,items in sources for raw_source in items
+                        if isinstance(raw_source.stmt,ast.CreateStmt) and raw_source.stmt.relation.relname==table['name']
+                        for entry in raw_source.stmt.tableElts or ()
+                        if isinstance(entry,ast.ColumnDef) and entry.colname==cmd.name)
+                    effective=ast.ColumnDef(colname=definition.colname,typeName=definition.typeName,
+                        constraints=tuple(c for c in definition.constraints or () if c.contype.name!='CONSTR_NOTNULL'))
+                    column['sql']=RawStream()(effective)
+                    column.setdefault('alter_sources',[]).append(relative(source))
+                    table.setdefault('alter_sources',[])
+                    if relative(source) not in table['alter_sources']:table['alter_sources'].append(relative(source))
                 else:
                     raise ValueError('未支持的ALTER TABLE不能从物理目录静默丢弃')
         elif isinstance(s, ast.IndexStmt):

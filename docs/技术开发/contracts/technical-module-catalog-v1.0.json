@@ -314,7 +314,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "application_services": [
         "SessionCoordinator",

@@ -2,7 +2,7 @@
   "version": "1.0",
   "goal_status": "ACTIVE",
   "current_activity": "CODE_FIRST_FULL_SCOPE",
-  "activity_source": "2026-11-06全量代码阶段：最新LMA/T1续签和独立恢复继续保留；新增小时租赁领域规则、成熟JWS/持续控制及完整历史累计计量源码，实际平台/Android物理会话接线仍待。未编译或运行测试；R025仅为历史验证身份。",
+  "activity_source": "2026-11-06 CODE_FIRST：新增小时租赁原订单/资金重核、会话/预算/物理owner/history事务、7项HTTP及提交后一次grant源码，前向014；RN-001—050和共28项租赁测试定义未运行。全部56/222未收口，R025仅为历史验证身份。",
   "round": "R025",
   "tasks": [
     {
@@ -60,7 +60,37 @@
         "dev/tests/evidence/R025-development-attempts.json",
         "dev/tests/evidence/R025-migration-immutability.json"
       ],
-      "remaining_detail": "R025补原生宿主/本机批准与输入驻留绑定源码。原合同和物理围栏不改；生产资金、可信usage/最终ACK/SDK、持久崩溃恢复与安装器/跨平台/完整LM Studio/ComfyUI/LMA/E2E/LP/性能及真实组合验收仍须分别补齐；本任务原子项保持未收口。"
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
+      "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+        "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-03",
@@ -169,7 +199,37 @@
         "dev/tests/evidence/R021-development-attempts.json",
         "dev/tests/evidence/R021-migration-immutability.json"
       ],
-      "remaining_detail": "独立pin/原订单及本机内核批准加密持久配置已接，CLI有界显式输入；生产签发/轮换/撤销发布、卖家确认UI及完整权限矩阵仍待。"
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
+      "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+        "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-04",
@@ -526,7 +586,37 @@
         "dev/tests/evidence/R017-development-attempts.json",
         "dev/tests/evidence/R017-migration-immutability.json"
       ],
-      "remaining_detail": "首发只使用原RESERVED整笔预算，不重占/不因新调用容量耗尽误撤；继续真实资金/可信usage/成交资格、退款/长任务/小时租赁组合接线。"
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
+      "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+        "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-13",
@@ -632,7 +722,37 @@
         "dev/tests/evidence/R025-development-attempts.json",
         "dev/tests/evidence/R025-migration-immutability.json"
       ],
-      "remaining_detail": "R025补原生宿主/本机批准与输入驻留绑定源码。原合同和物理围栏不改；生产资金、可信usage/最终ACK/SDK、持久崩溃恢复与安装器/跨平台/完整LM Studio/ComfyUI/LMA/E2E/LP/性能及真实组合验收仍须分别补齐；本任务原子项保持未收口。"
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
+      "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+        "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-19",
@@ -953,19 +1073,43 @@
         "DEV-33.04"
       ],
       "evidence_refs": [],
-      "remaining_detail": "新增原设备FREE/代次、准备/双端ready、单次开始和受限JWS的未验证领域/协议源码；完整平台事务/资金/物理会话owner、实际工作区、Android租内执行及全部验收仍待。",
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
       "current_code_components": [
         "IMP-R026-007",
         "IMP-R026-008",
         "IMP-R026-009",
-        "IMP-R026-010"
+        "IMP-R026-010",
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
       ],
       "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
         "dev/src/client/protocol/rentalaccess/access.go",
         "dev/src/client/protocol/rentalaccess/access_test.go",
         "dev/src/client/protocol/rentalaccess/claims.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
         "dev/src/internal/rental/session.go",
         "dev/src/internal/rental/session_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_validation_status": "NOT_EXECUTED"
@@ -981,17 +1125,41 @@
         "DEV-34.04"
       ],
       "evidence_refs": [],
-      "remaining_detail": "新增完整确认区间/故障并集、整段一次毫秒/金额取整、预算先限及计算回执的未验证源码；独立证据确认、追加修订账单、资金与实际区间入库仍待。",
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
       "current_code_components": [
         "IMP-R026-007",
         "IMP-R026-008",
         "IMP-R026-009",
-        "IMP-R026-010"
+        "IMP-R026-010",
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
       ],
       "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
         "dev/src/internal/pricing/price.go",
+        "dev/src/internal/rental/access.go",
         "dev/src/internal/rental/meter.go",
         "dev/src/internal/rental/meter_test.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_validation_status": "NOT_EXECUTED"
@@ -1007,20 +1175,44 @@
         "DEV-35.04"
       ],
       "evidence_refs": [],
-      "remaining_detail": "新增同价附约/预算时长、断线/硬截止、45秒签名活性和恢复新水位的未验证源码；真实报价/支付消费、授权撤旧换新、原加密journal与平台/Android物理控制接线仍待。",
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
       "current_code_components": [
         "IMP-R026-007",
         "IMP-R026-008",
         "IMP-R026-009",
-        "IMP-R026-010"
+        "IMP-R026-010",
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
       ],
       "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
         "dev/src/client/protocol/rentalaccess/claims.go",
         "dev/src/client/protocol/rentalaccess/control.go",
         "dev/src/client/protocol/rentalaccess/control_test.go",
         "dev/src/client/protocol/rentalaccess/window.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
         "dev/src/internal/rental/session.go",
         "dev/src/internal/rental/session_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_validation_status": "NOT_EXECUTED"
@@ -1036,16 +1228,40 @@
         "DEV-36.04"
       ],
       "evidence_refs": [],
-      "remaining_detail": "新增停止冻结上界、控制窗口终止及清理缺事实保留隔离的未验证领域规则；受控导出、实际原引擎停算/清理、平台报告与物理释放仍待。",
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
       "current_code_components": [
         "IMP-R026-007",
         "IMP-R026-008",
         "IMP-R026-009",
-        "IMP-R026-010"
+        "IMP-R026-010",
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
       ],
       "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
         "dev/src/client/protocol/rentalaccess/window.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
         "dev/src/internal/rental/session.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
         "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
       ],
       "current_validation_status": "NOT_EXECUTED"
@@ -1503,7 +1719,37 @@
         "dev/tests/evidence/R021-development-attempts.json",
         "dev/tests/evidence/R021-migration-immutability.json"
       ],
-      "remaining_detail": "通用元数据队列认领/耗尽仅限自身白名单，不误领执行投递意图；首签发投递意图与领取安全事件各自原子持久；领取不完成DELIVER任务。仍待认证投递worker、实际ACK、幂等消费/失败重投和领域工作流。"
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
+      "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+        "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-52",
@@ -1600,7 +1846,37 @@
         "dev/tests/evidence/R025-development-attempts.json",
         "dev/tests/evidence/R025-migration-immutability.json"
       ],
-      "remaining_detail": "R025补原生宿主/本机批准与输入驻留绑定源码。原合同和物理围栏不改；生产资金、可信usage/最终ACK/SDK、持久崩溃恢复与安装器/跨平台/完整LM Studio/ComfyUI/LMA/E2E/LP/性能及真实组合验收仍须分别补齐；本任务原子项保持未收口。"
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
+      "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+        "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-54",
@@ -1668,7 +1944,37 @@
         "dev/tests/evidence/R025-development-attempts.json",
         "dev/tests/evidence/R025-migration-immutability.json"
       ],
-      "remaining_detail": "R025补原生宿主/本机批准与输入驻留绑定源码。原合同和物理围栏不改；生产资金、可信usage/最终ACK/SDK、持久崩溃恢复与安装器/跨平台/完整LM Studio/ComfyUI/LMA/E2E/LP/性能及真实组合验收仍须分别补齐；本任务原子项保持未收口。"
+      "remaining_detail": "R026已有原小时合同/SETTLED资金事实重核、占位/准备/双端ready/停止、一次grant及014 SQL/HTTP源码；尚未编译/迁移/测试。真实渠道处理和独立就绪证据生产、付费续租/控制/计量/清理释放及Android/桌面会话消费者仍待，不能开放交易或标记代码完成。",
+      "current_source_refs": [
+        "dev/src/api/cmd/p11-api/main.go",
+        "dev/src/api/cmd/p11-api/rental.go",
+        "dev/src/api/cmd/p11-api/rental_test.go",
+        "dev/src/api/internal/http/rental.go",
+        "dev/src/api/internal/http/routes.go",
+        "dev/src/api/internal/http/routes.json",
+        "dev/src/api/internal/http/server.go",
+        "dev/src/internal/dispatch/device/auth.go",
+        "dev/src/internal/identity/sessions.go",
+        "dev/src/internal/market/catalog.go",
+        "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
+        "dev/src/internal/persistence/migrations/source-v14.json",
+        "dev/src/internal/rental/access.go",
+        "dev/src/internal/rental/readiness.go",
+        "dev/src/internal/rental/service.go",
+        "dev/src/internal/rental/service_test.go",
+        "dev/src/internal/rental/store.go",
+        "dev/src/internal/testsupport/market.go",
+        "dev/src/tests/integration/rental_test.go",
+        "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+        "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md"
+      ],
+      "current_code_components": [
+        "IMP-R026-011",
+        "IMP-R026-012",
+        "IMP-R026-013",
+        "IMP-R026-014"
+      ],
+      "current_validation_status": "NOT_EXECUTED"
     }
   ],
   "rounds": [

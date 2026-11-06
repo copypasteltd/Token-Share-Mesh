@@ -43,6 +43,20 @@ func (s *Server) loadRoutes() bool {
 }
 func (s *Server) handlerNamed(name string) handler {
 	switch name {
+	case "createRentalSession":
+		return s.createRentalSession
+	case "getRentalSession":
+		return s.getRentalSession
+	case "claimRentalPreparation":
+		return s.claimRentalPreparation
+	case "recordRentalDeviceReady":
+		return s.recordRentalDeviceReady
+	case "confirmRentalReady":
+		return s.confirmRentalReady
+	case "stopRentalSession":
+		return s.stopRentalSession
+	case "createRentalAccessGrant":
+		return s.createRentalAccessGrant
 	case "getExecutionManifest":
 		return s.getExecutionManifest
 	case "getExecutionInput":

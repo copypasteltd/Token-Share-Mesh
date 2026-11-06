@@ -20,6 +20,7 @@ import (
 	"p11.local/compute/internal/identity"
 	"p11.local/compute/internal/invocation"
 	"p11.local/compute/internal/market"
+	"p11.local/compute/internal/rental"
 	"p11.local/compute/internal/routecontract"
 	"p11.local/compute/internal/seller"
 	"p11.local/compute/internal/trade"
@@ -49,6 +50,7 @@ type Config struct {
 	Continuations                    *invocation.Continuations
 	Delivery                         *invocation.Delivery
 	Routes                           routecontract.Service
+	Rentals                          *rental.Service
 }
 type Server struct {
 	c                          Config

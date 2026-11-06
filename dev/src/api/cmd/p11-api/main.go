@@ -182,6 +182,13 @@ func run() error {
 		return err
 	}
 	defer closeDelivery()
+	rentals, err := configuredRentals(db)
+	if err != nil {
+		return err
+	}
+	if rentals != nil {
+		defer rentals.Close()
+	}
 	handler, err := controlhttp.New(controlhttp.Config{AllowedHosts: []string{listener.Addr().String(), "localhost:" + port},
 		BrowserOrigin: os.Getenv("P11_BROWSER_ORIGIN"), InsecureLoopback: os.Getenv("P11_INSECURE_LOOPBACK") == "1", CursorKey: cursorKey,
 		Sessions: identity.Sessions{DB: db, Provider: provider, PepperVersion: "auth_v1", Peppers: map[string][]byte{"auth_v1": authPepper}, IdentityPepper: identityPepper, TTL: 12 * time.Hour},
@@ -191,6 +198,7 @@ func run() error {
 		Claims:        claims,
 		Continuations: continuations,
 		Delivery:      delivery,
+		Rentals:       rentals,
 		Routes:        routecontract.Service{DB: db, PaymentEnvironment: os.Getenv("P11_PAYMENT_ENVIRONMENT")}})
 	if err != nil {
 		return err

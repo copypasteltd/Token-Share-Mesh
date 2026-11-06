@@ -940,7 +940,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -1191,6 +1193,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -2190,6 +2194,7 @@
       ],
       "operation_ids": [
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -2204,6 +2209,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "devices",
         "device_request_nonces",
         "resources",
@@ -2248,6 +2255,7 @@
       ],
       "operation_ids": [
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -2258,6 +2266,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "payments",
         "refunds",
         "channel_requests"
@@ -2295,6 +2305,7 @@
       ],
       "operation_ids": [
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -2306,7 +2317,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2356,7 +2369,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -2399,6 +2414,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "payments",
         "refunds",
         "channel_requests"
@@ -2456,6 +2473,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "payments",
         "refunds",
         "channel_requests",
@@ -2507,6 +2526,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "devices",
         "device_request_nonces",
         "resources",
@@ -2561,6 +2582,7 @@
         "createAttestationChallenge",
         "getAttestationEvidence",
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -2574,6 +2596,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "quotes",
         "orders",
         "route_contracts",
@@ -2800,6 +2824,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -3326,7 +3352,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",

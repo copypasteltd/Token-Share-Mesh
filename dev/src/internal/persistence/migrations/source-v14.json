@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+  "source_sha256": "9268d7dcc0a4a6386a7df491da0bd8636d0b93675a17d2cd6b3df1fba78b059c",
+  "migration": "014_rental_authority_context.sql",
+  "migration_sha256": "9268d7dcc0a4a6386a7df491da0bd8636d0b93675a17d2cd6b3df1fba78b059c",
+  "policy": "014 forward-only original hourly session context/history/access; unexecuted source, physical release and paid renewal remain closed"
+}

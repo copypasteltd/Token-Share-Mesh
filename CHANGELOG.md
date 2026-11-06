@@ -2,7 +2,9 @@
 
 ## R026 · Full-scope code phase (in progress, unverified)
 
-- Added unverified hourly-rental domain rules, exact affordable duration and cumulative confirmed-interval/fault metering; pinned MIT golang-jwt/jwt v5.3.1 for restricted EdDSA JWS pinned to the original credential digest, one-time credentials, signed control windows and crash watermarks. Added RN-001—030 and 18 test-source definitions. No new HTTP operation or SQL migration; storage/payment, encrypted-journal, physical-owner and Android session integration remain open. No compilation or tests executed; all 56 tasks/222 steps remain unaccepted.
+- Added source-only rental transactions, seven HTTP handlers, independent readiness gates and committed once-only JWS delivery. Forward014 preserves raw context/manifest, hourly price, original owner/full budget, immutable history and grant guards. INT-096 appends preparation without renumbering the original 95; the design now has 96 operations/70 tables. Replay stores no Bearer and replacement revokes old access; unstarted deadlines/unknown accounting are omitted. Ten new test definitions (28 rental definitions total), no compilation/tests/migrations. Actual channel/readiness producers, paid renewal, encrypted journals/control, Android and physical cleanup remain open.
+
+- Previous source checkpoint 5e79413 introduced hourly-rental domain rules, exact affordable duration and cumulative confirmed-interval/fault metering; pinned MIT golang-jwt/jwt v5.3.1 for restricted EdDSA JWS bound to the original credential digest, one-time credentials, signed control windows and crash watermarks. Original RN-001—030 and 18 test-source definitions remain; RN-031—050 and the transaction wiring above extend them. All 56 tasks/222 steps remain unaccepted.
 
 - Added source-only T1 signed execution continuation, stable signature identity across JSON layouts, append-only prior/new lease history, and separate signed recovery of failed cleanup (012/013). Android now receives continuations and reports periodically; M1 admission and desktop integration remain open. Eight Android boundary definitions and new Go/integration test sources have not run.
 

@@ -1,8 +1,8 @@
 # System design / 系统方案
 
-R026租赁源码拆为原会话领域规则、成熟JWS授权、持续控制活性、完整历史计量四部分。小时租赁按owner_session_id/物理代次绑定同一设备，租内媒体/LLM不叠加作品/token费；普通T1任务短执行权续签独立保留。新增领域函数/18项测试源码未编译运行；平台事务、实际资金/确认区间、原加密journal、Android子调用与物理停止清理尚未接通。现有95操作/68表设计口径及已发布001—013 SQL原字节不变。
+R026租赁源码包括领域/成熟JWS/控制窗口/完整历史计量，以及当前新增的平台事务和7项HTTP接线。前向014保存原始manifest/context、版本history、小时价与grant约束；INT-096明确原设备准备领取，原INT-001—095不重排，总契约96操作/70表。小时租赁按owner_session_id/物理代次绑定原设备，租内媒体/LLM不另收作品/token费。新增共28项测试定义未编译运行，SQL未迁移；实际渠道/独立就绪证据、付费续租、可信区间计量落库、原加密journal/控制、Android和物理清理释放仍待。001—013及原端侧DDL字节保留。
 
-Rental source separates original-session rules, mature JWS authority, continuing control freshness and complete-history metering. Rental children share one session owner and physical generation; media/LLM calls add no per-result or token fee. T1 task execution continuation remains separate. These sources are uncompiled/untested and not wired to transactional storage, real funding/interval evidence, encrypted journals, Android invocations or physical cleanup. See [RN-001—030](../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md).
+Rental source now includes platform transaction/HTTP wiring alongside domain/JWS/control/meter rules. Forward014 preserves original raw manifest/context, hourly price and immutable history; INT-096 appends preparation without renumbering the original operations. The design has 96 operations/70 tables. Session children share the original physical owner and add no per-result/token fee. All 28 rental test definitions and SQL are unexecuted. Channel/readiness producers, paid renewal, confirmed meter storage, encrypted journals/control, Android and physical cleanup remain open. See [RN-001—050](../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md).
 
 ## R021 · 原生 C API worker 与受限管道
 

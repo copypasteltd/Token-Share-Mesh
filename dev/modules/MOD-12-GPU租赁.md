@@ -18,7 +18,7 @@ P11｜开发细则 v1.0｜MOD-12｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 计划路径 | dev/src/internal/rental |
 | 协作模块 | [MOD-04](MOD-04-合同订单路由预算.md)、[MOD-05](MOD-05-支付退款适配.md)、[MOD-06](MOD-06-调度资源租约.md) |
 | 应用服务 | SessionCoordinator、WorkspaceGrant、AvailabilityMeter |
-| 权威表 | rental_sessions、rental_renewals、rental_access_grants、availability_intervals |
+| 权威表 | rental_sessions、rental_renewals、rental_access_grants、availability_intervals、rental_authority_contexts、rental_session_history |
 | 适用约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-002](../docs/02-表格化需求约束.md#CON-002)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-015](../docs/02-表格化需求约束.md#CON-015)、[CON-016](../docs/02-表格化需求约束.md#CON-016)、[CON-019](../docs/02-表格化需求约束.md#CON-019)、[CON-021](../docs/02-表格化需求约束.md#CON-021)、[CON-022](../docs/02-表格化需求约束.md#CON-022)、[CON-032](../docs/02-表格化需求约束.md#CON-032)、[CON-035](../docs/02-表格化需求约束.md#CON-035)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-040](../docs/02-表格化需求约束.md#CON-040)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-046](../docs/02-表格化需求约束.md#CON-046)、[CON-047](../docs/02-表格化需求约束.md#CON-047) |
 | 核心规范 | [12-显卡租赁与可用时间计量.md](../../docs/技术开发/12-显卡租赁与可用时间计量.md) |
 
@@ -37,6 +37,7 @@ P11｜开发细则 v1.0｜MOD-12｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | INT-072 | recordRentalCleanup | POST /rental-sessions/{session_id}/cleanup | [DEV-36](../开发细则总表.md#DEV-36) | device:rental | TX-10 / 必需稳定键 |
 | INT-073 | recordRentalDeviceReady | POST /rental-sessions/{session_id}/device-ready | [DEV-33](../开发细则总表.md#DEV-33) | device:rental | TX-08 / 必需稳定键 |
 | INT-084 | stopRentalSession | POST /rental-sessions/{session_id}/stop | [DEV-35](../开发细则总表.md#DEV-35) | rental:stop | TX-10 / 必需稳定键 |
+| INT-096 | claimRentalPreparation | POST /runner/rental-sessions/{session_id}/preparation | [DEV-33](../开发细则总表.md#DEV-33) | device:rental | TX-08 / 必需稳定键 |
 
 [完整控制面、数据表与需求追踪](../docs/04-接口数据与需求追踪.md)；请求/响应 Schema 和响应码沿用既有 OpenAPI。
 
@@ -56,7 +57,7 @@ P11｜开发细则 v1.0｜MOD-12｜2026-10-30｜需求 v3.0 / 技术 v1.0。
 | 实施目标 | 实现同卡独占、零费准备、设备/买方就绪、单次起表及受控工作区grant。 |
 | 原完成证据 | 超时/预热失败零费；默认STANDARD且禁止shell/RDP/admin/任意节点。 |
 | 门槛 | POC-10 |
-| 控制操作 | createRentalSession、getRentalSession、confirmRentalReady、recordRentalDeviceReady、createRentalAccessGrant |
+| 控制操作 | createRentalSession、claimRentalPreparation、getRentalSession、confirmRentalReady、recordRentalDeviceReady、createRentalAccessGrant |
 | 需求约束 | [CON-001](../docs/02-表格化需求约束.md#CON-001)、[CON-002](../docs/02-表格化需求约束.md#CON-002)、[CON-006](../docs/02-表格化需求约束.md#CON-006)、[CON-007](../docs/02-表格化需求约束.md#CON-007)、[CON-008](../docs/02-表格化需求约束.md#CON-008)、[CON-009](../docs/02-表格化需求约束.md#CON-009)、[CON-013](../docs/02-表格化需求约束.md#CON-013)、[CON-015](../docs/02-表格化需求约束.md#CON-015)、[CON-016](../docs/02-表格化需求约束.md#CON-016)、[CON-019](../docs/02-表格化需求约束.md#CON-019)、[CON-021](../docs/02-表格化需求约束.md#CON-021)、[CON-022](../docs/02-表格化需求约束.md#CON-022)、[CON-032](../docs/02-表格化需求约束.md#CON-032)、[CON-035](../docs/02-表格化需求约束.md#CON-035)、[CON-036](../docs/02-表格化需求约束.md#CON-036)、[CON-038](../docs/02-表格化需求约束.md#CON-038)、[CON-040](../docs/02-表格化需求约束.md#CON-040)、[CON-041](../docs/02-表格化需求约束.md#CON-041)、[CON-042](../docs/02-表格化需求约束.md#CON-042)、[CON-043](../docs/02-表格化需求约束.md#CON-043)、[CON-046](../docs/02-表格化需求约束.md#CON-046)、[CON-047](../docs/02-表格化需求约束.md#CON-047) |
 | 统一交付 | 适用 CHK-01—08；不适用项注明理由；证据规则见 DOC-06 |
 

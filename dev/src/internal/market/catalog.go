@@ -155,6 +155,44 @@ func (c Catalog) LoadConfirmedTx(ctx context.Context, tx pgx.Tx, id string, revi
 }
 
 func (c Catalog) loadVersionTx(ctx context.Context, tx pgx.Tx, id string, revision int64, confirmed bool) (Service, error) {
+	return c.loadVersionModeTx(ctx, tx, id, revision, confirmed, nil)
+}
+
+// RentalOccupancy is resolved from the original session transaction. Its
+// fields are independently joined below; it is never an HTTP assertion that a
+// busy device is ours. Existing new-sale paths retain their IDLE/FREE checks.
+type RentalOccupancy struct{ Session, Order, Buyer, Seller, Device, Resource, Generation string }
+
+func (c Catalog) LoadRentalConfirmedTx(ctx context.Context, tx pgx.Tx, id string, revision int64, owner RentalOccupancy) (Service, error) {
+	for _, value := range []string{owner.Session, owner.Order, owner.Buyer, owner.Seller, owner.Device, owner.Resource} {
+		if !ids.Valid(value) {
+			return Service{}, fault.New(fault.Invalid, "Original rental occupancy required")
+		}
+	}
+	var matched string
+	err := tx.QueryRow(ctx, `SELECT s.id FROM p11.rental_sessions s JOIN p11.rental_authority_contexts a ON a.session_id=s.id
+JOIN p11.resource_locks l ON l.resource_id=s.resource_id JOIN p11.orders o ON o.id=s.order_id
+WHERE s.id=$1 AND s.order_id=$2 AND a.buyer_id=$3 AND s.seller_id=$4 AND s.device_id=$5 AND s.resource_id=$6
+AND s.resource_lock_generation::text=$7 AND s.authority_profile='P11_RENTAL_SESSION_AUTHORITY_1'
+AND s.state IN ('RESERVED','PREPARING','READY_WAIT_BUYER','ACTIVE') AND l.owner_session_id=s.id
+AND l.owner_attempt_id IS NULL AND l.lock_generation=s.resource_lock_generation
+AND l.phase=CASE WHEN s.state='ACTIVE' THEN 'ACTIVE' ELSE 'RESERVED' END
+AND o.contract_snapshot->>'listing_id'=$8 AND (o.contract_snapshot->>'listing_revision')::bigint=$9
+FOR SHARE OF s`, owner.Session, owner.Order, owner.Buyer, owner.Seller, owner.Device, owner.Resource, owner.Generation, id, revision).Scan(&matched)
+	if err == pgx.ErrNoRows {
+		return Service{}, fault.New(fault.Conflict, "Original busy resource does not belong to this rental")
+	}
+	if err != nil {
+		return Service{}, err
+	}
+	v, err := c.loadVersionModeTx(ctx, tx, id, revision, true, &owner)
+	if err == nil && (v.SellerID != owner.Seller || v.Availability != "BUSY") {
+		err = fault.New(fault.Conflict, "Current original rental qualification unavailable")
+	}
+	return v, err
+}
+
+func (c Catalog) loadVersionModeTx(ctx context.Context, tx pgx.Tx, id string, revision int64, confirmed bool, rental *RentalOccupancy) (Service, error) {
 	var s Service
 	var raw []byte
 	var region string
@@ -192,8 +230,13 @@ AND v.valid_from<=clock_timestamp() AND v.valid_until>clock_timestamp() FOR SHAR
 	s.Availability = "AVAILABLE"
 	s.Evidence = []Evidence{}
 	seen := map[string]bool{}
+	selected := 0
 	for _, b := range s.Bindings {
-		state, proofs, err := c.qualify(ctx, tx, s, b)
+		if rental != nil && b.DeviceID != rental.Device {
+			continue
+		}
+		selected++
+		state, proofs, err := c.qualifyMode(ctx, tx, s, b, rental != nil)
 		if err != nil {
 			return s, err
 		}
@@ -206,6 +249,9 @@ AND v.valid_from<=clock_timestamp() AND v.valid_until>clock_timestamp() FOR SHAR
 				seen[e.ID] = true
 			}
 		}
+	}
+	if rental != nil && selected != 1 {
+		return s, fault.New(fault.Conflict, "Exact original rental binding required")
 	}
 	// New authored definitions have exact availability windows. The broad
 	// version validity range alone must never sell the gap between two windows.
@@ -276,13 +322,19 @@ func (c Catalog) ValidateCandidateTx(ctx context.Context, tx pgx.Tx, id string, 
 }
 
 func (c Catalog) qualify(ctx context.Context, tx pgx.Tx, s Service, b Binding) (string, []Evidence, error) {
+	return c.qualifyMode(ctx, tx, s, b, false)
+}
+
+func (c Catalog) qualifyMode(ctx context.Context, tx pgx.Tx, s Service, b Binding, holdingRental bool) (string, []Evidence, error) {
 	scope, _ := json.Marshal(map[string]string{"seller_id": s.SellerID, "device_id": b.DeviceID, "capability_id": b.CapabilityID, "kernel_environment_ref": b.EnvironmentRef, "kernel_environment_digest": b.EnvironmentDigest, "mode": s.Policy.Mode, "privacy": s.Policy.Privacy, "region": s.Policy.Region, "protocol_profile_id": s.Policy.Protocol, "price_contract_version": pricing.Version, "sku_id": s.SKU})
 	var evidenceIDs, gateIDs, capIDs []string
-	var online, accepting, busy bool
+	var online, accepting, busy, rentalHealthy bool
 	err := tx.QueryRow(ctx, `SELECT r.evidence_ids,g.evidence_ids,c.evidence_ids,
 COALESCE(d.state='ONLINE' AND d.last_seen_at>clock_timestamp()-interval '45 seconds',false),
 COALESCE(d.resource_policy->>'accepting_new_jobs'='true' AND (d.reported_resource_state='IDLE' OR d.identity_profile='LEGACY_UNVERIFIED' AND d.reported_resource_state='UNKNOWN'),false),
-EXISTS(SELECT 1 FROM p11.resource_locks lk WHERE lk.resource_id=c.resource_id AND lk.phase<>'FREE')
+EXISTS(SELECT 1 FROM p11.resource_locks lk WHERE lk.resource_id=c.resource_id AND lk.phase<>'FREE'),
+COALESCE(d.identity_profile='ED25519_DEVICE_1' AND d.resource_policy->>'accepting_new_jobs'='true'
+AND d.reported_resource_state IN ('IDLE','BUSY'),false)
 FROM p11.capabilities c JOIN p11.devices d ON d.id=c.device_id AND d.seller_id=c.seller_id
 JOIN p11.listing_devices ld ON ld.capability_id=c.id AND ld.device_id=d.id AND ld.seller_id=c.seller_id
 JOIN p11.releases r ON r.capability_id=c.id JOIN p11.feature_gates g ON g.id=r.gate_id
@@ -291,7 +343,7 @@ AND c.kernel_environment_ref=$6 AND c.kernel_environment_digest=$7 AND c.state='
 AND c.mode=$8 AND c.privacy=$9 AND c.protocol_profile=$10
 AND r.state='ACTIVE' AND r.expires_at>clock_timestamp() AND r.approved_by IS NOT NULL
 AND r.scope_snapshot @> $11::jsonb AND g.enabled AND g.approved_by IS NOT NULL
-ORDER BY r.id LIMIT 1 FOR SHARE OF c,d,r,g`, b.CapabilityID, b.DeviceID, s.SellerID, s.ListingID, s.Revision, b.EnvironmentRef, b.EnvironmentDigest, s.Policy.Mode, s.Policy.Privacy, s.Policy.Protocol, scope).Scan(&evidenceIDs, &gateIDs, &capIDs, &online, &accepting, &busy)
+ORDER BY r.id LIMIT 1 FOR SHARE OF c,d,r,g`, b.CapabilityID, b.DeviceID, s.SellerID, s.ListingID, s.Revision, b.EnvironmentRef, b.EnvironmentDigest, s.Policy.Mode, s.Policy.Privacy, s.Policy.Protocol, scope).Scan(&evidenceIDs, &gateIDs, &capIDs, &online, &accepting, &busy, &rentalHealthy)
 	if err == pgx.ErrNoRows {
 		return "", nil, fault.New(fault.NotFound, "Offer qualification unavailable")
 	}
@@ -348,7 +400,7 @@ AND valid_from<=clock_timestamp() AND valid_until>clock_timestamp() AND scope_sn
 			return "", nil, fault.New(fault.NotFound, "Offer evidence incomplete")
 		}
 	}
-	if !online || !accepting {
+	if !online || (!holdingRental && !accepting) || (holdingRental && !rentalHealthy) {
 		return "UNAVAILABLE", proofs, nil
 	}
 	if busy {

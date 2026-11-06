@@ -1,7 +1,7 @@
 {
   "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
-  "scope": "37 explicit control operations including signed native original-lease claims and restricted original manifest/input delivery; no public inference listener, execution ACK, usage or payment execution",
+  "scope": "46 explicit control operations; rental session/preparation/ready/stop and one-time access are R026 source-only, uncompiled/unverified; no native rental execution, payment qualification or public inference admission",
   "operations": [
     {
       "operation_id": "createAuthChallenge",
@@ -274,6 +274,55 @@
       "method": "POST",
       "path": "/runner/attempts/{attempt_id}/cleanup",
       "handler": "recordAttemptCleanup",
+      "anonymous": false
+    },
+    {
+      "operation_id": "createRentalSession",
+      "method": "POST",
+      "path": "/rental-sessions",
+      "handler": "createRentalSession",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getRentalSession",
+      "method": "GET",
+      "path": "/rental-sessions/{session_id}",
+      "handler": "getRentalSession",
+      "anonymous": false
+    },
+    {
+      "operation_id": "claimRentalPreparation",
+      "method": "POST",
+      "path": "/runner/rental-sessions/{session_id}/preparation",
+      "handler": "claimRentalPreparation",
+      "anonymous": false
+    },
+    {
+      "operation_id": "recordRentalDeviceReady",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/device-ready",
+      "handler": "recordRentalDeviceReady",
+      "anonymous": false
+    },
+    {
+      "operation_id": "confirmRentalReady",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/ready",
+      "handler": "confirmRentalReady",
+      "anonymous": false
+    },
+    {
+      "operation_id": "stopRentalSession",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/stop",
+      "handler": "stopRentalSession",
+      "anonymous": false
+    },
+    {
+      "operation_id": "createRentalAccessGrant",
+      "method": "POST",
+      "path": "/rental-sessions/{session_id}/access-grants",
+      "handler": "createRentalAccessGrant",
       "anonymous": false
     }
   ]

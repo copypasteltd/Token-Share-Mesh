@@ -454,7 +454,10 @@ def render_outputs() -> dict[str, str]:
     # Keep current implementation scope in the generated navigation. Reading
     # the manual registry avoids hand-editing this generated README each round.
     progress=json.loads((ROOT/'dev/progress/implementation-status.json').read_text(encoding='utf-8'))
-    text+='## 当前源码阶段：'+progress['round']+'\n\n'+progress['activity_source']+'\n\n'
+    stage_path=ROOT/'dev/progress/R026-code-stage.json'
+    active_stage=json.loads(stage_path.read_text(encoding='utf-8')) if stage_path.exists() else {}
+    label=(active_stage['round']+' · CODE_FIRST / 未验证；历史验证 '+progress['round']) if progress.get('current_activity')=='CODE_FIRST_FULL_SCOPE' else progress['round']
+    text+='## 当前源码阶段：'+label+'\n\n'+progress['activity_source']+'\n\n'
     text+=link(path,'dev/progress/README.md','全部56任务与每轮证据')+'；'+link(path,'dev/repository/USAGE.md','本机使用与恢复')+'。\n\n'
     text+='开发路径：克隆根目录下的 `dev/`。后续开发均在本目录组织；所有命令以当前克隆的项目根目录为工作目录。\n\n'
     text+=table(['编号','文档','内容'],[[i,link(path,target,name),{'DOC-00':'范围/选型/编号','DOC-01':'20 模块职责及边界','DOC-02':'47 约束、失败处理及证据','DOC-03':'56 任务、222 子项、依赖与交付','DOC-04':f'{len(p["operations"])} 控制操作、{len(p["tables"])} 表、80 F/T','DOC-05':'依赖图、阶段和条件分支','DOC-06':'验收条件与真实证据等级','DOC-07':'开发路径、规范源和重建顺序'}[i]] for i,name,target in DOCUMENTS])+'\n'

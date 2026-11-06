@@ -206,7 +206,13 @@ def make_schemas() -> dict:
         "environment_revision": ID, "hard_deadline_at": TIME, "started_at": TIME,
         "confirmed_budget_fen": UINT, "verified_available_ms": UINT, "charge_fen": UINT,
         "cleanup_state": enum("NOT_STARTED", "PENDING", "ACKED", "FAILED")},
-        ["session_id", "order_id", "seller_id", "device_id", "version", "state", "environment_revision", "hard_deadline_at", "confirmed_budget_fen", "verified_available_ms", "charge_fen", "cleanup_state"])
+        ["session_id", "order_id", "seller_id", "device_id", "version", "state", "environment_revision", "confirmed_budget_fen", "cleanup_state"],
+        description="未起表没有hard_deadline_at/started_at；verified_available_ms和charge_fen只在真实不可变计量记录存在时返回，不以零冒充已核实。准备TTL与已付租期分开。")
+    s["RentalPreparationWrite"] = obj({"expected_version": VERSION})
+    s["RentalPreparation"] = obj({"session": ref("RentalSession"), "manifest_ref": ID, "manifest_hash": HASH,
+        "manifest_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$", "maxLength": 21846},
+        "connection_ref": ID, "resource_lock_generation": COUNTER, "prepare_until": TIME},
+        description="原签名设备在原占位内领取准备元数据，manifest_hash对应解码后的原始UTF-8字节。不得视作INVOKE授权、设备ACK、真实就绪或自动下载/批准环境。原键重放不延长TTL。")
     s["RentalReadyWrite"] = obj({"expected_version": VERSION, "environment_revision": ID,
         "connection_evidence_ref": ID, "readiness_evidence_ref": ID, "confirmed_budget_fen": UINT},
         description="设备就绪由设备证据提交，买方ready仍独立确认；服务器原子判断双端条件。")
@@ -349,10 +355,14 @@ def make_schemas() -> dict:
         ["grant_id", "asset_id", "purpose", "access_uri", "expires_at", "cipher_only"],
         description="本人单对象短时授权，URL不得进入日志/通知；E2E平台只发密文对象，解密端在买方可信域。")
     s["RentalAccessWrite"] = obj({"expected_version": VERSION, "scopes": arr(enum("INVOKE", "QUEUE_SELF", "CANCEL_SELF", "EXPORT_SELF"), 4, 1)})
-    s["RentalAccess"] = obj({"grant_id": ID, "session_id": ID, "scopes": arr(TEXT, 4, 1),
+    s["RentalAccess"] = obj({"grant_id": ID, "session_id": ID, "session_version": VERSION, "scopes": arr(TEXT, 4, 1),
         "expires_at": TIME, "connection_ref": ID, "kernel_environment_digest": HASH,
+        "credential_state": enum("ISSUED_ONCE", "NOT_REPLAYABLE"),
         "credential_once": {"type": "string", "minLength": 32, "maxLength": 4096, "readOnly": True}},
-        description="有效期不超已确认租期；停工即撤权；仅本会话受控应用，无主机/shell权限。技术v1.0将credential_once规划为成熟JWS库签发的受限会话授权，签名不加密；claims绑定实际seller/device/resource代次、terms_revision/hash、kernel_environment_digest、scope/硬截止和aud。R026源码选择P11_RENTAL_ACCESS_EDDSA_1及golang-jwt/jwt v5.3.1/MIT，详见RN-001—030；当前未编译测试/未接通实际会话，POC-10冻结与资格仍待。Bearer仅首次展示，服务保存摘要。")
+        ["grant_id", "session_id", "session_version", "scopes", "expires_at", "connection_ref", "kernel_environment_digest", "credential_state"],
+        allOf=[{"if": {"properties": {"credential_state": {"const": "ISSUED_ONCE"}}, "required": ["credential_state"]},
+                "then": {"required": ["credential_once"]}, "else": {"not": {"required": ["credential_once"]}}}],
+        description="仅本会话受控应用，无主机/shell权限。P11_RENTAL_ACCESS_EDDSA_1 / golang-jwt/jwt v5.3.1/MIT签名绑定原seller/device/resource代次、terms/hash、环境、scope与硬截止。首次提交后返回ISSUED_ONCE；原键重放NOT_REPLAYABLE且没有credential_once，禁止把Bearer放入幂等缓存或事件。丢失首响应须明确新键/当前版本替换授权，旧授权永久撤销。平台事务和HTTP为R026未验证源码，端侧/45秒控制接线与POC-10资格仍待。")
     s["MeterStatement"] = obj({"session_id": ID, "revision": VERSION, "verified_billable_ms": UINT,
         "confirmed_budget_fen": UINT, "charge_fen": UINT, "paid_fen": UINT, "refund_fen": UINT,
         "intervals": arr(obj({"sequence": COUNTER, "starts_at": TIME, "ends_at": TIME, "verified_ms": UINT, "evidence_ref": ID}), 100),
@@ -508,6 +518,7 @@ def make_openapi() -> dict:
     add("post", "/jobs/{job_id}/receipts", "recordBuyerReceipt", "Cipher", "验证买方接受/拒绝回执", "Ack", "ReceiptWrite", ("cipher:receipt",))
     add("post", "/cipher/channels", "createCipherChannel", "Cipher", "签发限scope密文通道引用", "CipherChannel", "CipherChannelWrite", ("cipher:connect",))
     add("post", "/rental-sessions", "createRentalSession", "Rental", "按指定设备/合同申请租赁", "RentalSession", "RentalWrite", ("rental:create",))
+    add("post", "/runner/rental-sessions/{session_id}/preparation", "claimRentalPreparation", "Rental", "原签名设备领取原占位准备清单", "RentalPreparation", "RentalPreparationWrite", ("device:rental",))
     add("get", "/rental-sessions/{session_id}", "getRentalSession", "Rental", "查询本人受控租赁", "RentalSession", scopes=("rental:read",))
     add("post", "/rental-sessions/{session_id}/ready", "confirmRentalReady", "Rental", "买方确认就绪和预算后起表", "RentalSession", "RentalReadyWrite", ("rental:ready",))
     add("post", "/rental-sessions/{session_id}/device-ready", "recordRentalDeviceReady", "Rental", "设备提交当前锁代次的准备证据", "RentalSession", "RentalDeviceReadyWrite", ("device:rental",))

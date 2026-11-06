@@ -1,8 +1,8 @@
 # Usage / 使用指南
 
-R026小时租赁新增源码目前不能直接作为可运行服务使用：Go [rental领域规则](../src/internal/rental/README.md)与[会话JWS/活性窗口](../src/client/protocol/rentalaccess/README.md)仍需实际事务、原加密journal、Android执行和物理会话门闩接线。先由可信仓储解析原C2C/资金/资格/资源事实，原子提交ACTIVE与grant后才首次交付Bearer；不得把请求正文中的资金/清理布尔当可信事实，不得把Bearer存入幂等响应。全部代码完成前不运行构建/测试命令。
+R026小时租赁新增源码目前不能作为已验证服务使用：[rental事务/领域规则](../src/internal/rental/README.md)已接原order/SETTLED资金/资格、session/预算/物理owner/history和7项HTTP源码。原设备先领取准备清单，设备及买方再提交已有独立核实证据，ACTIVE原子提交后才申请一次JWS；原键重放只恢复元数据，丢失首响应须明确新键/当前版本替换。可选服务配置见RN-031—050；没有真实渠道/独立就绪证据时不得补造事实。原加密journal/控制、Android执行、付费续租和实际清理释放仍待。全部代码完成前不运行构建/测试命令。
 
-R026 rental code is not a runnable rental service yet. Domain rules and the JWS/control package still require transactional storage, original encrypted journals, Android session execution and physical-owner integration. Resolve facts independently and commit the original active owner/grant before returning a once-only credential; never retain the Bearer in replay storage. Keep batch compilation/testing closed until the full code scope is implemented. See [RN-001—030](../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md).
+R026 rental transactions and seven HTTP handlers are source-only and unverified. The original device claims public preparation metadata; independently corroborated device/buyer readiness and actual original funds precede ACTIVE and one-time access. Explicit replacement revokes a lost first grant; idempotent replay cannot contain a Bearer. Optional pinned signing configuration is described in [RN-001—050](../../docs/技术开发/附录-小时租赁授权与累计计量源码细则.md). Real channel/readiness producers, encrypted-journal/control integration, Android execution, paid renewal and physical cleanup remain open. Batch compilation/testing stays closed until the full code scope is implemented.
 
 ## R021 · 原生 C API worker 与受限管道
 

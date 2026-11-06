@@ -64,6 +64,12 @@ func SeedNativeOfferForProtocol(t *testing.T, ctx context.Context, db *persisten
 	return seedOfferProfile(t, ctx, db, "PLAINTEXT", region, newBuyer(t, ctx, db), protocol, true)
 }
 
+// Synthetic hourly-session fixture only. This creates no real ComfyUI/GPU,
+// Alipay settlement, hardware readiness or qualification evidence.
+func SeedNativeRentalOffer(t *testing.T, ctx context.Context, db *persistence.DB, region, protocol string) Offer {
+	return seedOfferProfile(t, ctx, db, "GPU_RENTAL", region, newBuyer(t, ctx, db), protocol, true)
+}
+
 func seedOfferProfile(t *testing.T, ctx context.Context, db *persistence.DB, mode, region string, p identity.Principal, protocol string, native bool) Offer {
 	t.Helper()
 	f := Offer{Seller: p, ID: ids.New("lst"), Device: ids.New("dev"), Resource: ids.New("res"), Capability: ids.New("cap"), Gate: ids.New("gate"), Release: ids.New("rel")}

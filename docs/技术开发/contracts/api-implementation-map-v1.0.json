@@ -2,7 +2,7 @@
   "version": "1.0-draft",
   "date": "2026-10-29",
   "source": "docs/白皮书/contracts/openapi-control-v3.0.json",
-  "canonical_api_sha256": "42761ccc2d5d9c3bf848336b30b031a92bed64ca7e5283a3cd5881855f254e02",
+  "canonical_api_sha256": "432b67a5b39647a950dea87418cb9a458efdedd0c6d6896261ab95720f16f8fa",
   "status": "DESIGN_UNIMPLEMENTED",
   "operations": [
     {
@@ -3515,7 +3515,83 @@
       "canonical_operation_sha256": "a3aff119c4f3870a884d346347894a12da991d47a52682c32358a0cff773e708",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createRentalSession",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
+    },
+    {
+      "operation_id": "claimRentalPreparation",
+      "method": "POST",
+      "path": "/runner/rental-sessions/{session_id}/preparation",
+      "summary": "原签名设备领取原占位准备清单",
+      "module_id": "MOD-12",
+      "task_id": "DEV-33",
+      "planned_handler": "dev/src/api/internal/http/mod_12/claimRentalPreparation.go",
+      "required_scopes": [
+        "device:rental"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalPreparationWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-08",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F41",
+        "P11-F42",
+        "P11-F43",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T41",
+        "P11-T42",
+        "P11-T43",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "905fd6d2da29bf2cf5b9ceadde406fc0af30bdf59191db3fe8b0079e59d67651",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "claimRentalPreparation",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "getRentalSession",
@@ -3575,7 +3651,13 @@
       "canonical_operation_sha256": "23844963fc1601c3ea9835781f12a760454e412dc59cedebccc2b0502f4cdaee",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getRentalSession",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "confirmRentalReady",
@@ -3639,7 +3721,13 @@
       "canonical_operation_sha256": "29c9367e72ac0c527921e7c60d17ec65a82608a56cc129d6f144bda484649f97",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "confirmRentalReady",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "recordRentalDeviceReady",
@@ -3703,7 +3791,13 @@
       "canonical_operation_sha256": "946d9a7c4ee1a767b73baa7bdb34f2ad3491437fdad7ba09c580c0f732c1fed5",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "recordRentalDeviceReady",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "createRentalRenewal",
@@ -3821,7 +3915,13 @@
       "canonical_operation_sha256": "dcfd4f2be07956d2e040a73114ae84b4b00f425bf3831422fbb365b0dab02ee6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "stopRentalSession",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "recordRentalAvailability",
@@ -4078,7 +4178,13 @@
       "canonical_operation_sha256": "0a282585f979e70d5582feefea3f5fab7b98e7bbd60f8614354a98dd7a491893",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createRentalAccessGrant",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      }
     },
     {
       "operation_id": "getRentalMeterStatement",

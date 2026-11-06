@@ -855,7 +855,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "application_services": [
         "SessionCoordinator",
@@ -5914,6 +5916,7 @@
       ],
       "operation_ids": [
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -8875,7 +8878,13 @@
       "canonical_operation_sha256": "29c9367e72ac0c527921e7c60d17ec65a82608a56cc129d6f144bda484649f97",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "confirmRentalReady",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-005"
     },
     {
@@ -10138,7 +10147,13 @@
       "canonical_operation_sha256": "0a282585f979e70d5582feefea3f5fab7b98e7bbd60f8614354a98dd7a491893",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createRentalAccessGrant",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-023"
     },
     {
@@ -10329,7 +10344,13 @@
       "canonical_operation_sha256": "a3aff119c4f3870a884d346347894a12da991d47a52682c32358a0cff773e708",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "createRentalSession",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-026"
     },
     {
@@ -11653,7 +11674,13 @@
       "canonical_operation_sha256": "23844963fc1601c3ea9835781f12a760454e412dc59cedebccc2b0502f4cdaee",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "getRentalSession",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-046"
     },
     {
@@ -13506,7 +13533,13 @@
       "canonical_operation_sha256": "946d9a7c4ee1a767b73baa7bdb34f2ad3491437fdad7ba09c580c0f732c1fed5",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "recordRentalDeviceReady",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-073"
     },
     {
@@ -14270,7 +14303,13 @@
       "canonical_operation_sha256": "dcfd4f2be07956d2e040a73114ae84b4b00f425bf3831422fbb365b0dab02ee6",
       "implementation_status": "DESIGN_UNIMPLEMENTED",
       "test_status": "NOT_EXECUTED",
-      "runtime_registration": null,
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "stopRentalSession",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
       "id": "INT-084"
     },
     {
@@ -15051,6 +15090,77 @@
         "evidence_authority": "dev/progress/implementation-status.json"
       },
       "id": "INT-095"
+    },
+    {
+      "operation_id": "claimRentalPreparation",
+      "method": "POST",
+      "path": "/runner/rental-sessions/{session_id}/preparation",
+      "summary": "原签名设备领取原占位准备清单",
+      "module_id": "MOD-12",
+      "task_id": "DEV-33",
+      "planned_handler": "dev/src/api/internal/http/mod_12/claimRentalPreparation.go",
+      "required_scopes": [
+        "device:rental"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        },
+        {
+          "BrowserCookie": []
+        }
+      ],
+      "request_schema": {
+        "$ref": "#/components/schemas/RentalPreparationWrite"
+      },
+      "response_codes": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "503"
+      ],
+      "idempotency_header_required": true,
+      "transaction": "TX-08",
+      "ownership_checks": [
+        "主体scope与资源归属同时验证",
+        "seller/device/order/模式及地区证据以权威状态重查"
+      ],
+      "external_io_rule": "先提交持久意向，事务外调用；UNKNOWN查原业务引用",
+      "requirement_ids": [
+        "P11-F41",
+        "P11-F42",
+        "P11-F43",
+        "P11-F48"
+      ],
+      "acceptance_ids": [
+        "P11-T41",
+        "P11-T42",
+        "P11-T43",
+        "P11-T48"
+      ],
+      "source_documents": [
+        "docs/技术开发/12-显卡租赁与可用时间计量.md",
+        "docs/技术开发/21-开发任务分解与需求追踪.md",
+        "docs/技术开发/18-测试工程与故障验证.md",
+        "docs/技术开发/附录-本轮范围与端侧选型修订.md",
+        "docs/技术开发/附录-供给端内核封装与替换规范.md"
+      ],
+      "canonical_operation_sha256": "905fd6d2da29bf2cf5b9ceadde406fc0af30bdf59191db3fe8b0079e59d67651",
+      "implementation_status": "DESIGN_UNIMPLEMENTED",
+      "test_status": "NOT_EXECUTED",
+      "runtime_registration": {
+        "source": "dev/src/api/internal/http/routes.json",
+        "handler_file": "dev/src/api/internal/http/server.go",
+        "handler": "claimRentalPreparation",
+        "status": "SOURCE_PRESENT_PARTIAL_CONFORMANCE",
+        "evidence_authority": "dev/progress/implementation-status.json"
+      },
+      "id": "INT-096"
     }
   ],
   "tables": [
@@ -15569,9 +15679,19 @@
       "name": "rental_access_grants",
       "schema": "p11",
       "module_id": "MOD-12",
-      "column_count": 11,
+      "column_count": 13,
       "foreign_key_count": 2,
       "source_document": "docs/技术开发/database/schema-draft.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-069",
+      "name": "rental_authority_contexts",
+      "schema": "p11",
+      "module_id": "MOD-12",
+      "column_count": 20,
+      "foreign_key_count": 6,
+      "source_document": "docs/技术开发/database/migrations/014_rental_authority_context.sql",
       "runtime_validation": "NOT_EXECUTED"
     },
     {
@@ -15585,11 +15705,21 @@
       "runtime_validation": "NOT_EXECUTED"
     },
     {
+      "id": "DATA-070",
+      "name": "rental_session_history",
+      "schema": "p11",
+      "module_id": "MOD-12",
+      "column_count": 9,
+      "foreign_key_count": 3,
+      "source_document": "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
       "id": "DATA-047",
       "name": "rental_sessions",
       "schema": "p11",
       "module_id": "MOD-12",
-      "column_count": 19,
+      "column_count": 22,
       "foreign_key_count": 2,
       "source_document": "docs/技术开发/database/schema-draft.sql",
       "runtime_validation": "NOT_EXECUTED"
@@ -16672,7 +16802,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -16923,6 +17055,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -17922,6 +18056,7 @@
       ],
       "operation_ids": [
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -17936,6 +18071,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "devices",
         "device_request_nonces",
         "resources",
@@ -17980,6 +18117,7 @@
       ],
       "operation_ids": [
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -17990,6 +18128,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "payments",
         "refunds",
         "channel_requests"
@@ -18027,6 +18167,7 @@
       ],
       "operation_ids": [
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -18038,7 +18179,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18088,7 +18231,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -18131,6 +18276,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "payments",
         "refunds",
         "channel_requests"
@@ -18188,6 +18335,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "payments",
         "refunds",
         "channel_requests",
@@ -18239,6 +18388,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "devices",
         "device_request_nonces",
         "resources",
@@ -18293,6 +18444,7 @@
         "createAttestationChallenge",
         "getAttestationEvidence",
         "createRentalSession",
+        "claimRentalPreparation",
         "getRentalSession",
         "confirmRentalReady",
         "recordRentalDeviceReady",
@@ -18306,6 +18458,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "quotes",
         "orders",
         "route_contracts",
@@ -18532,6 +18686,8 @@
         "rental_renewals",
         "rental_access_grants",
         "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -19058,7 +19214,9 @@
         "rental_sessions",
         "rental_renewals",
         "rental_access_grants",
-        "availability_intervals"
+        "availability_intervals",
+        "rental_authority_contexts",
+        "rental_session_history"
       ],
       "technical_documents": [
         "docs/技术开发/13-支付退款账务与渠道结算.md",
@@ -20293,11 +20451,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "9129a5131587cb3932d0d0a1ab5b732a5a38b7c0f99c86a8a2da277eae48bfac"
+      "sha256": "2768404308121ceeb4ec1a2905b1f44a4b4cf518c879f8897b02fa60aebf75eb"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "288752e0a39431e02b9c97b67a66001e34287c481d6050ea7872524b1dba5bd3"
+      "sha256": "45370cb9dc39005cfeb9c98925c466f36c86c5fae5f81023ae4cd78485a6a42a"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20305,15 +20463,15 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "564d0f11af44fa6cf41a04487e7f8c22eea14200fa1fff3fb2fa9fed027bb5b3"
+      "sha256": "fd030cb462f4c6332a623dbc45a9c7ff70d909ec3d37dfd2fee8163f59f6ec65"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
-      "sha256": "f181ebe5490b3f4be98c448c1018abe17b23cf95bf9f1078737b0a2126c6eb55"
+      "sha256": "6426338595711707c9a10b7d628e2ed533543a9e9bda079153cff505b0120050"
     },
     {
       "path": "dev/tools/构建开发细则.py",
-      "sha256": "089723f49f37d6e5567f8318136511ec6bf019e831cc1623df6607eb320f701c"
+      "sha256": "ed045d207f2256ad68550197ba3bb3907a2d9729b3c57c3a4a450d9ad66b4566"
     },
     {
       "path": "docs/交易/C2C交易与市场规则.md",
@@ -20401,11 +20559,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "5743c7c083cc8f28b4e3c531b77047aab7322ee1f4794d2e3f4dae0b1525ff48"
+      "sha256": "fd200905ee1c2a5a5c5280f7810a76e716c072e105561be20b628957465ca8aa"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "48dd1ba9d817d0867434b17513cfdf6c875f544be206f5adf8e3287466b40870"
+      "sha256": "075a6baa707e34c9e73453a551428480f927e64c85bc0158c8d72184ab206158"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20413,11 +20571,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "ce2f600823308fa02a80c3ecf1fbb1d91d8d9dadc79ba088b4f1797661dd41ab"
+      "sha256": "814aa138ba8822487f69df407eb47f55cce045bc7e36a62b7e478b9dcdcc87aa"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "3a81b22be1ffecadb255fb107b05284f8ee49d4d8f377d2537900d3e7f3e6cbd"
+      "sha256": "fb4e46cb85cc71d468e1642ca659eb92f7f6e65472aa3858b43fa1a99d3c98d6"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -20468,6 +20626,10 @@
       "sha256": "a8a5cd52d4459854abd0ea980812945cf3bf3d08ff65137c2fc89725d9f123e7"
     },
     {
+      "path": "docs/技术开发/database/migrations/014_rental_authority_context.sql",
+      "sha256": "9268d7dcc0a4a6386a7df491da0bd8636d0b93675a17d2cd6b3df1fba78b059c"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -20497,7 +20659,7 @@
     },
     {
       "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-      "sha256": "89cb25fd860bc4b7198d70d15a48ca4735f97061cacd261e7665833208d78b67"
+      "sha256": "1d4c12332c9528212ec840392fb0e99467be8777f930f2bf6e3fb315b94dcc45"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
@@ -20521,7 +20683,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "33242110e58067eb340acc166bbea1dd701080d13e040aeb95d95b486ae8f76c"
+      "sha256": "69ee49b3b84b053675814054abfa8b5fd3a28342bd5a382f02c80be6deacac85"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -20541,7 +20703,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "42f0eec9f1b57d7e6f7ae3bad4f93731230b09af9801398e4e178b143c1ee6a8"
+      "sha256": "9e45f8b4c68a8e784994c050ebfcb47d0392449f4776c48f3fd9c808e3b61e6f"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -20553,8 +20715,8 @@
     "tasks": 56,
     "steps": 222,
     "constraints": 47,
-    "control_operations": 95,
-    "tables": 68,
+    "control_operations": 96,
+    "tables": 70,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,

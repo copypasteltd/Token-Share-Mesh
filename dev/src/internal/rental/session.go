@@ -220,9 +220,11 @@ func RecordDeviceReady(s Session, expected int64, r ResourceSnapshot, p ReadyPro
 	return s, nil
 }
 
-// ConfirmBuyer is the sole start transition. Persisting the unique started_at,
-// active physical owner and first grant is one transaction; expected_version
-// prevents two concurrent ready requests from starting separate clocks.
+// ConfirmBuyer is the sole start transition. Persist the unique started_at,
+// active physical owner, history and safe start event in one transaction.
+// Explicit access issuance subsequently rechecks that original ACTIVE version
+// and atomically stores the grant; readiness alone can never invoke a kernel.
+// expected_version prevents concurrent ready requests starting separate clocks.
 func ConfirmBuyer(s Session, expected int64, r ResourceSnapshot, p ReadyProof, confirmedBudget money.Fen, f Funding, now time.Time) (Session, error) {
 	if s.revision(expected) != nil || s.State != "READY_WAIT_BUYER" || !r.owned(s) || r.Phase != "RESERVED" || !s.Started.IsZero() || s.DeviceReady == nil || !p.matches(s, now) || !boundedTime(now) || !now.Before(s.BuyerReadyUntil) || confirmedBudget != s.Budget {
 		return Session{}, ErrSession

@@ -4843,6 +4843,111 @@
         "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
     },
+    "/runner/rental-sessions/{session_id}/preparation": {
+      "post": {
+        "operationId": "claimRentalPreparation",
+        "tags": [
+          "Rental"
+        ],
+        "summary": "原签名设备领取原占位准备清单",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "device:rental"
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            },
+            "description": "同主体/操作/资源范围同键同输入复用；不同输入409。未知结果先查询。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentalPreparation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RentalPreparationWrite"
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
+      }
+    },
     "/rental-sessions/{session_id}": {
       "get": {
         "operationId": "getRentalSession",
@@ -11807,12 +11912,70 @@
           "version",
           "state",
           "environment_revision",
-          "hard_deadline_at",
           "confirmed_budget_fen",
-          "verified_available_ms",
-          "charge_fen",
           "cleanup_state"
+        ],
+        "description": "未起表没有hard_deadline_at/started_at；verified_available_ms和charge_fen只在真实不可变计量记录存在时返回，不以零冒充已核实。准备TTL与已付租期分开。"
+      },
+      "RentalPreparationWrite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          }
+        },
+        "required": [
+          "expected_version"
         ]
+      },
+      "RentalPreparation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "$ref": "#/components/schemas/RentalSession"
+          },
+          "manifest_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "manifest_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "manifest_base64url": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "maxLength": 21846
+          },
+          "connection_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "resource_lock_generation": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,19})$"
+          },
+          "prepare_until": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "session",
+          "manifest_ref",
+          "manifest_hash",
+          "manifest_base64url",
+          "connection_ref",
+          "resource_lock_generation",
+          "prepare_until"
+        ],
+        "description": "原签名设备在原占位内领取准备元数据，manifest_hash对应解码后的原始UTF-8字节。不得视作INVOKE授权、设备ACK、真实就绪或自动下载/批准环境。原键重放不延长TTL。"
       },
       "RentalReadyWrite": {
         "type": "object",
@@ -14369,6 +14532,11 @@
             "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
             "maxLength": 128
           },
+          "session_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
           "scopes": {
             "type": "array",
             "items": {
@@ -14392,6 +14560,13 @@
             "type": "string",
             "pattern": "^[a-f0-9]{64}$"
           },
+          "credential_state": {
+            "type": "string",
+            "enum": [
+              "ISSUED_ONCE",
+              "NOT_REPLAYABLE"
+            ]
+          },
           "credential_once": {
             "type": "string",
             "minLength": 32,
@@ -14402,13 +14577,40 @@
         "required": [
           "grant_id",
           "session_id",
+          "session_version",
           "scopes",
           "expires_at",
           "connection_ref",
           "kernel_environment_digest",
-          "credential_once"
+          "credential_state"
         ],
-        "description": "有效期不超已确认租期；停工即撤权；仅本会话受控应用，无主机/shell权限。技术v1.0将credential_once规划为成熟JWS库签发的受限会话授权，签名不加密；claims绑定实际seller/device/resource代次、terms_revision/hash、kernel_environment_digest、scope/硬截止和aud。R026源码选择P11_RENTAL_ACCESS_EDDSA_1及golang-jwt/jwt v5.3.1/MIT，详见RN-001—030；当前未编译测试/未接通实际会话，POC-10冻结与资格仍待。Bearer仅首次展示，服务保存摘要。"
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "credential_state": {
+                  "const": "ISSUED_ONCE"
+                }
+              },
+              "required": [
+                "credential_state"
+              ]
+            },
+            "then": {
+              "required": [
+                "credential_once"
+              ]
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "credential_once"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "仅本会话受控应用，无主机/shell权限。P11_RENTAL_ACCESS_EDDSA_1 / golang-jwt/jwt v5.3.1/MIT签名绑定原seller/device/resource代次、terms/hash、环境、scope与硬截止。首次提交后返回ISSUED_ONCE；原键重放NOT_REPLAYABLE且没有credential_once，禁止把Bearer放入幂等缓存或事件。丢失首响应须明确新键/当前版本替换授权，旧授权永久撤销。平台事务和HTTP为R026未验证源码，端侧/45秒控制接线与POC-10资格仍待。"
       },
       "MeterStatement": {
         "type": "object",
