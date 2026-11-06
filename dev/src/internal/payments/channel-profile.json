@@ -44,5 +44,11 @@
   "original_order_funding_source_annex": "docs/技术开发/附录-原订单资金唯一分配与当前准入源码.md",
   "unique_allocation_and_current_consumer_guard_source_wired": true,
   "full_financial_business_admission_complete": false,
-  "legacy_positive_fixtures_rewritten": false
+  "legacy_positive_fixtures_rewritten": false,
+  "original_checkout_source_annex": "docs/技术开发/附录-原订单付款挑战与双端恢复源码.md",
+  "owner_checkout_proof_metadata_control_source_wired": true,
+  "web_miniapp_checkout_source_wired": true,
+  "actual_approved_paylauncher_installed": false,
+  "sdk_prepayment_original_buyer_authority_complete": false,
+  "sdk_data_plane_payment_proof_retry_complete": false
 }

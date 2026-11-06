@@ -154,6 +154,22 @@ def make_schemas() -> dict:
         "channel_action_ref": {"type": "string", "pattern": "^[A-Za-z0-9_]{1,128}$", "maxLength": 128,
             "description": "原渠道预付参考号，不是URL、付款凭证或小程序trade_no。"}, "updated_at": TIME},
         ["payment_id", "order_id", "seller_id", "version", "state", "environment", "amount_fen", "settled_fen", "updated_at"])
+    s["PaymentOption"] = obj({"channel_capability_ref": ID,
+        "goods_name": {"type": "string", "minLength": 1, "maxLength": 128}})
+    s["PaymentOptions"] = obj({"order_id": ID, "seller_id": ID, "contract_hash": HASH,
+        "expected_order_version": VERSION, "amount_fen": {**UINT, "minimum": 1, "maximum": 5000},
+        "currency": {"const": "CNY"}, "environment": enum("SANDBOX", "PRODUCTION"),
+        "items": arr(ref("PaymentOption"), 8, 1)},
+        description="当前本人原订单的可选原卖家收款能力；当前只开放获准的零费用档，未选择/预创建/收款/授予执行权。")
+    s["MachineProofRecovery"] = obj({"recovery_id": ID, "payment_id": ID,
+        "state": enum("PENDING", "VERIFYING", "VERIFIED", "UNKNOWN", "RETIRED"), "expires_at": TIME},
+        description="原凭据恢复元数据，不含Payment-Proof/client_session/预付参考号；提交202不是实付、资金准入或执行。")
+    s["MachinePayChallenge"] = obj({"error": obj({"type": {"const": "payment_required"},
+        "code": {"const": "payment_required"}, "message": {"type": "string", "minLength": 1, "maxLength": 256},
+        "param": {"type": "null"}}), "payment_id": ID,
+        "amount": {"type": "string", "pattern": "^(?:0|[1-9][0-9]?)\\.[0-9]{2}$"},
+        "currency": {"const": "CNY"}, "pay_before": TIME},
+        description="仅本人原PENDING付款的402挑战；amtPaymentLink是同一已提交预付参考号，不是URL/trade_no/执行权。")
     s["AssetWrite"] = obj({"order_id": ID, "kind": enum("PLAINTEXT_INPUT", "CIPHER_INPUT", "PLAINTEXT_RESULT", "CIPHER_RESULT", "SELECTIVE_EVIDENCE"),
         "media_type": TEXT, "size_bytes": {**UINT, "maximum": 67108864}, "sha256": HASH, "attempt_id": ID,
         "fencing_token": COUNTER}, ["order_id", "kind", "media_type", "size_bytes", "sha256"])
@@ -524,6 +540,31 @@ def make_openapi() -> dict:
     add("get", "/orders/{order_id}/bill", "getOrderBill", "Finance", "查询本人可重算分账账单", "Bill", scopes=("order:read",))
     add("post", "/orders/{order_id}/payment-intents", "createPaymentIntent", "Payment", "按获准个人渠道创建支付意向", "Payment", "PaymentIntentWrite", ("payment:create",))
     add("get", "/payments/{payment_id}", "getPayment", "Payment", "查询原支付而非重复创建", "Payment", scopes=("payment:read",))
+    add("get", "/orders/{order_id}/payment-options", "listOrderPaymentOptions", "Payment", "核对原卖家当前可选付款方式", "PaymentOptions", scopes=("payment:read",))
+    add("get", "/orders/{order_id}/payment", "getOrderPayment", "Payment", "查找本人原订单唯一付款", "Payment", scopes=("payment:read",))
+    add("get", "/payments/{payment_id}/challenge", "getPaymentChallenge", "Payment", "读取本人原付款402挑战", "MachinePayChallenge", scopes=("payment:create",))
+    challenge_op = paths["/payments/{payment_id}/challenge"]["get"]
+    challenge_op["responses"].pop("200", None)
+    challenge_op["responses"]["402"] = {"description": "仅原PENDING付款；不发起任何外部渠道请求",
+        "headers": {"amtPaymentLink": {"required": True, "schema": {"type": "string", "pattern": "^[A-Za-z0-9_]{1,128}$"},
+            "description": "同一原amt_pre_pay_id；不得作为普通my.tradePay的trade_no或跳转URL"}},
+        "content": {"application/json": {"schema": ref("MachinePayChallenge")}}}
+    add("post", "/payments/{payment_id}/proofs", "submitMachinePaymentProof", "Payment", "提交本人原付款单一凭据头", "MachineProofRecovery", scopes=("payment:create",))
+    proof_op = paths["/payments/{payment_id}/proofs"]["post"]
+    proof_op["responses"].pop("201", None)
+    proof_op["responses"]["202"] = {"description": "凭据已原子保存/恢复；专用worker稍后核验，并非已付或READY",
+        "headers": {"Retry-After": {"schema": {"type": "string", "const": "2"}},
+                    "Idempotency-Replayed": {"schema": {"type": "string", "const": "true"}}},
+        "content": {"application/json": {"schema": ref("MachineProofRecovery")}}}
+    proof_op["parameters"].append({"name": "Payment-Proof", "in": "header", "required": True,
+        "schema": {"type": "string", "minLength": 4, "maxLength": 16384, "pattern": "^[A-Za-z0-9+/]+={0,2}$", "writeOnly": True},
+        "description": "恰好一个Base64 JSON头，严格解析；不得放入URL、JSON体、日志或本地存储；受总HTTP头字节上限约束"})
+    proof_op["requestBody"] = {"required": True, "content": {"application/json": {"schema": obj({})}}}
+    add("get", "/payments/{payment_id}/proof-recovery", "getMachinePaymentRecovery", "Payment", "读取原付款最新凭据恢复元数据", "MachineProofRecovery", scopes=("payment:read",))
+    for checkout_path, checkout_method in [("/orders/{order_id}/payment-options", "get"), ("/orders/{order_id}/payment", "get"),
+        ("/payments/{payment_id}/challenge", "get"), ("/payments/{payment_id}/proofs", "post"), ("/payments/{payment_id}/proof-recovery", "get")]:
+        paths[checkout_path][checkout_method].update({"x-required-roles": ["BUYER"], "x-current-original-owner": True,
+            "x-metadata-only": True, "x-source-annex": "docs/技术开发/附录-原订单付款挑战与双端恢复源码.md"})
     add("post", "/assets", "registerAsset", "Asset", "登记有界单对象传输", "Asset", "AssetWrite", ("asset:write",), statuses=(413, 415))
     add("get", "/assets/{asset_id}", "getAsset", "Asset", "读取本人对象元数据和合法授权引用", "Asset", scopes=("asset:read",), statuses=(410,))
     add("post", "/assets/{asset_id}/complete", "completeAsset", "Asset", "完成并核验上传manifest", "Asset", "AssetCompleteWrite", ("asset:write",), statuses=(413, 415))

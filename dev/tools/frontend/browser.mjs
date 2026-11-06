@@ -195,7 +195,7 @@ try {
   await button('核对原请求').click();
   if (target === 'web') { await visible('订单详情'); receipt.order_id = await page.locator('[data-order-id]').getAttribute('data-order-id'); }
   else { await navigation('订单').click(); await page.locator('.history-item').first().click(); }
-  await visible('尚未付款');
+  await visible('订单仍待付款和资格确认');
   if (target === 'miniapp') receipt.order_id = await page.locator('.order-id').textContent();
   assert.equal(orderRequests.length, 2); assert.deepEqual(orderRequests[0], orderRequests[1]);
   assert(receipt.order_id?.startsWith('ord_'));

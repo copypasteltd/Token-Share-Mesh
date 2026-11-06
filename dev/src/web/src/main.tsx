@@ -9,6 +9,7 @@ import phone from '@tsm/core/assets/phone.svg';
 import '@tsm/core/tokens.css';
 import './styles.css';
 import { ProviderDevices } from './provider';
+import { PaymentPanel } from './payment';
 
 const storage = browserStorage('tsm-web:');
 const client = new ControlClient(P11_API_BASE, browserTransport, 'WEB');
@@ -88,7 +89,7 @@ function ContractPanel() {
     {formError && <p className='field-error' role='alert'>{formError}</p>}
     {o.policy.service_mode === 'E2E' ? <div className='gateway-block'><strong>本地网关未连接</strong><p>加密内容必须由买方可信程序处理。配对尚未开放，此页面不收集Prompt。</p><button className='button primary full' disabled>连接网关并继续</button></div> : <button className='button primary full' disabled={s.busy || s.pending || o.availability !== 'AVAILABLE'} onClick={() => void createQuote()}>{s.busy ? '正在核对…' : quote ? '重新核对报价' : '获取正式报价 →'}</button>}
     {quote && <div className='confirmed-contract'><h3>核对正式合同</h3><dl><dt>实际卖家</dt><dd>{quote.contract.seller_id}</dd><dt>报价编号</dt><dd>{quote.quote_id}</dd><dt>到期时间</dt><dd>{new Date(quote.expires_at).toLocaleString()}</dd><dt>合同摘要</dt><dd>{quote.contract.contract_hash}</dd></dl><label className='disclosure'><input type='checkbox' checked={accepted} onChange={e => setAccepted(e.target.checked)} />我确认此卖家、价版、预算及隐私说明（{quote.contract.policy.disclosure_version}）。</label><button className='button primary full' disabled={!accepted || s.busy || s.pending} onClick={() => void model.confirmOrder(accepted)}>确认合同并创建订单</button></div>}
-    <p className='muted contract-footnote'>报价不占用设备。当前付款入口尚未开放。</p>
+    <p className='muted contract-footnote'>报价不占用设备。付款方式以原订单和当前卖家收款资格为准。</p>
   </div></aside>;
 }
 function Orders() {
@@ -98,7 +99,7 @@ function Orders() {
   return <><div className='page-heading'><div><div className='eyebrow'>每一笔，都有原始合同</div><h1>我的订单</h1></div></div><div className='two-columns'><section className='white-panel'><h2>查询本人订单</h2><label className='field'>完整订单号<input aria-label='订单号' value={id} maxLength={128} onChange={e => setId(e.target.value)} /></label><button className='button primary' disabled={s.busy || !id} onClick={() => void model.readOrder(id)}>查询订单 →</button><h3>本机最近记录</h3><p className='muted'>仅保存当前账号在此设备上查看过的订单号，不代表全部历史订单。</p>{s.recentIds.length ? <ul className='history'>{s.recentIds.map(value => <li key={value}><button className='text-button' disabled={s.busy} onClick={() => { setId(value); void model.readOrder(value); }}>{value} ↗</button></li>)}</ul> : <p className='empty'>暂无本机记录。</p>}</section>
     <section className='white-panel' aria-label='订单详情' data-order-id={o?.order_id}>{o ? <><div className='order-heading'><h2>订单详情</h2><span className='status-tag'>{stateLabel(o.state)}</span></div><p className='break'>{o.order_id}</p><dl className='facts'><dt>实际个人卖家</dt><dd>{o.seller_id}</dd><dt>当前确认用量</dt><dd>暂无已确认用量</dd><dt>最终费用</dt><dd>待确认</dd></dl>
       {contract ? <><PriceLines price={contract.price} /><dl className='facts'><dt>最高预估费用</dt><dd>{yuan(contract.seller_price_fen + contract.buyer_fee_fen)}</dd><dt>预算上限</dt><dd>{yuan(contract.total_budget_fen)}</dd><dt>隐私边界</dt><dd>{privacyLabel(contract.policy)}</dd><dt>合同摘要</dt><dd>{contract.contract_hash}</dd></dl></> : <p>该订单为历史合同版本，请保留原合同并联系支持核对。</p>}
-      <p className='notice'>{o.state === 'WAITING_PAYMENT' ? '尚未付款，尚未开始计时。当前付款入口未开放。' : '仅展示服务端已确认状态；运行、计量和停止结果等待确认。'}</p><button className='button' disabled={s.busy} onClick={() => void model.readOrder(o.order_id)}>刷新订单状态 ↻</button></> : <div className='empty'>选择或查询一笔本人订单后，查看合同和当前状态。</div>}</section></div></>;
+      {contract && <PaymentPanel model={model} order={o} />}<p className='notice'>{o.state === 'WAITING_PAYMENT' ? '订单仍待付款和资格确认；尚未开始计时。' : '仅展示服务端已确认状态；运行、计量和停止结果等待确认。'}</p><button className='button' disabled={s.busy} onClick={() => void model.readOrder(o.order_id)}>刷新订单状态 ↻</button></> : <div className='empty'>选择或查询一笔本人订单后，查看合同和当前状态。</div>}</section></div></>;
 }
 function Share() {
   const s = useApp(); const attempted = useRef<string | null>(null);

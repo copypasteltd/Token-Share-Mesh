@@ -44,3 +44,7 @@ See [implementation constraints / 完整实施细则](../../../docs/技术开发
 Both clients share provider.ts validation, account-bound projections and original POST/PATCH recovery including strong If-Match. A once-only pairing secret is page-memory only, masked by default and removed on hide/leave/expiry/authority loss; late replies cannot restore it. Policy ACK is saved configuration, not device execution. Refresh the device version before further writes. Drain/revocation require explicit owner responsibility and never claim actual cleanup.
 
 双端配对、本人设备分页、北京时区时段、MB及手机电量/温度/充电条件、停止/撤销均接入既有设备API。旧设备只读，跨卖家/错设备/错版本回执关闭处理；凭据不入存储/URL/自动剪贴板。真实Windows控制CLI经页面/HTTP/临时PG登记后仍报UNKNOWN，不启动内核。完整规则见[提供方双端细则](../../../docs/技术开发/附录-提供方双端设备管理与原请求恢复.md)。
+
+## R026 CK-001—040 原付款挑战与双端恢复 / Original checkout challenge and recovery source
+
+R026新增[CK-001—040](../../../docs/技术开发/附录-原订单付款挑战与双端恢复源码.md)：原卖家当前付款选项、原订单唯一付款查找、原402挑战、单Proof头提交/恢复五接口，React/Taro与React/Vite原订单付款页、安全元数据journal和会话代次隔离源码。当前55控制HTTP/103规划/124 schema/75平台表；26项新增测试定义未编译/运行，无SQL变更或迁移。真实获准PayLauncher/小程序付款能力、SDK付款前原买方授权及数据面重试、跨端回调恢复、完整费用退款到账佣金对账/付费续租/可信计量接受账务、旧正向夹具与真实资格仍待。当前端未安装获准PayLauncher，付款唤起按钮保持关闭。历史截图/GIF不能证明本次新页面；按全量代码后集中验证要求暂未重录。全部56任务222子项开放，本次不是整轮完成。

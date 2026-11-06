@@ -128,6 +128,7 @@ func (s *Server) NativeHTTPServer(addr string) *http.Server {
 }
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+	defer erasePaymentProof(r.Header)
 	requestID := ids.New("req")
 	w.Header().Set("X-Request-ID", requestID)
 	w.Header().Set("Cache-Control", "no-store")
@@ -152,7 +153,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if len(origin) == 1 {
 		w.Header().Set("Access-Control-Allow-Origin", s.c.BrowserOrigin)
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Expose-Headers", "X-Request-ID, Idempotency-Replayed, Retry-After, ETag")
+		w.Header().Set("Access-Control-Expose-Headers", "X-Request-ID, Idempotency-Replayed, Retry-After, ETag, amtPaymentLink")
 		w.Header().Set("Vary", "Origin")
 	}
 	route, method, anonymous := s.route(r)
@@ -173,6 +174,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		for _, header := range strings.Split(r.Header.Get("Access-Control-Request-Headers"), ",") {
 			switch strings.ToLower(strings.TrimSpace(header)) {
 			case "", "content-type", "authorization", "x-csrf-token", "idempotency-key", "if-match":
+			case "payment-proof":
+				if requested != http.MethodPost || !paymentProofResource(r.URL.Path) {
+					fail(403, "FORBIDDEN", "Payment proof requires its original dedicated operation")
+					return
+				}
 			default:
 				fail(403, "FORBIDDEN", "Request header not allowed")
 				return
@@ -180,6 +186,9 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		w.Header().Set("Access-Control-Allow-Methods", method)
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-CSRF-Token, Idempotency-Key, If-Match")
+		if requested == http.MethodPost && paymentProofResource(r.URL.Path) {
+			w.Header().Set("Access-Control-Allow-Headers", w.Header().Get("Access-Control-Allow-Headers")+", Payment-Proof")
+		}
 		w.WriteHeader(http.StatusNoContent)
 		return
 	}
@@ -187,6 +196,12 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Allow", method)
 		fail(405, "METHOD_NOT_ALLOWED", "Method not supported")
 		return
+	}
+	for name := range r.Header {
+		if strings.EqualFold(name, "Payment-Proof") && !paymentProofPath(r) {
+			fail(400, "INVALID_REQUEST", "Payment proof is accepted only by its original dedicated operation")
+			return
+		}
 	}
 	if (r.Method == http.MethodGet || r.Method == http.MethodDelete) && (r.ContentLength != 0 || len(r.TransferEncoding) != 0) {
 		fail(400, "INVALID_REQUEST", "This control operation has no request body")

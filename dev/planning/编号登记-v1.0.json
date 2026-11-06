@@ -99,7 +99,12 @@
     "getExecutionInput": "INT-095",
     "claimRentalPreparation": "INT-096",
     "confirmRentalControl": "INT-097",
-    "getRentalGrantExpectation": "INT-098"
+    "getRentalGrantExpectation": "INT-098",
+    "listOrderPaymentOptions": "INT-099",
+    "getOrderPayment": "INT-100",
+    "getPaymentChallenge": "INT-101",
+    "submitMachinePaymentProof": "INT-102",
+    "getMachinePaymentRecovery": "INT-103"
   },
   "tables": {
     "acceptances": "DATA-001",

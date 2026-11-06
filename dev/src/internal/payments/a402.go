@@ -2,6 +2,8 @@ package payments
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -10,6 +12,14 @@ import (
 type Challenge struct {
 	payment, prepay, amount string
 	expires                 time.Time
+}
+
+func (c Challenge) Format(w fmt.State, _ rune) {
+	_, _ = io.WriteString(w, "[original payment challenge redacted]")
+}
+func (c Challenge) MarshalJSON() ([]byte, error) { return []byte(`{"redacted":true}`), nil }
+func (c Challenge) ValidAt(now time.Time) bool {
+	return merchantNumber.MatchString(c.prepay) && c.payment != "" && now.Before(c.expires)
 }
 
 // NewChallenge is metadata-only. Its caller must first authenticate the buyer,
@@ -30,7 +40,7 @@ func NewChallenge(s Snapshot, i Intent, b Binding, now time.Time) (Challenge, er
 // not trade_no, a native miniapp pay parameter, proof of funds or execution.
 // The enclosing real server owns write deadlines, scope checks and request life.
 func (c Challenge) WriteChallenge(w http.ResponseWriter, now time.Time) error {
-	if w == nil || !merchantNumber.MatchString(c.prepay) || c.payment == "" || !now.Before(c.expires) {
+	if w == nil || !c.ValidAt(now) {
 		return ErrUnknown
 	}
 	raw, e := json.Marshal(map[string]any{"error": map[string]any{"type": "payment_required", "code": "payment_required", "message": "Payment required for the original approved service", "param": nil}, "payment_id": c.payment, "amount": c.amount, "currency": "CNY", "pay_before": c.expires.UTC().Format(time.RFC3339Nano)})

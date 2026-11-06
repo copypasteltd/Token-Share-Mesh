@@ -103,7 +103,7 @@ OPERATION_GROUPS = {
  9:"createQuote getQuote",
  10:"listOrders createOrder getOrder",
  11:"listRouteContracts createRouteContract getRouteContract",
- 13:"createPaymentIntent getPayment",
+ 13:"createPaymentIntent getPayment listOrderPaymentOptions getOrderPayment getPaymentChallenge submitMachinePaymentProof getMachinePaymentRecovery",
  14:"createRefund getRefund",
  17:"createJob getJob",
  18:"claimLease getExecutionManifest getExecutionInput recordAttemptProgress",
@@ -209,7 +209,7 @@ def operation_tx(op: str, method: str) -> str:
     if op=="createUserSession": return "TX_CLAIM → EXTERNAL_SIGNED_OAUTH → TX_SESSION"
     if op=="revokeUserSession": return "TX_REVOKE_AND_USER_VERSION"
     if op in ('createQuote','createOrder','createRouteContract'): return 'TX-02'
-    if op=='createPaymentIntent': return 'TX-03'
+    if op in ('createPaymentIntent','submitMachinePaymentProof'): return 'TX-03'
     if op in ('createJob','claimLease','getExecutionManifest','getExecutionInput','recordAttemptProgress'): return 'TX-04'
     if op in ('registerAttemptDelivery','recordBuyerReceipt','cancelJob'): return 'TX-06'
     if op in ('createRentalSession','claimRentalPreparation','confirmRentalControl','getRentalGrantExpectation','confirmRentalReady','recordRentalDeviceReady','createRentalAccessGrant'): return 'TX-08'

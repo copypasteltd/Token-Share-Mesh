@@ -3,6 +3,8 @@ import { type Offer, type Page, type Quote, type Spec, type Order, type Session,
 import { ControlClient, ApiError, errorText } from './client';
 import { type Storage, type SecureBytes, newKey } from './auth';
 import { CommandJournal } from './journal';
+import { PaymentFlow } from './payment-flow';
+import { type PayLauncher } from './payment';
 import { estimate } from './money';
 import { type Device, type Pairing, type PairInput, type PolicyInput, type DeviceAck, deviceOf, pairingOf, pairInputOf, policyInputOf, deviceAckOf, managedDevice, terminalDevice } from './provider';
 
@@ -27,8 +29,10 @@ export class AppModel {
   private marketRequest = 0;
   private pairingEpoch = 0;
   private journal: CommandJournal;
-  constructor(readonly client: ControlClient, private storage: Storage, private random: SecureBytes, private auth: AuthPort) {
+  readonly checkout: PaymentFlow;
+  constructor(readonly client: ControlClient, private storage: Storage, private random: SecureBytes, private auth: AuthPort, launcher?: PayLauncher) {
     this.journal = new CommandJournal(client, storage, random);
+    this.checkout = new PaymentFlow(client, storage, random, launcher, error => this.failed(error));
   }
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
   snapshot = () => this.state;

@@ -450,7 +450,12 @@
         "createOrder",
         "getOrder",
         "createPaymentIntent",
-        "getPayment"
+        "getPayment",
+        "listOrderPaymentOptions",
+        "getOrderPayment",
+        "getPaymentChallenge",
+        "submitMachinePaymentProof",
+        "getMachinePaymentRecovery"
       ],
       "tables": [
         "payments",
@@ -861,7 +866,12 @@
         "cancelJob",
         "createRefund",
         "getRefund",
-        "recordAttemptCleanup"
+        "recordAttemptCleanup",
+        "listOrderPaymentOptions",
+        "getOrderPayment",
+        "getPaymentChallenge",
+        "submitMachinePaymentProof",
+        "getMachinePaymentRecovery"
       ],
       "tables": [
         "payments",
@@ -1061,7 +1071,12 @@
         "createSettlementBatch",
         "getSettlementBatch",
         "approveSettlementBatch",
-        "submitSettlementBatch"
+        "submitSettlementBatch",
+        "listOrderPaymentOptions",
+        "getOrderPayment",
+        "getPaymentChallenge",
+        "submitMachinePaymentProof",
+        "getMachinePaymentRecovery"
       ],
       "tables": [
         "trade_qualifications",
@@ -3068,7 +3083,12 @@
         "getSettlementBatch",
         "approveSettlementBatch",
         "submitSettlementBatch",
-        "listAuditEvents"
+        "listAuditEvents",
+        "listOrderPaymentOptions",
+        "getOrderPayment",
+        "getPaymentChallenge",
+        "submitMachinePaymentProof",
+        "getMachinePaymentRecovery"
       ],
       "tables": [
         "audit_events",

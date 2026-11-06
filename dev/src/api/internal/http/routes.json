@@ -1,7 +1,7 @@
 {
   "version": "P11_CONTROL_HTTP_R026",
   "base_path": "/v1/p11",
-  "scope": "50 explicit control operations; original payment create/get, nine rental handlers and encrypted-control journal are R026 SOURCE_ONLY, uncompiled/unverified; no actual payment qualification or public inference admission",
+  "scope": "55 explicit control operations, including five original-buyer checkout/proof/recovery handlers; R026 SOURCE_ONLY, uncompiled/unverified; no approved actual wallet bridge, real payment qualification or public inference admission",
   "operations": [
     {
       "operation_id": "createPaymentIntent",
@@ -351,6 +351,41 @@
       "method": "GET",
       "path": "/runner/rental-sessions/{session_id}/access-grants/{grant_id}",
       "handler": "getRentalGrantExpectation",
+      "anonymous": false
+    },
+    {
+      "operation_id": "listOrderPaymentOptions",
+      "method": "GET",
+      "path": "/orders/{order_id}/payment-options",
+      "handler": "listOrderPaymentOptions",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getOrderPayment",
+      "method": "GET",
+      "path": "/orders/{order_id}/payment",
+      "handler": "getOrderPayment",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getPaymentChallenge",
+      "method": "GET",
+      "path": "/payments/{payment_id}/challenge",
+      "handler": "getPaymentChallenge",
+      "anonymous": false
+    },
+    {
+      "operation_id": "submitMachinePaymentProof",
+      "method": "POST",
+      "path": "/payments/{payment_id}/proofs",
+      "handler": "submitMachinePaymentProof",
+      "anonymous": false
+    },
+    {
+      "operation_id": "getMachinePaymentRecovery",
+      "method": "GET",
+      "path": "/payments/{payment_id}/proof-recovery",
+      "handler": "getMachinePaymentRecovery",
       "anonymous": false
     }
   ]

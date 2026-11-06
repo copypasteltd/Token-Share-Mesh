@@ -9200,6 +9200,485 @@
         "x-idempotency-result-policy": "SINGLE_USE_AUTH_FLOW",
         "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests"
       }
+    },
+    "/orders/{order_id}/payment-options": {
+      "get": {
+        "operationId": "listOrderPaymentOptions",
+        "tags": [
+          "Payment"
+        ],
+        "summary": "核对原卖家当前可选付款方式",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "payment:read"
+        ],
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentOptions"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "x-required-roles": [
+          "BUYER"
+        ],
+        "x-current-original-owner": true,
+        "x-metadata-only": true,
+        "x-source-annex": "docs/技术开发/附录-原订单付款挑战与双端恢复源码.md"
+      }
+    },
+    "/orders/{order_id}/payment": {
+      "get": {
+        "operationId": "getOrderPayment",
+        "tags": [
+          "Payment"
+        ],
+        "summary": "查找本人原订单唯一付款",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "payment:read"
+        ],
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "x-required-roles": [
+          "BUYER"
+        ],
+        "x-current-original-owner": true,
+        "x-metadata-only": true,
+        "x-source-annex": "docs/技术开发/附录-原订单付款挑战与双端恢复源码.md"
+      }
+    },
+    "/payments/{payment_id}/challenge": {
+      "get": {
+        "operationId": "getPaymentChallenge",
+        "tags": [
+          "Payment"
+        ],
+        "summary": "读取本人原付款402挑战",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "payment:create"
+        ],
+        "parameters": [
+          {
+            "name": "payment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          },
+          "402": {
+            "description": "仅原PENDING付款；不发起任何外部渠道请求",
+            "headers": {
+              "amtPaymentLink": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_]{1,128}$"
+                },
+                "description": "同一原amt_pre_pay_id；不得作为普通my.tradePay的trade_no或跳转URL"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachinePayChallenge"
+                }
+              }
+            }
+          }
+        },
+        "x-required-roles": [
+          "BUYER"
+        ],
+        "x-current-original-owner": true,
+        "x-metadata-only": true,
+        "x-source-annex": "docs/技术开发/附录-原订单付款挑战与双端恢复源码.md"
+      }
+    },
+    "/payments/{payment_id}/proofs": {
+      "post": {
+        "operationId": "submitMachinePaymentProof",
+        "tags": [
+          "Payment"
+        ],
+        "summary": "提交本人原付款单一凭据头",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "payment:create"
+        ],
+        "parameters": [
+          {
+            "name": "payment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            },
+            "description": "同主体/操作/资源范围同键同输入复用；不同输入409。未知结果先查询。"
+          },
+          {
+            "name": "Payment-Proof",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 4,
+              "maxLength": 16384,
+              "pattern": "^[A-Za-z0-9+/]+={0,2}$",
+              "writeOnly": true
+            },
+            "description": "恰好一个Base64 JSON头，严格解析；不得放入URL、JSON体、日志或本地存储；受总HTTP头字节上限约束"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProofRecovery"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          },
+          "202": {
+            "description": "凭据已原子保存/恢复；专用worker稍后核验，并非已付或READY",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "const": "2"
+                }
+              },
+              "Idempotency-Replayed": {
+                "schema": {
+                  "type": "string",
+                  "const": "true"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProofRecovery"
+                }
+              }
+            }
+          }
+        },
+        "x-browser-csrf": "Exact Origin and session-bound X-CSRF-Token for Cookie requests",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {},
+                "required": []
+              }
+            }
+          }
+        },
+        "x-required-roles": [
+          "BUYER"
+        ],
+        "x-current-original-owner": true,
+        "x-metadata-only": true,
+        "x-source-annex": "docs/技术开发/附录-原订单付款挑战与双端恢复源码.md"
+      }
+    },
+    "/payments/{payment_id}/proof-recovery": {
+      "get": {
+        "operationId": "getMachinePaymentRecovery",
+        "tags": [
+          "Payment"
+        ],
+        "summary": "读取原付款最新凭据恢复元数据",
+        "description": "主体scope与资源所有权同时验证；不把元数据合法等同为已经执行/收费成功。",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BrowserCookie": []
+          }
+        ],
+        "x-required-scopes": [
+          "payment:read"
+        ],
+        "parameters": [
+          {
+            "name": "payment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "设计响应；不是运行证据。跨对象归属、状态与资金门槛仍在服务端验证。",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+                  "maxLength": 128
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProofRecovery"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "x-required-roles": [
+          "BUYER"
+        ],
+        "x-current-original-owner": true,
+        "x-metadata-only": true,
+        "x-source-annex": "docs/技术开发/附录-原订单付款挑战与双端恢复源码.md"
+      }
     }
   },
   "components": {
@@ -16007,6 +16486,178 @@
           "items",
           "next_cursor"
         ]
+      },
+      "PaymentOption": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "channel_capability_ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "goods_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "channel_capability_ref",
+          "goods_name"
+        ]
+      },
+      "PaymentOptions": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "seller_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "contract_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "expected_order_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "amount_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000
+          },
+          "currency": {
+            "const": "CNY"
+          },
+          "environment": {
+            "type": "string",
+            "enum": [
+              "SANDBOX",
+              "PRODUCTION"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentOption"
+            },
+            "minItems": 1,
+            "maxItems": 8
+          }
+        },
+        "required": [
+          "order_id",
+          "seller_id",
+          "contract_hash",
+          "expected_order_version",
+          "amount_fen",
+          "currency",
+          "environment",
+          "items"
+        ],
+        "description": "当前本人原订单的可选原卖家收款能力；当前只开放获准的零费用档，未选择/预创建/收款/授予执行权。"
+      },
+      "MachineProofRecovery": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "recovery_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "payment_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "VERIFYING",
+              "VERIFIED",
+              "UNKNOWN",
+              "RETIRED"
+            ]
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "recovery_id",
+          "payment_id",
+          "state",
+          "expires_at"
+        ],
+        "description": "原凭据恢复元数据，不含Payment-Proof/client_session/预付参考号；提交202不是实付、资金准入或执行。"
+      },
+      "MachinePayChallenge": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "payment_required"
+              },
+              "code": {
+                "const": "payment_required"
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "param": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "type",
+              "code",
+              "message",
+              "param"
+            ]
+          },
+          "payment_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
+            "maxLength": 128
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^(?:0|[1-9][0-9]?)\\.[0-9]{2}$"
+          },
+          "currency": {
+            "const": "CNY"
+          },
+          "pay_before": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "payment_id",
+          "amount",
+          "currency",
+          "pay_before"
+        ],
+        "description": "仅本人原PENDING付款的402挑战；amtPaymentLink是同一已提交预付参考号，不是URL/trade_no/执行权。"
       }
     },
     "responses": {

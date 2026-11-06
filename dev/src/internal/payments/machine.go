@@ -359,10 +359,11 @@ func (s *Machine) Precreate(ctx context.Context, p identity.Principal, payment s
 func mustIntent(i Intent) []byte { raw, _ := json.Marshal(i); return raw }
 
 type Recovery struct {
-	ID      string    `json:"recovery_id"`
-	Payment string    `json:"payment_id"`
-	State   string    `json:"state"`
-	Expires time.Time `json:"expires_at"`
+	Replayed bool      `json:"-"`
+	ID       string    `json:"recovery_id"`
+	Payment  string    `json:"payment_id"`
+	State    string    `json:"state"`
+	Expires  time.Time `json:"expires_at"`
 }
 
 func sameMachineProof(vault *Vault, scope Scope, encrypted []byte, proof *Proof, now time.Time) bool {
@@ -469,5 +470,6 @@ VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,'PENDING',$10)`, recovery.ID, payment, origina
 	if json.Unmarshal(result.Body, &recovery) != nil {
 		return Recovery{}, ErrUnknown
 	}
+	recovery.Replayed = result.Replayed || existing.ID != ""
 	return recovery, nil
 }

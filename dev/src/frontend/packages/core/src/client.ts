@@ -14,6 +14,7 @@ export const errorText = (error: unknown): string => {
 };
 export class ControlClient {
   private session: Session | null = null;
+  private sessionListeners = new Set<() => void>();
   readonly base: string;
   constructor(base: string, private transport: Transport, readonly kind: 'WEB' | 'MINIAPP') {
     if (base && !/^https:\/\/[^?#]+$/.test(base) && !/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(base)) throw new Error('仅支持已配置的安全服务地址');
@@ -22,14 +23,24 @@ export class ControlClient {
   }
   setSession(session: Session | null): void {
     if (session && (session.client_type !== this.kind || this.kind === 'WEB' && session.access_token)) throw new ApiError('INVALID_RESPONSE');
+    const changed = this.session !== session;
     this.session = session;
+    if (changed) this.sessionListeners.forEach(listener => listener());
   }
   current(): Session | null { return this.session; }
-  async request<T>(method: Request['method'], path: string, parse: (x: unknown) => T, body?: unknown, key?: string, anonymous = false, ifMatch?: string): Promise<T> {
+  onSessionChange(listener: () => void): () => void {
+    this.sessionListeners.add(listener); return () => { this.sessionListeners.delete(listener); };
+  }
+  private async exchange(method: Request['method'], path: string, body?: unknown, key?: string, anonymous = false, ifMatch?: string, proof?: string): Promise<Response> {
     if (!path.startsWith('/') || path.includes('://') || path.includes('#')) throw new Error('INVALID_PATH');
     const headers: Record<string, string> = { Accept: 'application/json' };
     if (body !== undefined) headers['Content-Type'] = 'application/json';
     if (key) headers['Idempotency-Key'] = key;
+    if (proof !== undefined) {
+      if (method !== 'POST' || !/^\/payments\/[A-Za-z0-9_-]{1,128}\/proofs$/.test(path) || proof.length < 4 || proof.length > 16384 ||
+        proof.length % 4 !== 0 || !/^[A-Za-z0-9+/]+={0,2}$/.test(proof)) throw new ApiError('INVALID_REQUEST');
+      headers['Payment-Proof'] = proof;
+    }
     if (ifMatch !== undefined) {
       if (!/^"[1-9]\d{0,9}"$/.test(ifMatch) || Number(ifMatch.slice(1, -1)) >= 2147483647) throw new Error('INVALID_ETAG');
       headers['If-Match'] = ifMatch;
@@ -48,11 +59,38 @@ export class ControlClient {
     let response: Response;
     try { response = await this.transport({ method, url: this.base + '/v1/p11' + path, headers, ...(body === undefined ? {} : { body: JSON.stringify(body) }) }); }
     catch { throw new ApiError('TRANSPORT_UNKNOWN', 0, mutates); }
-    if (response.status < 200 || response.status >= 300) {
-      const data = response.data as { error?: { code?: string; request_id?: string } };
-      throw new ApiError(typeof data?.error?.code === 'string' ? data.error.code : 'UNAVAILABLE', response.status, mutates && response.status >= 500, data?.error?.request_id || '');
-    }
+    finally { delete headers['Payment-Proof']; }
+    return response;
+  }
+  private rejected(response: Response, mutates: boolean): ApiError {
+    const data = response.data as { error?: { code?: string; request_id?: string } };
+    return new ApiError(typeof data?.error?.code === 'string' ? data.error.code : 'UNAVAILABLE', response.status, mutates && response.status >= 500, data?.error?.request_id || '');
+  }
+  async request<T>(method: Request['method'], path: string, parse: (x: unknown) => T, body?: unknown, key?: string, anonymous = false, ifMatch?: string): Promise<T> {
+    const response = await this.exchange(method, path, body, key, anonymous, ifMatch), mutates = method !== 'GET';
+    if (response.status < 200 || response.status >= 300) throw this.rejected(response, mutates);
     try { return parse(response.data); } catch { throw new ApiError('INVALID_RESPONSE', response.status, mutates); }
+  }
+  /** Only this exact original metadata GET recognizes a 402 as a challenge.
+   * No arbitrary paid SDK body, automatic purchase/retry or URL is accepted. */
+  async paymentChallenge<T>(payment: string, parse: (data: unknown, headers: Record<string, string>) => T): Promise<T> {
+    if (!/^[A-Za-z0-9_-]{1,128}$/.test(payment)) throw new ApiError('INVALID_REQUEST');
+    const response = await this.exchange('GET', '/payments/' + payment + '/challenge');
+    if (response.status !== 402) {
+      if (response.status >= 200 && response.status < 300) throw new ApiError('INVALID_RESPONSE', response.status);
+      throw this.rejected(response, false);
+    }
+    try { return parse(response.data, response.headers); } catch { throw new ApiError('INVALID_RESPONSE', 402); }
+  }
+  /** Credential headers never pass through CommandJournal or JSON bodies. */
+  async submitPaymentProof<T>(payment: string, proof: string, key: string, parse: (data: unknown) => T): Promise<T> {
+    if (!/^[A-Za-z0-9_-]{1,128}$/.test(payment) || !/^cmd_[A-Za-z0-9_-]{1,120}$/.test(key)) throw new ApiError('INVALID_REQUEST');
+    const response = await this.exchange('POST', '/payments/' + payment + '/proofs', {}, key, false, undefined, proof);
+    if (response.status !== 202) {
+      if (response.status >= 200 && response.status < 300) throw new ApiError('INVALID_RESPONSE', response.status, true);
+      throw this.rejected(response, true);
+    }
+    try { return parse(response.data); } catch { throw new ApiError('INVALID_RESPONSE', response.status, true); }
   }
   async restore(): Promise<Session> {
     // WEB HttpOnly cookies are read by the server, never JavaScript. Native tokens remain memory-only.
