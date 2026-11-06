@@ -9,6 +9,7 @@ import (
 
 	"p11.local/compute/client/comfyenv"
 	"p11.local/compute/client/execution"
+	"p11.local/compute/client/protocol/rentalaccess"
 )
 
 const kernelRegistryFile = "kernel-registry.enc"
@@ -123,4 +124,18 @@ func (s *Store) ActivateComfy(ctx context.Context, h execution.Hold, p comfyenv.
 	registry, gate := s.kernels, s.execution
 	s.nativeMu.Unlock()
 	return registry.ActivateLocal(ctx, gate, h, p)
+}
+
+// OpenComfyUse binds the installed immutable environment to this node's
+// ORIGINAL rental preparation owner. It starts no engine and restores no grant.
+// Store.Close joins claimed process references before its root/key/OS lock.
+func (s *Store) OpenComfyUse(ctx context.Context, h execution.Hold, prepared rentalaccess.Prepared, p comfyenv.Plan) (comfyenv.Use, error) {
+	s.nativeMu.Lock()
+	if !s.canOpenKernels() || s.kernels == nil || s.execution == nil {
+		s.nativeMu.Unlock()
+		return comfyenv.Use{}, comfyenv.ErrState
+	}
+	registry, gate := s.kernels, s.execution
+	s.nativeMu.Unlock()
+	return registry.OpenRentalUse(ctx, gate, h, prepared, p)
 }

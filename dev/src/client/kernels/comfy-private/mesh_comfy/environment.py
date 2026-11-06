@@ -158,6 +158,7 @@ class Environment:
             raise Rejected('ENVIRONMENT')
         self.cancelled = cancelled
         self.files = verify_tree(self.root, value['files'], cancelled)
+        model_inventory = self._model_inventory(value['model_files'])
         self._driver = cuda_identity(value['cuda_driver_path'], value['gpu_uuid'], value['gpu_pci'])
         core = value['core_classes']
         if type(core) is not list or not 1 <= len(core) <= 512 or len(set(core)) != len(core):
@@ -200,7 +201,8 @@ class Environment:
             original_interrupt(bool(value) or cancelled())
 
         nodes.interrupt_processing = interrupt
-        self._models(folder_paths, value['model_files'])
+        self._models(folder_paths, model_inventory)
+        model_inventory = None
         self.runner = asyncio.Runner()
         with loop_bootstrap():
             self.runner.get_loop()
@@ -246,7 +248,7 @@ class Environment:
         # runtime inventory resident for the entire rental session.
         self.files.clear()
 
-    def _models(self, paths, files):
+    def _model_inventory(self, files):
         categories = {'checkpoints', 'text_encoders', 'diffusion_models', 'vae',
                       'clip_vision', 'controlnet', 'loras', 'embeddings', 'upscale_models'}
         if type(files) is not list or not 1 <= len(files) <= 64:
@@ -255,7 +257,7 @@ class Environment:
         for file in files:
             fields(file, {'category', 'alias', 'path', 'bytes', 'sha256'})
             category, alias = file['category'], file['alias']
-            if category not in categories or type(alias) is not str or '/' in alias or '\\' in alias or Path(alias).name != alias:
+            if category not in categories or type(alias) is not str or _PART.fullmatch(alias) is None or alias in {'.', '..'}:
                 raise Rejected('ENVIRONMENT')
             key = (category, alias)
             if key in mapping or not os.path.isabs(file['path']):
@@ -277,6 +279,10 @@ class Environment:
             if str(path.parent) not in roots:
                 roots.append(str(path.parent))
             extensions.add(path.suffix)
+        return mapping, folders
+
+    def _models(self, paths, inventory):
+        mapping, folders = inventory
         paths.folder_names_and_paths = folders
 
         def full(category, alias):

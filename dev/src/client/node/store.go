@@ -445,7 +445,7 @@ func (s *Store) finishClose() {
 		kernels := s.kernels
 		s.nativeMu.Unlock()
 		if kernels != nil {
-			kernels.Close() // join installer IO before releasing OS lock/root/key
+			kernels.Close() // join installer/runtime IO before releasing OS lock/root/key
 			s.nativeMu.Lock()
 			s.kernels = nil
 			s.nativeMu.Unlock()

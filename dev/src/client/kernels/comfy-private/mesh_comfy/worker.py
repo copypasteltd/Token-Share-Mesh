@@ -47,6 +47,26 @@ class Control:
         self.deadline = None
         self.session_deadline = time.monotonic() + max(0, hard_ms / 1000 - time.time())
         self.interrupt = None
+        self.authorized = False
+        self.grant_digest = None
+        self.hard_ms = hard_ms
+
+    def authorize(self, grant_digest, hard_ms):
+        # The original host has independently verified its current signed grant
+        # and fresh physical/control owner. This private command is NOT a JWT
+        # verifier, payment fact, renewed term, remote readiness or cleanup proof.
+        digest(grant_digest)
+        integer(hard_ms, 1, 1 << 53)
+        with self.lock:
+            remaining = hard_ms / 1000 - time.time()
+            if (self.closed or self.authorized or self.active is not None or
+                    time.monotonic() >= self.session_deadline or not 0 < remaining <= 86400):
+                raise Rejected('CANCELLED')
+            self.authorized = True
+            self.grant_digest = grant_digest
+            self.hard_ms = hard_ms
+            self.session_deadline = time.monotonic() + remaining
+            self.changed.set()
 
     def cancelled(self):
         with self.lock:
@@ -66,10 +86,10 @@ class Control:
 
     def start(self, invocation, cutoff_ms):
         with self.lock:
-            if self.closed or self.active is not None or invocation in self.seen or len(self.seen) >= 1024:
+            if self.closed or not self.authorized or self.active is not None or invocation in self.seen or len(self.seen) >= 1024:
                 raise Rejected('UNKNOWN')
             remaining = cutoff_ms / 1000 - time.time()
-            if remaining <= 0 or remaining > 86400 or invocation in self.cancelled_ids or time.monotonic() >= self.session_deadline:
+            if remaining <= 0 or remaining > 86400 or cutoff_ms > self.hard_ms or invocation in self.cancelled_ids or time.monotonic() >= self.session_deadline:
                 raise Rejected('CANCELLED')
             self.seen.add(invocation)
             self.active = invocation
@@ -121,7 +141,7 @@ class Control:
                 if invocation is not None:
                     self.stop(invocation)
 
-    def receive(self, source):
+    def receive(self, source, output=None):
         try:
             while True:
                 frame = wire.read_frame(source, 4097)
@@ -130,6 +150,15 @@ class Control:
                     return
                 kind, raw = frame
                 value = strict_json(raw, 4096)
+                if kind == wire.AUTHORIZE:
+                    fields(value, {'session_id', 'local_generation', 'grant_digest', 'hard_deadline_unix_ms'})
+                    if value['session_id'] != self.session or value['local_generation'] != self.generation:
+                        raise Rejected()
+                    self.authorize(value['grant_digest'], value['hard_deadline_unix_ms'])
+                    if output is not None:
+                        output.send(wire.STATE, {'phase': 'AUTHORIZED', 'session_id': self.session,
+                            'local_generation': self.generation, 'grant_digest': self.grant_digest})
+                    continue
                 if kind == wire.STOP_SESSION:
                     fields(value, {'session_id', 'local_generation'})
                     if value['session_id'] != self.session or value['local_generation'] != self.generation:
@@ -227,7 +256,7 @@ def invoke(source, output, environment, control, session, value):
     if scope['session_id'] != session['session_id'] or scope['local_generation'] != session['local_generation'] or scope['environment_digest'] != session['environment_digest'] or scope['recipe_digest'] != session['recipe_digest']:
         raise Rejected()
     invocation = scope['invocation_id']
-    cutoff = integer(value['hard_deadline_unix_ms'], 1, session['hard_deadline_unix_ms'])
+    cutoff = integer(value['hard_deadline_unix_ms'], 1, control.hard_ms)
     control.start(invocation, cutoff)
     workspace, job, executor, graph = None, None, None, None
     receipt = None
@@ -335,7 +364,7 @@ def run(source, control_source, protocol_output):
         if not time.time() * 1000 < hard <= (time.time() + 86400) * 1000:
             raise Rejected('CANCELLED')
         control = Control(session['session_id'], session['local_generation'], hard)
-        reader = threading.Thread(target=control.receive, args=(control_source,), daemon=True)
+        reader = threading.Thread(target=control.receive, args=(control_source, output), daemon=True)
         reader.start()
         deadline = threading.Thread(target=control.watch, daemon=True)
         deadline.start()
@@ -352,7 +381,12 @@ def run(source, control_source, protocol_output):
             'environment_digest': session['environment_digest'],
             'recipe_digest': session['recipe_digest'], 'qualification': 'NOT_GRANTED'})
         while not control.closed:
-            frame = wire.read_frame(source)
+            try:
+                frame = wire.read_frame(source)
+            except Rejected:
+                if control.closed:
+                    break
+                raise
             if frame is None:
                 control.stop()
                 break

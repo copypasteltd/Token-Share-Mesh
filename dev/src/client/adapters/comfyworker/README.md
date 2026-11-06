@@ -1,6 +1,6 @@
 # Private ComfyUI host boundary / 私有Comfy宿主边界
 
-**SOURCE_ONLY / 未编译、未运行。** `cipher.go` implements a bounded read-only AES-GCM media reader and single-use private receipt bound to an independently supplied original session/invocation/local generation/environment/recipe. `wire.go` bounds internal worker frames before allocation and provides separate content/control writers. This is not yet a process launcher, rental Backend, public endpoint or payment/cleanup qualifier.
+**SOURCE_ONLY / 未编译、未运行。** `cipher.go` implements a bounded read-only AES-GCM media reader and single-use original-scope receipt. `config.go` and `process*.go` add the original environment reference, fixed native Python/three pipes, PIPE_2 preparation/one-shot grant ACK, independent control deadlines and actual process/pipe join. The rental-media Backend, authenticated workspace/input, public delivery, complete runtime archives and payment/cleanup qualification remain open.
 
 See [MW-001—044](../../../../../docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md) and the [private Python worker](../../kernels/comfy-private/README.md). The local file format is neither BINARY_STREAM_1 nor network E2E; worker receipts contain private keys and must never enter provider UI, logs, databases or public API responses.
 
@@ -17,3 +17,7 @@ All authored tests remain unexecuted. Synthetic independent format fixtures are 
 ## R026 测试定义编号索引 / Test source index
 
 完整MW测试定义列表见[Python组件README](../../kernels/comfy-private/README.md#r026-测试定义编号索引--test-source-index)。全部只是源码，尚未执行。
+
+## R026 CH-001—036 原环境与宿主源码继续 / Original environment and host source
+
+R026新增[CH-001—036](../../../../../docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md)：原Comfy环境运行持有、固定原生进程/三管道、PIPE_2准备/一次原授权ACK/单调截止和原ProviderRental准备接线。29项新测试定义未编译/运行；CH-033—036正式租内媒体Backend、认证工作区/恢复清理、公开交付、完整包/低权限/E2E、独立ready/计量/付费续租/平台释放仍待。全56任务/222子项开放，无SQL变更、迁移或真实执行；完整代码后统一验证，源码检查点不是开发轮完成。

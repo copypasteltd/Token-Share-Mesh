@@ -2,6 +2,12 @@
 
 <!-- Generated from dev/repository/README.en.md.in; run dev/tools/构建仓库文档.py. -->
 
+<!-- R026-CH-CURRENT -->
+R026 adds [CH-001–036](docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md): original Comfy environment lifetime references, fixed native process/three pipes, PIPE_2 preparation/one-shot original grant ACK/monotonic deadlines and original ProviderRental preparation wiring. All 29 new test definitions are uncompiled/unexecuted. CH-033–036 rental-media Backend, authenticated workspace/recovery cleanup, public delivery, complete runtime archives/OS low privilege/E2E, independent readiness/metering/paid renewal/platform release remain open. All 56 tasks/222 steps remain open; no SQL change, migration or engine run. Full-scope source precedes batch validation; a source checkpoint is not a completed development round.
+<!-- /R026-CH-CURRENT -->
+
+
+
 <!-- R026-MW-CURRENT -->
 R026 adds [MW-001–044](docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md): a fixed native private Comfy worker, exact CUDA UUID/PCI, finite recipes, PNG/fragmented MP4/PCM WAV/geometry GLB encoders, original workspace anchors, encrypted pre-create reservations, chunked GCM and a Go single-use original-scope receipt/private-frame boundary. All 44 new test definitions remain uncompiled/unexecuted. The actual host launcher, rental-media Backend, complete runtime archives, public delivery, OS low-privilege/E2E and performance remain open. CE31/RN67 and all 56 tasks/222 steps remain open until full-scope code precedes batch validation. No SQL change.
 <!-- /R026-MW-CURRENT -->
@@ -296,3 +302,7 @@ R026 adds [CE-001–036](docs/技术开发/附录-ComfyUI完整环境安装与�
 ## R026 MW-001—044 私有媒体源码继续 / Private media source
 
 R026 adds [MW-001–044](docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md): a fixed native private Comfy worker, exact CUDA UUID/PCI, finite recipes, PNG/fragmented MP4/PCM WAV/geometry GLB encoders, original workspace anchors, encrypted pre-create reservations, chunked GCM and a Go single-use original-scope receipt/private-frame boundary. All 44 new test definitions remain uncompiled/unexecuted. The actual host launcher, rental-media Backend, complete runtime archives, public delivery, OS low-privilege/E2E and performance remain open. CE31/RN67 and all 56 tasks/222 steps remain open until full-scope code precedes batch validation. No SQL change.
+
+## R026 CH-001—036 原环境与宿主源码继续 / Original environment and host source
+
+R026 adds [CH-001–036](docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md): original Comfy environment lifetime references, fixed native process/three pipes, PIPE_2 preparation/one-shot original grant ACK/monotonic deadlines and original ProviderRental preparation wiring. All 29 new test definitions are uncompiled/unexecuted. CH-033–036 rental-media Backend, authenticated workspace/recovery cleanup, public delivery, complete runtime archives/OS low privilege/E2E, independent readiness/metering/paid renewal/platform release remain open. All 56 tasks/222 steps remain open; no SQL change, migration or engine run. Full-scope source precedes batch validation; a source checkpoint is not a completed development round.

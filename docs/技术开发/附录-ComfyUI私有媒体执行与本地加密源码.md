@@ -151,3 +151,7 @@ Python审计钩子只减少批准代码误开网络、子进程、缓存/明文�
 - [NVIDIA CUDA Driver device API](https://docs.nvidia.com/cuda/cuda-driver-api/cuda_driver_api/group__CUDA__DEVICE.html)，用于UUID/PCI只读身份复核；源码调用不构成实机兼容证明。
 
 ComfyUI及第三方依赖保留各自许可；本项目新增桥接代码不改变上游许可证，也不把未来完整Comfy运行包描述为仅适用仓库顶层许可。全部正式分发包仍需逐文件源/许可清单。
+
+## R026 CH-001—036 原环境与宿主源码继续 / Original environment and host source
+
+R026新增[CH-001—036](附录-ComfyUI原环境持有与本机进程接线源码.md)：原Comfy环境运行持有、固定原生进程/三管道、PIPE_2准备/一次原授权ACK/单调截止和原ProviderRental准备接线。29项新测试定义未编译/运行；CH-033—036正式租内媒体Backend、认证工作区/恢复清理、公开交付、完整包/低权限/E2E、独立ready/计量/付费续租/平台释放仍待。全56任务/222子项开放，无SQL变更、迁移或真实执行；完整代码后统一验证，源码检查点不是开发轮完成。

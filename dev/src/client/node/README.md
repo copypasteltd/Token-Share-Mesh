@@ -17,3 +17,7 @@ The manifest's `input_ciphertext_digest` always identifies the encrypted asset. 
 `rental_journal.go` shares this node's OS lock/private root/master key, with an independently derived AES-GCM key and explicit random journal anchor. It durably stores metadata watermarks and STOP tombstones, never rental Bearers or content. `rental_control.go` independently resolves the stored grant digest using the original device, binds the locally approved manifest/connection and issuer pins, then sends one original-sequence control request. Replays keep their original absolute expiry; restart restores no ALLOW. Missing/corrupt/uncertain storage closes admission.
 
 Only source is provided: no rental execution CLI, original physical-session ticket, native stop watchdog, Android rental consumer or cleanup release is enabled. This journal adds no GPU lock and does not change the existing client DDL. All 56 tasks/222 steps remain open, and all 42 rental test definitions are unexecuted under CODE_FIRST. See RN-051—070 in the hourly-rental annex.
+
+## R026 CH-001—036 原环境与宿主源码继续 / Original environment and host source
+
+R026新增[CH-001—036](../../../../docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md)：原Comfy环境运行持有、固定原生进程/三管道、PIPE_2准备/一次原授权ACK/单调截止和原ProviderRental准备接线。29项新测试定义未编译/运行；CH-033—036正式租内媒体Backend、认证工作区/恢复清理、公开交付、完整包/低权限/E2E、独立ready/计量/付费续租/平台释放仍待。全56任务/222子项开放，无SQL变更、迁移或真实执行；完整代码后统一验证，源码检查点不是开发轮完成。

@@ -24,8 +24,8 @@ import (
 	"p11.local/compute/shared/strictjson"
 )
 
-const Profile = "P11_COMFY_PRIVATE_PIPE_1"
-const Release = "comfy-private-1"
+const Profile = "P11_COMFY_PRIVATE_PIPE_2"
+const Release = "comfy-private-2"
 const MaximumMediaBytes int64 = 64 << 20
 const chunkBytes = 65536
 const headerBytes = 48

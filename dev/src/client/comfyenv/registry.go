@@ -63,6 +63,7 @@ type Registry struct {
 	active            bool
 	cancel            context.CancelFunc
 	operations        sync.WaitGroup
+	uses              map[string]*useState
 }
 
 func nowUTC() time.Time { return time.Now().UTC() }
@@ -189,6 +190,9 @@ func (r *Registry) persistLocked() error {
 	sealed := a.Seal(nonce, nonce, plain, []byte(RegistryProfile+"\n"+r.s.Binding))
 	if r.journal.Commit(sealed) != nil {
 		r.poisoned = true
+		for _, use := range r.uses {
+			use.cancel()
+		}
 		return ErrState
 	}
 	return nil
@@ -225,6 +229,13 @@ func (r *Registry) mark(index int, phase, reason string) error {
 	defer r.mu.Unlock()
 	r.s.Candidates[index].Phase = phase
 	r.s.Candidates[index].Reason = reason
+	if phase == "QUARANTINED" {
+		for _, use := range r.uses {
+			if use.environment == r.s.Candidates[index].Digest {
+				use.cancel()
+			}
+		}
+	}
 	return r.persistLocked()
 }
 func (r *Registry) Snapshot() ([]Candidate, []Selection, error) {
@@ -370,7 +381,7 @@ func (r *Registry) ActivateLocal(ctx context.Context, gate Maintenance, h execut
 	err := gate.WithMaintenance(life, h, func() error {
 		r.mu.Lock()
 		defer r.mu.Unlock()
-		if life.Err() != nil || !p.ValidAt(nowUTC()) {
+		if life.Err() != nil || !p.ValidAt(nowUTC()) || r.uses[h.Resource()] != nil {
 			return ErrState
 		}
 		selection = Selection{Resource: h.Resource(), LocalGeneration: h.LocalGeneration(), Owner: h.Owner(), Current: p.Digest()}
@@ -417,6 +428,12 @@ func (r *Registry) Delete(ctx context.Context, digest string) error {
 		return ErrState
 	}
 	c := r.s.Candidates[at]
+	for _, use := range r.uses {
+		if use.environment == digest {
+			r.mu.Unlock()
+			return ErrBusy
+		}
+	}
 	for _, active := range r.s.Active {
 		if active.Current == digest {
 			r.mu.Unlock()
@@ -456,7 +473,16 @@ func (r *Registry) Close() {
 	if r.cancel != nil {
 		r.cancel()
 	}
+	uses := make([]*useState, 0, len(r.uses))
+	for _, use := range r.uses {
+		uses = append(uses, use)
+	}
 	r.mu.Unlock()
+	// Cancel prepared references immediately. Claimed references retain their
+	// root and parent key until the actual native process/pipes have joined.
+	for _, use := range uses {
+		(Use{use}).Close()
+	}
 	r.operations.Wait()
 	r.mu.Lock()
 	clear(r.key)

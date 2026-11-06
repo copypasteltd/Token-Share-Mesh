@@ -1,6 +1,6 @@
 # Private ComfyUI worker / ComfyUI私有媒体执行器
 
-**SOURCE_ONLY / 未导入、未运行。** 本目录实现固定原生包内的独立Python执行器：选择性节点导入、GPU UUID/PCI检查、有限配方、私有内容/控制通道，以及PNG/分片MP4/WAV/几何GLB直接写分块GCM密文。不是可直接使用的产品入口；正式原宿主启动器、原租内媒体Backend、完整运行包和公开协议交付仍待接线。
+**SOURCE_ONLY / 未导入、未运行。** 本目录实现固定原生包内的独立Python执行器：选择性节点导入、GPU UUID/PCI检查、有限配方、私有内容/控制通道，以及PNG/分片MP4/WAV/几何GLB直接写分块GCM密文。当前为PIPE_2/comfy-private-2，准备只能加载，须原宿主独立授权并收到控制ACK才可推理。Go原节点准备启动器源码已接入；正式原租内媒体Backend、认证工作区/输入、完整运行包和公开协议交付仍待。
 
 Read [MW-001—044](../../../../../docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md), [complete environment CE](../../comfyenv/README.md) and [Go boundary](../../adapters/comfyworker/README.md). All 56 tasks/222 steps remain open. Complete full-scope production code and test sources before any batch compilation/testing/debugging.
 
@@ -76,3 +76,7 @@ ComfyUI retains its upstream GPL license, copied under `dev/licenses/` and pinne
 | MW-T042 | test_private_output_writer_accepts_only_bounded_worker_metadata | dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py | 未编译/未运行 |
 | MW-T043 | test_accidental_io_guard_denies_network_subprocess_and_plain_file_writes | dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py | 未编译/未运行 |
 | MW-T044 | test_cancelled_owned_pipe_returns_before_waiting_for_content | dev/src/client/kernels/comfy-private/tests/test_recipe_wire.py | 未编译/未运行 |
+
+## R026 CH-001—036 原环境与宿主源码继续 / Original environment and host source
+
+R026新增[CH-001—036](../../../../../docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md)：原Comfy环境运行持有、固定原生进程/三管道、PIPE_2准备/一次原授权ACK/单调截止和原ProviderRental准备接线。29项新测试定义未编译/运行；CH-033—036正式租内媒体Backend、认证工作区/恢复清理、公开交付、完整包/低权限/E2E、独立ready/计量/付费续租/平台释放仍待。全56任务/222子项开放，无SQL变更、迁移或真实执行；完整代码后统一验证，源码检查点不是开发轮完成。

@@ -26,6 +26,7 @@ const (
 	Failure     Kind = 107
 	Cancel      Kind = 201
 	StopSession Kind = 202
+	Authorize   Kind = 203
 )
 
 // Frames are private engine encoding, not public OpenAI/Anthropic endpoints,
@@ -84,7 +85,7 @@ func inputLimit(k Kind) int {
 		return 4096
 	case AssetData:
 		return chunkBytes
-	case Cancel, StopSession:
+	case Cancel, StopSession, Authorize:
 		return 4096
 	}
 	return 0
