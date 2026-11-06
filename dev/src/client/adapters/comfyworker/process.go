@@ -61,6 +61,7 @@ type Process struct {
 	authMu                                                sync.Mutex
 	mediaOwned                                            bool
 	mediaAdapter                                          *RentalMediaAdapter
+	stopping                                              bool
 }
 
 func (p *Process) Format(w fmt.State, _ rune) {
@@ -97,7 +98,7 @@ func OpenPrepared(ctx context.Context, use comfyenv.Use, selection RuntimeSelect
 		return nil, ErrOutput
 	}
 	p.child = child
-	stopCaller := context.AfterFunc(ctx, p.abort)
+	stopCaller := context.AfterFunc(ctx, p.RequestStop)
 	stopRegistry := context.AfterFunc(use.Context(), p.abort)
 	p.pumps.Add(5)
 	go p.writeLoop(p.content, child.input)
@@ -222,6 +223,14 @@ func (p *Process) writeLoop(queue <-chan writeRequest, output *os.File) {
 		case <-p.life.Done():
 			return
 		case request := <-queue:
+			// A queued frame can have passed its metadata check before stop.
+			// Recheck at native entry; already-entered OS writes remain owned
+			// until they join, and independent stop control revokes the peer.
+			if !p.canWrite(request.kind) {
+				clear(request.body)
+				request.done <- ErrOutput
+				continue
+			}
 			e := WritePrivateFrame(p.life, output, request.kind, request.body)
 			clear(request.body)
 			request.done <- e
@@ -231,6 +240,11 @@ func (p *Process) writeLoop(queue <-chan writeRequest, output *os.File) {
 			}
 		}
 	}
+}
+func (p *Process) canWrite(kind Kind) bool {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	return !p.closing && p.life.Err() == nil && (!p.stopping || kind == StopSession || kind == Cancel)
 }
 func (p *Process) write(ctx context.Context, control bool, kind Kind, body []byte) error {
 	if ctx == nil || ctx.Err() != nil || inputLimit(kind) == 0 || len(body) < 1 || len(body) > inputLimit(kind) || !p.enter() {
@@ -249,6 +263,9 @@ func (p *Process) write(ctx context.Context, control bool, kind Kind, body []byt
 	case <-slot:
 	}
 	defer func() { slot <- struct{}{} }()
+	if !p.canWrite(kind) {
+		return ErrOutput
+	}
 	request := writeRequest{kind, append([]byte{}, body...), make(chan error, 1)}
 	select {
 	case <-ctx.Done():
@@ -368,7 +385,7 @@ func (p *Process) Next(ctx context.Context) (Frame, error) {
 }
 func (p *Process) setCutoff(deadline time.Time) bool {
 	p.mu.Lock()
-	valid := p.life.Err() == nil && time.Now().Before(p.cutoff) && time.Now().Before(deadline)
+	valid := p.life.Err() == nil && !p.stopping && time.Now().Before(p.cutoff) && time.Now().Before(deadline)
 	if valid {
 		p.cutoff = deadline
 	}
@@ -399,7 +416,7 @@ func (p *Process) deadlineLoop() {
 			expired := !time.Now().Before(p.cutoff)
 			p.mu.Unlock()
 			if expired {
-				p.abort()
+				p.RequestStop()
 				return
 			}
 		}
@@ -425,28 +442,28 @@ func (p *Process) guardLoop() {
 			return
 		}
 		if e != nil || status.Phase != "PREPARING" && status.Phase != "ACTIVE" {
-			p.abort()
+			p.RequestStop()
 			return
 		}
 		if expected.Grant == "" {
 			if time.Now().After(p.use.PreparationDeadline()) {
-				p.abort()
+				p.RequestStop()
 				return
 			}
 			if !status.Deadline.IsZero() && !p.setCutoff(minTime(status.Deadline, p.use.PreparationDeadline())) {
-				p.abort()
+				p.RequestStop()
 				return
 			}
 			continue
 		}
 		if !status.Authorized || status.Expected != expected {
-			p.abort()
+			p.RequestStop()
 			return
 		}
 		// The original ledger's signed control clock, not a new timeout from this
 		// poll, is the only value that can move this local watchdog forward.
 		if !p.setCutoff(minTime(status.Deadline, paid)) {
-			p.abort()
+			p.RequestStop()
 			return
 		}
 	}
@@ -470,7 +487,7 @@ func (p *Process) Authorize(ctx context.Context, grant rentalaccess.Verified) er
 	p.authMu.Lock()
 	defer p.authMu.Unlock()
 	p.mu.Lock()
-	used := p.authorizing || p.authorized
+	used := p.authorizing || p.authorized || p.stopping
 	p.mu.Unlock()
 	if used {
 		return ErrOutput
@@ -530,6 +547,10 @@ func (p *Process) Authorize(ctx context.Context, grant rentalaccess.Verified) er
 			return ErrOutput
 		}
 		p.mu.Lock()
+		if p.stopping || p.closing {
+			p.mu.Unlock()
+			return ErrOutput
+		}
 		p.authorized = true
 		p.authorizing = false
 		p.mu.Unlock()
@@ -542,7 +563,7 @@ func (p *Process) Authorize(ctx context.Context, grant rentalaccess.Verified) er
 // cannot bypass its durable original rental inbox, workspace and file quota.
 func (p *Process) writeContent(ctx context.Context, kind Kind, body []byte) error {
 	p.mu.Lock()
-	allowed := p.authorized && !p.closing
+	allowed := p.authorized && !p.closing && !p.stopping
 	expected := p.expected
 	p.mu.Unlock()
 	if !allowed || (kind != Invoke && kind != AssetBegin && kind != AssetData && kind != AssetEnd) {
@@ -598,19 +619,6 @@ func (p *Process) Close(ctx context.Context) error {
 	if p == nil || ctx == nil {
 		return ErrOutput
 	}
-	p.closeOnce.Do(func() {
-		go func() {
-			stop, cancel := context.WithTimeout(context.Background(), 250*time.Millisecond)
-			_ = p.controlMessage(stop, StopSession, "")
-			cancel()
-			timer := time.NewTimer(5 * time.Second)
-			defer timer.Stop()
-			select {
-			case <-p.done:
-			case <-timer.C:
-				p.abort()
-			}
-		}()
-	})
+	p.RequestStop()
 	return p.Join(ctx)
 }

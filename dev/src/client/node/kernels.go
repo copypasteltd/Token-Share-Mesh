@@ -60,7 +60,7 @@ func (s *Store) kernelBinding() string {
 func (s *Store) InitKernelRegistry() (*comfyenv.Registry, error) {
 	s.nativeMu.Lock()
 	defer s.nativeMu.Unlock()
-	if !s.canOpenKernels() || s.s.KernelID != "" || s.kernels != nil || s.s.Pending != nil || s.host != nil || len(s.nativeRentals) != 0 {
+	if !s.canOpenKernels() || s.s.KernelID != "" || s.kernels != nil || s.s.Pending != nil || s.host != nil || len(s.nativeRentals)+len(s.comfyRentals) != 0 {
 		return nil, comfyenv.ErrState
 	}
 	if _, err := (kernelJournal{s}).Read(); !errors.Is(err, os.ErrNotExist) {

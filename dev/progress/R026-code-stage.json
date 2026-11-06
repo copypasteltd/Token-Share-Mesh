@@ -21,6 +21,8 @@
     "dev/src/client/adapters/comfyworker/cipher_test.go",
     "dev/src/client/adapters/comfyworker/config.go",
     "dev/src/client/adapters/comfyworker/custody.go",
+    "dev/src/client/adapters/comfyworker/media_session.go",
+    "dev/src/client/adapters/comfyworker/media_session_test.go",
     "dev/src/client/adapters/comfyworker/process.go",
     "dev/src/client/adapters/comfyworker/process_linux.go",
     "dev/src/client/adapters/comfyworker/process_native.go",
@@ -71,6 +73,7 @@
     "dev/src/client/comfyenv/registry_test.go",
     "dev/src/client/comfyenv/upstream.lock.json",
     "dev/src/client/comfyenv/use.go",
+    "dev/src/client/comfyenv/use_join_test.go",
     "dev/src/client/comfyenv/use_test.go",
     "dev/src/client/execution/README.md",
     "dev/src/client/execution/gate.go",
@@ -83,6 +86,8 @@
     "dev/src/client/execution/rental.go",
     "dev/src/client/execution/rental_history.go",
     "dev/src/client/execution/rental_invocation.go",
+    "dev/src/client/execution/rental_outstanding.go",
+    "dev/src/client/execution/rental_outstanding_test.go",
     "dev/src/client/execution/rental_preparation.go",
     "dev/src/client/execution/rental_preparation_test.go",
     "dev/src/client/execution/rental_test.go",
@@ -120,6 +125,8 @@
     "dev/src/client/node/kernels_test.go",
     "dev/src/client/node/media_workspaces.go",
     "dev/src/client/node/rental_comfy.go",
+    "dev/src/client/node/rental_comfy_owned.go",
+    "dev/src/client/node/rental_comfy_owned_test.go",
     "dev/src/client/node/rental_control.go",
     "dev/src/client/node/rental_journal.go",
     "dev/src/client/node/rental_journal_test.go",
@@ -149,6 +156,11 @@
     "dev/src/client/protocol/rentalaccess/transport.go",
     "dev/src/client/protocol/rentalaccess/transport_test.go",
     "dev/src/client/protocol/rentalaccess/window.go",
+    "dev/src/client/rentalmedia/README.md",
+    "dev/src/client/rentalmedia/comfy.go",
+    "dev/src/client/rentalmedia/runtime.go",
+    "dev/src/client/rentalmedia/runtime_test.go",
+    "dev/src/client/rentalmedia/types.go",
     "dev/src/client/rentalruntime/README.md",
     "dev/src/client/rentalruntime/runtime.go",
     "dev/src/client/rentalruntime/runtime_test.go",
@@ -186,6 +198,7 @@
     "dev/src/tests/integration/rental_test.go",
     "dev/tools/整理R026Comfy媒体源码.py",
     "dev/tools/整理R026Comfy宿主源码.py",
+    "dev/tools/整理R026媒体会话源码.py",
     "dev/tools/整理R026媒体工作区源码.py",
     "dev/tools/补充Comfy进度源码审阅.py",
     "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
@@ -195,6 +208,7 @@
     "docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md",
     "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
     "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
+    "docs/技术开发/附录-原租赁媒体会话监督与停止回收源码.md",
     "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
     "docs/技术开发/附录-租内媒体工作区与结果托管源码.md"
   ],
@@ -423,6 +437,31 @@
       "id": "IMP-R026-045",
       "title": "WS编号、边界测试源码与双语文档更新",
       "status": "仅23项新增测试定义/文档整理，未编译、测试、迁移或运行；全56/222代码齐备后统一验证，本检查点非完整开发轮"
+    },
+    {
+      "id": "IMP-R026-046",
+      "title": "原租赁媒体会话监督与真实Comfy叶子接线源码",
+      "status": "MS-001—018：独立媒体类型、原准备/授权/单调控制、唯一活动子调用/查询重放；尚非公开SDK或平台计费闭环"
+    },
+    {
+      "id": "IMP-R026-047",
+      "title": "原节点Comfy会话、输入所有权与两类会话关闭源码",
+      "status": "MS-003—015/027/028/031/032：加载前登记、一次原授权、单份输入、接口join、失败启动/Use真实持有、文本与媒体共关闭；未运行"
+    },
+    {
+      "id": "IMP-R026-048",
+      "title": "独立原生停工、晚入队拒绝与实际退出等待源码",
+      "status": "MS-010/019—023/029/031：同步停止闩、私有STOP_SESSION、原生写前重核、有限强停、真实CLOSED/管道/进程/操作join；无物理资格结论"
+    },
+    {
+      "id": "IMP-R026-049",
+      "title": "原媒体结果生命周期与本机会话清理CAS源码",
+      "status": "MS-024—030：单读者/副本共关闭、显式释放、保留期、原未清计数与真实叶子证据；不补造ACK/usage/小时水位/平台资金释放"
+    },
+    {
+      "id": "IMP-R026-050",
+      "title": "MS编号、停止回收测试源码及双语待办文档",
+      "status": "新增27项边界测试定义及MS-001—036/双语README/56任务222子项表；全部未编译/未运行，全量代码后统一验证，本次仅源码检查点"
     }
   ],
   "tasks": [
@@ -1566,7 +1605,8 @@
       ],
       "current_validation_status": "NOT_EXECUTED",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-19",
@@ -1688,7 +1728,7 @@
         "dev/tests/evidence/R025-development-attempts.json",
         "dev/tests/evidence/R025-migration-immutability.json"
       ],
-      "remaining_detail": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
+      "remaining_detail": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "current_source_refs": [
         "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
         "dev/src/client/adapters/comfyworker/cipher.go",
@@ -1813,7 +1853,8 @@
       "current_validation_status": "NOT_EXECUTED",
       "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-22",
@@ -1931,11 +1972,12 @@
         "IMP-R026-045"
       ],
       "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
-      "remaining_detail": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "remaining_detail": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "current_validation_status": "NOT_EXECUTED",
       "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-23",
@@ -2166,7 +2208,8 @@
       "current_validation_status": "NOT_EXECUTED",
       "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-25",
@@ -2343,7 +2386,7 @@
         "DEV-33.04"
       ],
       "evidence_refs": [],
-      "remaining_detail": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "remaining_detail": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "current_code_components": [
         "IMP-R026-007",
         "IMP-R026-008",
@@ -2492,7 +2535,8 @@
       ],
       "current_validation_status": "NOT_EXECUTED",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-34",
@@ -2575,7 +2619,7 @@
         "DEV-35.04"
       ],
       "evidence_refs": [],
-      "remaining_detail": "租赁STANDARD文本已有独立原grant认证、本机随机AEAD一次输入、无假T1的真实llama私有管道适配、不等SQL的本机截止监督、原子调用停止清理与节点所有权/join源码；未编译/运行或物理资格验收。公网/SDK监听与输出交付、平台独立清理确认/预算释放、可信本人批准UI/ready生产、真实收单/付费续租、确认计量、Android会话/M1、E2E/LP及全56/222其余代码仍待，全量代码齐备后再统一测试。",
+      "remaining_detail": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "current_code_components": [
         "IMP-R026-007",
         "IMP-R026-008",
@@ -2723,7 +2767,8 @@
       ],
       "current_validation_status": "NOT_EXECUTED",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-36",
@@ -2736,7 +2781,7 @@
         "DEV-36.04"
       ],
       "evidence_refs": [],
-      "remaining_detail": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "remaining_detail": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "current_code_components": [
         "IMP-R026-007",
         "IMP-R026-008",
@@ -2882,7 +2927,8 @@
       ],
       "current_validation_status": "NOT_EXECUTED",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-37",
@@ -2961,9 +3007,10 @@
         "IMP-R026-045"
       ],
       "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。",
-      "remaining_detail": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "remaining_detail": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "current_validation_status": "NOT_EXECUTED",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-38",
@@ -3780,7 +3827,8 @@
       "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
       "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-54",
@@ -3978,7 +4026,8 @@
       "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
       "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     },
     {
       "id": "DEV-55",
@@ -4205,7 +4254,8 @@
       "comfy_source_limit": "新增完整固定软件目录/独立Ed25519与本人许可节点同意、有界ZIP安装/全树复核、原系统钥锚定AEAD登记及原维护共槽选择/五项CLI源码；均未编译或执行。实际完整运行包制作/分发、ComfyUI私有worker/四类媒体/首写加密、原租内授权/清理、低权限和真实性能仍待，全56/222代码齐备后统一验证。",
       "comfy_media_source_limit": "新增私有ComfyUI固定包入口/选择性节点导入/UUID与PCI、有限配方、四类流式编码、原锚/加密预登记/分块GCM和Go一次receipt/私有帧源码，均未编译或运行。原环境运行持有与可信清单导出、完整实际依赖包/模型配方、正式宿主进程适配/租内媒体、公开协议/对象交付、低权限/E2E和性能仍待；全部56/222代码与测试源码齐备后统一验证。",
       "comfy_host_source_limit": "新增原Comfy环境运行持有、同账本准备回调、固定原生启动/三管道/实际join、PIPE_2准备与一次原授权ACK/持续单调截止及ProviderRental源码，未编译或运行。CH-033—036原租内媒体Backend/认证输入/工作区与实际恢复清理、公开协议/资产交付、完整运行包/低权限/E2E/性能、独立ready与计量/付费续租/平台释放仍待；全56/222保持开放。",
-      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。"
+      "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
+      "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。"
     }
   ],
   "previous_verified_revision": "3560ebd3657f66e70cc876a95f68f034a6316953",
@@ -4431,10 +4481,10 @@
     "qualification_granted": false,
     "validation_executed": false,
     "remaining": [
-      "WS-027：公开OpenAI/Anthropic兼容媒体SDK、本人资产授权/响应映射、最终ACK及独立留存",
-      "WS-028：完整媒体会话监督、独立停工恢复对账、双ready、可信小时水位、付费续租与原平台释放",
-      "WS-029：完整真实Python/Torch/codec/node/model/recipe包、OS独立受限身份、LP/E2E/性能资格",
-      "WS-030：全部56/222剩余生产代码/实际依赖接线/测试源码，再统一编译测试调试和组合验收"
+      "MS-033：公开OpenAI/Anthropic媒体SDK、原本人资产/结果响应、最终ACK和独立留存接线",
+      "MS-034：双方ready、可信小时水位、付费续租、原平台停工/原号恢复及资金释放接线",
+      "MS-035：独立物理停工恢复对账、完整实际运行包/OS受限身份、E2E/LP/性能/跨系统资格",
+      "MS-036：全部56/222生产代码/实际依赖/测试源码齐备，再统一编译测试调试与组合验收"
     ],
     "private_comfy_media_worker_source_written": true,
     "media_first_write_encryption_source_written": true,
@@ -4448,7 +4498,12 @@
     "original_workspace_owner_source_wired": true,
     "result_key_custody_source_wired": true,
     "public_media_admission_wired": false,
-    "media_workspace_source_annex": "docs/技术开发/附录-租内媒体工作区与结果托管源码.md"
+    "media_workspace_source_annex": "docs/技术开发/附录-租内媒体工作区与结果托管源码.md",
+    "full_media_session_supervisor_source_wired": true,
+    "node_owned_media_session_source_wired": true,
+    "full_media_session_supervisor_wired": true,
+    "media_session_annex": "docs/技术开发/附录-原租赁媒体会话监督与停止回收源码.md",
+    "compiled_or_executed": false
   },
   "comfy_environment_test_definitions": {
     "ids": [
@@ -4741,10 +4796,10 @@
     "actual_model_gpu_or_phone_run": false,
     "performance_evidence": false,
     "remaining": [
-      "WS-027：公开OpenAI/Anthropic兼容媒体SDK、本人资产授权/响应映射、最终ACK及独立留存",
-      "WS-028：完整媒体会话监督、独立停工恢复对账、双ready、可信小时水位、付费续租与原平台释放",
-      "WS-029：完整真实Python/Torch/codec/node/model/recipe包、OS独立受限身份、LP/E2E/性能资格",
-      "WS-030：全部56/222剩余生产代码/实际依赖接线/测试源码，再统一编译测试调试和组合验收"
+      "MS-033：公开OpenAI/Anthropic媒体SDK、原本人资产/结果响应、最终ACK和独立留存接线",
+      "MS-034：双方ready、可信小时水位、付费续租、原平台停工/原号恢复及资金释放接线",
+      "MS-035：独立物理停工恢复对账、完整实际运行包/OS受限身份、E2E/LP/性能/跨系统资格",
+      "MS-036：全部56/222生产代码/实际依赖/测试源码齐备，再统一编译测试调试与组合验收"
     ],
     "native_process_source_written": true,
     "original_prepared_host_source_wired": true,
@@ -4755,7 +4810,12 @@
     "original_workspace_owner_source_wired": true,
     "result_key_custody_source_wired": true,
     "public_media_admission_wired": false,
-    "media_workspace_source_annex": "docs/技术开发/附录-租内媒体工作区与结果托管源码.md"
+    "media_workspace_source_annex": "docs/技术开发/附录-租内媒体工作区与结果托管源码.md",
+    "full_media_session_supervisor_source_wired": true,
+    "node_owned_media_session_source_wired": true,
+    "full_media_session_supervisor_wired": true,
+    "media_session_annex": "docs/技术开发/附录-原租赁媒体会话监督与停止回收源码.md",
+    "compiled_or_executed": false
   },
   "comfy_media_test_definitions": {
     "ids": [
@@ -5090,15 +5150,19 @@
     "sale_or_cleanup_qualified": false,
     "test_definition_count": 29,
     "remaining": [
-      "WS-027：公开OpenAI/Anthropic兼容媒体SDK、本人资产授权/响应映射、最终ACK及独立留存",
-      "WS-028：完整媒体会话监督、独立停工恢复对账、双ready、可信小时水位、付费续租与原平台释放",
-      "WS-029：完整真实Python/Torch/codec/node/model/recipe包、OS独立受限身份、LP/E2E/性能资格",
-      "WS-030：全部56/222剩余生产代码/实际依赖接线/测试源码，再统一编译测试调试和组合验收"
+      "MS-033：公开OpenAI/Anthropic媒体SDK、原本人资产/结果响应、最终ACK和独立留存接线",
+      "MS-034：双方ready、可信小时水位、付费续租、原平台停工/原号恢复及资金释放接线",
+      "MS-035：独立物理停工恢复对账、完整实际运行包/OS受限身份、E2E/LP/性能/跨系统资格",
+      "MS-036：全部56/222生产代码/实际依赖/测试源码齐备，再统一编译测试调试与组合验收"
     ],
     "typed_rental_media_adapter_native_source_wired": true,
     "original_workspace_owner_source_wired": true,
     "result_key_custody_source_wired": true,
-    "media_workspace_source_annex": "docs/技术开发/附录-租内媒体工作区与结果托管源码.md"
+    "media_workspace_source_annex": "docs/技术开发/附录-租内媒体工作区与结果托管源码.md",
+    "full_media_session_supervisor_source_wired": true,
+    "node_owned_media_session_source_wired": true,
+    "full_media_session_supervisor_wired": true,
+    "media_session_annex": "docs/技术开发/附录-原租赁媒体会话监督与停止回收源码.md"
   },
   "comfy_host_test_definitions": {
     "tests": [
@@ -5324,7 +5388,7 @@
     "result_key_custody_and_finalizer_source_wired": true,
     "cleanup_only_recovery_reference_source_written": true,
     "public_media_admission_wired": false,
-    "full_media_session_supervisor_wired": false,
+    "full_media_session_supervisor_wired": true,
     "independent_physical_stop_reconciliation_wired": false,
     "actual_runtime_bundle_present": false,
     "network_e2e_qualified": false,
@@ -5334,11 +5398,14 @@
     "sale_or_cleanup_qualified": false,
     "test_definition_count": 23,
     "remaining": [
-      "WS-027：公开OpenAI/Anthropic兼容媒体SDK、本人资产授权/响应映射、最终ACK及独立留存",
-      "WS-028：完整媒体会话监督、独立停工恢复对账、双ready、可信小时水位、付费续租与原平台释放",
-      "WS-029：完整真实Python/Torch/codec/node/model/recipe包、OS独立受限身份、LP/E2E/性能资格",
-      "WS-030：全部56/222剩余生产代码/实际依赖接线/测试源码，再统一编译测试调试和组合验收"
-    ]
+      "MS-033：公开OpenAI/Anthropic媒体SDK、原本人资产/结果响应、最终ACK和独立留存接线",
+      "MS-034：双方ready、可信小时水位、付费续租、原平台停工/原号恢复及资金释放接线",
+      "MS-035：独立物理停工恢复对账、完整实际运行包/OS受限身份、E2E/LP/性能/跨系统资格",
+      "MS-036：全部56/222生产代码/实际依赖/测试源码齐备，再统一编译测试调试与组合验收"
+    ],
+    "full_media_session_supervisor_source_wired": true,
+    "node_owned_media_session_source_wired": true,
+    "media_session_annex": "docs/技术开发/附录-原租赁媒体会话监督与停止回收源码.md"
   },
   "native_migration_sources": [
     "dev/src/client/execution/schema-002-rental.source.json",
@@ -5509,6 +5576,233 @@
       "WS-T021",
       "WS-T022",
       "WS-T023"
+    ],
+    "status": "SOURCE_ONLY_NOT_EXECUTED"
+  },
+  "media_session_source_integration": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "requirements": "MS-001—036",
+    "annex": "docs/技术开发/附录-原租赁媒体会话监督与停止回收源码.md",
+    "original_media_session_supervisor_source_wired": true,
+    "typed_comfy_backend_source_wired": true,
+    "node_owned_comfy_rental_source_wired": true,
+    "original_input_owner_revoke_and_join_source_wired": true,
+    "independent_monotonic_stop_source_wired": true,
+    "late_native_frame_admission_latch_source_wired": true,
+    "text_and_media_node_close_source_wired": true,
+    "result_lifetime_and_actual_join_source_wired": true,
+    "original_local_session_cleanup_cas_source_wired": true,
+    "public_media_sdk_source_wired": false,
+    "independent_physical_stop_reconciliation_wired": false,
+    "platform_ready_hour_meter_paid_renewal_release_wired": false,
+    "actual_runtime_bundle_present": false,
+    "network_e2e_qualified": false,
+    "low_privilege_qualified": false,
+    "compiled_or_executed": false,
+    "native_migration_changed_or_executed": false,
+    "physical_cleanup_or_sale_qualified": false,
+    "full_development_round_complete": false,
+    "test_definition_count": 27,
+    "remaining": [
+      "MS-033：公开OpenAI/Anthropic媒体SDK、原本人资产/结果响应、最终ACK和独立留存接线",
+      "MS-034：双方ready、可信小时水位、付费续租、原平台停工/原号恢复及资金释放接线",
+      "MS-035：独立物理停工恢复对账、完整实际运行包/OS受限身份、E2E/LP/性能/跨系统资格",
+      "MS-036：全部56/222生产代码/实际依赖/测试源码齐备，再统一编译测试调试与组合验收"
+    ]
+  },
+  "media_session_test_definitions": {
+    "tests": [
+      {
+        "id": "MS-T001",
+        "name": "TestMediaSupervisorRejectsForeignLocalPolicyBeforeAdmission",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T002",
+        "name": "TestMediaSupervisorPreservesOriginalRentalAndQueryOnlyReplay",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T003",
+        "name": "TestMediaSupervisorRetainsParentUntilResultIsExplicitlyReleased",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T004",
+        "name": "TestMediaSupervisorCopiedOutputClosesOneOwnedReader",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T005",
+        "name": "TestMediaSupervisorEOFDoesNotForgeBuyerAcceptanceOrRelease",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T006",
+        "name": "TestMediaSupervisorExpiryRevokesOpenOutputBeforeCleanup",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T007",
+        "name": "TestMediaSupervisorFailedStoppedChildNeedsNoInventedOutput",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T008",
+        "name": "TestMediaSupervisorCancelAcknowledgementAloneCannotClean",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T009",
+        "name": "TestMediaSupervisorDeadlineStopsBeforeBlockedControlExchangeJoins",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T010",
+        "name": "TestMediaSupervisorLateControlCannotReviveExpiredMonotonicWindow",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T011",
+        "name": "TestMediaSupervisorMissingChildAfterReservationRetainsOriginalOwner",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T012",
+        "name": "TestMediaSupervisorBadSessionProofCannotReleaseParent",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T013",
+        "name": "TestMediaSupervisorSuccessfulSyntheticSessionUsesOriginalCleanupCAS",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T014",
+        "name": "TestMediaSupervisorWaitsActualBackendJoinAfterCallerTimeout",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T015",
+        "name": "TestMediaSupervisorUnsubmittedInputOwnerMustJoinBeforeParentRelease",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T016",
+        "name": "TestMediaSupervisorCannotReplaceInputOwnerAfterWatchStarts",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T017",
+        "name": "TestMediaSupervisorEnteredSubmitKeepsDoneAndOwnerUntilActualReturn",
+        "source": "dev/src/client/rentalmedia/runtime_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T018",
+        "name": "TestComfyMediaStopLatchesBeforeControlAndCannotExtendDeadline",
+        "source": "dev/src/client/adapters/comfyworker/media_session_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T019",
+        "name": "TestComfyMediaChildSuccessRequiresActualStopAndSenderJoin",
+        "source": "dev/src/client/adapters/comfyworker/media_session_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T020",
+        "name": "TestComfyMediaEndRefusesUncleanedOriginalChildBeforeProcessClose",
+        "source": "dev/src/client/adapters/comfyworker/media_session_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T021",
+        "name": "TestComfyUseJoinCannotTreatCancellationAsActualClaimRelease",
+        "source": "dev/src/client/comfyenv/use_join_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T022",
+        "name": "TestComfyUseUnclaimedCloseReleasesJoinAndZeroUseCannotForgeIt",
+        "source": "dev/src/client/comfyenv/use_join_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T023",
+        "name": "TestNodeComfyInputDiscardKeepsForeignEnvelopeAndRevokesOriginal",
+        "source": "dev/src/client/node/rental_comfy_owned_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T024",
+        "name": "TestNodeComfyStopInputsWaitsEnteredLocalSetupBeforeJoin",
+        "source": "dev/src/client/node/rental_comfy_owned_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T025",
+        "name": "TestNodeCloseJoinsBothNativeAndComfyOwnersBeforeMasterRelease",
+        "source": "dev/src/client/node/rental_comfy_owned_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T026",
+        "name": "TestRentalOutstandingBindsOriginalOwnerAndKeepsStoppingChildren",
+        "source": "dev/src/client/execution/rental_outstanding_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "MS-T027",
+        "name": "TestRentalOutstandingZeroDoesNotCreateSessionStopEvidence",
+        "source": "dev/src/client/execution/rental_outstanding_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      }
+    ],
+    "ids": [
+      "MS-T001",
+      "MS-T002",
+      "MS-T003",
+      "MS-T004",
+      "MS-T005",
+      "MS-T006",
+      "MS-T007",
+      "MS-T008",
+      "MS-T009",
+      "MS-T010",
+      "MS-T011",
+      "MS-T012",
+      "MS-T013",
+      "MS-T014",
+      "MS-T015",
+      "MS-T016",
+      "MS-T017",
+      "MS-T018",
+      "MS-T019",
+      "MS-T020",
+      "MS-T021",
+      "MS-T022",
+      "MS-T023",
+      "MS-T024",
+      "MS-T025",
+      "MS-T026",
+      "MS-T027"
     ],
     "status": "SOURCE_ONLY_NOT_EXECUTED"
   }

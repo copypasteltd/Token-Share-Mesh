@@ -12,7 +12,9 @@ import (
 // original node's already-open approved registry/physical ledger. Registry
 // shutdown retains the node lock/root/key until actual native wait and pipes
 // join. This is a local prepared engine, NOT platform sale/readiness approval,
-// an invocation adapter, hourly metering, E2E or low-privilege qualification.
+// hourly metering, E2E or low-privilege qualification. Prefer OpenComfy for a
+// complete node-owned media lifetime; this lower-level trusted-host primitive
+// does not create the session watchdog or own a public API/input lifecycle.
 func (r *ProviderRental) OpenPreparedComfy(ctx context.Context, p comfyenv.Plan, selection comfyworker.RuntimeSelection) (*comfyworker.Process, error) {
 	if r == nil || r.node == nil || ctx == nil || ctx.Err() != nil {
 		return nil, ErrRentalJournal

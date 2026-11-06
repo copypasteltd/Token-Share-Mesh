@@ -47,7 +47,7 @@ func (r *ProviderRental) OpenNative(ctx context.Context, install NativeInstallat
 	life, cancel := context.WithCancel(context.Background())
 	s := &NativeRental{provider: r, policy: policy, life: life, cancel: cancel, openDone: make(chan struct{}), done: make(chan struct{}), inputs: map[*rentalaccess.TextInput]bool{}}
 	node.nativeMu.Lock()
-	if node.closingNative || node.root == nil || node.poisoned || node.nativeRentals[r.hold.Resource()] != nil || len(node.nativeRentals) >= execution.MaximumResources {
+	if node.closingNative || node.root == nil || node.poisoned || node.nativeRentals[r.hold.Resource()] != nil || node.comfyRentals[r.hold.Resource()] != nil || len(node.nativeRentals)+len(node.comfyRentals) >= execution.MaximumResources {
 		node.nativeMu.Unlock()
 		cancel()
 		return nil, ErrHostPending
@@ -305,7 +305,8 @@ func (s *NativeRental) Close(ctx context.Context) error {
 
 // Close may return before a stuck owned operation has joined. The original OS
 // lock/key/ledger must then remain owned; the parent arranges final closure only
-// after every NativeRental.Done has actually closed. No process is orphaned.
+// after every native/text and Comfy/media Done has actually closed. No process
+// is orphaned, and a timed-out caller cannot release the original node master.
 func (s *Store) closeNativeRentals() bool {
 	ctx, cancel := context.WithTimeout(context.Background(), 40*time.Second)
 	defer cancel()
@@ -314,8 +315,11 @@ func (s *Store) closeNativeRentals() bool {
 func (s *Store) closeNativeRentalsWithin(ctx context.Context) bool {
 	s.nativeMu.Lock()
 	s.closingNative = true
-	all := make([]*NativeRental, 0, len(s.nativeRentals))
+	all := make([]ownedRental, 0, len(s.nativeRentals)+len(s.comfyRentals))
 	for _, n := range s.nativeRentals {
+		all = append(all, n)
+	}
+	for _, n := range s.comfyRentals {
 		all = append(all, n)
 	}
 	s.nativeMu.Unlock()

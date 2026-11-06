@@ -35,8 +35,10 @@ type RentalMediaAdapter struct {
 	done                             chan struct{}
 	joined                           chan struct{}
 	closeOnce                        sync.Once
+	withdrawn, finalizing            bool
 }
 type MediaCall struct {
+	cleaning                                                        bool
 	adapter                                                         *RentalMediaAdapter
 	invocation                                                      execution.RentalInvocation
 	descriptor                                                      rentalaccess.MediaDescriptor
@@ -90,7 +92,7 @@ func (a *RentalMediaAdapter) Submit(ctx context.Context, input *rentalaccess.Med
 		return nil, ErrOutput
 	}
 	a.mu.Lock()
-	if a.closing || a.creating || a.active != nil && !a.active.cleaned {
+	if a.closing || a.withdrawn || a.creating || a.active != nil && !a.active.cleaned {
 		a.mu.Unlock()
 		return nil, ErrOutput
 	}
@@ -116,7 +118,7 @@ func (a *RentalMediaAdapter) Submit(ctx context.Context, input *rentalaccess.Med
 	digest := sha256.Sum256([]byte(v.Session + "\x00" + v.ID + "\x00" + v.LocalGeneration))
 	call := &MediaCall{adapter: a, invocation: v, descriptor: d, expected: current, workspace: workspace, backend: "comfy_" + hex.EncodeToString(digest[:16]), done: make(chan struct{})}
 	a.mu.Lock()
-	if a.closing || a.processJoined {
+	if a.closing || a.withdrawn || a.processJoined {
 		a.mu.Unlock()
 		workspace.Close()
 		return nil, ErrOutput
@@ -348,13 +350,14 @@ func (c *MediaCall) Cleanup(ctx context.Context) error {
 	}
 	a := c.adapter
 	a.mu.Lock()
-	if a.closing || c.unknown || !c.stopped || !c.senderDone || c.cleaned {
+	if a.finalizing || c.cleaning || c.unknown || !c.stopped || !c.senderDone || c.cleaned {
 		a.mu.Unlock()
 		return ErrOutput
 	}
+	c.cleaning = true
 	a.operations.Add(1)
 	a.mu.Unlock()
-	defer a.operations.Done()
+	defer func() { a.mu.Lock(); c.cleaning = false; a.mu.Unlock(); a.operations.Done() }()
 	if a.ledger.StopRentalInvocation(ctx, a.hold, c.invocation.ID) != nil {
 		return ErrOutput
 	}
@@ -384,6 +387,7 @@ func (a *RentalMediaAdapter) Close(ctx context.Context) error {
 	a.closeOnce.Do(func() {
 		a.mu.Lock()
 		a.closing = true
+		a.finalizing = true
 		a.mu.Unlock()
 		go func() {
 			wait, cancel := context.WithTimeout(context.Background(), 8*time.Second)

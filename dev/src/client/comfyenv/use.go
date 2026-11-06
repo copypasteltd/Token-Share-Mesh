@@ -74,6 +74,7 @@ type useState struct {
 	timer             *time.Timer
 	claimed, released bool
 	finish            sync.Once
+	done              chan struct{}
 }
 
 // Use is an opaque shared reference. Copies share cancellation/claim/release.
@@ -125,7 +126,7 @@ func (r *Registry) OpenRentalUse(ctx context.Context, gate PreparationGate, h ex
 		return Use{}, ErrFiles
 	}
 	owned, cancel := context.WithDeadline(context.Background(), p.state.until)
-	state := &useState{registry: r, root: root, plan: p, environment: p.Digest(), hold: h, prepared: prepared, gate: gate, life: owned, cancel: cancel}
+	state := &useState{registry: r, root: root, plan: p, environment: p.Digest(), hold: h, prepared: prepared, gate: gate, life: owned, cancel: cancel, done: make(chan struct{})}
 	registered := false
 	deadline, e := gate.WithRentalPreparation(life, h, prepared, func() error {
 		r.mu.Lock()
@@ -189,6 +190,9 @@ func (s *useState) release() {
 		}
 		s.registry.mu.Unlock()
 		s.registry.operations.Done()
+		if s.done != nil {
+			close(s.done)
+		}
 	})
 }
 func (u Use) Close() {
@@ -307,4 +311,19 @@ func (u Use) Layout() (Layout, error) {
 		}
 	}
 	return l, nil
+}
+
+// Join observes actual original reference release, not cancellation. A failed
+// prepared open can retain the node lock/root until its hidden native child
+// actually exits; the caller cannot manufacture a joined event or GPU proof.
+func (u Use) Join(ctx context.Context) error {
+	if u.state == nil || ctx == nil || u.state.done == nil {
+		return ErrState
+	}
+	select {
+	case <-ctx.Done():
+		return ErrState
+	case <-u.state.done:
+		return nil
+	}
 }

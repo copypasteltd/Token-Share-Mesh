@@ -13,7 +13,7 @@ import (
 func (s *Store) InitMediaWorkspaces(ctx context.Context) (*mediaworkspace.Owner, error) {
 	s.nativeMu.Lock()
 	defer s.nativeMu.Unlock()
-	if !s.canOpenKernels() || s.execution == nil || s.media != nil || s.s.Pending != nil || s.host != nil || len(s.nativeRentals) != 0 {
+	if !s.canOpenKernels() || s.execution == nil || s.media != nil || s.s.Pending != nil || s.host != nil || len(s.nativeRentals)+len(s.comfyRentals) != 0 {
 		return nil, ErrState
 	}
 	return s.openMediaWorkspacesLocked(ctx, true)

@@ -104,6 +104,7 @@ type Store struct {
 	media                 *mediaworkspace.Owner
 	nativeMu              sync.Mutex
 	nativeRentals         map[string]*NativeRental
+	comfyRentals          map[string]*ComfyRental
 	closingNative         bool
 	closeOnce, finishOnce sync.Once
 }
