@@ -10,6 +10,7 @@ import (
 	"p11.local/compute/client/execution"
 	"p11.local/compute/client/protocol/rentalaccess"
 	"p11.local/compute/client/rentalmedia"
+	mediagateway "p11.local/compute/gateway/media"
 )
 
 // ComfyRental is the ORIGINAL node-owned prepared media session. Its watchdog
@@ -22,6 +23,8 @@ type ComfyRental struct {
 	process                                   *comfyworker.Process
 	adapter                                   *comfyworker.RentalMediaAdapter
 	runtime                                   *rentalmedia.Runtime
+	gateway                                   *mediagateway.Handler
+	openingGateway                            bool
 	policy                                    rentalaccess.MediaPolicy
 	life                                      context.Context
 	cancel                                    context.CancelFunc
@@ -184,11 +187,13 @@ func (s *ComfyRental) requestClose() {
 	first := false
 	var watch *rentalmedia.Runtime
 	var process *comfyworker.Process
+	var gateway *mediagateway.Handler
 	var list []*rentalaccess.MediaInput
 	s.closeOnce.Do(func() {
 		s.mu.Lock()
 		s.closing = true
 		watch, process = s.runtime, s.process
+		gateway = s.gateway
 		list = make([]*rentalaccess.MediaInput, 0, len(s.inputs))
 		for input := range s.inputs {
 			list = append(list, input)
@@ -208,11 +213,17 @@ func (s *ComfyRental) requestClose() {
 		process.RequestStop()
 	}
 	s.cancel()
+	if gateway != nil {
+		gateway.RequestStop()
+	}
 	for _, input := range list {
 		input.Close()
 	}
 	go func() {
 		s.operations.Wait()
+		if gateway != nil {
+			_ = gateway.Join(context.Background())
+		}
 		if s.inputsDone != nil {
 			close(s.inputsDone)
 		}

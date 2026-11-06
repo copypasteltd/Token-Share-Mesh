@@ -20608,11 +20608,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "6c8a88d6042eb0a3dfce11b9bc758acbce135e79fa14a4d3045f9623fa5c6a91"
+      "sha256": "557c5d102360ffe7615d356e48c872712ba04ce2f546582c0423922f9471fdc3"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "688cb4e31fe33cc38ab66890e6d1238155b894a6cc05ab8194d0d4fe90be9c37"
+      "sha256": "3afd073ed7e04e310627e2352b37966c4438c5515d96671b90621a49462207d6"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20636,7 +20636,7 @@
     },
     {
       "path": "docs/协议/统一API与本地加密网关需求.md",
-      "sha256": "bef2c930c1228cd50d0e4b461f0ff43da8dc6629987af7e37c515ca9a408fe75"
+      "sha256": "57d539ccdf829076aa82c3238a3d1ebdef251a06ebfaeadb1fa6214dcc629807"
     },
     {
       "path": "docs/技术开发/02-工程结构开发环境与编码规范.md",
@@ -20656,7 +20656,7 @@
     },
     {
       "path": "docs/技术开发/07-统一协议网关与Sub2API改造.md",
-      "sha256": "7693f33a4905ed7790cfb871242c097de5dca1cc15d72200996aecf5f1076914"
+      "sha256": "25848283244a0cb22a09c50997d2524200b9aa567ac2b99a2bdcb1669eedd7b9"
     },
     {
       "path": "docs/技术开发/08-端到端加密协议与密钥实现设计.md",
@@ -20808,7 +20808,7 @@
     },
     {
       "path": "docs/技术开发/附录-协议字段映射与兼容档位.md",
-      "sha256": "d3f6cb32dcb0c117bddfde80cbd63f74c26616533dedfb9a5461b7a31c1179b8"
+      "sha256": "7971785d5ffccfa746108d22af758eebd4dff2817a56fe37c639acf60c63db69"
     },
     {
       "path": "docs/技术开发/附录-卖家申请与挂牌版本实施约束.md",
@@ -20820,7 +20820,7 @@
     },
     {
       "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-      "sha256": "2f8671a1f12b064fa18ce1f54c7c494d0cade9f1fe87dd1d221941fe8dd0bb07"
+      "sha256": "48fe0465afac27e8320240a1c05db1ad474425b1a3729e024bb68bda4b3cd15c"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
