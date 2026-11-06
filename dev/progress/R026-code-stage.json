@@ -7,6 +7,7 @@
   "source_files": [
     "dev/licenses/ComfyUI-2c75dc1b379a59e0880619d029607af5169a62ef-GPL-3.0.txt",
     "dev/licenses/golang-jwt-v5.3.1-MIT.txt",
+    "dev/planning/编号登记-v1.0.json",
     "dev/src/api/cmd/p11-api/continuation.go",
     "dev/src/api/cmd/p11-api/continuation_test.go",
     "dev/src/api/cmd/p11-api/main.go",
@@ -187,18 +188,26 @@
     "dev/src/internal/payments/a402.go",
     "dev/src/internal/payments/alipay.go",
     "dev/src/internal/payments/channel-profile.json",
+    "dev/src/internal/payments/machine.go",
+    "dev/src/internal/payments/machine_recovery.go",
+    "dev/src/internal/payments/machine_store.go",
     "dev/src/internal/payments/payments_test.go",
     "dev/src/internal/payments/proof.go",
     "dev/src/internal/payments/proofstore.go",
     "dev/src/internal/payments/proofstore_test.go",
+    "dev/src/internal/payments/receipt.go",
+    "dev/src/internal/payments/receipt_test.go",
     "dev/src/internal/payments/refunds.go",
     "dev/src/internal/payments/types.go",
     "dev/src/internal/payments/vault.go",
+    "dev/src/internal/persistence/migrate.go",
     "dev/src/internal/persistence/migrations/012_native_lease_continuations.sql",
     "dev/src/internal/persistence/migrations/013_native_cleanup_recovery.sql",
     "dev/src/internal/persistence/migrations/014_rental_authority_context.sql",
     "dev/src/internal/persistence/migrations/015_rental_control_history.sql",
+    "dev/src/internal/persistence/migrations/016_machine_payment_context.sql",
     "dev/src/internal/persistence/migrations/source-v14.json",
+    "dev/src/internal/persistence/migrations/source-v16.json",
     "dev/src/internal/pricing/budget_test.go",
     "dev/src/internal/pricing/price.go",
     "dev/src/internal/rental/README.md",
@@ -217,7 +226,9 @@
     "dev/src/internal/testsupport/rentaltest/README.md",
     "dev/src/internal/testsupport/rentaltest/fixture.go",
     "dev/src/shared/contractspec/spec.go",
+    "dev/src/tests/integration/core_test.go",
     "dev/src/tests/integration/execution_reports_test.go",
+    "dev/src/tests/integration/machine_payment_test.go",
     "dev/src/tests/integration/rental_control_test.go",
     "dev/src/tests/integration/rental_test.go",
     "dev/tools/整理R026Comfy媒体源码.py",
@@ -225,20 +236,25 @@
     "dev/tools/整理R026媒体会话源码.py",
     "dev/tools/整理R026媒体入口源码.py",
     "dev/tools/整理R026媒体工作区源码.py",
+    "dev/tools/整理R026支付事务源码.py",
     "dev/tools/整理R026支付边界源码.py",
     "dev/tools/补充Comfy进度源码审阅.py",
     "docs/技术开发/database/migrations/012_native_lease_continuations.sql",
     "docs/技术开发/database/migrations/013_native_cleanup_recovery.sql",
     "docs/技术开发/database/migrations/014_rental_authority_context.sql",
     "docs/技术开发/database/migrations/015_rental_control_history.sql",
+    "docs/技术开发/database/migrations/016_machine_payment_context.sql",
     "docs/技术开发/附录-ComfyUI原环境持有与本机进程接线源码.md",
     "docs/技术开发/附录-ComfyUI完整环境安装与原节点登记源码.md",
     "docs/技术开发/附录-ComfyUI私有媒体执行与本地加密源码.md",
     "docs/技术开发/附录-MachinePay原支付边界与凭证恢复源码.md",
+    "docs/技术开发/附录-MachinePay支付事务与原凭据恢复源码.md",
     "docs/技术开发/附录-原租赁媒体会话监督与停止回收源码.md",
     "docs/技术开发/附录-原租赁媒体兼容入口与加密缓存源码.md",
     "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-    "docs/技术开发/附录-租内媒体工作区与结果托管源码.md"
+    "docs/技术开发/附录-租内媒体工作区与结果托管源码.md",
+    "scripts/技术开发数据.py",
+    "scripts/白皮书契约数据.py"
   ],
   "implemented_items": [
     {
@@ -540,6 +556,31 @@
       "id": "IMP-R026-060",
       "title": "MP编号、边界测试源码与双语全量待办",
       "status": "MP-033—040：测试源定义、使用顺序/明确未接线项、全部56任务222子项和双语说明；未编译/运行，完整代码后统一验证"
+    },
+    {
+      "id": "IMP-R026-061",
+      "title": "原个人卖家支付意图与提交后派发事务源码",
+      "status": "PT-001—014：原主体/合同、独立审核四证/销售开关、零平台费档、原支付/PAY意图/上下文/outbox同事务，提交确认后一次precreate；未验证真实资格"
+    },
+    {
+      "id": "IMP-R026-062",
+      "title": "完整签名回包及同事务密文归档源码",
+      "status": "PT-015—023：原envelope持有/副本关闭、独立Receipt钥环与短期Proof钥分离、原范围追加receipt/payment/channel/outbox及已付单调；未迁移/运行"
+    },
+    {
+      "id": "IMP-R026-063",
+      "title": "原凭据密文与持久恢复意图事务源码",
+      "status": "PT-024—026：同一原Proof比较、最长30分钟、密文/QUERY意图/专用job/幂等一次提交及到期墓碑；不清金融义务"
+    },
+    {
+      "id": "IMP-R026-064",
+      "title": "专用原凭据处理与实际调用持有源码",
+      "status": "PT-027—032：原capability过滤、原锁序/generation/有界同Proof验付、迟到原事实保存/旧代次拒绝和实际关闭；正式宿主循环仍待"
+    },
+    {
+      "id": "IMP-R026-065",
+      "title": "PT编号、前向016和全量测试源码文档",
+      "status": "PT-033—040：DATA072—074、原渠道参考格式、精确74表测试源、边界/SQL测试定义和双语全56/222待办；全部未编译/执行"
     }
   ],
   "tasks": [
@@ -718,7 +759,8 @@
         "IMP-R026-025",
         "IMP-R026-026"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-03",
@@ -1429,7 +1471,8 @@
       "evidence_refs": [],
       "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
       "current_validation_status": "NOT_EXECUTED",
-      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
+      "remaining_detail": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-14",
@@ -1459,7 +1502,8 @@
       "evidence_refs": [],
       "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
       "current_validation_status": "NOT_EXECUTED",
-      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
+      "remaining_detail": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-16",
@@ -1474,7 +1518,8 @@
       "evidence_refs": [],
       "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
       "current_validation_status": "NOT_EXECUTED",
-      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
+      "remaining_detail": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-17",
@@ -3645,7 +3690,8 @@
         "IMP-R026-025",
         "IMP-R026-026"
       ],
-      "current_validation_status": "NOT_EXECUTED"
+      "current_validation_status": "NOT_EXECUTED",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-52",
@@ -3712,7 +3758,9 @@
         "dev/tests/evidence/R021-development-attempts.json",
         "dev/tests/evidence/R021-migration-immutability.json"
       ],
-      "remaining_detail": "资格重核、撤销身份/健康关闭准入已局部覆盖；继续真实证据登记/双人受控审批/撤销广播与组合发布门槛。 历史第4/5次19份原始PNG缺失不得替代当前发布凭证；当前媒体完整，历史恢复逐件按原摘要核对。"
+      "remaining_detail": "资格重核、撤销身份/健康关闭准入已局部覆盖；继续真实证据登记/双人受控审批/撤销广播与组合发布门槛。 历史第4/5次19份原始PNG缺失不得替代当前发布凭证；当前媒体完整，历史恢复逐件按原摘要核对。",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。",
+      "current_validation_status": "NOT_EXECUTED"
     },
     {
       "id": "DEV-53",
@@ -3933,7 +3981,8 @@
       "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
       "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。",
-      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-54",
@@ -4134,7 +4183,8 @@
       "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
       "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。",
-      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。"
     },
     {
       "id": "DEV-55",
@@ -4364,7 +4414,8 @@
       "media_workspace_source_limit": "新增原账本媒体工作区/容量和native003前向源码、原根目录持有/退役删除/清理专用恢复、认证RAM媒体输入、专用原租内适配器和结果钥托管/读取撤销源码；未编译或运行。公开媒体SDK/资产/最终ACK、完整媒体会话监督/独立停工对账/ready/可信小时水位/付费续租/平台释放、完整实际运行包/OS低权限/E2E/性能仍待；全部56任务222子项开放，代码齐备后统一验证。",
       "media_session_source_limit": "新增原节点持有的完整本机媒体会话监督/独立单调截止、原Comfy叶子接线、一次原授权和单份未提交输入、先停工后回收/两类会话共关闭、原输出单读者/保留期/真实join和本机清理CAS源码；全部未编译或运行。公开媒体SDK/资产/最终ACK、独立物理停工恢复对账、双方ready/可信小时水位/付费续租/平台资金释放、完整实际运行包/OS低权限/E2E/性能及其余生产接线仍待。全部56任务222子项开放，完整代码与测试源码后统一验证；源码检查点不是完整开发轮。",
       "media_gateway_source_limit": "新增原租赁本机STANDARD媒体Handler、四类批准请求/有限映射、加密输入暂存/原HMAC幂等/提交前结果容量、完整认证结果后加密缓存/本人Range和原节点真实join源码；全部未编译或运行。公开SDK/原确认路由/监听与端到端传输/最终ACK、独立双方ready/可信小时计量/付费续租/物理停工对账/平台资金释放、完整实际引擎配方/OS低权限/E2E/性能/跨系统及其余生产接线仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是完整开发轮。",
-      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。"
+      "machine_pay_source_limit": "新增实际个人seller原支付范围、RSA2 precreate/verify及A402、原Payment-Proof/AES-GCM/原生密文工件、付款单调/资金资格/退款容量及原范围对账源码。全部未编译或运行。平台payments/channel_requests事务、同事务outbox/唯一消费/已核原签名回包归档/秘密与授权注册撤销、本人HTTP/SDK/小程序PayLauncher、单宿主持有/原凭据持久恢复worker、真实退款/卖家到账/佣金/对账单、可信usage/小时计量和追加账、真实个人收单资格与渠道组合仍待。全部56任务222子项保持未验收；完整生产代码、实际依赖接线和测试源码后统一验证；本次是源码检查点，不是开发轮完成。",
+      "machine_transaction_source_limit": "新增原个人seller支付意图/提交后一次派发、独立审核证据/feature gate、完整原签名回包独立钥环加密、receipt/payment/channel/outbox同事务、原Proof密文/QUERY/专用job及同凭据恢复处理源码；新增前向016与三表。全部未编译/迁移/运行。正式API/worker宿主注册/秘密轮换、本人HTTP/SDK/A402/PayLauncher、原资金唯一消费与当前退款/设备/主体/硬截止下订单READY/租赁推理、完整原退款/到账/佣金/对账单、付费续租/可信token或小时水位/接受/追加账和真实渠道资格仍待。全部56任务222子项未验收；完整生产代码、实际依赖接线和测试源码齐备后统一验证；本次仅源码检查点，不是开发轮完成。"
     }
   ],
   "previous_verified_revision": "3560ebd3657f66e70cc876a95f68f034a6316953",
@@ -6247,7 +6298,11 @@
       "MP-038：真实接受/可信token及小时水位、退款累计差额/唯一追加镜像账",
       "MP-039：真实个人seller/app/service/代调用/退款与佣金证据、RSA2外部向量和真实渠道组合",
       "MP-040：全部56/222生产代码、实际依赖及测试源码后统一编译测试调试验收；DEV-55延后/DEV-32无证明关闭"
-    ]
+    ],
+    "platform_transaction_recovery_source_annex": "docs/技术开发/附录-MachinePay支付事务与原凭据恢复源码.md",
+    "platform_transaction_and_signed_receipt_source_written": true,
+    "durable_original_proof_recovery_source_written": true,
+    "api_worker_host_integration_complete": false
   },
   "machine_pay_test_definitions": {
     "tests": [
@@ -6596,6 +6651,181 @@
       "MP-T047",
       "MP-T048",
       "MP-T049"
+    ],
+    "status": "SOURCE_ONLY_NOT_EXECUTED"
+  },
+  "machine_payment_transaction_source_integration": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "requirements": "PT-001—040",
+    "annex": "docs/技术开发/附录-MachinePay支付事务与原凭据恢复源码.md",
+    "original_order_payment_pay_intent_outbox_transaction_source_written": true,
+    "independent_reviewer_evidence_and_sale_gate_source_written": true,
+    "commit_before_once_precreate_source_written": true,
+    "original_signed_envelope_and_separate_receipt_keys_source_written": true,
+    "same_transaction_append_receipt_payment_channel_outbox_source_written": true,
+    "encrypted_original_proof_query_job_transaction_source_written": true,
+    "dedicated_capability_filtered_generation_recovery_source_written": true,
+    "original_live_row_proof_retirement_source_written": true,
+    "actual_operation_ownership_and_close_source_written": true,
+    "api_and_worker_host_registry_secret_wiring_complete": false,
+    "public_http_sdk_a402_or_paylauncher_wired": false,
+    "unique_usable_funds_order_ready_or_execution_wired": false,
+    "full_refund_payout_commission_statement_capability_wired": false,
+    "paid_renewal_trusted_usage_acceptance_final_ledger_wired": false,
+    "real_personal_seller_or_channel_qualified": false,
+    "compiled_or_executed": false,
+    "migration_executed": false,
+    "source_catalog_tables": 74,
+    "source_control_operations": 98,
+    "control_http_operations": 48,
+    "new_data_ids": [
+      "DATA-072",
+      "DATA-073",
+      "DATA-074"
+    ],
+    "migration_source": {
+      "source": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "source_sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5",
+      "migration": "016_machine_payment_context.sql",
+      "migration_sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5",
+      "policy": "016 original Machine Pay context/receipts/recovery; SOURCE_ONLY, unexecuted, no execution or channel qualification"
+    },
+    "test_definition_count": 16,
+    "full_development_round_complete": false,
+    "remaining": [
+      "PT-033：正式API/worker宿主、独立注册/秘密加载轮换撤销、钥与归档保留/实际关闭",
+      "PT-034：本人create/get HTTP、原SDK付款前置/单Proof/A402与安全错误映射",
+      "PT-035：实际获准PayLauncher、小程序原付款/回前台原查单和恢复",
+      "PT-036：原资金唯一消费、当前主体/合同/退款/设备/截止下订单READY及原租赁/推理准入",
+      "PT-037：获证实际退款/到账/佣金分账/对账单和原异常工作台",
+      "PT-038：原付费续租、完整佣金产品、可信M token/小时水位/接受与追加账",
+      "PT-039：实际迁移/跨进程退出/外部RSA2/个人卖家注册和真实渠道组合",
+      "PT-040：全部56/222生产源码/实际依赖/测试源码后统一验证；DEV-55延后/DEV-32无证明关闭"
+    ]
+  },
+  "platform_machine_payment_migration_source": {
+    "source": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+    "source_sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5",
+    "migration": "016_machine_payment_context.sql",
+    "migration_sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5",
+    "policy": "016 original Machine Pay context/receipts/recovery; SOURCE_ONLY, unexecuted, no execution or channel qualification"
+  },
+  "machine_transaction_test_definitions": {
+    "tests": [
+      {
+        "id": "PT-T001",
+        "name": "TestMachinePayArchivePreservesCompleteOriginalSignedEnvelope",
+        "source": "dev/src/internal/payments/receipt_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T002",
+        "name": "TestMachinePayReceiptCannotCrossOriginalBuyerSellerOrPurpose",
+        "source": "dev/src/internal/payments/receipt_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T003",
+        "name": "TestMachinePayReceiptTamperCannotBecomeFinancialEvidence",
+        "source": "dev/src/internal/payments/receipt_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T004",
+        "name": "TestMachinePayReceiptRequiresActualVerifiedEnvelopeNotConstructedSnapshot",
+        "source": "dev/src/internal/payments/receipt_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T005",
+        "name": "TestMachinePayClosingObservationRevokesAllCopiesButNotPaidFact",
+        "source": "dev/src/internal/payments/receipt_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T006",
+        "name": "TestMachinePayArchivedReceiptRequiresExplicitRetainedOriginalKey",
+        "source": "dev/src/internal/payments/receipt_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T007",
+        "name": "TestMachinePayObservedTimeMatchesDatabaseMicrosecondPrecision",
+        "source": "dev/src/internal/payments/receipt_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T008",
+        "name": "TestMachinePayShortProofAndLongReceiptKeysCannotOverlap",
+        "source": "dev/src/internal/payments/receipt_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T009",
+        "name": "TestMachinePaymentIntentCommitsOriginalScopeWithoutChannelIO",
+        "source": "dev/src/tests/integration/machine_payment_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T010",
+        "name": "TestMachinePaymentUnknownPrecreateNeverRepeatsFinancialCreate",
+        "source": "dev/src/tests/integration/machine_payment_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T011",
+        "name": "TestMachinePaymentProofCiphertextAndOriginalReplayShareOneDurableJob",
+        "source": "dev/src/tests/integration/machine_payment_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T012",
+        "name": "TestMachinePaymentRecoveryArchivesVerifiedPaidWithoutStartingOrder",
+        "source": "dev/src/tests/integration/machine_payment_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T013",
+        "name": "TestMachinePaymentCannotSettleWithoutSameTransactionSignedReceipt",
+        "source": "dev/src/tests/integration/machine_payment_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T014",
+        "name": "TestMachinePaymentRevokedRefundEvidenceBlocksBeforeCreatingIntent",
+        "source": "dev/src/tests/integration/machine_payment_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T015",
+        "name": "TestMachinePaymentOtherBuyerCannotReadOrSubmitOriginalProof",
+        "source": "dev/src/tests/integration/machine_payment_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      },
+      {
+        "id": "PT-T016",
+        "name": "TestMachinePaymentWorkerCannotClaimAnotherRegisteredCapability",
+        "source": "dev/src/tests/integration/machine_payment_test.go",
+        "status": "SOURCE_ONLY_NOT_EXECUTED"
+      }
+    ],
+    "ids": [
+      "PT-T001",
+      "PT-T002",
+      "PT-T003",
+      "PT-T004",
+      "PT-T005",
+      "PT-T006",
+      "PT-T007",
+      "PT-T008",
+      "PT-T009",
+      "PT-T010",
+      "PT-T011",
+      "PT-T012",
+      "PT-T013",
+      "PT-T014",
+      "PT-T015",
+      "PT-T016"
     ],
     "status": "SOURCE_ONLY_NOT_EXECUTED"
   }

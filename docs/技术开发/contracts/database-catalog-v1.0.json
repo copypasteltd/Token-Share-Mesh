@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 221,
+  "catalog_statements": 234,
   "base_table_count": 60,
   "tables": [
     {
@@ -18677,6 +18677,1043 @@
           "initially_deferred": false
         }
       ]
+    },
+    {
+      "name": "payment_machine_contexts",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "columns": [
+        {
+          "name": "payment_id",
+          "sql": "payment_id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "payment_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "order_id",
+          "sql": "order_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "order_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "buyer_id",
+          "sql": "buyer_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "buyer_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "seller_id",
+          "sql": "seller_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "seller_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "capability_ref",
+          "sql": "capability_ref p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "capability_ref"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "scope_hash",
+          "sql": "scope_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "scope_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "intent_raw",
+          "sql": "intent_raw bytea NOT NULL CHECK (octet_length(intent_raw) BETWEEN 1 AND 8192)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "intent_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(intent_raw) BETWEEN 1 AND 8192)",
+              "columns": [
+                "intent_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "intent_digest",
+          "sql": "intent_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "intent_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "policy_raw",
+          "sql": "policy_raw bytea NOT NULL CHECK (octet_length(policy_raw) BETWEEN 1 AND 8192)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "policy_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(policy_raw) BETWEEN 1 AND 8192)",
+              "columns": [
+                "policy_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "policy_digest",
+          "sql": "policy_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "policy_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "precreate_request_id",
+          "sql": "precreate_request_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.channel_requests (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "precreate_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "precreate_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.channel_requests (id)",
+              "columns": [
+                "precreate_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "channel_requests",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "last_receipt_id",
+          "sql": "last_receipt_id p11.entity_id",
+          "type": "p11.entity_id",
+          "constraints": []
+        },
+        {
+          "name": "last_evidence_hash",
+          "sql": "last_evidence_hash p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": []
+        },
+        {
+          "name": "updated_at",
+          "sql": "updated_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "updated_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "updated_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (payment_id, order_id) REFERENCES p11.payments (id, order_id)",
+          "columns": [
+            "payment_id",
+            "order_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "payments",
+          "target_columns": [
+            "id",
+            "order_id"
+          ]
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (order_id, buyer_id, seller_id) REFERENCES p11.orders (id, buyer_id, seller_id)",
+          "columns": [
+            "order_id",
+            "buyer_id",
+            "seller_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "orders",
+          "target_columns": [
+            "id",
+            "buyer_id",
+            "seller_id"
+          ]
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (payment_id, scope_hash)",
+          "columns": [
+            "payment_id",
+            "scope_hash"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (intent_digest = encode(sha256(intent_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (policy_digest = encode(sha256(policy_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((last_receipt_id IS NULL) = (last_evidence_hash IS NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": "machine_last_receipt",
+          "sql": "CONSTRAINT machine_last_receipt FOREIGN KEY (last_receipt_id, payment_id) REFERENCES p11.payment_machine_receipts (id, payment_id) DEFERRABLE INITIALLY DEFERRED",
+          "columns": [
+            "last_receipt_id",
+            "payment_id"
+          ],
+          "deferrable": true,
+          "initially_deferred": true,
+          "target_table": "payment_machine_receipts",
+          "target_columns": [
+            "id",
+            "payment_id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "payment_machine_receipts",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "payment_id",
+          "sql": "payment_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "payment_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "scope_hash",
+          "sql": "scope_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "scope_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "kind",
+          "sql": "kind text NOT NULL CHECK (kind IN ('PRECREATED', 'VERIFIED_PAID'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "kind"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (kind IN ('PRECREATED', 'VERIFIED_PAID'))",
+              "columns": [
+                "kind"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "evidence_hash",
+          "sql": "evidence_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "evidence_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "channel_reference",
+          "sql": "channel_reference text",
+          "type": "text",
+          "constraints": []
+        },
+        {
+          "name": "prepay_reference",
+          "sql": "prepay_reference text",
+          "type": "text",
+          "constraints": []
+        },
+        {
+          "name": "encrypted_raw",
+          "sql": "encrypted_raw bytea NOT NULL CHECK (octet_length(encrypted_raw) BETWEEN 1 AND 100000)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "encrypted_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(encrypted_raw) BETWEEN 1 AND 100000)",
+              "columns": [
+                "encrypted_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "encrypted_digest",
+          "sql": "encrypted_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "encrypted_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "observed_at",
+          "sql": "observed_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "observed_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "event_id",
+          "sql": "event_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.outbox_events (id) DEFERRABLE INITIALLY DEFERRED",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.outbox_events (id)",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "outbox_events",
+              "target_columns": [
+                "id"
+              ]
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRABLE",
+              "name": null,
+              "sql": "DEFERRABLE",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRED",
+              "name": null,
+              "sql": "INITIALLY DEFERRED",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "writer_xact",
+          "sql": "writer_xact xid8 NOT NULL DEFAULT pg_current_xact_id()",
+          "type": "xid8",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "writer_xact"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT pg_current_xact_id()",
+              "columns": [
+                "writer_xact"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "recorded_at",
+          "sql": "recorded_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (payment_id, scope_hash) REFERENCES p11.payment_machine_contexts (payment_id, scope_hash)",
+          "columns": [
+            "payment_id",
+            "scope_hash"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "payment_machine_contexts",
+          "target_columns": [
+            "payment_id",
+            "scope_hash"
+          ]
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (payment_id, kind, evidence_hash)",
+          "columns": [
+            "payment_id",
+            "kind",
+            "evidence_hash"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (id, payment_id)",
+          "columns": [
+            "id",
+            "payment_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (encrypted_digest = encode(sha256(encrypted_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((kind = 'VERIFIED_PAID' AND channel_reference IS NOT NULL AND channel_reference ~ '^[0-9]{32}$') OR (kind = 'PRECREATED' AND prepay_reference IS NOT NULL AND prepay_reference ~ '^[A-Za-z0-9_]{1,32}$'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
+    },
+    {
+      "name": "payment_machine_recoveries",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "payment_id",
+          "sql": "payment_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "payment_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "scope_hash",
+          "sql": "scope_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "scope_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "buyer_id",
+          "sql": "buyer_id p11.entity_id NOT NULL REFERENCES p11.users (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "buyer_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.users (id)",
+              "columns": [
+                "buyer_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "users",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "proof_ciphertext",
+          "sql": "proof_ciphertext bytea",
+          "type": "bytea",
+          "constraints": []
+        },
+        {
+          "name": "proof_cipher_digest",
+          "sql": "proof_cipher_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "proof_cipher_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "expires_at",
+          "sql": "expires_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "expires_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "channel_request_id",
+          "sql": "channel_request_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.channel_requests (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "channel_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "channel_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.channel_requests (id)",
+              "columns": [
+                "channel_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "channel_requests",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "durable_job_id",
+          "sql": "durable_job_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.durable_jobs (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "durable_job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "durable_job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.durable_jobs (id)",
+              "columns": [
+                "durable_job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "durable_jobs",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "state",
+          "sql": "state text NOT NULL CHECK (state IN ('PENDING', 'VERIFYING', 'VERIFIED', 'UNKNOWN', 'RETIRED'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (state IN ('PENDING', 'VERIFYING', 'VERIFIED', 'UNKNOWN', 'RETIRED'))",
+              "columns": [
+                "state"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "version",
+          "sql": "version p11.counter NOT NULL DEFAULT 1",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 1",
+              "columns": [
+                "version"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "created_at",
+          "sql": "created_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "created_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (payment_id, scope_hash) REFERENCES p11.payment_machine_contexts (payment_id, scope_hash)",
+          "columns": [
+            "payment_id",
+            "scope_hash"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "payment_machine_contexts",
+          "target_columns": [
+            "payment_id",
+            "scope_hash"
+          ]
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (expires_at > created_at AND expires_at <= created_at + CAST('30 minutes' AS interval))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((state = 'RETIRED' AND proof_ciphertext IS NULL) OR (state <> 'RETIRED' AND proof_ciphertext IS NOT NULL AND octet_length(proof_ciphertext) BETWEEN 1 AND 8192 AND proof_cipher_digest = encode(sha256(proof_ciphertext), 'hex')))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -20949,6 +21986,168 @@
       "target_columns": [
         "id"
       ]
+    },
+    {
+      "table": "payment_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.channel_requests (id)",
+      "columns": [
+        "precreate_request_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "channel_requests",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "payment_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (payment_id, order_id) REFERENCES p11.payments (id, order_id)",
+      "columns": [
+        "payment_id",
+        "order_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "payments",
+      "target_columns": [
+        "id",
+        "order_id"
+      ]
+    },
+    {
+      "table": "payment_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (order_id, buyer_id, seller_id) REFERENCES p11.orders (id, buyer_id, seller_id)",
+      "columns": [
+        "order_id",
+        "buyer_id",
+        "seller_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "orders",
+      "target_columns": [
+        "id",
+        "buyer_id",
+        "seller_id"
+      ]
+    },
+    {
+      "table": "payment_machine_receipts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.outbox_events (id)",
+      "columns": [
+        "event_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "outbox_events",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "payment_machine_receipts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (payment_id, scope_hash) REFERENCES p11.payment_machine_contexts (payment_id, scope_hash)",
+      "columns": [
+        "payment_id",
+        "scope_hash"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "payment_machine_contexts",
+      "target_columns": [
+        "payment_id",
+        "scope_hash"
+      ]
+    },
+    {
+      "table": "payment_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": "machine_last_receipt",
+      "sql": "CONSTRAINT machine_last_receipt FOREIGN KEY (last_receipt_id, payment_id) REFERENCES p11.payment_machine_receipts (id, payment_id) DEFERRABLE INITIALLY DEFERRED",
+      "columns": [
+        "last_receipt_id",
+        "payment_id"
+      ],
+      "deferrable": true,
+      "initially_deferred": true,
+      "target_table": "payment_machine_receipts",
+      "target_columns": [
+        "id",
+        "payment_id"
+      ]
+    },
+    {
+      "table": "payment_machine_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.users (id)",
+      "columns": [
+        "buyer_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "users",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "payment_machine_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.channel_requests (id)",
+      "columns": [
+        "channel_request_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "channel_requests",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "payment_machine_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.durable_jobs (id)",
+      "columns": [
+        "durable_job_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "durable_jobs",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "payment_machine_recoveries",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (payment_id, scope_hash) REFERENCES p11.payment_machine_contexts (payment_id, scope_hash)",
+      "columns": [
+        "payment_id",
+        "scope_hash"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "payment_machine_contexts",
+      "target_columns": [
+        "payment_id",
+        "scope_hash"
+      ]
     }
   ],
   "indexes": [
@@ -21071,6 +22270,12 @@
       "table": "rental_control_history",
       "unique": false,
       "sql": "CREATE INDEX rental_control_session_sequence ON p11.rental_control_history (session_id, grant_id, sequence DESC)"
+    },
+    {
+      "name": "machine_one_live_proof",
+      "table": "payment_machine_recoveries",
+      "unique": true,
+      "sql": "CREATE UNIQUE INDEX machine_one_live_proof ON p11.payment_machine_recoveries (payment_id) WHERE state IN ('PENDING', 'VERIFYING', 'UNKNOWN')"
     }
   ],
   "forward_migrations": [
@@ -21292,6 +22497,27 @@
       "statement_types": [
         "CreateStmt",
         "IndexStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "source_sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5",
+      "statement_count": 13,
+      "statement_types": [
+        "CreateStmt",
+        "CreateStmt",
+        "AlterTableStmt",
+        "CreateStmt",
+        "IndexStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "CreateFunctionStmt",

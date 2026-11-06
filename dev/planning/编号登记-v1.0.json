@@ -172,6 +172,9 @@
     "native_cleanup_recoveries": "DATA-068",
     "rental_authority_contexts": "DATA-069",
     "rental_session_history": "DATA-070",
-    "rental_control_history": "DATA-071"
+    "rental_control_history": "DATA-071",
+    "payment_machine_contexts": "DATA-072",
+    "payment_machine_receipts": "DATA-073",
+    "payment_machine_recoveries": "DATA-074"
   }
 }

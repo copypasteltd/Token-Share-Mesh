@@ -162,6 +162,7 @@ type Observation struct {
 	amount                                      money.Fen
 	kind, trade, prepay, evidenceHash, safeCode string
 	observed                                    time.Time
+	receipt                                     *receiptState
 }
 
 func (o Observation) Format(w fmt.State, _ rune) {

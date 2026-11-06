@@ -17,7 +17,7 @@ import (
 var migrations embed.FS
 
 // Migrate applies immutable, forward-only migrations under a transaction-level
-// advisory lock. Metadata is separate from the sixty domain tables.
+// advisory lock. Migration metadata is separate from the domain tables.
 func (d *DB) Migrate(ctx context.Context) error {
 	return d.MigrateFS(ctx, migrations)
 }

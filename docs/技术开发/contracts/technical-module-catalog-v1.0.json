@@ -125,12 +125,17 @@
       "authoritative_tables": [
         "payments",
         "refunds",
-        "channel_requests"
+        "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries"
       ],
       "application_services": [
         "PaymentIntent",
         "ChannelQuery",
-        "RefundCommand"
+        "RefundCommand",
+        "Machine",
+        "OriginalProofRecovery"
       ],
       "dependencies": [
         "MOD-01",

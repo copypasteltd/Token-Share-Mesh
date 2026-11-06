@@ -11127,13 +11127,15 @@
           },
           "channel_reference": {
             "type": "string",
-            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-            "maxLength": 128
+            "pattern": "^[A-Za-z0-9_]{1,128}$",
+            "maxLength": 128,
+            "description": "原渠道交易参考号；不是本站entity_id，Machine Pay为32位数字trade_no。"
           },
           "channel_action_ref": {
             "type": "string",
-            "pattern": "^[A-Za-z][A-Za-z0-9_-]{2,127}$",
-            "maxLength": 128
+            "pattern": "^[A-Za-z0-9_]{1,128}$",
+            "maxLength": 128,
+            "description": "原渠道预付参考号，不是URL、付款凭证或小程序trade_no。"
           },
           "updated_at": {
             "type": "string",

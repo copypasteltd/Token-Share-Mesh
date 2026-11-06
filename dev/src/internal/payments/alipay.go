@@ -177,10 +177,19 @@ func canonical(v url.Values) string {
 	return strings.Join(pairs, "&")
 }
 func (a *Alipay) unknown(i Intent, code string) Observation {
-	return Observation{scope: i.Scope, amount: i.Amount, kind: "UNRESOLVED", safeCode: code, observed: a.now().UTC()}
+	return Observation{scope: i.Scope, amount: i.Amount, kind: "UNRESOLVED", safeCode: code, observed: a.now().UTC().Truncate(time.Microsecond)}
 }
 
-func (a *Alipay) call(ctx context.Context, method string, biz any) (json.RawMessage, string, error) {
+type verifiedRPCReply struct{ node, envelope []byte }
+
+func (r *verifiedRPCReply) close() {
+	if r != nil {
+		clear(r.node)
+		clear(r.envelope)
+	}
+}
+
+func (a *Alipay) call(ctx context.Context, method string, biz any) (*verifiedRPCReply, string, error) {
 	if a == nil || ctx == nil || ctx.Err() != nil || method != precreateMethod && method != verifyMethod {
 		return nil, "LOCAL_ADMISSION_CLOSED", ErrBinding
 	}
@@ -277,7 +286,7 @@ func (a *Alipay) call(ctx context.Context, method string, biz any) (json.RawMess
 	if json.Unmarshal(fields["code"], &code) != nil || code != "10000" {
 		return nil, "SIGNED_BUSINESS_UNRESOLVED", ErrUnknown
 	}
-	return append([]byte{}, node...), "", nil
+	return &verifiedRPCReply{node: append([]byte{}, node...), envelope: append([]byte{}, encoded...)}, "", nil
 }
 
 func (a *Alipay) Precreate(ctx context.Context, i Intent) (Observation, error) {
@@ -296,11 +305,12 @@ func (a *Alipay) Precreate(ctx context.Context, i Intent) (Observation, error) {
 		Number    string `json:"out_trade_no"`
 		Currency  string `json:"currency"`
 	}{i.PayBefore.UTC().Format(time.RFC3339Nano), yuan, i.GoodsName, a.binding.ServiceID, i.Scope.OutTradeNo, "CNY"}
-	node, code, e := a.call(ctx, precreateMethod, biz)
+	reply, code, e := a.call(ctx, precreateMethod, biz)
 	if e != nil {
 		return a.unknown(i, code), e
 	}
-	defer clear(node)
+	defer reply.close()
+	node := reply.node
 	var fields map[string]json.RawMessage
 	_ = strictjson.Decode(node, &fields, MaximumChannelResponse)
 	var prepay string
@@ -308,7 +318,7 @@ func (a *Alipay) Precreate(ctx context.Context, i Intent) (Observation, error) {
 		return a.unknown(i, "SIGNED_RESPONSE_MISMATCH"), ErrUnknown
 	}
 	sum := sha256.Sum256(node)
-	return Observation{scope: i.Scope, amount: i.Amount, kind: "PRECREATED", prepay: prepay, evidenceHash: hex.EncodeToString(sum[:]), observed: a.now().UTC()}, nil
+	return Observation{scope: i.Scope, amount: i.Amount, kind: "PRECREATED", prepay: prepay, evidenceHash: hex.EncodeToString(sum[:]), observed: a.now().UTC().Truncate(time.Microsecond), receipt: newReceiptState(reply.envelope)}, nil
 }
 func (a *Alipay) Verify(ctx context.Context, i Intent, p *Proof) (Observation, error) {
 	if a == nil {
@@ -330,11 +340,12 @@ func (a *Alipay) Verify(ctx context.Context, i Intent, p *Proof) (Observation, e
 		Proof   string `json:"payment_proof"`
 		Session string `json:"client_session,omitempty"`
 	}{v.Protocol.TradeNo, v.Protocol.PaymentProof, clientSession}
-	node, code, e := a.call(ctx, verifyMethod, biz)
+	reply, code, e := a.call(ctx, verifyMethod, biz)
 	if e != nil {
 		return a.unknown(i, code), e
 	}
-	defer clear(node)
+	defer reply.close()
+	node := reply.node
 	var fields map[string]json.RawMessage
 	_ = strictjson.Decode(node, &fields, MaximumChannelResponse)
 	var trade, amount, number string
@@ -350,7 +361,7 @@ func (a *Alipay) Verify(ctx context.Context, i Intent, p *Proof) (Observation, e
 	// Deprecated resource_id is deliberately not a binding source. The
 	// immutable local original number binds service/app/seller/contract.
 	sum := sha256.Sum256(node)
-	return Observation{scope: i.Scope, amount: fen, kind: "VERIFIED_PAID", trade: trade, evidenceHash: hex.EncodeToString(sum[:]), observed: a.now().UTC()}, nil
+	return Observation{scope: i.Scope, amount: fen, kind: "VERIFIED_PAID", trade: trade, evidenceHash: hex.EncodeToString(sum[:]), observed: a.now().UTC().Truncate(time.Microsecond), receipt: newReceiptState(reply.envelope)}, nil
 }
 
 // Public Machine Pay sources currently prove these two methods only. This

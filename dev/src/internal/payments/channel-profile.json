@@ -9,8 +9,14 @@
     "https://aipay.alipay.com/docs/ai-receive/api-list/alipay-aipay-agent-payment-precreate.html",
     "https://aipay.alipay.com/docs/ai-receive/api-list/alipay-aipay-agent-payment-verify.html"
   ],
-  "methods": ["alipay.aipay.agent.payment.precreate", "alipay.aipay.agent.payment.verify"],
-  "capabilities": ["PRECREATE", "VERIFY_SAME_PROOF"],
+  "methods": [
+    "alipay.aipay.agent.payment.precreate",
+    "alipay.aipay.agent.payment.verify"
+  ],
+  "capabilities": [
+    "PRECREATE",
+    "VERIFY_SAME_PROOF"
+  ],
   "currency": "CNY",
   "minimum_fen": 1,
   "maximum_fen": 5000,
@@ -26,5 +32,10 @@
   "public_payment_handlers_wired": false,
   "real_channel_or_merchant_qualified": false,
   "compiled_or_executed": false,
-  "new_third_party_dependencies": []
+  "new_third_party_dependencies": [],
+  "machine_transaction_source_annex": "docs/技术开发/附录-MachinePay支付事务与原凭据恢复源码.md",
+  "platform_transaction_and_signed_envelope_source_written": true,
+  "proof_receipt_keyrings": "SEPARATE_KEY_MATERIAL_REQUIRED",
+  "durable_proof_store": "TRANSACTIONAL_ENCRYPTED_PLATFORM_ROW",
+  "optional_native_file_proof_store": "NOT_USED_BY_MACHINE_SERVICE"
 }

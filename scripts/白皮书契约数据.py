@@ -149,7 +149,10 @@ def make_schemas() -> dict:
     s["Payment"] = obj({"payment_id": ID, "order_id": ID, "seller_id": ID, "version": VERSION,
         "state": enum("CREATED", "PENDING", "AUTHORIZED", "SETTLED", "FAILED", "UNKNOWN", "CLOSED"),
         "environment": enum("SANDBOX", "PRODUCTION"), "amount_fen": UINT, "settled_fen": UINT,
-        "channel_reference": ID, "channel_action_ref": ID, "updated_at": TIME},
+        "channel_reference": {"type": "string", "pattern": "^[A-Za-z0-9_]{1,128}$", "maxLength": 128,
+            "description": "原渠道交易参考号；不是本站entity_id，Machine Pay为32位数字trade_no。"},
+        "channel_action_ref": {"type": "string", "pattern": "^[A-Za-z0-9_]{1,128}$", "maxLength": 128,
+            "description": "原渠道预付参考号，不是URL、付款凭证或小程序trade_no。"}, "updated_at": TIME},
         ["payment_id", "order_id", "seller_id", "version", "state", "environment", "amount_fen", "settled_fen", "updated_at"])
     s["AssetWrite"] = obj({"order_id": ID, "kind": enum("PLAINTEXT_INPUT", "CIPHER_INPUT", "PLAINTEXT_RESULT", "CIPHER_RESULT", "SELECTIVE_EVIDENCE"),
         "media_type": TEXT, "size_bytes": {**UINT, "maximum": 67108864}, "sha256": HASH, "attempt_id": ID,

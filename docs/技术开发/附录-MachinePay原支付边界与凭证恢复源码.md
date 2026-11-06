@@ -2,7 +2,7 @@
 
 2026-11-06｜`CODE_FIRST / SOURCE_ONLY_UNVERIFIED`｜MP-001—040。本次实现渠道边界、原支付领域约束和凭证密文恢复仓的生产源码及测试定义，尚未接成平台支付链。没有外发支付、签约、退款、结算或其他资金操作；没有编译、运行测试、数据库或核验器。全部 56 任务、222 子项及真实验收保持开放。
 
-本附录承接 [支付退款技术](13-支付退款账务与渠道结算.md)、[小时租赁](附录-小时租赁授权与累计计量源码细则.md)与[原媒体入口](附录-原租赁媒体兼容入口与加密缓存源码.md)。当前平台 98 项设计操作、71 表、48 个控制 HTTP 操作不增加。本次不写迁移，已发布平台 001—015 双份 SQL 和全部既有端侧迁移原字节保留。
+本附录承接 [支付退款技术](13-支付退款账务与渠道结算.md)、[小时租赁](附录-小时租赁授权与累计计量源码细则.md)与[原媒体入口](附录-原租赁媒体兼容入口与加密缓存源码.md)。原 MP 阶段为 98 项设计操作、71 表、48 个控制 HTTP 操作，无迁移变更。后续 [PT 支付事务源码](附录-MachinePay支付事务与原凭据恢复源码.md)追加前向 016 与 DATA-072—074，当前源码平台表数为 74；001—015 双份 SQL 和全部既有端侧迁移原字节保留。
 
 ## 1. 当前官方依据与 C2C 边界
 
@@ -52,15 +52,15 @@
 | MP-031 | 原范围对账 | 比较原 scope/金额/交易事实；不符或未知阻止新准入，不改原历史、不自动出款 |
 | MP-032 | A402 元数据 | 检查原 PENDING 快照构建 Challenge，上层仍须先持久提交；amtPaymentLink 是预付号，无自动付款、小程序 trade_no 或 200 假成功 |
 | MP-033 | 边界测试源码 | 原签名、金额/原号/环境、凭据/密文/文件仓、迟到付款、退款累计和实际退出等定义；全未执行 |
-| MP-034 | 平台支付事务 | 待接 DB 原支付/渠道请求意图、原幂等锁、独占宿主/秘密与授权注册撤销、同事务 outbox、已验签原回包受限归档、证据引用与提交后外调 |
+| MP-034 | 平台支付事务 | PT 已补原 DB/PAY 意图、幂等/outbox、完整原回包加密与提交后外调源码；正式宿主、秘密注册撤销和原资金唯一消费仍待 |
 | MP-035 | 应用支付入口 | 待接本人控制 HTTP、原标准 SDK 支付前置和小程序 PayLauncher/回前台查单；普通 SDK 不能自动付款 |
-| MP-036 | 持久未知恢复 | 待接原凭据引用/原号协调、受限恢复 worker/任务撤销和跨进程恢复；没有虚构独立 query API |
+| MP-036 | 持久未知恢复 | PT 已补同 Proof 的 DB 密文/QUERY/job 与专用处理源码；正式 worker 宿主、实际崩溃/撤销和全链恢复仍待，无虚构 query API |
 | MP-037 | 实际后续渠道能力 | 待获证并实现具体退款/到账/分账/结算与对账单接口；当前领域预留不是外调能力 |
 | MP-038 | 用量与账务镜像 | 待真实接受/可信 token 或小时计量、原资格、退款差额和追加镜像账；不是钱包/预授权后扣 |
 | MP-039 | 真实资格与联调 | 待实际个人 seller/service/授权/退款/佣金材料、RSA2 外部向量及正式/沙箱端到端证据；未执行 |
 | MP-040 | 全量后统一验证 | 全部 56/222 生产代码、实际依赖接线及测试源码齐备后统一编译/测试/调试；DEV-55 延后，增强档无证明关闭 |
 
-MP-001—033 表示源码已写，MP-034—040 仍待生产接线。全部编号均未验收。本轮原生文件仓不代表 payments/channel_requests 已经持久化，也不能让 CLI/API/worker 自动开始收款。
+MP-001—033 表示原阶段源码已写；后续 PT 推进了 MP-034/036 的事务与恢复核心，全部生产接线及 MP-035/037—040 仍未完成。全部编号均未验收。原生文件仓不等于 payments/channel_requests 事务；PT 的新服务也尚未接成正式 CLI/API/worker，不自动开始收款。
 
 ## 3. 配置与使用顺序
 
@@ -73,12 +73,12 @@ MP-001—033 表示源码已写，MP-034—040 仍待生产接线。全部编号
 1. 验证当前买家/实际 seller/原合同及渠道 SKU 资格；在同一数据库事务登记固定 Intent、唯一原号、channel request 和 outbox，提交成功后才允许外调。
 2. `Alipay.Precreate` 只使用原 Intent；原回包验签后记录 Observation，再持久归并 PENDING。此后才 `NewChallenge/WriteChallenge` 返回 402。
 3. 同一原意图再次请求时，`ProofFromRequest` 读取单一原 Payment-Proof；原金额/用途/主体不能变化，也不新建支付。
-4. 用 `Vault` 先加密需要短期恢复的凭据；用 `ProofStore.Put` 保存密文，随后在原事务登记准确引用/期限/用途。两者之间故障属于需清理/恢复的原工件，不能当成新的金融操作。
+4. PT 的 Machine.SubmitProof 使用 Proof Vault 加密短期凭据，在同一个 DB 事务保存密文、QUERY 意图、原 job 和安全重放结果。原可选 ProofStore 属于另一种本地工件实现，并未被 Machine 用作事务仓；若未来宿主明确采用它，文件与 DB 的准确引用/期限/用途仍需单独恢复，不能当成新的金融操作。
 5. `Alipay.Verify` 完成原字节验签、active、金额/交易号/原号核对后，只有原 Observation 才能归并 SETTLED；同事务保存受限渠道证据、唯一消费与业务事件。
 6. `CanFund` 还需上层在原事务读到的当前主体/设备/合同、退款占用和执行窗口；不能把一个布尔返回当成正式执行租约或唯一资金消费证明。
 7. 对 UNKNOWN 的恢复 worker 只能领取原任务，用原引用恢复同一凭据并重验同一原意图。凭据失效、缺钥、来源未知或渠道人身资格不明时保留义务并查询/补证，不制造第二笔收费。
 
-`Observation` 的内部构造字段不开放给 JSON。当前 `EvidenceHash` 只标识本次已核响应节点，**尚未完成原签名回包的持久归档**，因此不能单独作为跨进程审计或平台付款已经入账的证据。最终数据库状态和渠道安全归档的唯一性仍须 MP-034 接通。
+`Observation` 的内部构造字段不开放给 JSON，`EvidenceHash` 标识已核响应节点，不能单独证明平台付款入账。后续 PT 已补入完整原签名 envelope 的内存持有/关闭、独立 Receipt Vault 和 receipt/payment/channel/outbox 同事务加密归档源码；原签名与原节点字节均保留。正式应用宿主、原资金唯一消费、数据库迁移/恢复与真实渠道证据仍未完成，见 PT-033—040。
 
 ## 4. 凭据仓与清理细则
 
@@ -175,3 +175,7 @@ Reconcile 只比较同一个 scope、金额和渠道事实，返回明确不符/
 | MP-T047 | TestMachinePayProofStoreTamperKeepsFinancialOutcomeUnresolved | dev/src/internal/payments/proofstore_test.go | 未编译/未运行 |
 | MP-T048 | TestMachinePayProofStoreRetirementIsOriginalAndIdempotent | dev/src/internal/payments/proofstore_test.go | 未编译/未运行 |
 | MP-T049 | TestMachinePayProofStoreCloseDoesNotDestroyExternalKeyring | dev/src/internal/payments/proofstore_test.go | 未编译/未运行 |
+
+## R026 PT-001—040 支付事务与原凭据恢复源码 / Original-payment transactions and recovery source
+
+R026新增[PT-001—040](附录-MachinePay支付事务与原凭据恢复源码.md)：原个人卖家支付/PAY意图/上下文/outbox事务、独立审核四证/销售开关、提交后一次precreate、完整签名envelope与独立归档钥环、同事务receipt/payment/channel/outbox、原Proof密文/QUERY/专用job、原capability过滤/generation恢复与实际调用关闭源码。新增前向016/DATA072—074，当前源码98规划操作/74平台表/48控制HTTP；16项新测试定义未编译/运行，SQL未迁移。正式API/worker宿主/秘密注册轮换、本人HTTP/SDK/A402/PayLauncher、原可执行资金/退款/设备/截止准入、完整退款/到账/佣金/对账单/付费续租/可信计量接受账务与真实资格仍待。全部56任务222子项开放；完整生产代码/实际依赖接线/测试源码后统一验证，本次不是开发轮完成。

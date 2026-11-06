@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+  "source_sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5",
+  "migration": "016_machine_payment_context.sql",
+  "migration_sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5",
+  "policy": "016 original Machine Pay context/receipts/recovery; SOURCE_ONLY, unexecuted, no execution or channel qualification"
+}

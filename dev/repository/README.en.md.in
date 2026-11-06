@@ -1,18 +1,12 @@
 # Token Share Mesh
 
-<!-- R026-MP-CURRENT -->
-R026 adds [MP-001–040](docs/技术开发/附录-MachinePay原支付边界与凭证恢复源码.md): original personal-seller payment bindings and two key pins, a native RSA2 precreate/verify adapter, bounded A402, strict original Payment-Proof, AES-GCM/native ciphertext artifacts, monotonic and late-paid facts, funding guards, refund capacity and original-scope reconciliation. All 49 new test definitions remain uncompiled/unexecuted; synthetic-key lazy initialization now uses the pinned standard library two-result interface. Platform transactions/outbox/unique consumption/signed receipt archive/secret and authority registry, authenticated HTTP/SDK/PayLauncher, exclusive host and durable recovery workers, actual refund/payout/commission/statements and trusted usage/hour meters/ledger remain unwired. No real personal-seller/channel qualification or charging is enabled. All 56 tasks/222 steps remain open. No SQL changes/migrations. Complete all production source, actual dependency wiring and test source before batch validation. This is a source checkpoint, not a completed development round.
-<!-- /R026-MP-CURRENT -->
+<!-- R026-PT-CURRENT -->
+R026 adds [PT-001–040](docs/技术开发/附录-MachinePay支付事务与原凭据恢复源码.md): original personal-seller payment/PAY-intent/context/outbox transactions, independent reviewer evidence and sale gates, commit-before-once precreate, complete signed envelopes and separate archive keys, atomic receipt/payment/channel/outbox updates, encrypted original-proof QUERY/jobs, capability-filtered generation recovery and actual operation joins. Forward016/DATA072–074 yields 98 planned operations/74 platform tables/48 control HTTP operations. All 16 new test definitions remain uncompiled/unexecuted; no migration ran. API/worker hosts and secret registry/rotation, HTTP/SDK/A402/PayLauncher, uniquely usable funds/current refund-device-deadline admission, full refunds/payouts/fees/statements/paid renewal/trusted metering/acceptance/ledger and real qualification remain open. All 56 tasks/222 steps remain unaccepted. Complete all production source, actual dependency wiring and test source before batch validation. This is a source checkpoint, not a completed development round.
+<!-- /R026-PT-CURRENT -->
 
-
-
-
-
-
-
-
-
-
+<!-- R026-SOURCE-HISTORY -->
+The following source snapshots retain their earlier scope and counts. The PT notice above and the full progress registry describe the current state.
+<!-- /R026-SOURCE-HISTORY -->
 
 R026 extends [hourly rental source RN-001—110](docs/技术开发/附录-小时租赁授权与累计计量源码细则.md) with independently authenticated original grants, strict Chat/Responses/Messages text input, one-use random RAM AEAD envelopes, a rental-only llama private-pipe adapter, a SQL-independent monotonic deadline loop and owned node shutdown. No fabricated T1 job/attempt or seller/device/model/privacy fallback is used. Original synchronized cleanup receipts and actual process/pipe joins precede any local slot release. See the [rental runtime](dev/src/client/rentalruntime/README.md).
 
@@ -316,3 +310,7 @@ R026 adds [MG-001–036](docs/技术开发/附录-原租赁媒体兼容入口与
 ## R026 MP-001—040 原支付边界与凭证恢复源码 / Original-payment boundaries and recovery source
 
 R026 adds [MP-001–040](docs/技术开发/附录-MachinePay原支付边界与凭证恢复源码.md): original personal-seller payment bindings and two key pins, a native RSA2 precreate/verify adapter, bounded A402, strict original Payment-Proof, AES-GCM/native ciphertext artifacts, monotonic and late-paid facts, funding guards, refund capacity and original-scope reconciliation. All 49 new test definitions remain uncompiled/unexecuted; synthetic-key lazy initialization now uses the pinned standard library two-result interface. Platform transactions/outbox/unique consumption/signed receipt archive/secret and authority registry, authenticated HTTP/SDK/PayLauncher, exclusive host and durable recovery workers, actual refund/payout/commission/statements and trusted usage/hour meters/ledger remain unwired. No real personal-seller/channel qualification or charging is enabled. All 56 tasks/222 steps remain open. No SQL changes/migrations. Complete all production source, actual dependency wiring and test source before batch validation. This is a source checkpoint, not a completed development round.
+
+## R026 PT-001—040 支付事务与原凭据恢复源码 / Original-payment transactions and recovery source
+
+R026 adds [PT-001–040](docs/技术开发/附录-MachinePay支付事务与原凭据恢复源码.md): original personal-seller payment/PAY-intent/context/outbox transactions, independent reviewer evidence and sale gates, commit-before-once precreate, complete signed envelopes and separate archive keys, atomic receipt/payment/channel/outbox updates, encrypted original-proof QUERY/jobs, capability-filtered generation recovery and actual operation joins. Forward016/DATA072–074 yields 98 planned operations/74 platform tables/48 control HTTP operations. All 16 new test definitions remain uncompiled/unexecuted; no migration ran. API/worker hosts and secret registry/rotation, HTTP/SDK/A402/PayLauncher, uniquely usable funds/current refund-device-deadline admission, full refunds/payouts/fees/statements/paid renewal/trusted metering/acceptance/ledger and real qualification remain open. All 56 tasks/222 steps remain unaccepted. Complete all production source, actual dependency wiring and test source before batch validation. This is a source checkpoint, not a completed development round.

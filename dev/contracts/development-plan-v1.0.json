@@ -393,12 +393,17 @@
       "authoritative_tables": [
         "payments",
         "refunds",
-        "channel_requests"
+        "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries"
       ],
       "application_services": [
         "PaymentIntent",
         "ChannelQuery",
-        "RefundCommand"
+        "RefundCommand",
+        "Machine",
+        "OriginalProofRecovery"
       ],
       "dependencies": [
         "MOD-01",
@@ -15756,6 +15761,36 @@
       "runtime_validation": "NOT_EXECUTED"
     },
     {
+      "id": "DATA-072",
+      "name": "payment_machine_contexts",
+      "schema": "p11",
+      "module_id": "MOD-05",
+      "column_count": 14,
+      "foreign_key_count": 4,
+      "source_document": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-073",
+      "name": "payment_machine_receipts",
+      "schema": "p11",
+      "module_id": "MOD-05",
+      "column_count": 13,
+      "foreign_key_count": 2,
+      "source_document": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
+      "id": "DATA-074",
+      "name": "payment_machine_recoveries",
+      "schema": "p11",
+      "module_id": "MOD-05",
+      "column_count": 12,
+      "foreign_key_count": 4,
+      "source_document": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "runtime_validation": "NOT_EXECUTED"
+    },
+    {
       "id": "DATA-040",
       "name": "payments",
       "schema": "p11",
@@ -16459,6 +16494,9 @@
         "payments",
         "refunds",
         "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries",
         "quotes",
         "orders",
         "route_contracts",
@@ -16866,6 +16904,9 @@
         "payments",
         "refunds",
         "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries",
         "devices",
         "device_request_nonces",
         "resources",
@@ -17070,6 +17111,9 @@
         "payments",
         "refunds",
         "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -17338,6 +17382,9 @@
         "payments",
         "refunds",
         "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries",
         "audit_events",
         "feature_gates",
         "releases"
@@ -17563,6 +17610,9 @@
         "payments",
         "refunds",
         "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries",
         "reviews",
         "disputes",
         "appeals",
@@ -18277,7 +18327,10 @@
         "rental_control_history",
         "payments",
         "refunds",
-        "channel_requests"
+        "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18430,7 +18483,10 @@
         "rental_control_history",
         "payments",
         "refunds",
-        "channel_requests"
+        "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -18493,6 +18549,9 @@
         "payments",
         "refunds",
         "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries",
         "reviews",
         "disputes",
         "appeals",
@@ -18912,6 +18971,9 @@
         "payments",
         "refunds",
         "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries",
         "usage_evidence",
         "meter_statements"
       ],
@@ -19053,6 +19115,9 @@
         "payments",
         "refunds",
         "channel_requests",
+        "payment_machine_contexts",
+        "payment_machine_receipts",
+        "payment_machine_recoveries",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",
@@ -20608,11 +20673,11 @@
   "source_manifest": [
     {
       "path": "AGENTS.md",
-      "sha256": "602f87576575c1991bf4545c47c9d8f0bf370bd6ff917e7f0a7c673f40c63c98"
+      "sha256": "6ec67a02a37448489722f47cad565c93fb85245762d74e4d91638f3a90e252c5"
     },
     {
       "path": "dev/AGENTS.md",
-      "sha256": "83bda2d90963d87a8978faed666ca4eceee104fd04f8328dcd67aef2a126c3ac"
+      "sha256": "6f23ea9ae774da0d932b74cdaa9f3ed99b9d881a49510fea4b953d380a66a997"
     },
     {
       "path": "dev/planning/开发细则源数据.py",
@@ -20620,7 +20685,7 @@
     },
     {
       "path": "dev/planning/编号登记-v1.0.json",
-      "sha256": "50dc8ef44cd3846e3c0c7fac11af4eb33e0c982126cd237ebe3a35fd5f06b275"
+      "sha256": "5b4109b8f25f7c96a3651df56e7c444ec49ca48f72bc5c2ccdb983114b995325"
     },
     {
       "path": "dev/src/api/internal/http/routes.json",
@@ -20636,7 +20701,7 @@
     },
     {
       "path": "docs/协议/统一API与本地加密网关需求.md",
-      "sha256": "286bde076eb6d88e47ad6630026bb16c199e953d11475a0ef273663842cefbde"
+      "sha256": "af3978ff95b2ec7a304f069bf9766eefa9299dc9f0d27935e6a61abc61d4b13e"
     },
     {
       "path": "docs/技术开发/02-工程结构开发环境与编码规范.md",
@@ -20680,7 +20745,7 @@
     },
     {
       "path": "docs/技术开发/13-支付退款账务与渠道结算.md",
-      "sha256": "cb8a5c01301bb534caa3f7071d4e54d6cbbc5e25fafef1424f6b754be383986f"
+      "sha256": "0ed40a2f100835bbe040111c6092d081eb7fb72958d63b1137c653b97ee79f9d"
     },
     {
       "path": "docs/技术开发/14-前端路由状态与接口集成.md",
@@ -20716,11 +20781,11 @@
     },
     {
       "path": "docs/技术开发/contracts/api-implementation-map-v1.0.json",
-      "sha256": "3eeaa1748e561f58e488b90916dad0cd8009988342b6cff7d232f4b93ef14c7b"
+      "sha256": "2322472033e19de9f7bc8b05012d6fc72abd10ccb19bc29d407570ead737e7fd"
     },
     {
       "path": "docs/技术开发/contracts/database-catalog-v1.0.json",
-      "sha256": "8b564db6e4fa91a29c319ad56d1c3d1b8c679a769984899aef9e334d384ee446"
+      "sha256": "85e463cb8df4f855108f488fd43261f55c0ec9ac9fdf1f2f719cfdf63b837a42"
     },
     {
       "path": "docs/技术开发/contracts/development-backlog-v1.0.json",
@@ -20728,11 +20793,11 @@
     },
     {
       "path": "docs/技术开发/contracts/requirement-technical-map-v1.0.json",
-      "sha256": "28006e50a2e22f2a4dedd5f4568e023cdbb6c8efec63a12f2b3fea684eb4c934"
+      "sha256": "9663e862bb6116927eda5b0ab950e74adec0e547d23acd9c1b3fdaf7316e1006"
     },
     {
       "path": "docs/技术开发/contracts/technical-module-catalog-v1.0.json",
-      "sha256": "65a76b80cf8a5630275468933de344ce9745708f8c146c1d78e2bf6f882ed01b"
+      "sha256": "fba9da3ec576c9150538522908bcbf0372706ee1950aaed0136c32b62bc3ce8d"
     },
     {
       "path": "docs/技术开发/database/migrations/002_nb_contract_guards.sql",
@@ -20791,6 +20856,10 @@
       "sha256": "e85820925a8caa12032f6fb2a0edcb20815a9787fb8484df94cad8b60ff50366"
     },
     {
+      "path": "docs/技术开发/database/migrations/016_machine_payment_context.sql",
+      "sha256": "ad5ef3731f4419378d7b7476c93f858bccba183cec3e076851026bf3e0a3f1b5"
+    },
+    {
       "path": "docs/技术开发/database/schema-draft.sql",
       "sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1"
     },
@@ -20820,7 +20889,7 @@
     },
     {
       "path": "docs/技术开发/附录-小时租赁授权与累计计量源码细则.md",
-      "sha256": "d731091899811d7a457448d54617ef53d2ef63531710f5e90399e485fb02deb5"
+      "sha256": "21127d3d88352b7c29d7c24dc76836866cc23f02de85719bb2c4ff1c4cd172af"
     },
     {
       "path": "docs/技术开发/附录-提供方双端设备管理与原请求恢复.md",
@@ -20832,7 +20901,7 @@
     },
     {
       "path": "docs/技术开发/附录-本轮范围与端侧选型修订.md",
-      "sha256": "7669724dc8e5a3d9bb24ceb7e379d0f3d5efb5d65d75b5d684655f4f4b88684c"
+      "sha256": "7ec6dac75d07a18ba543a78c6a807d538ac2dd300f6ef5a5c2c1a35fa7ca883c"
     },
     {
       "path": "docs/技术开发/附录-身份登录与HTTP交易实施约束.md",
@@ -20844,7 +20913,7 @@
     },
     {
       "path": "docs/白皮书/contracts/openapi-control-v3.0.json",
-      "sha256": "45159a069c35d54a47ebd95f0d25b74d41a6a608b2d40b4a74b86aef0a449162"
+      "sha256": "0b7dd6929c15f6cacf729e3b34f9e00a3b76514ec6a2ebbee5a4131ab05daabd"
     },
     {
       "path": "docs/需求推进/NB-1.0/04-计价与账单衔接.md",
@@ -20864,7 +20933,7 @@
     },
     {
       "path": "scripts/技术开发数据.py",
-      "sha256": "a302ab7fc0b06a93511ffd2fe7a7530055db96d7d85a750bb94980e976546c4a"
+      "sha256": "c99af485be897ccba3843e9eae354fe674dc4725c84923143b189d506efe13d7"
     },
     {
       "path": "scripts/端对端加密数据.py",
@@ -20877,7 +20946,7 @@
     "steps": 222,
     "constraints": 47,
     "control_operations": 98,
-    "tables": 71,
+    "tables": 74,
     "requirements": 80,
     "acceptance_cases": 80,
     "current_tasks": 55,
