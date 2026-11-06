@@ -7,7 +7,7 @@
   "source": "docs/技术开发/database/schema-draft.sql",
   "source_sha256": "e212da6b6c7f9c26d7f2c0ff17b14773b12c8c27373e6e44bc79f9369b5009f1",
   "ddl_statements": 106,
-  "catalog_statements": 242,
+  "catalog_statements": 255,
   "base_table_count": 60,
   "tables": [
     {
@@ -20216,6 +20216,1054 @@
           "initially_deferred": false
         }
       ]
+    },
+    {
+      "name": "refund_machine_contexts",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/018_original_refund_context.sql",
+      "columns": [
+        {
+          "name": "refund_id",
+          "sql": "refund_id p11.entity_id PRIMARY KEY REFERENCES p11.refunds (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "refund_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.refunds (id)",
+              "columns": [
+                "refund_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "refunds",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "payment_id",
+          "sql": "payment_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "payment_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "order_id",
+          "sql": "order_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "order_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "route_ref",
+          "sql": "route_ref p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "route_ref"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "scope_raw",
+          "sql": "scope_raw bytea NOT NULL CHECK (octet_length(scope_raw) BETWEEN 1 AND 8192)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "scope_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(scope_raw) BETWEEN 1 AND 8192)",
+              "columns": [
+                "scope_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "scope_hash",
+          "sql": "scope_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "scope_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "intent_raw",
+          "sql": "intent_raw bytea NOT NULL CHECK (octet_length(intent_raw) BETWEEN 1 AND 8192)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "intent_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(intent_raw) BETWEEN 1 AND 8192)",
+              "columns": [
+                "intent_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "intent_digest",
+          "sql": "intent_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "intent_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "route_raw",
+          "sql": "route_raw bytea NOT NULL CHECK (octet_length(route_raw) BETWEEN 1 AND 8192)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "route_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(route_raw) BETWEEN 1 AND 8192)",
+              "columns": [
+                "route_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "route_digest",
+          "sql": "route_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "route_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "decision_evidence_id",
+          "sql": "decision_evidence_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.evidence (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "decision_evidence_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "decision_evidence_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.evidence (id)",
+              "columns": [
+                "decision_evidence_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "evidence",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decision_raw",
+          "sql": "decision_raw bytea NOT NULL CHECK (octet_length(decision_raw) BETWEEN 1 AND 8192)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "decision_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(decision_raw) BETWEEN 1 AND 8192)",
+              "columns": [
+                "decision_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "decision_digest",
+          "sql": "decision_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "decision_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "paid_receipt_id",
+          "sql": "paid_receipt_id p11.entity_id NOT NULL REFERENCES p11.payment_machine_receipts (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "paid_receipt_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.payment_machine_receipts (id)",
+              "columns": [
+                "paid_receipt_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "payment_machine_receipts",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "submit_request_id",
+          "sql": "submit_request_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.channel_requests (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "submit_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "submit_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.channel_requests (id)",
+              "columns": [
+                "submit_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "channel_requests",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "query_request_id",
+          "sql": "query_request_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.channel_requests (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "query_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "query_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.channel_requests (id)",
+              "columns": [
+                "query_request_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "channel_requests",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "durable_job_id",
+          "sql": "durable_job_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.durable_jobs (id)",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "durable_job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "durable_job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.durable_jobs (id)",
+              "columns": [
+                "durable_job_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "durable_jobs",
+              "target_columns": [
+                "id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "dispatched_at",
+          "sql": "dispatched_at timestamptz",
+          "type": "timestamptz",
+          "constraints": []
+        },
+        {
+          "name": "next_query_at",
+          "sql": "next_query_at timestamptz",
+          "type": "timestamptz",
+          "constraints": []
+        },
+        {
+          "name": "query_generation",
+          "sql": "query_generation p11.counter NOT NULL DEFAULT 0",
+          "type": "p11.counter",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "query_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT 0",
+              "columns": [
+                "query_generation"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "last_receipt_id",
+          "sql": "last_receipt_id p11.entity_id",
+          "type": "p11.entity_id",
+          "constraints": []
+        },
+        {
+          "name": "last_evidence_hash",
+          "sql": "last_evidence_hash p11.sha256_hex",
+          "type": "p11.sha256_hex",
+          "constraints": []
+        },
+        {
+          "name": "observed_at",
+          "sql": "observed_at timestamptz",
+          "type": "timestamptz",
+          "constraints": []
+        },
+        {
+          "name": "updated_at",
+          "sql": "updated_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "updated_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "updated_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (payment_id, order_id) REFERENCES p11.payments (id, order_id)",
+          "columns": [
+            "payment_id",
+            "order_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "payments",
+          "target_columns": [
+            "id",
+            "order_id"
+          ]
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (refund_id, scope_hash)",
+          "columns": [
+            "refund_id",
+            "scope_hash"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (scope_hash = encode(sha256(scope_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (intent_digest = encode(sha256(intent_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (route_digest = encode(sha256(route_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (decision_digest = encode(sha256(decision_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((last_receipt_id IS NULL) = (last_evidence_hash IS NULL))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (last_evidence_hash IS NULL OR observed_at IS NOT NULL)",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": "refund_last_signed_receipt_fk",
+          "sql": "CONSTRAINT refund_last_signed_receipt_fk FOREIGN KEY (last_receipt_id, refund_id) REFERENCES p11.refund_machine_receipts (id, refund_id) DEFERRABLE INITIALLY DEFERRED",
+          "columns": [
+            "last_receipt_id",
+            "refund_id"
+          ],
+          "deferrable": true,
+          "initially_deferred": true,
+          "target_table": "refund_machine_receipts",
+          "target_columns": [
+            "id",
+            "refund_id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "refund_machine_receipts",
+      "schema": "p11",
+      "source": "docs/技术开发/database/migrations/018_original_refund_context.sql",
+      "columns": [
+        {
+          "name": "id",
+          "sql": "id p11.entity_id PRIMARY KEY",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_PRIMARY",
+              "name": null,
+              "sql": "PRIMARY KEY",
+              "columns": [
+                "id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "refund_id",
+          "sql": "refund_id p11.entity_id NOT NULL",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "refund_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "scope_hash",
+          "sql": "scope_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "scope_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "intent_digest",
+          "sql": "intent_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "intent_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "kind",
+          "sql": "kind text NOT NULL CHECK (kind IN ('REFUND_SUBMITTED', 'REFUND_QUERY_UNRESOLVED', 'REFUND_CONFIRMED'))",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "kind"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (kind IN ('REFUND_SUBMITTED', 'REFUND_QUERY_UNRESOLVED', 'REFUND_CONFIRMED'))",
+              "columns": [
+                "kind"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "method",
+          "sql": "method text NOT NULL",
+          "type": "text",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "method"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "evidence_hash",
+          "sql": "evidence_hash p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "evidence_hash"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "amount_fen",
+          "sql": "amount_fen p11.money_fen NOT NULL CHECK (amount_fen BETWEEN 1 AND 5000)",
+          "type": "p11.money_fen",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "amount_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (amount_fen BETWEEN 1 AND 5000)",
+              "columns": [
+                "amount_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "cumulative_fen",
+          "sql": "cumulative_fen p11.money_fen NOT NULL CHECK (cumulative_fen <= 5000)",
+          "type": "p11.money_fen",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "cumulative_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (cumulative_fen <= 5000)",
+              "columns": [
+                "cumulative_fen"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "observed_at",
+          "sql": "observed_at timestamptz NOT NULL",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "observed_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "encrypted_raw",
+          "sql": "encrypted_raw bytea NOT NULL CHECK (octet_length(encrypted_raw) BETWEEN 1 AND 100000)",
+          "type": "bytea",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "encrypted_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_CHECK",
+              "name": null,
+              "sql": "CHECK (octet_length(encrypted_raw) BETWEEN 1 AND 100000)",
+              "columns": [
+                "encrypted_raw"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "encrypted_digest",
+          "sql": "encrypted_digest p11.sha256_hex NOT NULL",
+          "type": "p11.sha256_hex",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "encrypted_digest"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "event_id",
+          "sql": "event_id p11.entity_id NOT NULL UNIQUE REFERENCES p11.outbox_events (id) DEFERRABLE INITIALLY DEFERRED",
+          "type": "p11.entity_id",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_UNIQUE",
+              "name": null,
+              "sql": "UNIQUE",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_FOREIGN",
+              "name": null,
+              "sql": "REFERENCES p11.outbox_events (id)",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false,
+              "target_table": "outbox_events",
+              "target_columns": [
+                "id"
+              ]
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRABLE",
+              "name": null,
+              "sql": "DEFERRABLE",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_ATTR_DEFERRED",
+              "name": null,
+              "sql": "INITIALLY DEFERRED",
+              "columns": [
+                "event_id"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "writer_xact",
+          "sql": "writer_xact xid8 NOT NULL DEFAULT pg_current_xact_id()",
+          "type": "xid8",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "writer_xact"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT pg_current_xact_id()",
+              "columns": [
+                "writer_xact"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        },
+        {
+          "name": "recorded_at",
+          "sql": "recorded_at timestamptz NOT NULL DEFAULT clock_timestamp()",
+          "type": "timestamptz",
+          "constraints": [
+            {
+              "kind": "CONSTR_NOTNULL",
+              "name": null,
+              "sql": "NOT NULL",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            },
+            {
+              "kind": "CONSTR_DEFAULT",
+              "name": null,
+              "sql": "DEFAULT clock_timestamp()",
+              "columns": [
+                "recorded_at"
+              ],
+              "deferrable": false,
+              "initially_deferred": false
+            }
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "CONSTR_FOREIGN",
+          "name": null,
+          "sql": "FOREIGN KEY (refund_id, scope_hash) REFERENCES p11.refund_machine_contexts (refund_id, scope_hash)",
+          "columns": [
+            "refund_id",
+            "scope_hash"
+          ],
+          "deferrable": false,
+          "initially_deferred": false,
+          "target_table": "refund_machine_contexts",
+          "target_columns": [
+            "refund_id",
+            "scope_hash"
+          ]
+        },
+        {
+          "kind": "CONSTR_UNIQUE",
+          "name": null,
+          "sql": "UNIQUE (id, refund_id)",
+          "columns": [
+            "id",
+            "refund_id"
+          ],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK (encrypted_digest = encode(sha256(encrypted_raw), 'hex'))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        },
+        {
+          "kind": "CONSTR_CHECK",
+          "name": null,
+          "sql": "CHECK ((kind = 'REFUND_SUBMITTED' AND method = 'alipay.trade.refund') OR (kind IN ('REFUND_QUERY_UNRESOLVED', 'REFUND_CONFIRMED') AND method = 'alipay.trade.fastpay.refund.query' AND cumulative_fen = 0))",
+          "columns": [],
+          "deferrable": false,
+          "initially_deferred": false
+        }
+      ]
     }
   ],
   "foreign_keys": [
@@ -22735,6 +23783,162 @@
         "id",
         "payment_id"
       ]
+    },
+    {
+      "table": "refund_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.refunds (id)",
+      "columns": [
+        "refund_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "refunds",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.evidence (id)",
+      "columns": [
+        "decision_evidence_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "evidence",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.payment_machine_receipts (id)",
+      "columns": [
+        "paid_receipt_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "payment_machine_receipts",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.channel_requests (id)",
+      "columns": [
+        "submit_request_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "channel_requests",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.channel_requests (id)",
+      "columns": [
+        "query_request_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "channel_requests",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.durable_jobs (id)",
+      "columns": [
+        "durable_job_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "durable_jobs",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (payment_id, order_id) REFERENCES p11.payments (id, order_id)",
+      "columns": [
+        "payment_id",
+        "order_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "payments",
+      "target_columns": [
+        "id",
+        "order_id"
+      ]
+    },
+    {
+      "table": "refund_machine_receipts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "REFERENCES p11.outbox_events (id)",
+      "columns": [
+        "event_id"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "outbox_events",
+      "target_columns": [
+        "id"
+      ]
+    },
+    {
+      "table": "refund_machine_receipts",
+      "kind": "CONSTR_FOREIGN",
+      "name": null,
+      "sql": "FOREIGN KEY (refund_id, scope_hash) REFERENCES p11.refund_machine_contexts (refund_id, scope_hash)",
+      "columns": [
+        "refund_id",
+        "scope_hash"
+      ],
+      "deferrable": false,
+      "initially_deferred": false,
+      "target_table": "refund_machine_contexts",
+      "target_columns": [
+        "refund_id",
+        "scope_hash"
+      ]
+    },
+    {
+      "table": "refund_machine_contexts",
+      "kind": "CONSTR_FOREIGN",
+      "name": "refund_last_signed_receipt_fk",
+      "sql": "CONSTRAINT refund_last_signed_receipt_fk FOREIGN KEY (last_receipt_id, refund_id) REFERENCES p11.refund_machine_receipts (id, refund_id) DEFERRABLE INITIALLY DEFERRED",
+      "columns": [
+        "last_receipt_id",
+        "refund_id"
+      ],
+      "deferrable": true,
+      "initially_deferred": true,
+      "target_table": "refund_machine_receipts",
+      "target_columns": [
+        "id",
+        "refund_id"
+      ]
     }
   ],
   "indexes": [
@@ -22863,6 +24067,12 @@
       "table": "payment_machine_recoveries",
       "unique": true,
       "sql": "CREATE UNIQUE INDEX machine_one_live_proof ON p11.payment_machine_recoveries (payment_id) WHERE state IN ('PENDING', 'VERIFYING', 'UNKNOWN')"
+    },
+    {
+      "name": "refund_machine_payment_dispatch",
+      "table": "refund_machine_contexts",
+      "unique": false,
+      "sql": "CREATE INDEX refund_machine_payment_dispatch ON p11.refund_machine_contexts (payment_id, dispatched_at)"
     }
   ],
   "forward_migrations": [
@@ -23127,6 +24337,27 @@
         "CreateFunctionStmt",
         "CreateTrigStmt",
         "InsertStmt"
+      ],
+      "runtime_validation_in_this_build": "NOT_EXECUTED"
+    },
+    {
+      "source": "docs/技术开发/database/migrations/018_original_refund_context.sql",
+      "source_sha256": "c20f4b63a0d245324d1063809f80a37e5bc545c17f59e1f344990b18fc76342a",
+      "statement_count": 13,
+      "statement_types": [
+        "CreateStmt",
+        "IndexStmt",
+        "CreateStmt",
+        "AlterTableStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt",
+        "CreateTrigStmt",
+        "CreateFunctionStmt",
+        "CreateTrigStmt"
       ],
       "runtime_validation_in_this_build": "NOT_EXECUTED"
     }

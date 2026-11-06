@@ -1,0 +1,7 @@
+{
+  "source": "docs/技术开发/database/migrations/018_original_refund_context.sql",
+  "source_sha256": "c20f4b63a0d245324d1063809f80a37e5bc545c17f59e1f344990b18fc76342a",
+  "migration": "018_original_refund_context.sql",
+  "migration_sha256": "c20f4b63a0d245324d1063809f80a37e5bc545c17f59e1f344990b18fc76342a",
+  "policy": "018 original refund intent/signed query/archive/budget obligations; SOURCE_ONLY, not executed or qualified"
+}

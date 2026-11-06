@@ -1,6 +1,6 @@
 {
   "profile": "P11_ALIPAY_ORIGINAL_REFUND_1",
-  "status": "SOURCE_ONLY_CONDITIONAL_BRIDGE_NOT_REGISTERED",
+  "status": "SOURCE_ONLY_CONDITIONAL_NATIVE_COMPOSITION_UNVERIFIED",
   "observed_on": "2026-11-06",
   "official_sources": [
     "https://aipay.alipay.com/docs/subscribe/api-list/other-basic-interfaces/alipay-trade-refund.html",
@@ -11,12 +11,15 @@
     "alipay.trade.refund",
     "alipay.trade.fastpay.refund.query"
   ],
-  "capabilities": ["REFUND_ORIGINAL", "QUERY_ORIGINAL_REFUND"],
+  "capabilities": [
+    "REFUND_ORIGINAL",
+    "QUERY_ORIGINAL_REFUND"
+  ],
   "extends_default_machine_pay_capabilities": false,
   "requires_independent_current_original_binding_qualification": true,
   "actual_machine_pay_refund_route_qualification": false,
   "actual_personal_seller_or_third_party_refund_authority": false,
-  "platform_durable_refund_transaction_wired": false,
+  "platform_durable_refund_transaction_wired": true,
   "payment_worker_http_and_host_refund_wired": false,
   "native_channel_and_domain_source_written": true,
   "encrypted_full_signed_archive_source_written": true,
@@ -34,5 +37,14 @@
   "archive_decryption_is_fresh_rsa_reverification": false,
   "arbitrary_destination_reason_royalty_or_fee_instructions_supported": false,
   "new_dependencies_or_sql": false,
-  "source_annex": "docs/技术开发/附录-原退款协议与渠道恢复源码.md"
+  "source_annex": "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
+  "transaction_source_annex": "docs/技术开发/附录-原退款持久事务与宿主恢复源码.md",
+  "payment_worker_and_host_refund_source_wired": true,
+  "public_refund_http_source_wired": false,
+  "source_policy": "UNUSED_BALANCE_1_INDEPENDENT_CURRENT_REVIEW",
+  "forward_migration_source": "018_original_refund_context.sql",
+  "migration_executed": false,
+  "full_fee_earned_reversal_renewal_payout_chain_complete": false,
+  "maximum_claims_including_original_submit": 128,
+  "worker_lease_seconds": 20
 }

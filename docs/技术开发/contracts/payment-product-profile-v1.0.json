@@ -62,6 +62,24 @@
     "legacy_positive_fixtures_rewritten": false,
     "compiled_or_executed": false
   },
+  "original_refund_transaction_source": {
+    "status": "SOURCE_ONLY_UNVERIFIED",
+    "annex": "docs/技术开发/附录-原退款持久事务与宿主恢复源码.md",
+    "profile": "P11_ALIPAY_ORIGINAL_REFUND_1",
+    "policy": "UNUSED_BALANCE_1",
+    "tables": {
+      "refund_machine_contexts": "DATA-076",
+      "refund_machine_receipts": "DATA-077"
+    },
+    "forward_source": "018_original_refund_context.sql",
+    "migration_executed": false,
+    "original_paid_archive_rsa_reverification_source_written": true,
+    "durable_original_refund_and_native_host_source_wired": true,
+    "public_refund_http_wired": false,
+    "actual_original_refund_qualification": false,
+    "full_fee_reversal_renewal_payout_reconciliation_complete": false,
+    "compiled_or_executed": false
+  },
   "unproven_capabilities": [
     "PERSONAL_COMPUTE_SELLER_ADMISSION",
     "C2C_COMMISSION_SPLIT",

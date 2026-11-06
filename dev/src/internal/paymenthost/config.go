@@ -29,11 +29,17 @@ type registrationFile struct {
 	TokenFile   string              `json:"app_auth_token_file,omitempty"`
 }
 type hostFile struct {
-	Profile       string             `json:"profile_id"`
-	Environment   string             `json:"environment"`
-	ProofKeys     string             `json:"proof_keyring_file"`
-	ReceiptKeys   string             `json:"receipt_keyring_file"`
-	Registrations []registrationFile `json:"registrations"`
+	Profile       string                   `json:"profile_id"`
+	Environment   string                   `json:"environment"`
+	ProofKeys     string                   `json:"proof_keyring_file"`
+	ReceiptKeys   string                   `json:"receipt_keyring_file"`
+	Registrations []registrationFile       `json:"registrations"`
+	Refunds       []refundRegistrationFile `json:"original_refund_routes,omitempty"`
+}
+type refundRegistrationFile struct {
+	Ref                string               `json:"refund_route_ref"`
+	OriginalCapability string               `json:"original_capability_ref"`
+	Route              payments.RefundRoute `json:"route"`
 }
 
 // Only canonical relative slash paths are accepted beneath the supplied root.
@@ -142,37 +148,51 @@ func readVault(root *os.Root, name, profile string) (*payments.Vault, error) {
 	return v, nil
 }
 func readChannel(root *os.Root, spec registrationFile) (*payments.Alipay, error) {
+	var result *payments.Alipay
+	e := readChannelWith(root, spec, func(c payments.AlipayConfig) error { var e error; result, e = payments.NewAlipay(c); return e })
+	return result, e
+}
+func readRefundChannel(root *os.Root, spec registrationFile, route payments.RefundRoute) (*payments.AlipayRefund, error) {
+	var result *payments.AlipayRefund
+	e := readChannelWith(root, spec, func(c payments.AlipayConfig) error {
+		var e error
+		result, e = payments.NewAlipayRefund(payments.AlipayRefundConfig{Channel: c, Route: route})
+		return e
+	})
+	return result, e
+}
+func readChannelWith(root *os.Root, spec registrationFile, construct func(payments.AlipayConfig) error) error {
 	raw, e := readFile(root, spec.PrivateFile, 16384)
 	if e != nil {
-		return nil, e
+		return e
 	}
 	defer clear(raw)
 	private, e := privateKey(raw)
 	if e != nil {
-		return nil, e
+		return e
 	}
 	publicRaw, e := readFile(root, spec.PublicFile, 8192)
 	if e != nil {
-		return nil, e
+		return e
 	}
 	defer clear(publicRaw)
 	public, e := publicKey(publicRaw)
 	if e != nil {
-		return nil, e
+		return e
 	}
 	var token []byte
 	if spec.Binding.ThirdParty {
 		token, e = readFile(root, spec.TokenFile, 4096)
 		if e != nil {
-			return nil, e
+			return e
 		}
 		defer clear(token)
 	} else if spec.TokenFile != "" {
-		return nil, ErrConfiguration
+		return ErrConfiguration
 	}
-	channel, e := payments.NewAlipay(payments.AlipayConfig{Binding: spec.Binding, PrivateKey: private, AlipayPublicKey: public, AppAuthToken: token})
+	e = construct(payments.AlipayConfig{Binding: spec.Binding, PrivateKey: private, AlipayPublicKey: public, AppAuthToken: token})
 	if e != nil {
-		return nil, ErrConfiguration
+		return ErrConfiguration
 	}
-	return channel, nil
+	return nil
 }

@@ -18,6 +18,8 @@ type Host struct {
 	mu             sync.Mutex
 	db             *persistence.DB
 	service        *payments.Machine
+	refunds        *payments.RefundService
+	refundChannels []*payments.AlipayRefund
 	channels       []*payments.Alipay
 	proof, receipt *payments.Vault
 	capabilities   []string
@@ -49,7 +51,7 @@ func Open(db *persistence.DB, rootPath, configName, environment string) (host *H
 	}
 	defer clear(raw)
 	var spec hostFile
-	if strictjson.Decode(raw, &spec, 262144) != nil || spec.Profile != "P11_MACHINE_PAY_HOST_1" || spec.Environment != environment || len(spec.Registrations) < 1 || len(spec.Registrations) > 128 || spec.ProofKeys == spec.ReceiptKeys {
+	if strictjson.Decode(raw, &spec, 262144) != nil || spec.Profile != "P11_MACHINE_PAY_HOST_1" || spec.Environment != environment || len(spec.Registrations) < 1 || len(spec.Registrations) > 128 || len(spec.Refunds) > 128 || spec.ProofKeys == spec.ReceiptKeys {
 		return nil, ErrConfiguration
 	}
 	life, cancel := context.WithCancel(context.Background())
@@ -85,7 +87,36 @@ func Open(db *persistence.DB, rootPath, configName, environment string) (host *H
 	if e != nil {
 		return nil, ErrConfiguration
 	}
+	if len(spec.Refunds) > 0 {
+		byCapability := map[string]registrationFile{}
+		for _, item := range spec.Registrations {
+			byCapability[item.Capability] = item
+		}
+		refundRegistrations := make([]payments.RefundRegistration, 0, len(spec.Refunds))
+		for _, item := range spec.Refunds {
+			original, ok := byCapability[item.OriginalCapability]
+			if !ok {
+				return nil, ErrConfiguration
+			}
+			channel, e := readRefundChannel(root, original, item.Route)
+			if e != nil {
+				return nil, ErrConfiguration
+			}
+			h.refundChannels = append(h.refundChannels, channel)
+			refundRegistrations = append(refundRegistrations, payments.RefundRegistration{Ref: item.Ref, OriginalCapability: item.OriginalCapability, Channel: channel})
+		}
+		h.refunds, e = payments.NewRefundService(h.service, refundRegistrations)
+		if e != nil {
+			return nil, ErrConfiguration
+		}
+	}
 	return h, nil
+}
+func (h *Host) Refunds() *payments.RefundService {
+	if h == nil {
+		return nil
+	}
+	return h.refunds
 }
 func (h *Host) Machine() *payments.Machine {
 	if h == nil {
@@ -120,8 +151,18 @@ func (h *Host) Close(ctx context.Context) error {
 		case <-h.workerDone:
 		}
 	}
+	if h.refunds != nil {
+		if e := h.refunds.Close(ctx); e != nil {
+			return e
+		}
+	}
 	if h.service != nil {
 		if e := h.service.Close(ctx); e != nil {
+			return e
+		}
+	}
+	for _, channel := range h.refundChannels {
+		if e := channel.Close(ctx); e != nil {
 			return e
 		}
 	}
@@ -164,21 +205,26 @@ func (h *Host) RunRecovery(ctx context.Context) error {
 		if ctx.Err() != nil {
 			return nil
 		}
-		if e == nil {
-			var funded bool
-			funded, e = h.service.RecoverFundingOne(ctx)
-			worked = worked || funded
+		failed := e != nil
+		if h.refunds != nil {
+			refunded, refundErr := h.refunds.RecoverOne(ctx)
+			worked = worked || refunded
+			failed = failed || refundErr != nil
+			if ctx.Err() != nil {
+				return nil
+			}
 		}
+		funded, fundingErr := h.service.RecoverFundingOne(ctx)
+		worked = worked || funded
+		failed = failed || fundingErr != nil
 		// Retire at most one original expired live-row credential per iteration.
 		// This does not erase WAL/backups or destroy long-lived receipt keys.
-		if e == nil {
-			e = h.retireOne(ctx)
-		}
+		failed = h.retireOne(ctx) != nil || failed
 		delay := time.Second
 		if worked {
 			delay = 100 * time.Millisecond
 		}
-		if e != nil {
+		if failed {
 			delay = 2 * time.Second
 		}
 		timer := time.NewTimer(delay)

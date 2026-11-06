@@ -465,6 +465,8 @@
         "payment_machine_receipts",
         "payment_machine_recoveries",
         "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts",
         "quotes",
         "orders",
         "route_contracts",
@@ -881,6 +883,8 @@
         "payment_machine_receipts",
         "payment_machine_recoveries",
         "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts",
         "devices",
         "device_request_nonces",
         "resources",
@@ -1094,6 +1098,8 @@
         "payment_machine_receipts",
         "payment_machine_recoveries",
         "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts",
         "idempotency_records",
         "outbox_events",
         "inbox_events",
@@ -1366,6 +1372,8 @@
         "payment_machine_receipts",
         "payment_machine_recoveries",
         "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts",
         "audit_events",
         "feature_gates",
         "releases"
@@ -1595,6 +1603,8 @@
         "payment_machine_receipts",
         "payment_machine_recoveries",
         "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts",
         "reviews",
         "disputes",
         "appeals",
@@ -2313,7 +2323,9 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
-        "order_fundings"
+        "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2470,7 +2482,9 @@
         "payment_machine_contexts",
         "payment_machine_receipts",
         "payment_machine_recoveries",
-        "order_fundings"
+        "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts"
       ],
       "technical_documents": [
         "docs/技术开发/12-显卡租赁与可用时间计量.md",
@@ -2537,6 +2551,8 @@
         "payment_machine_receipts",
         "payment_machine_recoveries",
         "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts",
         "reviews",
         "disputes",
         "appeals",
@@ -2960,6 +2976,8 @@
         "payment_machine_receipts",
         "payment_machine_recoveries",
         "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts",
         "usage_evidence",
         "meter_statements"
       ],
@@ -3110,6 +3128,8 @@
         "payment_machine_receipts",
         "payment_machine_recoveries",
         "order_fundings",
+        "refund_machine_contexts",
+        "refund_machine_receipts",
         "trade_qualifications",
         "ledger_accounts",
         "journal_transactions",

@@ -54,5 +54,8 @@
   "original_refund_source_annex": "docs/技术开发/附录-原退款协议与渠道恢复源码.md",
   "independent_conditional_original_refund_source_written": true,
   "original_refund_actual_qualification": false,
-  "original_refund_platform_transaction_host_worker_http_wired": false
+  "original_refund_platform_transaction_host_worker_http_wired": false,
+  "original_refund_transaction_source_annex": "docs/技术开发/附录-原退款持久事务与宿主恢复源码.md",
+  "original_refund_platform_transaction_and_native_host_source_wired": true,
+  "public_refund_http_source_wired": false
 }
